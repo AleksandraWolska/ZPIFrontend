@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import { queryClient } from "./query";
 import Home from "./routes/home/Home";
-import { loader as todosLoader } from "./routes/todos/loader";
+import { loader as todosLoader } from "./routes/todos/all-todos/loader";
 
 const router = createBrowserRouter([
   {
@@ -10,12 +10,17 @@ const router = createBrowserRouter([
   },
   {
     path: "/todos",
+    lazy: async () => {
+      const TodosLayout = (await import("./routes/todos/TodosLayout")).default;
+      return { Component: TodosLayout };
+    },
     children: [
       {
-        index: true,
+        path: "all",
         loader: todosLoader(queryClient),
         lazy: async () => {
-          const Todos = (await import("./routes/todos/Todos")).default;
+          const Todos = (await import("./routes/todos/all-todos/Todos"))
+            .default;
           return { Component: Todos };
         },
       },
