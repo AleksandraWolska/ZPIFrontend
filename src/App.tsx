@@ -1,17 +1,18 @@
 import "./App.css";
 import { RouterProvider } from "react-router-dom";
 import { QueryClientProvider } from "react-query";
+import { AuthProvider } from "react-oidc-context";
 import router from "./router";
 import { queryClient } from "./query";
-import AuthProvider from "./auth/AuthProvider";
+import { oidcConfig } from "./auth/config";
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <AuthProvider>
+    <AuthProvider {...oidcConfig}>
+      <QueryClientProvider client={queryClient}>
         <RouterProvider router={router} />
-      </AuthProvider>
-    </QueryClientProvider>
+      </QueryClientProvider>
+    </AuthProvider>
   );
 }
 

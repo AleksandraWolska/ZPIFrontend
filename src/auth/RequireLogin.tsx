@@ -1,12 +1,27 @@
 import { Outlet } from "react-router-dom";
-import { useAuth } from "./AuthProvider";
+import { useAuth } from "react-oidc-context";
 
 function RequireLogin() {
-  const { isAuthenticated } = useAuth();
+  const auth = useAuth();
 
-  console.log("isAuthenticated", isAuthenticated);
+  console.log("auth", auth);
 
-  return isAuthenticated ? <Outlet /> : <div>Not logged in!</div>;
+  return auth.isAuthenticated ? (
+    <Outlet />
+  ) : (
+    <div>
+      <p>Not logged in!</p>
+
+      <button
+        type="button"
+        onClick={() => {
+          auth.signinRedirect();
+        }}
+      >
+        Login
+      </button>
+    </div>
+  );
 }
 
 export default RequireLogin;
