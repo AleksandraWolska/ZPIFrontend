@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import { queryClient } from "./query";
 import Home from "./routes/home/Home";
 import { loader as todosLoader } from "./routes/todos/all-todos/loader";
+import RequireLogin from "./auth/RequireLogin";
 
 if (process.env.NODE_ENV === "development") {
   const { worker } = await import("./mocks/browser");
@@ -14,7 +15,7 @@ const router = createBrowserRouter([
     element: <Home />,
   },
   {
-    path: "/todos",
+    path: "todos",
     lazy: async () => {
       const TodosLayout = (await import("./routes/todos/TodosLayout")).default;
       return { Component: TodosLayout };
@@ -28,6 +29,15 @@ const router = createBrowserRouter([
             .default;
           return { Component: Todos };
         },
+      },
+    ],
+  },
+  {
+    element: <RequireLogin />,
+    children: [
+      {
+        path: "secret",
+        element: <div>Secret page.</div>,
       },
     ],
   },
