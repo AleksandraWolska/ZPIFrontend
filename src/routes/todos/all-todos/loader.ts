@@ -8,9 +8,7 @@ type Todo = {
 };
 
 const fetchTodos = async (): Promise<Todo[]> => {
-  const res = await fetch(
-    "https://jsonplaceholder.typicode.com/todos?_limit=10",
-  );
+  const res = await fetch("http://localhost:5173/todos");
   return res.json();
 };
 
