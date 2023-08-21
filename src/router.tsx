@@ -3,6 +3,11 @@ import { queryClient } from "./query";
 import Home from "./routes/home/Home";
 import { loader as todosLoader } from "./routes/todos/all-todos/loader";
 
+if (process.env.NODE_ENV === "development") {
+  const { worker } = await import("./mocks/browser");
+  await worker.start({ onUnhandledRequest: "bypass" });
+}
+
 const router = createBrowserRouter([
   {
     path: "/",
