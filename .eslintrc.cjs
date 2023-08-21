@@ -17,7 +17,7 @@ module.exports = {
     project: ["./tsconfig.json", "./tsconfig.node.json"],
     tsconfigRootDir: __dirname,
   },
-  plugins: ["react", "@typescript-eslint", "react-refresh"],
+  plugins: ["react", "@typescript-eslint", "react-refresh", "cypress"],
   rules: {
     "react-refresh/only-export-components": [
       "warn",
