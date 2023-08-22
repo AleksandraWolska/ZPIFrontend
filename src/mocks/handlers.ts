@@ -21,7 +21,7 @@ const todos = [
   },
 ];
 
-const getAllTodos = rest.get("/todos", (_req, res, ctx) => {
+const getAllTodos = rest.get("/api/todos", (_req, res, ctx) => {
   return res(ctx.status(200), ctx.json(todos));
 });
 

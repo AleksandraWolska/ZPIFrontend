@@ -8,7 +8,7 @@ type Todo = {
 };
 
 const fetchTodos = async (): Promise<Todo[]> => {
-  const res = await fetch("http://localhost:5173/todos");
+  const res = await fetch("/api/todos");
   return res.json();
 };
 
