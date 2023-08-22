@@ -3,6 +3,7 @@ import { queryClient } from "./query";
 import Home from "./routes/home/Home";
 import { loader as todosLoader } from "./routes/todos/all-todos/loader";
 import RequireLogin from "./auth/RequireLogin";
+import Secret from "./routes/secret/Secret";
 
 if (process.env.NODE_ENV === "development") {
   const { worker } = await import("./mocks/browser");
@@ -37,7 +38,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "secret",
-        element: <div>Secret page.</div>,
+        element: <Secret />,
       },
     ],
   },

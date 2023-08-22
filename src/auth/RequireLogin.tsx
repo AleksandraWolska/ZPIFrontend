@@ -10,7 +10,7 @@ function RequireLogin() {
     <Outlet />
   ) : (
     <div>
-      <p>Not logged in!</p>
+      <p>You are not logged in!</p>
 
       <button
         type="button"

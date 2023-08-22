@@ -9,6 +9,8 @@ function Home() {
       <h1>{t("home.title")}</h1>
       <br />
       <Link to="/todos">Todos</Link>
+      <br />
+      <Link to="/secret">Secret page</Link>
     </div>
   );
 }
