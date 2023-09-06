@@ -3,8 +3,10 @@ import { useSchema } from "../SchemaProvider";
 
 function Granularity({
   setActiveStep,
+  setProgress,
 }: {
   setActiveStep: (step: SchemaStep) => void;
+  setProgress: (progress: number) => void;
 }) {
   const { setGranularity } = useSchema();
 
@@ -17,6 +19,7 @@ function Granularity({
         onClick={() => {
           setGranularity("granular");
           setActiveStep(SCHEMA_STEPS.USERS_PER_OFFER);
+          setProgress(67);
         }}
       >
         Granular
@@ -27,6 +30,7 @@ function Granularity({
         onClick={() => {
           setGranularity("continuous");
           setActiveStep(SCHEMA_STEPS.USERS_PER_OFFER);
+          setProgress(67);
         }}
       >
         Continuous
