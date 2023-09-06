@@ -1,7 +1,12 @@
+import SchemaProvider from "./SchemaProvider";
 import Stepper from "./Stepper";
 
 function NewSchema() {
-  return <Stepper />;
+  return (
+    <SchemaProvider>
+      <Stepper />
+    </SchemaProvider>
+  );
 }
 
 export default NewSchema;
