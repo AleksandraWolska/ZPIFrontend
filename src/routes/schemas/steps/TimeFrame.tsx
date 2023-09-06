@@ -3,8 +3,10 @@ import { useSchema } from "../SchemaProvider";
 
 function TimeFrame({
   setActiveStep,
+  setProgress,
 }: {
   setActiveStep: (step: SchemaStep) => void;
+  setProgress: (progress: number) => void;
 }) {
   const { setTimeFrame } = useSchema();
 
@@ -17,6 +19,7 @@ function TimeFrame({
         onClick={() => {
           setTimeFrame("fixed");
           setActiveStep(SCHEMA_STEPS.USERS_PER_OFFER);
+          setProgress(50);
         }}
       >
         Fixed
@@ -27,6 +30,7 @@ function TimeFrame({
         onClick={() => {
           setTimeFrame("flexible");
           setActiveStep(SCHEMA_STEPS.GRANULARITY);
+          setProgress(33);
         }}
       >
         Flexible
