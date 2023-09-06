@@ -16,6 +16,13 @@ const router = createBrowserRouter([
     element: <Home />,
   },
   {
+    path: "schemas/new",
+    lazy: async () => {
+      const NewSchema = (await import("./routes/schemas/NewSchema")).default;
+      return { Component: NewSchema };
+    },
+  },
+  {
     path: "todos",
     lazy: async () => {
       const TodosLayout = (await import("./routes/todos/TodosLayout")).default;
