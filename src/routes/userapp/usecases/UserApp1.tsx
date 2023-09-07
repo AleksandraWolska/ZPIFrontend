@@ -109,7 +109,7 @@ function UserApp1() {
 
     return (
         <Box padding={3}>
-            <Typography variant="h6">Userapp variant 1</Typography>
+            <Typography variant="h6">Userapp variant 1 - jeden użytkowik na wiele przedmiotów, elastyczny czas</Typography>
             <Typography variant="body1" color="orange"> Many items, one user simultaneously, continuous time</Typography>
             <Typography variant="h5">Choose an item to reserve</Typography>
             <Typography variant="body2" color="textSecondary">Select an item, then pick your desired date and time.</Typography>

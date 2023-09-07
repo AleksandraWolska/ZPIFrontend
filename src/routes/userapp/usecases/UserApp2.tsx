@@ -95,7 +95,7 @@ function UserApp2() {
     }
     return (
         <Box padding={3}>
-            <Typography variant="h6">Userapp variant 1</Typography>
+            <Typography variant="h6">Userapp variant 2 - wielu użytkowników jednego wydarzenia, konkretna godzina</Typography>
             <Typography variant="body1" color="orange"> One item, many users simultanously, exact reservation, specific certain dates</Typography>
             <Typography variant="h5">Choose an item to reserve</Typography>
             <Typography variant="body2" color="textSecondary">Select an item, then pick your seat.</Typography>

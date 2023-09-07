@@ -105,8 +105,8 @@ setReserveEnabled(false)
 
     return (
         <Box padding={3}>
-            <Typography variant="h6">Userapp variant 1</Typography>
-            <Typography variant="body1" color="orange"> one tem, many users simultaneously, continuous time</Typography>
+            <Typography variant="h6">Userapp variant 4 - wielu użytkowników na jeden przedmiot, elastyczny czas</Typography>
+            <Typography variant="body1" color="orange"> one item, many users simultaneously, continuous time</Typography>
             <Typography variant="h5">Choose an item to reserve</Typography>
             <Typography variant="body2" color="textSecondary">Select an item, then specify the number of people and pick your desired date and time.</Typography>
             <Divider style={{ margin: '20px 0' }} />
