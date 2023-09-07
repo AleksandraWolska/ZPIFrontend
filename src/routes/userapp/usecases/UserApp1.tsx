@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Box, Typography, List, ListItem, ListItemText, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import { Box, Typography, List, ListItem, ListItemText, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, IconButton } from '@mui/material';
 import { DateTimePicker } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
 
@@ -54,17 +54,25 @@ function UserApp1() {
     if (selectedItem) {
         return (
             <Box padding={3}>
-                <Typography variant="body1" color="orange">User chooses start and end date, then checks availability...</Typography>
-                <Typography variant="h6">{selectedItem.title}</Typography>
-                <Typography variant="body1">{selectedItem.subtitle}</Typography>
+                <Typography variant="body1" color="orange">User choses start and end date, clicks CHECK_AVAILABILITY button. A list of suggested dates appear.
+                    Clicking on one of them sets datepicker for this particular value, and changes button to RESERVE, as it is already checked date.
+                    User can still modify the dates, and if he does so, the RESERVE button will be replaced again with CHECK AVAILABILITY BUTTON
+                </Typography>
+                <Divider style={{ margin: '20px 0' }} />
+                <Typography variant="h5">Reserve {selectedItem.title}</Typography>
+                <Typography variant="body2" color="textSecondary">{selectedItem.subtitle}</Typography>
 
-                <DateTimePicker value={startDateTime} onChange={(date: dayjs.Dayjs | null) => { setStartDateTime(date); handleDateTimeChange(); }} label="Select Start Date and Time" />
-                <DateTimePicker value={endDateTime} onChange={(date: dayjs.Dayjs | null) => { setEndDateTime(date); handleDateTimeChange(); }} label="Select End Date and Time" />
+                <Box margin={3}>
 
-                <Button variant="contained" color="primary" onClick={() => availabilityChecked ? setReservationSuccess(true) : setShowSuggestedDialog(true)}>
+                    <DateTimePicker value={startDateTime} onChange={(date: dayjs.Dayjs | null) => { setStartDateTime(date); handleDateTimeChange(); }} label="Select Start Date and Time" />
+                </Box>
+                <Box margin={3}>
+                    <DateTimePicker value={endDateTime} onChange={(date: dayjs.Dayjs | null) => { setEndDateTime(date); handleDateTimeChange(); }} label="Select End Date and Time" />
+                </Box>
+                <Button style={{ margin: '5px' }} variant="contained" color="primary" onClick={() => availabilityChecked ? setReservationSuccess(true) : setShowSuggestedDialog(true)}>
                     {availabilityChecked ? 'Reserve Item' : 'Check Availability'}
                 </Button>
-                <Button variant="contained" onClick={resetStates}>Back</Button>
+                <Button style={{ margin: '5px', backgroundColor: 'gray' }} variant="contained"  onClick={resetStates}>Back</Button>
 
                 <Dialog open={reservationSuccess} onClose={() => setReservationSuccess(false)}>
                     <DialogTitle>Successful reservation</DialogTitle>
@@ -94,17 +102,19 @@ function UserApp1() {
                         <Button onClick={() => setShowSuggestedDialog(false)} color="primary">Cancel</Button>
                     </DialogActions>
                 </Dialog>
+
             </Box>
         );
     }
 
     return (
         <Box padding={3}>
-            <Typography variant="h6">Userapp variant1</Typography>
-            <Typography variant="body1" color="orange">User choses start and end date, clicks CHECK_AVAILABILITY button. A list of suggested dates appear.
-                Clicking on one of them sets datepicker for this particular value, and changes button to RESERVE, as it is already checked date. 
-                User can still modify the dates, and if he does so, the RESERVE button will be replaced again with CHECK AVAILABILITY BUTTON 
-            </Typography>
+            <Typography variant="h6">Userapp variant 1</Typography>
+            <Typography variant="body1" color="orange"> Many items, one user simultaneously, continuous time</Typography>
+            <Typography variant="h5">Choose an item to reserve</Typography>
+            <Typography variant="body2" color="textSecondary">Select an item, then pick your desired date and time.</Typography>
+            <Divider style={{ margin: '20px 0' }} />
+
             <List>
                 {items.map((item) => (
                     <ListItem button key={item.title} onClick={() => setSelectedItem(item)}>
