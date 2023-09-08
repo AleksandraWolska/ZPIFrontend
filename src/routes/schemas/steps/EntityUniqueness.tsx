@@ -3,8 +3,10 @@ import { SCHEMA_STEPS, SchemaStep } from "../types";
 
 function EntityUniqueness({
   setActiveStep,
+  setProgress,
 }: {
   setActiveStep: (step: SchemaStep) => void;
+  setProgress: (progress: number) => void;
 }) {
   const { schema, setEntityUniqueness, withdraw } = useSchema();
 
@@ -21,6 +23,7 @@ function EntityUniqueness({
               : SCHEMA_STEPS.USERS_PER_OFFER;
           withdraw(prevStep);
           setActiveStep(prevStep);
+          setProgress(prevStep === SCHEMA_STEPS.GAP_BETWEEN ? 70 : 67.5);
         }}
       >
         BACK

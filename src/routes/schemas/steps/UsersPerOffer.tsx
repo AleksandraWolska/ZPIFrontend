@@ -3,8 +3,10 @@ import { useSchema } from "../SchemaProvider";
 
 function UsersPerOffer({
   setActiveStep,
+  setProgress,
 }: {
   setActiveStep: (step: SchemaStep) => void;
+  setProgress: (progress: number) => void;
 }) {
   const { schema, setUsersPerOffer, withdraw } = useSchema();
 
@@ -20,6 +22,7 @@ function UsersPerOffer({
             : SCHEMA_STEPS.TIME_FRAME;
           withdraw(prevStep);
           setActiveStep(prevStep);
+          setProgress(prevStep === SCHEMA_STEPS.GRANULARITY ? 45 : 0);
         }}
       >
         BACK
@@ -30,6 +33,7 @@ function UsersPerOffer({
         onClick={() => {
           setUsersPerOffer("one");
           setActiveStep(SCHEMA_STEPS.GAP_BETWEEN);
+          setProgress(70);
         }}
       >
         One
@@ -39,11 +43,12 @@ function UsersPerOffer({
         type="button"
         onClick={() => {
           setUsersPerOffer("many");
-          setActiveStep(
+          const nextStep =
             schema.timeFrame === "fixed"
               ? SCHEMA_STEPS.SPECIFIC_SEATS
-              : SCHEMA_STEPS.ENTITY_UNIQUENESS,
-          );
+              : SCHEMA_STEPS.ENTITY_UNIQUENESS;
+          setActiveStep(nextStep);
+          setProgress(nextStep === SCHEMA_STEPS.SPECIFIC_SEATS ? 100 : 100);
         }}
       >
         Many
