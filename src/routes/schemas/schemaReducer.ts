@@ -7,6 +7,8 @@ import {
   EntityUniqueness,
   SpecificSeats,
   Periodicity,
+  SchemaStep,
+  SCHEMA_STEPS,
 } from "./types";
 
 export const SCHEMA_ACTION_TYPES = {
@@ -17,6 +19,7 @@ export const SCHEMA_ACTION_TYPES = {
   SET_GAP_BETWEEN: "SET_GAP_BETWEEN",
   SET_SPECIFIC_SEATS: "SET_SPECIFIC_SEATS",
   SET_PERIODICITY: "SET_PERIODICITY",
+  WITHDRAW: "WITHDRAW",
 } as const;
 
 type SetTimeFrameAction = {
@@ -54,6 +57,11 @@ type SetPeriodicityAction = {
   payload: Periodicity;
 };
 
+type WithdrawAction = {
+  type: typeof SCHEMA_ACTION_TYPES.WITHDRAW;
+  payload: SchemaStep;
+};
+
 type SchemaAction =
   | SetTimeFrameAction
   | SetGranularityAction
@@ -61,7 +69,8 @@ type SchemaAction =
   | SetEntityUniquenessAction
   | SetGapBetweenAction
   | SetSpecificSeatsAction
-  | SetPeriodicityAction;
+  | SetPeriodicityAction
+  | WithdrawAction;
 
 export function schemaReducer(
   schema: Partial<Schema>,
@@ -82,7 +91,50 @@ export function schemaReducer(
       return { ...schema, specificSeats: action.payload };
     case SCHEMA_ACTION_TYPES.SET_PERIODICITY:
       return { ...schema, periodicity: action.payload };
+    case SCHEMA_ACTION_TYPES.WITHDRAW:
+      return withdrawSchemaAttibutes(schema, action.payload);
     default:
       throw Error("Unknown reducer action!");
+  }
+}
+
+function withdrawSchemaAttibutes(schema: Partial<Schema>, step: SchemaStep) {
+  switch (step) {
+    case SCHEMA_STEPS.TIME_FRAME:
+      return {};
+    case SCHEMA_STEPS.GRANULARITY:
+      return { timeFrame: schema.timeFrame };
+    case SCHEMA_STEPS.USERS_PER_OFFER:
+      return {
+        timeFrame: schema.timeFrame,
+        ...(schema.granularity && { granularity: schema.granularity }),
+      };
+    case SCHEMA_STEPS.ENTITY_UNIQUENESS:
+      return {
+        timeFrame: schema.timeFrame,
+        ...(schema.granularity && { granularity: schema.granularity }),
+        usersPerOffer: schema.usersPerOffer,
+      };
+    case SCHEMA_STEPS.GAP_BETWEEN:
+      return {
+        timeFrame: schema.timeFrame,
+        ...(schema.granularity && { granularity: schema.granularity }),
+        usersPerOffer: schema.usersPerOffer,
+      };
+    case SCHEMA_STEPS.SPECIFIC_SEATS:
+      return {
+        timeFrame: schema.timeFrame,
+        usersPerOffer: schema.usersPerOffer,
+        ...(schema.gapBetween && { gapBetween: schema.gapBetween }),
+      };
+    case SCHEMA_STEPS.PERIODICITY:
+      return {
+        timeFrame: schema.timeFrame,
+        usersPerOffer: schema.usersPerOffer,
+        ...(schema.gapBetween && { gapBetween: schema.gapBetween }),
+        specificSeats: schema.specificSeats,
+      };
+    default:
+      return schema;
   }
 }

@@ -6,11 +6,25 @@ function EntityUniqueness({
 }: {
   setActiveStep: (step: SchemaStep) => void;
 }) {
-  const { setEntityUniqueness } = useSchema();
+  const { schema, setEntityUniqueness, withdraw } = useSchema();
 
   return (
     <>
       <div>Entity uniqueness - Yes or No?</div>
+
+      <button
+        type="button"
+        onClick={() => {
+          const prevStep =
+            schema.usersPerOffer === "one"
+              ? SCHEMA_STEPS.GAP_BETWEEN
+              : SCHEMA_STEPS.USERS_PER_OFFER;
+          withdraw(prevStep);
+          setActiveStep(prevStep);
+        }}
+      >
+        BACK
+      </button>
 
       <button
         type="button"

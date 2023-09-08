@@ -8,11 +8,21 @@ function Granularity({
   setActiveStep: (step: SchemaStep) => void;
   setProgress: (progress: number) => void;
 }) {
-  const { setGranularity } = useSchema();
+  const { setGranularity, withdraw } = useSchema();
 
   return (
     <>
       <div>Granularity - Granular or Continuous?</div>
+
+      <button
+        type="button"
+        onClick={() => {
+          withdraw(SCHEMA_STEPS.TIME_FRAME);
+          setActiveStep(SCHEMA_STEPS.TIME_FRAME);
+        }}
+      >
+        BACK
+      </button>
 
       <button
         type="button"
