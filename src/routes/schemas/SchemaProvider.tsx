@@ -24,48 +24,51 @@ function SchemaProvider({ children }: { children: ReactNode }) {
   }, [schema]);
 
   const setTimeFrame = (timeFrame: TimeFrame) => {
-    dispatch({ type: SCHEMA_ACTION_TYPES.SET_TIME_FRAME, payload: timeFrame });
+    dispatch({
+      type: SCHEMA_ACTION_TYPES.APPEND_TO_SCHEMA,
+      payload: { timeFrame },
+    });
   };
 
   const setGranularity = (granularity: Granularity) => {
     dispatch({
-      type: SCHEMA_ACTION_TYPES.SET_GRANULARITY,
-      payload: granularity,
+      type: SCHEMA_ACTION_TYPES.APPEND_TO_SCHEMA,
+      payload: { granularity },
     });
   };
 
   const setUsersPerOffer = (usersPerOffer: UsersPerOffer) => {
     dispatch({
-      type: SCHEMA_ACTION_TYPES.SET_USERS_PER_OFFER,
-      payload: usersPerOffer,
+      type: SCHEMA_ACTION_TYPES.APPEND_TO_SCHEMA,
+      payload: { usersPerOffer },
     });
   };
 
   const setEntityUniqueness = (entityUniqueness: EntityUniqueness) => {
     dispatch({
-      type: SCHEMA_ACTION_TYPES.SET_ENTITY_UNIQUENESS,
-      payload: entityUniqueness,
+      type: SCHEMA_ACTION_TYPES.APPEND_TO_SCHEMA,
+      payload: { entityUniqueness },
     });
   };
 
   const setGapBetween = (gapBetween: GapBetween) => {
     dispatch({
-      type: SCHEMA_ACTION_TYPES.SET_GAP_BETWEEN,
-      payload: gapBetween,
+      type: SCHEMA_ACTION_TYPES.APPEND_TO_SCHEMA,
+      payload: { gapBetween },
     });
   };
 
   const setSpecificSeats = (specificSeats: SpecificSeats) => {
     dispatch({
-      type: SCHEMA_ACTION_TYPES.SET_SPECIFIC_SEATS,
-      payload: specificSeats,
+      type: SCHEMA_ACTION_TYPES.APPEND_TO_SCHEMA,
+      payload: { specificSeats },
     });
   };
 
   const setPeriodicity = (periodicity: Periodicity) => {
     dispatch({
-      type: SCHEMA_ACTION_TYPES.SET_PERIODICITY,
-      payload: periodicity,
+      type: SCHEMA_ACTION_TYPES.APPEND_TO_SCHEMA,
+      payload: { periodicity },
     });
   };
 
