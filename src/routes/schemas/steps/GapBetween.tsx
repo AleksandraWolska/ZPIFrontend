@@ -1,31 +1,21 @@
-import { SCHEMA_STEPS, SchemaStep } from "../types";
 import { useSchema } from "../SchemaProvider";
+import { SCHEMA_STEPS, SchemaStep } from "../types";
 
-function UsersPerOffer({
+function GapBetween({
   setActiveStep,
 }: {
   setActiveStep: (step: SchemaStep) => void;
 }) {
-  const { schema, setUsersPerOffer } = useSchema();
+  const { schema, setGapBetween } = useSchema();
 
   return (
     <>
-      <div>Users per offer - One or Many?</div>
+      <div>Gap between - Yes or No?</div>
 
       <button
         type="button"
         onClick={() => {
-          setUsersPerOffer("one");
-          setActiveStep(SCHEMA_STEPS.GAP_BETWEEN);
-        }}
-      >
-        One
-      </button>
-
-      <button
-        type="button"
-        onClick={() => {
-          setUsersPerOffer("many");
+          setGapBetween(true);
           setActiveStep(
             schema.timeFrame === "fixed"
               ? SCHEMA_STEPS.SPECIFIC_SEATS
@@ -33,10 +23,24 @@ function UsersPerOffer({
           );
         }}
       >
-        Many
+        Yes
+      </button>
+
+      <button
+        type="button"
+        onClick={() => {
+          setGapBetween(false);
+          setActiveStep(
+            schema.timeFrame === "fixed"
+              ? SCHEMA_STEPS.SPECIFIC_SEATS
+              : SCHEMA_STEPS.ENTITY_UNIQUENESS,
+          );
+        }}
+      >
+        No
       </button>
     </>
   );
 }
 
-export default UsersPerOffer;
+export default GapBetween;
