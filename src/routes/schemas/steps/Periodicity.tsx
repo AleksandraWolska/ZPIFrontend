@@ -6,11 +6,21 @@ function Periodicity({
 }: {
   setActiveStep: (step: SchemaStep) => void;
 }) {
-  const { setPeriodicity } = useSchema();
+  const { setPeriodicity, withdraw } = useSchema();
 
   return (
     <>
       <div>Periodicity - Yes or No?</div>
+
+      <button
+        type="button"
+        onClick={() => {
+          withdraw(SCHEMA_STEPS.SPECIFIC_SEATS);
+          setActiveStep(SCHEMA_STEPS.SPECIFIC_SEATS);
+        }}
+      >
+        BACK
+      </button>
 
       <button
         type="button"

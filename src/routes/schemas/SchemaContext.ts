@@ -8,6 +8,7 @@ import {
   SpecificSeats,
   TimeFrame,
   UsersPerOffer,
+  SchemaStep,
 } from "./types";
 
 export type SchemaContextType = {
@@ -19,6 +20,7 @@ export type SchemaContextType = {
   setGapBetween: (gapBetween: GapBetween) => void;
   setSpecificSeats: (specificSeats: SpecificSeats) => void;
   setPeriodicity: (periodicity: Periodicity) => void;
+  withdraw: (step: SchemaStep) => void;
 };
 
 export const SchemaContext = createContext<SchemaContextType | null>(null);

@@ -6,11 +6,21 @@ function GapBetween({
 }: {
   setActiveStep: (step: SchemaStep) => void;
 }) {
-  const { schema, setGapBetween } = useSchema();
+  const { schema, setGapBetween, withdraw } = useSchema();
 
   return (
     <>
       <div>Gap between - Yes or No?</div>
+
+      <button
+        type="button"
+        onClick={() => {
+          withdraw(SCHEMA_STEPS.USERS_PER_OFFER);
+          setActiveStep(SCHEMA_STEPS.USERS_PER_OFFER);
+        }}
+      >
+        BACK
+      </button>
 
       <button
         type="button"

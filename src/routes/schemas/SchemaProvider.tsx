@@ -8,6 +8,7 @@ import {
   SpecificSeats,
   TimeFrame,
   UsersPerOffer,
+  SchemaStep,
 } from "./types";
 import { SCHEMA_ACTION_TYPES, schemaReducer } from "./schemaReducer";
 import { SchemaContext, SchemaContextType } from "./SchemaContext";
@@ -68,6 +69,13 @@ function SchemaProvider({ children }: { children: ReactNode }) {
     });
   };
 
+  const withdraw = (step: SchemaStep) => {
+    dispatch({
+      type: SCHEMA_ACTION_TYPES.WITHDRAW,
+      payload: step,
+    });
+  };
+
   const contextValue = useMemo(
     () => ({
       schema,
@@ -78,6 +86,7 @@ function SchemaProvider({ children }: { children: ReactNode }) {
       setGapBetween,
       setSpecificSeats,
       setPeriodicity,
+      withdraw,
     }),
     [schema],
   );

@@ -6,11 +6,24 @@ function UsersPerOffer({
 }: {
   setActiveStep: (step: SchemaStep) => void;
 }) {
-  const { schema, setUsersPerOffer } = useSchema();
+  const { schema, setUsersPerOffer, withdraw } = useSchema();
 
   return (
     <>
       <div>Users per offer - One or Many?</div>
+
+      <button
+        type="button"
+        onClick={() => {
+          const prevStep = schema.granularity
+            ? SCHEMA_STEPS.GRANULARITY
+            : SCHEMA_STEPS.TIME_FRAME;
+          withdraw(prevStep);
+          setActiveStep(prevStep);
+        }}
+      >
+        BACK
+      </button>
 
       <button
         type="button"
