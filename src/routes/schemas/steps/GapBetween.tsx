@@ -3,8 +3,10 @@ import { SCHEMA_STEPS, SchemaStep } from "../types";
 
 function GapBetween({
   setActiveStep,
+  setProgress,
 }: {
   setActiveStep: (step: SchemaStep) => void;
+  setProgress: (progress: number) => void;
 }) {
   const { schema, setGapBetween, withdraw } = useSchema();
 
@@ -17,6 +19,7 @@ function GapBetween({
         onClick={() => {
           withdraw(SCHEMA_STEPS.USERS_PER_OFFER);
           setActiveStep(SCHEMA_STEPS.USERS_PER_OFFER);
+          setProgress(schema.timeFrame === "fixed" ? 53.5 : 67.5);
         }}
       >
         BACK
@@ -26,11 +29,12 @@ function GapBetween({
         type="button"
         onClick={() => {
           setGapBetween(true);
-          setActiveStep(
+          const nextStep =
             schema.timeFrame === "fixed"
               ? SCHEMA_STEPS.SPECIFIC_SEATS
-              : SCHEMA_STEPS.ENTITY_UNIQUENESS,
-          );
+              : SCHEMA_STEPS.ENTITY_UNIQUENESS;
+          setActiveStep(nextStep);
+          setProgress(nextStep === SCHEMA_STEPS.SPECIFIC_SEATS ? 80 : 100);
         }}
       >
         Yes
@@ -40,11 +44,12 @@ function GapBetween({
         type="button"
         onClick={() => {
           setGapBetween(false);
-          setActiveStep(
+          const nextStep =
             schema.timeFrame === "fixed"
               ? SCHEMA_STEPS.SPECIFIC_SEATS
-              : SCHEMA_STEPS.ENTITY_UNIQUENESS,
-          );
+              : SCHEMA_STEPS.ENTITY_UNIQUENESS;
+          setActiveStep(nextStep);
+          setProgress(nextStep === SCHEMA_STEPS.SPECIFIC_SEATS ? 80 : 100);
         }}
       >
         No

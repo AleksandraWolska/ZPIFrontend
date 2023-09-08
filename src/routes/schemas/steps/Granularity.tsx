@@ -19,6 +19,7 @@ function Granularity({
         onClick={() => {
           withdraw(SCHEMA_STEPS.TIME_FRAME);
           setActiveStep(SCHEMA_STEPS.TIME_FRAME);
+          setProgress(0);
         }}
       >
         BACK
@@ -29,7 +30,7 @@ function Granularity({
         onClick={() => {
           setGranularity("granular");
           setActiveStep(SCHEMA_STEPS.USERS_PER_OFFER);
-          setProgress(67);
+          setProgress(67.5);
         }}
       >
         Granular
@@ -40,7 +41,7 @@ function Granularity({
         onClick={() => {
           setGranularity("continuous");
           setActiveStep(SCHEMA_STEPS.USERS_PER_OFFER);
-          setProgress(67);
+          setProgress(67.5);
         }}
       >
         Continuous

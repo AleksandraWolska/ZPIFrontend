@@ -30,15 +30,37 @@ function Stepper() {
           />
         );
       case SCHEMA_STEPS.USERS_PER_OFFER:
-        return <UsersPerOffer setActiveStep={setActiveStep} />;
+        return (
+          <UsersPerOffer
+            setActiveStep={setActiveStep}
+            setProgress={setProgress}
+          />
+        );
       case SCHEMA_STEPS.ENTITY_UNIQUENESS:
-        return <EntityUniqueness setActiveStep={setActiveStep} />;
+        return (
+          <EntityUniqueness
+            setActiveStep={setActiveStep}
+            setProgress={setProgress}
+          />
+        );
       case SCHEMA_STEPS.GAP_BETWEEN:
-        return <GapBetween setActiveStep={setActiveStep} />;
+        return (
+          <GapBetween setActiveStep={setActiveStep} setProgress={setProgress} />
+        );
       case SCHEMA_STEPS.SPECIFIC_SEATS:
-        return <SpecificSeats setActiveStep={setActiveStep} />;
+        return (
+          <SpecificSeats
+            setActiveStep={setActiveStep}
+            setProgress={setProgress}
+          />
+        );
       case SCHEMA_STEPS.PERIODICITY:
-        return <Periodicity setActiveStep={setActiveStep} />;
+        return (
+          <Periodicity
+            setActiveStep={setActiveStep}
+            setProgress={setProgress}
+          />
+        );
       case SCHEMA_STEPS.DUMMY:
         return <Dummy />;
       default:

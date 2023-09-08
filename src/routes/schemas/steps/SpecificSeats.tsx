@@ -3,8 +3,10 @@ import { SCHEMA_STEPS, SchemaStep } from "../types";
 
 function SpecificSeats({
   setActiveStep,
+  setProgress,
 }: {
   setActiveStep: (step: SchemaStep) => void;
+  setProgress: (progress: number) => void;
 }) {
   const { schema, setSpecificSeats, withdraw } = useSchema();
 
@@ -21,6 +23,7 @@ function SpecificSeats({
               : SCHEMA_STEPS.USERS_PER_OFFER;
           withdraw(prevStep);
           setActiveStep(prevStep);
+          setProgress(prevStep === SCHEMA_STEPS.GAP_BETWEEN ? 70 : 53.5);
         }}
       >
         BACK
@@ -35,6 +38,7 @@ function SpecificSeats({
               ? SCHEMA_STEPS.PERIODICITY
               : SCHEMA_STEPS.DUMMY,
           );
+          setProgress(100);
         }}
       >
         Yes
@@ -49,6 +53,7 @@ function SpecificSeats({
               ? SCHEMA_STEPS.PERIODICITY
               : SCHEMA_STEPS.DUMMY,
           );
+          setProgress(100);
         }}
       >
         No

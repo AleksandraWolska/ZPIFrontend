@@ -3,8 +3,10 @@ import { useSchema } from "../SchemaProvider";
 
 function Periodicity({
   setActiveStep,
+  setProgress,
 }: {
   setActiveStep: (step: SchemaStep) => void;
+  setProgress: (progress: number) => void;
 }) {
   const { setPeriodicity, withdraw } = useSchema();
 
@@ -17,6 +19,7 @@ function Periodicity({
         onClick={() => {
           withdraw(SCHEMA_STEPS.SPECIFIC_SEATS);
           setActiveStep(SCHEMA_STEPS.SPECIFIC_SEATS);
+          setProgress(80);
         }}
       >
         BACK

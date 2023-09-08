@@ -19,7 +19,7 @@ function TimeFrame({
         onClick={() => {
           setTimeFrame("fixed");
           setActiveStep(SCHEMA_STEPS.USERS_PER_OFFER);
-          setProgress(50);
+          setProgress(53.5);
         }}
       >
         Fixed
@@ -30,7 +30,7 @@ function TimeFrame({
         onClick={() => {
           setTimeFrame("flexible");
           setActiveStep(SCHEMA_STEPS.GRANULARITY);
-          setProgress(33);
+          setProgress(45);
         }}
       >
         Flexible
