@@ -1,5 +1,6 @@
 import { useSchema } from "../SchemaProvider";
 import { SCHEMA_STEPS, SchemaStep } from "../types";
+import { calculateProgress } from "./utils";
 
 function SpecificSeats({
   setActiveStep,
@@ -23,7 +24,9 @@ function SpecificSeats({
               : SCHEMA_STEPS.USERS_PER_OFFER;
           withdraw(prevStep);
           setActiveStep(prevStep);
-          setProgress(prevStep === SCHEMA_STEPS.GAP_BETWEEN ? 70 : 53.5);
+          setProgress(
+            calculateProgress(SCHEMA_STEPS.SPECIFIC_SEATS, prevStep, schema),
+          );
         }}
       >
         BACK
@@ -33,12 +36,14 @@ function SpecificSeats({
         type="button"
         onClick={() => {
           setSpecificSeats(true);
-          setActiveStep(
+          const nextStep =
             schema.usersPerOffer === "one"
               ? SCHEMA_STEPS.PERIODICITY
-              : SCHEMA_STEPS.DUMMY,
+              : SCHEMA_STEPS.DUMMY;
+          setActiveStep(nextStep);
+          setProgress(
+            calculateProgress(SCHEMA_STEPS.SPECIFIC_SEATS, nextStep, schema),
           );
-          setProgress(100);
         }}
       >
         Yes
@@ -48,8 +53,11 @@ function SpecificSeats({
         type="button"
         onClick={() => {
           setSpecificSeats(false);
-          setActiveStep(SCHEMA_STEPS.PERIODICITY);
-          setProgress(100);
+          const nextStep = SCHEMA_STEPS.PERIODICITY;
+          setActiveStep(nextStep);
+          setProgress(
+            calculateProgress(SCHEMA_STEPS.SPECIFIC_SEATS, nextStep, schema),
+          );
         }}
       >
         No

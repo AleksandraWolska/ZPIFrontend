@@ -1,5 +1,6 @@
 import { useSchema } from "../SchemaProvider";
 import { SCHEMA_STEPS, SchemaStep } from "../types";
+import { calculateProgress } from "./utils";
 
 function GapBetween({
   setActiveStep,
@@ -17,9 +18,12 @@ function GapBetween({
       <button
         type="button"
         onClick={() => {
-          withdraw(SCHEMA_STEPS.USERS_PER_OFFER);
-          setActiveStep(SCHEMA_STEPS.USERS_PER_OFFER);
-          setProgress(schema.timeFrame === "fixed" ? 53.5 : 67.5);
+          const prevStep = SCHEMA_STEPS.USERS_PER_OFFER;
+          withdraw(prevStep);
+          setActiveStep(prevStep);
+          setProgress(
+            calculateProgress(SCHEMA_STEPS.GAP_BETWEEN, prevStep, schema),
+          );
         }}
       >
         BACK
@@ -34,7 +38,9 @@ function GapBetween({
               ? SCHEMA_STEPS.SPECIFIC_SEATS
               : SCHEMA_STEPS.ENTITY_UNIQUENESS;
           setActiveStep(nextStep);
-          setProgress(nextStep === SCHEMA_STEPS.SPECIFIC_SEATS ? 80 : 100);
+          setProgress(
+            calculateProgress(SCHEMA_STEPS.GAP_BETWEEN, nextStep, schema),
+          );
         }}
       >
         Yes
@@ -49,7 +55,9 @@ function GapBetween({
               ? SCHEMA_STEPS.SPECIFIC_SEATS
               : SCHEMA_STEPS.ENTITY_UNIQUENESS;
           setActiveStep(nextStep);
-          setProgress(nextStep === SCHEMA_STEPS.SPECIFIC_SEATS ? 80 : 100);
+          setProgress(
+            calculateProgress(SCHEMA_STEPS.GAP_BETWEEN, nextStep, schema),
+          );
         }}
       >
         No

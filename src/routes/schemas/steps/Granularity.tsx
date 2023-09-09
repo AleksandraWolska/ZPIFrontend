@@ -1,5 +1,6 @@
 import { SCHEMA_STEPS, SchemaStep } from "../types";
 import { useSchema } from "../SchemaProvider";
+import { calculateProgress } from "./utils";
 
 function Granularity({
   setActiveStep,
@@ -8,7 +9,7 @@ function Granularity({
   setActiveStep: (step: SchemaStep) => void;
   setProgress: (progress: number) => void;
 }) {
-  const { setGranularity, withdraw } = useSchema();
+  const { schema, setGranularity, withdraw } = useSchema();
 
   return (
     <>
@@ -17,9 +18,12 @@ function Granularity({
       <button
         type="button"
         onClick={() => {
-          withdraw(SCHEMA_STEPS.TIME_FRAME);
-          setActiveStep(SCHEMA_STEPS.TIME_FRAME);
-          setProgress(0);
+          const prevStep = SCHEMA_STEPS.TIME_FRAME;
+          withdraw(prevStep);
+          setActiveStep(prevStep);
+          setProgress(
+            calculateProgress(SCHEMA_STEPS.GRANULARITY, prevStep, schema),
+          );
         }}
       >
         BACK
@@ -29,8 +33,11 @@ function Granularity({
         type="button"
         onClick={() => {
           setGranularity("granular");
-          setActiveStep(SCHEMA_STEPS.USERS_PER_OFFER);
-          setProgress(67.5);
+          const nextStep = SCHEMA_STEPS.USERS_PER_OFFER;
+          setActiveStep(nextStep);
+          setProgress(
+            calculateProgress(SCHEMA_STEPS.GRANULARITY, nextStep, schema),
+          );
         }}
       >
         Granular
@@ -40,8 +47,11 @@ function Granularity({
         type="button"
         onClick={() => {
           setGranularity("continuous");
-          setActiveStep(SCHEMA_STEPS.USERS_PER_OFFER);
-          setProgress(67.5);
+          const nextStep = SCHEMA_STEPS.USERS_PER_OFFER;
+          setActiveStep(nextStep);
+          setProgress(
+            calculateProgress(SCHEMA_STEPS.GRANULARITY, nextStep, schema),
+          );
         }}
       >
         Continuous
