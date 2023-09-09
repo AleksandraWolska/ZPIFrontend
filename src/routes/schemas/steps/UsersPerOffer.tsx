@@ -48,7 +48,7 @@ function UsersPerOffer({
               ? SCHEMA_STEPS.SPECIFIC_SEATS
               : SCHEMA_STEPS.ENTITY_UNIQUENESS;
           setActiveStep(nextStep);
-          setProgress(nextStep === SCHEMA_STEPS.SPECIFIC_SEATS ? 100 : 100);
+          setProgress(nextStep === SCHEMA_STEPS.SPECIFIC_SEATS ? 87.5 : 100);
         }}
       >
         Many
