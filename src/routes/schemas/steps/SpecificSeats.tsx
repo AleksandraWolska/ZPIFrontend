@@ -48,11 +48,7 @@ function SpecificSeats({
         type="button"
         onClick={() => {
           setSpecificSeats(false);
-          setActiveStep(
-            schema.usersPerOffer === "one"
-              ? SCHEMA_STEPS.PERIODICITY
-              : SCHEMA_STEPS.DUMMY,
-          );
+          setActiveStep(SCHEMA_STEPS.PERIODICITY);
           setProgress(100);
         }}
       >

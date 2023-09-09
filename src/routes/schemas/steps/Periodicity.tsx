@@ -8,7 +8,7 @@ function Periodicity({
   setActiveStep: (step: SchemaStep) => void;
   setProgress: (progress: number) => void;
 }) {
-  const { setPeriodicity, withdraw } = useSchema();
+  const { schema, setPeriodicity, withdraw } = useSchema();
 
   return (
     <>
@@ -19,7 +19,7 @@ function Periodicity({
         onClick={() => {
           withdraw(SCHEMA_STEPS.SPECIFIC_SEATS);
           setActiveStep(SCHEMA_STEPS.SPECIFIC_SEATS);
-          setProgress(80);
+          setProgress(schema.usersPerOffer === "one" ? 80 : 87.5);
         }}
       >
         BACK
