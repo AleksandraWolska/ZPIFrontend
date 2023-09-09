@@ -1,5 +1,6 @@
 import { useSchema } from "../SchemaProvider";
 import { SCHEMA_STEPS, SchemaStep } from "../types";
+import { calculateProgress } from "./utils";
 
 function EntityUniqueness({
   setActiveStep,
@@ -23,7 +24,9 @@ function EntityUniqueness({
               : SCHEMA_STEPS.USERS_PER_OFFER;
           withdraw(prevStep);
           setActiveStep(prevStep);
-          setProgress(prevStep === SCHEMA_STEPS.GAP_BETWEEN ? 70 : 67.5);
+          setProgress(
+            calculateProgress(SCHEMA_STEPS.ENTITY_UNIQUENESS, prevStep, schema),
+          );
         }}
       >
         BACK

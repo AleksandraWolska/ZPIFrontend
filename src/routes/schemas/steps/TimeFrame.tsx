@@ -1,5 +1,6 @@
 import { SCHEMA_STEPS, SchemaStep } from "../types";
 import { useSchema } from "../SchemaProvider";
+import { calculateProgress } from "./utils";
 
 function TimeFrame({
   setActiveStep,
@@ -8,7 +9,7 @@ function TimeFrame({
   setActiveStep: (step: SchemaStep) => void;
   setProgress: (progress: number) => void;
 }) {
-  const { setTimeFrame } = useSchema();
+  const { schema, setTimeFrame } = useSchema();
 
   return (
     <>
@@ -18,8 +19,11 @@ function TimeFrame({
         type="button"
         onClick={() => {
           setTimeFrame("fixed");
-          setActiveStep(SCHEMA_STEPS.USERS_PER_OFFER);
-          setProgress(53.5);
+          const nextStep = SCHEMA_STEPS.USERS_PER_OFFER;
+          setActiveStep(nextStep);
+          setProgress(
+            calculateProgress(SCHEMA_STEPS.TIME_FRAME, nextStep, schema),
+          );
         }}
       >
         Fixed
@@ -29,8 +33,11 @@ function TimeFrame({
         type="button"
         onClick={() => {
           setTimeFrame("flexible");
-          setActiveStep(SCHEMA_STEPS.GRANULARITY);
-          setProgress(45);
+          const nextStep = SCHEMA_STEPS.GRANULARITY;
+          setActiveStep(nextStep);
+          setProgress(
+            calculateProgress(SCHEMA_STEPS.TIME_FRAME, nextStep, schema),
+          );
         }}
       >
         Flexible

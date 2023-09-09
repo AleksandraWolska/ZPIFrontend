@@ -1,5 +1,6 @@
 import { SCHEMA_STEPS, SchemaStep } from "../types";
 import { useSchema } from "../SchemaProvider";
+import { calculateProgress } from "./utils";
 
 function Periodicity({
   setActiveStep,
@@ -17,9 +18,12 @@ function Periodicity({
       <button
         type="button"
         onClick={() => {
-          withdraw(SCHEMA_STEPS.SPECIFIC_SEATS);
-          setActiveStep(SCHEMA_STEPS.SPECIFIC_SEATS);
-          setProgress(schema.usersPerOffer === "one" ? 80 : 87.5);
+          const prevStep = SCHEMA_STEPS.SPECIFIC_SEATS;
+          withdraw(prevStep);
+          setActiveStep(prevStep);
+          setProgress(
+            calculateProgress(SCHEMA_STEPS.PERIODICITY, prevStep, schema),
+          );
         }}
       >
         BACK
