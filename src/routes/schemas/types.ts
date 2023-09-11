@@ -10,6 +10,7 @@ export const SCHEMA_STEPS = {
   PERIODICITY: "PERIODICITY",
   CORE_SUMMARY: "CORE_SUMMARY",
   CUSTOM_PARAMS: "CUSTOM_PARAMS",
+  PRINT_SCHEMA: "PRINT_SCHEMA",
 } as const;
 
 export type SchemaStep = ObjectValues<typeof SCHEMA_STEPS>;

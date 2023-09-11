@@ -48,7 +48,12 @@ function CustomParams({
   };
 
   const saveParams = () => {
-    const filteredParams = params.filter((p) => p.name !== "");
+    const filteredParams = params
+      .filter((p) => p.name !== "")
+      .map((p) => {
+        const { id, ...rest } = p;
+        return rest;
+      });
     setCustomParams(filteredParams);
   };
 
@@ -131,6 +136,15 @@ function CustomParams({
         }}
       >
         Back
+      </Button>
+
+      <Button
+        onClick={() => {
+          saveParams();
+          setActiveStep(SCHEMA_STEPS.PRINT_SCHEMA);
+        }}
+      >
+        Next
       </Button>
     </>
   );
