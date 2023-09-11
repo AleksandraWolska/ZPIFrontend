@@ -25,7 +25,7 @@ function EntityUniqueness({
           withdraw(prevStep);
           setActiveStep(prevStep);
           setProgress(
-            calculateProgress(SCHEMA_STEPS.ENTITY_UNIQUENESS, prevStep, schema),
+            calculateProgress(SCHEMA_STEPS.ENTITY_UNIQUENESS, prevStep),
           );
         }}
       >
@@ -37,6 +37,7 @@ function EntityUniqueness({
         onClick={() => {
           setEntityUniqueness(true);
           setActiveStep(SCHEMA_STEPS.DUMMY);
+          setProgress(100);
         }}
       >
         Yes
@@ -47,6 +48,7 @@ function EntityUniqueness({
         onClick={() => {
           setEntityUniqueness(false);
           setActiveStep(SCHEMA_STEPS.DUMMY);
+          setProgress(100);
         }}
       >
         No

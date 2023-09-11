@@ -24,7 +24,7 @@ function UsersPerOffer({
           withdraw(prevStep);
           setActiveStep(prevStep);
           setProgress(
-            calculateProgress(SCHEMA_STEPS.USERS_PER_OFFER, prevStep, schema),
+            calculateProgress(SCHEMA_STEPS.USERS_PER_OFFER, prevStep),
           );
         }}
       >
@@ -35,10 +35,13 @@ function UsersPerOffer({
         type="button"
         onClick={() => {
           setUsersPerOffer("one");
-          const nextStep = SCHEMA_STEPS.GAP_BETWEEN;
+          const nextStep =
+            schema.timeFrame === "fixed"
+              ? SCHEMA_STEPS.PERIODICITY
+              : SCHEMA_STEPS.GAP_BETWEEN;
           setActiveStep(nextStep);
           setProgress(
-            calculateProgress(SCHEMA_STEPS.USERS_PER_OFFER, nextStep, schema),
+            calculateProgress(SCHEMA_STEPS.USERS_PER_OFFER, nextStep),
           );
         }}
       >
@@ -55,7 +58,7 @@ function UsersPerOffer({
               : SCHEMA_STEPS.ENTITY_UNIQUENESS;
           setActiveStep(nextStep);
           setProgress(
-            calculateProgress(SCHEMA_STEPS.USERS_PER_OFFER, nextStep, schema),
+            calculateProgress(SCHEMA_STEPS.USERS_PER_OFFER, nextStep),
           );
         }}
       >
