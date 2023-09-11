@@ -10,6 +10,7 @@ import SpecificSeats from "./steps/SpecificSeats";
 import Periodicity from "./steps/Periodicity";
 import CoreSummary from "./steps/CoreSummary";
 import CustomParams from "./steps/CustomParams";
+import PrintSchema from "./steps/PrintSchema";
 
 function Stepper() {
   const [activeStep, setActiveStep] = useState<SchemaStep>(
@@ -66,6 +67,8 @@ function Stepper() {
         return <CoreSummary setActiveStep={setActiveStep} />;
       case SCHEMA_STEPS.CUSTOM_PARAMS:
         return <CustomParams setActiveStep={setActiveStep} />;
+      case SCHEMA_STEPS.PRINT_SCHEMA:
+        return <PrintSchema />;
       default:
         return <div>Something went wrong...</div>;
     }
