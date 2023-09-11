@@ -34,7 +34,7 @@ function Periodicity({
         type="button"
         onClick={() => {
           setPeriodicity(true);
-          setActiveStep(SCHEMA_STEPS.DUMMY);
+          setActiveStep(SCHEMA_STEPS.CORE_SUMMARY);
           setProgress(100);
         }}
       >
@@ -45,7 +45,7 @@ function Periodicity({
         type="button"
         onClick={() => {
           setPeriodicity(false);
-          setActiveStep(SCHEMA_STEPS.DUMMY);
+          setActiveStep(SCHEMA_STEPS.CORE_SUMMARY);
           setProgress(100);
         }}
       >

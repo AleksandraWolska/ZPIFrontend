@@ -8,7 +8,8 @@ export const SCHEMA_STEPS = {
   GAP_BETWEEN: "GAP_BETWEEN",
   SPECIFIC_SEATS: "SPECIFIC_SEATS",
   PERIODICITY: "PERIODICITY",
-  DUMMY: "DUMMY",
+  CORE_SUMMARY: "CORE_SUMMARY",
+  CUSTOM_PARAMS: "CUSTOM_PARAMS",
 } as const;
 
 export type SchemaStep = ObjectValues<typeof SCHEMA_STEPS>;
@@ -20,6 +21,12 @@ export type EntityUniqueness = boolean;
 export type GapBetween = boolean;
 export type SpecificSeats = boolean;
 export type Periodicity = boolean;
+export type CustomParam = {
+  name: string;
+  dataType: "string" | "number" | "boolean";
+  isRequired: boolean;
+  isFilterable: boolean;
+};
 
 export type Schema = {
   timeFrame: TimeFrame;
@@ -29,4 +36,5 @@ export type Schema = {
   gapBetween: GapBetween;
   specificSeats: SpecificSeats;
   periodicity: Periodicity;
+  customParams: CustomParam[];
 };

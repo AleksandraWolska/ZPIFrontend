@@ -31,7 +31,7 @@ function SpecificSeats({
         type="button"
         onClick={() => {
           setSpecificSeats(true);
-          const nextStep = SCHEMA_STEPS.DUMMY;
+          const nextStep = SCHEMA_STEPS.CORE_SUMMARY;
           setActiveStep(nextStep);
           setProgress(100);
         }}

@@ -9,6 +9,7 @@ import {
   TimeFrame,
   UsersPerOffer,
   SchemaStep,
+  CustomParam,
 } from "./types";
 import { SCHEMA_ACTION_TYPES, schemaReducer } from "./schemaReducer";
 import { SchemaContext, SchemaContextType } from "./SchemaContext";
@@ -79,6 +80,13 @@ function SchemaProvider({ children }: { children: ReactNode }) {
     });
   };
 
+  const setCustomParams = (customParams: CustomParam[]) => {
+    dispatch({
+      type: SCHEMA_ACTION_TYPES.SET_CUSTOM_PARAMS,
+      payload: customParams,
+    });
+  };
+
   const contextValue = useMemo(
     () => ({
       schema,
@@ -90,6 +98,7 @@ function SchemaProvider({ children }: { children: ReactNode }) {
       setSpecificSeats,
       setPeriodicity,
       withdraw,
+      setCustomParams,
     }),
     [schema],
   );
