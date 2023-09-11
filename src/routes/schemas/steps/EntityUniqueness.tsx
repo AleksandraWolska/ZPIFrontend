@@ -36,7 +36,7 @@ function EntityUniqueness({
         type="button"
         onClick={() => {
           setEntityUniqueness(true);
-          setActiveStep(SCHEMA_STEPS.DUMMY);
+          setActiveStep(SCHEMA_STEPS.CORE_SUMMARY);
           setProgress(100);
         }}
       >
@@ -47,7 +47,7 @@ function EntityUniqueness({
         type="button"
         onClick={() => {
           setEntityUniqueness(false);
-          setActiveStep(SCHEMA_STEPS.DUMMY);
+          setActiveStep(SCHEMA_STEPS.CORE_SUMMARY);
           setProgress(100);
         }}
       >

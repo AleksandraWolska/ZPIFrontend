@@ -5,10 +5,11 @@ import TimeFrame from "./steps/TimeFrame";
 import Granularity from "./steps/Granularity";
 import UsersPerOffer from "./steps/UsersPerOffer";
 import EntityUniqueness from "./steps/EntityUniqueness";
-import SpecificSeats from "./steps/SpecificSeats";
 import GapBetween from "./steps/GapBetween";
-import Dummy from "./steps/Dummy";
+import SpecificSeats from "./steps/SpecificSeats";
 import Periodicity from "./steps/Periodicity";
+import CoreSummary from "./steps/CoreSummary";
+import CustomParams from "./steps/CustomParams";
 
 function Stepper() {
   const [activeStep, setActiveStep] = useState<SchemaStep>(
@@ -61,8 +62,10 @@ function Stepper() {
             setProgress={setProgress}
           />
         );
-      case SCHEMA_STEPS.DUMMY:
-        return <Dummy />;
+      case SCHEMA_STEPS.CORE_SUMMARY:
+        return <CoreSummary setActiveStep={setActiveStep} />;
+      case SCHEMA_STEPS.CUSTOM_PARAMS:
+        return <CustomParams setActiveStep={setActiveStep} />;
       default:
         return <div>Something went wrong...</div>;
     }

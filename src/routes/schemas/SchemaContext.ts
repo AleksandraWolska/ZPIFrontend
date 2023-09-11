@@ -9,6 +9,7 @@ import {
   TimeFrame,
   UsersPerOffer,
   SchemaStep,
+  CustomParam,
 } from "./types";
 
 export type SchemaContextType = {
@@ -21,6 +22,7 @@ export type SchemaContextType = {
   setSpecificSeats: (specificSeats: SpecificSeats) => void;
   setPeriodicity: (periodicity: Periodicity) => void;
   withdraw: (step: SchemaStep) => void;
+  setCustomParams: (customParams: CustomParam[]) => void;
 };
 
 export const SchemaContext = createContext<SchemaContextType | null>(null);
