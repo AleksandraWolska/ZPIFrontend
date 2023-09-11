@@ -9,7 +9,7 @@ function TimeFrame({
   setActiveStep: (step: SchemaStep) => void;
   setProgress: (progress: number) => void;
 }) {
-  const { schema, setTimeFrame } = useSchema();
+  const { setTimeFrame } = useSchema();
 
   return (
     <>
@@ -21,9 +21,7 @@ function TimeFrame({
           setTimeFrame("fixed");
           const nextStep = SCHEMA_STEPS.USERS_PER_OFFER;
           setActiveStep(nextStep);
-          setProgress(
-            calculateProgress(SCHEMA_STEPS.TIME_FRAME, nextStep, schema),
-          );
+          setProgress(calculateProgress(SCHEMA_STEPS.TIME_FRAME, nextStep));
         }}
       >
         Fixed
@@ -35,9 +33,7 @@ function TimeFrame({
           setTimeFrame("flexible");
           const nextStep = SCHEMA_STEPS.GRANULARITY;
           setActiveStep(nextStep);
-          setProgress(
-            calculateProgress(SCHEMA_STEPS.TIME_FRAME, nextStep, schema),
-          );
+          setProgress(calculateProgress(SCHEMA_STEPS.TIME_FRAME, nextStep));
         }}
       >
         Flexible

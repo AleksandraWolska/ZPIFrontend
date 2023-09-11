@@ -18,12 +18,13 @@ function Periodicity({
       <button
         type="button"
         onClick={() => {
-          const prevStep = SCHEMA_STEPS.SPECIFIC_SEATS;
+          const prevStep =
+            schema.usersPerOffer === "one"
+              ? SCHEMA_STEPS.USERS_PER_OFFER
+              : SCHEMA_STEPS.SPECIFIC_SEATS;
           withdraw(prevStep);
           setActiveStep(prevStep);
-          setProgress(
-            calculateProgress(SCHEMA_STEPS.PERIODICITY, prevStep, schema),
-          );
+          setProgress(calculateProgress(SCHEMA_STEPS.PERIODICITY, prevStep));
         }}
       >
         BACK
@@ -34,6 +35,7 @@ function Periodicity({
         onClick={() => {
           setPeriodicity(true);
           setActiveStep(SCHEMA_STEPS.DUMMY);
+          setProgress(100);
         }}
       >
         Yes
@@ -44,6 +46,7 @@ function Periodicity({
         onClick={() => {
           setPeriodicity(false);
           setActiveStep(SCHEMA_STEPS.DUMMY);
+          setProgress(100);
         }}
       >
         No

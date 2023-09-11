@@ -9,7 +9,7 @@ function SpecificSeats({
   setActiveStep: (step: SchemaStep) => void;
   setProgress: (progress: number) => void;
 }) {
-  const { schema, setSpecificSeats, withdraw } = useSchema();
+  const { setSpecificSeats, withdraw } = useSchema();
 
   return (
     <>
@@ -18,15 +18,10 @@ function SpecificSeats({
       <button
         type="button"
         onClick={() => {
-          const prevStep =
-            schema.usersPerOffer === "one"
-              ? SCHEMA_STEPS.GAP_BETWEEN
-              : SCHEMA_STEPS.USERS_PER_OFFER;
+          const prevStep = SCHEMA_STEPS.USERS_PER_OFFER;
           withdraw(prevStep);
           setActiveStep(prevStep);
-          setProgress(
-            calculateProgress(SCHEMA_STEPS.SPECIFIC_SEATS, prevStep, schema),
-          );
+          setProgress(calculateProgress(SCHEMA_STEPS.SPECIFIC_SEATS, prevStep));
         }}
       >
         BACK
@@ -36,14 +31,9 @@ function SpecificSeats({
         type="button"
         onClick={() => {
           setSpecificSeats(true);
-          const nextStep =
-            schema.usersPerOffer === "one"
-              ? SCHEMA_STEPS.PERIODICITY
-              : SCHEMA_STEPS.DUMMY;
+          const nextStep = SCHEMA_STEPS.DUMMY;
           setActiveStep(nextStep);
-          setProgress(
-            calculateProgress(SCHEMA_STEPS.SPECIFIC_SEATS, nextStep, schema),
-          );
+          setProgress(100);
         }}
       >
         Yes
@@ -55,9 +45,7 @@ function SpecificSeats({
           setSpecificSeats(false);
           const nextStep = SCHEMA_STEPS.PERIODICITY;
           setActiveStep(nextStep);
-          setProgress(
-            calculateProgress(SCHEMA_STEPS.SPECIFIC_SEATS, nextStep, schema),
-          );
+          setProgress(calculateProgress(SCHEMA_STEPS.SPECIFIC_SEATS, nextStep));
         }}
       >
         No

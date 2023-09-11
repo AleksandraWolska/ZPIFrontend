@@ -9,7 +9,7 @@ function Granularity({
   setActiveStep: (step: SchemaStep) => void;
   setProgress: (progress: number) => void;
 }) {
-  const { schema, setGranularity, withdraw } = useSchema();
+  const { setGranularity, withdraw } = useSchema();
 
   return (
     <>
@@ -21,9 +21,7 @@ function Granularity({
           const prevStep = SCHEMA_STEPS.TIME_FRAME;
           withdraw(prevStep);
           setActiveStep(prevStep);
-          setProgress(
-            calculateProgress(SCHEMA_STEPS.GRANULARITY, prevStep, schema),
-          );
+          setProgress(calculateProgress(SCHEMA_STEPS.GRANULARITY, prevStep));
         }}
       >
         BACK
@@ -35,9 +33,7 @@ function Granularity({
           setGranularity("granular");
           const nextStep = SCHEMA_STEPS.USERS_PER_OFFER;
           setActiveStep(nextStep);
-          setProgress(
-            calculateProgress(SCHEMA_STEPS.GRANULARITY, nextStep, schema),
-          );
+          setProgress(calculateProgress(SCHEMA_STEPS.GRANULARITY, nextStep));
         }}
       >
         Granular
@@ -49,9 +45,7 @@ function Granularity({
           setGranularity("continuous");
           const nextStep = SCHEMA_STEPS.USERS_PER_OFFER;
           setActiveStep(nextStep);
-          setProgress(
-            calculateProgress(SCHEMA_STEPS.GRANULARITY, nextStep, schema),
-          );
+          setProgress(calculateProgress(SCHEMA_STEPS.GRANULARITY, nextStep));
         }}
       >
         Continuous
