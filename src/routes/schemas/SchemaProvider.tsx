@@ -10,6 +10,10 @@ const initialSchema: Schema = {
     allowRating: false,
     showRating: false,
   },
+  commentsOptions: {
+    allowComments: false,
+    showComments: false,
+  },
 };
 
 function SchemaProvider({ children }: { children: ReactNode }) {
@@ -98,6 +102,15 @@ function SchemaProvider({ children }: { children: ReactNode }) {
     });
   };
 
+  const setCommentsOptions = (
+    commentsOptions: Partial<Schema["commentsOptions"]>,
+  ) => {
+    dispatch({
+      type: SCHEMA_ACTION_TYPES.SET_COMMENTS_OPTIONS,
+      payload: commentsOptions,
+    });
+  };
+
   const contextValue = useMemo(
     () => ({
       schema,
@@ -111,6 +124,7 @@ function SchemaProvider({ children }: { children: ReactNode }) {
       withdrawMechanics,
       setCustomParams,
       setRatingOptions,
+      setCommentsOptions,
     }),
     [schema],
   );

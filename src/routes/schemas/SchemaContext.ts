@@ -19,6 +19,9 @@ export type SchemaContextType = {
   withdrawMechanics: (step: SchemaStep) => void;
   setCustomParams: (customParams: Schema["customParams"]) => void;
   setRatingOptions: (ratingOptions: Partial<Schema["ratingOptions"]>) => void;
+  setCommentsOptions: (
+    commentsOptions: Partial<Schema["commentsOptions"]>,
+  ) => void;
 };
 
 export const SchemaContext = createContext<SchemaContextType | null>(null);
