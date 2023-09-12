@@ -9,7 +9,7 @@ function Granularity({
   setActiveStep: (step: SchemaStep) => void;
   setProgress: (progress: number) => void;
 }) {
-  const { setGranularity, withdraw } = useSchema();
+  const { setGranularity, withdrawMechanics } = useSchema();
 
   return (
     <>
@@ -19,7 +19,7 @@ function Granularity({
         type="button"
         onClick={() => {
           const prevStep = SCHEMA_STEPS.TIME_FRAME;
-          withdraw(prevStep);
+          withdrawMechanics(prevStep);
           setActiveStep(prevStep);
           setProgress(calculateProgress(SCHEMA_STEPS.GRANULARITY, prevStep));
         }}
