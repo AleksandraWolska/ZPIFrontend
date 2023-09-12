@@ -9,6 +9,7 @@ export const jsonString = `
       "cyclicity": true,
       "specific_reservation": false
     },
+
     "userapp_layout_config": {
       "comapany_name": "Tech Corp",
       "welcome_text_line1": "Welcome to our platform!",
