@@ -1,20 +1,16 @@
 import { ReactNode, useContext, useEffect, useMemo, useReducer } from "react";
-import {
-  Periodicity,
-  EntityUniqueness,
-  GapBetween,
-  Granularity,
-  Schema,
-  SpecificSeats,
-  TimeFrame,
-  UsersPerOffer,
-  SchemaStep,
-  CustomParam,
-} from "./types";
+import { Schema, SchemaStep } from "./types";
 import { SCHEMA_ACTION_TYPES, schemaReducer } from "./schemaReducer";
 import { SchemaContext, SchemaContextType } from "./SchemaContext";
 
-const initialSchema: Partial<Schema> = {};
+const initialSchema: Schema = {
+  mechanics: {},
+  customParams: [],
+  ratingOptions: {
+    allowRating: false,
+    showRating: false,
+  },
+};
 
 function SchemaProvider({ children }: { children: ReactNode }) {
   const [schema, dispatch] = useReducer(schemaReducer, initialSchema);
@@ -24,66 +20,79 @@ function SchemaProvider({ children }: { children: ReactNode }) {
     console.log("SCHEMA", schema);
   }, [schema]);
 
-  const setTimeFrame = (timeFrame: TimeFrame) => {
+  const setTimeFrame = (timeFrame: Schema["mechanics"]["timeFrame"]) => {
     dispatch({
-      type: SCHEMA_ACTION_TYPES.APPEND_TO_SCHEMA,
+      type: SCHEMA_ACTION_TYPES.APPEND_TO_MECHANICS,
       payload: { timeFrame },
     });
   };
 
-  const setGranularity = (granularity: Granularity) => {
+  const setGranularity = (granularity: Schema["mechanics"]["granularity"]) => {
     dispatch({
-      type: SCHEMA_ACTION_TYPES.APPEND_TO_SCHEMA,
+      type: SCHEMA_ACTION_TYPES.APPEND_TO_MECHANICS,
       payload: { granularity },
     });
   };
 
-  const setUsersPerOffer = (usersPerOffer: UsersPerOffer) => {
+  const setUsersPerOffer = (
+    usersPerOffer: Schema["mechanics"]["usersPerOffer"],
+  ) => {
     dispatch({
-      type: SCHEMA_ACTION_TYPES.APPEND_TO_SCHEMA,
+      type: SCHEMA_ACTION_TYPES.APPEND_TO_MECHANICS,
       payload: { usersPerOffer },
     });
   };
 
-  const setEntityUniqueness = (entityUniqueness: EntityUniqueness) => {
+  const setEntityUniqueness = (
+    entityUniqueness: Schema["mechanics"]["entityUniqueness"],
+  ) => {
     dispatch({
-      type: SCHEMA_ACTION_TYPES.APPEND_TO_SCHEMA,
+      type: SCHEMA_ACTION_TYPES.APPEND_TO_MECHANICS,
       payload: { entityUniqueness },
     });
   };
 
-  const setGapBetween = (gapBetween: GapBetween) => {
+  const setGapBetween = (gapBetween: Schema["mechanics"]["gapBetween"]) => {
     dispatch({
-      type: SCHEMA_ACTION_TYPES.APPEND_TO_SCHEMA,
+      type: SCHEMA_ACTION_TYPES.APPEND_TO_MECHANICS,
       payload: { gapBetween },
     });
   };
 
-  const setSpecificSeats = (specificSeats: SpecificSeats) => {
+  const setSpecificSeats = (
+    specificSeats: Schema["mechanics"]["specificSeats"],
+  ) => {
     dispatch({
-      type: SCHEMA_ACTION_TYPES.APPEND_TO_SCHEMA,
+      type: SCHEMA_ACTION_TYPES.APPEND_TO_MECHANICS,
       payload: { specificSeats },
     });
   };
 
-  const setPeriodicity = (periodicity: Periodicity) => {
+  const setPeriodicity = (periodicity: Schema["mechanics"]["periodicity"]) => {
     dispatch({
-      type: SCHEMA_ACTION_TYPES.APPEND_TO_SCHEMA,
+      type: SCHEMA_ACTION_TYPES.APPEND_TO_MECHANICS,
       payload: { periodicity },
     });
   };
 
-  const withdraw = (step: SchemaStep) => {
+  const withdrawMechanics = (step: SchemaStep) => {
     dispatch({
-      type: SCHEMA_ACTION_TYPES.WITHDRAW,
+      type: SCHEMA_ACTION_TYPES.WITHDRAW_MECHANICS,
       payload: step,
     });
   };
 
-  const setCustomParams = (customParams: CustomParam[]) => {
+  const setCustomParams = (customParams: Schema["customParams"]) => {
     dispatch({
       type: SCHEMA_ACTION_TYPES.SET_CUSTOM_PARAMS,
       payload: customParams,
+    });
+  };
+
+  const setRatingOptions = (ratingOptions: Schema["ratingOptions"]) => {
+    dispatch({
+      type: SCHEMA_ACTION_TYPES.SET_RATING_OPTIONS,
+      payload: ratingOptions,
     });
   };
 
@@ -97,8 +106,9 @@ function SchemaProvider({ children }: { children: ReactNode }) {
       setGapBetween,
       setSpecificSeats,
       setPeriodicity,
-      withdraw,
+      withdrawMechanics,
       setCustomParams,
+      setRatingOptions,
     }),
     [schema],
   );

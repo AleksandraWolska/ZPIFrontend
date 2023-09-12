@@ -1,28 +1,24 @@
 import { createContext } from "react";
-import {
-  Periodicity,
-  EntityUniqueness,
-  GapBetween,
-  Granularity,
-  Schema,
-  SpecificSeats,
-  TimeFrame,
-  UsersPerOffer,
-  SchemaStep,
-  CustomParam,
-} from "./types";
+import { Schema, SchemaStep } from "./types";
 
 export type SchemaContextType = {
-  schema: Partial<Schema>;
-  setTimeFrame: (timeFrame: TimeFrame) => void;
-  setGranularity: (granularity: Granularity) => void;
-  setUsersPerOffer: (usersPerOffer: UsersPerOffer) => void;
-  setEntityUniqueness: (entityUniqueness: EntityUniqueness) => void;
-  setGapBetween: (gapBetween: GapBetween) => void;
-  setSpecificSeats: (specificSeats: SpecificSeats) => void;
-  setPeriodicity: (periodicity: Periodicity) => void;
-  withdraw: (step: SchemaStep) => void;
-  setCustomParams: (customParams: CustomParam[]) => void;
+  schema: Schema;
+  setTimeFrame: (timeFrame: Schema["mechanics"]["timeFrame"]) => void;
+  setGranularity: (granularity: Schema["mechanics"]["granularity"]) => void;
+  setUsersPerOffer: (
+    usersPerOffer: Schema["mechanics"]["usersPerOffer"],
+  ) => void;
+  setEntityUniqueness: (
+    entityUniqueness: Schema["mechanics"]["entityUniqueness"],
+  ) => void;
+  setGapBetween: (gapBetween: Schema["mechanics"]["gapBetween"]) => void;
+  setSpecificSeats: (
+    specificSeats: Schema["mechanics"]["specificSeats"],
+  ) => void;
+  setPeriodicity: (periodicity: Schema["mechanics"]["periodicity"]) => void;
+  withdrawMechanics: (step: SchemaStep) => void;
+  setCustomParams: (customParams: Schema["customParams"]) => void;
+  setRatingOptions: (ratingOptions: Schema["ratingOptions"]) => void;
 };
 
 export const SchemaContext = createContext<SchemaContextType | null>(null);

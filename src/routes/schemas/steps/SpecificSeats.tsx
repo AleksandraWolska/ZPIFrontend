@@ -9,7 +9,7 @@ function SpecificSeats({
   setActiveStep: (step: SchemaStep) => void;
   setProgress: (progress: number) => void;
 }) {
-  const { setSpecificSeats, withdraw } = useSchema();
+  const { setSpecificSeats, withdrawMechanics } = useSchema();
 
   return (
     <>
@@ -19,7 +19,7 @@ function SpecificSeats({
         type="button"
         onClick={() => {
           const prevStep = SCHEMA_STEPS.USERS_PER_OFFER;
-          withdraw(prevStep);
+          withdrawMechanics(prevStep);
           setActiveStep(prevStep);
           setProgress(calculateProgress(SCHEMA_STEPS.SPECIFIC_SEATS, prevStep));
         }}

@@ -9,7 +9,7 @@ function EntityUniqueness({
   setActiveStep: (step: SchemaStep) => void;
   setProgress: (progress: number) => void;
 }) {
-  const { schema, setEntityUniqueness, withdraw } = useSchema();
+  const { schema, setEntityUniqueness, withdrawMechanics } = useSchema();
 
   return (
     <>
@@ -19,10 +19,10 @@ function EntityUniqueness({
         type="button"
         onClick={() => {
           const prevStep =
-            schema.usersPerOffer === "one"
+            schema.mechanics.usersPerOffer === "one"
               ? SCHEMA_STEPS.GAP_BETWEEN
               : SCHEMA_STEPS.USERS_PER_OFFER;
-          withdraw(prevStep);
+          withdrawMechanics(prevStep);
           setActiveStep(prevStep);
           setProgress(
             calculateProgress(SCHEMA_STEPS.ENTITY_UNIQUENESS, prevStep),

@@ -22,20 +22,29 @@ export type EntityUniqueness = boolean;
 export type GapBetween = boolean;
 export type SpecificSeats = boolean;
 export type Periodicity = boolean;
+export type Mechanics = {
+  timeFrame?: TimeFrame;
+  granularity?: Granularity;
+  usersPerOffer?: UsersPerOffer;
+  entityUniqueness?: EntityUniqueness;
+  gapBetween?: GapBetween;
+  specificSeats?: SpecificSeats;
+  periodicity?: Periodicity;
+};
+
 export type CustomParam = {
   name: string;
   dataType: "string" | "number" | "boolean";
   isRequired: boolean;
   isFilterable: boolean;
 };
+export type RatingOptions = {
+  allowRating: boolean;
+  showRating: boolean;
+};
 
 export type Schema = {
-  timeFrame: TimeFrame;
-  granularity: Granularity;
-  usersPerOffer: UsersPerOffer;
-  entityUniqueness: EntityUniqueness;
-  gapBetween: GapBetween;
-  specificSeats: SpecificSeats;
-  periodicity: Periodicity;
+  mechanics: Mechanics;
   customParams: CustomParam[];
+  ratingOptions: RatingOptions;
 };

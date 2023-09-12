@@ -9,7 +9,7 @@ function UsersPerOffer({
   setActiveStep: (step: SchemaStep) => void;
   setProgress: (progress: number) => void;
 }) {
-  const { schema, setUsersPerOffer, withdraw } = useSchema();
+  const { schema, setUsersPerOffer, withdrawMechanics } = useSchema();
 
   return (
     <>
@@ -18,10 +18,10 @@ function UsersPerOffer({
       <button
         type="button"
         onClick={() => {
-          const prevStep = schema.granularity
+          const prevStep = schema.mechanics.granularity
             ? SCHEMA_STEPS.GRANULARITY
             : SCHEMA_STEPS.TIME_FRAME;
-          withdraw(prevStep);
+          withdrawMechanics(prevStep);
           setActiveStep(prevStep);
           setProgress(
             calculateProgress(SCHEMA_STEPS.USERS_PER_OFFER, prevStep),
@@ -36,7 +36,7 @@ function UsersPerOffer({
         onClick={() => {
           setUsersPerOffer("one");
           const nextStep =
-            schema.timeFrame === "fixed"
+            schema.mechanics.timeFrame === "fixed"
               ? SCHEMA_STEPS.PERIODICITY
               : SCHEMA_STEPS.GAP_BETWEEN;
           setActiveStep(nextStep);
@@ -53,7 +53,7 @@ function UsersPerOffer({
         onClick={() => {
           setUsersPerOffer("many");
           const nextStep =
-            schema.timeFrame === "fixed"
+            schema.mechanics.timeFrame === "fixed"
               ? SCHEMA_STEPS.SPECIFIC_SEATS
               : SCHEMA_STEPS.ENTITY_UNIQUENESS;
           setActiveStep(nextStep);

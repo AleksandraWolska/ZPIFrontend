@@ -9,7 +9,7 @@ function GapBetween({
   setActiveStep: (step: SchemaStep) => void;
   setProgress: (progress: number) => void;
 }) {
-  const { setGapBetween, withdraw } = useSchema();
+  const { setGapBetween, withdrawMechanics } = useSchema();
 
   return (
     <>
@@ -19,7 +19,7 @@ function GapBetween({
         type="button"
         onClick={() => {
           const prevStep = SCHEMA_STEPS.USERS_PER_OFFER;
-          withdraw(prevStep);
+          withdrawMechanics(prevStep);
           setActiveStep(prevStep);
           setProgress(calculateProgress(SCHEMA_STEPS.GAP_BETWEEN, prevStep));
         }}

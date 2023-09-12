@@ -6,7 +6,7 @@ function CoreSummary({
 }: {
   setActiveStep: (step: SchemaStep) => void;
 }) {
-  const { schema, withdraw } = useSchema();
+  const { schema, withdrawMechanics } = useSchema();
 
   return (
     <>
@@ -18,12 +18,12 @@ function CoreSummary({
         type="button"
         onClick={() => {
           const prevStep =
-            schema.periodicity !== undefined
+            schema.mechanics.periodicity !== undefined
               ? SCHEMA_STEPS.PERIODICITY
-              : schema.specificSeats !== undefined
+              : schema.mechanics.specificSeats !== undefined
               ? SCHEMA_STEPS.SPECIFIC_SEATS
               : SCHEMA_STEPS.ENTITY_UNIQUENESS;
-          withdraw(prevStep);
+          withdrawMechanics(prevStep);
           setActiveStep(prevStep);
         }}
       >
