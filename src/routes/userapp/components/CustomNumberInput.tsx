@@ -1,11 +1,15 @@
 import * as React from "react";
 import {
   Unstable_NumberInput as NumberInput,
-  NumberInputProps,
+  NumberInputProps as BaseNumberInputProps,
 } from "@mui/base/Unstable_NumberInput";
 import { styled } from "@mui/system";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
+
+interface NumberInputProps extends BaseNumberInputProps {
+  disabled: boolean;
+}
 
 const CustomNumberInput = React.forwardRef(function CustomNumberInput(
   props: NumberInputProps,
@@ -23,9 +27,11 @@ const CustomNumberInput = React.forwardRef(function CustomNumberInput(
         incrementButton: {
           children: <AddIcon />,
           className: "increment",
+          disabled: props.disabled,
         },
         decrementButton: {
           children: <RemoveIcon />,
+          disabled: props.disabled,
         },
       }}
       {...props}
@@ -37,11 +43,13 @@ const CustomNumberInput = React.forwardRef(function CustomNumberInput(
 interface QuantityInputProps {
   onUserCountChange: (value: number) => void;
   value: number;
+  disabled: boolean;
 }
 
 export default function QuantityInput({
   onUserCountChange,
   value = 1,
+  disabled = false,
 }: QuantityInputProps) {
   return (
     <CustomNumberInput
@@ -49,6 +57,7 @@ export default function QuantityInput({
       min={1}
       max={99}
       value={value}
+      disabled={disabled}
       onChange={(event, val) => {
         if (typeof onUserCountChange === "function") {
           onUserCountChange(val === undefined ? 1 : val);
@@ -96,7 +105,7 @@ const StyledInputRoot = styled("div")(
 );
 
 const StyledInput = styled("input")(
-  ({ theme }) => `
+  ({ theme, disabled }) => `
   font-size: 0.875rem;
   font-family: inherit;
   font-weight: 400;
@@ -126,11 +135,18 @@ const StyledInput = styled("input")(
   &:focus-visible {
     outline: 0;
   }
+  opacity: ${disabled ? "0.5" : "1"};
+  cursor: ${disabled ? "not-allowed" : "initial"};
+  pointer-events: ${disabled ? "none" : "auto"};
+
+  &:hover {
+    border-color: ${disabled ? "initial" : blue[400]};
+  }
 `,
 );
 
 const StyledButton = styled("button")(
-  ({ theme }) => `
+  ({ theme, disabled }) => `
   font-family: IBM Plex Sans, sans-serif;
   font-size: 0.875rem;
   box-sizing: border-box;
@@ -160,6 +176,17 @@ const StyledButton = styled("button")(
 
   &.increment {
     order: 1;
+  }
+  opacity: ${disabled ? "0.5" : "1"};
+  cursor: ${disabled ? "not-allowed" : "pointer"};
+  pointer-events: ${disabled ? "none" : "auto"};
+
+  &:hover {
+    background: ${
+      disabled
+        ? "initial"
+        : (theme.palette.mode === "dark" && blue[800]) || blue[100]
+    };
   }
 `,
 );

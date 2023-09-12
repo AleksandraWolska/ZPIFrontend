@@ -1,6 +1,5 @@
 /* eslint-disable no-lonely-if */
 import { useState } from "react";
-import { AddCircle, RemoveCircle } from "@mui/icons-material";
 import {
   Box,
   Typography,
@@ -31,31 +30,8 @@ function UserAppInstance() {
   const b: UserAppBuilderConfig = jsonData.userapp_builder_config;
   const { items } = jsonData.fetched_data;
 
-  const basicActionButtons = (
-    <Box>
-      <Box marginTop={2}>
-        <Button
-          style={{ marginLeft: "10px" }}
-          variant="contained"
-          onClick={() => setSelectedItem(null)}
-        >
-          Back
-        </Button>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => setShowSuccessDialog(true)}
-        >
-          Submit
-        </Button>
-      </Box>
-    </Box>
-  );
-
   const [selectedItem, setSelectedItem] = useState<Item | null>(null);
-
   const [showSuccessDialog, setShowSuccessDialog] = useState(false);
-
   const [showUserAmountChoice, setShowUserAmountChoice] = useState(false);
   const [showFreeRangesUserInput, setShowFreeRangesUserInput] = useState(false);
   const [showCheckAvailabilityUserInput, setShowCheckAvailabilityUserInput] =
@@ -129,17 +105,15 @@ function UserAppInstance() {
     setUserCount(newValue || 1);
   };
 
-  const userAmountChoice = showUserAmountChoice &&
-    showSubItemsList === selectedSubItemsList.length > 0 && (
-      <Box>
-        <QuantityInput
-          value={userCount}
-          onUserCountChange={(value: number) =>
-            handleUserCountInputChange(value)
-          }
-        />
-      </Box>
-    );
+  const userAmountChoice = showUserAmountChoice && (
+    <Box>
+      <QuantityInput
+        disabled={showSubItemsList && selectedSubItemsList.length === 0}
+        value={userCount}
+        onUserCountChange={(value: number) => handleUserCountInputChange(value)}
+      />
+    </Box>
+  );
   // =================================================================================== SHOW FREE RANGES USER INPUT
   // simultaneousness=true, uniqueness=true, flexibility=true
   // simultaneousness=false, uniqueness=true, flexibility=true
@@ -168,6 +142,11 @@ function UserAppInstance() {
         return b.core_config.cyclicity ? [subItem] : [...prev, subItem];
       });
     }
+    setReservationRequestReady(
+      !b.core_config.cyclicity ||
+        !subItem.available_amount ||
+        subItem.available_amount > userCount,
+    );
   };
 
   const subItemsList = selectedItem && showSubItemsList && (
@@ -211,6 +190,7 @@ function UserAppInstance() {
         <Button
           variant="contained"
           color="primary"
+          disabled={!reservationRequestReady}
           onClick={() => setShowSuccessDialog(true)}
         >
           Submit
@@ -218,7 +198,6 @@ function UserAppInstance() {
         <Button
           style={{ marginLeft: "10px" }}
           variant="contained"
-          disabled={!reservationRequestReady}
           onClick={() => setSelectedItem(null)}
         >
           Back
@@ -229,10 +208,10 @@ function UserAppInstance() {
 
   const core = (
     <Box>
-      {userAmountChoice}
       {freeRangesUserInput}
       {checkAvailabilityUserInput}
       {subItemsList}
+      {userAmountChoice}
       {buttons}
     </Box>
   );
@@ -246,47 +225,39 @@ function UserAppInstance() {
       {selectedItem.description && (
         <Typography variant="body2">{selectedItem.description}</Typography>
       )}
+      {b.item_layout_config.mark_second_screen && selectedItem.mark && (
+        <Ratings mark={selectedItem.mark} />
+      )}
       {core}
+      <Dialog
+        open={showSuccessDialog}
+        onClose={() => setShowSuccessDialog(false)}
+      >
+        <DialogTitle>Successful</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            You have selected:{" "}
+            {selectedSubItemsList.map((item) => item.title).join(", ")}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={() => {
+              setShowSuccessDialog(false);
+              setSelectedItem(null);
+              setSelectedSubItemsList([]); // Reset the selected items
+            }}
+            color="primary"
+          >
+            OK
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 
   if (selectedItem) {
-    return (
-      <Box padding={3}>
-        {secondScreen}
-        <Divider style={{ margin: "20px 0" }} />
-        <Typography variant="body1" color="orange">
-          User can choose multiple elements from list.
-        </Typography>
-        <Typography variant="h6">{selectedItem.title}</Typography>
-        <Typography variant="h5">{selectedItem.subtitle}</Typography>
-
-        <Dialog
-          open={showSuccessDialog}
-          onClose={() => setShowSuccessDialog(false)}
-        >
-          <DialogTitle>Successful</DialogTitle>
-          <DialogContent>
-            <DialogContentText>
-              You have selected:{" "}
-              {selectedSubItemsList.map((item) => item.title).join(", ")}
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button
-              onClick={() => {
-                setShowSuccessDialog(false);
-                setSelectedItem(null);
-                setSelectedSubItemsList([]); // Reset the selected items
-              }}
-              color="primary"
-            >
-              OK
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </Box>
-    );
+    return <Box padding={3}>{secondScreen}</Box>;
   }
 
   const itemsList = (
@@ -326,8 +297,8 @@ function UserAppInstance() {
     <Box>
       <Box padding={3}>
         {welcomeTexts}
-        <Divider style={{ margin: "20px 0" }} />
         {itemsList}
+        <Divider style={{ margin: "20px 0" }} />
       </Box>
     </Box>
   );
