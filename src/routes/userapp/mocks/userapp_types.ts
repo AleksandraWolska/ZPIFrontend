@@ -79,9 +79,8 @@ export type Item = {
   description?: string;
   parameters?: Parameter[];
   subitem_list?: SubItem[];
-  free_amount?: number;
   mark?: number;
-  availableAmount?: number;
+  available_amount?: number;
   image?: string;
 };
 
