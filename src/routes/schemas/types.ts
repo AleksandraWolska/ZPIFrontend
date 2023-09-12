@@ -10,7 +10,7 @@ export const SCHEMA_STEPS = {
   PERIODICITY: "PERIODICITY",
   CORE_SUMMARY: "CORE_SUMMARY",
   CUSTOM_PARAMS: "CUSTOM_PARAMS",
-  RATING_AND_COMMENTING: "RATING_AND_COMMENTING",
+  RATING_AND_COMMENTS: "RATING_AND_COMMENTS",
   PRINT_SCHEMA: "PRINT_SCHEMA",
 } as const;
 
@@ -43,9 +43,14 @@ export type RatingOptions = {
   allowRating: boolean;
   showRating: boolean;
 };
+export type CommentsOptions = {
+  allowComments: boolean;
+  showComments: boolean;
+};
 
 export type Schema = {
   mechanics: Mechanics;
   customParams: CustomParam[];
   ratingOptions: RatingOptions;
+  commentsOptions: CommentsOptions;
 };

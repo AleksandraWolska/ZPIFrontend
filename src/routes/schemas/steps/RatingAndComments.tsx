@@ -1,17 +1,23 @@
-import { Button, Checkbox, FormControlLabel, FormGroup } from "@mui/material";
+import {
+  Button,
+  Checkbox,
+  Divider,
+  FormControlLabel,
+  FormGroup,
+} from "@mui/material";
 import { useSchema } from "../SchemaProvider";
 import { SCHEMA_STEPS, SchemaStep } from "../types";
 
-function RatingAndCommenting({
+function RatingAndComments({
   setActiveStep,
 }: {
   setActiveStep: (step: SchemaStep) => void;
 }) {
-  const { schema, setRatingOptions } = useSchema();
+  const { schema, setRatingOptions, setCommentsOptions } = useSchema();
 
   return (
     <>
-      <FormGroup>
+      <FormGroup row>
         <FormControlLabel
           control={
             <Checkbox
@@ -39,6 +45,36 @@ function RatingAndCommenting({
         )}
       </FormGroup>
 
+      <Divider />
+
+      <FormGroup row>
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={schema.commentsOptions.allowComments}
+              onChange={(e) => {
+                setCommentsOptions({ allowComments: e.target.checked });
+              }}
+            />
+          }
+          label="allowComments"
+        />
+
+        {schema.commentsOptions.allowComments && (
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={schema.commentsOptions.showComments}
+                onChange={(e) => {
+                  setCommentsOptions({ showComments: e.target.checked });
+                }}
+              />
+            }
+            label="showComments"
+          />
+        )}
+      </FormGroup>
+
       <Button
         onClick={() => {
           setActiveStep(SCHEMA_STEPS.CUSTOM_PARAMS);
@@ -58,4 +94,4 @@ function RatingAndCommenting({
   );
 }
 
-export default RatingAndCommenting;
+export default RatingAndComments;

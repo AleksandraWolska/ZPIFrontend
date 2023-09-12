@@ -5,6 +5,7 @@ export const SCHEMA_ACTION_TYPES = {
   WITHDRAW_MECHANICS: "WITHDRAW_MECHANICS",
   SET_CUSTOM_PARAMS: "SET_CUSTOM_PARAMS",
   SET_RATING_OPTIONS: "SET_RATING_OPTIONS",
+  SET_COMMENTS_OPTIONS: "SET_COMMENTS_OPTIONS",
 } as const;
 
 type AppendToMechanicsAction = {
@@ -27,11 +28,17 @@ type SetRatingOptionsAction = {
   payload: Partial<Schema["ratingOptions"]>;
 };
 
+type SetCommentsOptionsAction = {
+  type: typeof SCHEMA_ACTION_TYPES.SET_COMMENTS_OPTIONS;
+  payload: Partial<Schema["commentsOptions"]>;
+};
+
 type SchemaAction =
   | AppendToMechanicsAction
   | WithdrawMechanicsAction
   | SetCustomParamsAction
-  | SetRatingOptionsAction;
+  | SetRatingOptionsAction
+  | SetCommentsOptionsAction;
 
 export function schemaReducer(schema: Schema, action: SchemaAction): Schema {
   switch (action.type) {
@@ -57,6 +64,17 @@ export function schemaReducer(schema: Schema, action: SchemaAction): Schema {
                 showRating: false,
               }
             : { ...schema.ratingOptions, ...action.payload },
+      };
+    case SCHEMA_ACTION_TYPES.SET_COMMENTS_OPTIONS:
+      return {
+        ...schema,
+        commentsOptions:
+          action.payload.allowComments === false
+            ? {
+                allowComments: false,
+                showComments: false,
+              }
+            : { ...schema.commentsOptions, ...action.payload },
       };
     default:
       throw Error("Unknown reducer action!");
