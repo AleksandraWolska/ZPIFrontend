@@ -141,7 +141,7 @@ function CustomParams({
       <Button
         onClick={() => {
           saveParams();
-          setActiveStep(SCHEMA_STEPS.PRINT_SCHEMA);
+          setActiveStep(SCHEMA_STEPS.RATING_AND_COMMENTING);
         }}
       >
         Next
