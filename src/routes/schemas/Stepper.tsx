@@ -11,6 +11,7 @@ import Periodicity from "./steps/Periodicity";
 import CoreSummary from "./steps/CoreSummary";
 import CustomParams from "./steps/CustomParams";
 import PrintSchema from "./steps/PrintSchema";
+import RatingAndCommenting from "./steps/RatingAndCommenting";
 
 function Stepper() {
   const [activeStep, setActiveStep] = useState<SchemaStep>(
@@ -67,6 +68,8 @@ function Stepper() {
         return <CoreSummary setActiveStep={setActiveStep} />;
       case SCHEMA_STEPS.CUSTOM_PARAMS:
         return <CustomParams setActiveStep={setActiveStep} />;
+      case SCHEMA_STEPS.RATING_AND_COMMENTING:
+        return <RatingAndCommenting setActiveStep={setActiveStep} />;
       case SCHEMA_STEPS.PRINT_SCHEMA:
         return <PrintSchema />;
       default:

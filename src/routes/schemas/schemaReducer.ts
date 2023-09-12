@@ -1,11 +1,4 @@
-import {
-  Schema,
-  SchemaStep,
-  SCHEMA_STEPS,
-  CustomParam,
-  RatingOptions,
-  Mechanics,
-} from "./types";
+import { Schema, SchemaStep, SCHEMA_STEPS } from "./types";
 
 export const SCHEMA_ACTION_TYPES = {
   APPEND_TO_MECHANICS: "APPEND_TO_MECHANICS",
@@ -16,7 +9,7 @@ export const SCHEMA_ACTION_TYPES = {
 
 type AppendToMechanicsAction = {
   type: typeof SCHEMA_ACTION_TYPES.APPEND_TO_MECHANICS;
-  payload: Mechanics;
+  payload: Schema["mechanics"];
 };
 
 type WithdrawMechanicsAction = {
@@ -26,12 +19,12 @@ type WithdrawMechanicsAction = {
 
 type SetCustomParamsAction = {
   type: typeof SCHEMA_ACTION_TYPES.SET_CUSTOM_PARAMS;
-  payload: CustomParam[];
+  payload: Schema["customParams"];
 };
 
 type SetRatingOptionsAction = {
   type: typeof SCHEMA_ACTION_TYPES.SET_RATING_OPTIONS;
-  payload: Partial<RatingOptions>;
+  payload: Partial<Schema["ratingOptions"]>;
 };
 
 type SchemaAction =
@@ -70,7 +63,7 @@ export function schemaReducer(schema: Schema, action: SchemaAction): Schema {
   }
 }
 
-function resetMechanics(mechanics: Mechanics, step: SchemaStep) {
+function resetMechanics(mechanics: Schema["mechanics"], step: SchemaStep) {
   switch (step) {
     case SCHEMA_STEPS.TIME_FRAME:
       return {};

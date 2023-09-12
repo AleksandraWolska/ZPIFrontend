@@ -89,7 +89,9 @@ function SchemaProvider({ children }: { children: ReactNode }) {
     });
   };
 
-  const setRatingOptions = (ratingOptions: Schema["ratingOptions"]) => {
+  const setRatingOptions = (
+    ratingOptions: Partial<Schema["ratingOptions"]>,
+  ) => {
     dispatch({
       type: SCHEMA_ACTION_TYPES.SET_RATING_OPTIONS,
       payload: ratingOptions,

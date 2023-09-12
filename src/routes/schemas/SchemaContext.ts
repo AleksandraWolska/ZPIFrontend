@@ -18,7 +18,7 @@ export type SchemaContextType = {
   setPeriodicity: (periodicity: Schema["mechanics"]["periodicity"]) => void;
   withdrawMechanics: (step: SchemaStep) => void;
   setCustomParams: (customParams: Schema["customParams"]) => void;
-  setRatingOptions: (ratingOptions: Schema["ratingOptions"]) => void;
+  setRatingOptions: (ratingOptions: Partial<Schema["ratingOptions"]>) => void;
 };
 
 export const SchemaContext = createContext<SchemaContextType | null>(null);
