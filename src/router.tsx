@@ -4,6 +4,7 @@ import Home from "./routes/home/Home";
 import { loader as todosLoader } from "./routes/todos/all-todos/loader";
 import RequireLogin from "./auth/RequireLogin";
 import Secret from "./routes/secret/Secret";
+import UserApp from "./routes/userapp/UserApp";
 
 if (process.env.NODE_ENV === "development") {
   const { worker } = await import("./mocks/browser");
@@ -40,6 +41,11 @@ const router = createBrowserRouter([
       },
     ],
   },
+  {
+    path: "userapp",
+    element: <UserApp />,
+  },
+
   {
     element: <RequireLogin />,
     children: [

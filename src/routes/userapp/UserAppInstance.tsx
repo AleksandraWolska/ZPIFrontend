@@ -1,5 +1,6 @@
 /* eslint-disable no-lonely-if */
 import { useState } from "react";
+import { AddCircle, RemoveCircle } from "@mui/icons-material";
 import {
   Box,
   Typography,
@@ -23,6 +24,7 @@ import {
 } from "./mocks/userapp_types";
 import ImageS1 from "./components/ImageS1";
 import Ratings from "./components/Ratings";
+import QuantityInput from "./components/CustomNumberInput";
 
 function UserAppInstance() {
   const jsonData: FetchedJSON = JSON.parse(jsonString);
@@ -51,46 +53,20 @@ function UserAppInstance() {
   );
 
   const [selectedItem, setSelectedItem] = useState<Item | null>(null);
-  const [selectedSubItemsList, setSelectedSubItemsList] = useState<SubItem[]>(
-    [],
-  );
 
   const [showSuccessDialog, setShowSuccessDialog] = useState(false);
-
-  const toggleItemSelection = (subItem: SubItem) => {
-    if (selectedSubItemsList.some((selected) => selected.id === subItem.id)) {
-      setSelectedSubItemsList((prev) =>
-        prev.filter((selected) => selected.id !== subItem.id),
-      );
-    } else {
-      setSelectedSubItemsList((prev) => [...prev, subItem]);
-    }
-  };
 
   const [showUserAmountChoice, setShowUserAmountChoice] = useState(false);
   const [showFreeRangesUserInput, setShowFreeRangesUserInput] = useState(false);
   const [showCheckAvailabilityUserInput, setShowCheckAvailabilityUserInput] =
     useState(false);
   const [showSubItemsList, setShowSubItems] = useState(false);
+  const [selectedSubItemsList, setSelectedSubItemsList] = useState<SubItem[]>(
+    [],
+  );
 
   const handleItemSelect = (item: Item) => {
-    if (!b.core_config.flexibility) {
-      if (!b.core_config.simultaneousness) {
-        // do nothing
-      } else {
-        if (!b.core_config.specific_reservation) {
-          if (!b.core_config.cyclicity) {
-            setShowUserAmountChoice(true);
-          } else {
-            setShowSubItems(true);
-            // renderSubitems(b.core_config.specific_reservation); // itemy w innych datach jako subitemy
-            setShowUserAmountChoice(true);
-          }
-        } else {
-          setShowSubItems(true);
-        }
-      }
-    } else {
+    if (b.core_config.flexibility) {
       // flexibility is true
       if (b.core_config.uniqueness) {
         if (b.core_config.simultaneousness) {
@@ -108,21 +84,156 @@ function UserAppInstance() {
           setShowCheckAvailabilityUserInput(true);
         }
       }
+    } else {
+      // flexibility is false
+      if (b.core_config.simultaneousness) {
+        if (b.core_config.specific_reservation) {
+          setShowSubItems(true);
+        } else {
+          if (b.core_config.cyclicity) {
+            setShowSubItems(true);
+            setShowUserAmountChoice(true);
+          } else {
+            setShowUserAmountChoice(true);
+          }
+        }
+      }
     }
+
     setSelectedItem(item);
   };
 
-  const userAmountChoice = <Box> userAmountChoice </Box>;
-  const freeRangesUserInput = <Box>freeRangesUserInput </Box>;
-  const checkAvailabilityUserInput = <Box>checkAvailabilityUserInput</Box>;
-  const subItemsList = <Box>Subitems</Box>;
+  // =================================================================================== USER AMOUNT CHOICE
+  // simultaneousness=true, specific_reservation=false, cyclicity=false, flexibility=false
+  // simultaneousness=true, specific_reservation=false, cyclicity=true, flexibility=false
+  // simultaneousness=true, uniqueness=false, flexibility=true
+
+  const [userCount, setUserCount] = useState(1);
+
+  const handleUserCountInputChange = (newValue: number) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+    showSubItemsList &&
+    selectedSubItemsList.length > 0 &&
+    selectedSubItemsList[0].available_amount &&
+    selectedSubItemsList[0].available_amount >= newValue
+      ? setReservationRequestReady(true)
+      : setReservationRequestReady(false);
+
+    if (newValue > userCount) {
+      //
+    } else if (newValue < userCount) {
+      //
+    } else {
+      console.log("Value unchanged");
+    }
+    setUserCount(newValue || 1);
+  };
+
+  const userAmountChoice = showUserAmountChoice &&
+    showSubItemsList === selectedSubItemsList.length > 0 && (
+      <Box>
+        <QuantityInput
+          value={userCount}
+          onUserCountChange={(value: number) =>
+            handleUserCountInputChange(value)
+          }
+        />
+      </Box>
+    );
+  // =================================================================================== SHOW FREE RANGES USER INPUT
+  // simultaneousness=true, uniqueness=true, flexibility=true
+  // simultaneousness=false, uniqueness=true, flexibility=true
+  const freeRangesUserInput = showFreeRangesUserInput && (
+    <Box>freeRangesUserInput </Box>
+  );
+  // =================================================================================== CHECK AVAILABILITY USER INPUT
+  // simultaneousness=true, uniqueness=false, flexibility=true
+  // simultaneousness=false, uniqueness=false, flexibility=true
+  const checkAvailabilityUserInput = showCheckAvailabilityUserInput && (
+    <Box>checkAvailabilityUserInput</Box>
+  );
+
+  // ===================================================================================SUBITEMS LIST
+  // simultaneousness=true, specific_reservation=true, flexibility=false
+  // simultaneousness=true, specific_reservation=false, cyclicity=true, flexibility=false
+
+  const toggleItemSelection = (subItem: SubItem) => {
+    if (selectedSubItemsList.some((selected) => selected.id === subItem.id)) {
+      setSelectedSubItemsList((prev) =>
+        prev.filter((selected) => selected.id !== subItem.id),
+      );
+    } else {
+      setSelectedSubItemsList((prev) => {
+        console.log(`${b.core_config.cyclicity} here`);
+        return b.core_config.cyclicity ? [subItem] : [...prev, subItem];
+      });
+    }
+  };
+
+  const subItemsList = selectedItem && showSubItemsList && (
+    <Box>
+      <List>
+        {selectedItem.subitem_list?.map((subItem) => (
+          <ListItem
+            button
+            key={subItem.id}
+            onClick={() => toggleItemSelection(subItem)}
+            style={{
+              backgroundColor: selectedSubItemsList.some(
+                (i) => i.id === subItem.id,
+              )
+                ? "#AACCFF"
+                : "white",
+            }}
+          >
+            <ListItemText
+              primary={subItem.title}
+              secondary={subItem.subtitle}
+              style={{
+                color: selectedSubItemsList.some((i) => i.id === subItem.id)
+                  ? "white"
+                  : "black",
+              }}
+            />
+          </ListItem>
+        ))}
+      </List>
+    </Box>
+  );
+
+  // =================================================================================== BUTTONS
+
+  const [reservationRequestReady, setReservationRequestReady] = useState(false);
+  const buttons = selectedItem && (
+    <Box>
+      {" "}
+      <Box marginTop={2}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => setShowSuccessDialog(true)}
+        >
+          Submit
+        </Button>
+        <Button
+          style={{ marginLeft: "10px" }}
+          variant="contained"
+          disabled={!reservationRequestReady}
+          onClick={() => setSelectedItem(null)}
+        >
+          Back
+        </Button>
+      </Box>
+    </Box>
+  );
 
   const core = (
     <Box>
-      {showUserAmountChoice && userAmountChoice}
-      {showFreeRangesUserInput && freeRangesUserInput}
-      {showCheckAvailabilityUserInput && checkAvailabilityUserInput}
-      {showSubItemsList && subItemsList}
+      {userAmountChoice}
+      {freeRangesUserInput}
+      {checkAvailabilityUserInput}
+      {subItemsList}
+      {buttons}
     </Box>
   );
 
@@ -149,48 +260,7 @@ function UserAppInstance() {
         </Typography>
         <Typography variant="h6">{selectedItem.title}</Typography>
         <Typography variant="h5">{selectedItem.subtitle}</Typography>
-        <List>
-          {selectedItem.subitem_list?.map((subItem) => (
-            <ListItem
-              button
-              key={subItem.id}
-              onClick={() => toggleItemSelection(subItem)}
-              style={{
-                backgroundColor: selectedSubItemsList.some(
-                  (i) => i.id === subItem.id,
-                )
-                  ? "#AACCFF"
-                  : "white",
-              }}
-            >
-              <ListItemText
-                primary={subItem.title}
-                secondary={subItem.subtitle}
-                style={{
-                  color: selectedSubItemsList.some((i) => i.id === subItem.id)
-                    ? "white"
-                    : "black",
-                }}
-              />
-            </ListItem>
-          ))}
-        </List>
-        <Box marginTop={2}>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => setShowSuccessDialog(true)}
-          >
-            Submit
-          </Button>
-          <Button
-            style={{ marginLeft: "10px" }}
-            variant="contained"
-            onClick={() => setSelectedItem(null)}
-          >
-            Back
-          </Button>
-        </Box>
+
         <Dialog
           open={showSuccessDialog}
           onClose={() => setShowSuccessDialog(false)}

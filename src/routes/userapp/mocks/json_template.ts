@@ -7,7 +7,7 @@ export const jsonString = `
       "flexibility": false,
       "granularity": false,
       "cyclicity": true,
-      "specific_reservation": true
+      "specific_reservation": false
     },
     "userapp_layout_config": {
       "comapany_name": "Tech Corp",
@@ -77,18 +77,18 @@ export const jsonString = `
             "id": 1,
             "title": "Sub Gadget A",
             "subtitle": "Type A",
-            "available_amount": 10
+            "available_amount": 2
           },
           {
             "id": 2,
             "title": "Sub Gadget B",
             "subtitle": "Type B",
-            "available_amount": 5
+            "available_amount": 3
           }
         ],
         "free_amount": 20,
         "mark": 4.5,
-        "availableAmount": 30
+        "available_amount": 4
       },
       {
         "id": 2,
@@ -110,12 +110,12 @@ export const jsonString = `
             "id": 3,
             "title": "Sub Gadget C",
             "subtitle": "Type C",
-            "available_amount": 8
+            "available_amount": 4
           }
         ],
         "free_amount": 15,
         "mark": 4.0,
-        "availableAmount": 25
+        "available_amount": 2
       }
     ]
   }
