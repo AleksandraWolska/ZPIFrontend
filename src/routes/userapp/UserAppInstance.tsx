@@ -74,6 +74,11 @@ function UserAppInstance() {
           }
         }
       }
+      if (b.core_config.cyclicity) {
+        setShowSubItems(true);
+      } else {
+        //
+      }
     }
 
     setSelectedItem(item);
