@@ -2,9 +2,9 @@ export const jsonString = `
 {
   "userapp_builder_config": {
     "core_config": {
-      "simultaneousness": true,
-      "uniqueness": false,
-      "flexibility": false,
+      "simultaneousness": false,
+      "uniqueness": true,
+      "flexibility": true,
       "granularity": false,
       "cyclicity": true,
       "specific_reservation": false
@@ -73,6 +73,29 @@ export const jsonString = `
             "value": "Plastic"
           }
         ],
+        "comment_list": [
+          {
+            "id": "1",
+            "userId": "user001",
+            "nickname": "JohnDoe",
+            "content": "This is a sample comment.",
+            "datetime": "2023-09-06T12:34:56Z"
+          },
+          {
+            "id": "2",
+            "userId": "user002",
+            "nickname": "JaneDoe",
+            "content": "I agree with the above!",
+            "datetime": "2023-09-03T13:14:22Z"
+          },
+          {
+            "id": "3",
+            "userId": "user003",
+            "nickname": "Charlie",
+            "content": "I have a different perspective.",
+            "datetime": "2023-09-03T13:14:22Z"
+          }
+        ],
         "subitem_list": [
           {
             "id": 1,
@@ -104,6 +127,29 @@ export const jsonString = `
           {
             "name": "Material",
             "value": "Plastic"
+          }
+        ],
+        "comment_list": [
+          {
+            "id": "1",
+            "userId": "user001",
+            "nickname": "JohnDoe",
+            "content": "This is a sample comment.",
+            "datetime": "2023-09-06T12:34:56Z"
+          },
+          {
+            "id": "2",
+            "userId": "user002",
+            "nickname": "JaneDoe",
+            "content": "I agree with the above!",
+            "datetime": "2023-09-03T13:14:22Z"
+          },
+          {
+            "id": "3",
+            "userId": "user003",
+            "nickname": "Charlie",
+            "content": "I have a different perspective.",
+            "datetime": "2023-09-03T13:14:22Z"
           }
         ],
         "subitem_list": [
