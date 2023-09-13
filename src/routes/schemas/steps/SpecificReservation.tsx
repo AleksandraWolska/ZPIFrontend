@@ -2,26 +2,28 @@ import { useSchema } from "../SchemaProvider";
 import { SCHEMA_STEPS, SchemaStep } from "../types";
 import { calculateProgress } from "./utils";
 
-function SpecificSeats({
+function SpecificReservation({
   setActiveStep,
   setProgress,
 }: {
   setActiveStep: (step: SchemaStep) => void;
   setProgress: (progress: number) => void;
 }) {
-  const { setSpecificSeats, withdrawMechanics } = useSchema();
+  const { setSpecificReservation, withdrawToCoreConfig } = useSchema();
 
   return (
     <>
-      <div>Specific seats - Yes or No?</div>
+      <div>Specific reservation - Yes or No?</div>
 
       <button
         type="button"
         onClick={() => {
-          const prevStep = SCHEMA_STEPS.USERS_PER_OFFER;
-          withdrawMechanics(prevStep);
+          const prevStep = SCHEMA_STEPS.SIMULTANEOUS;
+          withdrawToCoreConfig(prevStep);
           setActiveStep(prevStep);
-          setProgress(calculateProgress(SCHEMA_STEPS.SPECIFIC_SEATS, prevStep));
+          setProgress(
+            calculateProgress(SCHEMA_STEPS.SPECIFIC_RESERVATION, prevStep),
+          );
         }}
       >
         BACK
@@ -30,7 +32,7 @@ function SpecificSeats({
       <button
         type="button"
         onClick={() => {
-          setSpecificSeats(true);
+          setSpecificReservation(true);
           const nextStep = SCHEMA_STEPS.CORE_SUMMARY;
           setActiveStep(nextStep);
           setProgress(100);
@@ -42,10 +44,12 @@ function SpecificSeats({
       <button
         type="button"
         onClick={() => {
-          setSpecificSeats(false);
+          setSpecificReservation(false);
           const nextStep = SCHEMA_STEPS.PERIODICITY;
           setActiveStep(nextStep);
-          setProgress(calculateProgress(SCHEMA_STEPS.SPECIFIC_SEATS, nextStep));
+          setProgress(
+            calculateProgress(SCHEMA_STEPS.SPECIFIC_RESERVATION, nextStep),
+          );
         }}
       >
         No
@@ -54,4 +58,4 @@ function SpecificSeats({
   );
 }
 
-export default SpecificSeats;
+export default SpecificReservation;

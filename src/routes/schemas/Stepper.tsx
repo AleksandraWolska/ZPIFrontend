@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { LinearProgress } from "@mui/material";
 import { SCHEMA_STEPS, SchemaStep } from "./types";
-import TimeFrame from "./steps/TimeFrame";
+import Flexibility from "./steps/Flexibility";
 import Granularity from "./steps/Granularity";
-import UsersPerOffer from "./steps/UsersPerOffer";
-import EntityUniqueness from "./steps/EntityUniqueness";
+import Simultaneous from "./steps/Simultaneous";
+import Uniqueness from "./steps/Uniqueness";
 import GapBetween from "./steps/GapBetween";
-import SpecificSeats from "./steps/SpecificSeats";
+import SpecificReservation from "./steps/SpecificReservation";
 import Periodicity from "./steps/Periodicity";
 import CoreSummary from "./steps/CoreSummary";
 import CustomParams from "./steps/CustomParams";
@@ -15,15 +15,18 @@ import RatingAndComments from "./steps/RatingAndComments";
 
 function Stepper() {
   const [activeStep, setActiveStep] = useState<SchemaStep>(
-    SCHEMA_STEPS.TIME_FRAME,
+    SCHEMA_STEPS.FLEXIBILITY,
   );
   const [progress, setProgress] = useState(0);
 
   const renderStepContent = () => {
     switch (activeStep) {
-      case SCHEMA_STEPS.TIME_FRAME:
+      case SCHEMA_STEPS.FLEXIBILITY:
         return (
-          <TimeFrame setActiveStep={setActiveStep} setProgress={setProgress} />
+          <Flexibility
+            setActiveStep={setActiveStep}
+            setProgress={setProgress}
+          />
         );
       case SCHEMA_STEPS.GRANULARITY:
         return (
@@ -32,27 +35,24 @@ function Stepper() {
             setProgress={setProgress}
           />
         );
-      case SCHEMA_STEPS.USERS_PER_OFFER:
+      case SCHEMA_STEPS.SIMULTANEOUS:
         return (
-          <UsersPerOffer
+          <Simultaneous
             setActiveStep={setActiveStep}
             setProgress={setProgress}
           />
         );
-      case SCHEMA_STEPS.ENTITY_UNIQUENESS:
+      case SCHEMA_STEPS.UNIQUENESS:
         return (
-          <EntityUniqueness
-            setActiveStep={setActiveStep}
-            setProgress={setProgress}
-          />
+          <Uniqueness setActiveStep={setActiveStep} setProgress={setProgress} />
         );
       case SCHEMA_STEPS.GAP_BETWEEN:
         return (
           <GapBetween setActiveStep={setActiveStep} setProgress={setProgress} />
         );
-      case SCHEMA_STEPS.SPECIFIC_SEATS:
+      case SCHEMA_STEPS.SPECIFIC_RESERVATION:
         return (
-          <SpecificSeats
+          <SpecificReservation
             setActiveStep={setActiveStep}
             setProgress={setProgress}
           />

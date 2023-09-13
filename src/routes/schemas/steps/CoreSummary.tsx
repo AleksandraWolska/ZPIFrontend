@@ -6,11 +6,11 @@ function CoreSummary({
 }: {
   setActiveStep: (step: SchemaStep) => void;
 }) {
-  const { schema, withdrawMechanics } = useSchema();
+  const { schema, withdrawToCoreConfig } = useSchema();
 
   return (
     <>
-      <h4>You specified core mechanics of your schema!</h4>
+      <h4>You specified core config of your schema!</h4>
 
       <p>Proceed to set custom parameters of the entity of your offer.</p>
 
@@ -18,12 +18,12 @@ function CoreSummary({
         type="button"
         onClick={() => {
           const prevStep =
-            schema.mechanics.periodicity !== undefined
+            schema.coreConfig.periodicity !== undefined
               ? SCHEMA_STEPS.PERIODICITY
-              : schema.mechanics.specificSeats !== undefined
-              ? SCHEMA_STEPS.SPECIFIC_SEATS
-              : SCHEMA_STEPS.ENTITY_UNIQUENESS;
-          withdrawMechanics(prevStep);
+              : schema.coreConfig.specificReservation !== undefined
+              ? SCHEMA_STEPS.SPECIFIC_RESERVATION
+              : SCHEMA_STEPS.UNIQUENESS;
+          withdrawToCoreConfig(prevStep);
           setActiveStep(prevStep);
         }}
       >

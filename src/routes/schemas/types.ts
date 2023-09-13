@@ -1,12 +1,12 @@
 import { ObjectValues } from "../../types";
 
 export const SCHEMA_STEPS = {
-  TIME_FRAME: "TIME_FRAME",
+  FLEXIBILITY: "FLEXIBILITY",
   GRANULARITY: "GRANULARITY",
-  USERS_PER_OFFER: "USERS_PER_OFFER",
-  ENTITY_UNIQUENESS: "ENTITY_UNIQUENESS",
+  SIMULTANEOUS: "SIMULTANEOUS",
+  UNIQUENESS: "UNIQUENESS",
   GAP_BETWEEN: "GAP_BETWEEN",
-  SPECIFIC_SEATS: "SPECIFIC_SEATS",
+  SPECIFIC_RESERVATION: "SPECIFIC_RESERVATION",
   PERIODICITY: "PERIODICITY",
   CORE_SUMMARY: "CORE_SUMMARY",
   CUSTOM_PARAMS: "CUSTOM_PARAMS",
@@ -16,20 +16,20 @@ export const SCHEMA_STEPS = {
 
 export type SchemaStep = ObjectValues<typeof SCHEMA_STEPS>;
 
-export type TimeFrame = "fixed" | "flexible";
-export type Granularity = "granular" | "continuous";
-export type UsersPerOffer = "one" | "many";
-export type EntityUniqueness = boolean;
+export type Flexibility = boolean;
+export type Granularity = boolean;
+export type Simultaneous = boolean;
+export type Uniqueness = boolean;
 export type GapBetween = boolean;
-export type SpecificSeats = boolean;
+export type SpecificReservation = boolean;
 export type Periodicity = boolean;
-export type Mechanics = {
-  timeFrame?: TimeFrame;
+export type CoreConfig = {
+  flexibility?: Flexibility;
   granularity?: Granularity;
-  usersPerOffer?: UsersPerOffer;
-  entityUniqueness?: EntityUniqueness;
+  simultaneous?: Simultaneous;
+  uniqueness?: Uniqueness;
   gapBetween?: GapBetween;
-  specificSeats?: SpecificSeats;
+  specificReservation?: SpecificReservation;
   periodicity?: Periodicity;
 };
 
@@ -49,7 +49,7 @@ export type CommentsOptions = {
 };
 
 export type Schema = {
-  mechanics: Mechanics;
+  coreConfig: CoreConfig;
   customParams: CustomParam[];
   ratingOptions: RatingOptions;
   commentsOptions: CommentsOptions;

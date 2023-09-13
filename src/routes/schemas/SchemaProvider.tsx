@@ -4,7 +4,7 @@ import { SCHEMA_ACTION_TYPES, schemaReducer } from "./schemaReducer";
 import { SchemaContext, SchemaContextType } from "./SchemaContext";
 
 const initialSchema: Schema = {
-  mechanics: {},
+  coreConfig: {},
   customParams: [],
   ratingOptions: {
     allowRating: false,
@@ -24,64 +24,62 @@ function SchemaProvider({ children }: { children: ReactNode }) {
     console.log("SCHEMA", schema);
   }, [schema]);
 
-  const setTimeFrame = (timeFrame: Schema["mechanics"]["timeFrame"]) => {
+  const setFlexibility = (flexibility: Schema["coreConfig"]["flexibility"]) => {
     dispatch({
-      type: SCHEMA_ACTION_TYPES.APPEND_TO_MECHANICS,
-      payload: { timeFrame },
+      type: SCHEMA_ACTION_TYPES.APPEND_TO_CORE_CONFIG,
+      payload: { flexibility },
     });
   };
 
-  const setGranularity = (granularity: Schema["mechanics"]["granularity"]) => {
+  const setGranularity = (granularity: Schema["coreConfig"]["granularity"]) => {
     dispatch({
-      type: SCHEMA_ACTION_TYPES.APPEND_TO_MECHANICS,
+      type: SCHEMA_ACTION_TYPES.APPEND_TO_CORE_CONFIG,
       payload: { granularity },
     });
   };
 
-  const setUsersPerOffer = (
-    usersPerOffer: Schema["mechanics"]["usersPerOffer"],
+  const setSimultaneous = (
+    simultaneous: Schema["coreConfig"]["simultaneous"],
   ) => {
     dispatch({
-      type: SCHEMA_ACTION_TYPES.APPEND_TO_MECHANICS,
-      payload: { usersPerOffer },
+      type: SCHEMA_ACTION_TYPES.APPEND_TO_CORE_CONFIG,
+      payload: { simultaneous },
     });
   };
 
-  const setEntityUniqueness = (
-    entityUniqueness: Schema["mechanics"]["entityUniqueness"],
-  ) => {
+  const setUniqueness = (uniqueness: Schema["coreConfig"]["uniqueness"]) => {
     dispatch({
-      type: SCHEMA_ACTION_TYPES.APPEND_TO_MECHANICS,
-      payload: { entityUniqueness },
+      type: SCHEMA_ACTION_TYPES.APPEND_TO_CORE_CONFIG,
+      payload: { uniqueness },
     });
   };
 
-  const setGapBetween = (gapBetween: Schema["mechanics"]["gapBetween"]) => {
+  const setGapBetween = (gapBetween: Schema["coreConfig"]["gapBetween"]) => {
     dispatch({
-      type: SCHEMA_ACTION_TYPES.APPEND_TO_MECHANICS,
+      type: SCHEMA_ACTION_TYPES.APPEND_TO_CORE_CONFIG,
       payload: { gapBetween },
     });
   };
 
-  const setSpecificSeats = (
-    specificSeats: Schema["mechanics"]["specificSeats"],
+  const setSpecificReservation = (
+    specificReservation: Schema["coreConfig"]["specificReservation"],
   ) => {
     dispatch({
-      type: SCHEMA_ACTION_TYPES.APPEND_TO_MECHANICS,
-      payload: { specificSeats },
+      type: SCHEMA_ACTION_TYPES.APPEND_TO_CORE_CONFIG,
+      payload: { specificReservation },
     });
   };
 
-  const setPeriodicity = (periodicity: Schema["mechanics"]["periodicity"]) => {
+  const setPeriodicity = (periodicity: Schema["coreConfig"]["periodicity"]) => {
     dispatch({
-      type: SCHEMA_ACTION_TYPES.APPEND_TO_MECHANICS,
+      type: SCHEMA_ACTION_TYPES.APPEND_TO_CORE_CONFIG,
       payload: { periodicity },
     });
   };
 
-  const withdrawMechanics = (step: SchemaStep) => {
+  const withdrawToCoreConfig = (step: SchemaStep) => {
     dispatch({
-      type: SCHEMA_ACTION_TYPES.WITHDRAW_MECHANICS,
+      type: SCHEMA_ACTION_TYPES.WITHDRAW_TO_CORE_CONFIG,
       payload: step,
     });
   };
@@ -114,14 +112,14 @@ function SchemaProvider({ children }: { children: ReactNode }) {
   const contextValue = useMemo(
     () => ({
       schema,
-      setTimeFrame,
+      setFlexibility,
       setGranularity,
-      setUsersPerOffer,
-      setEntityUniqueness,
+      setSimultaneous,
+      setUniqueness,
       setGapBetween,
-      setSpecificSeats,
+      setSpecificReservation,
       setPeriodicity,
-      withdrawMechanics,
+      withdrawToCoreConfig,
       setCustomParams,
       setRatingOptions,
       setCommentsOptions,
