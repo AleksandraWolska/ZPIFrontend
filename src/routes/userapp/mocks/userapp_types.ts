@@ -68,6 +68,14 @@ export type FetchedJSON = {
   };
 };
 
+export type Comment = {
+  id: string;
+  userId: string;
+  nickname: string;
+  content: string;
+  datetime: string;
+};
+
 export type Parameter = {
   name: string;
   value: string;
@@ -79,6 +87,7 @@ export type Item = {
   description?: string;
   parameters?: Parameter[];
   subitem_list?: SubItem[];
+  comment_list?: Comment[];
   mark?: number;
   available_amount?: number;
   image?: string;

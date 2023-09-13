@@ -13,6 +13,8 @@ import {
   DialogContentText,
   DialogTitle,
   Divider,
+  Paper,
+  TextField,
 } from "@mui/material";
 import { jsonString } from "./mocks/json_template";
 import {
@@ -24,6 +26,7 @@ import {
 import ImageS1 from "./components/ImageS1";
 import Ratings from "./components/Ratings";
 import QuantityInput from "./components/CustomNumberInput";
+import RatingsInteractive from "./components/RatingsInteractive";
 
 function UserAppInstance() {
   const jsonData: FetchedJSON = JSON.parse(jsonString);
@@ -210,6 +213,88 @@ function UserAppInstance() {
       </Box>
     </Box>
   );
+  // ========================================================================================STARS SECTION
+  // TODO user should set rating only once. when user sets rating the reuest to backend is proceeded with userid, if returns that user
+  // hasnt yet rated, then success, else failed
+  const handleRatingAdd = (rating: number) => {
+    console.log("New Rating:", rating);
+  };
+
+  const ratings = b.item_layout_config.mark_second_screen && selectedItem && (
+    <RatingsInteractive
+      // You can replace this with the default mark from the data if necessary
+      handleSetRating={handleRatingAdd}
+    />
+  );
+
+  // ===================================================================================== COMMENT SECTION
+
+  const [userComment, setUserComment] = useState(""); // to manage the state of the comment input
+
+  const handleSendComment = () => {
+    console.log(userComment);
+    // TODO: Handle the rest of the send comment logic if necessary
+  };
+  const commentList = b.item_layout_config.comment_section &&
+    selectedItem &&
+    selectedItem.comment_list && (
+      <div>
+        {/* Input for current user's comment */}
+        <Paper style={{ padding: 15, marginBottom: 15 }}>
+          <TextField
+            fullWidth
+            label="Your Comment"
+            variant="outlined"
+            multiline
+            rows={2}
+            placeholder="Enter your comment here..."
+            value={userComment} // set value to userComment
+            onChange={(e) => setUserComment(e.target.value)} // update userComment state on change
+          />
+          <Button
+            variant="contained"
+            color="primary"
+            style={{ marginTop: 10 }}
+            onClick={handleSendComment} // call handleSendComment on button click
+          >
+            Send
+          </Button>
+        </Paper>
+
+        {/* List of comments */}
+        <List>
+          {selectedItem.comment_list.map((comment) => (
+            <Paper style={{ padding: 15, marginBottom: 15 }}>
+              <ListItem key={comment.id} alignItems="flex-start">
+                <ListItemText
+                  primary={
+                    <>
+                      <Typography
+                        sx={{ display: "inline" }}
+                        component="span"
+                        variant="body1"
+                        color="textPrimary"
+                      >
+                        {comment.nickname}
+                      </Typography>
+                      {` — ${new Date(comment.datetime).toLocaleDateString(
+                        undefined,
+                        {
+                          day: "numeric",
+                          month: "short",
+                          year: "numeric",
+                        },
+                      )}`}
+                    </>
+                  }
+                  secondary={comment.content}
+                />
+              </ListItem>
+            </Paper>
+          ))}
+        </List>
+      </div>
+    );
 
   const core = (
     <Box>
@@ -218,6 +303,8 @@ function UserAppInstance() {
       {subItemsList}
       {userAmountChoice}
       {buttons}
+      {ratings}
+      {commentList}
     </Box>
   );
 
