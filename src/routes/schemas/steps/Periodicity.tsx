@@ -9,7 +9,7 @@ function Periodicity({
   setActiveStep: (step: SchemaStep) => void;
   setProgress: (progress: number) => void;
 }) {
-  const { schema, setPeriodicity, withdrawMechanics } = useSchema();
+  const { schema, setPeriodicity, withdrawToCoreConfig } = useSchema();
 
   return (
     <>
@@ -19,10 +19,10 @@ function Periodicity({
         type="button"
         onClick={() => {
           const prevStep =
-            schema.mechanics.usersPerOffer === "one"
-              ? SCHEMA_STEPS.USERS_PER_OFFER
-              : SCHEMA_STEPS.SPECIFIC_SEATS;
-          withdrawMechanics(prevStep);
+            schema.coreConfig.simultaneous === false
+              ? SCHEMA_STEPS.SIMULTANEOUS
+              : SCHEMA_STEPS.SPECIFIC_RESERVATION;
+          withdrawToCoreConfig(prevStep);
           setActiveStep(prevStep);
           setProgress(calculateProgress(SCHEMA_STEPS.PERIODICITY, prevStep));
         }}

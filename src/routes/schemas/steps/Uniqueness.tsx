@@ -2,31 +2,29 @@ import { useSchema } from "../SchemaProvider";
 import { SCHEMA_STEPS, SchemaStep } from "../types";
 import { calculateProgress } from "./utils";
 
-function EntityUniqueness({
+function Uniqueness({
   setActiveStep,
   setProgress,
 }: {
   setActiveStep: (step: SchemaStep) => void;
   setProgress: (progress: number) => void;
 }) {
-  const { schema, setEntityUniqueness, withdrawMechanics } = useSchema();
+  const { schema, setUniqueness, withdrawToCoreConfig } = useSchema();
 
   return (
     <>
-      <div>Entity uniqueness - Yes or No?</div>
+      <div>Uniqueness - Yes or No?</div>
 
       <button
         type="button"
         onClick={() => {
           const prevStep =
-            schema.mechanics.usersPerOffer === "one"
+            schema.coreConfig.simultaneous === false
               ? SCHEMA_STEPS.GAP_BETWEEN
-              : SCHEMA_STEPS.USERS_PER_OFFER;
-          withdrawMechanics(prevStep);
+              : SCHEMA_STEPS.SIMULTANEOUS;
+          withdrawToCoreConfig(prevStep);
           setActiveStep(prevStep);
-          setProgress(
-            calculateProgress(SCHEMA_STEPS.ENTITY_UNIQUENESS, prevStep),
-          );
+          setProgress(calculateProgress(SCHEMA_STEPS.UNIQUENESS, prevStep));
         }}
       >
         BACK
@@ -35,7 +33,7 @@ function EntityUniqueness({
       <button
         type="button"
         onClick={() => {
-          setEntityUniqueness(true);
+          setUniqueness(true);
           setActiveStep(SCHEMA_STEPS.CORE_SUMMARY);
           setProgress(100);
         }}
@@ -46,7 +44,7 @@ function EntityUniqueness({
       <button
         type="button"
         onClick={() => {
-          setEntityUniqueness(false);
+          setUniqueness(false);
           setActiveStep(SCHEMA_STEPS.CORE_SUMMARY);
           setProgress(100);
         }}
@@ -57,4 +55,4 @@ function EntityUniqueness({
   );
 }
 
-export default EntityUniqueness;
+export default Uniqueness;

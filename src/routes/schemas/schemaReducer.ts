@@ -1,20 +1,20 @@
 import { Schema, SchemaStep, SCHEMA_STEPS } from "./types";
 
 export const SCHEMA_ACTION_TYPES = {
-  APPEND_TO_MECHANICS: "APPEND_TO_MECHANICS",
-  WITHDRAW_MECHANICS: "WITHDRAW_MECHANICS",
+  APPEND_TO_CORE_CONFIG: "APPEND_TO_CORE_CONFIG",
+  WITHDRAW_TO_CORE_CONFIG: "WITHDRAW_TO_CORE_CONFIG",
   SET_CUSTOM_PARAMS: "SET_CUSTOM_PARAMS",
   SET_RATING_OPTIONS: "SET_RATING_OPTIONS",
   SET_COMMENTS_OPTIONS: "SET_COMMENTS_OPTIONS",
 } as const;
 
-type AppendToMechanicsAction = {
-  type: typeof SCHEMA_ACTION_TYPES.APPEND_TO_MECHANICS;
-  payload: Schema["mechanics"];
+type AppendToCoreConfigAction = {
+  type: typeof SCHEMA_ACTION_TYPES.APPEND_TO_CORE_CONFIG;
+  payload: Schema["coreConfig"];
 };
 
-type WithdrawMechanicsAction = {
-  type: typeof SCHEMA_ACTION_TYPES.WITHDRAW_MECHANICS;
+type WithdrawToCoreConfigAction = {
+  type: typeof SCHEMA_ACTION_TYPES.WITHDRAW_TO_CORE_CONFIG;
   payload: SchemaStep;
 };
 
@@ -34,23 +34,23 @@ type SetCommentsOptionsAction = {
 };
 
 type SchemaAction =
-  | AppendToMechanicsAction
-  | WithdrawMechanicsAction
+  | AppendToCoreConfigAction
+  | WithdrawToCoreConfigAction
   | SetCustomParamsAction
   | SetRatingOptionsAction
   | SetCommentsOptionsAction;
 
 export function schemaReducer(schema: Schema, action: SchemaAction): Schema {
   switch (action.type) {
-    case SCHEMA_ACTION_TYPES.APPEND_TO_MECHANICS:
+    case SCHEMA_ACTION_TYPES.APPEND_TO_CORE_CONFIG:
       return {
         ...schema,
-        mechanics: { ...schema.mechanics, ...action.payload },
+        coreConfig: { ...schema.coreConfig, ...action.payload },
       };
-    case SCHEMA_ACTION_TYPES.WITHDRAW_MECHANICS:
+    case SCHEMA_ACTION_TYPES.WITHDRAW_TO_CORE_CONFIG:
       return {
         ...schema,
-        mechanics: resetMechanics(schema.mechanics, action.payload),
+        coreConfig: resetCoreConfig(schema.coreConfig, action.payload),
       };
     case SCHEMA_ACTION_TYPES.SET_CUSTOM_PARAMS:
       return { ...schema, customParams: action.payload };
@@ -81,46 +81,48 @@ export function schemaReducer(schema: Schema, action: SchemaAction): Schema {
   }
 }
 
-function resetMechanics(mechanics: Schema["mechanics"], step: SchemaStep) {
+function resetCoreConfig(coreConfig: Schema["coreConfig"], step: SchemaStep) {
   switch (step) {
-    case SCHEMA_STEPS.TIME_FRAME:
+    case SCHEMA_STEPS.FLEXIBILITY:
       return {};
     case SCHEMA_STEPS.GRANULARITY:
-      return { timeFrame: mechanics.timeFrame };
-    case SCHEMA_STEPS.USERS_PER_OFFER:
+      return { flexibility: coreConfig.flexibility };
+    case SCHEMA_STEPS.SIMULTANEOUS:
       return {
-        timeFrame: mechanics.timeFrame,
-        ...(mechanics.granularity && { granularity: mechanics.granularity }),
+        flexibility: coreConfig.flexibility,
+        ...(coreConfig.granularity !== undefined && {
+          granularity: coreConfig.granularity,
+        }),
       };
-    case SCHEMA_STEPS.ENTITY_UNIQUENESS:
+    case SCHEMA_STEPS.UNIQUENESS:
       return {
-        timeFrame: mechanics.timeFrame,
-        granularity: mechanics.granularity,
-        usersPerOffer: mechanics.usersPerOffer,
-        ...(mechanics.gapBetween !== undefined && {
-          gapBetween: mechanics.gapBetween,
+        flexibility: coreConfig.flexibility,
+        granularity: coreConfig.granularity,
+        simultaneous: coreConfig.simultaneous,
+        ...(coreConfig.gapBetween !== undefined && {
+          gapBetween: coreConfig.gapBetween,
         }),
       };
     case SCHEMA_STEPS.GAP_BETWEEN:
       return {
-        timeFrame: mechanics.timeFrame,
-        granularity: mechanics.granularity,
-        usersPerOffer: mechanics.usersPerOffer,
+        flexibility: coreConfig.flexibility,
+        granularity: coreConfig.granularity,
+        simultaneous: coreConfig.simultaneous,
       };
-    case SCHEMA_STEPS.SPECIFIC_SEATS:
+    case SCHEMA_STEPS.SPECIFIC_RESERVATION:
       return {
-        timeFrame: mechanics.timeFrame,
-        usersPerOffer: mechanics.usersPerOffer,
+        flexibility: coreConfig.flexibility,
+        simultaneous: coreConfig.simultaneous,
       };
     case SCHEMA_STEPS.PERIODICITY:
       return {
-        timeFrame: mechanics.timeFrame,
-        usersPerOffer: mechanics.usersPerOffer,
-        ...(mechanics.specificSeats !== undefined && {
-          specificSeats: mechanics.specificSeats,
+        flexibility: coreConfig.flexibility,
+        simultaneous: coreConfig.simultaneous,
+        ...(coreConfig.specificReservation !== undefined && {
+          specificReservation: coreConfig.specificReservation,
         }),
       };
     default:
-      return mechanics;
+      return coreConfig;
   }
 }

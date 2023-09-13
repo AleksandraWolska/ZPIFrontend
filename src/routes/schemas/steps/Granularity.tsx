@@ -9,17 +9,17 @@ function Granularity({
   setActiveStep: (step: SchemaStep) => void;
   setProgress: (progress: number) => void;
 }) {
-  const { setGranularity, withdrawMechanics } = useSchema();
+  const { setGranularity, withdrawToCoreConfig } = useSchema();
 
   return (
     <>
-      <div>Granularity - Granular or Continuous?</div>
+      <div>Granularity - True or False?</div>
 
       <button
         type="button"
         onClick={() => {
-          const prevStep = SCHEMA_STEPS.TIME_FRAME;
-          withdrawMechanics(prevStep);
+          const prevStep = SCHEMA_STEPS.FLEXIBILITY;
+          withdrawToCoreConfig(prevStep);
           setActiveStep(prevStep);
           setProgress(calculateProgress(SCHEMA_STEPS.GRANULARITY, prevStep));
         }}
@@ -30,25 +30,25 @@ function Granularity({
       <button
         type="button"
         onClick={() => {
-          setGranularity("granular");
-          const nextStep = SCHEMA_STEPS.USERS_PER_OFFER;
+          setGranularity(true);
+          const nextStep = SCHEMA_STEPS.SIMULTANEOUS;
           setActiveStep(nextStep);
           setProgress(calculateProgress(SCHEMA_STEPS.GRANULARITY, nextStep));
         }}
       >
-        Granular
+        True
       </button>
 
       <button
         type="button"
         onClick={() => {
-          setGranularity("continuous");
-          const nextStep = SCHEMA_STEPS.USERS_PER_OFFER;
+          setGranularity(false);
+          const nextStep = SCHEMA_STEPS.SIMULTANEOUS;
           setActiveStep(nextStep);
           setProgress(calculateProgress(SCHEMA_STEPS.GRANULARITY, nextStep));
         }}
       >
-        Continuous
+        False
       </button>
     </>
   );

@@ -9,7 +9,7 @@ function GapBetween({
   setActiveStep: (step: SchemaStep) => void;
   setProgress: (progress: number) => void;
 }) {
-  const { setGapBetween, withdrawMechanics } = useSchema();
+  const { setGapBetween, withdrawToCoreConfig } = useSchema();
 
   return (
     <>
@@ -18,8 +18,8 @@ function GapBetween({
       <button
         type="button"
         onClick={() => {
-          const prevStep = SCHEMA_STEPS.USERS_PER_OFFER;
-          withdrawMechanics(prevStep);
+          const prevStep = SCHEMA_STEPS.SIMULTANEOUS;
+          withdrawToCoreConfig(prevStep);
           setActiveStep(prevStep);
           setProgress(calculateProgress(SCHEMA_STEPS.GAP_BETWEEN, prevStep));
         }}
@@ -31,7 +31,7 @@ function GapBetween({
         type="button"
         onClick={() => {
           setGapBetween(true);
-          const nextStep = SCHEMA_STEPS.ENTITY_UNIQUENESS;
+          const nextStep = SCHEMA_STEPS.UNIQUENESS;
           setActiveStep(nextStep);
           setProgress(calculateProgress(SCHEMA_STEPS.GAP_BETWEEN, nextStep));
         }}
@@ -43,7 +43,7 @@ function GapBetween({
         type="button"
         onClick={() => {
           setGapBetween(false);
-          const nextStep = SCHEMA_STEPS.ENTITY_UNIQUENESS;
+          const nextStep = SCHEMA_STEPS.UNIQUENESS;
           setActiveStep(nextStep);
           setProgress(calculateProgress(SCHEMA_STEPS.GAP_BETWEEN, nextStep));
         }}

@@ -2,44 +2,44 @@ import { SCHEMA_STEPS, SchemaStep } from "../types";
 import { useSchema } from "../SchemaProvider";
 import { calculateProgress } from "./utils";
 
-function TimeFrame({
+function Flexibility({
   setActiveStep,
   setProgress,
 }: {
   setActiveStep: (step: SchemaStep) => void;
   setProgress: (progress: number) => void;
 }) {
-  const { setTimeFrame } = useSchema();
+  const { setFlexibility } = useSchema();
 
   return (
     <>
-      <div>TimeFrame - Fixed or Flexible?</div>
+      <div>Flexibility - True or False?</div>
 
       <button
         type="button"
         onClick={() => {
-          setTimeFrame("fixed");
-          const nextStep = SCHEMA_STEPS.USERS_PER_OFFER;
+          setFlexibility(true);
+          const nextStep = SCHEMA_STEPS.GRANULARITY;
           setActiveStep(nextStep);
-          setProgress(calculateProgress(SCHEMA_STEPS.TIME_FRAME, nextStep));
+          setProgress(calculateProgress(SCHEMA_STEPS.FLEXIBILITY, nextStep));
         }}
       >
-        Fixed
+        True
       </button>
 
       <button
         type="button"
         onClick={() => {
-          setTimeFrame("flexible");
-          const nextStep = SCHEMA_STEPS.GRANULARITY;
+          setFlexibility(false);
+          const nextStep = SCHEMA_STEPS.SIMULTANEOUS;
           setActiveStep(nextStep);
-          setProgress(calculateProgress(SCHEMA_STEPS.TIME_FRAME, nextStep));
+          setProgress(calculateProgress(SCHEMA_STEPS.FLEXIBILITY, nextStep));
         }}
       >
-        Flexible
+        False
       </button>
     </>
   );
 }
 
-export default TimeFrame;
+export default Flexibility;
