@@ -93,6 +93,29 @@ logo ? showLogo : showCompanyName
 
 
 
+    https://mui.com/material-ui/react-select/
+
+
+cykliczne wiele userów
+    "core_config": {
+      "simultaneousness": true,
+      "uniqueness": false,
+      "flexibility": false,
+      "granularity": false,
+      "cyclicity": true,
+      "specific_reservation": false
+    },
+
+
+        "core_config": {
+      "simultaneousness": false,
+      "uniqueness": false,
+      "flexibility": false,
+      "granularity": false,
+      "cyclicity": true,
+      "specific_reservation": false
+    },
+
 
 
 
