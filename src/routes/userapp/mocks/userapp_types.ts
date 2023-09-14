@@ -14,7 +14,7 @@ export type ParameterConfig = {
   possible_values?: string[];
   param_show_first_screen: boolean;
   param_show_second_screen: boolean;
-  units?: string; //if type==number
+  units?: string; // if type==number
 };
 
 export type ItemLayoutConfig = {
@@ -70,8 +70,8 @@ export type FetchedJSON = {
 };
 
 export type Comment = {
-  id: string;
-  userId: string;
+  id: number;
+  userId: number;
   nickname: string;
   content: string;
   datetime: string;
