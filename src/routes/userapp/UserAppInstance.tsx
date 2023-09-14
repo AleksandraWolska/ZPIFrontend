@@ -444,8 +444,24 @@ function UserAppInstance() {
   const [userComment, setUserComment] = useState(""); // to manage the state of the comment input
 
   const handleSendComment = () => {
+    // TODO: Send to backend and then reload?
+    // mock logic below
+    if (
+      userComment.trim() !== "" &&
+      selectedItem &&
+      selectedItem.comment_list
+    ) {
+      const newComment = {
+        id: Math.random() * 1000,
+        userId: Math.random() * 1000,
+        nickname: "YourNickname",
+        datetime: new Date().toISOString(),
+        content: userComment,
+      };
+      selectedItem.comment_list.unshift(newComment);
+      setUserComment("");
+    }
     console.log(userComment);
-    // TODO: Handle the rest of the send comment logic if necessary
   };
   const commentList = b.item_layout_config.comment_section &&
     selectedItem &&
