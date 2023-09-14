@@ -11,9 +11,10 @@ export type ParameterConfig = {
   param_type: string;
   param_is_required: boolean;
   param_enable_filtering: boolean;
-  possible_values: string[];
+  possible_values?: string[];
   param_show_first_screen: boolean;
   param_show_second_screen: boolean;
+  units?: string; //if type==number
 };
 
 export type ItemLayoutConfig = {
