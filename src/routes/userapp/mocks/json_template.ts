@@ -1,78 +1,72 @@
 export const jsonString = `
 {
   "userapp_builder_config": {
-    "core_config": {
-      "simultaneousness": true,
+    "coreConfig": {
+      "simultaneous": true,
       "uniqueness": false,
       "flexibility": false,
       "granularity": false,
-      "cyclicity": true,
-      "specific_reservation": false
+      "periodicity": true,
+      "specificReservation": false
     },
-
-    "userapp_layout_config": {
-      "comapany_name": "Tech Corp",
-      "welcome_text_line1": "Welcome to our platform!",
-      "welcome_text_line2": "Enjoy seamless reservations.",
-      "logo_source": "https://example.com/logo.png",
-      "logo_show": true,
-      "contact_info": {
-        "email": "contact@techcorp.com",
-        "phone": "+1234567890"
-      },
-      "filtering": true,
-      "parameter_map": [
+    "layoutConfig": {
+      "companyName": "Tech Corp",
+      "welcomeTextLine1": "Welcome to our platform!",
+      "welcomeTextLine2": "Enjoy seamless reservations.",
+      "logoSource": "https://example.com/logo.png",
+      "showLogo": true,
+      "email": "contact@techcorp.com",
+      "phoneNumber": "+1234567890",
+      "enableFiltering": true,
+      "enablePossibleValues": true,
+      "parameterMap": [
         {
-          "param_name": "Color",
-          "param_type": "string",
-          "param_is_required": true,
-          "param_enable_filtering": true,
-          "possible_values": ["Red", "Blue", "Green"],
-          "param_show_first_screen": true,
-          "param_show_second_screen": true
+          "name": "Color",
+          "type": "string",
+          "isRequired": true,
+          "isFilterable": true,
+          "possibleValues": ["Red", "Blue", "Green"],
+          "showFirstScreen": true,
+          "showSecondScreen": true
         },
         {
-          "param_name": "kidsFriendly",
-          "param_type": "boolean",
-          "param_is_required": true,
-          "param_enable_filtering": true,
-          "param_show_first_screen": true,
-          "param_show_second_screen": true
+          "name": "kidsFriendly",
+          "type": "boolean",
+          "isRequired": true,
+          "isFilterable": true,
+          "showFirstScreen": true,
+          "showSecondScreen": true
         },
         {
-          "param_name": "width",
-          "param_type": "number",
-          "units": "cm",
-          "param_is_required": true,
-          "param_enable_filtering": true,
-          "param_show_first_screen": true,
-          "param_show_second_screen": true
+          "name": "width",
+          "type": "number",
+          "isRequired": true,
+          "isFilterable": true,
+          "showFirstScreen": true,
+          "showSecondScreen": true,
+          "units": "cm"
         }
       ],
-      "reservation_prompts": {
+      "reervationPrompts": {
         "prompt_message": "Are you sure?"
       }
     },
-    "item_layout_config": {
-      "item_title": {
-        "value": "Another Gadget",
-        "show": true,
-        "is_long": false
-      },
-      "item_subtitle": {
-        "value": "Special edition",
-        "show": true,
-        "is_long": false
-      },
-      "item_description": true,
-      "comment_section": true,
-      "mark_section": false,
-      "mark_first_screen": true,
-      "mark_second_screen": true,
-      "mark_visibility": true,
-      "item_image_show": true
+    "itemConfig": {
+      "itemTitle": true,
+      "itemSubtitle": true,
+      "subItemTitle": true, 
+      "subitemSubtitle": true,
+   
+      "showItemDescription": true,
+      "commentSection": true,
+      "enableRating": false,
+      "showRatingFirstScreen": true,
+      "showRatingSecondScreen": true,
+      "showItemImageFirstScreen": true,
+      "showItemImageSecondScreen": false 
     }
-  },
+  }
+  ,
   "fetched_data": {
     "items": [
       {
