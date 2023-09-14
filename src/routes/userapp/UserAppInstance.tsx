@@ -53,10 +53,10 @@ function UserAppInstance() {
   );
 
   const handleItemSelect = (item: Item) => {
-    if (b.core_config.flexibility) {
+    if (b.coreConfig.flexibility) {
       // flexibility is true
-      if (b.core_config.uniqueness) {
-        if (b.core_config.simultaneousness) {
+      if (b.coreConfig.uniqueness) {
+        if (b.coreConfig.simultaneous) {
           setShowUserAmountChoice(true);
           setShowFreeRangesUserInput(true);
         } else {
@@ -64,7 +64,7 @@ function UserAppInstance() {
         }
       } else {
         // uniqueness is false
-        if (b.core_config.simultaneousness) {
+        if (b.coreConfig.simultaneous) {
           setShowUserAmountChoice(true);
           setShowCheckAvailabilityUserInput(true);
         } else {
@@ -73,11 +73,11 @@ function UserAppInstance() {
       }
     } else {
       // flexibility is false
-      if (b.core_config.simultaneousness) {
-        if (b.core_config.specific_reservation) {
+      if (b.coreConfig.simultaneous) {
+        if (b.coreConfig.specificReservation) {
           setShowSubItems(true);
         } else {
-          if (b.core_config.cyclicity) {
+          if (b.coreConfig.periodicity) {
             setShowSubItems(true);
             setShowUserAmountChoice(true);
           } else {
@@ -85,7 +85,7 @@ function UserAppInstance() {
           }
         }
       }
-      if (b.core_config.cyclicity) {
+      if (b.coreConfig.periodicity) {
         setShowSubItems(true);
       } else {
         //
@@ -154,12 +154,12 @@ function UserAppInstance() {
       );
     } else {
       setSelectedSubItemsList((prev) => {
-        console.log(`${b.core_config.cyclicity} here`);
-        return b.core_config.cyclicity ? [subItem] : [...prev, subItem];
+        console.log(`${b.coreConfig.periodicity} here`);
+        return b.coreConfig.periodicity ? [subItem] : [...prev, subItem];
       });
     }
     setReservationRequestReady(
-      !b.core_config.cyclicity ||
+      !b.coreConfig.periodicity ||
         !subItem.available_amount ||
         subItem.available_amount > userCount,
     );
@@ -224,17 +224,17 @@ function UserAppInstance() {
 
   // ===================================================================================== PARAMETERS SECTION
 
-  const shouldShowParameters = b.userapp_layout_config.parameter_map.some(
-    (param) => param.param_show_second_screen,
+  const shouldShowParameters = b.layoutConfig.parameterMap.some(
+    (param) => param.showSecondScreen,
   );
 
   const parametersList = shouldShowParameters &&
     selectedItem &&
     selectedItem.parameters && (
       <Box width="fit-content">
-        {b.userapp_layout_config.parameter_map.map((paramConfig) => {
+        {b.layoutConfig.parameterMap.map((paramConfig) => {
           const parameter = selectedItem.parameters?.find(
-            (p) => p.name === paramConfig.param_name,
+            (p) => p.name === paramConfig.name,
           );
 
           if (!parameter) return null;
@@ -242,7 +242,7 @@ function UserAppInstance() {
           let displayValue;
           let style = {};
 
-          switch (paramConfig.param_type) {
+          switch (paramConfig.type) {
             case "string":
               displayValue = parameter.value;
               style = {
@@ -278,9 +278,7 @@ function UserAppInstance() {
 
           return (
             <Box style={style}>
-              <Typography paddingRight="3px">
-                {paramConfig.param_name}:
-              </Typography>
+              <Typography paddingRight="3px">{paramConfig.name}:</Typography>
               <Typography>{displayValue}</Typography>
             </Box>
           );
@@ -341,23 +339,23 @@ function UserAppInstance() {
     setFilters({});
   };
 
-  const FilterForm = b.userapp_layout_config.parameter_map
-    .filter((param) => param.param_enable_filtering)
+  const FilterForm = b.layoutConfig.parameterMap
+    .filter((param) => param.isFilterable)
     .map((param) => {
-      switch (param.param_type) {
+      switch (param.type) {
         case "string":
           return (
-            <Box key={param.param_name} marginBottom={2}>
+            <Box key={param.name} marginBottom={2}>
               <FormControl variant="outlined">
-                <InputLabel>{param.param_name}</InputLabel>
+                <InputLabel>{param.name}</InputLabel>
                 <Select
-                  value={filters[param.param_name] || ""}
+                  value={filters[param.name] || ""}
                   onChange={(e) =>
-                    handleFilterChange(param.param_name, e.target.value)
+                    handleFilterChange(param.name, e.target.value)
                   }
-                  label={param.param_name}
+                  label={param.name}
                 >
-                  {param.possible_values?.map((val) => (
+                  {param.possibleValues?.map((val) => (
                     <MenuItem key={val} value={val}>
                       {val}
                     </MenuItem>
@@ -368,30 +366,30 @@ function UserAppInstance() {
           );
         case "boolean":
           return (
-            <Box key={param.param_name} marginBottom={2}>
+            <Box key={param.name} marginBottom={2}>
               <FormControlLabel
                 control={
                   <Checkbox
-                    checked={!!filters[param.param_name]}
+                    checked={!!filters[param.name]}
                     onChange={(e) =>
-                      handleFilterChange(param.param_name, e.target.checked)
+                      handleFilterChange(param.name, e.target.checked)
                     }
                   />
                 }
-                label={param.param_name}
+                label={param.name}
               />
             </Box>
           );
         case "number":
           return (
-            <Box key={param.param_name} marginBottom={2}>
+            <Box key={param.name} marginBottom={2}>
               <TextField
                 type="number"
-                label={param.param_name}
+                label={param.name}
                 variant="outlined"
-                value={filters[param.param_name] || ""}
+                value={filters[param.name] || ""}
                 onChange={(e) =>
-                  handleFilterChange(param.param_name, Number(e.target.value))
+                  handleFilterChange(param.name, Number(e.target.value))
                 }
               />
             </Box>
@@ -402,15 +400,13 @@ function UserAppInstance() {
     });
 
   const filteredItems = items.filter((item) => {
-    return b.userapp_layout_config.parameter_map.every((param) => {
-      if (!param.param_enable_filtering) return true;
+    return b.layoutConfig.parameterMap.every((param) => {
+      if (!param.isFilterable) return true;
 
-      const itemParam = item.parameters?.find(
-        (p) => p.name === param.param_name,
-      );
+      const itemParam = item.parameters?.find((p) => p.name === param.name);
       if (!itemParam) return true;
 
-      const filterValue = filters[param.param_name];
+      const filterValue = filters[param.name];
       if (filterValue === undefined || filterValue === "") return true;
 
       return itemParam.value === filterValue;
@@ -435,7 +431,7 @@ function UserAppInstance() {
     console.log("New Rating:", rating);
   };
 
-  const ratings = b.item_layout_config.mark_second_screen && selectedItem && (
+  const ratings = b.itemConfig.showRatingSecondScreen && selectedItem && (
     <RatingsInteractive handleSetRating={handleRatingAdd} />
   );
 
@@ -463,7 +459,7 @@ function UserAppInstance() {
     }
     console.log(userComment);
   };
-  const commentList = b.item_layout_config.comment_section &&
+  const commentList = b.itemConfig.commentSection &&
     selectedItem &&
     selectedItem.comment_list && (
       <div>
@@ -546,7 +542,7 @@ function UserAppInstance() {
       {selectedItem.description && (
         <Typography variant="body2">{selectedItem.description}</Typography>
       )}
-      {b.item_layout_config.mark_second_screen && selectedItem.mark && (
+      {b.itemConfig.showRatingSecondScreen && selectedItem.mark && (
         <Ratings mark={selectedItem.mark} />
       )}
       {core}
@@ -588,11 +584,11 @@ function UserAppInstance() {
           <ListItem button key={item.id} onClick={() => handleItemSelect(item)}>
             <ListItemText primary={item.title} secondary={item.subtitle} />
 
-            {b.item_layout_config.item_image_show && item.image && (
+            {b.itemConfig.showItemImageFirstScreen && item.image && (
               <ImageS1 url={item.image} />
             )}
 
-            {b.item_layout_config.mark_first_screen && item.mark && (
+            {b.itemConfig.showRatingFirstScreen && item.mark && (
               <Ratings mark={item.mark} />
             )}
           </ListItem>
@@ -601,14 +597,12 @@ function UserAppInstance() {
     </Box>
   );
 
-  const welcomeTexts = b.userapp_layout_config.welcome_text_line1 && (
+  const welcomeTexts = b.layoutConfig.welcomeTextLine1 && (
     <Box>
-      <Typography variant="h6">
-        {b.userapp_layout_config.welcome_text_line1}
-      </Typography>
-      {b.userapp_layout_config.welcome_text_line2 && (
+      <Typography variant="h6">{b.layoutConfig.welcomeTextLine1}</Typography>
+      {b.layoutConfig.welcomeTextLine2 && (
         <Typography variant="body1" color="orange">
-          {b.userapp_layout_config.welcome_text_line2}
+          {b.layoutConfig.welcomeTextLine2}
         </Typography>
       )}
     </Box>
