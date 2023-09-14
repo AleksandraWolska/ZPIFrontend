@@ -2,9 +2,9 @@ export const jsonString = `
 {
   "userapp_builder_config": {
     "core_config": {
-      "simultaneousness": false,
-      "uniqueness": true,
-      "flexibility": true,
+      "simultaneousness": true,
+      "uniqueness": false,
+      "flexibility": false,
       "granularity": false,
       "cyclicity": true,
       "specific_reservation": false
@@ -29,7 +29,24 @@ export const jsonString = `
           "param_enable_filtering": true,
           "possible_values": ["Red", "Blue", "Green"],
           "param_show_first_screen": true,
-          "param_show_second_screen": false
+          "param_show_second_screen": true
+        },
+        {
+          "param_name": "kidsFriendly",
+          "param_type": "boolean",
+          "param_is_required": true,
+          "param_enable_filtering": true,
+          "param_show_first_screen": true,
+          "param_show_second_screen": true
+        },
+        {
+          "param_name": "width",
+          "param_type": "number",
+          "units": "cm",
+          "param_is_required": true,
+          "param_enable_filtering": true,
+          "param_show_first_screen": true,
+          "param_show_second_screen": true
         }
       ],
       "reservation_prompts": {
@@ -69,8 +86,12 @@ export const jsonString = `
             "value": "Red"
           },
           {
-            "name": "Material",
-            "value": "Plastic"
+            "name": "kidsFriendly",
+            "value": false
+          },
+          {
+            "name": "width",
+            "value": 45
           }
         ],
         "comment_list": [
@@ -122,11 +143,15 @@ export const jsonString = `
         "parameters": [
           {
             "name": "Color",
-            "value": "Blue"
+            "value": "Red"
           },
           {
-            "name": "Material",
-            "value": "Plastic"
+            "name": "kidsFriendly",
+            "value": true
+          },
+          {
+            "name": "width",
+            "value": 45
           }
         ],
         "comment_list": [

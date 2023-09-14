@@ -15,7 +15,15 @@ import {
   Divider,
   Paper,
   TextField,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Checkbox,
+  FormControlLabel,
+  IconButton,
 } from "@mui/material";
+import { FilterAlt, FilterAltOff, Close } from "@mui/icons-material";
 import { jsonString } from "./mocks/json_template";
 import {
   UserAppBuilderConfig,
@@ -213,6 +221,213 @@ function UserAppInstance() {
       </Box>
     </Box>
   );
+
+  // ===================================================================================== PARAMETERS SECTION
+
+  const shouldShowParameters = b.userapp_layout_config.parameter_map.some(
+    (param) => param.param_show_second_screen,
+  );
+
+  const parametersList = shouldShowParameters &&
+    selectedItem &&
+    selectedItem.parameters && (
+      <Box width="fit-content">
+        {b.userapp_layout_config.parameter_map.map((paramConfig) => {
+          const parameter = selectedItem.parameters?.find(
+            (p) => p.name === paramConfig.param_name,
+          );
+
+          if (!parameter) return null;
+
+          let displayValue;
+          let style = {};
+
+          switch (paramConfig.param_type) {
+            case "string":
+              displayValue = parameter.value;
+              style = {
+                backgroundColor: "yellow",
+                padding: "5px",
+                borderRadius: "4px",
+                display: "flex",
+              };
+              break;
+            case "boolean":
+              displayValue = parameter.value ? "+" : "-";
+              style = {
+                backgroundColor: "lightGreen",
+                color: "black",
+                padding: "5px",
+                borderRadius: "4px",
+                display: "flex",
+              };
+              break;
+            case "number":
+              displayValue = `${parameter.value} ${paramConfig.units || ""}`;
+              style = {
+                backgroundColor: "lightBlue",
+                color: "black",
+                padding: "5px",
+                borderRadius: "4px",
+                display: "flex",
+              };
+              break;
+            default:
+              displayValue = parameter.value;
+          }
+
+          return (
+            <Box style={style}>
+              <Typography paddingRight="3px">
+                {paramConfig.param_name}:
+              </Typography>
+              <Typography>{displayValue}</Typography>
+            </Box>
+          );
+        })}
+      </Box>
+    );
+
+  // ========================================================================================FILTERS SECTION
+  type FilterValues = {
+    [key: string]: string | number | boolean;
+  };
+  const [showFilterForm, setShowFilterForm] = useState(false);
+  const [filters, setFilters] = useState<FilterValues>({});
+
+  const handleFilterToggle = () => {
+    setShowFilterForm((prev) => !prev);
+  };
+
+  const activeFilters = (
+    <Box display="flex" gap={1}>
+      {Object.entries(filters).map(([name, value]) => (
+        <Box
+          key={name}
+          display="flex"
+          alignItems="center"
+          padding={1}
+          border="1px solid"
+          borderRadius={3}
+        >
+          <Typography variant="body2">
+            {name}: {value.toString()}
+          </Typography>
+          <Close
+            style={{ marginLeft: "8px", cursor: "pointer" }}
+            onClick={() => handleFilterChange(name)}
+          />
+        </Box>
+      ))}
+    </Box>
+  );
+
+  const handleFilterChange = (
+    name: string,
+    value?: string | number | boolean,
+  ) => {
+    if (value === undefined || value === "") {
+      setFilters((prev) => {
+        const newFilters = { ...prev };
+        delete newFilters[name];
+        return newFilters;
+      });
+    } else {
+      setFilters((prev) => ({ ...prev, [name]: value }));
+    }
+  };
+
+  const resetFilters = () => {
+    setFilters({});
+  };
+
+  const FilterForm = b.userapp_layout_config.parameter_map
+    .filter((param) => param.param_enable_filtering)
+    .map((param) => {
+      switch (param.param_type) {
+        case "string":
+          return (
+            <Box key={param.param_name} marginBottom={2}>
+              <FormControl variant="outlined">
+                <InputLabel>{param.param_name}</InputLabel>
+                <Select
+                  value={filters[param.param_name] || ""}
+                  onChange={(e) =>
+                    handleFilterChange(param.param_name, e.target.value)
+                  }
+                  label={param.param_name}
+                >
+                  {param.possible_values?.map((val) => (
+                    <MenuItem key={val} value={val}>
+                      {val}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Box>
+          );
+        case "boolean":
+          return (
+            <Box key={param.param_name} marginBottom={2}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={!!filters[param.param_name]}
+                    onChange={(e) =>
+                      handleFilterChange(param.param_name, e.target.checked)
+                    }
+                  />
+                }
+                label={param.param_name}
+              />
+            </Box>
+          );
+        case "number":
+          return (
+            <Box key={param.param_name} marginBottom={2}>
+              <TextField
+                type="number"
+                label={param.param_name}
+                variant="outlined"
+                value={filters[param.param_name] || ""}
+                onChange={(e) =>
+                  handleFilterChange(param.param_name, Number(e.target.value))
+                }
+              />
+            </Box>
+          );
+        default:
+          return null;
+      }
+    });
+
+  const filteredItems = items.filter((item) => {
+    return b.userapp_layout_config.parameter_map.every((param) => {
+      if (!param.param_enable_filtering) return true;
+
+      const itemParam = item.parameters?.find(
+        (p) => p.name === param.param_name,
+      );
+      if (!itemParam) return true;
+
+      const filterValue = filters[param.param_name];
+      if (filterValue === undefined || filterValue === "") return true;
+
+      return itemParam.value === filterValue;
+    });
+  });
+
+  const filtersBox = (
+    <Box>
+      {showFilterForm && (
+        <Box bgcolor="lightgrey">
+          {FilterForm}
+          <Button onClick={resetFilters}>Reset</Button>
+        </Box>
+      )}
+    </Box>
+  );
+
   // ========================================================================================STARS SECTION
   // TODO user should set rating only once. when user sets rating the reuest to backend is proceeded with userid, if returns that user
   // hasnt yet rated, then success, else failed
@@ -221,10 +436,7 @@ function UserAppInstance() {
   };
 
   const ratings = b.item_layout_config.mark_second_screen && selectedItem && (
-    <RatingsInteractive
-      // You can replace this with the default mark from the data if necessary
-      handleSetRating={handleRatingAdd}
-    />
+    <RatingsInteractive handleSetRating={handleRatingAdd} />
   );
 
   // ===================================================================================== COMMENT SECTION
@@ -255,7 +467,7 @@ function UserAppInstance() {
             variant="contained"
             color="primary"
             style={{ marginTop: 10 }}
-            onClick={handleSendComment} // call handleSendComment on button click
+            onClick={handleSendComment}
           >
             Send
           </Button>
@@ -298,6 +510,7 @@ function UserAppInstance() {
 
   const core = (
     <Box>
+      {parametersList}
       {freeRangesUserInput}
       {checkAvailabilityUserInput}
       {subItemsList}
@@ -355,7 +568,7 @@ function UserAppInstance() {
   const itemsList = (
     <Box>
       <List>
-        {items.map((item: Item) => (
+        {filteredItems.map((item: Item) => (
           <ListItem button key={item.id} onClick={() => handleItemSelect(item)}>
             <ListItemText primary={item.title} secondary={item.subtitle} />
 
@@ -386,9 +599,18 @@ function UserAppInstance() {
   );
 
   const firstScreen = (
-    <Box>
-      <Box padding={3}>
+    <Box display="flex" justifyContent="space-between">
+      {showFilterForm && (
+        <Box width="25%" padding={3}>
+          {filtersBox}
+        </Box>
+      )}
+      <Box width="75%" padding={3}>
         {welcomeTexts}
+        <IconButton onClick={handleFilterToggle}>
+          {showFilterForm ? <FilterAltOff /> : <FilterAlt />}
+        </IconButton>
+        {activeFilters}
         {itemsList}
         <Divider style={{ margin: "20px 0" }} />
       </Box>
