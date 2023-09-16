@@ -153,3 +153,7 @@ export type SubItem = {
 //     showItemImageSecondScreen: boolean; // Display item image on the second screen
 //   };
 // };
+
+export type FilterValues = {
+  [key: string]: string | number | boolean;
+};
