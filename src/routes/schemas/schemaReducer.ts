@@ -1,12 +1,18 @@
 import { Schema, SchemaStep, SCHEMA_STEPS } from "./types";
 
 export const SCHEMA_ACTION_TYPES = {
+  SET_LAYOUT_CONFIG: "SET_LAYOUT_CONFIG",
   APPEND_TO_CORE_CONFIG: "APPEND_TO_CORE_CONFIG",
   WITHDRAW_TO_CORE_CONFIG: "WITHDRAW_TO_CORE_CONFIG",
   SET_CUSTOM_PARAMS: "SET_CUSTOM_PARAMS",
   SET_RATING_OPTIONS: "SET_RATING_OPTIONS",
   SET_COMMENTS_OPTIONS: "SET_COMMENTS_OPTIONS",
 } as const;
+
+type SetLayoutConfigAction = {
+  type: typeof SCHEMA_ACTION_TYPES.SET_LAYOUT_CONFIG;
+  payload: Schema["layoutConfig"];
+};
 
 type AppendToCoreConfigAction = {
   type: typeof SCHEMA_ACTION_TYPES.APPEND_TO_CORE_CONFIG;
@@ -34,6 +40,7 @@ type SetCommentsOptionsAction = {
 };
 
 type SchemaAction =
+  | SetLayoutConfigAction
   | AppendToCoreConfigAction
   | WithdrawToCoreConfigAction
   | SetCustomParamsAction
@@ -42,6 +49,8 @@ type SchemaAction =
 
 export function schemaReducer(schema: Schema, action: SchemaAction): Schema {
   switch (action.type) {
+    case SCHEMA_ACTION_TYPES.SET_LAYOUT_CONFIG:
+      return { ...schema, layoutConfig: action.payload };
     case SCHEMA_ACTION_TYPES.APPEND_TO_CORE_CONFIG:
       return {
         ...schema,

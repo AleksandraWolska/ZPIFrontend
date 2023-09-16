@@ -3,6 +3,7 @@ import { Schema, SchemaStep } from "./types";
 
 export type SchemaContextType = {
   schema: Schema;
+  setLayoutConfig: (layoutConfig: Schema["layoutConfig"]) => void;
   setFlexibility: (flexibility: Schema["coreConfig"]["flexibility"]) => void;
   setGranularity: (granularity: Schema["coreConfig"]["granularity"]) => void;
   setSimultaneous: (simultaneous: Schema["coreConfig"]["simultaneous"]) => void;

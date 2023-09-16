@@ -12,15 +12,18 @@ import CoreSummary from "./steps/CoreSummary";
 import CustomParams from "./steps/CustomParams";
 import PrintSchema from "./steps/PrintSchema";
 import RatingAndComments from "./steps/RatingAndComments";
+import LayoutConfig from "./steps/LayoutConfig";
 
 function Stepper() {
   const [activeStep, setActiveStep] = useState<SchemaStep>(
-    SCHEMA_STEPS.FLEXIBILITY,
+    SCHEMA_STEPS.LAYOUT_CONFIG,
   );
   const [progress, setProgress] = useState(0);
 
   const renderStepContent = () => {
     switch (activeStep) {
+      case SCHEMA_STEPS.LAYOUT_CONFIG:
+        return <LayoutConfig setActiveStep={setActiveStep} />;
       case SCHEMA_STEPS.FLEXIBILITY:
         return (
           <Flexibility

@@ -18,6 +18,16 @@ function Flexibility({
       <button
         type="button"
         onClick={() => {
+          const prevStep = SCHEMA_STEPS.LAYOUT_CONFIG;
+          setActiveStep(prevStep);
+        }}
+      >
+        BACK
+      </button>
+
+      <button
+        type="button"
+        onClick={() => {
           setFlexibility(true);
           const nextStep = SCHEMA_STEPS.GRANULARITY;
           setActiveStep(nextStep);
