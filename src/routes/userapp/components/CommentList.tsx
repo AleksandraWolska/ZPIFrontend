@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   TextField,
   Paper,
@@ -7,24 +8,25 @@ import {
   ListItemText,
   Typography,
 } from "@mui/material";
-import { Item, Comment as CommentType } from "../mocks/userapp_types"; // Make sure the path is correct
+import { Item, Comment as CommentType } from "../mocks/userapp_types";
 
 interface CommentListProps {
   selectedItem: Item;
-  handleSendComment: () => void;
-  userComment: string;
-  setUserComment: (comment: string) => void;
+  handleSendComment: (content: string) => void;
 }
 
-function CommentList({
-  selectedItem,
-  handleSendComment,
-  userComment,
-  setUserComment,
-}: CommentListProps) {
+function CommentList({ selectedItem, handleSendComment }: CommentListProps) {
+  const [userComment, setUserComment] = useState("");
+
+  const handleVerifyComment = () => {
+    if (userComment.trim() !== "") {
+      handleSendComment(userComment);
+      setUserComment("");
+    }
+  };
+
   return (
     <div>
-      {/* Input for current user's comment */}
       <Paper style={{ padding: 15, marginBottom: 15 }}>
         <TextField
           fullWidth
@@ -40,13 +42,11 @@ function CommentList({
           variant="contained"
           color="primary"
           style={{ marginTop: 10 }}
-          onClick={handleSendComment}
+          onClick={handleVerifyComment}
         >
           Send
         </Button>
       </Paper>
-
-      {/* List of comments */}
       <List>
         {selectedItem &&
           selectedItem.comment_list &&

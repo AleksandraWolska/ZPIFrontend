@@ -17,13 +17,13 @@ interface FiltersProps {
   handleFilterChange: (name: string, value?: string | number | boolean) => void;
   resetFilters: () => void;
   filters: FilterValues;
-  parameterMap: ParameterConfig[]; // Replace with actual type
+  parameterMap: ParameterConfig[];
 }
 
 function Filters({
   handleFilterChange,
   resetFilters,
-  filters,
+  filters: activeFilters,
   parameterMap,
 }: FiltersProps) {
   const FilterForm = parameterMap
@@ -37,7 +37,7 @@ function Filters({
                 {/* TODO if param has possible values, then select list if else input field */}
                 <InputLabel>{param.name}</InputLabel>
                 <Select
-                  value={filters[param.name] || ""}
+                  value={activeFilters[param.name] || ""}
                   onChange={(e) =>
                     handleFilterChange(param.name, e.target.value)
                   }
@@ -58,7 +58,7 @@ function Filters({
               <FormControlLabel
                 control={
                   <Checkbox
-                    checked={!!filters[param.name]}
+                    checked={!!activeFilters[param.name]}
                     onChange={(e) =>
                       handleFilterChange(param.name, e.target.checked)
                     }
@@ -75,7 +75,7 @@ function Filters({
                 type="number"
                 label={param.name}
                 variant="outlined"
-                value={filters[param.name] || ""}
+                value={activeFilters[param.name] || ""}
                 onChange={(e) =>
                   handleFilterChange(param.name, Number(e.target.value))
                 }
@@ -88,7 +88,7 @@ function Filters({
     });
 
   return (
-    <Box>
+    <Box width="25%" padding={3}>
       <Box bgcolor="lightgrey">
         {FilterForm}
         <Button onClick={resetFilters}>Reset</Button>
