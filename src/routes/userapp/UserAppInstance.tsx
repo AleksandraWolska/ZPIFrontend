@@ -13,13 +13,6 @@ import {
   DialogContentText,
   DialogTitle,
   Divider,
-  TextField,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Checkbox,
-  FormControlLabel,
   IconButton,
 } from "@mui/material";
 import { FilterAlt, FilterAltOff, Close } from "@mui/icons-material";
@@ -29,6 +22,7 @@ import {
   Item,
   SubItem,
   FetchedJSON,
+  FilterValues,
 } from "./mocks/userapp_types";
 import ImageS1 from "./components/ImageS1";
 import Ratings from "./components/Ratings";
@@ -36,6 +30,7 @@ import QuantityInput from "./components/CustomNumberInput";
 import RatingsInteractive from "./components/RatingsInteractive";
 import ParametersList from "./components/ParametersList";
 import CommentList from "./components/CommentList";
+import Filters from "./components/Filters";
 
 function UserAppInstance() {
   const jsonData: FetchedJSON = JSON.parse(jsonString);
@@ -223,22 +218,8 @@ function UserAppInstance() {
     </Box>
   );
 
-  // ===================================================================================== PARAMETERS SECTION
-
-  // const shouldShowParameters = b.layoutConfig.parameterMap.some(
-  //   (param) => param.showSecondScreen,
-  // );
-
-  // const parametersList = shouldShowParameters &&
-  //   selectedItem &&
-  //   selectedItem.parameters && (
-
-  //   );
-
   // ========================================================================================FILTERS SECTION
-  type FilterValues = {
-    [key: string]: string | number | boolean;
-  };
+
   const [showFilterForm, setShowFilterForm] = useState(false);
   const [filters, setFilters] = useState<FilterValues>({});
 
@@ -288,66 +269,6 @@ function UserAppInstance() {
     setFilters({});
   };
 
-  const FilterForm = b.layoutConfig.parameterMap
-    .filter((param) => param.isFilterable)
-    .map((param) => {
-      switch (param.type) {
-        case "string":
-          return (
-            <Box key={param.name} marginBottom={2}>
-              <FormControl variant="outlined">
-                <InputLabel>{param.name}</InputLabel>
-                <Select
-                  value={filters[param.name] || ""}
-                  onChange={(e) =>
-                    handleFilterChange(param.name, e.target.value)
-                  }
-                  label={param.name}
-                >
-                  {param.possibleValues?.map((val) => (
-                    <MenuItem key={val} value={val}>
-                      {val}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Box>
-          );
-        case "boolean":
-          return (
-            <Box key={param.name} marginBottom={2}>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={!!filters[param.name]}
-                    onChange={(e) =>
-                      handleFilterChange(param.name, e.target.checked)
-                    }
-                  />
-                }
-                label={param.name}
-              />
-            </Box>
-          );
-        case "number":
-          return (
-            <Box key={param.name} marginBottom={2}>
-              <TextField
-                type="number"
-                label={param.name}
-                variant="outlined"
-                value={filters[param.name] || ""}
-                onChange={(e) =>
-                  handleFilterChange(param.name, Number(e.target.value))
-                }
-              />
-            </Box>
-          );
-        default:
-          return null;
-      }
-    });
-
   const filteredItems = items.filter((item) => {
     return b.layoutConfig.parameterMap.every((param) => {
       if (!param.isFilterable) return true;
@@ -361,17 +282,6 @@ function UserAppInstance() {
       return itemParam.value === filterValue;
     });
   });
-
-  const filtersBox = (
-    <Box>
-      {showFilterForm && (
-        <Box bgcolor="lightgrey">
-          {FilterForm}
-          <Button onClick={resetFilters}>Reset</Button>
-        </Box>
-      )}
-    </Box>
-  );
 
   // ========================================================================================STARS SECTION
   // TODO user should set rating only once. when user sets rating the reuest to backend is proceeded with userid, if returns that user
@@ -509,7 +419,12 @@ function UserAppInstance() {
     <Box display="flex" justifyContent="space-between">
       {showFilterForm && (
         <Box width="25%" padding={3}>
-          {filtersBox}
+          <Filters
+            handleFilterChange={handleFilterChange}
+            resetFilters={resetFilters}
+            filters={filters}
+            parameterMap={b.layoutConfig.parameterMap}
+          />
         </Box>
       )}
       <Box width="75%" padding={3}>
