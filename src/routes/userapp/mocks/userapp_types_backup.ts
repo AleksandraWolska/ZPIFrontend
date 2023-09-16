@@ -51,3 +51,80 @@
 //     };
 //   };
 // };
+
+// if (b.coreConfig.flexibility) {
+//     // flexibility is true
+//     if (b.coreConfig.uniqueness) {
+//       if (b.coreConfig.simultaneous) {
+//         setShowUserAmountChoice(true);
+//         setShowFreeRangesUserInput(true);
+//       } else {
+//         setShowFreeRangesUserInput(true);
+//       }
+//     } else {
+//       // uniqueness is false
+//       if (b.coreConfig.simultaneous) {
+//         setShowUserAmountChoice(true);
+//         setShowCheckAvailabilityUserInput(true);
+//       } else {
+//         setShowCheckAvailabilityUserInput(true);
+//       }
+//     }
+//   } else {
+//     // flexibility is false
+//     if (b.coreConfig.simultaneous) {
+//       if (b.coreConfig.specificReservation) {
+//         setShowSubItems(true);
+//       } else {
+//         if (b.coreConfig.periodicity) {
+//           setShowSubItems(true);
+//           setShowUserAmountChoice(true);
+//         } else {
+//           setShowUserAmountChoice(true);
+//         }
+//       }
+//     }
+//     if (b.coreConfig.periodicity) {
+//       setShowSubItems(true);
+//     } else {
+//       //
+//     }
+//   }
+
+// // =================================================================================== USER AMOUNT CHOICE
+//   // simultaneousness=true, specific_reservation=false, cyclicity=false, flexibility=false
+//   // simultaneousness=true, specific_reservation=false, cyclicity=true, flexibility=false
+//   // simultaneousness=true, uniqueness=false, flexibility=true
+
+//   const userAmountChoice = (
+//     <Box>
+//       <QuantityInput
+//         disabled={showSubItemsList && selectedSubItemsList.length === 0}
+//         value={userCount}
+//         onUserCountChange={(value: number) => handleUserCountInputChange(value)}
+//       />
+//     </Box>
+//   );
+//   // =================================================================================== SHOW FREE RANGES USER INPUT
+//   // simultaneousness=true, uniqueness=true, flexibility=true
+//   // simultaneousness=false, uniqueness=true, flexibility=true
+//   const freeRangesUserInput = <Box>freeRangesUserInput </Box>;
+//   // =================================================================================== CHECK AVAILABILITY USER INPUT
+//   // simultaneousness=true, uniqueness=false, flexibility=true
+//   // simultaneousness=false, uniqueness=false, flexibility=true
+//   const checkAvailabilityUserInput = (
+//     <Box>checkAvailabilityUserInput</Box>
+//   );
+
+//   // ===================================================================================SUBITEMS LIST
+//   // simultaneousness=true, specific_reservation=true, flexibility=false
+//   // simultaneousness=true, specific_reservation=false, cyclicity=true, flexibility=false
+
+//   const subItemsList = selectedItem && showSubItemsList && (
+//     <SubItemsList
+//       selectedItem={selectedItem}
+//       showSubItemsList={showSubItemsList}
+//       selectedSubItemsList={selectedSubItemsList}
+//       toggleItemSelection={toggleItemSelection}
+//     />
+//   );
