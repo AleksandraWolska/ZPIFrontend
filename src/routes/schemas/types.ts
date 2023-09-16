@@ -1,6 +1,7 @@
 import { ObjectValues } from "../../types";
 
 export const SCHEMA_STEPS = {
+  LAYOUT_CONFIG: "LAYOUT_CONFIG",
   FLEXIBILITY: "FLEXIBILITY",
   GRANULARITY: "GRANULARITY",
   SIMULTANEOUS: "SIMULTANEOUS",
@@ -15,6 +16,15 @@ export const SCHEMA_STEPS = {
 } as const;
 
 export type SchemaStep = ObjectValues<typeof SCHEMA_STEPS>;
+
+export type LayoutConfig = {
+  name: string;
+  welcomeTextLine1: string;
+  welcomeTextLine2: string;
+  logoSrc: string;
+  showLogo: boolean;
+  enableFiltering: boolean;
+};
 
 export type Flexibility = boolean;
 export type Granularity = boolean;
@@ -49,6 +59,7 @@ export type CommentsOptions = {
 };
 
 export type Schema = {
+  layoutConfig: LayoutConfig;
   coreConfig: CoreConfig;
   customParams: CustomParam[];
   ratingOptions: RatingOptions;

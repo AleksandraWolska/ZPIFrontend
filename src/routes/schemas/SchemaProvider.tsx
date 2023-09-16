@@ -4,6 +4,14 @@ import { SCHEMA_ACTION_TYPES, schemaReducer } from "./schemaReducer";
 import { SchemaContext, SchemaContextType } from "./SchemaContext";
 
 const initialSchema: Schema = {
+  layoutConfig: {
+    name: "",
+    welcomeTextLine1: "",
+    welcomeTextLine2: "",
+    logoSrc: "",
+    showLogo: false,
+    enableFiltering: false,
+  },
   coreConfig: {},
   customParams: [],
   ratingOptions: {
@@ -23,6 +31,13 @@ function SchemaProvider({ children }: { children: ReactNode }) {
     // eslint-disable-next-line no-console
     console.log("SCHEMA", schema);
   }, [schema]);
+
+  const setLayoutConfig = (layoutConfig: Schema["layoutConfig"]) => {
+    dispatch({
+      type: SCHEMA_ACTION_TYPES.SET_LAYOUT_CONFIG,
+      payload: layoutConfig,
+    });
+  };
 
   const setFlexibility = (flexibility: Schema["coreConfig"]["flexibility"]) => {
     dispatch({
@@ -112,6 +127,7 @@ function SchemaProvider({ children }: { children: ReactNode }) {
   const contextValue = useMemo(
     () => ({
       schema,
+      setLayoutConfig,
       setFlexibility,
       setGranularity,
       setSimultaneous,
