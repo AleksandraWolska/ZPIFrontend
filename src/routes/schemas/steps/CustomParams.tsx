@@ -63,7 +63,6 @@ function CustomParams({
         return (
           <Stack key={param.id} direction="row" alignItems="center">
             <TextField
-              size="small"
               value={param.name}
               onChange={(e) => {
                 updateParam(param.id, { name: e.target.value });
@@ -77,7 +76,6 @@ function CustomParams({
             />
 
             <Select
-              size="small"
               value={param.dataType}
               onChange={(e) => {
                 const val = e.target.value as CustomParam["dataType"];
