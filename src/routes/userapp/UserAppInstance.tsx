@@ -13,7 +13,6 @@ import {
   DialogContentText,
   DialogTitle,
   Divider,
-  Paper,
   TextField,
   FormControl,
   InputLabel,
@@ -35,6 +34,8 @@ import ImageS1 from "./components/ImageS1";
 import Ratings from "./components/Ratings";
 import QuantityInput from "./components/CustomNumberInput";
 import RatingsInteractive from "./components/RatingsInteractive";
+import ParametersList from "./components/ParametersList";
+import CommentList from "./components/CommentList";
 
 function UserAppInstance() {
   const jsonData: FetchedJSON = JSON.parse(jsonString);
@@ -224,67 +225,15 @@ function UserAppInstance() {
 
   // ===================================================================================== PARAMETERS SECTION
 
-  const shouldShowParameters = b.layoutConfig.parameterMap.some(
-    (param) => param.showSecondScreen,
-  );
+  // const shouldShowParameters = b.layoutConfig.parameterMap.some(
+  //   (param) => param.showSecondScreen,
+  // );
 
-  const parametersList = shouldShowParameters &&
-    selectedItem &&
-    selectedItem.parameters && (
-      <Box width="fit-content">
-        {b.layoutConfig.parameterMap.map((paramConfig) => {
-          const parameter = selectedItem.parameters?.find(
-            (p) => p.name === paramConfig.name,
-          );
+  // const parametersList = shouldShowParameters &&
+  //   selectedItem &&
+  //   selectedItem.parameters && (
 
-          if (!parameter) return null;
-
-          let displayValue;
-          let style = {};
-
-          switch (paramConfig.type) {
-            case "string":
-              displayValue = parameter.value;
-              style = {
-                backgroundColor: "yellow",
-                padding: "5px",
-                borderRadius: "4px",
-                display: "flex",
-              };
-              break;
-            case "boolean":
-              displayValue = parameter.value ? "+" : "-";
-              style = {
-                backgroundColor: "lightGreen",
-                color: "black",
-                padding: "5px",
-                borderRadius: "4px",
-                display: "flex",
-              };
-              break;
-            case "number":
-              displayValue = `${parameter.value} ${paramConfig.units || ""}`;
-              style = {
-                backgroundColor: "lightBlue",
-                color: "black",
-                padding: "5px",
-                borderRadius: "4px",
-                display: "flex",
-              };
-              break;
-            default:
-              displayValue = parameter.value;
-          }
-
-          return (
-            <Box style={style}>
-              <Typography paddingRight="3px">{paramConfig.name}:</Typography>
-              <Typography>{displayValue}</Typography>
-            </Box>
-          );
-        })}
-      </Box>
-    );
+  //   );
 
   // ========================================================================================FILTERS SECTION
   type FilterValues = {
@@ -459,77 +408,15 @@ function UserAppInstance() {
     }
     console.log(userComment);
   };
-  const commentList = b.itemConfig.commentSection &&
-    selectedItem &&
-    selectedItem.comment_list && (
-      <div>
-        {/* Input for current user's comment */}
-        <Paper style={{ padding: 15, marginBottom: 15 }}>
-          <TextField
-            fullWidth
-            label="Your Comment"
-            variant="outlined"
-            multiline
-            rows={2}
-            placeholder="Enter your comment here..."
-            value={userComment} // set value to userComment
-            onChange={(e) => setUserComment(e.target.value)} // update userComment state on change
-          />
-          <Button
-            variant="contained"
-            color="primary"
-            style={{ marginTop: 10 }}
-            onClick={handleSendComment}
-          >
-            Send
-          </Button>
-        </Paper>
-
-        {/* List of comments */}
-        <List>
-          {selectedItem.comment_list.map((comment) => (
-            <Paper style={{ padding: 15, marginBottom: 15 }}>
-              <ListItem key={comment.id} alignItems="flex-start">
-                <ListItemText
-                  primary={
-                    <>
-                      <Typography
-                        sx={{ display: "inline" }}
-                        component="span"
-                        variant="body1"
-                        color="textPrimary"
-                      >
-                        {comment.nickname}
-                      </Typography>
-                      {` — ${new Date(comment.datetime).toLocaleDateString(
-                        undefined,
-                        {
-                          day: "numeric",
-                          month: "short",
-                          year: "numeric",
-                        },
-                      )}`}
-                    </>
-                  }
-                  secondary={comment.content}
-                />
-              </ListItem>
-            </Paper>
-          ))}
-        </List>
-      </div>
-    );
 
   const core = (
     <Box>
-      {parametersList}
       {freeRangesUserInput}
       {checkAvailabilityUserInput}
       {subItemsList}
       {userAmountChoice}
       {buttons}
       {ratings}
-      {commentList}
     </Box>
   );
 
@@ -545,7 +432,17 @@ function UserAppInstance() {
       {b.itemConfig.showRatingSecondScreen && selectedItem.mark && (
         <Ratings mark={selectedItem.mark} />
       )}
+      <ParametersList builderConfig={b} selectedItem={selectedItem} />
       {core}
+      {/* CommentList Component */}
+      {b.itemConfig.commentSection && selectedItem.comment_list && (
+        <CommentList
+          selectedItem={selectedItem}
+          userComment={userComment}
+          handleSendComment={handleSendComment}
+          setUserComment={setUserComment}
+        />
+      )}
       <Dialog
         open={showSuccessDialog}
         onClose={() => setShowSuccessDialog(false)}
