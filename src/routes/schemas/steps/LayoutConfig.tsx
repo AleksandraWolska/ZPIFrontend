@@ -21,7 +21,6 @@ function LayoutConfig({
     <>
       <Stack alignItems="start" spacing={1}>
         <TextField
-          size="small"
           label="name"
           value={layoutConfig.name}
           onChange={(e) => {
@@ -30,7 +29,6 @@ function LayoutConfig({
         />
 
         <TextField
-          size="small"
           label="welcomeTextLine1"
           value={layoutConfig.welcomeTextLine1}
           onChange={(e) => {
@@ -42,7 +40,6 @@ function LayoutConfig({
         />
 
         <TextField
-          size="small"
           label="welcomeTextLine2"
           value={layoutConfig.welcomeTextLine2}
           onChange={(e) => {
@@ -58,7 +55,6 @@ function LayoutConfig({
 
       <Stack direction="row" spacing={1}>
         <TextField
-          size="small"
           label="logoSrc"
           value={layoutConfig.logoSrc}
           onChange={(e) => {
