@@ -2,16 +2,15 @@ import React from "react";
 import { Box, Button } from "@mui/material";
 import dayjs from "dayjs";
 import { DateTimePicker } from "@mui/x-date-pickers";
-import { Item } from "../mocks/userapp_types";
 
 interface FreeRangesUserInputProps {
-  selectedItem: Item;
+  id: number;
   userCount: number;
-  onAvailabilityChecked: (itemId: number, start: string, end: string) => void;
+  onAvailabilityChecked: (id: number, start: string, end: string) => void;
 }
 
 export function FreeRangesDatepicker({
-  selectedItem,
+  id,
   userCount,
   onAvailabilityChecked,
 }: FreeRangesUserInputProps) {
@@ -25,7 +24,7 @@ export function FreeRangesDatepicker({
     console.log(userCount);
     if (startDateTime && endDateTime) {
       onAvailabilityChecked(
-        selectedItem.id,
+        id,
         startDateTime.toISOString(),
         endDateTime.toISOString(),
       );

@@ -5,6 +5,8 @@ import { loader as todosLoader } from "./routes/todos/all-todos/loader";
 import RequireLogin from "./auth/RequireLogin";
 import Secret from "./routes/secret/Secret";
 import UserApp from "./routes/userapp/UserApp";
+import UserAppFirstScreen from "./routes/userapp/UserAppFirstScreen";
+import UserAppSecondScreen from "./routes/userapp/UserAppSecondScreen";
 
 if (process.env.NODE_ENV === "development") {
   const { worker } = await import("./mocks/browser");
@@ -42,8 +44,18 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "userapp",
+    path: "userapp/:userId",
     element: <UserApp />,
+    children: [
+      {
+        path: ":appId",
+        element: <UserAppFirstScreen />,
+      },
+      {
+        path: ":appId/:itemId",
+        element: <UserAppSecondScreen />,
+      },
+    ],
   },
 
   {

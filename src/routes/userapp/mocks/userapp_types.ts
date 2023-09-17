@@ -57,10 +57,17 @@ export type UserAppBuilderConfig = {
 //= =================================================
 // TYPES FOR FETCHED DATA
 
-export type FetchedJSON = {
+export type FetchedJsonFirstScreen = {
   userapp_builder_config: UserAppBuilderConfig;
   fetched_data: {
     items: Item[];
+  };
+};
+
+export type FetchedJsonSecondScreen = {
+  userapp_builder_config: UserAppBuilderConfig;
+  fetched_data: {
+    item: Item;
   };
 };
 

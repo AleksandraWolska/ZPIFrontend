@@ -1,9 +1,9 @@
 import { AppBar, Toolbar, Typography, Button, Box } from "@mui/material";
-import { useState } from "react";
-import UserAppInstance from "./UserAppInstance";
+import { Outlet, useParams } from "react-router-dom";
 
 function UserApp() {
-  const [activeApp, setActiveApp] = useState<number>(1);
+  const { userId } = useParams();
+  // const [activeApp, setActiveApp] = useState<number>(1);
   return (
     <>
       <Box sx={{ flexGrow: 1 }}>
@@ -12,9 +12,7 @@ function UserApp() {
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               COMPANY
             </Typography>
-            <Button color="inherit" onClick={() => setActiveApp(1)}>
-              UserApp1
-            </Button>
+            <Button color="inherit">UserApp {userId}</Button>
             {/* <Button color="inherit" onClick={() => setActiveApp(2)}>UserApp2</Button>
                         <Button color="inherit" onClick={() => setActiveApp(3)}>UserApp3</Button>
                         <Button color="inherit" onClick={() => setActiveApp(4)}>UserApp4</Button>
@@ -24,8 +22,8 @@ function UserApp() {
           </Toolbar>
         </AppBar>
       </Box>
-
-      {activeApp === 1 && <UserAppInstance />}
+      <Outlet />
+      {/* {activeApp === 1 && <UserAppFirstScreen />} */}
       {/* {activeApp === 2 && <UserApp2 />}
             {activeApp === 3 && <UserApp3 />}
             {activeApp === 4 && <UserApp4 />}
