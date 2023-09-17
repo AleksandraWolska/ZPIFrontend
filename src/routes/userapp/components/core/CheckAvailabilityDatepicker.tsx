@@ -12,16 +12,15 @@ import {
 } from "@mui/material";
 import dayjs from "dayjs";
 import { DateTimePicker } from "@mui/x-date-pickers";
-import { Item } from "../mocks/userapp_types";
 
 interface CheckAvailabilityDatepickerProps {
-  selectedItem: Item;
+  id: number;
   userCount: number;
-  onAvailabilityChecked: (itemId: number, start: string, end: string) => void;
+  onAvailabilityChecked: (id: number, start: string, end: string) => void;
 }
 
 export function CheckAvailabilityDatepicker({
-  selectedItem,
+  id,
   userCount,
   onAvailabilityChecked,
 }: CheckAvailabilityDatepickerProps) {
@@ -63,7 +62,7 @@ export function CheckAvailabilityDatepicker({
     setShowSuggestedDialog(true);
   };
 
-  const buttons = selectedItem && (
+  const buttons = (
     <Box>
       {" "}
       <Box marginTop={2}>
@@ -84,7 +83,7 @@ export function CheckAvailabilityDatepicker({
             disabled={!startDateTime || !endDateTime}
             onClick={() =>
               onAvailabilityChecked(
-                selectedItem.id,
+                id,
                 startDateTime.toISOString(),
                 endDateTime.toISOString(),
               )
