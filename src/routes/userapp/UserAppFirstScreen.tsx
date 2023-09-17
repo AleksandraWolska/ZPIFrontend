@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useParams } from "react-router";
-import { useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+
 import {
   Box,
   Typography,
@@ -11,6 +11,7 @@ import {
   IconButton,
 } from "@mui/material";
 import { FilterAlt, FilterAltOff, Close } from "@mui/icons-material";
+
 import { jsonString } from "./mocks/json_template";
 import {
   UserAppBuilderConfig,
@@ -18,13 +19,15 @@ import {
   FetchedJsonFirstScreen,
   FilterValues,
 } from "./mocks/userapp_types";
+
 import ImageS1 from "./features/ImageS1";
 import Ratings from "./features/Ratings";
 import Filters from "./features/Filters";
 
-function UserAppFirstScreen() {
+export default function UserAppFirstScreen() {
   const navigate = useNavigate();
   const { appId } = useParams();
+
   const jsonData: FetchedJsonFirstScreen = JSON.parse(jsonString);
   const b: UserAppBuilderConfig = jsonData.userapp_builder_config;
   const { items } = jsonData.fetched_data;
@@ -32,9 +35,7 @@ function UserAppFirstScreen() {
   const [showFilterForm, setShowFilterForm] = useState(false);
   const [activeFilters, setActiveFilters] = useState<FilterValues>({});
 
-  const handleFilterToggle = () => {
-    setShowFilterForm((prev) => !prev);
-  };
+  const handleFilterToggle = () => setShowFilterForm((prev) => !prev);
 
   const handleFilterChange = (
     name: string,
@@ -51,9 +52,7 @@ function UserAppFirstScreen() {
     }
   };
 
-  const resetFilters = () => {
-    setActiveFilters({});
-  };
+  const resetFilters = () => setActiveFilters({});
 
   const activeFiltersList = (
     <Box display="flex" gap={1}>
@@ -78,8 +77,8 @@ function UserAppFirstScreen() {
     </Box>
   );
 
-  const filteredItems = items.filter((item) => {
-    return b.layoutConfig.parameterMap.every((param) => {
+  const filteredItems = items.filter((item) =>
+    b.layoutConfig.parameterMap.every((param) => {
       if (!param.isFilterable) return true;
 
       const itemParam = item.parameters?.find((p) => p.name === param.name);
@@ -89,81 +88,61 @@ function UserAppFirstScreen() {
       if (filterValue === undefined || filterValue === "") return true;
 
       return itemParam.value === filterValue;
-    });
-  });
-
-  const filters = showFilterForm && (
-    <Filters
-      handleFilterChange={handleFilterChange}
-      resetFilters={resetFilters}
-      filters={activeFilters}
-      parameterMap={b.layoutConfig.parameterMap}
-    />
-  );
-
-  const welcomeTexts = b.layoutConfig.welcomeTextLine1 && (
-    <Box>
-      <Typography variant="body1" color="orange">
-        {appId}
-      </Typography>
-      <Typography variant="h6">{b.layoutConfig.welcomeTextLine1}</Typography>
-      {b.layoutConfig.welcomeTextLine2 && (
-        <Typography variant="body1" color="orange">
-          {b.layoutConfig.welcomeTextLine2}
-        </Typography>
-      )}
-    </Box>
-  );
-
-  // const handleItemSelect = (item: Item) => {
-  //   setSelectedItem(item);
-
-  //   setReservationRequestReady(
-  //     !c.flexibility &&
-  //       !c.periodicity &&
-  //       !c.specificReservation &&
-  //       item.availableAmount !== undefined &&
-  //       item.availableAmount > 0,
-  //   );
-  // };
-
-  const itemsList = (
-    <Box>
-      <List>
-        {filteredItems.map((item: Item) => (
-          // <ListItem button key={item.id} onClick={() => handleItemSelect(item)}>
-          <ListItem button key={item.id} onClick={() => navigate(`${item.id}`)}>
-            <ListItemText primary={item.title} secondary={item.subtitle} />
-
-            {b.itemConfig.showItemImageFirstScreen && item.image && (
-              <ImageS1 url={item.image} />
-            )}
-
-            {b.itemConfig.showRatingFirstScreen && item.mark && (
-              <Ratings mark={item.mark} />
-            )}
-          </ListItem>
-        ))}
-      </List>
-    </Box>
+    }),
   );
 
   return (
     <Box padding={3}>
       <Box display="flex" justifyContent="space-between">
-        {filters}
+        {showFilterForm && (
+          <Filters
+            handleFilterChange={handleFilterChange}
+            resetFilters={resetFilters}
+            filters={activeFilters}
+            parameterMap={b.layoutConfig.parameterMap}
+          />
+        )}
+
         <Box width="75%" padding={3}>
-          {welcomeTexts}
+          <Box>
+            <Typography variant="body1" color="orange">
+              {appId}
+            </Typography>
+            <Typography variant="h6">
+              {b.layoutConfig.welcomeTextLine1}
+            </Typography>
+            {b.layoutConfig.welcomeTextLine2 && (
+              <Typography variant="body1" color="orange">
+                {b.layoutConfig.welcomeTextLine2}
+              </Typography>
+            )}
+          </Box>
+
           <IconButton onClick={handleFilterToggle}>
             {showFilterForm ? <FilterAltOff /> : <FilterAlt />}
           </IconButton>
+
           {activeFiltersList}
-          {itemsList}
+
+          <List>
+            {filteredItems.map((item: Item) => (
+              <ListItem key={item.id} onClick={() => navigate(`${item.id}`)}>
+                <ListItemText primary={item.title} secondary={item.subtitle} />
+
+                {b.itemConfig.showItemImageFirstScreen && item.image && (
+                  <ImageS1 url={item.image} />
+                )}
+
+                {b.itemConfig.showRatingFirstScreen && item.mark && (
+                  <Ratings mark={item.mark} />
+                )}
+              </ListItem>
+            ))}
+          </List>
+
           <Divider style={{ margin: "20px 0" }} />
         </Box>
       </Box>
     </Box>
   );
 }
-
-export default UserAppFirstScreen;
