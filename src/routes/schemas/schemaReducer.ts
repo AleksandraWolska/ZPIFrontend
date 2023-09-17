@@ -4,7 +4,7 @@ export const SCHEMA_ACTION_TYPES = {
   SET_LAYOUT_CONFIG: "SET_LAYOUT_CONFIG",
   APPEND_TO_CORE_CONFIG: "APPEND_TO_CORE_CONFIG",
   WITHDRAW_TO_CORE_CONFIG: "WITHDRAW_TO_CORE_CONFIG",
-  SET_CUSTOM_PARAMS: "SET_CUSTOM_PARAMS",
+  SET_ATTRIBUTES: "SET_ATTRIBUTES",
   SET_RATING_OPTIONS: "SET_RATING_OPTIONS",
   SET_COMMENTS_OPTIONS: "SET_COMMENTS_OPTIONS",
 } as const;
@@ -24,9 +24,9 @@ type WithdrawToCoreConfigAction = {
   payload: SchemaStep;
 };
 
-type SetCustomParamsAction = {
-  type: typeof SCHEMA_ACTION_TYPES.SET_CUSTOM_PARAMS;
-  payload: Schema["customParams"];
+type SetAttributesAction = {
+  type: typeof SCHEMA_ACTION_TYPES.SET_ATTRIBUTES;
+  payload: Schema["attributes"];
 };
 
 type SetRatingOptionsAction = {
@@ -43,7 +43,7 @@ type SchemaAction =
   | SetLayoutConfigAction
   | AppendToCoreConfigAction
   | WithdrawToCoreConfigAction
-  | SetCustomParamsAction
+  | SetAttributesAction
   | SetRatingOptionsAction
   | SetCommentsOptionsAction;
 
@@ -61,8 +61,8 @@ export function schemaReducer(schema: Schema, action: SchemaAction): Schema {
         ...schema,
         coreConfig: resetCoreConfig(schema.coreConfig, action.payload),
       };
-    case SCHEMA_ACTION_TYPES.SET_CUSTOM_PARAMS:
-      return { ...schema, customParams: action.payload };
+    case SCHEMA_ACTION_TYPES.SET_ATTRIBUTES:
+      return { ...schema, attributes: action.payload };
     case SCHEMA_ACTION_TYPES.SET_RATING_OPTIONS:
       return {
         ...schema,

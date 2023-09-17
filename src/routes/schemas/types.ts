@@ -10,7 +10,7 @@ export const SCHEMA_STEPS = {
   SPECIFIC_RESERVATION: "SPECIFIC_RESERVATION",
   PERIODICITY: "PERIODICITY",
   CORE_SUMMARY: "CORE_SUMMARY",
-  CUSTOM_PARAMS: "CUSTOM_PARAMS",
+  ATTRIBUTES: "ATTRIBUTES",
   RATING_AND_COMMENTS: "RATING_AND_COMMENTS",
   PRINT_SCHEMA: "PRINT_SCHEMA",
 } as const;
@@ -43,11 +43,13 @@ export type CoreConfig = {
   periodicity?: Periodicity;
 };
 
-export type CustomParam = {
+export type Attribute = {
   name: string;
   dataType: "string" | "number" | "boolean";
   isRequired: boolean;
   isFilterable: boolean;
+  showMainPage: boolean;
+  showDetailsPage: boolean;
 };
 export type RatingOptions = {
   allowRating: boolean;
@@ -61,7 +63,7 @@ export type CommentsOptions = {
 export type Schema = {
   layoutConfig: LayoutConfig;
   coreConfig: CoreConfig;
-  customParams: CustomParam[];
+  attributes: Attribute[];
   ratingOptions: RatingOptions;
   commentsOptions: CommentsOptions;
 };

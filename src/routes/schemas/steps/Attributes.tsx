@@ -12,36 +12,38 @@ import {
   TextField,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { CustomParam, SCHEMA_STEPS, SchemaStep } from "../types";
+import { Attribute, SCHEMA_STEPS, SchemaStep } from "../types";
 import { useSchema } from "../SchemaProvider";
 
-type CustomParamWithId = CustomParam & { id: string };
+type AttributeWithId = Attribute & { id: string };
 
-const defaultParam: CustomParam = {
+const defaultParam: Attribute = {
   name: "",
   dataType: "string",
-  isRequired: true,
+  isRequired: false,
   isFilterable: false,
+  showMainPage: false,
+  showDetailsPage: false,
 };
 
-function CustomParams({
+function Attributes({
   setActiveStep,
 }: {
   setActiveStep: (step: SchemaStep) => void;
 }) {
-  const { schema, setCustomParams } = useSchema();
+  const { schema, setAttributes } = useSchema();
 
-  const initialParams = schema.customParams?.length
+  const initialParams = schema.attributes?.length
     ? [
-        ...schema.customParams.map((p) => ({ id: uuid(), ...p })),
+        ...schema.attributes.map((p) => ({ id: uuid(), ...p })),
         { id: uuid(), ...defaultParam },
       ]
     : [{ id: uuid(), ...defaultParam }];
 
-  const [params, setParams] = useState<CustomParamWithId[]>(initialParams);
+  const [params, setParams] = useState<AttributeWithId[]>(initialParams);
   const lastIdx = params.length - 1;
 
-  const updateParam = (id: string, attribute: Partial<CustomParam>) => {
+  const updateParam = (id: string, attribute: Partial<Attribute>) => {
     setParams((prev) =>
       prev.map((p) => (p.id === id ? { ...p, ...attribute } : p)),
     );
@@ -54,7 +56,7 @@ function CustomParams({
         const { id, ...rest } = p;
         return rest;
       });
-    setCustomParams(filteredParams);
+    setAttributes(filteredParams);
   };
 
   return (
@@ -78,7 +80,7 @@ function CustomParams({
             <Select
               value={param.dataType}
               onChange={(e) => {
-                const val = e.target.value as CustomParam["dataType"];
+                const val = e.target.value as Attribute["dataType"];
                 updateParam(param.id, { dataType: val });
               }}
             >
@@ -112,6 +114,34 @@ function CustomParams({
                   />
                 }
                 label="isFilterable"
+              />
+
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={param.showMainPage}
+                    onChange={(e) => {
+                      updateParam(param.id, {
+                        showMainPage: e.target.checked,
+                      });
+                    }}
+                  />
+                }
+                label="showMainPage"
+              />
+
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={param.showDetailsPage}
+                    onChange={(e) => {
+                      updateParam(param.id, {
+                        showDetailsPage: e.target.checked,
+                      });
+                    }}
+                  />
+                }
+                label="showDetailsPage"
               />
             </FormGroup>
 
@@ -148,4 +178,4 @@ function CustomParams({
   );
 }
 
-export default CustomParams;
+export default Attributes;
