@@ -8,8 +8,9 @@ import {
   DialogContentText,
   DialogTitle,
 } from "@mui/material";
-import { useParams } from "react-router-dom";
 import { useState } from "react";
+import { useParams } from "react-router-dom";
+
 import {
   CoreConfig,
   FetchedJsonSecondScreen,
@@ -17,6 +18,7 @@ import {
   UserAppBuilderConfig,
 } from "./mocks/userapp_types";
 import { jsonString } from "./mocks/json_template_second_screen";
+
 import ParametersList from "./features/ParametersList";
 import CommentList from "./features/CommentList";
 import Ratings from "./features/Ratings";
@@ -28,11 +30,9 @@ import SubItemsList from "./components/core/SubItemsList";
 
 export default function UserAppSecondScreen() {
   const { itemId } = useParams();
-
   const jsonData: FetchedJsonSecondScreen = JSON.parse(jsonString);
   const b: UserAppBuilderConfig = jsonData.userapp_builder_config;
   const c: CoreConfig = b.coreConfig;
-
   const { item } = jsonData.fetched_data;
 
   const [showSuccessDialog, setShowSuccessDialog] = useState(false);
@@ -148,7 +148,6 @@ export default function UserAppSecondScreen() {
     console.log("End Date:", end);
   };
 
-  // todo pass itemid instead of whole item
   const freeRangesUserInput = (
     <FreeRangesDatepicker
       id={item.id}
@@ -156,7 +155,7 @@ export default function UserAppSecondScreen() {
       onAvailabilityChecked={handleAvailabilityChecked}
     />
   );
-  // todo pass itemid instead of whole item
+
   const checkAvailabilityUserInput = (
     <CheckAvailabilityDatepicker
       id={item.id}
@@ -277,10 +276,12 @@ export default function UserAppSecondScreen() {
         <Typography variant="body2">{item.description}</Typography>
       )}
       {ratings}
-      <ParametersList
-        parameterConfigMap={b.layoutConfig.parameterMap}
-        selectedItem={item}
-      />
+      {item.parameters && (
+        <ParametersList
+          parameterConfigMap={b.layoutConfig.parameterMap}
+          itemParameters={item.parameters!}
+        />
+      )}
       {core}
       {ratingsInteractive}
       {commentList}

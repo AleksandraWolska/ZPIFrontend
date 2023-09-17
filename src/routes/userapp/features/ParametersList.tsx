@@ -1,27 +1,27 @@
 import { Box, Typography } from "@mui/material";
-import { Parameter, ParameterConfig, Item } from "../mocks/userapp_types";
+import { Parameter, ParameterConfig } from "../mocks/userapp_types";
 
 interface ParametersListProps {
   parameterConfigMap: ParameterConfig[];
-  selectedItem: Item | null;
+  itemParameters: Parameter[];
 }
 
 function ParametersList({
   parameterConfigMap,
-  selectedItem,
+  itemParameters,
 }: ParametersListProps) {
   const shouldShowParameters = parameterConfigMap.some(
     (param: ParameterConfig) => param.showSecondScreen,
   );
 
-  if (!shouldShowParameters || !selectedItem || !selectedItem.parameters) {
+  if (!shouldShowParameters || !itemParameters) {
     return null;
   }
 
   return (
     <Box width="fit-content">
       {parameterConfigMap.map((paramConfig: ParameterConfig) => {
-        const parameter = selectedItem.parameters?.find(
+        const parameter = itemParameters.find(
           (p: Parameter) => p.name === paramConfig.name,
         );
 

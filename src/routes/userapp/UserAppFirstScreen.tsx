@@ -23,8 +23,8 @@ import Ratings from "./features/Ratings";
 import Filters from "./features/Filters";
 
 function UserAppFirstScreen() {
-  const { appId } = useParams();
   const navigate = useNavigate();
+  const { appId } = useParams();
   const jsonData: FetchedJsonFirstScreen = JSON.parse(jsonString);
   const b: UserAppBuilderConfig = jsonData.userapp_builder_config;
   const { items } = jsonData.fetched_data;
