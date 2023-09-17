@@ -2,12 +2,14 @@ export const jsonString = `
 {
   "userapp_builder_config": {
     "coreConfig": {
+      "flexibility": true,
       "simultaneous": true,
-      "uniqueness": false,
-      "flexibility": false,
-      "granularity": false,
-      "periodicity": true,
+      "uniqueness": true,
+      "periodicity": false,
       "specificReservation": false
+    
+    
+    
     },
     "layoutConfig": {
       "companyName": "Tech Corp",
@@ -88,7 +90,7 @@ export const jsonString = `
             "value": 45
           }
         ],
-        "comment_list": [
+        "commentList": [
           {
             "id": "1",
             "userId": "user001",
@@ -111,23 +113,22 @@ export const jsonString = `
             "datetime": "2023-09-03T13:14:22Z"
           }
         ],
-        "subitem_list": [
+        "subitemList": [
           {
             "id": 1,
             "title": "Sub Gadget A",
             "subtitle": "Type A",
-            "available_amount": 2
+            "availableAmount": 2
           },
           {
             "id": 2,
             "title": "Sub Gadget B",
             "subtitle": "Type B",
-            "available_amount": 3
+            "availableAmount": 3
           }
         ],
-        "free_amount": 20,
         "mark": 4.5,
-        "available_amount": 4
+        "availableAmount": 4
       },
       {
         "id": 2,
@@ -148,7 +149,7 @@ export const jsonString = `
             "value": 45
           }
         ],
-        "comment_list": [
+        "commentList": [
           {
             "id": "1",
             "userId": "user001",
@@ -171,17 +172,16 @@ export const jsonString = `
             "datetime": "2023-09-03T13:14:22Z"
           }
         ],
-        "subitem_list": [
+        "subitemList": [
           {
             "id": 3,
             "title": "Sub Gadget C",
             "subtitle": "Type C",
-            "available_amount": 4
+            "availableAmount": 4
           }
         ],
-        "free_amount": 15,
         "mark": 4.0,
-        "available_amount": 2
+        "availableAmount": 2
       }
     ]
   }

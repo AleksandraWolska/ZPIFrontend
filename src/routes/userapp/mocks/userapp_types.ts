@@ -82,10 +82,10 @@ export type Item = {
   subtitle?: string;
   description?: string;
   parameters?: Parameter[];
-  subitem_list?: SubItem[];
-  comment_list?: Comment[];
+  subitemList?: SubItem[];
+  commentList?: Comment[];
   mark?: number;
-  available_amount?: number;
+  availableAmount?: number;
   image?: string;
 };
 
@@ -93,7 +93,7 @@ export type SubItem = {
   id: number;
   title: string;
   subtitle?: string;
-  available_amount?: number;
+  availableAmount?: number;
 };
 
 // export type UserAppConfig = {
