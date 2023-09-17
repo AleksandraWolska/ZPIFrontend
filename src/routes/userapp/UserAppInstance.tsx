@@ -32,6 +32,8 @@ import ParametersList from "./components/ParametersList";
 import CommentList from "./components/CommentList";
 import Filters from "./components/Filters";
 import SubItemsList from "./components/SubItemsList";
+import { CheckAvailabilityDatepicker } from "./components/CheckAvailabilityDatepicker";
+import { FreeRangesDatepicker } from "./components/FreeRangersDatepicker";
 
 function UserAppInstance() {
   const jsonData: FetchedJSON = JSON.parse(jsonString);
@@ -39,7 +41,7 @@ function UserAppInstance() {
   const c: CoreConfig = b.coreConfig;
 
   const { items } = jsonData.fetched_data;
-  const [selectedItem, setSelectedItem] = useState<Item | null>(null);
+  const [selectedItem, setSelectedItem] = useState<Item>();
   const [showSuccessDialog, setShowSuccessDialog] = useState(false);
   const [selectedSubItemsList, setSelectedSubItemsList] = useState<SubItem[]>(
     [],
@@ -55,17 +57,16 @@ function UserAppInstance() {
 
   const handleUserCountInputChange = (newValue: number) => {
     setReservationRequestReady(
-      selectedSubItemsList.length > 0 &&
-        selectedSubItemsList[0]!.available_amount! >= newValue,
+      selectedItem !== undefined && selectedItem.availableAmount! >= newValue,
     );
+    setUserCount(newValue || 1);
+  };
 
-    if (newValue > userCount) {
-      //
-    } else if (newValue < userCount) {
-      //
-    } else {
-      console.log("Value unchanged");
-    }
+  const handleUserCountInputChangeRestricted = (newValue: number) => {
+    setReservationRequestReady(
+      selectedSubItemsList.length > 0 &&
+        selectedSubItemsList[0]!.availableAmount! >= newValue,
+    );
     setUserCount(newValue || 1);
   };
 
@@ -97,10 +98,10 @@ function UserAppInstance() {
       content,
     };
 
-    if (selectedItem?.comment_list) {
+    if (selectedItem?.commentList) {
       setSelectedItem({
         ...selectedItem,
-        comment_list: [newComment, ...selectedItem.comment_list],
+        commentList: [newComment, ...selectedItem.commentList],
       });
     }
 
@@ -110,43 +111,100 @@ function UserAppInstance() {
     setActiveFilters({});
   };
 
-  const toggleItemSelection = (subItem: SubItem) => {
+  const toggleItemSingleSelection = (subItem: SubItem) => {
     if (selectedSubItemsList.some((selected) => selected.id === subItem.id)) {
       setSelectedSubItemsList((prev) =>
         prev.filter((selected) => selected.id !== subItem.id),
       );
     } else {
-      setSelectedSubItemsList((prev) => {
-        console.log(`${c.periodicity} here`);
-        return c.periodicity ? [subItem] : [...prev, subItem];
+      setSelectedSubItemsList(() => {
+        return [subItem];
       });
     }
+    console.log(
+      `set ${subItem}of amount ${subItem.availableAmount} usercount ${userCount}`,
+    );
     setReservationRequestReady(
-      !c.periodicity ||
-        !subItem.available_amount ||
-        subItem.available_amount > userCount,
+      !subItem.availableAmount || subItem.availableAmount >= userCount,
     );
   };
 
-  const userAmountChoice = (
+  const toggleItemMultipleSelection = (subItem: SubItem) => {
+    let updatedSubItemsList;
+
+    if (selectedSubItemsList.some((selected) => selected.id === subItem.id)) {
+      updatedSubItemsList = selectedSubItemsList.filter(
+        (selected) => selected.id !== subItem.id,
+      );
+    } else {
+      updatedSubItemsList = [...selectedSubItemsList, subItem];
+    }
+
+    setSelectedSubItemsList(updatedSubItemsList);
+    setReservationRequestReady(updatedSubItemsList.length > 0);
+  };
+
+  const userCountChoiceRestricted = (
     <Box>
       <QuantityInput
         disabled={selectedSubItemsList.length === 0}
+        value={userCount}
+        onUserCountChange={(value: number) =>
+          handleUserCountInputChangeRestricted(value)
+        }
+      />
+    </Box>
+  );
+
+  const userCountChoice = (
+    <Box>
+      <QuantityInput
+        disabled={false}
         value={userCount}
         onUserCountChange={(value: number) => handleUserCountInputChange(value)}
       />
     </Box>
   );
 
-  const freeRangesUserInput = <Box>freeRangesUserInput </Box>;
+  const handleAvailabilityChecked = (
+    itemId: number,
+    start: string,
+    end: string,
+  ) => {
+    setReservationRequestReady(true);
+    console.log("Item ID:", itemId);
+    console.log("Start Date:", start);
+    console.log("End Date:", end);
+  };
 
-  const checkAvailabilityUserInput = <Box>checkAvailabilityUserInput</Box>;
+  const freeRangesUserInput = selectedItem && (
+    <FreeRangesDatepicker
+      selectedItem={selectedItem}
+      userCount={userCount}
+      onAvailabilityChecked={handleAvailabilityChecked}
+    />
+  );
 
-  const subItemsList = selectedItem && (
+  const checkAvailabilityUserInput = selectedItem && (
+    <CheckAvailabilityDatepicker
+      selectedItem={selectedItem}
+      userCount={userCount}
+      onAvailabilityChecked={handleAvailabilityChecked}
+    />
+  );
+
+  const subItemsListSingle = selectedItem && (
     <SubItemsList
       selectedItem={selectedItem}
       selectedSubItemsList={selectedSubItemsList}
-      toggleItemSelection={toggleItemSelection}
+      toggleItemSelection={toggleItemSingleSelection}
+    />
+  );
+  const subItemsListMultiple = selectedItem && (
+    <SubItemsList
+      selectedItem={selectedItem}
+      selectedSubItemsList={selectedSubItemsList}
+      toggleItemSelection={toggleItemMultipleSelection}
     />
   );
 
@@ -166,7 +224,7 @@ function UserAppInstance() {
         <Button
           onClick={() => {
             setShowSuccessDialog(false);
-            setSelectedItem(null);
+            setSelectedItem(undefined);
             setSelectedSubItemsList([]); // Reset the selected items
           }}
           color="primary"
@@ -191,7 +249,10 @@ function UserAppInstance() {
         <Button
           style={{ marginLeft: "10px" }}
           variant="contained"
-          onClick={() => setSelectedItem(null)}
+          onClick={() => {
+            setSelectedItem(undefined);
+            setSelectedSubItemsList([]);
+          }}
         >
           Back
         </Button>
@@ -261,31 +322,67 @@ function UserAppInstance() {
 
   const core = (
     <Box>
-      {c.flexibility &&
-        ((c.uniqueness && !c.simultaneous) || !c.uniqueness) &&
-        freeRangesUserInput}
-      {c.flexibility &&
-        !c.uniqueness &&
-        c.simultaneous &&
-        checkAvailabilityUserInput}
+      {/*  V5 & V9 & V10 */}
+      {c.simultaneous &&
+        c.periodicity &&
+        !c.specificReservation &&
+        userCountChoiceRestricted}
+
+      {/* V3 & V5 & V9 & V10 */}
+      {((c.simultaneous && !c.specificReservation && !c.periodicity) ||
+        (c.flexibility && c.simultaneous)) &&
+        userCountChoice}
+      {/* V7 & V9 */}
+      {c.flexibility && !c.uniqueness && checkAvailabilityUserInput}
+
+      {/* V8 & V10 */}
+      {c.flexibility && c.uniqueness && freeRangesUserInput}
+
+      {/* V2 */}
+      {!c.flexibility && !c.simultaneous && c.periodicity && subItemsListSingle}
+
+      {/* V4 */}
       {!c.flexibility &&
-        ((c.simultaneous && (c.specificReservation || c.periodicity)) ||
-          c.periodicity) &&
-        subItemsList}
-      {(c.flexibility && c.simultaneous) ||
-        (!c.flexibility &&
-          ((c.simultaneous && !c.specificReservation) ||
-            (!c.simultaneous && c.periodicity)) &&
-          userAmountChoice)}
-      {buttons}
+        c.simultaneous &&
+        !c.periodicity &&
+        c.specificReservation &&
+        subItemsListMultiple}
+
+      {/* V6 */}
+      {!c.flexibility &&
+        c.simultaneous &&
+        c.periodicity &&
+        c.specificReservation &&
+        subItemsListMultiple}
+
+      {/* V5 */}
+      {!c.flexibility &&
+        c.simultaneous &&
+        c.periodicity &&
+        !c.specificReservation &&
+        subItemsListSingle}
+
+      {c.flexibility ? null : buttons}
     </Box>
   );
+
+  const handleItemSelect = (item: Item) => {
+    setSelectedItem(item);
+
+    setReservationRequestReady(
+      !c.flexibility &&
+        !c.periodicity &&
+        !c.specificReservation &&
+        item.availableAmount !== undefined &&
+        item.availableAmount > 0,
+    );
+  };
 
   const itemsList = (
     <Box>
       <List>
         {filteredItems.map((item: Item) => (
-          <ListItem button key={item.id} onClick={() => setSelectedItem(item)}>
+          <ListItem button key={item.id} onClick={() => handleItemSelect(item)}>
             <ListItemText primary={item.title} secondary={item.subtitle} />
 
             {b.itemConfig.showItemImageFirstScreen && item.image && (
@@ -322,7 +419,7 @@ function UserAppInstance() {
 
   const commentList = b.itemConfig.commentSection &&
     selectedItem &&
-    selectedItem.comment_list && (
+    selectedItem.commentList && (
       <CommentList
         selectedItem={selectedItem}
         handleSendComment={handleSendComment}

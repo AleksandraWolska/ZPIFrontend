@@ -49,8 +49,8 @@ function CommentList({ selectedItem, handleSendComment }: CommentListProps) {
       </Paper>
       <List>
         {selectedItem &&
-          selectedItem.comment_list &&
-          selectedItem.comment_list.map((comment: CommentType) => (
+          selectedItem.commentList &&
+          selectedItem.commentList.map((comment: CommentType) => (
             <Paper style={{ padding: 15, marginBottom: 15 }}>
               <ListItem key={comment.id} alignItems="flex-start">
                 <ListItemText

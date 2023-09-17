@@ -128,3 +128,25 @@
 //       toggleItemSelection={toggleItemSelection}
 //     />
 //   );
+
+// const core = (
+//     <Box>
+//       {c.flexibility &&
+//         ((c.uniqueness && !c.simultaneous) || !c.uniqueness) &&
+//         freeRangesUserInput}
+//       {c.flexibility &&
+//         !c.uniqueness &&
+//         c.simultaneous &&
+//         checkAvailabilityUserInput}
+//       {!c.flexibility &&
+//         ((c.simultaneous && (c.specificReservation || c.periodicity)) ||
+//           c.periodicity) &&
+//         subItemsList}
+//       {(c.flexibility && c.simultaneous) ||
+//         (!c.flexibility &&
+//           ((c.simultaneous && !c.specificReservation) ||
+//             (!c.simultaneous && c.periodicity)) &&
+//           userAmountChoice)}
+//       {buttons}
+//     </Box>
+//   );
