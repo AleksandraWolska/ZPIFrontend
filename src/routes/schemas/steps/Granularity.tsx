@@ -9,7 +9,7 @@ function Granularity({
   setActiveStep: (step: SchemaStep) => void;
   setProgress: (progress: number) => void;
 }) {
-  const { setGranularity, withdrawToCoreConfig } = useSchema();
+  const { setCoreConfigAttribute, withdrawToCoreConfig } = useSchema();
 
   return (
     <>
@@ -30,7 +30,7 @@ function Granularity({
       <button
         type="button"
         onClick={() => {
-          setGranularity(true);
+          setCoreConfigAttribute("granularity", true);
           const nextStep = SCHEMA_STEPS.SIMULTANEOUS;
           setActiveStep(nextStep);
           setProgress(calculateProgress(SCHEMA_STEPS.GRANULARITY, nextStep));
@@ -42,7 +42,7 @@ function Granularity({
       <button
         type="button"
         onClick={() => {
-          setGranularity(false);
+          setCoreConfigAttribute("granularity", false);
           const nextStep = SCHEMA_STEPS.SIMULTANEOUS;
           setActiveStep(nextStep);
           setProgress(calculateProgress(SCHEMA_STEPS.GRANULARITY, nextStep));

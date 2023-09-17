@@ -9,7 +9,7 @@ function Flexibility({
   setActiveStep: (step: SchemaStep) => void;
   setProgress: (progress: number) => void;
 }) {
-  const { setFlexibility } = useSchema();
+  const { setCoreConfigAttribute } = useSchema();
 
   return (
     <>
@@ -28,7 +28,7 @@ function Flexibility({
       <button
         type="button"
         onClick={() => {
-          setFlexibility(true);
+          setCoreConfigAttribute("flexibility", true);
           const nextStep = SCHEMA_STEPS.GRANULARITY;
           setActiveStep(nextStep);
           setProgress(calculateProgress(SCHEMA_STEPS.FLEXIBILITY, nextStep));
@@ -40,7 +40,7 @@ function Flexibility({
       <button
         type="button"
         onClick={() => {
-          setFlexibility(false);
+          setCoreConfigAttribute("flexibility", false);
           const nextStep = SCHEMA_STEPS.SIMULTANEOUS;
           setActiveStep(nextStep);
           setProgress(calculateProgress(SCHEMA_STEPS.FLEXIBILITY, nextStep));

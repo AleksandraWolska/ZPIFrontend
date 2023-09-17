@@ -9,7 +9,7 @@ function Uniqueness({
   setActiveStep: (step: SchemaStep) => void;
   setProgress: (progress: number) => void;
 }) {
-  const { schema, setUniqueness, withdrawToCoreConfig } = useSchema();
+  const { schema, setCoreConfigAttribute, withdrawToCoreConfig } = useSchema();
 
   return (
     <>
@@ -33,7 +33,7 @@ function Uniqueness({
       <button
         type="button"
         onClick={() => {
-          setUniqueness(true);
+          setCoreConfigAttribute("uniqueness", true);
           setActiveStep(SCHEMA_STEPS.CORE_SUMMARY);
           setProgress(100);
         }}
@@ -44,7 +44,7 @@ function Uniqueness({
       <button
         type="button"
         onClick={() => {
-          setUniqueness(false);
+          setCoreConfigAttribute("uniqueness", false);
           setActiveStep(SCHEMA_STEPS.CORE_SUMMARY);
           setProgress(100);
         }}

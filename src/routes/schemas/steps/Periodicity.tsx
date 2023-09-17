@@ -9,7 +9,7 @@ function Periodicity({
   setActiveStep: (step: SchemaStep) => void;
   setProgress: (progress: number) => void;
 }) {
-  const { schema, setPeriodicity, withdrawToCoreConfig } = useSchema();
+  const { schema, setCoreConfigAttribute, withdrawToCoreConfig } = useSchema();
 
   return (
     <>
@@ -33,7 +33,7 @@ function Periodicity({
       <button
         type="button"
         onClick={() => {
-          setPeriodicity(true);
+          setCoreConfigAttribute("periodicity", true);
           setActiveStep(SCHEMA_STEPS.CORE_SUMMARY);
           setProgress(100);
         }}
@@ -44,7 +44,7 @@ function Periodicity({
       <button
         type="button"
         onClick={() => {
-          setPeriodicity(false);
+          setCoreConfigAttribute("periodicity", false);
           setActiveStep(SCHEMA_STEPS.CORE_SUMMARY);
           setProgress(100);
         }}
