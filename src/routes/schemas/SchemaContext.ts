@@ -9,7 +9,7 @@ export type SchemaContextType = {
     value: boolean,
   ) => void;
   withdrawToCoreConfig: (step: SchemaStep) => void;
-  setCustomParams: (customParams: Schema["customParams"]) => void;
+  setAttributes: (attributes: Schema["attributes"]) => void;
   setRatingOptions: (ratingOptions: Partial<Schema["ratingOptions"]>) => void;
   setCommentsOptions: (
     commentsOptions: Partial<Schema["commentsOptions"]>,

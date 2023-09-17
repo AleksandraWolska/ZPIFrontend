@@ -13,7 +13,7 @@ const initialSchema: Schema = {
     enableFiltering: false,
   },
   coreConfig: {},
-  customParams: [],
+  attributes: [],
   ratingOptions: {
     allowRating: false,
     showRating: false,
@@ -56,10 +56,10 @@ function SchemaProvider({ children }: { children: ReactNode }) {
     });
   };
 
-  const setCustomParams = (customParams: Schema["customParams"]) => {
+  const setAttributes = (attributes: Schema["attributes"]) => {
     dispatch({
-      type: SCHEMA_ACTION_TYPES.SET_CUSTOM_PARAMS,
-      payload: customParams,
+      type: SCHEMA_ACTION_TYPES.SET_ATTRIBUTES,
+      payload: attributes,
     });
   };
 
@@ -87,7 +87,7 @@ function SchemaProvider({ children }: { children: ReactNode }) {
       setLayoutConfig,
       setCoreConfigAttribute,
       withdrawToCoreConfig,
-      setCustomParams,
+      setAttributes,
       setRatingOptions,
       setCommentsOptions,
     }),

@@ -9,7 +9,7 @@ import GapBetween from "./steps/GapBetween";
 import SpecificReservation from "./steps/SpecificReservation";
 import Periodicity from "./steps/Periodicity";
 import CoreSummary from "./steps/CoreSummary";
-import CustomParams from "./steps/CustomParams";
+import Attributes from "./steps/Attributes";
 import PrintSchema from "./steps/PrintSchema";
 import RatingAndComments from "./steps/RatingAndComments";
 import LayoutConfig from "./steps/LayoutConfig";
@@ -69,8 +69,8 @@ function Stepper() {
         );
       case SCHEMA_STEPS.CORE_SUMMARY:
         return <CoreSummary setActiveStep={setActiveStep} />;
-      case SCHEMA_STEPS.CUSTOM_PARAMS:
-        return <CustomParams setActiveStep={setActiveStep} />;
+      case SCHEMA_STEPS.ATTRIBUTES:
+        return <Attributes setActiveStep={setActiveStep} />;
       case SCHEMA_STEPS.RATING_AND_COMMENTS:
         return <RatingAndComments setActiveStep={setActiveStep} />;
       case SCHEMA_STEPS.PRINT_SCHEMA:

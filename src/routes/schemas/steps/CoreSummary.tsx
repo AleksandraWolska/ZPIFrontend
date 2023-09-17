@@ -12,7 +12,7 @@ function CoreSummary({
     <>
       <h4>You specified core config of your schema!</h4>
 
-      <p>Proceed to set custom parameters of the entity of your offer.</p>
+      <p>Proceed to set attributes of the entity of your offer.</p>
 
       <button
         type="button"
@@ -33,7 +33,7 @@ function CoreSummary({
       <button
         type="button"
         onClick={() => {
-          setActiveStep(SCHEMA_STEPS.CUSTOM_PARAMS);
+          setActiveStep(SCHEMA_STEPS.ATTRIBUTES);
         }}
       >
         Next

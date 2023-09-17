@@ -77,7 +77,7 @@ function RatingAndComments({
 
       <Button
         onClick={() => {
-          setActiveStep(SCHEMA_STEPS.CUSTOM_PARAMS);
+          setActiveStep(SCHEMA_STEPS.ATTRIBUTES);
         }}
       >
         Back

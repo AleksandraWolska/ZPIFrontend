@@ -62,20 +62,22 @@ function LayoutConfig({
           }}
         />
 
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={layoutConfig.showLogo}
-              onChange={(e) => {
-                setLayoutConfig({
-                  ...layoutConfig,
-                  showLogo: e.target.checked,
-                });
-              }}
-            />
-          }
-          label="showLogo"
-        />
+        {layoutConfig.logoSrc && (
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={layoutConfig.showLogo}
+                onChange={(e) => {
+                  setLayoutConfig({
+                    ...layoutConfig,
+                    showLogo: e.target.checked,
+                  });
+                }}
+              />
+            }
+            label="showLogo"
+          />
+        )}
       </Stack>
 
       <Divider sx={{ marginTop: 2, marginBottom: 2 }} />
