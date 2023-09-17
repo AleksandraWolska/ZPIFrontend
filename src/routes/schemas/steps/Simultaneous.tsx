@@ -9,7 +9,7 @@ function Simultaneous({
   setActiveStep: (step: SchemaStep) => void;
   setProgress: (progress: number) => void;
 }) {
-  const { schema, setSimultaneous, withdrawToCoreConfig } = useSchema();
+  const { schema, setCoreConfigAttribute, withdrawToCoreConfig } = useSchema();
 
   return (
     <>
@@ -33,7 +33,7 @@ function Simultaneous({
       <button
         type="button"
         onClick={() => {
-          setSimultaneous(true);
+          setCoreConfigAttribute("simultaneous", true);
           const nextStep =
             schema.coreConfig.flexibility === false
               ? SCHEMA_STEPS.SPECIFIC_RESERVATION
@@ -48,7 +48,7 @@ function Simultaneous({
       <button
         type="button"
         onClick={() => {
-          setSimultaneous(false);
+          setCoreConfigAttribute("simultaneous", false);
           const nextStep =
             schema.coreConfig.flexibility === false
               ? SCHEMA_STEPS.PERIODICITY

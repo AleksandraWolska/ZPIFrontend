@@ -9,7 +9,7 @@ function SpecificReservation({
   setActiveStep: (step: SchemaStep) => void;
   setProgress: (progress: number) => void;
 }) {
-  const { setSpecificReservation, withdrawToCoreConfig } = useSchema();
+  const { setCoreConfigAttribute, withdrawToCoreConfig } = useSchema();
 
   return (
     <>
@@ -32,7 +32,7 @@ function SpecificReservation({
       <button
         type="button"
         onClick={() => {
-          setSpecificReservation(true);
+          setCoreConfigAttribute("specificReservation", true);
           const nextStep = SCHEMA_STEPS.CORE_SUMMARY;
           setActiveStep(nextStep);
           setProgress(100);
@@ -44,7 +44,7 @@ function SpecificReservation({
       <button
         type="button"
         onClick={() => {
-          setSpecificReservation(false);
+          setCoreConfigAttribute("specificReservation", false);
           const nextStep = SCHEMA_STEPS.PERIODICITY;
           setActiveStep(nextStep);
           setProgress(

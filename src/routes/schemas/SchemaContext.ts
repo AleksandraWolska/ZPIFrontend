@@ -4,15 +4,10 @@ import { Schema, SchemaStep } from "./types";
 export type SchemaContextType = {
   schema: Schema;
   setLayoutConfig: (layoutConfig: Schema["layoutConfig"]) => void;
-  setFlexibility: (flexibility: Schema["coreConfig"]["flexibility"]) => void;
-  setGranularity: (granularity: Schema["coreConfig"]["granularity"]) => void;
-  setSimultaneous: (simultaneous: Schema["coreConfig"]["simultaneous"]) => void;
-  setUniqueness: (uniqueness: Schema["coreConfig"]["uniqueness"]) => void;
-  setGapBetween: (gapBetween: Schema["coreConfig"]["gapBetween"]) => void;
-  setSpecificReservation: (
-    specificReservation: Schema["coreConfig"]["specificReservation"],
+  setCoreConfigAttribute: (
+    key: keyof Schema["coreConfig"],
+    value: boolean,
   ) => void;
-  setPeriodicity: (periodicity: Schema["coreConfig"]["periodicity"]) => void;
   withdrawToCoreConfig: (step: SchemaStep) => void;
   setCustomParams: (customParams: Schema["customParams"]) => void;
   setRatingOptions: (ratingOptions: Partial<Schema["ratingOptions"]>) => void;

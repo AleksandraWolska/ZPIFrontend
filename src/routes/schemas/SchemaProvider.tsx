@@ -39,56 +39,13 @@ function SchemaProvider({ children }: { children: ReactNode }) {
     });
   };
 
-  const setFlexibility = (flexibility: Schema["coreConfig"]["flexibility"]) => {
-    dispatch({
-      type: SCHEMA_ACTION_TYPES.APPEND_TO_CORE_CONFIG,
-      payload: { flexibility },
-    });
-  };
-
-  const setGranularity = (granularity: Schema["coreConfig"]["granularity"]) => {
-    dispatch({
-      type: SCHEMA_ACTION_TYPES.APPEND_TO_CORE_CONFIG,
-      payload: { granularity },
-    });
-  };
-
-  const setSimultaneous = (
-    simultaneous: Schema["coreConfig"]["simultaneous"],
+  const setCoreConfigAttribute = (
+    key: keyof Schema["coreConfig"],
+    value: boolean,
   ) => {
     dispatch({
       type: SCHEMA_ACTION_TYPES.APPEND_TO_CORE_CONFIG,
-      payload: { simultaneous },
-    });
-  };
-
-  const setUniqueness = (uniqueness: Schema["coreConfig"]["uniqueness"]) => {
-    dispatch({
-      type: SCHEMA_ACTION_TYPES.APPEND_TO_CORE_CONFIG,
-      payload: { uniqueness },
-    });
-  };
-
-  const setGapBetween = (gapBetween: Schema["coreConfig"]["gapBetween"]) => {
-    dispatch({
-      type: SCHEMA_ACTION_TYPES.APPEND_TO_CORE_CONFIG,
-      payload: { gapBetween },
-    });
-  };
-
-  const setSpecificReservation = (
-    specificReservation: Schema["coreConfig"]["specificReservation"],
-  ) => {
-    dispatch({
-      type: SCHEMA_ACTION_TYPES.APPEND_TO_CORE_CONFIG,
-      payload: { specificReservation },
-    });
-  };
-
-  const setPeriodicity = (periodicity: Schema["coreConfig"]["periodicity"]) => {
-    dispatch({
-      type: SCHEMA_ACTION_TYPES.APPEND_TO_CORE_CONFIG,
-      payload: { periodicity },
+      payload: { [key]: value },
     });
   };
 
@@ -128,13 +85,7 @@ function SchemaProvider({ children }: { children: ReactNode }) {
     () => ({
       schema,
       setLayoutConfig,
-      setFlexibility,
-      setGranularity,
-      setSimultaneous,
-      setUniqueness,
-      setGapBetween,
-      setSpecificReservation,
-      setPeriodicity,
+      setCoreConfigAttribute,
       withdrawToCoreConfig,
       setCustomParams,
       setRatingOptions,
