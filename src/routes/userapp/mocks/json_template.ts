@@ -88,43 +88,6 @@ export const jsonString = `
             "value": 45
           }
         ],
-        "commentList": [
-          {
-            "id": "1",
-            "userId": "user001",
-            "nickname": "JohnDoe",
-            "content": "This is a sample comment.",
-            "datetime": "2023-09-06T12:34:56Z"
-          },
-          {
-            "id": "2",
-            "userId": "user002",
-            "nickname": "JaneDoe",
-            "content": "I agree with the above!",
-            "datetime": "2023-09-03T13:14:22Z"
-          },
-          {
-            "id": "3",
-            "userId": "user003",
-            "nickname": "Charlie",
-            "content": "I have a different perspective.",
-            "datetime": "2023-09-03T13:14:22Z"
-          }
-        ],
-        "subitemList": [
-          {
-            "id": 1,
-            "title": "Sub Gadget A",
-            "subtitle": "Type A",
-            "availableAmount": 2
-          },
-          {
-            "id": 2,
-            "title": "Sub Gadget B",
-            "subtitle": "Type B",
-            "availableAmount": 3
-          }
-        ],
         "mark": 4.5,
         "availableAmount": 4
       },
@@ -145,37 +108,6 @@ export const jsonString = `
           {
             "name": "width",
             "value": 45
-          }
-        ],
-        "commentList": [
-          {
-            "id": "1",
-            "userId": "user001",
-            "nickname": "JohnDoe",
-            "content": "This is a sample comment.",
-            "datetime": "2023-09-06T12:34:56Z"
-          },
-          {
-            "id": "2",
-            "userId": "user002",
-            "nickname": "JaneDoe",
-            "content": "I agree with the above!",
-            "datetime": "2023-09-03T13:14:22Z"
-          },
-          {
-            "id": "3",
-            "userId": "user003",
-            "nickname": "Charlie",
-            "content": "I have a different perspective.",
-            "datetime": "2023-09-03T13:14:22Z"
-          }
-        ],
-        "subitemList": [
-          {
-            "id": 3,
-            "title": "Sub Gadget C",
-            "subtitle": "Type C",
-            "availableAmount": 4
           }
         ],
         "mark": 4.0,
