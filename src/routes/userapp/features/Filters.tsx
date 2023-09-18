@@ -1,5 +1,3 @@
-// Filters.tsx
-
 import {
   Box,
   FormControl,
@@ -14,14 +12,16 @@ import {
 import { FilterValues, ParameterConfig } from "../mocks/userapp_types";
 
 interface FiltersProps {
-  handleFilterChange: (name: string, value?: string | number | boolean) => void;
+  handleAppendFilter: (name: string, value: string | number | boolean) => void;
+  handleRemoveFilter: (name: string) => void;
   resetFilters: () => void;
   filters: FilterValues;
   parameterMap: ParameterConfig[];
 }
 
 function Filters({
-  handleFilterChange,
+  handleAppendFilter,
+  handleRemoveFilter,
   resetFilters,
   filters: activeFilters,
   parameterMap,
@@ -34,13 +34,16 @@ function Filters({
           return (
             <Box key={param.name} marginBottom={2}>
               <FormControl variant="outlined">
-                {/* TODO if param has possible values, then select list if else input field */}
                 <InputLabel>{param.name}</InputLabel>
                 <Select
                   value={activeFilters[param.name] || ""}
-                  onChange={(e) =>
-                    handleFilterChange(param.name, e.target.value)
-                  }
+                  onChange={(e) => {
+                    if (e.target.value) {
+                      handleAppendFilter(param.name, e.target.value);
+                    } else {
+                      handleRemoveFilter(param.name);
+                    }
+                  }}
                   label={param.name}
                 >
                   {param.possibleValues?.map((val) => (
@@ -59,9 +62,13 @@ function Filters({
                 control={
                   <Checkbox
                     checked={!!activeFilters[param.name]}
-                    onChange={(e) =>
-                      handleFilterChange(param.name, e.target.checked)
-                    }
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        handleAppendFilter(param.name, e.target.checked);
+                      } else {
+                        handleRemoveFilter(param.name);
+                      }
+                    }}
                   />
                 }
                 label={param.name}
@@ -76,9 +83,14 @@ function Filters({
                 label={param.name}
                 variant="outlined"
                 value={activeFilters[param.name] || ""}
-                onChange={(e) =>
-                  handleFilterChange(param.name, Number(e.target.value))
-                }
+                onChange={(e) => {
+                  const val = Number(e.target.value);
+                  if (val) {
+                    handleAppendFilter(param.name, val);
+                  } else {
+                    handleRemoveFilter(param.name);
+                  }
+                }}
               />
             </Box>
           );
