@@ -25,7 +25,7 @@ import Ratings from "./features/Ratings";
 import Filters from "./features/Filters";
 import WelcomeTexts from "./components/WelcomeTexts";
 
-export default function UserAppFirstScreen() {
+export default function UserAppMainPage() {
   const navigate = useNavigate();
 
   const jsonData: FetchedJsonFirstScreen = JSON.parse(jsonString);
@@ -99,7 +99,7 @@ export default function UserAppFirstScreen() {
             handleAppendFilter={handleAppendFilter}
             handleRemoveFilter={handleRemoveFilter}
             resetFilters={resetFilters}
-            filters={activeFilters}
+            activeFilters={activeFilters}
             parameterMap={b.layoutConfig.parameterMap}
           />
         )}
