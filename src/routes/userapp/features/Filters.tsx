@@ -9,13 +9,13 @@ import {
   TextField,
   Button,
 } from "@mui/material";
-import { FilterValues, ParameterConfig } from "../mocks/userapp_types";
+import { FilterValue, ParameterConfig } from "../mocks/userapp_types";
 
 type FiltersProps = {
-  handleAppendFilter: (name: string, value: string | number | boolean) => void;
-  handleRemoveFilter: (name: string) => void;
+  handleAppendFilter: (filter: FilterValue) => void;
+  handleRemoveFilter: (paramKey: string) => void;
   resetFilters: () => void;
-  activeFilters: FilterValues;
+  activeFilters: FilterValue[];
   parameterMap: ParameterConfig[];
 };
 
@@ -32,19 +32,28 @@ function Filters({
         {parameterMap
           .filter((param: ParameterConfig) => param.isFilterable)
           .map((param: ParameterConfig) => {
+            const activeFilter = activeFilters.find(
+              (filter) => filter.paramKey === param.id.toString(),
+            );
+
             switch (param.type) {
               case "string":
                 return (
-                  <Box key={param.name} marginBottom={2}>
+                  <Box key={param.id} marginBottom={2}>
                     <FormControl variant="outlined">
                       <InputLabel>{param.name}</InputLabel>
                       <Select
-                        value={activeFilters[param.name] || ""}
+                        value={activeFilter?.value || ""}
                         onChange={(e) => {
-                          if (e.target.value) {
-                            handleAppendFilter(param.name, e.target.value);
+                          const { value } = e.target;
+                          if (value) {
+                            handleAppendFilter({
+                              paramKey: param.id.toString(),
+                              paramName: param.name,
+                              value,
+                            });
                           } else {
-                            handleRemoveFilter(param.name);
+                            handleRemoveFilter(param.id.toString());
                           }
                         }}
                         label={param.name}
@@ -60,16 +69,21 @@ function Filters({
                 );
               case "boolean":
                 return (
-                  <Box key={param.name} marginBottom={2}>
+                  <Box key={param.id} marginBottom={2}>
                     <FormControlLabel
                       control={
                         <Checkbox
-                          checked={!!activeFilters[param.name]}
+                          checked={!!activeFilter?.value}
                           onChange={(e) => {
-                            if (e.target.checked) {
-                              handleAppendFilter(param.name, e.target.checked);
+                            const { checked } = e.target;
+                            if (checked) {
+                              handleAppendFilter({
+                                paramKey: param.id.toString(),
+                                paramName: param.name,
+                                value: checked,
+                              });
                             } else {
-                              handleRemoveFilter(param.name);
+                              handleRemoveFilter(param.id.toString());
                             }
                           }}
                         />
@@ -80,18 +94,22 @@ function Filters({
                 );
               case "number":
                 return (
-                  <Box key={param.name} marginBottom={2}>
+                  <Box key={param.id} marginBottom={2}>
                     <TextField
                       type="number"
                       label={param.name}
                       variant="outlined"
-                      value={activeFilters[param.name] || ""}
+                      value={activeFilter?.value || ""}
                       onChange={(e) => {
                         const val = Number(e.target.value);
-                        if (val) {
-                          handleAppendFilter(param.name, val);
+                        if (val || val === 0) {
+                          handleAppendFilter({
+                            paramKey: param.id.toString(),
+                            paramName: param.name,
+                            value: val,
+                          });
                         } else {
-                          handleRemoveFilter(param.name);
+                          handleRemoveFilter(param.id.toString());
                         }
                       }}
                     />

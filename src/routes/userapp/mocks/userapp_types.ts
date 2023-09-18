@@ -1,6 +1,7 @@
 // TYPES FOR PAGE BUILDER
 
 export type ParameterConfig = {
+  id: string;
   name: string;
   type: string;
   isRequired: boolean;
@@ -163,4 +164,10 @@ export type SubItem = {
 
 export type FilterValues = {
   [key: string]: string | number | boolean;
+};
+
+export type FilterValue = {
+  paramKey: string;
+  paramName: string;
+  value: string | number | boolean;
 };
