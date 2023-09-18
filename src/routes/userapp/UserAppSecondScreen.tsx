@@ -267,12 +267,7 @@ export default function UserAppSecondScreen() {
         <Ratings mark={item.mark} />
       )}
 
-      {item.parameters && (
-        <ParametersList
-          parameterConfigMap={b.layoutConfig.parameterMap}
-          itemParameters={item.parameters!}
-        />
-      )}
+      {item.parameters && <ParametersList itemParameters={item.parameters!} />}
       {core}
       {b.itemConfig.showRatingSecondScreen && (
         <RatingsInteractive handleSetRating={handleRatingAdd} />
