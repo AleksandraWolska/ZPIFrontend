@@ -115,18 +115,6 @@ export default function UserAppSecondScreen() {
     </Box>
   );
 
-  const ratings = b.itemConfig.showRatingSecondScreen && item.mark && (
-    <Ratings mark={item.mark} />
-  );
-
-  const ratingsInteractive = b.itemConfig.showRatingSecondScreen && (
-    <RatingsInteractive handleSetRating={handleRatingAdd} />
-  );
-
-  const commentList = b.itemConfig.commentSection && item.commentList && (
-    <CommentList selectedItem={item} handleSendComment={handleSendComment} />
-  );
-
   const userCountChoice = (
     <Box>
       <QuantityInput
@@ -275,7 +263,10 @@ export default function UserAppSecondScreen() {
       {item.description && (
         <Typography variant="body2">{item.description}</Typography>
       )}
-      {ratings}
+      {b.itemConfig.showRatingSecondScreen && item.mark && (
+        <Ratings mark={item.mark} />
+      )}
+
       {item.parameters && (
         <ParametersList
           parameterConfigMap={b.layoutConfig.parameterMap}
@@ -283,8 +274,16 @@ export default function UserAppSecondScreen() {
         />
       )}
       {core}
-      {ratingsInteractive}
-      {commentList}
+      {b.itemConfig.showRatingSecondScreen && (
+        <RatingsInteractive handleSetRating={handleRatingAdd} />
+      )}
+
+      {b.itemConfig.commentSection && item.commentList && (
+        <CommentList
+          selectedItem={item}
+          handleSendComment={handleSendComment}
+        />
+      )}
       {dialog}
     </Box>
   );
