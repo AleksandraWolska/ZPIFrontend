@@ -4,7 +4,7 @@ import { loader as todosLoader } from "./routes/todos/all-todos/loader";
 import Home from "./routes/home/Home";
 import RequireLogin from "./auth/RequireLogin";
 import Secret from "./routes/secret/Secret";
-import UserAppFirstScreen from "./routes/userapp/UserAppFirstScreen";
+import UserAppMainPage from "./routes/userapp/UserAppMainPage";
 import UserAppSecondScreen from "./routes/userapp/UserAppSecondScreen";
 import UserAppWrapper from "./routes/userapp/UserAppWrapper";
 
@@ -49,7 +49,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "",
-        element: <UserAppFirstScreen />,
+        element: <UserAppMainPage />,
       },
       {
         path: ":itemId",
