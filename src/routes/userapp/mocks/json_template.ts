@@ -21,6 +21,7 @@ export const jsonString = `
       "enablePossibleValues": true,
       "parameterMap": [
         {
+          "id": "param1",
           "name": "Color",
           "type": "string",
           "isRequired": true,
@@ -30,6 +31,7 @@ export const jsonString = `
           "showSecondScreen": true
         },
         {
+          "id": "param2",
           "name": "kidsFriendly",
           "type": "boolean",
           "isRequired": true,
@@ -38,6 +40,7 @@ export const jsonString = `
           "showSecondScreen": true
         },
         {
+          "id": "param3",
           "name": "width",
           "type": "number",
           "isRequired": true,

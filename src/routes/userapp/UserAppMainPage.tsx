@@ -17,7 +17,8 @@ import {
   UserAppBuilderConfig,
   Item,
   FetchedJsonFirstScreen,
-  FilterValues,
+  FilterValue,
+  ParameterConfig,
 } from "./mocks/userapp_types";
 
 import ImageS1 from "./features/ImageS1";
@@ -33,32 +34,32 @@ export default function UserAppMainPage() {
   const { items } = jsonData.fetched_data;
 
   const [showFilterForm, setShowFilterForm] = useState(false);
-  const [activeFilters, setActiveFilters] = useState<FilterValues>({});
+  const [activeFilters, setActiveFilters] = useState<FilterValue[]>([]);
 
   const handleFilterToggle = () => setShowFilterForm((prev) => !prev);
 
-  const handleRemoveFilter = (name: string) => {
+  const handleRemoveFilter = (paramKey: string) => {
+    setActiveFilters((prev) =>
+      prev.filter((filter) => filter.paramKey !== paramKey),
+    );
+  };
+
+  const handleAppendFilter = (newFilter: FilterValue) => {
     setActiveFilters((prev) => {
-      const newFilters = { ...prev };
-      delete newFilters[name];
-      return newFilters;
+      const others = prev.filter(
+        (filter) => filter.paramKey !== newFilter.paramKey,
+      );
+      return [...others, newFilter];
     });
   };
 
-  const handleAppendFilter = (
-    name: string,
-    value: string | number | boolean,
-  ) => {
-    setActiveFilters((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const resetFilters = () => setActiveFilters({});
+  const resetFilters = () => setActiveFilters([]);
 
   const activeFiltersList = (
     <Box display="flex" gap={1}>
-      {Object.entries(activeFilters).map(([name, value]) => (
+      {activeFilters.map((filter) => (
         <Box
-          key={name}
+          key={filter.paramKey}
           display="flex"
           alignItems="center"
           padding={1}
@@ -66,11 +67,11 @@ export default function UserAppMainPage() {
           borderRadius={3}
         >
           <Typography variant="body2">
-            {name}: {value.toString()}
+            {filter.paramName}: {filter.value.toString()}
           </Typography>
           <Close
             style={{ marginLeft: "8px", cursor: "pointer" }}
-            onClick={() => handleRemoveFilter(name)}
+            onClick={() => handleRemoveFilter(filter.paramKey)}
           />
         </Box>
       ))}
@@ -78,16 +79,18 @@ export default function UserAppMainPage() {
   );
 
   const filteredItems = items.filter((item) =>
-    b.layoutConfig.parameterMap.every((param) => {
+    b.layoutConfig.parameterMap.every((param: ParameterConfig) => {
       if (!param.isFilterable) return true;
 
       const itemParam = item.parameters?.find((p) => p.name === param.name);
       if (!itemParam) return true;
 
-      const filterValue = activeFilters[param.name];
-      if (filterValue === undefined || filterValue === "") return true;
+      const filterObj = activeFilters.find(
+        (f) => f.paramKey === param.id.toString(),
+      );
+      if (!filterObj) return true;
 
-      return itemParam.value === filterValue;
+      return itemParam.value === filterObj.value;
     }),
   );
 
