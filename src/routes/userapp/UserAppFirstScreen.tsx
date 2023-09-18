@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import {
   Box,
@@ -23,10 +23,10 @@ import {
 import ImageS1 from "./features/ImageS1";
 import Ratings from "./features/Ratings";
 import Filters from "./features/Filters";
+import WelcomeTexts from "./components/WelcomeTexts";
 
 export default function UserAppFirstScreen() {
   const navigate = useNavigate();
-  const { appId } = useParams();
 
   const jsonData: FetchedJsonFirstScreen = JSON.parse(jsonString);
   const b: UserAppBuilderConfig = jsonData.userapp_builder_config;
@@ -104,19 +104,7 @@ export default function UserAppFirstScreen() {
         )}
 
         <Box width="75%" padding={3}>
-          <Box>
-            <Typography variant="body1" color="orange">
-              {appId}
-            </Typography>
-            <Typography variant="h6">
-              {b.layoutConfig.welcomeTextLine1}
-            </Typography>
-            {b.layoutConfig.welcomeTextLine2 && (
-              <Typography variant="body1" color="orange">
-                {b.layoutConfig.welcomeTextLine2}
-              </Typography>
-            )}
-          </Box>
+          <WelcomeTexts />
 
           <IconButton onClick={handleFilterToggle}>
             {showFilterForm ? <FilterAltOff /> : <FilterAlt />}
