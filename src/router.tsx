@@ -1,12 +1,12 @@
 import { createBrowserRouter } from "react-router-dom";
 import { queryClient } from "./query";
-import Home from "./routes/home/Home";
 import { loader as todosLoader } from "./routes/todos/all-todos/loader";
+import Home from "./routes/home/Home";
 import RequireLogin from "./auth/RequireLogin";
 import Secret from "./routes/secret/Secret";
-import UserApp from "./routes/userapp/UserApp";
 import UserAppFirstScreen from "./routes/userapp/UserAppFirstScreen";
 import UserAppSecondScreen from "./routes/userapp/UserAppSecondScreen";
+import UserAppWrapper from "./routes/userapp/UserAppWrapper";
 
 if (process.env.NODE_ENV === "development") {
   const { worker } = await import("./mocks/browser");
@@ -44,15 +44,15 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "userapp/:userId",
-    element: <UserApp />,
+    path: "userapp/:appId",
+    element: <UserAppWrapper />,
     children: [
       {
-        path: ":appId",
+        path: "",
         element: <UserAppFirstScreen />,
       },
       {
-        path: ":appId/:itemId",
+        path: ":itemId",
         element: <UserAppSecondScreen />,
       },
     ],
