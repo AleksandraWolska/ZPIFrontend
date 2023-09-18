@@ -37,19 +37,19 @@ export default function UserAppFirstScreen() {
 
   const handleFilterToggle = () => setShowFilterForm((prev) => !prev);
 
-  const handleFilterChange = (
+  const handleRemoveFilter = (name: string) => {
+    setActiveFilters((prev) => {
+      const newFilters = { ...prev };
+      delete newFilters[name];
+      return newFilters;
+    });
+  };
+
+  const handleAppendFilter = (
     name: string,
-    value?: string | number | boolean,
+    value: string | number | boolean,
   ) => {
-    if (value === undefined || value === "") {
-      setActiveFilters((prev) => {
-        const newFilters = { ...prev };
-        delete newFilters[name];
-        return newFilters;
-      });
-    } else {
-      setActiveFilters((prev) => ({ ...prev, [name]: value }));
-    }
+    setActiveFilters((prev) => ({ ...prev, [name]: value }));
   };
 
   const resetFilters = () => setActiveFilters({});
@@ -70,7 +70,7 @@ export default function UserAppFirstScreen() {
           </Typography>
           <Close
             style={{ marginLeft: "8px", cursor: "pointer" }}
-            onClick={() => handleFilterChange(name)}
+            onClick={() => handleRemoveFilter(name)}
           />
         </Box>
       ))}
@@ -96,7 +96,8 @@ export default function UserAppFirstScreen() {
       <Box display="flex" justifyContent="space-between">
         {showFilterForm && (
           <Filters
-            handleFilterChange={handleFilterChange}
+            handleAppendFilter={handleAppendFilter}
+            handleRemoveFilter={handleRemoveFilter}
             resetFilters={resetFilters}
             filters={activeFilters}
             parameterMap={b.layoutConfig.parameterMap}
