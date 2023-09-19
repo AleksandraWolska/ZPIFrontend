@@ -82,7 +82,11 @@ function Stepper() {
 
   return (
     <>
-      <LinearProgress variant="determinate" value={progress} />
+      <LinearProgress
+        variant="determinate"
+        value={progress}
+        sx={{ marginBottom: 2 }}
+      />
       {renderStepContent()}
     </>
   );

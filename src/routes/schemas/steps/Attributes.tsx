@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { v4 as uuid } from "uuid";
 import {
+  Autocomplete,
+  Box,
   Button,
   Checkbox,
+  Divider,
   FormControlLabel,
   FormGroup,
   IconButton,
@@ -24,7 +27,18 @@ const defaultParam: Attribute = {
   isFilterable: false,
   showMainPage: false,
   showDetailsPage: false,
+  limitValues: false,
+  possibleValues: [],
 };
+
+function getInitialLocalAttributes(originalAttributes: Attribute[]) {
+  return originalAttributes.length
+    ? [
+        ...originalAttributes.map((p) => ({ id: uuid(), ...p })),
+        { id: uuid(), ...defaultParam },
+      ]
+    : [{ id: uuid(), ...defaultParam }];
+}
 
 function Attributes({
   setActiveStep,
@@ -33,148 +47,207 @@ function Attributes({
 }) {
   const { userAppConfig, setAttributes } = useUserAppConfig();
 
-  const initialParams = userAppConfig.attributes?.length
-    ? [
-        ...userAppConfig.attributes.map((p) => ({ id: uuid(), ...p })),
-        { id: uuid(), ...defaultParam },
-      ]
-    : [{ id: uuid(), ...defaultParam }];
+  const initialLocalAttributes = getInitialLocalAttributes(
+    userAppConfig.attributes,
+  );
+  const [localAttributes, setLocalAttributes] = useState<AttributeWithId[]>(
+    initialLocalAttributes,
+  );
+  const lastIdx = localAttributes.length - 1;
 
-  const [params, setParams] = useState<AttributeWithId[]>(initialParams);
-  const lastIdx = params.length - 1;
-
-  const updateParam = (id: string, attribute: Partial<Attribute>) => {
-    setParams((prev) =>
+  const updateLocalAttribute = (id: string, attribute: Partial<Attribute>) => {
+    setLocalAttributes((prev) =>
       prev.map((p) => (p.id === id ? { ...p, ...attribute } : p)),
     );
   };
 
-  const saveParams = () => {
-    const filteredParams = params
+  const saveAttributes = () => {
+    const filteredParams = localAttributes
       .filter((p) => p.name !== "")
       .map((p) => {
         const { id, ...rest } = p;
+        if (rest.dataType !== "string") {
+          delete rest.limitValues;
+          delete rest.possibleValues;
+        }
         return rest;
       });
     setAttributes(filteredParams);
   };
 
   return (
-    <>
-      {params.map((param, idx) => {
-        return (
-          <Stack key={param.id} direction="row" alignItems="center">
-            <TextField
-              value={param.name}
-              onChange={(e) => {
-                updateParam(param.id, { name: e.target.value });
-                if (idx === lastIdx) {
-                  setParams((prev) => [
-                    ...prev,
-                    { id: uuid(), ...defaultParam },
-                  ]);
-                }
-              }}
-            />
+    <Stack alignItems="center">
+      {localAttributes.map((attr, idx) => {
+        const disabled = attr.name === "";
 
-            <Select
-              value={param.dataType}
-              onChange={(e) => {
-                const val = e.target.value as Attribute["dataType"];
-                updateParam(param.id, { dataType: val });
-              }}
-            >
-              <MenuItem value="string">string</MenuItem>
-              <MenuItem value="number">number</MenuItem>
-              <MenuItem value="boolean">boolean</MenuItem>
-            </Select>
+        return (
+          <Box key={attr.id} width="50%">
+            <Stack direction="row" gap={1}>
+              <TextField
+                value={attr.name}
+                onChange={(e) => {
+                  updateLocalAttribute(attr.id, { name: e.target.value });
+                  if (idx === lastIdx) {
+                    setLocalAttributes((prev) => [
+                      ...prev,
+                      { id: uuid(), ...defaultParam },
+                    ]);
+                  }
+                }}
+              />
+
+              <Select
+                value={attr.dataType}
+                onChange={(e) => {
+                  const val = e.target.value as Attribute["dataType"];
+                  updateLocalAttribute(attr.id, { dataType: val });
+                }}
+                disabled={disabled}
+              >
+                <MenuItem value="string">string</MenuItem>
+                <MenuItem value="number">number</MenuItem>
+                <MenuItem value="boolean">boolean</MenuItem>
+              </Select>
+
+              <IconButton
+                onClick={() => {
+                  setLocalAttributes((prev) =>
+                    prev.filter((p) => p.id !== attr.id),
+                  );
+                }}
+                disabled={idx === lastIdx}
+              >
+                <DeleteIcon />
+              </IconButton>
+            </Stack>
 
             <FormGroup row>
               <FormControlLabel
                 control={
                   <Checkbox
-                    checked={param.isRequired}
+                    checked={attr.isRequired}
                     onChange={(e) => {
-                      updateParam(param.id, { isRequired: e.target.checked });
+                      updateLocalAttribute(attr.id, {
+                        isRequired: e.target.checked,
+                      });
                     }}
                   />
                 }
                 label="isRequired"
+                disabled={disabled}
               />
 
               <FormControlLabel
                 control={
                   <Checkbox
-                    checked={param.isFilterable}
+                    checked={attr.isFilterable}
                     onChange={(e) => {
-                      updateParam(param.id, {
+                      updateLocalAttribute(attr.id, {
                         isFilterable: e.target.checked,
                       });
                     }}
                   />
                 }
                 label="isFilterable"
+                disabled={disabled}
               />
 
               <FormControlLabel
                 control={
                   <Checkbox
-                    checked={param.showMainPage}
+                    checked={attr.showMainPage}
                     onChange={(e) => {
-                      updateParam(param.id, {
+                      updateLocalAttribute(attr.id, {
                         showMainPage: e.target.checked,
                       });
                     }}
                   />
                 }
                 label="showMainPage"
+                disabled={disabled}
               />
 
               <FormControlLabel
                 control={
                   <Checkbox
-                    checked={param.showDetailsPage}
+                    checked={attr.showDetailsPage || false}
                     onChange={(e) => {
-                      updateParam(param.id, {
+                      updateLocalAttribute(attr.id, {
                         showDetailsPage: e.target.checked,
                       });
                     }}
                   />
                 }
                 label="showDetailsPage"
+                disabled={disabled}
               />
             </FormGroup>
 
-            <IconButton
-              onClick={() => {
-                setParams((prev) => prev.filter((p) => p.id !== param.id));
-              }}
-              disabled={idx === lastIdx}
-            >
-              <DeleteIcon />
-            </IconButton>
-          </Stack>
+            {attr.dataType === "string" && (
+              <Stack direction="row" alignItems="center">
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={attr.limitValues}
+                      onChange={(e) => {
+                        updateLocalAttribute(attr.id, {
+                          limitValues: e.target.checked,
+                        });
+                      }}
+                    />
+                  }
+                  label="limitValues"
+                  disabled={disabled}
+                />
+
+                <Autocomplete
+                  multiple
+                  freeSolo
+                  fullWidth
+                  onChange={(_e, values) => {
+                    updateLocalAttribute(attr.id, {
+                      possibleValues: values as string[],
+                    });
+                  }}
+                  options={[]}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Possible values"
+                      placeholder="Add a value typing it and pressing enter"
+                      size="medium"
+                    />
+                  )}
+                  disabled={disabled || !attr.limitValues}
+                />
+              </Stack>
+            )}
+
+            <Divider sx={{ marginTop: 4, marginBottom: 4 }} />
+          </Box>
         );
       })}
 
-      <Button
-        onClick={() => {
-          saveParams();
-          setActiveStep(USER_APP_CONFIG_STEPS.CORE_SUMMARY);
-        }}
-      >
-        Back
-      </Button>
+      <Box>
+        <Button
+          onClick={() => {
+            saveAttributes();
+            setActiveStep(USER_APP_CONFIG_STEPS.CORE_SUMMARY);
+          }}
+        >
+          Back
+        </Button>
 
-      <Button
-        onClick={() => {
-          saveParams();
-          setActiveStep(USER_APP_CONFIG_STEPS.RATING_AND_COMMENTS);
-        }}
-      >
-        Next
-      </Button>
-    </>
+        <Button
+          onClick={() => {
+            saveAttributes();
+            setActiveStep(USER_APP_CONFIG_STEPS.RATING_AND_COMMENTS);
+          }}
+        >
+          Next
+        </Button>
+      </Box>
+    </Stack>
   );
 }
 
