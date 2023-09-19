@@ -12,7 +12,6 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 
 import {
-  CoreConfig,
   FetchedJsonSecondScreen,
   SubItem,
   UserAppBuilderConfig,
@@ -23,7 +22,7 @@ import ParametersList from "./features/ParametersList";
 import CommentList from "./features/CommentList";
 import Ratings from "./features/Ratings";
 import RatingsInteractive from "./features/RatingsInteractive";
-import QuantityInput from "./components/core/CustomNumberInput";
+import QuantityInput from "./components/core/QuantityInput";
 import { FreeRangesDatepicker } from "./components/core/FreeRangersDatepicker";
 import { CheckAvailabilityDatepicker } from "./components/core/CheckAvailabilityDatepicker";
 import SubItemsList from "./components/core/SubItemsList";
@@ -32,12 +31,13 @@ export default function ItemPage() {
   const { itemId } = useParams();
   const jsonData: FetchedJsonSecondScreen = JSON.parse(jsonString);
   const b: UserAppBuilderConfig = jsonData.userapp_builder_config;
-  const c: CoreConfig = b.coreConfig;
+  const { coreConfig } = b;
   const { item } = jsonData.fetched_data;
 
   const [showSuccessDialog, setShowSuccessDialog] = useState(false);
   const [reservationRequestReady, setReservationRequestReady] = useState(false);
   const [userCount, setUserCount] = useState(1);
+  const [availabilityChecked, setAvailabilityChecked] = useState(false);
   const [selectedSubItemsList, setSelectedSubItemsList] = useState<SubItem[]>(
     [],
   );
@@ -51,6 +51,7 @@ export default function ItemPage() {
       item.availableAmount ? item.availableAmount >= newValue : true,
     );
     setUserCount(newValue || 1);
+    setAvailabilityChecked(false);
   };
 
   const handleUserCountInputChangeRestricted = (newValue: number) => {
@@ -59,6 +60,7 @@ export default function ItemPage() {
         selectedSubItemsList[0]!.availableAmount! >= newValue,
     );
     setUserCount(newValue || 1);
+    setAvailabilityChecked(false);
   };
 
   const handleSendComment = (content: string) => {
@@ -151,6 +153,8 @@ export default function ItemPage() {
       id={item.id}
       userCount={userCount}
       onAvailabilityChecked={handleAvailabilityChecked}
+      availabilityChecked={availabilityChecked}
+      setAvailabilityChecked={setAvailabilityChecked}
     />
   );
 
@@ -214,39 +218,46 @@ export default function ItemPage() {
   const core = (
     <Box>
       {/*  V9  */}
-      {c.simultaneous &&
-        c.periodicity &&
-        !c.specificReservation &&
+      {coreConfig.simultaneous &&
+        coreConfig.periodicity &&
+        !coreConfig.specificReservation &&
         userCountChoiceRestricted}
 
       {/* V3 & V5 & V10 */}
-      {((c.simultaneous && !c.specificReservation && !c.periodicity) ||
-        (c.flexibility && c.simultaneous)) &&
+      {((coreConfig.simultaneous &&
+        !coreConfig.specificReservation &&
+        !coreConfig.periodicity) ||
+        (coreConfig.flexibility && coreConfig.simultaneous)) &&
         userCountChoice}
 
       {/* V7 & V9 */}
-      {c.flexibility && !c.uniqueness && checkAvailabilityUserInput}
+      {coreConfig.flexibility &&
+        !coreConfig.uniqueness &&
+        checkAvailabilityUserInput}
 
       {/* V8 & V10 */}
-      {c.flexibility && c.uniqueness && freeRangesUserInput}
+      {coreConfig.flexibility && coreConfig.uniqueness && freeRangesUserInput}
 
       {/* V2 */}
-      {!c.flexibility && !c.simultaneous && c.periodicity && subItemsListSingle}
+      {!coreConfig.flexibility &&
+        !coreConfig.simultaneous &&
+        coreConfig.periodicity &&
+        subItemsListSingle}
 
       {/* V4 & V6 */}
-      {!c.flexibility &&
-        c.simultaneous &&
-        c.specificReservation &&
+      {!coreConfig.flexibility &&
+        coreConfig.simultaneous &&
+        coreConfig.specificReservation &&
         subItemsListMultiple}
 
       {/* V5 */}
-      {!c.flexibility &&
-        c.simultaneous &&
-        c.periodicity &&
-        !c.specificReservation &&
+      {!coreConfig.flexibility &&
+        coreConfig.simultaneous &&
+        coreConfig.periodicity &&
+        !coreConfig.specificReservation &&
         subItemsListSingle}
 
-      {c.flexibility ? null : buttons}
+      {coreConfig.flexibility ? null : buttons}
     </Box>
   );
 
