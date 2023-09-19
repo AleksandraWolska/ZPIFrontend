@@ -173,32 +173,6 @@ export default function ItemPage() {
     />
   );
 
-  const dialog = (
-    <Dialog
-      open={showSuccessDialog}
-      onClose={() => setShowSuccessDialog(false)}
-    >
-      <DialogTitle>Successful</DialogTitle>
-      <DialogContent>
-        <DialogContentText>
-          You have selected:{" "}
-          {selectedSubItemsList.map((i) => i.title).join(", ")}
-        </DialogContentText>
-      </DialogContent>
-      <DialogActions>
-        <Button
-          onClick={() => {
-            setShowSuccessDialog(false);
-            setSelectedSubItemsList([]); // Reset the selected items
-          }}
-          color="primary"
-        >
-          OK
-        </Button>
-      </DialogActions>
-    </Dialog>
-  );
-
   const buttons = (
     <Box>
       {" "}
@@ -284,7 +258,29 @@ export default function ItemPage() {
           handleSendComment={handleSendComment}
         />
       )}
-      {dialog}
+      <Dialog
+        open={showSuccessDialog}
+        onClose={() => setShowSuccessDialog(false)}
+      >
+        <DialogTitle>Successful</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            You have selected:{" "}
+            {selectedSubItemsList.map((i) => i.title).join(", ")}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={() => {
+              setShowSuccessDialog(false);
+              setSelectedSubItemsList([]); // Reset the selected items
+            }}
+            color="primary"
+          >
+            OK
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 }
