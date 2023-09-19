@@ -211,13 +211,13 @@ export default function UserAppSecondScreen() {
 
   const core = (
     <Box>
-      {/*  V9 & V10 */}
+      {/*  V9  */}
       {c.simultaneous &&
         c.periodicity &&
         !c.specificReservation &&
         userCountChoiceRestricted}
 
-      {/* V3 & V5 */}
+      {/* V3 & V5 & V10 */}
       {((c.simultaneous && !c.specificReservation && !c.periodicity) ||
         (c.flexibility && c.simultaneous)) &&
         userCountChoice}
@@ -231,17 +231,9 @@ export default function UserAppSecondScreen() {
       {/* V2 */}
       {!c.flexibility && !c.simultaneous && c.periodicity && subItemsListSingle}
 
-      {/* V4 */}
+      {/* V4 & V6 */}
       {!c.flexibility &&
         c.simultaneous &&
-        !c.periodicity &&
-        c.specificReservation &&
-        subItemsListMultiple}
-
-      {/* V6 */}
-      {!c.flexibility &&
-        c.simultaneous &&
-        c.periodicity &&
         c.specificReservation &&
         subItemsListMultiple}
 

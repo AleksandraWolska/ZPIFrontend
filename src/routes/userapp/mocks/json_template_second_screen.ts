@@ -7,6 +7,7 @@ export const jsonString = `
       "uniqueness": true,
       "periodicity": false,
       "specificReservation": false
+    
     },
     "layoutConfig": {
       "companyName": "Tech Corp",
