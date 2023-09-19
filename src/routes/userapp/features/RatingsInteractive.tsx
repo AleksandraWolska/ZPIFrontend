@@ -1,9 +1,9 @@
 import { Box, Rating } from "@mui/material";
 import { useState } from "react";
 
-interface RatingsInteractiveProps {
+type RatingsInteractiveProps = {
   handleSetRating: (rating: number) => void;
-}
+};
 
 function RatingsInteractive({ handleSetRating }: RatingsInteractiveProps) {
   const [ratingValue, setRatingValue] = useState<number | null>(null);

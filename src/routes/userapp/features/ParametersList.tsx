@@ -9,9 +9,9 @@ import { jsonString } from "../mocks/json_template_second_screen";
 const jsonData: FetchedJsonSecondScreen = JSON.parse(jsonString);
 const parameterConfigMap: ParameterConfig[] =
   jsonData.userapp_builder_config.layoutConfig.parameterMap;
-interface ParametersListProps {
+type ParametersListProps = {
   itemParameters: Parameter[];
-}
+};
 
 const renderParameter = (
   paramConfig: ParameterConfig,

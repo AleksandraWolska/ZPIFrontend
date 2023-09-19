@@ -13,11 +13,11 @@ import {
 import dayjs from "dayjs";
 import { DateTimePicker } from "@mui/x-date-pickers";
 
-interface CheckAvailabilityDatepickerProps {
+type CheckAvailabilityDatepickerProps = {
   id: number;
   userCount: number;
   onAvailabilityChecked: (id: number, start: string, end: string) => void;
-}
+};
 
 export function CheckAvailabilityDatepicker({
   id,

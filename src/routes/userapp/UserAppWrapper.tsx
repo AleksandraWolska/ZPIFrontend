@@ -4,7 +4,7 @@ import { jsonString } from "./mocks/json_template_second_screen";
 import { FetchedJsonSecondScreen } from "./mocks/userapp_types";
 
 const jsonData: FetchedJsonSecondScreen = JSON.parse(jsonString);
-  
+
 function UserAppWrapper() {
   const { appId } = useParams();
   return (
