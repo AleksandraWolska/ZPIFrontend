@@ -4,9 +4,10 @@ export const jsonString = `
     "coreConfig": {
       "flexibility": true,
       "simultaneous": true,
-      "uniqueness": true,
+      "uniqueness": false,
       "periodicity": false,
       "specificReservation": false
+    
     
     },
     "layoutConfig": {

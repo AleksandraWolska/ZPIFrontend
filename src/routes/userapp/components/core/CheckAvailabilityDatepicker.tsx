@@ -1,4 +1,3 @@
-import React, { useEffect } from "react";
 import {
   Box,
   Button,
@@ -12,33 +11,26 @@ import {
 } from "@mui/material";
 import dayjs from "dayjs";
 import { DateTimePicker } from "@mui/x-date-pickers";
+import { useState } from "react";
 
 type CheckAvailabilityDatepickerProps = {
   id: number;
   userCount: number;
   onAvailabilityChecked: (id: number, start: string, end: string) => void;
+  availabilityChecked: boolean;
+  setAvailabilityChecked: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export function CheckAvailabilityDatepicker({
   id,
   userCount,
   onAvailabilityChecked,
+  availabilityChecked,
+  setAvailabilityChecked,
 }: CheckAvailabilityDatepickerProps) {
-  const [startDateTime, setStartDateTime] = React.useState<dayjs.Dayjs | null>(
-    null,
-  );
-  const [endDateTime, setEndDateTime] = React.useState<dayjs.Dayjs | null>(
-    null,
-  );
-  const [availabilityChecked, setAvailabilityChecked] = React.useState(false);
-  const [showSuggestedDialog, setShowSuggestedDialog] = React.useState(false);
-
-  const handleDateTimeChange = () => {
-    setAvailabilityChecked(false);
-  };
-  useEffect(() => {
-    handleDateTimeChange();
-  }, [userCount]);
+  const [startDateTime, setStartDateTime] = useState<dayjs.Dayjs | null>(null);
+  const [endDateTime, setEndDateTime] = useState<dayjs.Dayjs | null>(null);
+  const [showSuggestedDialog, setShowSuggestedDialog] = useState(false);
 
   const suggestedDateRanges = [
     { id: 1, startOffset: 0.5, endOffset: 0.5 },
@@ -56,6 +48,11 @@ export function CheckAvailabilityDatepicker({
     setShowSuggestedDialog(false);
     setAvailabilityChecked(true);
   };
+
+  const handleDateTimeChange = () => {
+    setAvailabilityChecked(false);
+  };
+
   const handleCheckAvailability = () => {
     // TODO SEND REQUEST WIH
     console.log(userCount);
