@@ -50,6 +50,8 @@ export type Attribute = {
   isFilterable: boolean;
   showMainPage: boolean;
   showDetailsPage: boolean;
+  limitValues?: boolean;
+  possibleValues?: string[];
 };
 export type RatingOptions = {
   allowRating: boolean;
