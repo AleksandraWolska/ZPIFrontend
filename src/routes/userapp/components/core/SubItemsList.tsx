@@ -2,11 +2,11 @@ import { List, ListItem, ListItemText } from "@mui/material";
 import { Box } from "@mui/system";
 import { Item, SubItem } from "../../mocks/userapp_types";
 
-interface SubItemsListProps {
+type SubItemsListProps = {
   selectedItem: Item | null;
   selectedSubItemsList: SubItem[];
   toggleItemSelection: (subItem: SubItem) => void;
-}
+};
 
 function SubItemsList({
   selectedItem,

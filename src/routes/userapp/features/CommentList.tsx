@@ -10,10 +10,10 @@ import {
 } from "@mui/material";
 import { Item, Comment as CommentType } from "../mocks/userapp_types";
 
-interface CommentListProps {
+type CommentListProps = {
   selectedItem: Item;
   handleSendComment: (content: string) => void;
-}
+};
 
 function CommentList({ selectedItem, handleSendComment }: CommentListProps) {
   const [userComment, setUserComment] = useState("");

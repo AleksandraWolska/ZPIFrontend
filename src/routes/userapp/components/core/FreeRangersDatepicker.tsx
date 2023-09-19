@@ -3,11 +3,11 @@ import { Box, Button } from "@mui/material";
 import dayjs from "dayjs";
 import { DateTimePicker } from "@mui/x-date-pickers";
 
-interface FreeRangesUserInputProps {
+type FreeRangesUserInputProps = {
   id: number;
   userCount: number;
   onAvailabilityChecked: (id: number, start: string, end: string) => void;
-}
+};
 
 export function FreeRangesDatepicker({
   id,

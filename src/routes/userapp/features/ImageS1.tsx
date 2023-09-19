@@ -1,8 +1,8 @@
 import { Box } from "@mui/material";
 
-interface Props {
+type Props = {
   url: string;
-}
+};
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function ImageS1({ url }: Props) {

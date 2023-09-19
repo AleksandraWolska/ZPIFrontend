@@ -1,9 +1,9 @@
 import { Box, Rating } from "@mui/material";
 
-interface Props {
+type RatingsProps = {
   mark: number;
-}
-function Ratings({ mark }: Props) {
+};
+function Ratings({ mark }: RatingsProps) {
   return (
     <Box>
       <Rating name="read-only" value={mark} precision={0.5} readOnly />
