@@ -1,15 +1,16 @@
-import { useSchema } from "../SchemaProvider";
-import { SCHEMA_STEPS, SchemaStep } from "../types";
+import { useUserAppConfig } from "../UserAppConfigProvider";
+import { USER_APP_CONFIG_STEPS, UserAppConfigStep } from "../types";
 import { calculateProgress } from "./utils";
 
 function Uniqueness({
   setActiveStep,
   setProgress,
 }: {
-  setActiveStep: (step: SchemaStep) => void;
+  setActiveStep: (step: UserAppConfigStep) => void;
   setProgress: (progress: number) => void;
 }) {
-  const { schema, setCoreConfigAttribute, withdrawToCoreConfig } = useSchema();
+  const { userAppConfig, setCoreConfigAttribute, withdrawToCoreConfig } =
+    useUserAppConfig();
 
   return (
     <>
@@ -19,12 +20,14 @@ function Uniqueness({
         type="button"
         onClick={() => {
           const prevStep =
-            schema.coreConfig.simultaneous === false
-              ? SCHEMA_STEPS.GAP_BETWEEN
-              : SCHEMA_STEPS.SIMULTANEOUS;
+            userAppConfig.coreConfig.simultaneous === false
+              ? USER_APP_CONFIG_STEPS.GAP_BETWEEN
+              : USER_APP_CONFIG_STEPS.SIMULTANEOUS;
           withdrawToCoreConfig(prevStep);
           setActiveStep(prevStep);
-          setProgress(calculateProgress(SCHEMA_STEPS.UNIQUENESS, prevStep));
+          setProgress(
+            calculateProgress(USER_APP_CONFIG_STEPS.UNIQUENESS, prevStep),
+          );
         }}
       >
         BACK
@@ -34,7 +37,7 @@ function Uniqueness({
         type="button"
         onClick={() => {
           setCoreConfigAttribute("uniqueness", true);
-          setActiveStep(SCHEMA_STEPS.CORE_SUMMARY);
+          setActiveStep(USER_APP_CONFIG_STEPS.CORE_SUMMARY);
           setProgress(100);
         }}
       >
@@ -45,7 +48,7 @@ function Uniqueness({
         type="button"
         onClick={() => {
           setCoreConfigAttribute("uniqueness", false);
-          setActiveStep(SCHEMA_STEPS.CORE_SUMMARY);
+          setActiveStep(USER_APP_CONFIG_STEPS.CORE_SUMMARY);
           setProgress(100);
         }}
       >

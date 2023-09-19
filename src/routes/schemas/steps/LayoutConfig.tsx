@@ -6,16 +6,16 @@ import {
   Stack,
   TextField,
 } from "@mui/material";
-import { useSchema } from "../SchemaProvider";
-import { SCHEMA_STEPS, SchemaStep } from "../types";
+import { useUserAppConfig } from "../UserAppConfigProvider";
+import { USER_APP_CONFIG_STEPS, UserAppConfigStep } from "../types";
 
 function LayoutConfig({
   setActiveStep,
 }: {
-  setActiveStep: (step: SchemaStep) => void;
+  setActiveStep: (step: UserAppConfigStep) => void;
 }) {
-  const { schema, setLayoutConfig } = useSchema();
-  const { layoutConfig } = schema;
+  const { userAppConfig, setLayoutConfig } = useUserAppConfig();
+  const { layoutConfig } = userAppConfig;
 
   return (
     <>
@@ -100,7 +100,7 @@ function LayoutConfig({
       <Button
         sx={{ marginTop: 2, display: "block" }}
         onClick={() => {
-          setActiveStep(SCHEMA_STEPS.FLEXIBILITY);
+          setActiveStep(USER_APP_CONFIG_STEPS.FLEXIBILITY);
         }}
       >
         Next

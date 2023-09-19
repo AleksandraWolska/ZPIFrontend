@@ -1,6 +1,6 @@
 import { ObjectValues } from "../../types";
 
-export const SCHEMA_STEPS = {
+export const USER_APP_CONFIG_STEPS = {
   LAYOUT_CONFIG: "LAYOUT_CONFIG",
   FLEXIBILITY: "FLEXIBILITY",
   GRANULARITY: "GRANULARITY",
@@ -15,7 +15,7 @@ export const SCHEMA_STEPS = {
   PRINT_SCHEMA: "PRINT_SCHEMA",
 } as const;
 
-export type SchemaStep = ObjectValues<typeof SCHEMA_STEPS>;
+export type UserAppConfigStep = ObjectValues<typeof USER_APP_CONFIG_STEPS>;
 
 export type LayoutConfig = {
   name: string;
@@ -60,7 +60,7 @@ export type CommentsOptions = {
   showComments: boolean;
 };
 
-export type Schema = {
+export type UserAppConfig = {
   layoutConfig: LayoutConfig;
   coreConfig: CoreConfig;
   attributes: Attribute[];

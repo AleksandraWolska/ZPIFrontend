@@ -12,8 +12,8 @@ import {
   TextField,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { Attribute, SCHEMA_STEPS, SchemaStep } from "../types";
-import { useSchema } from "../SchemaProvider";
+import { Attribute, USER_APP_CONFIG_STEPS, UserAppConfigStep } from "../types";
+import { useUserAppConfig } from "../UserAppConfigProvider";
 
 type AttributeWithId = Attribute & { id: string };
 
@@ -29,13 +29,13 @@ const defaultParam: Attribute = {
 function Attributes({
   setActiveStep,
 }: {
-  setActiveStep: (step: SchemaStep) => void;
+  setActiveStep: (step: UserAppConfigStep) => void;
 }) {
-  const { schema, setAttributes } = useSchema();
+  const { userAppConfig, setAttributes } = useUserAppConfig();
 
-  const initialParams = schema.attributes?.length
+  const initialParams = userAppConfig.attributes?.length
     ? [
-        ...schema.attributes.map((p) => ({ id: uuid(), ...p })),
+        ...userAppConfig.attributes.map((p) => ({ id: uuid(), ...p })),
         { id: uuid(), ...defaultParam },
       ]
     : [{ id: uuid(), ...defaultParam }];
@@ -160,7 +160,7 @@ function Attributes({
       <Button
         onClick={() => {
           saveParams();
-          setActiveStep(SCHEMA_STEPS.CORE_SUMMARY);
+          setActiveStep(USER_APP_CONFIG_STEPS.CORE_SUMMARY);
         }}
       >
         Back
@@ -169,7 +169,7 @@ function Attributes({
       <Button
         onClick={() => {
           saveParams();
-          setActiveStep(SCHEMA_STEPS.RATING_AND_COMMENTS);
+          setActiveStep(USER_APP_CONFIG_STEPS.RATING_AND_COMMENTS);
         }}
       >
         Next

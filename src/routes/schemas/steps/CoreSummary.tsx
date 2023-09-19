@@ -1,12 +1,12 @@
-import { SCHEMA_STEPS, SchemaStep } from "../types";
-import { useSchema } from "../SchemaProvider";
+import { USER_APP_CONFIG_STEPS, UserAppConfigStep } from "../types";
+import { useUserAppConfig } from "../UserAppConfigProvider";
 
 function CoreSummary({
   setActiveStep,
 }: {
-  setActiveStep: (step: SchemaStep) => void;
+  setActiveStep: (step: UserAppConfigStep) => void;
 }) {
-  const { schema, withdrawToCoreConfig } = useSchema();
+  const { userAppConfig, withdrawToCoreConfig } = useUserAppConfig();
 
   return (
     <>
@@ -18,11 +18,11 @@ function CoreSummary({
         type="button"
         onClick={() => {
           const prevStep =
-            schema.coreConfig.periodicity !== undefined
-              ? SCHEMA_STEPS.PERIODICITY
-              : schema.coreConfig.specificReservation !== undefined
-              ? SCHEMA_STEPS.SPECIFIC_RESERVATION
-              : SCHEMA_STEPS.UNIQUENESS;
+            userAppConfig.coreConfig.periodicity !== undefined
+              ? USER_APP_CONFIG_STEPS.PERIODICITY
+              : userAppConfig.coreConfig.specificReservation !== undefined
+              ? USER_APP_CONFIG_STEPS.SPECIFIC_RESERVATION
+              : USER_APP_CONFIG_STEPS.UNIQUENESS;
           withdrawToCoreConfig(prevStep);
           setActiveStep(prevStep);
         }}
@@ -33,7 +33,7 @@ function CoreSummary({
       <button
         type="button"
         onClick={() => {
-          setActiveStep(SCHEMA_STEPS.ATTRIBUTES);
+          setActiveStep(USER_APP_CONFIG_STEPS.ATTRIBUTES);
         }}
       >
         Next
