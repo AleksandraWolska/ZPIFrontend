@@ -28,7 +28,7 @@ import { FreeRangesDatepicker } from "./components/core/FreeRangersDatepicker";
 import { CheckAvailabilityDatepicker } from "./components/core/CheckAvailabilityDatepicker";
 import SubItemsList from "./components/core/SubItemsList";
 
-export default function UserAppSecondScreen() {
+export default function ItemPage() {
   const { itemId } = useParams();
   const jsonData: FetchedJsonSecondScreen = JSON.parse(jsonString);
   const b: UserAppBuilderConfig = jsonData.userapp_builder_config;
@@ -47,7 +47,9 @@ export default function UserAppSecondScreen() {
   };
 
   const handleUserCountInputChange = (newValue: number) => {
-    setReservationRequestReady(item.availableAmount! >= newValue);
+    setReservationRequestReady(
+      item.availableAmount ? item.availableAmount >= newValue : true,
+    );
     setUserCount(newValue || 1);
   };
 
