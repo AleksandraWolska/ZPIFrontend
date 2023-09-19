@@ -1,15 +1,15 @@
-import { SCHEMA_STEPS, SchemaStep } from "../types";
-import { useSchema } from "../SchemaProvider";
+import { USER_APP_CONFIG_STEPS, UserAppConfigStep } from "../types";
+import { useUserAppConfig } from "../UserAppConfigProvider";
 import { calculateProgress } from "./utils";
 
 function Granularity({
   setActiveStep,
   setProgress,
 }: {
-  setActiveStep: (step: SchemaStep) => void;
+  setActiveStep: (step: UserAppConfigStep) => void;
   setProgress: (progress: number) => void;
 }) {
-  const { setCoreConfigAttribute, withdrawToCoreConfig } = useSchema();
+  const { setCoreConfigAttribute, withdrawToCoreConfig } = useUserAppConfig();
 
   return (
     <>
@@ -18,10 +18,12 @@ function Granularity({
       <button
         type="button"
         onClick={() => {
-          const prevStep = SCHEMA_STEPS.FLEXIBILITY;
+          const prevStep = USER_APP_CONFIG_STEPS.FLEXIBILITY;
           withdrawToCoreConfig(prevStep);
           setActiveStep(prevStep);
-          setProgress(calculateProgress(SCHEMA_STEPS.GRANULARITY, prevStep));
+          setProgress(
+            calculateProgress(USER_APP_CONFIG_STEPS.GRANULARITY, prevStep),
+          );
         }}
       >
         BACK
@@ -31,9 +33,11 @@ function Granularity({
         type="button"
         onClick={() => {
           setCoreConfigAttribute("granularity", true);
-          const nextStep = SCHEMA_STEPS.SIMULTANEOUS;
+          const nextStep = USER_APP_CONFIG_STEPS.SIMULTANEOUS;
           setActiveStep(nextStep);
-          setProgress(calculateProgress(SCHEMA_STEPS.GRANULARITY, nextStep));
+          setProgress(
+            calculateProgress(USER_APP_CONFIG_STEPS.GRANULARITY, nextStep),
+          );
         }}
       >
         True
@@ -43,9 +47,11 @@ function Granularity({
         type="button"
         onClick={() => {
           setCoreConfigAttribute("granularity", false);
-          const nextStep = SCHEMA_STEPS.SIMULTANEOUS;
+          const nextStep = USER_APP_CONFIG_STEPS.SIMULTANEOUS;
           setActiveStep(nextStep);
-          setProgress(calculateProgress(SCHEMA_STEPS.GRANULARITY, nextStep));
+          setProgress(
+            calculateProgress(USER_APP_CONFIG_STEPS.GRANULARITY, nextStep),
+          );
         }}
       >
         False

@@ -1,15 +1,16 @@
-import { SCHEMA_STEPS, SchemaStep } from "../types";
-import { useSchema } from "../SchemaProvider";
+import { USER_APP_CONFIG_STEPS, UserAppConfigStep } from "../types";
+import { useUserAppConfig } from "../UserAppConfigProvider";
 import { calculateProgress } from "./utils";
 
 function Periodicity({
   setActiveStep,
   setProgress,
 }: {
-  setActiveStep: (step: SchemaStep) => void;
+  setActiveStep: (step: UserAppConfigStep) => void;
   setProgress: (progress: number) => void;
 }) {
-  const { schema, setCoreConfigAttribute, withdrawToCoreConfig } = useSchema();
+  const { userAppConfig, setCoreConfigAttribute, withdrawToCoreConfig } =
+    useUserAppConfig();
 
   return (
     <>
@@ -19,12 +20,14 @@ function Periodicity({
         type="button"
         onClick={() => {
           const prevStep =
-            schema.coreConfig.simultaneous === false
-              ? SCHEMA_STEPS.SIMULTANEOUS
-              : SCHEMA_STEPS.SPECIFIC_RESERVATION;
+            userAppConfig.coreConfig.simultaneous === false
+              ? USER_APP_CONFIG_STEPS.SIMULTANEOUS
+              : USER_APP_CONFIG_STEPS.SPECIFIC_RESERVATION;
           withdrawToCoreConfig(prevStep);
           setActiveStep(prevStep);
-          setProgress(calculateProgress(SCHEMA_STEPS.PERIODICITY, prevStep));
+          setProgress(
+            calculateProgress(USER_APP_CONFIG_STEPS.PERIODICITY, prevStep),
+          );
         }}
       >
         BACK
@@ -34,7 +37,7 @@ function Periodicity({
         type="button"
         onClick={() => {
           setCoreConfigAttribute("periodicity", true);
-          setActiveStep(SCHEMA_STEPS.CORE_SUMMARY);
+          setActiveStep(USER_APP_CONFIG_STEPS.CORE_SUMMARY);
           setProgress(100);
         }}
       >
@@ -45,7 +48,7 @@ function Periodicity({
         type="button"
         onClick={() => {
           setCoreConfigAttribute("periodicity", false);
-          setActiveStep(SCHEMA_STEPS.CORE_SUMMARY);
+          setActiveStep(USER_APP_CONFIG_STEPS.CORE_SUMMARY);
           setProgress(100);
         }}
       >

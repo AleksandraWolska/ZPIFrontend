@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { LinearProgress } from "@mui/material";
-import { SCHEMA_STEPS, SchemaStep } from "./types";
+import { USER_APP_CONFIG_STEPS, UserAppConfigStep } from "./types";
 import Flexibility from "./steps/Flexibility";
 import Granularity from "./steps/Granularity";
 import Simultaneous from "./steps/Simultaneous";
@@ -10,71 +10,71 @@ import SpecificReservation from "./steps/SpecificReservation";
 import Periodicity from "./steps/Periodicity";
 import CoreSummary from "./steps/CoreSummary";
 import Attributes from "./steps/Attributes";
-import PrintSchema from "./steps/PrintSchema";
+import PrintUserAppConfig from "./steps/PrintUserAppConfig";
 import RatingAndComments from "./steps/RatingAndComments";
 import LayoutConfig from "./steps/LayoutConfig";
 
 function Stepper() {
-  const [activeStep, setActiveStep] = useState<SchemaStep>(
-    SCHEMA_STEPS.LAYOUT_CONFIG,
+  const [activeStep, setActiveStep] = useState<UserAppConfigStep>(
+    USER_APP_CONFIG_STEPS.LAYOUT_CONFIG,
   );
   const [progress, setProgress] = useState(0);
 
   const renderStepContent = () => {
     switch (activeStep) {
-      case SCHEMA_STEPS.LAYOUT_CONFIG:
+      case USER_APP_CONFIG_STEPS.LAYOUT_CONFIG:
         return <LayoutConfig setActiveStep={setActiveStep} />;
-      case SCHEMA_STEPS.FLEXIBILITY:
+      case USER_APP_CONFIG_STEPS.FLEXIBILITY:
         return (
           <Flexibility
             setActiveStep={setActiveStep}
             setProgress={setProgress}
           />
         );
-      case SCHEMA_STEPS.GRANULARITY:
+      case USER_APP_CONFIG_STEPS.GRANULARITY:
         return (
           <Granularity
             setActiveStep={setActiveStep}
             setProgress={setProgress}
           />
         );
-      case SCHEMA_STEPS.SIMULTANEOUS:
+      case USER_APP_CONFIG_STEPS.SIMULTANEOUS:
         return (
           <Simultaneous
             setActiveStep={setActiveStep}
             setProgress={setProgress}
           />
         );
-      case SCHEMA_STEPS.UNIQUENESS:
+      case USER_APP_CONFIG_STEPS.UNIQUENESS:
         return (
           <Uniqueness setActiveStep={setActiveStep} setProgress={setProgress} />
         );
-      case SCHEMA_STEPS.GAP_BETWEEN:
+      case USER_APP_CONFIG_STEPS.GAP_BETWEEN:
         return (
           <GapBetween setActiveStep={setActiveStep} setProgress={setProgress} />
         );
-      case SCHEMA_STEPS.SPECIFIC_RESERVATION:
+      case USER_APP_CONFIG_STEPS.SPECIFIC_RESERVATION:
         return (
           <SpecificReservation
             setActiveStep={setActiveStep}
             setProgress={setProgress}
           />
         );
-      case SCHEMA_STEPS.PERIODICITY:
+      case USER_APP_CONFIG_STEPS.PERIODICITY:
         return (
           <Periodicity
             setActiveStep={setActiveStep}
             setProgress={setProgress}
           />
         );
-      case SCHEMA_STEPS.CORE_SUMMARY:
+      case USER_APP_CONFIG_STEPS.CORE_SUMMARY:
         return <CoreSummary setActiveStep={setActiveStep} />;
-      case SCHEMA_STEPS.ATTRIBUTES:
+      case USER_APP_CONFIG_STEPS.ATTRIBUTES:
         return <Attributes setActiveStep={setActiveStep} />;
-      case SCHEMA_STEPS.RATING_AND_COMMENTS:
+      case USER_APP_CONFIG_STEPS.RATING_AND_COMMENTS:
         return <RatingAndComments setActiveStep={setActiveStep} />;
-      case SCHEMA_STEPS.PRINT_SCHEMA:
-        return <PrintSchema />;
+      case USER_APP_CONFIG_STEPS.PRINT_SCHEMA:
+        return <PrintUserAppConfig />;
       default:
         return <div>Something went wrong...</div>;
     }

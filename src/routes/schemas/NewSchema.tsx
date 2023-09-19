@@ -1,11 +1,11 @@
-import SchemaProvider from "./SchemaProvider";
+import UserAppConfigProvider from "./UserAppConfigProvider";
 import Stepper from "./Stepper";
 
 function NewSchema() {
   return (
-    <SchemaProvider>
+    <UserAppConfigProvider>
       <Stepper />
-    </SchemaProvider>
+    </UserAppConfigProvider>
   );
 }
 

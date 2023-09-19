@@ -1,15 +1,15 @@
-import { SCHEMA_STEPS, SchemaStep } from "../types";
-import { useSchema } from "../SchemaProvider";
+import { USER_APP_CONFIG_STEPS, UserAppConfigStep } from "../types";
+import { useUserAppConfig } from "../UserAppConfigProvider";
 import { calculateProgress } from "./utils";
 
 function Flexibility({
   setActiveStep,
   setProgress,
 }: {
-  setActiveStep: (step: SchemaStep) => void;
+  setActiveStep: (step: UserAppConfigStep) => void;
   setProgress: (progress: number) => void;
 }) {
-  const { setCoreConfigAttribute } = useSchema();
+  const { setCoreConfigAttribute } = useUserAppConfig();
 
   return (
     <>
@@ -18,7 +18,7 @@ function Flexibility({
       <button
         type="button"
         onClick={() => {
-          const prevStep = SCHEMA_STEPS.LAYOUT_CONFIG;
+          const prevStep = USER_APP_CONFIG_STEPS.LAYOUT_CONFIG;
           setActiveStep(prevStep);
         }}
       >
@@ -29,9 +29,11 @@ function Flexibility({
         type="button"
         onClick={() => {
           setCoreConfigAttribute("flexibility", true);
-          const nextStep = SCHEMA_STEPS.GRANULARITY;
+          const nextStep = USER_APP_CONFIG_STEPS.GRANULARITY;
           setActiveStep(nextStep);
-          setProgress(calculateProgress(SCHEMA_STEPS.FLEXIBILITY, nextStep));
+          setProgress(
+            calculateProgress(USER_APP_CONFIG_STEPS.FLEXIBILITY, nextStep),
+          );
         }}
       >
         True
@@ -41,9 +43,11 @@ function Flexibility({
         type="button"
         onClick={() => {
           setCoreConfigAttribute("flexibility", false);
-          const nextStep = SCHEMA_STEPS.SIMULTANEOUS;
+          const nextStep = USER_APP_CONFIG_STEPS.SIMULTANEOUS;
           setActiveStep(nextStep);
-          setProgress(calculateProgress(SCHEMA_STEPS.FLEXIBILITY, nextStep));
+          setProgress(
+            calculateProgress(USER_APP_CONFIG_STEPS.FLEXIBILITY, nextStep),
+          );
         }}
       >
         False

@@ -1,15 +1,15 @@
-import { useSchema } from "../SchemaProvider";
-import { SCHEMA_STEPS, SchemaStep } from "../types";
+import { useUserAppConfig } from "../UserAppConfigProvider";
+import { USER_APP_CONFIG_STEPS, UserAppConfigStep } from "../types";
 import { calculateProgress } from "./utils";
 
 function SpecificReservation({
   setActiveStep,
   setProgress,
 }: {
-  setActiveStep: (step: SchemaStep) => void;
+  setActiveStep: (step: UserAppConfigStep) => void;
   setProgress: (progress: number) => void;
 }) {
-  const { setCoreConfigAttribute, withdrawToCoreConfig } = useSchema();
+  const { setCoreConfigAttribute, withdrawToCoreConfig } = useUserAppConfig();
 
   return (
     <>
@@ -18,11 +18,14 @@ function SpecificReservation({
       <button
         type="button"
         onClick={() => {
-          const prevStep = SCHEMA_STEPS.SIMULTANEOUS;
+          const prevStep = USER_APP_CONFIG_STEPS.SIMULTANEOUS;
           withdrawToCoreConfig(prevStep);
           setActiveStep(prevStep);
           setProgress(
-            calculateProgress(SCHEMA_STEPS.SPECIFIC_RESERVATION, prevStep),
+            calculateProgress(
+              USER_APP_CONFIG_STEPS.SPECIFIC_RESERVATION,
+              prevStep,
+            ),
           );
         }}
       >
@@ -33,7 +36,7 @@ function SpecificReservation({
         type="button"
         onClick={() => {
           setCoreConfigAttribute("specificReservation", true);
-          const nextStep = SCHEMA_STEPS.CORE_SUMMARY;
+          const nextStep = USER_APP_CONFIG_STEPS.CORE_SUMMARY;
           setActiveStep(nextStep);
           setProgress(100);
         }}
@@ -45,10 +48,13 @@ function SpecificReservation({
         type="button"
         onClick={() => {
           setCoreConfigAttribute("specificReservation", false);
-          const nextStep = SCHEMA_STEPS.PERIODICITY;
+          const nextStep = USER_APP_CONFIG_STEPS.PERIODICITY;
           setActiveStep(nextStep);
           setProgress(
-            calculateProgress(SCHEMA_STEPS.SPECIFIC_RESERVATION, nextStep),
+            calculateProgress(
+              USER_APP_CONFIG_STEPS.SPECIFIC_RESERVATION,
+              nextStep,
+            ),
           );
         }}
       >

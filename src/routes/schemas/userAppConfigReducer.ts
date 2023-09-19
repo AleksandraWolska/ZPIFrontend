@@ -1,6 +1,10 @@
-import { Schema, SchemaStep, SCHEMA_STEPS } from "./types";
+import {
+  UserAppConfig,
+  UserAppConfigStep,
+  USER_APP_CONFIG_STEPS,
+} from "./types";
 
-export const SCHEMA_ACTION_TYPES = {
+export const USER_APP_CONFIG_ACTION_TYPES = {
   SET_LAYOUT_CONFIG: "SET_LAYOUT_CONFIG",
   APPEND_TO_CORE_CONFIG: "APPEND_TO_CORE_CONFIG",
   WITHDRAW_TO_CORE_CONFIG: "WITHDRAW_TO_CORE_CONFIG",
@@ -10,36 +14,36 @@ export const SCHEMA_ACTION_TYPES = {
 } as const;
 
 type SetLayoutConfigAction = {
-  type: typeof SCHEMA_ACTION_TYPES.SET_LAYOUT_CONFIG;
-  payload: Schema["layoutConfig"];
+  type: typeof USER_APP_CONFIG_ACTION_TYPES.SET_LAYOUT_CONFIG;
+  payload: UserAppConfig["layoutConfig"];
 };
 
 type AppendToCoreConfigAction = {
-  type: typeof SCHEMA_ACTION_TYPES.APPEND_TO_CORE_CONFIG;
-  payload: Schema["coreConfig"];
+  type: typeof USER_APP_CONFIG_ACTION_TYPES.APPEND_TO_CORE_CONFIG;
+  payload: UserAppConfig["coreConfig"];
 };
 
 type WithdrawToCoreConfigAction = {
-  type: typeof SCHEMA_ACTION_TYPES.WITHDRAW_TO_CORE_CONFIG;
-  payload: SchemaStep;
+  type: typeof USER_APP_CONFIG_ACTION_TYPES.WITHDRAW_TO_CORE_CONFIG;
+  payload: UserAppConfigStep;
 };
 
 type SetAttributesAction = {
-  type: typeof SCHEMA_ACTION_TYPES.SET_ATTRIBUTES;
-  payload: Schema["attributes"];
+  type: typeof USER_APP_CONFIG_ACTION_TYPES.SET_ATTRIBUTES;
+  payload: UserAppConfig["attributes"];
 };
 
 type SetRatingOptionsAction = {
-  type: typeof SCHEMA_ACTION_TYPES.SET_RATING_OPTIONS;
-  payload: Partial<Schema["ratingOptions"]>;
+  type: typeof USER_APP_CONFIG_ACTION_TYPES.SET_RATING_OPTIONS;
+  payload: Partial<UserAppConfig["ratingOptions"]>;
 };
 
 type SetCommentsOptionsAction = {
-  type: typeof SCHEMA_ACTION_TYPES.SET_COMMENTS_OPTIONS;
-  payload: Partial<Schema["commentsOptions"]>;
+  type: typeof USER_APP_CONFIG_ACTION_TYPES.SET_COMMENTS_OPTIONS;
+  payload: Partial<UserAppConfig["commentsOptions"]>;
 };
 
-type SchemaAction =
+type UserAppConfigAction =
   | SetLayoutConfigAction
   | AppendToCoreConfigAction
   | WithdrawToCoreConfigAction
@@ -47,63 +51,69 @@ type SchemaAction =
   | SetRatingOptionsAction
   | SetCommentsOptionsAction;
 
-export function schemaReducer(schema: Schema, action: SchemaAction): Schema {
+export function userAppConfigReducer(
+  userAppConfig: UserAppConfig,
+  action: UserAppConfigAction,
+): UserAppConfig {
   switch (action.type) {
-    case SCHEMA_ACTION_TYPES.SET_LAYOUT_CONFIG:
-      return { ...schema, layoutConfig: action.payload };
-    case SCHEMA_ACTION_TYPES.APPEND_TO_CORE_CONFIG:
+    case USER_APP_CONFIG_ACTION_TYPES.SET_LAYOUT_CONFIG:
+      return { ...userAppConfig, layoutConfig: action.payload };
+    case USER_APP_CONFIG_ACTION_TYPES.APPEND_TO_CORE_CONFIG:
       return {
-        ...schema,
-        coreConfig: { ...schema.coreConfig, ...action.payload },
+        ...userAppConfig,
+        coreConfig: { ...userAppConfig.coreConfig, ...action.payload },
       };
-    case SCHEMA_ACTION_TYPES.WITHDRAW_TO_CORE_CONFIG:
+    case USER_APP_CONFIG_ACTION_TYPES.WITHDRAW_TO_CORE_CONFIG:
       return {
-        ...schema,
-        coreConfig: resetCoreConfig(schema.coreConfig, action.payload),
+        ...userAppConfig,
+        coreConfig: resetCoreConfig(userAppConfig.coreConfig, action.payload),
       };
-    case SCHEMA_ACTION_TYPES.SET_ATTRIBUTES:
-      return { ...schema, attributes: action.payload };
-    case SCHEMA_ACTION_TYPES.SET_RATING_OPTIONS:
+    case USER_APP_CONFIG_ACTION_TYPES.SET_ATTRIBUTES:
+      return { ...userAppConfig, attributes: action.payload };
+    case USER_APP_CONFIG_ACTION_TYPES.SET_RATING_OPTIONS:
       return {
-        ...schema,
+        ...userAppConfig,
         ratingOptions:
           action.payload.allowRating === false
             ? {
                 allowRating: false,
                 showRating: false,
               }
-            : { ...schema.ratingOptions, ...action.payload },
+            : { ...userAppConfig.ratingOptions, ...action.payload },
       };
-    case SCHEMA_ACTION_TYPES.SET_COMMENTS_OPTIONS:
+    case USER_APP_CONFIG_ACTION_TYPES.SET_COMMENTS_OPTIONS:
       return {
-        ...schema,
+        ...userAppConfig,
         commentsOptions:
           action.payload.allowComments === false
             ? {
                 allowComments: false,
                 showComments: false,
               }
-            : { ...schema.commentsOptions, ...action.payload },
+            : { ...userAppConfig.commentsOptions, ...action.payload },
       };
     default:
       throw Error("Unknown reducer action!");
   }
 }
 
-function resetCoreConfig(coreConfig: Schema["coreConfig"], step: SchemaStep) {
+function resetCoreConfig(
+  coreConfig: UserAppConfig["coreConfig"],
+  step: UserAppConfigStep,
+) {
   switch (step) {
-    case SCHEMA_STEPS.FLEXIBILITY:
+    case USER_APP_CONFIG_STEPS.FLEXIBILITY:
       return {};
-    case SCHEMA_STEPS.GRANULARITY:
+    case USER_APP_CONFIG_STEPS.GRANULARITY:
       return { flexibility: coreConfig.flexibility };
-    case SCHEMA_STEPS.SIMULTANEOUS:
+    case USER_APP_CONFIG_STEPS.SIMULTANEOUS:
       return {
         flexibility: coreConfig.flexibility,
         ...(coreConfig.granularity !== undefined && {
           granularity: coreConfig.granularity,
         }),
       };
-    case SCHEMA_STEPS.UNIQUENESS:
+    case USER_APP_CONFIG_STEPS.UNIQUENESS:
       return {
         flexibility: coreConfig.flexibility,
         granularity: coreConfig.granularity,
@@ -112,18 +122,18 @@ function resetCoreConfig(coreConfig: Schema["coreConfig"], step: SchemaStep) {
           gapBetween: coreConfig.gapBetween,
         }),
       };
-    case SCHEMA_STEPS.GAP_BETWEEN:
+    case USER_APP_CONFIG_STEPS.GAP_BETWEEN:
       return {
         flexibility: coreConfig.flexibility,
         granularity: coreConfig.granularity,
         simultaneous: coreConfig.simultaneous,
       };
-    case SCHEMA_STEPS.SPECIFIC_RESERVATION:
+    case USER_APP_CONFIG_STEPS.SPECIFIC_RESERVATION:
       return {
         flexibility: coreConfig.flexibility,
         simultaneous: coreConfig.simultaneous,
       };
-    case SCHEMA_STEPS.PERIODICITY:
+    case USER_APP_CONFIG_STEPS.PERIODICITY:
       return {
         flexibility: coreConfig.flexibility,
         simultaneous: coreConfig.simultaneous,
