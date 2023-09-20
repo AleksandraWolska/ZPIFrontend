@@ -9,20 +9,20 @@ import { jsonStringDetailPage } from "../mocks/responseDetailPage";
 const jsonData: FetchedJsonDetailsPage = JSON.parse(jsonStringDetailPage);
 const parameterConfigMap: ItemCustomAttribute[] =
   jsonData.data.storeConfig.itemCustomAttributes;
-type ParametersListProps = {
-  itemParameters: CustomAttribute[];
+type AttributesListProps = {
+  itemAttributes: CustomAttribute[];
 };
 
 const renderParameter = (
-  paramConfig: ItemCustomAttribute,
-  itemParameter: CustomAttribute,
+  attributeConfig: ItemCustomAttribute,
+  itemAttribute: CustomAttribute,
 ) => {
   let displayValue;
   let style = {};
 
-  switch (paramConfig.dataType) {
+  switch (attributeConfig.dataType) {
     case "string":
-      displayValue = itemParameter.value;
+      displayValue = itemAttribute.value;
       style = {
         backgroundColor: "yellow",
         padding: "5px",
@@ -31,7 +31,7 @@ const renderParameter = (
       };
       break;
     case "boolean":
-      displayValue = itemParameter.value ? "+" : "-";
+      displayValue = itemAttribute.value ? "+" : "-";
       style = {
         backgroundColor: "lightGreen",
         color: "black",
@@ -41,7 +41,7 @@ const renderParameter = (
       };
       break;
     case "number":
-      displayValue = `${itemParameter.value} ${paramConfig.units || ""}`;
+      displayValue = `${itemAttribute.value} ${attributeConfig.units || ""}`;
       style = {
         backgroundColor: "lightBlue",
         color: "black",
@@ -51,30 +51,30 @@ const renderParameter = (
       };
       break;
     default:
-      displayValue = itemParameter.value;
+      displayValue = itemAttribute.value;
   }
 
   return (
-    <Box key={paramConfig.name} style={style}>
-      <Typography paddingRight="3px">{paramConfig.name}:</Typography>
+    <Box key={attributeConfig.name} style={style}>
+      <Typography paddingRight="3px">{attributeConfig.name}:</Typography>
       <Typography>{displayValue}</Typography>
     </Box>
   );
 };
 
-function ParametersList({ itemParameters }: ParametersListProps) {
+function AttributesList({ itemAttributes }: AttributesListProps) {
   return (
     <Box width="fit-content">
-      {itemParameters.map((itemParameter) => {
+      {itemAttributes.map((itemAttribute) => {
         const paramConfig = parameterConfigMap.find(
-          (p) => p.name === itemParameter.name,
+          (p) => p.name === itemAttribute.name,
         );
         if (!paramConfig || !paramConfig.showDetailsPage) return null;
 
-        return renderParameter(paramConfig, itemParameter);
+        return renderParameter(paramConfig, itemAttribute);
       })}
     </Box>
   );
 }
 
-export default ParametersList;
+export default AttributesList;
