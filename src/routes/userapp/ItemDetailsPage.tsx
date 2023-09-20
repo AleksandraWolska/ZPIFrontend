@@ -11,12 +11,8 @@ import {
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 
-import {
-  FetchedJsonSecondScreen,
-  SubItem,
-  UserAppBuilderConfig,
-} from "./mocks/userapp_types";
-import { jsonString } from "./mocks/json_template_second_screen";
+import { FetchedJsonDetailsPage, SubItem, StoreConfig } from "./mocks/types";
+import { jsonStringDetailPage } from "./mocks/responseDetailPage";
 
 import ParametersList from "./features/ParametersList";
 import CommentList from "./features/CommentList";
@@ -27,12 +23,12 @@ import { FreeRangesDatepicker } from "./components/core/FreeRangersDatepicker";
 import { CheckAvailabilityDatepicker } from "./components/core/CheckAvailabilityDatepicker";
 import SubItemsList from "./components/core/SubItemsList";
 
-export default function ItemPage() {
+export default function ItemDetailsPage() {
   const { itemId } = useParams();
-  const jsonData: FetchedJsonSecondScreen = JSON.parse(jsonString);
-  const b: UserAppBuilderConfig = jsonData.userapp_builder_config;
-  const { coreConfig } = b;
-  const { item } = jsonData.fetched_data;
+  const jsonData: FetchedJsonDetailsPage = JSON.parse(jsonStringDetailPage);
+  const b: StoreConfig = jsonData.data.storeConfig;
+  const { core: coreConfig } = b;
+  const { item } = jsonData.data;
 
   const [showSuccessDialog, setShowSuccessDialog] = useState(false);
   const [reservationRequestReady, setReservationRequestReady] = useState(false);
@@ -242,17 +238,17 @@ export default function ItemPage() {
       {item.description && (
         <Typography variant="body2">{item.description}</Typography>
       )}
-      {b.itemConfig.showRatingSecondScreen && item.mark && (
-        <Ratings mark={item.mark} />
-      )}
+      {b.detailsPage.showRating && item.mark && <Ratings mark={item.mark} />}
 
-      {item.parameters && <ParametersList itemParameters={item.parameters!} />}
+      {item.customAttributeList && (
+        <ParametersList itemParameters={item.customAttributeList!} />
+      )}
       {core}
-      {b.itemConfig.showRatingSecondScreen && (
+      {b.detailsPage.showRating && (
         <RatingsInteractive handleSetRating={handleRatingAdd} />
       )}
 
-      {b.itemConfig.commentSection && item.commentList && (
+      {b.detailsPage.showComments && item.commentList && (
         <CommentList
           selectedItem={item}
           handleSendComment={handleSendComment}

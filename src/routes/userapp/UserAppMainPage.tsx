@@ -12,16 +12,16 @@ import {
 } from "@mui/material";
 import { FilterAlt, FilterAltOff, Close } from "@mui/icons-material";
 
-import { jsonString } from "./mocks/json_template";
+import { jsonStringMainPage } from "./mocks/responseMainPage";
 import {
-  UserAppBuilderConfig,
+  StoreConfig,
   Item,
-  FetchedJsonFirstScreen,
+  FetchedJsonMainPage,
   FilterValue,
-  ParameterConfig,
-} from "./mocks/userapp_types";
+  ItemCustomAttribute,
+} from "./mocks/types";
 
-import ImageS1 from "./features/ImageS1";
+import ItemImage from "./features/ItemImage";
 import Ratings from "./features/Ratings";
 import Filters from "./features/Filters";
 import WelcomeTexts from "./components/WelcomeTexts";
@@ -29,9 +29,9 @@ import WelcomeTexts from "./components/WelcomeTexts";
 export default function UserAppMainPage() {
   const navigate = useNavigate();
 
-  const jsonData: FetchedJsonFirstScreen = JSON.parse(jsonString);
-  const b: UserAppBuilderConfig = jsonData.userapp_builder_config;
-  const { items } = jsonData.fetched_data;
+  const jsonData: FetchedJsonMainPage = JSON.parse(jsonStringMainPage);
+  const b: StoreConfig = jsonData.data.storeConfig;
+  const { items } = jsonData.data;
 
   const [showFilterForm, setShowFilterForm] = useState(false);
   const [activeFilters, setActiveFilters] = useState<FilterValue[]>([]);
@@ -79,10 +79,12 @@ export default function UserAppMainPage() {
   );
 
   const filteredItems = items.filter((item) =>
-    b.layoutConfig.parameterMap.every((param: ParameterConfig) => {
+    b.itemCustomAttributes.every((param: ItemCustomAttribute) => {
       if (!param.isFilterable) return true;
 
-      const itemParam = item.parameters?.find((p) => p.name === param.name);
+      const itemParam = item.customAttributeList?.find(
+        (p) => p.name === param.name,
+      );
       if (!itemParam) return true;
 
       const filterObj = activeFilters.find(
@@ -103,7 +105,7 @@ export default function UserAppMainPage() {
             handleRemoveFilter={handleRemoveFilter}
             resetFilters={resetFilters}
             activeFilters={activeFilters}
-            parameterMap={b.layoutConfig.parameterMap}
+            parameterMap={b.itemCustomAttributes}
           />
         )}
 
@@ -121,11 +123,9 @@ export default function UserAppMainPage() {
               <ListItem key={item.id} onClick={() => navigate(`${item.id}`)}>
                 <ListItemText primary={item.title} secondary={item.subtitle} />
 
-                {b.itemConfig.showItemImageFirstScreen && item.image && (
-                  <ImageS1 url={item.image} />
-                )}
+                {item.image && <ItemImage url={item.image} />}
 
-                {b.itemConfig.showRatingFirstScreen && item.mark && (
+                {b.mainPage.showRating && item.mark && (
                   <Ratings mark={item.mark} />
                 )}
               </ListItem>

@@ -1,26 +1,26 @@
 import { Box, Typography } from "@mui/material";
 import {
-  FetchedJsonSecondScreen,
-  Parameter,
-  ParameterConfig,
-} from "../mocks/userapp_types";
-import { jsonString } from "../mocks/json_template_second_screen";
+  FetchedJsonDetailsPage,
+  CustomAttribute,
+  ItemCustomAttribute,
+} from "../mocks/types";
+import { jsonStringDetailPage } from "../mocks/responseDetailPage";
 
-const jsonData: FetchedJsonSecondScreen = JSON.parse(jsonString);
-const parameterConfigMap: ParameterConfig[] =
-  jsonData.userapp_builder_config.layoutConfig.parameterMap;
+const jsonData: FetchedJsonDetailsPage = JSON.parse(jsonStringDetailPage);
+const parameterConfigMap: ItemCustomAttribute[] =
+  jsonData.data.storeConfig.itemCustomAttributes;
 type ParametersListProps = {
-  itemParameters: Parameter[];
+  itemParameters: CustomAttribute[];
 };
 
 const renderParameter = (
-  paramConfig: ParameterConfig,
-  itemParameter: Parameter,
+  paramConfig: ItemCustomAttribute,
+  itemParameter: CustomAttribute,
 ) => {
   let displayValue;
   let style = {};
 
-  switch (paramConfig.type) {
+  switch (paramConfig.dataType) {
     case "string":
       displayValue = itemParameter.value;
       style = {
@@ -69,7 +69,7 @@ function ParametersList({ itemParameters }: ParametersListProps) {
         const paramConfig = parameterConfigMap.find(
           (p) => p.name === itemParameter.name,
         );
-        if (!paramConfig || !paramConfig.showSecondScreen) return null;
+        if (!paramConfig || !paramConfig.showDetailsPage) return null;
 
         return renderParameter(paramConfig, itemParameter);
       })}

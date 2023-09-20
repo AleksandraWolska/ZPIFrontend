@@ -5,7 +5,7 @@ type Props = {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function ImageS1({ url }: Props) {
+function ItemImage({ url }: Props) {
   return (
     <Box
       width={40}
@@ -17,4 +17,4 @@ function ImageS1({ url }: Props) {
   );
 }
 
-export default ImageS1;
+export default ItemImage;

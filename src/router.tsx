@@ -5,7 +5,7 @@ import Home from "./routes/home/Home";
 import RequireLogin from "./auth/RequireLogin";
 import Secret from "./routes/secret/Secret";
 import UserAppMainPage from "./routes/userapp/UserAppMainPage";
-import ItemPage from "./routes/userapp/ItemPage";
+import ItemDetailsPage from "./routes/userapp/ItemDetailsPage";
 import UserAppWrapper from "./routes/userapp/UserAppWrapper";
 
 if (process.env.NODE_ENV === "development") {
@@ -53,7 +53,7 @@ const router = createBrowserRouter([
       },
       {
         path: ":itemId",
-        element: <ItemPage />,
+        element: <ItemDetailsPage />,
       },
     ],
   },
