@@ -1,6 +1,6 @@
 import { List, ListItem, ListItemText } from "@mui/material";
 import { Box } from "@mui/system";
-import { Item, SubItem } from "../../mocks/userapp_types";
+import { Item, SubItem } from "../../mocks/types";
 
 type SubItemsListProps = {
   selectedItem: Item | null;

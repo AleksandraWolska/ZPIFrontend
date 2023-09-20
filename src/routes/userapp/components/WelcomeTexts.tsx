@@ -1,20 +1,18 @@
 import { Box, Typography } from "@mui/material";
-import {
-  FetchedJsonFirstScreen,
-  UserAppBuilderConfig,
-} from "../mocks/userapp_types";
-import { jsonString } from "../mocks/json_template";
+import { FetchedJsonMainPage } from "../mocks/types";
+import { jsonStringMainPage } from "../mocks/responseMainPage";
 
 function WelcomeTexts() {
-  const jsonData: FetchedJsonFirstScreen = JSON.parse(jsonString);
-  const b: UserAppBuilderConfig = jsonData.userapp_builder_config;
+  const jsonData: FetchedJsonMainPage = JSON.parse(jsonStringMainPage);
 
   return (
     <Box>
-      <Typography variant="h6">{b.layoutConfig.welcomeTextLine1}</Typography>
-      {b.layoutConfig.welcomeTextLine2 && (
+      <Typography variant="h6">
+        {jsonData.data.storeConfig.mainPage.welcomeTextLine1}
+      </Typography>
+      {jsonData.data.storeConfig.mainPage.welcomeTextLine2 && (
         <Typography variant="body1" color="orange">
-          {b.layoutConfig.welcomeTextLine2}
+          {jsonData.data.storeConfig.mainPage.welcomeTextLine1}
         </Typography>
       )}
     </Box>

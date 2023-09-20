@@ -9,14 +9,14 @@ import {
   TextField,
   Button,
 } from "@mui/material";
-import { FilterValue, ParameterConfig } from "../mocks/userapp_types";
+import { FilterValue, ItemCustomAttribute } from "../mocks/types";
 
 type FiltersProps = {
   handleAppendFilter: (filter: FilterValue) => void;
   handleRemoveFilter: (paramKey: string) => void;
   resetFilters: () => void;
   activeFilters: FilterValue[];
-  parameterMap: ParameterConfig[];
+  parameterMap: ItemCustomAttribute[];
 };
 
 function Filters({
@@ -30,13 +30,13 @@ function Filters({
     <Box width="25%" padding={3}>
       <Box bgcolor="lightgrey">
         {parameterMap
-          .filter((param: ParameterConfig) => param.isFilterable)
-          .map((param: ParameterConfig) => {
+          .filter((param: ItemCustomAttribute) => param.isFilterable)
+          .map((param: ItemCustomAttribute) => {
             const activeFilter = activeFilters.find(
               (filter) => filter.paramKey === param.id.toString(),
             );
 
-            switch (param.type) {
+            switch (param.dataType) {
               case "string":
                 return (
                   <Box key={param.id} marginBottom={2}>
