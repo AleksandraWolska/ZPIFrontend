@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
 import {
   Box,
   Typography,
@@ -11,10 +10,8 @@ import {
   IconButton,
 } from "@mui/material";
 import { FilterAlt, FilterAltOff, Close } from "@mui/icons-material";
-
 import { jsonStringMainPage } from "./mocks/responseMainPage";
 import {
-  StoreConfig,
   Item,
   FetchedJsonMainPage,
   FilterValue,
@@ -30,8 +27,7 @@ export default function UserAppMainPage() {
   const navigate = useNavigate();
 
   const jsonData: FetchedJsonMainPage = JSON.parse(jsonStringMainPage);
-  const b: StoreConfig = jsonData.data.storeConfig;
-  const { items } = jsonData.data;
+  const { storeConfig, items } = jsonData.data;
 
   const [showFilterForm, setShowFilterForm] = useState(false);
   const [activeFilters, setActiveFilters] = useState<FilterValue[]>([]);
@@ -79,7 +75,7 @@ export default function UserAppMainPage() {
   );
 
   const filteredItems = items.filter((item) =>
-    b.itemCustomAttributes.every((param: ItemCustomAttribute) => {
+    storeConfig.itemCustomAttributes.every((param: ItemCustomAttribute) => {
       if (!param.isFilterable) return true;
 
       const itemParam = item.customAttributeList?.find(
@@ -105,7 +101,7 @@ export default function UserAppMainPage() {
             handleRemoveFilter={handleRemoveFilter}
             resetFilters={resetFilters}
             activeFilters={activeFilters}
-            parameterMap={b.itemCustomAttributes}
+            parameterMap={storeConfig.itemCustomAttributes}
           />
         )}
 
@@ -125,7 +121,7 @@ export default function UserAppMainPage() {
 
                 {item.image && <ItemImage url={item.image} />}
 
-                {b.mainPage.showRating && item.mark && (
+                {storeConfig.mainPage.showRating && item.mark && (
                   <Ratings mark={item.mark} />
                 )}
               </ListItem>

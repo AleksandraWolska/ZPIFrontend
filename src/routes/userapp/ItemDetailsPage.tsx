@@ -11,10 +11,10 @@ import {
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 
-import { FetchedJsonDetailsPage, SubItem, StoreConfig } from "./mocks/types";
+import { FetchedJsonDetailsPage, SubItem } from "./mocks/types";
 import { jsonStringDetailPage } from "./mocks/responseDetailPage";
 
-import ParametersList from "./features/ParametersList";
+import AttributesList from "./features/AttributesList";
 import CommentList from "./features/CommentList";
 import Ratings from "./features/Ratings";
 import RatingsInteractive from "./features/RatingsInteractive";
@@ -26,9 +26,9 @@ import SubItemsList from "./components/core/SubItemsList";
 export default function ItemDetailsPage() {
   const { itemId } = useParams();
   const jsonData: FetchedJsonDetailsPage = JSON.parse(jsonStringDetailPage);
-  const b: StoreConfig = jsonData.data.storeConfig;
-  const { core: coreConfig } = b;
-  const { item } = jsonData.data;
+  const { storeConfig, item } = jsonData.data;
+
+  const { core: coreConfig } = storeConfig;
 
   const [showSuccessDialog, setShowSuccessDialog] = useState(false);
   const [reservationRequestReady, setReservationRequestReady] = useState(false);
@@ -238,17 +238,19 @@ export default function ItemDetailsPage() {
       {item.description && (
         <Typography variant="body2">{item.description}</Typography>
       )}
-      {b.detailsPage.showRating && item.mark && <Ratings mark={item.mark} />}
+      {storeConfig.detailsPage.showRating && item.mark && (
+        <Ratings mark={item.mark} />
+      )}
 
       {item.customAttributeList && (
-        <ParametersList itemParameters={item.customAttributeList!} />
+        <AttributesList itemAttributes={item.customAttributeList!} />
       )}
       {core}
-      {b.detailsPage.showRating && (
+      {storeConfig.detailsPage.showRating && (
         <RatingsInteractive handleSetRating={handleRatingAdd} />
       )}
 
-      {b.detailsPage.showComments && item.commentList && (
+      {storeConfig.detailsPage.showComments && item.commentList && (
         <CommentList
           selectedItem={item}
           handleSendComment={handleSendComment}
