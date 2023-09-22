@@ -45,7 +45,7 @@ function Attributes({
 }: {
   setActiveStep: (step: StoreConfigStep) => void;
 }) {
-  const { storeConfig, setAttributes } = useStoreConfig();
+  const { storeConfig, withdrawToCoreStep, setAttributes } = useStoreConfig();
 
   const initialLocalAttributes = getInitialLocalAttributes(
     storeConfig.attributes,
@@ -232,7 +232,14 @@ function Attributes({
         <Button
           onClick={() => {
             saveAttributes();
-            setActiveStep(STORE_CONFIG_STEPS.CORE_SUMMARY);
+            const prevStep =
+              storeConfig.core.periodicity !== undefined
+                ? STORE_CONFIG_STEPS.PERIODICITY
+                : storeConfig.core.specificReservation !== undefined
+                ? STORE_CONFIG_STEPS.SPECIFIC_RESERVATION
+                : STORE_CONFIG_STEPS.UNIQUENESS;
+            withdrawToCoreStep(prevStep);
+            setActiveStep(prevStep);
           }}
         >
           Back

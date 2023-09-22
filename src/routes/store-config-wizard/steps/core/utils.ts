@@ -1,4 +1,4 @@
-import { STORE_CONFIG_STEPS, StoreConfigStep } from "../types";
+import { STORE_CONFIG_STEPS, StoreConfigStep } from "../../types";
 
 export function calculateProgress(
   from: StoreConfigStep,

@@ -2,8 +2,8 @@ import { StoreConfig, StoreConfigStep, STORE_CONFIG_STEPS } from "./types";
 
 export const STORE_CONFIG_ACTION_TYPES = {
   SET_OWNER_ATTRIBUTE: "SET_OWNER_ATTRIBUTE",
-  APPEND_TO_CORE_CONFIG: "APPEND_TO_CORE_CONFIG",
-  WITHDRAW_TO_CORE_CONFIG: "WITHDRAW_TO_CORE_CONFIG",
+  APPEND_CORE_ATTRIBUTE: "APPEND_CORE_ATTRIBUTE",
+  WITHDRAW_TO_CORE_STEP: "WITHDRAW_TO_CORE_STEP",
   SET_ATTRIBUTES: "SET_ATTRIBUTES",
   SET_RATING_OPTIONS: "SET_RATING_OPTIONS",
   SET_COMMENTS_OPTIONS: "SET_COMMENTS_OPTIONS",
@@ -14,13 +14,13 @@ type SetOwnerAttributeAction = {
   payload: Partial<StoreConfig["owner"]>;
 };
 
-type AppendToCoreConfigAction = {
-  type: typeof STORE_CONFIG_ACTION_TYPES.APPEND_TO_CORE_CONFIG;
-  payload: StoreConfig["coreConfig"];
+type AppendCoreAttributeAction = {
+  type: typeof STORE_CONFIG_ACTION_TYPES.APPEND_CORE_ATTRIBUTE;
+  payload: StoreConfig["core"];
 };
 
-type WithdrawToCoreConfigAction = {
-  type: typeof STORE_CONFIG_ACTION_TYPES.WITHDRAW_TO_CORE_CONFIG;
+type WithdrawToCoreStepAction = {
+  type: typeof STORE_CONFIG_ACTION_TYPES.WITHDRAW_TO_CORE_STEP;
   payload: StoreConfigStep;
 };
 
@@ -41,8 +41,8 @@ type SetCommentsOptionsAction = {
 
 type StoreConfigAction =
   | SetOwnerAttributeAction
-  | AppendToCoreConfigAction
-  | WithdrawToCoreConfigAction
+  | AppendCoreAttributeAction
+  | WithdrawToCoreStepAction
   | SetAttributesAction
   | SetRatingOptionsAction
   | SetCommentsOptionsAction;
@@ -57,15 +57,15 @@ export function storeConfigReducer(
         ...storeConfig,
         owner: { ...storeConfig.owner, ...action.payload },
       };
-    case STORE_CONFIG_ACTION_TYPES.APPEND_TO_CORE_CONFIG:
+    case STORE_CONFIG_ACTION_TYPES.APPEND_CORE_ATTRIBUTE:
       return {
         ...storeConfig,
-        coreConfig: { ...storeConfig.coreConfig, ...action.payload },
+        core: { ...storeConfig.core, ...action.payload },
       };
-    case STORE_CONFIG_ACTION_TYPES.WITHDRAW_TO_CORE_CONFIG:
+    case STORE_CONFIG_ACTION_TYPES.WITHDRAW_TO_CORE_STEP:
       return {
         ...storeConfig,
-        coreConfig: resetCoreConfig(storeConfig.coreConfig, action.payload),
+        core: resetCoreConfig(storeConfig.core, action.payload),
       };
     case STORE_CONFIG_ACTION_TYPES.SET_ATTRIBUTES:
       return { ...storeConfig, attributes: action.payload };
@@ -97,7 +97,7 @@ export function storeConfigReducer(
 }
 
 function resetCoreConfig(
-  coreConfig: StoreConfig["coreConfig"],
+  coreConfig: StoreConfig["core"],
   step: StoreConfigStep,
 ) {
   switch (step) {
