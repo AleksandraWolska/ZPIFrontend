@@ -1,15 +1,15 @@
-import { USER_APP_CONFIG_STEPS, UserAppConfigStep } from "../types";
-import { useUserAppConfig } from "../UserAppConfigProvider";
+import { STORE_CONFIG_STEPS, StoreConfigStep } from "../types";
+import { useStoreConfig } from "../StoreConfigProvider";
 import { calculateProgress } from "./utils";
 
 function Flexibility({
   setActiveStep,
   setProgress,
 }: {
-  setActiveStep: (step: UserAppConfigStep) => void;
+  setActiveStep: (step: StoreConfigStep) => void;
   setProgress: (progress: number) => void;
 }) {
-  const { setCoreConfigAttribute } = useUserAppConfig();
+  const { setCoreConfigAttribute } = useStoreConfig();
 
   return (
     <>
@@ -18,7 +18,7 @@ function Flexibility({
       <button
         type="button"
         onClick={() => {
-          const prevStep = USER_APP_CONFIG_STEPS.LAYOUT_CONFIG;
+          const prevStep = STORE_CONFIG_STEPS.LAYOUT_CONFIG;
           setActiveStep(prevStep);
         }}
       >
@@ -29,10 +29,10 @@ function Flexibility({
         type="button"
         onClick={() => {
           setCoreConfigAttribute("flexibility", true);
-          const nextStep = USER_APP_CONFIG_STEPS.GRANULARITY;
+          const nextStep = STORE_CONFIG_STEPS.GRANULARITY;
           setActiveStep(nextStep);
           setProgress(
-            calculateProgress(USER_APP_CONFIG_STEPS.FLEXIBILITY, nextStep),
+            calculateProgress(STORE_CONFIG_STEPS.FLEXIBILITY, nextStep),
           );
         }}
       >
@@ -43,10 +43,10 @@ function Flexibility({
         type="button"
         onClick={() => {
           setCoreConfigAttribute("flexibility", false);
-          const nextStep = USER_APP_CONFIG_STEPS.SIMULTANEOUS;
+          const nextStep = STORE_CONFIG_STEPS.SIMULTANEOUS;
           setActiveStep(nextStep);
           setProgress(
-            calculateProgress(USER_APP_CONFIG_STEPS.FLEXIBILITY, nextStep),
+            calculateProgress(STORE_CONFIG_STEPS.FLEXIBILITY, nextStep),
           );
         }}
       >

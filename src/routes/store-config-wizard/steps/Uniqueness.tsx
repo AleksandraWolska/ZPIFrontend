@@ -1,16 +1,16 @@
-import { useUserAppConfig } from "../UserAppConfigProvider";
-import { USER_APP_CONFIG_STEPS, UserAppConfigStep } from "../types";
+import { useStoreConfig } from "../StoreConfigProvider";
+import { STORE_CONFIG_STEPS, StoreConfigStep } from "../types";
 import { calculateProgress } from "./utils";
 
 function Uniqueness({
   setActiveStep,
   setProgress,
 }: {
-  setActiveStep: (step: UserAppConfigStep) => void;
+  setActiveStep: (step: StoreConfigStep) => void;
   setProgress: (progress: number) => void;
 }) {
-  const { userAppConfig, setCoreConfigAttribute, withdrawToCoreConfig } =
-    useUserAppConfig();
+  const { storeConfig, setCoreConfigAttribute, withdrawToCoreConfig } =
+    useStoreConfig();
 
   return (
     <>
@@ -20,13 +20,13 @@ function Uniqueness({
         type="button"
         onClick={() => {
           const prevStep =
-            userAppConfig.coreConfig.simultaneous === false
-              ? USER_APP_CONFIG_STEPS.GAP_BETWEEN
-              : USER_APP_CONFIG_STEPS.SIMULTANEOUS;
+            storeConfig.coreConfig.simultaneous === false
+              ? STORE_CONFIG_STEPS.GAP_BETWEEN
+              : STORE_CONFIG_STEPS.SIMULTANEOUS;
           withdrawToCoreConfig(prevStep);
           setActiveStep(prevStep);
           setProgress(
-            calculateProgress(USER_APP_CONFIG_STEPS.UNIQUENESS, prevStep),
+            calculateProgress(STORE_CONFIG_STEPS.UNIQUENESS, prevStep),
           );
         }}
       >
@@ -37,7 +37,7 @@ function Uniqueness({
         type="button"
         onClick={() => {
           setCoreConfigAttribute("uniqueness", true);
-          setActiveStep(USER_APP_CONFIG_STEPS.CORE_SUMMARY);
+          setActiveStep(STORE_CONFIG_STEPS.CORE_SUMMARY);
           setProgress(100);
         }}
       >
@@ -48,7 +48,7 @@ function Uniqueness({
         type="button"
         onClick={() => {
           setCoreConfigAttribute("uniqueness", false);
-          setActiveStep(USER_APP_CONFIG_STEPS.CORE_SUMMARY);
+          setActiveStep(STORE_CONFIG_STEPS.CORE_SUMMARY);
           setProgress(100);
         }}
       >

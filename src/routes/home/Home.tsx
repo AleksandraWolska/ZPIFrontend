@@ -8,7 +8,7 @@ function Home() {
     <div>
       <h1>{t("home.title")}</h1>
       <br />
-      <Link to="/schemas/new">New offer schema</Link>
+      <Link to="/store-config-wizard">Store config wizard</Link>
       <br />
       <Link to="/todos">Todos</Link>
       <br />
