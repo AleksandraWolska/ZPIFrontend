@@ -1,5 +1,5 @@
-import { useStoreConfig } from "../StoreConfigProvider";
-import { STORE_CONFIG_STEPS, StoreConfigStep } from "../types";
+import { useStoreConfig } from "../../StoreConfigProvider";
+import { STORE_CONFIG_STEPS, StoreConfigStep } from "../../types";
 import { calculateProgress } from "./utils";
 
 function SpecificReservation({
@@ -9,7 +9,7 @@ function SpecificReservation({
   setActiveStep: (step: StoreConfigStep) => void;
   setProgress: (progress: number) => void;
 }) {
-  const { setCoreConfigAttribute, withdrawToCoreConfig } = useStoreConfig();
+  const { appendCoreAttribute, withdrawToCoreStep } = useStoreConfig();
 
   return (
     <>
@@ -19,7 +19,7 @@ function SpecificReservation({
         type="button"
         onClick={() => {
           const prevStep = STORE_CONFIG_STEPS.SIMULTANEOUS;
-          withdrawToCoreConfig(prevStep);
+          withdrawToCoreStep(prevStep);
           setActiveStep(prevStep);
           setProgress(
             calculateProgress(
@@ -35,8 +35,8 @@ function SpecificReservation({
       <button
         type="button"
         onClick={() => {
-          setCoreConfigAttribute("specificReservation", true);
-          const nextStep = STORE_CONFIG_STEPS.CORE_SUMMARY;
+          appendCoreAttribute("specificReservation", true);
+          const nextStep = STORE_CONFIG_STEPS.ATTRIBUTES;
           setActiveStep(nextStep);
           setProgress(100);
         }}
@@ -47,7 +47,7 @@ function SpecificReservation({
       <button
         type="button"
         onClick={() => {
-          setCoreConfigAttribute("specificReservation", false);
+          appendCoreAttribute("specificReservation", false);
           const nextStep = STORE_CONFIG_STEPS.PERIODICITY;
           setActiveStep(nextStep);
           setProgress(

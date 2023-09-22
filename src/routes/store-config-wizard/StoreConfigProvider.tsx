@@ -16,7 +16,7 @@ const initialStoreConfig: StoreConfig = {
     phone: "",
     email: "",
   },
-  coreConfig: {},
+  core: {},
   attributes: [],
   ratingOptions: {
     allowRating: false,
@@ -49,19 +49,19 @@ function StoreConfigProvider({ children }: { children: ReactNode }) {
     });
   };
 
-  const setCoreConfigAttribute = (
-    key: keyof StoreConfig["coreConfig"],
+  const appendCoreAttribute = (
+    key: keyof StoreConfig["core"],
     value: boolean,
   ) => {
     dispatch({
-      type: STORE_CONFIG_ACTION_TYPES.APPEND_TO_CORE_CONFIG,
+      type: STORE_CONFIG_ACTION_TYPES.APPEND_CORE_ATTRIBUTE,
       payload: { [key]: value },
     });
   };
 
-  const withdrawToCoreConfig = (step: StoreConfigStep) => {
+  const withdrawToCoreStep = (step: StoreConfigStep) => {
     dispatch({
-      type: STORE_CONFIG_ACTION_TYPES.WITHDRAW_TO_CORE_CONFIG,
+      type: STORE_CONFIG_ACTION_TYPES.WITHDRAW_TO_CORE_STEP,
       payload: step,
     });
   };
@@ -95,8 +95,8 @@ function StoreConfigProvider({ children }: { children: ReactNode }) {
     () => ({
       storeConfig,
       setOwnerAttribute,
-      setCoreConfigAttribute,
-      withdrawToCoreConfig,
+      appendCoreAttribute,
+      withdrawToCoreStep,
       setAttributes,
       setRatingOptions,
       setCommentsOptions,

@@ -1,13 +1,12 @@
 import { useState } from "react";
 import { LinearProgress } from "@mui/material";
 import { STORE_CONFIG_STEPS, StoreConfigStep } from "./types";
-import Flexibility from "./steps/Flexibility";
-import Granularity from "./steps/Granularity";
-import Simultaneous from "./steps/Simultaneous";
-import Uniqueness from "./steps/Uniqueness";
-import SpecificReservation from "./steps/SpecificReservation";
-import Periodicity from "./steps/Periodicity";
-import CoreSummary from "./steps/CoreSummary";
+import Flexibility from "./steps/core/Flexibility";
+import Granularity from "./steps/core/Granularity";
+import Simultaneous from "./steps/core/Simultaneous";
+import Uniqueness from "./steps/core/Uniqueness";
+import SpecificReservation from "./steps/core/SpecificReservation";
+import Periodicity from "./steps/core/Periodicity";
 import Attributes from "./steps/Attributes";
 import PrintStoreConfig from "./steps/PrintStoreConfig";
 import RatingAndComments from "./steps/RatingAndComments";
@@ -62,8 +61,6 @@ function Stepper() {
             setProgress={setProgress}
           />
         );
-      case STORE_CONFIG_STEPS.CORE_SUMMARY:
-        return <CoreSummary setActiveStep={setActiveStep} />;
       case STORE_CONFIG_STEPS.ATTRIBUTES:
         return <Attributes setActiveStep={setActiveStep} />;
       case STORE_CONFIG_STEPS.RATING_AND_COMMENTS:

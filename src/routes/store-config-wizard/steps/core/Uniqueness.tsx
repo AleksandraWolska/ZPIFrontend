@@ -1,5 +1,5 @@
-import { useStoreConfig } from "../StoreConfigProvider";
-import { STORE_CONFIG_STEPS, StoreConfigStep } from "../types";
+import { useStoreConfig } from "../../StoreConfigProvider";
+import { STORE_CONFIG_STEPS, StoreConfigStep } from "../../types";
 import { calculateProgress } from "./utils";
 
 function Uniqueness({
@@ -9,7 +9,7 @@ function Uniqueness({
   setActiveStep: (step: StoreConfigStep) => void;
   setProgress: (progress: number) => void;
 }) {
-  const { setCoreConfigAttribute, withdrawToCoreConfig } = useStoreConfig();
+  const { appendCoreAttribute, withdrawToCoreStep } = useStoreConfig();
 
   return (
     <>
@@ -19,7 +19,7 @@ function Uniqueness({
         type="button"
         onClick={() => {
           const prevStep = STORE_CONFIG_STEPS.SIMULTANEOUS;
-          withdrawToCoreConfig(prevStep);
+          withdrawToCoreStep(prevStep);
           setActiveStep(prevStep);
           setProgress(
             calculateProgress(STORE_CONFIG_STEPS.UNIQUENESS, prevStep),
@@ -32,8 +32,8 @@ function Uniqueness({
       <button
         type="button"
         onClick={() => {
-          setCoreConfigAttribute("uniqueness", true);
-          setActiveStep(STORE_CONFIG_STEPS.CORE_SUMMARY);
+          appendCoreAttribute("uniqueness", true);
+          setActiveStep(STORE_CONFIG_STEPS.ATTRIBUTES);
           setProgress(100);
         }}
       >
@@ -43,8 +43,8 @@ function Uniqueness({
       <button
         type="button"
         onClick={() => {
-          setCoreConfigAttribute("uniqueness", false);
-          setActiveStep(STORE_CONFIG_STEPS.CORE_SUMMARY);
+          appendCoreAttribute("uniqueness", false);
+          setActiveStep(STORE_CONFIG_STEPS.ATTRIBUTES);
           setProgress(100);
         }}
       >

@@ -1,5 +1,5 @@
-import { STORE_CONFIG_STEPS, StoreConfigStep } from "../types";
-import { useStoreConfig } from "../StoreConfigProvider";
+import { STORE_CONFIG_STEPS, StoreConfigStep } from "../../types";
+import { useStoreConfig } from "../../StoreConfigProvider";
 import { calculateProgress } from "./utils";
 
 function Periodicity({
@@ -9,7 +9,7 @@ function Periodicity({
   setActiveStep: (step: StoreConfigStep) => void;
   setProgress: (progress: number) => void;
 }) {
-  const { storeConfig, setCoreConfigAttribute, withdrawToCoreConfig } =
+  const { storeConfig, appendCoreAttribute, withdrawToCoreStep } =
     useStoreConfig();
 
   return (
@@ -20,10 +20,10 @@ function Periodicity({
         type="button"
         onClick={() => {
           const prevStep =
-            storeConfig.coreConfig.simultaneous === false
+            storeConfig.core.simultaneous === false
               ? STORE_CONFIG_STEPS.SIMULTANEOUS
               : STORE_CONFIG_STEPS.SPECIFIC_RESERVATION;
-          withdrawToCoreConfig(prevStep);
+          withdrawToCoreStep(prevStep);
           setActiveStep(prevStep);
           setProgress(
             calculateProgress(STORE_CONFIG_STEPS.PERIODICITY, prevStep),
@@ -36,8 +36,8 @@ function Periodicity({
       <button
         type="button"
         onClick={() => {
-          setCoreConfigAttribute("periodicity", true);
-          setActiveStep(STORE_CONFIG_STEPS.CORE_SUMMARY);
+          appendCoreAttribute("periodicity", true);
+          setActiveStep(STORE_CONFIG_STEPS.ATTRIBUTES);
           setProgress(100);
         }}
       >
@@ -47,8 +47,8 @@ function Periodicity({
       <button
         type="button"
         onClick={() => {
-          setCoreConfigAttribute("periodicity", false);
-          setActiveStep(STORE_CONFIG_STEPS.CORE_SUMMARY);
+          appendCoreAttribute("periodicity", false);
+          setActiveStep(STORE_CONFIG_STEPS.ATTRIBUTES);
           setProgress(100);
         }}
       >

@@ -8,7 +8,6 @@ export const STORE_CONFIG_STEPS = {
   UNIQUENESS: "UNIQUENESS",
   SPECIFIC_RESERVATION: "SPECIFIC_RESERVATION",
   PERIODICITY: "PERIODICITY",
-  CORE_SUMMARY: "CORE_SUMMARY",
   ATTRIBUTES: "ATTRIBUTES",
   RATING_AND_COMMENTS: "RATING_AND_COMMENTS",
   PRINT_SCHEMA: "PRINT_SCHEMA",
@@ -29,7 +28,7 @@ export type Simultaneous = boolean;
 export type Uniqueness = boolean;
 export type SpecificReservation = boolean;
 export type Periodicity = boolean;
-export type CoreConfig = {
+export type Core = {
   flexibility?: Flexibility;
   granularity?: Granularity;
   simultaneous?: Simultaneous;
@@ -59,7 +58,7 @@ export type CommentsOptions = {
 
 export type StoreConfig = {
   owner: Owner;
-  coreConfig: CoreConfig;
+  core: Core;
   attributes: Attribute[];
   ratingOptions: RatingOptions;
   commentsOptions: CommentsOptions;

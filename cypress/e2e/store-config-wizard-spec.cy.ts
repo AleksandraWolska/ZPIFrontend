@@ -12,7 +12,5 @@ describe("store config wizard spec", () => {
 
     cy.contains("Periodicity");
     cy.contains("button", "No").click();
-
-    cy.contains("You specified core config of your schema!");
   });
 });

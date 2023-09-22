@@ -1,5 +1,5 @@
-import { STORE_CONFIG_STEPS, StoreConfigStep } from "../types";
-import { useStoreConfig } from "../StoreConfigProvider";
+import { STORE_CONFIG_STEPS, StoreConfigStep } from "../../types";
+import { useStoreConfig } from "../../StoreConfigProvider";
 import { calculateProgress } from "./utils";
 
 function Simultaneous({
@@ -9,7 +9,7 @@ function Simultaneous({
   setActiveStep: (step: StoreConfigStep) => void;
   setProgress: (progress: number) => void;
 }) {
-  const { storeConfig, setCoreConfigAttribute, withdrawToCoreConfig } =
+  const { storeConfig, appendCoreAttribute, withdrawToCoreStep } =
     useStoreConfig();
 
   return (
@@ -20,10 +20,10 @@ function Simultaneous({
         type="button"
         onClick={() => {
           const prevStep =
-            storeConfig.coreConfig.granularity !== undefined
+            storeConfig.core.granularity !== undefined
               ? STORE_CONFIG_STEPS.GRANULARITY
               : STORE_CONFIG_STEPS.FLEXIBILITY;
-          withdrawToCoreConfig(prevStep);
+          withdrawToCoreStep(prevStep);
           setActiveStep(prevStep);
           setProgress(
             calculateProgress(STORE_CONFIG_STEPS.SIMULTANEOUS, prevStep),
@@ -36,9 +36,9 @@ function Simultaneous({
       <button
         type="button"
         onClick={() => {
-          setCoreConfigAttribute("simultaneous", true);
+          appendCoreAttribute("simultaneous", true);
           const nextStep =
-            storeConfig.coreConfig.flexibility === false
+            storeConfig.core.flexibility === false
               ? STORE_CONFIG_STEPS.SPECIFIC_RESERVATION
               : STORE_CONFIG_STEPS.UNIQUENESS;
           setActiveStep(nextStep);
@@ -53,9 +53,9 @@ function Simultaneous({
       <button
         type="button"
         onClick={() => {
-          setCoreConfigAttribute("simultaneous", false);
+          appendCoreAttribute("simultaneous", false);
           const nextStep =
-            storeConfig.coreConfig.flexibility === false
+            storeConfig.core.flexibility === false
               ? STORE_CONFIG_STEPS.PERIODICITY
               : STORE_CONFIG_STEPS.UNIQUENESS;
           setActiveStep(nextStep);

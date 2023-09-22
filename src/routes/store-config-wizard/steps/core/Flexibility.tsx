@@ -1,5 +1,5 @@
-import { STORE_CONFIG_STEPS, StoreConfigStep } from "../types";
-import { useStoreConfig } from "../StoreConfigProvider";
+import { STORE_CONFIG_STEPS, StoreConfigStep } from "../../types";
+import { useStoreConfig } from "../../StoreConfigProvider";
 import { calculateProgress } from "./utils";
 
 function Flexibility({
@@ -9,7 +9,7 @@ function Flexibility({
   setActiveStep: (step: StoreConfigStep) => void;
   setProgress: (progress: number) => void;
 }) {
-  const { setCoreConfigAttribute } = useStoreConfig();
+  const { appendCoreAttribute } = useStoreConfig();
 
   return (
     <>
@@ -28,7 +28,7 @@ function Flexibility({
       <button
         type="button"
         onClick={() => {
-          setCoreConfigAttribute("flexibility", true);
+          appendCoreAttribute("flexibility", true);
           const nextStep = STORE_CONFIG_STEPS.GRANULARITY;
           setActiveStep(nextStep);
           setProgress(
@@ -42,7 +42,7 @@ function Flexibility({
       <button
         type="button"
         onClick={() => {
-          setCoreConfigAttribute("flexibility", false);
+          appendCoreAttribute("flexibility", false);
           const nextStep = STORE_CONFIG_STEPS.SIMULTANEOUS;
           setActiveStep(nextStep);
           setProgress(

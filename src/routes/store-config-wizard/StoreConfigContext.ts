@@ -4,11 +4,8 @@ import { StoreConfig, StoreConfigStep } from "./types";
 export type StoreConfigContextType = {
   storeConfig: StoreConfig;
   setOwnerAttribute: (key: keyof StoreConfig["owner"], value: string) => void;
-  setCoreConfigAttribute: (
-    key: keyof StoreConfig["coreConfig"],
-    value: boolean,
-  ) => void;
-  withdrawToCoreConfig: (step: StoreConfigStep) => void;
+  appendCoreAttribute: (key: keyof StoreConfig["core"], value: boolean) => void;
+  withdrawToCoreStep: (step: StoreConfigStep) => void;
   setAttributes: (attributes: StoreConfig["attributes"]) => void;
   setRatingOptions: (
     ratingOptions: Partial<StoreConfig["ratingOptions"]>,
