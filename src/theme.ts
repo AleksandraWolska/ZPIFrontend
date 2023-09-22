@@ -12,6 +12,11 @@ const theme = createTheme({
         size: "small",
       },
     },
+    MuiButton: {
+      defaultProps: {
+        size: "small",
+      },
+    },
   },
 });
 
