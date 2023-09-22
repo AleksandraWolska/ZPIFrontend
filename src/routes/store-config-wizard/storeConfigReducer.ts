@@ -1,10 +1,6 @@
-import {
-  UserAppConfig,
-  UserAppConfigStep,
-  USER_APP_CONFIG_STEPS,
-} from "./types";
+import { StoreConfig, StoreConfigStep, STORE_CONFIG_STEPS } from "./types";
 
-export const USER_APP_CONFIG_ACTION_TYPES = {
+export const STORE_CONFIG_ACTION_TYPES = {
   SET_LAYOUT_CONFIG: "SET_LAYOUT_CONFIG",
   APPEND_TO_CORE_CONFIG: "APPEND_TO_CORE_CONFIG",
   WITHDRAW_TO_CORE_CONFIG: "WITHDRAW_TO_CORE_CONFIG",
@@ -14,36 +10,36 @@ export const USER_APP_CONFIG_ACTION_TYPES = {
 } as const;
 
 type SetLayoutConfigAction = {
-  type: typeof USER_APP_CONFIG_ACTION_TYPES.SET_LAYOUT_CONFIG;
-  payload: UserAppConfig["layoutConfig"];
+  type: typeof STORE_CONFIG_ACTION_TYPES.SET_LAYOUT_CONFIG;
+  payload: StoreConfig["layoutConfig"];
 };
 
 type AppendToCoreConfigAction = {
-  type: typeof USER_APP_CONFIG_ACTION_TYPES.APPEND_TO_CORE_CONFIG;
-  payload: UserAppConfig["coreConfig"];
+  type: typeof STORE_CONFIG_ACTION_TYPES.APPEND_TO_CORE_CONFIG;
+  payload: StoreConfig["coreConfig"];
 };
 
 type WithdrawToCoreConfigAction = {
-  type: typeof USER_APP_CONFIG_ACTION_TYPES.WITHDRAW_TO_CORE_CONFIG;
-  payload: UserAppConfigStep;
+  type: typeof STORE_CONFIG_ACTION_TYPES.WITHDRAW_TO_CORE_CONFIG;
+  payload: StoreConfigStep;
 };
 
 type SetAttributesAction = {
-  type: typeof USER_APP_CONFIG_ACTION_TYPES.SET_ATTRIBUTES;
-  payload: UserAppConfig["attributes"];
+  type: typeof STORE_CONFIG_ACTION_TYPES.SET_ATTRIBUTES;
+  payload: StoreConfig["attributes"];
 };
 
 type SetRatingOptionsAction = {
-  type: typeof USER_APP_CONFIG_ACTION_TYPES.SET_RATING_OPTIONS;
-  payload: Partial<UserAppConfig["ratingOptions"]>;
+  type: typeof STORE_CONFIG_ACTION_TYPES.SET_RATING_OPTIONS;
+  payload: Partial<StoreConfig["ratingOptions"]>;
 };
 
 type SetCommentsOptionsAction = {
-  type: typeof USER_APP_CONFIG_ACTION_TYPES.SET_COMMENTS_OPTIONS;
-  payload: Partial<UserAppConfig["commentsOptions"]>;
+  type: typeof STORE_CONFIG_ACTION_TYPES.SET_COMMENTS_OPTIONS;
+  payload: Partial<StoreConfig["commentsOptions"]>;
 };
 
-type UserAppConfigAction =
+type StoreConfigAction =
   | SetLayoutConfigAction
   | AppendToCoreConfigAction
   | WithdrawToCoreConfigAction
@@ -51,46 +47,46 @@ type UserAppConfigAction =
   | SetRatingOptionsAction
   | SetCommentsOptionsAction;
 
-export function userAppConfigReducer(
-  userAppConfig: UserAppConfig,
-  action: UserAppConfigAction,
-): UserAppConfig {
+export function storeConfigReducer(
+  storeConfig: StoreConfig,
+  action: StoreConfigAction,
+): StoreConfig {
   switch (action.type) {
-    case USER_APP_CONFIG_ACTION_TYPES.SET_LAYOUT_CONFIG:
-      return { ...userAppConfig, layoutConfig: action.payload };
-    case USER_APP_CONFIG_ACTION_TYPES.APPEND_TO_CORE_CONFIG:
+    case STORE_CONFIG_ACTION_TYPES.SET_LAYOUT_CONFIG:
+      return { ...storeConfig, layoutConfig: action.payload };
+    case STORE_CONFIG_ACTION_TYPES.APPEND_TO_CORE_CONFIG:
       return {
-        ...userAppConfig,
-        coreConfig: { ...userAppConfig.coreConfig, ...action.payload },
+        ...storeConfig,
+        coreConfig: { ...storeConfig.coreConfig, ...action.payload },
       };
-    case USER_APP_CONFIG_ACTION_TYPES.WITHDRAW_TO_CORE_CONFIG:
+    case STORE_CONFIG_ACTION_TYPES.WITHDRAW_TO_CORE_CONFIG:
       return {
-        ...userAppConfig,
-        coreConfig: resetCoreConfig(userAppConfig.coreConfig, action.payload),
+        ...storeConfig,
+        coreConfig: resetCoreConfig(storeConfig.coreConfig, action.payload),
       };
-    case USER_APP_CONFIG_ACTION_TYPES.SET_ATTRIBUTES:
-      return { ...userAppConfig, attributes: action.payload };
-    case USER_APP_CONFIG_ACTION_TYPES.SET_RATING_OPTIONS:
+    case STORE_CONFIG_ACTION_TYPES.SET_ATTRIBUTES:
+      return { ...storeConfig, attributes: action.payload };
+    case STORE_CONFIG_ACTION_TYPES.SET_RATING_OPTIONS:
       return {
-        ...userAppConfig,
+        ...storeConfig,
         ratingOptions:
           action.payload.allowRating === false
             ? {
                 allowRating: false,
                 showRating: false,
               }
-            : { ...userAppConfig.ratingOptions, ...action.payload },
+            : { ...storeConfig.ratingOptions, ...action.payload },
       };
-    case USER_APP_CONFIG_ACTION_TYPES.SET_COMMENTS_OPTIONS:
+    case STORE_CONFIG_ACTION_TYPES.SET_COMMENTS_OPTIONS:
       return {
-        ...userAppConfig,
+        ...storeConfig,
         commentsOptions:
           action.payload.allowComments === false
             ? {
                 allowComments: false,
                 showComments: false,
               }
-            : { ...userAppConfig.commentsOptions, ...action.payload },
+            : { ...storeConfig.commentsOptions, ...action.payload },
       };
     default:
       throw Error("Unknown reducer action!");
@@ -98,22 +94,22 @@ export function userAppConfigReducer(
 }
 
 function resetCoreConfig(
-  coreConfig: UserAppConfig["coreConfig"],
-  step: UserAppConfigStep,
+  coreConfig: StoreConfig["coreConfig"],
+  step: StoreConfigStep,
 ) {
   switch (step) {
-    case USER_APP_CONFIG_STEPS.FLEXIBILITY:
+    case STORE_CONFIG_STEPS.FLEXIBILITY:
       return {};
-    case USER_APP_CONFIG_STEPS.GRANULARITY:
+    case STORE_CONFIG_STEPS.GRANULARITY:
       return { flexibility: coreConfig.flexibility };
-    case USER_APP_CONFIG_STEPS.SIMULTANEOUS:
+    case STORE_CONFIG_STEPS.SIMULTANEOUS:
       return {
         flexibility: coreConfig.flexibility,
         ...(coreConfig.granularity !== undefined && {
           granularity: coreConfig.granularity,
         }),
       };
-    case USER_APP_CONFIG_STEPS.UNIQUENESS:
+    case STORE_CONFIG_STEPS.UNIQUENESS:
       return {
         flexibility: coreConfig.flexibility,
         granularity: coreConfig.granularity,
@@ -122,18 +118,18 @@ function resetCoreConfig(
           gapBetween: coreConfig.gapBetween,
         }),
       };
-    case USER_APP_CONFIG_STEPS.GAP_BETWEEN:
+    case STORE_CONFIG_STEPS.GAP_BETWEEN:
       return {
         flexibility: coreConfig.flexibility,
         granularity: coreConfig.granularity,
         simultaneous: coreConfig.simultaneous,
       };
-    case USER_APP_CONFIG_STEPS.SPECIFIC_RESERVATION:
+    case STORE_CONFIG_STEPS.SPECIFIC_RESERVATION:
       return {
         flexibility: coreConfig.flexibility,
         simultaneous: coreConfig.simultaneous,
       };
-    case USER_APP_CONFIG_STEPS.PERIODICITY:
+    case STORE_CONFIG_STEPS.PERIODICITY:
       return {
         flexibility: coreConfig.flexibility,
         simultaneous: coreConfig.simultaneous,

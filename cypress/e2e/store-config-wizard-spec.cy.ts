@@ -1,6 +1,6 @@
-describe("schema spec", () => {
+describe("store config wizard spec", () => {
   it("creates fixed time, not simultaneous, no periodicity core config", () => {
-    cy.visit("http://localhost:5173/schemas/new");
+    cy.visit("http://localhost:5173/store-config-wizard");
 
     cy.contains("Next").click();
 

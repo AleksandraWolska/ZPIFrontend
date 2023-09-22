@@ -1,16 +1,16 @@
-import { USER_APP_CONFIG_STEPS, UserAppConfigStep } from "../types";
-import { useUserAppConfig } from "../UserAppConfigProvider";
+import { STORE_CONFIG_STEPS, StoreConfigStep } from "../types";
+import { useStoreConfig } from "../StoreConfigProvider";
 import { calculateProgress } from "./utils";
 
 function Periodicity({
   setActiveStep,
   setProgress,
 }: {
-  setActiveStep: (step: UserAppConfigStep) => void;
+  setActiveStep: (step: StoreConfigStep) => void;
   setProgress: (progress: number) => void;
 }) {
-  const { userAppConfig, setCoreConfigAttribute, withdrawToCoreConfig } =
-    useUserAppConfig();
+  const { storeConfig, setCoreConfigAttribute, withdrawToCoreConfig } =
+    useStoreConfig();
 
   return (
     <>
@@ -20,13 +20,13 @@ function Periodicity({
         type="button"
         onClick={() => {
           const prevStep =
-            userAppConfig.coreConfig.simultaneous === false
-              ? USER_APP_CONFIG_STEPS.SIMULTANEOUS
-              : USER_APP_CONFIG_STEPS.SPECIFIC_RESERVATION;
+            storeConfig.coreConfig.simultaneous === false
+              ? STORE_CONFIG_STEPS.SIMULTANEOUS
+              : STORE_CONFIG_STEPS.SPECIFIC_RESERVATION;
           withdrawToCoreConfig(prevStep);
           setActiveStep(prevStep);
           setProgress(
-            calculateProgress(USER_APP_CONFIG_STEPS.PERIODICITY, prevStep),
+            calculateProgress(STORE_CONFIG_STEPS.PERIODICITY, prevStep),
           );
         }}
       >
@@ -37,7 +37,7 @@ function Periodicity({
         type="button"
         onClick={() => {
           setCoreConfigAttribute("periodicity", true);
-          setActiveStep(USER_APP_CONFIG_STEPS.CORE_SUMMARY);
+          setActiveStep(STORE_CONFIG_STEPS.CORE_SUMMARY);
           setProgress(100);
         }}
       >
@@ -48,7 +48,7 @@ function Periodicity({
         type="button"
         onClick={() => {
           setCoreConfigAttribute("periodicity", false);
-          setActiveStep(USER_APP_CONFIG_STEPS.CORE_SUMMARY);
+          setActiveStep(STORE_CONFIG_STEPS.CORE_SUMMARY);
           setProgress(100);
         }}
       >

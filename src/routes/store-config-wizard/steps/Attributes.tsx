@@ -15,8 +15,8 @@ import {
   TextField,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { Attribute, USER_APP_CONFIG_STEPS, UserAppConfigStep } from "../types";
-import { useUserAppConfig } from "../UserAppConfigProvider";
+import { Attribute, STORE_CONFIG_STEPS, StoreConfigStep } from "../types";
+import { useStoreConfig } from "../StoreConfigProvider";
 
 type AttributeWithId = Attribute & { id: string };
 
@@ -43,12 +43,12 @@ function getInitialLocalAttributes(originalAttributes: Attribute[]) {
 function Attributes({
   setActiveStep,
 }: {
-  setActiveStep: (step: UserAppConfigStep) => void;
+  setActiveStep: (step: StoreConfigStep) => void;
 }) {
-  const { userAppConfig, setAttributes } = useUserAppConfig();
+  const { storeConfig, setAttributes } = useStoreConfig();
 
   const initialLocalAttributes = getInitialLocalAttributes(
-    userAppConfig.attributes,
+    storeConfig.attributes,
   );
   const [localAttributes, setLocalAttributes] = useState<AttributeWithId[]>(
     initialLocalAttributes,
@@ -232,7 +232,7 @@ function Attributes({
         <Button
           onClick={() => {
             saveAttributes();
-            setActiveStep(USER_APP_CONFIG_STEPS.CORE_SUMMARY);
+            setActiveStep(STORE_CONFIG_STEPS.CORE_SUMMARY);
           }}
         >
           Back
@@ -241,7 +241,7 @@ function Attributes({
         <Button
           onClick={() => {
             saveAttributes();
-            setActiveStep(USER_APP_CONFIG_STEPS.RATING_AND_COMMENTS);
+            setActiveStep(STORE_CONFIG_STEPS.RATING_AND_COMMENTS);
           }}
         >
           Next

@@ -1,15 +1,15 @@
-import { useUserAppConfig } from "../UserAppConfigProvider";
-import { USER_APP_CONFIG_STEPS, UserAppConfigStep } from "../types";
+import { useStoreConfig } from "../StoreConfigProvider";
+import { STORE_CONFIG_STEPS, StoreConfigStep } from "../types";
 import { calculateProgress } from "./utils";
 
 function GapBetween({
   setActiveStep,
   setProgress,
 }: {
-  setActiveStep: (step: UserAppConfigStep) => void;
+  setActiveStep: (step: StoreConfigStep) => void;
   setProgress: (progress: number) => void;
 }) {
-  const { setCoreConfigAttribute, withdrawToCoreConfig } = useUserAppConfig();
+  const { setCoreConfigAttribute, withdrawToCoreConfig } = useStoreConfig();
 
   return (
     <>
@@ -18,11 +18,11 @@ function GapBetween({
       <button
         type="button"
         onClick={() => {
-          const prevStep = USER_APP_CONFIG_STEPS.SIMULTANEOUS;
+          const prevStep = STORE_CONFIG_STEPS.SIMULTANEOUS;
           withdrawToCoreConfig(prevStep);
           setActiveStep(prevStep);
           setProgress(
-            calculateProgress(USER_APP_CONFIG_STEPS.GAP_BETWEEN, prevStep),
+            calculateProgress(STORE_CONFIG_STEPS.GAP_BETWEEN, prevStep),
           );
         }}
       >
@@ -33,10 +33,10 @@ function GapBetween({
         type="button"
         onClick={() => {
           setCoreConfigAttribute("gapBetween", true);
-          const nextStep = USER_APP_CONFIG_STEPS.UNIQUENESS;
+          const nextStep = STORE_CONFIG_STEPS.UNIQUENESS;
           setActiveStep(nextStep);
           setProgress(
-            calculateProgress(USER_APP_CONFIG_STEPS.GAP_BETWEEN, nextStep),
+            calculateProgress(STORE_CONFIG_STEPS.GAP_BETWEEN, nextStep),
           );
         }}
       >
@@ -47,10 +47,10 @@ function GapBetween({
         type="button"
         onClick={() => {
           setCoreConfigAttribute("gapBetween", false);
-          const nextStep = USER_APP_CONFIG_STEPS.UNIQUENESS;
+          const nextStep = STORE_CONFIG_STEPS.UNIQUENESS;
           setActiveStep(nextStep);
           setProgress(
-            calculateProgress(USER_APP_CONFIG_STEPS.GAP_BETWEEN, nextStep),
+            calculateProgress(STORE_CONFIG_STEPS.GAP_BETWEEN, nextStep),
           );
         }}
       >

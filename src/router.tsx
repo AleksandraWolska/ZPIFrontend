@@ -19,10 +19,12 @@ const router = createBrowserRouter([
     element: <Home />,
   },
   {
-    path: "schemas/new",
+    path: "store-config-wizard",
     lazy: async () => {
-      const NewSchema = (await import("./routes/schemas/NewSchema")).default;
-      return { Component: NewSchema };
+      const StoreConfigWizard = (
+        await import("./routes/store-config-wizard/StoreConfigWizard")
+      ).default;
+      return { Component: StoreConfigWizard };
     },
   },
   {

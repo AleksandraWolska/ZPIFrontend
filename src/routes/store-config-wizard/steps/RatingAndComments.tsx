@@ -5,16 +5,16 @@ import {
   FormControlLabel,
   FormGroup,
 } from "@mui/material";
-import { useUserAppConfig } from "../UserAppConfigProvider";
-import { USER_APP_CONFIG_STEPS, UserAppConfigStep } from "../types";
+import { useStoreConfig } from "../StoreConfigProvider";
+import { STORE_CONFIG_STEPS, StoreConfigStep } from "../types";
 
 function RatingAndComments({
   setActiveStep,
 }: {
-  setActiveStep: (step: UserAppConfigStep) => void;
+  setActiveStep: (step: StoreConfigStep) => void;
 }) {
-  const { userAppConfig, setRatingOptions, setCommentsOptions } =
-    useUserAppConfig();
+  const { storeConfig, setRatingOptions, setCommentsOptions } =
+    useStoreConfig();
 
   return (
     <>
@@ -22,7 +22,7 @@ function RatingAndComments({
         <FormControlLabel
           control={
             <Checkbox
-              checked={userAppConfig.ratingOptions.allowRating}
+              checked={storeConfig.ratingOptions.allowRating}
               onChange={(e) => {
                 setRatingOptions({ allowRating: e.target.checked });
               }}
@@ -31,11 +31,11 @@ function RatingAndComments({
           label="allowRating"
         />
 
-        {userAppConfig.ratingOptions.allowRating && (
+        {storeConfig.ratingOptions.allowRating && (
           <FormControlLabel
             control={
               <Checkbox
-                checked={userAppConfig.ratingOptions.showRating}
+                checked={storeConfig.ratingOptions.showRating}
                 onChange={(e) => {
                   setRatingOptions({ showRating: e.target.checked });
                 }}
@@ -52,7 +52,7 @@ function RatingAndComments({
         <FormControlLabel
           control={
             <Checkbox
-              checked={userAppConfig.commentsOptions.allowComments}
+              checked={storeConfig.commentsOptions.allowComments}
               onChange={(e) => {
                 setCommentsOptions({ allowComments: e.target.checked });
               }}
@@ -61,11 +61,11 @@ function RatingAndComments({
           label="allowComments"
         />
 
-        {userAppConfig.commentsOptions.allowComments && (
+        {storeConfig.commentsOptions.allowComments && (
           <FormControlLabel
             control={
               <Checkbox
-                checked={userAppConfig.commentsOptions.showComments}
+                checked={storeConfig.commentsOptions.showComments}
                 onChange={(e) => {
                   setCommentsOptions({ showComments: e.target.checked });
                 }}
@@ -78,7 +78,7 @@ function RatingAndComments({
 
       <Button
         onClick={() => {
-          setActiveStep(USER_APP_CONFIG_STEPS.ATTRIBUTES);
+          setActiveStep(STORE_CONFIG_STEPS.ATTRIBUTES);
         }}
       >
         Back
@@ -86,7 +86,7 @@ function RatingAndComments({
 
       <Button
         onClick={() => {
-          setActiveStep(USER_APP_CONFIG_STEPS.PRINT_SCHEMA);
+          setActiveStep(STORE_CONFIG_STEPS.PRINT_SCHEMA);
         }}
       >
         Next

@@ -1,15 +1,15 @@
-import { USER_APP_CONFIG_STEPS, UserAppConfigStep } from "../types";
-import { useUserAppConfig } from "../UserAppConfigProvider";
+import { STORE_CONFIG_STEPS, StoreConfigStep } from "../types";
+import { useStoreConfig } from "../StoreConfigProvider";
 import { calculateProgress } from "./utils";
 
 function Granularity({
   setActiveStep,
   setProgress,
 }: {
-  setActiveStep: (step: UserAppConfigStep) => void;
+  setActiveStep: (step: StoreConfigStep) => void;
   setProgress: (progress: number) => void;
 }) {
-  const { setCoreConfigAttribute, withdrawToCoreConfig } = useUserAppConfig();
+  const { setCoreConfigAttribute, withdrawToCoreConfig } = useStoreConfig();
 
   return (
     <>
@@ -18,11 +18,11 @@ function Granularity({
       <button
         type="button"
         onClick={() => {
-          const prevStep = USER_APP_CONFIG_STEPS.FLEXIBILITY;
+          const prevStep = STORE_CONFIG_STEPS.FLEXIBILITY;
           withdrawToCoreConfig(prevStep);
           setActiveStep(prevStep);
           setProgress(
-            calculateProgress(USER_APP_CONFIG_STEPS.GRANULARITY, prevStep),
+            calculateProgress(STORE_CONFIG_STEPS.GRANULARITY, prevStep),
           );
         }}
       >
@@ -33,10 +33,10 @@ function Granularity({
         type="button"
         onClick={() => {
           setCoreConfigAttribute("granularity", true);
-          const nextStep = USER_APP_CONFIG_STEPS.SIMULTANEOUS;
+          const nextStep = STORE_CONFIG_STEPS.SIMULTANEOUS;
           setActiveStep(nextStep);
           setProgress(
-            calculateProgress(USER_APP_CONFIG_STEPS.GRANULARITY, nextStep),
+            calculateProgress(STORE_CONFIG_STEPS.GRANULARITY, nextStep),
           );
         }}
       >
@@ -47,10 +47,10 @@ function Granularity({
         type="button"
         onClick={() => {
           setCoreConfigAttribute("granularity", false);
-          const nextStep = USER_APP_CONFIG_STEPS.SIMULTANEOUS;
+          const nextStep = STORE_CONFIG_STEPS.SIMULTANEOUS;
           setActiveStep(nextStep);
           setProgress(
-            calculateProgress(USER_APP_CONFIG_STEPS.GRANULARITY, nextStep),
+            calculateProgress(STORE_CONFIG_STEPS.GRANULARITY, nextStep),
           );
         }}
       >

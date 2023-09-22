@@ -1,16 +1,16 @@
-import { USER_APP_CONFIG_STEPS, UserAppConfigStep } from "../types";
-import { useUserAppConfig } from "../UserAppConfigProvider";
+import { STORE_CONFIG_STEPS, StoreConfigStep } from "../types";
+import { useStoreConfig } from "../StoreConfigProvider";
 import { calculateProgress } from "./utils";
 
 function Simultaneous({
   setActiveStep,
   setProgress,
 }: {
-  setActiveStep: (step: UserAppConfigStep) => void;
+  setActiveStep: (step: StoreConfigStep) => void;
   setProgress: (progress: number) => void;
 }) {
-  const { userAppConfig, setCoreConfigAttribute, withdrawToCoreConfig } =
-    useUserAppConfig();
+  const { storeConfig, setCoreConfigAttribute, withdrawToCoreConfig } =
+    useStoreConfig();
 
   return (
     <>
@@ -20,13 +20,13 @@ function Simultaneous({
         type="button"
         onClick={() => {
           const prevStep =
-            userAppConfig.coreConfig.granularity !== undefined
-              ? USER_APP_CONFIG_STEPS.GRANULARITY
-              : USER_APP_CONFIG_STEPS.FLEXIBILITY;
+            storeConfig.coreConfig.granularity !== undefined
+              ? STORE_CONFIG_STEPS.GRANULARITY
+              : STORE_CONFIG_STEPS.FLEXIBILITY;
           withdrawToCoreConfig(prevStep);
           setActiveStep(prevStep);
           setProgress(
-            calculateProgress(USER_APP_CONFIG_STEPS.SIMULTANEOUS, prevStep),
+            calculateProgress(STORE_CONFIG_STEPS.SIMULTANEOUS, prevStep),
           );
         }}
       >
@@ -38,12 +38,12 @@ function Simultaneous({
         onClick={() => {
           setCoreConfigAttribute("simultaneous", true);
           const nextStep =
-            userAppConfig.coreConfig.flexibility === false
-              ? USER_APP_CONFIG_STEPS.SPECIFIC_RESERVATION
-              : USER_APP_CONFIG_STEPS.UNIQUENESS;
+            storeConfig.coreConfig.flexibility === false
+              ? STORE_CONFIG_STEPS.SPECIFIC_RESERVATION
+              : STORE_CONFIG_STEPS.UNIQUENESS;
           setActiveStep(nextStep);
           setProgress(
-            calculateProgress(USER_APP_CONFIG_STEPS.SIMULTANEOUS, nextStep),
+            calculateProgress(STORE_CONFIG_STEPS.SIMULTANEOUS, nextStep),
           );
         }}
       >
@@ -55,12 +55,12 @@ function Simultaneous({
         onClick={() => {
           setCoreConfigAttribute("simultaneous", false);
           const nextStep =
-            userAppConfig.coreConfig.flexibility === false
-              ? USER_APP_CONFIG_STEPS.PERIODICITY
-              : USER_APP_CONFIG_STEPS.GAP_BETWEEN;
+            storeConfig.coreConfig.flexibility === false
+              ? STORE_CONFIG_STEPS.PERIODICITY
+              : STORE_CONFIG_STEPS.GAP_BETWEEN;
           setActiveStep(nextStep);
           setProgress(
-            calculateProgress(USER_APP_CONFIG_STEPS.SIMULTANEOUS, nextStep),
+            calculateProgress(STORE_CONFIG_STEPS.SIMULTANEOUS, nextStep),
           );
         }}
       >
