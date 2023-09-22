@@ -3,7 +3,6 @@ import { v4 as uuid } from "uuid";
 import {
   Autocomplete,
   Box,
-  Button,
   Checkbox,
   Divider,
   FormControlLabel,
@@ -13,14 +12,19 @@ import {
   Select,
   Stack,
   TextField,
+  Typography,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { Attribute, STORE_CONFIG_STEPS, StoreConfigStep } from "../types";
+import {
+  CustomAttributeSpec,
+  STORE_CONFIG_STEPS,
+  StoreConfig,
+  StoreConfigStep,
+} from "../types";
 import { useStoreConfig } from "../StoreConfigProvider";
+import ChangePageButtons from "../components/ChangePageButtons";
 
-type AttributeWithId = Attribute & { id: string };
-
-const defaultParam: Attribute = {
+const defaultCustomAttributeSpec: Omit<CustomAttributeSpec, "id"> = {
   name: "",
   dataType: "string",
   isRequired: false,
@@ -31,53 +35,56 @@ const defaultParam: Attribute = {
   possibleValues: [],
 };
 
-function getInitialLocalAttributes(originalAttributes: Attribute[]) {
-  return originalAttributes.length
-    ? [
-        ...originalAttributes.map((p) => ({ id: uuid(), ...p })),
-        { id: uuid(), ...defaultParam },
-      ]
-    : [{ id: uuid(), ...defaultParam }];
+function getInitialLocalAttributesSpec(
+  originalAttributesSpec: CustomAttributeSpec[],
+) {
+  return originalAttributesSpec.length
+    ? [...originalAttributesSpec, { id: uuid(), ...defaultCustomAttributeSpec }]
+    : [{ id: uuid(), ...defaultCustomAttributeSpec }];
 }
 
-function Attributes({
+function CustomAttributesSpec({
   setActiveStep,
 }: {
   setActiveStep: (step: StoreConfigStep) => void;
 }) {
-  const { storeConfig, withdrawToCoreStep, setAttributes } = useStoreConfig();
+  const { storeConfig, withdrawToCoreStep, setCustomAttributesSpec } =
+    useStoreConfig();
 
-  const initialLocalAttributes = getInitialLocalAttributes(
-    storeConfig.attributes,
+  const initialLocalAttributesSpec = getInitialLocalAttributesSpec(
+    storeConfig.customAttributesSpec,
   );
-  const [localAttributes, setLocalAttributes] = useState<AttributeWithId[]>(
-    initialLocalAttributes,
-  );
-  const lastIdx = localAttributes.length - 1;
+  const [localAttributesSpec, setLocalAttributesSpec] = useState<
+    StoreConfig["customAttributesSpec"]
+  >(initialLocalAttributesSpec);
+  const lastIdx = localAttributesSpec.length - 1;
 
-  const updateLocalAttribute = (id: string, attribute: Partial<Attribute>) => {
-    setLocalAttributes((prev) =>
+  const updateLocalAttributeSpec = (
+    id: string,
+    attribute: Partial<CustomAttributeSpec>,
+  ) => {
+    setLocalAttributesSpec((prev) =>
       prev.map((p) => (p.id === id ? { ...p, ...attribute } : p)),
     );
   };
 
-  const saveAttributes = () => {
-    const filteredParams = localAttributes
+  const saveCustomAttributesSpec = () => {
+    const filteredParams = localAttributesSpec
       .filter((p) => p.name !== "")
       .map((p) => {
-        const { id, ...rest } = p;
-        if (rest.dataType !== "string") {
-          delete rest.limitValues;
-          delete rest.possibleValues;
-        }
-        return rest;
+        const { limitValues, possibleValues, ...rest } = p;
+        return p.dataType === "string" ? p : rest;
       });
-    setAttributes(filteredParams);
+    setCustomAttributesSpec(filteredParams);
   };
 
   return (
     <Stack alignItems="center">
-      {localAttributes.map((attr, idx) => {
+      <Typography variant="h4" sx={{ marginBottom: 2 }}>
+        Custom Attributes Spec
+      </Typography>
+
+      {localAttributesSpec.map((attr, idx) => {
         const disabled = attr.name === "";
 
         return (
@@ -86,11 +93,11 @@ function Attributes({
               <TextField
                 value={attr.name}
                 onChange={(e) => {
-                  updateLocalAttribute(attr.id, { name: e.target.value });
+                  updateLocalAttributeSpec(attr.id, { name: e.target.value });
                   if (idx === lastIdx) {
-                    setLocalAttributes((prev) => [
+                    setLocalAttributesSpec((prev) => [
                       ...prev,
-                      { id: uuid(), ...defaultParam },
+                      { id: uuid(), ...defaultCustomAttributeSpec },
                     ]);
                   }
                 }}
@@ -99,8 +106,8 @@ function Attributes({
               <Select
                 value={attr.dataType}
                 onChange={(e) => {
-                  const val = e.target.value as Attribute["dataType"];
-                  updateLocalAttribute(attr.id, { dataType: val });
+                  const val = e.target.value as CustomAttributeSpec["dataType"];
+                  updateLocalAttributeSpec(attr.id, { dataType: val });
                 }}
                 disabled={disabled}
               >
@@ -111,7 +118,7 @@ function Attributes({
 
               <IconButton
                 onClick={() => {
-                  setLocalAttributes((prev) =>
+                  setLocalAttributesSpec((prev) =>
                     prev.filter((p) => p.id !== attr.id),
                   );
                 }}
@@ -127,7 +134,7 @@ function Attributes({
                   <Checkbox
                     checked={attr.isRequired}
                     onChange={(e) => {
-                      updateLocalAttribute(attr.id, {
+                      updateLocalAttributeSpec(attr.id, {
                         isRequired: e.target.checked,
                       });
                     }}
@@ -142,7 +149,7 @@ function Attributes({
                   <Checkbox
                     checked={attr.isFilterable}
                     onChange={(e) => {
-                      updateLocalAttribute(attr.id, {
+                      updateLocalAttributeSpec(attr.id, {
                         isFilterable: e.target.checked,
                       });
                     }}
@@ -157,7 +164,7 @@ function Attributes({
                   <Checkbox
                     checked={attr.showMainPage}
                     onChange={(e) => {
-                      updateLocalAttribute(attr.id, {
+                      updateLocalAttributeSpec(attr.id, {
                         showMainPage: e.target.checked,
                       });
                     }}
@@ -172,7 +179,7 @@ function Attributes({
                   <Checkbox
                     checked={attr.showDetailsPage || false}
                     onChange={(e) => {
-                      updateLocalAttribute(attr.id, {
+                      updateLocalAttributeSpec(attr.id, {
                         showDetailsPage: e.target.checked,
                       });
                     }}
@@ -190,7 +197,7 @@ function Attributes({
                     <Checkbox
                       checked={attr.limitValues}
                       onChange={(e) => {
-                        updateLocalAttribute(attr.id, {
+                        updateLocalAttributeSpec(attr.id, {
                           limitValues: e.target.checked,
                         });
                       }}
@@ -205,11 +212,12 @@ function Attributes({
                   freeSolo
                   fullWidth
                   onChange={(_e, values) => {
-                    updateLocalAttribute(attr.id, {
+                    updateLocalAttributeSpec(attr.id, {
                       possibleValues: values as string[],
                     });
                   }}
                   options={[]}
+                  value={attr.possibleValues || []}
                   renderInput={(params) => (
                     <TextField
                       {...params}
@@ -228,10 +236,10 @@ function Attributes({
         );
       })}
 
-      <Box>
-        <Button
-          onClick={() => {
-            saveAttributes();
+      <Box marginTop={2}>
+        <ChangePageButtons
+          onPrev={() => {
+            saveCustomAttributesSpec();
             const prevStep =
               storeConfig.core.periodicity !== undefined
                 ? STORE_CONFIG_STEPS.PERIODICITY
@@ -241,21 +249,14 @@ function Attributes({
             withdrawToCoreStep(prevStep);
             setActiveStep(prevStep);
           }}
-        >
-          Back
-        </Button>
-
-        <Button
-          onClick={() => {
-            saveAttributes();
+          onNext={() => {
+            saveCustomAttributesSpec();
             setActiveStep(STORE_CONFIG_STEPS.RATING_AND_COMMENTS);
           }}
-        >
-          Next
-        </Button>
+        />
       </Box>
     </Stack>
   );
 }
 
-export default Attributes;
+export default CustomAttributesSpec;

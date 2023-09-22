@@ -17,7 +17,7 @@ const initialStoreConfig: StoreConfig = {
     email: "",
   },
   core: {},
-  attributes: [],
+  customAttributesSpec: [],
   ratingOptions: {
     allowRating: false,
     showRating: false,
@@ -66,10 +66,12 @@ function StoreConfigProvider({ children }: { children: ReactNode }) {
     });
   };
 
-  const setAttributes = (attributes: StoreConfig["attributes"]) => {
+  const setCustomAttributesSpec = (
+    customAttributesSpec: StoreConfig["customAttributesSpec"],
+  ) => {
     dispatch({
-      type: STORE_CONFIG_ACTION_TYPES.SET_ATTRIBUTES,
-      payload: attributes,
+      type: STORE_CONFIG_ACTION_TYPES.SET_CUSTOM_ATTRIBUTES_SPEC,
+      payload: customAttributesSpec,
     });
   };
 
@@ -97,7 +99,7 @@ function StoreConfigProvider({ children }: { children: ReactNode }) {
       setOwnerAttribute,
       appendCoreAttribute,
       withdrawToCoreStep,
-      setAttributes,
+      setCustomAttributesSpec,
       setRatingOptions,
       setCommentsOptions,
     }),

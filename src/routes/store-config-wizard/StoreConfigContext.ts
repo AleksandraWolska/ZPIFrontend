@@ -6,7 +6,9 @@ export type StoreConfigContextType = {
   setOwnerAttribute: (key: keyof StoreConfig["owner"], value: string) => void;
   appendCoreAttribute: (key: keyof StoreConfig["core"], value: boolean) => void;
   withdrawToCoreStep: (step: StoreConfigStep) => void;
-  setAttributes: (attributes: StoreConfig["attributes"]) => void;
+  setCustomAttributesSpec: (
+    customAttributesSpec: StoreConfig["customAttributesSpec"],
+  ) => void;
   setRatingOptions: (
     ratingOptions: Partial<StoreConfig["ratingOptions"]>,
   ) => void;
