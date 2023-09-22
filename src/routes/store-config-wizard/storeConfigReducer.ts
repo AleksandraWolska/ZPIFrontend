@@ -5,8 +5,7 @@ export const STORE_CONFIG_ACTION_TYPES = {
   APPEND_CORE_ATTRIBUTE: "APPEND_CORE_ATTRIBUTE",
   WITHDRAW_TO_CORE_STEP: "WITHDRAW_TO_CORE_STEP",
   SET_CUSTOM_ATTRIBUTES_SPEC: "SET_CUSTOM_ATTRIBUTES_SPEC",
-  SET_RATING_OPTIONS: "SET_RATING_OPTIONS",
-  SET_COMMENTS_OPTIONS: "SET_COMMENTS_OPTIONS",
+  SET_MAIN_PAGE_ATTRIBUTE: "SET_MAIN_PAGE_ATTRIBUTE",
 } as const;
 
 type SetOwnerAttributeAction = {
@@ -29,14 +28,9 @@ type SetCustomAttributesSpecAction = {
   payload: StoreConfig["customAttributesSpec"];
 };
 
-type SetRatingOptionsAction = {
-  type: typeof STORE_CONFIG_ACTION_TYPES.SET_RATING_OPTIONS;
-  payload: Partial<StoreConfig["ratingOptions"]>;
-};
-
-type SetCommentsOptionsAction = {
-  type: typeof STORE_CONFIG_ACTION_TYPES.SET_COMMENTS_OPTIONS;
-  payload: Partial<StoreConfig["commentsOptions"]>;
+type SetMainPageAttributeAction = {
+  type: typeof STORE_CONFIG_ACTION_TYPES.SET_MAIN_PAGE_ATTRIBUTE;
+  payload: Partial<StoreConfig["mainPage"]>;
 };
 
 type StoreConfigAction =
@@ -44,8 +38,7 @@ type StoreConfigAction =
   | AppendCoreAttributeAction
   | WithdrawToCoreStepAction
   | SetCustomAttributesSpecAction
-  | SetRatingOptionsAction
-  | SetCommentsOptionsAction;
+  | SetMainPageAttributeAction;
 
 export function storeConfigReducer(
   storeConfig: StoreConfig,
@@ -69,27 +62,10 @@ export function storeConfigReducer(
       };
     case STORE_CONFIG_ACTION_TYPES.SET_CUSTOM_ATTRIBUTES_SPEC:
       return { ...storeConfig, customAttributesSpec: action.payload };
-    case STORE_CONFIG_ACTION_TYPES.SET_RATING_OPTIONS:
+    case STORE_CONFIG_ACTION_TYPES.SET_MAIN_PAGE_ATTRIBUTE:
       return {
         ...storeConfig,
-        ratingOptions:
-          action.payload.allowRating === false
-            ? {
-                allowRating: false,
-                showRating: false,
-              }
-            : { ...storeConfig.ratingOptions, ...action.payload },
-      };
-    case STORE_CONFIG_ACTION_TYPES.SET_COMMENTS_OPTIONS:
-      return {
-        ...storeConfig,
-        commentsOptions:
-          action.payload.allowComments === false
-            ? {
-                allowComments: false,
-                showComments: false,
-              }
-            : { ...storeConfig.commentsOptions, ...action.payload },
+        mainPage: { ...storeConfig.mainPage, ...action.payload },
       };
     default:
       throw Error("Unknown reducer action!");
