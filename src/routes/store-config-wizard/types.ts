@@ -10,7 +10,8 @@ export const STORE_CONFIG_STEPS = {
   PERIODICITY: "PERIODICITY",
   CUSTOM_ATTRIBUTES_SPEC: "CUSTOM_ATTRIBUTES_SPEC",
   MAIN_PAGE: "MAIN_PAGE",
-  PRINT_SCHEMA: "PRINT_SCHEMA",
+  DETAILS_PAGE: "DETAILS_PAGE",
+  PRINT_STORE_CONFIG: "PRINT_STORE_CONFIG",
 } as const;
 
 export type StoreConfigStep = ObjectValues<typeof STORE_CONFIG_STEPS>;
@@ -59,9 +60,21 @@ export type MainPage = {
   showRating: boolean;
 };
 
+export type DetailsPage = {
+  showRating: boolean;
+  showComments: boolean;
+  showItemDescription: boolean;
+  showSubitemTitle: boolean;
+  showSubitemSubtitle: boolean;
+  reservationConfirmationPrompt: string;
+  reservationFailurePrompt: string;
+  reservationSummaryPrompt: string;
+};
+
 export type StoreConfig = {
   owner: Owner;
   core: Core;
   customAttributesSpec: CustomAttributeSpec[];
   mainPage: MainPage;
+  detailsPage: DetailsPage;
 };

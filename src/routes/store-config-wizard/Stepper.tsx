@@ -11,6 +11,7 @@ import CustomAttributesSpec from "./steps/CustomAttributesSpec";
 import PrintStoreConfig from "./steps/PrintStoreConfig";
 import MainPage from "./steps/MainPage";
 import Owner from "./steps/Owner";
+import DetailsPage from "./steps/DetailsPage";
 
 function Stepper() {
   const [activeStep, setActiveStep] = useState<StoreConfigStep>(
@@ -65,7 +66,9 @@ function Stepper() {
         return <CustomAttributesSpec setActiveStep={setActiveStep} />;
       case STORE_CONFIG_STEPS.MAIN_PAGE:
         return <MainPage setActiveStep={setActiveStep} />;
-      case STORE_CONFIG_STEPS.PRINT_SCHEMA:
+      case STORE_CONFIG_STEPS.DETAILS_PAGE:
+        return <DetailsPage setActiveStep={setActiveStep} />;
+      case STORE_CONFIG_STEPS.PRINT_STORE_CONFIG:
         return <PrintStoreConfig />;
       default:
         return <div>Something went wrong...</div>;
