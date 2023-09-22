@@ -9,8 +9,7 @@ function Uniqueness({
   setActiveStep: (step: StoreConfigStep) => void;
   setProgress: (progress: number) => void;
 }) {
-  const { storeConfig, setCoreConfigAttribute, withdrawToCoreConfig } =
-    useStoreConfig();
+  const { setCoreConfigAttribute, withdrawToCoreConfig } = useStoreConfig();
 
   return (
     <>
@@ -19,10 +18,7 @@ function Uniqueness({
       <button
         type="button"
         onClick={() => {
-          const prevStep =
-            storeConfig.coreConfig.simultaneous === false
-              ? STORE_CONFIG_STEPS.GAP_BETWEEN
-              : STORE_CONFIG_STEPS.SIMULTANEOUS;
+          const prevStep = STORE_CONFIG_STEPS.SIMULTANEOUS;
           withdrawToCoreConfig(prevStep);
           setActiveStep(prevStep);
           setProgress(

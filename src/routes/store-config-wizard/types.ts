@@ -6,7 +6,6 @@ export const STORE_CONFIG_STEPS = {
   GRANULARITY: "GRANULARITY",
   SIMULTANEOUS: "SIMULTANEOUS",
   UNIQUENESS: "UNIQUENESS",
-  GAP_BETWEEN: "GAP_BETWEEN",
   SPECIFIC_RESERVATION: "SPECIFIC_RESERVATION",
   PERIODICITY: "PERIODICITY",
   CORE_SUMMARY: "CORE_SUMMARY",
@@ -30,7 +29,6 @@ export type Flexibility = boolean;
 export type Granularity = boolean;
 export type Simultaneous = boolean;
 export type Uniqueness = boolean;
-export type GapBetween = boolean;
 export type SpecificReservation = boolean;
 export type Periodicity = boolean;
 export type CoreConfig = {
@@ -38,7 +36,6 @@ export type CoreConfig = {
   granularity?: Granularity;
   simultaneous?: Simultaneous;
   uniqueness?: Uniqueness;
-  gapBetween?: GapBetween;
   specificReservation?: SpecificReservation;
   periodicity?: Periodicity;
 };
