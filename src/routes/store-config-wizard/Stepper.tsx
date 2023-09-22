@@ -22,7 +22,7 @@ function Stepper() {
   const renderStepContent = () => {
     switch (activeStep) {
       case STORE_CONFIG_STEPS.OWNER:
-        return <Owner />;
+        return <Owner setActiveStep={setActiveStep} />;
       case STORE_CONFIG_STEPS.FLEXIBILITY:
         return (
           <Flexibility

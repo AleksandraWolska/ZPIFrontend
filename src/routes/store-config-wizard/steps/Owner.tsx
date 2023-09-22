@@ -1,7 +1,13 @@
-import { Grid, TextField, Typography } from "@mui/material";
+import { Box, Grid, TextField, Typography } from "@mui/material";
 import { useStoreConfig } from "../StoreConfigProvider";
+import ChangePageButtons from "../components/ChangePageButtons";
+import { STORE_CONFIG_STEPS, StoreConfigStep } from "../types";
 
-function Owner() {
+function Owner({
+  setActiveStep,
+}: {
+  setActiveStep: (step: StoreConfigStep) => void;
+}) {
   const { storeConfig, setOwnerAttribute } = useStoreConfig();
   const { owner } = storeConfig;
 
@@ -49,6 +55,12 @@ function Owner() {
           />
         </Grid>
       </Grid>
+
+      <Box marginTop={2}>
+        <ChangePageButtons
+          onNext={() => setActiveStep(STORE_CONFIG_STEPS.FLEXIBILITY)}
+        />
+      </Box>
     </>
   );
 }
