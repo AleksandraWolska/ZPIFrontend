@@ -8,7 +8,7 @@ export const STORE_CONFIG_STEPS = {
   UNIQUENESS: "UNIQUENESS",
   SPECIFIC_RESERVATION: "SPECIFIC_RESERVATION",
   PERIODICITY: "PERIODICITY",
-  ATTRIBUTES: "ATTRIBUTES",
+  CUSTOM_ATTRIBUTES_SPEC: "CUSTOM_ATTRIBUTES_SPEC",
   RATING_AND_COMMENTS: "RATING_AND_COMMENTS",
   PRINT_SCHEMA: "PRINT_SCHEMA",
 } as const;
@@ -37,7 +37,8 @@ export type Core = {
   periodicity?: Periodicity;
 };
 
-export type Attribute = {
+export type CustomAttributeSpec = {
+  id: string;
   name: string;
   dataType: "string" | "number" | "boolean";
   isRequired: boolean;
@@ -59,7 +60,7 @@ export type CommentsOptions = {
 export type StoreConfig = {
   owner: Owner;
   core: Core;
-  attributes: Attribute[];
+  customAttributesSpec: CustomAttributeSpec[];
   ratingOptions: RatingOptions;
   commentsOptions: CommentsOptions;
 };

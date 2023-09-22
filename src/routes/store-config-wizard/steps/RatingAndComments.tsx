@@ -78,7 +78,7 @@ function RatingAndComments({
 
       <Button
         onClick={() => {
-          setActiveStep(STORE_CONFIG_STEPS.ATTRIBUTES);
+          setActiveStep(STORE_CONFIG_STEPS.CUSTOM_ATTRIBUTES_SPEC);
         }}
       >
         Back

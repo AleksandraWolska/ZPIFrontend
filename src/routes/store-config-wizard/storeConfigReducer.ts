@@ -4,7 +4,7 @@ export const STORE_CONFIG_ACTION_TYPES = {
   SET_OWNER_ATTRIBUTE: "SET_OWNER_ATTRIBUTE",
   APPEND_CORE_ATTRIBUTE: "APPEND_CORE_ATTRIBUTE",
   WITHDRAW_TO_CORE_STEP: "WITHDRAW_TO_CORE_STEP",
-  SET_ATTRIBUTES: "SET_ATTRIBUTES",
+  SET_CUSTOM_ATTRIBUTES_SPEC: "SET_CUSTOM_ATTRIBUTES_SPEC",
   SET_RATING_OPTIONS: "SET_RATING_OPTIONS",
   SET_COMMENTS_OPTIONS: "SET_COMMENTS_OPTIONS",
 } as const;
@@ -24,9 +24,9 @@ type WithdrawToCoreStepAction = {
   payload: StoreConfigStep;
 };
 
-type SetAttributesAction = {
-  type: typeof STORE_CONFIG_ACTION_TYPES.SET_ATTRIBUTES;
-  payload: StoreConfig["attributes"];
+type SetCustomAttributesSpecAction = {
+  type: typeof STORE_CONFIG_ACTION_TYPES.SET_CUSTOM_ATTRIBUTES_SPEC;
+  payload: StoreConfig["customAttributesSpec"];
 };
 
 type SetRatingOptionsAction = {
@@ -43,7 +43,7 @@ type StoreConfigAction =
   | SetOwnerAttributeAction
   | AppendCoreAttributeAction
   | WithdrawToCoreStepAction
-  | SetAttributesAction
+  | SetCustomAttributesSpecAction
   | SetRatingOptionsAction
   | SetCommentsOptionsAction;
 
@@ -67,8 +67,8 @@ export function storeConfigReducer(
         ...storeConfig,
         core: resetCoreConfig(storeConfig.core, action.payload),
       };
-    case STORE_CONFIG_ACTION_TYPES.SET_ATTRIBUTES:
-      return { ...storeConfig, attributes: action.payload };
+    case STORE_CONFIG_ACTION_TYPES.SET_CUSTOM_ATTRIBUTES_SPEC:
+      return { ...storeConfig, customAttributesSpec: action.payload };
     case STORE_CONFIG_ACTION_TYPES.SET_RATING_OPTIONS:
       return {
         ...storeConfig,

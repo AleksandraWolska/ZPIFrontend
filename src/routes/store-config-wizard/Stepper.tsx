@@ -7,7 +7,7 @@ import Simultaneous from "./steps/core/Simultaneous";
 import Uniqueness from "./steps/core/Uniqueness";
 import SpecificReservation from "./steps/core/SpecificReservation";
 import Periodicity from "./steps/core/Periodicity";
-import Attributes from "./steps/Attributes";
+import CustomAttributesSpec from "./steps/CustomAttributesSpec";
 import PrintStoreConfig from "./steps/PrintStoreConfig";
 import RatingAndComments from "./steps/RatingAndComments";
 import Owner from "./steps/Owner";
@@ -61,8 +61,8 @@ function Stepper() {
             setProgress={setProgress}
           />
         );
-      case STORE_CONFIG_STEPS.ATTRIBUTES:
-        return <Attributes setActiveStep={setActiveStep} />;
+      case STORE_CONFIG_STEPS.CUSTOM_ATTRIBUTES_SPEC:
+        return <CustomAttributesSpec setActiveStep={setActiveStep} />;
       case STORE_CONFIG_STEPS.RATING_AND_COMMENTS:
         return <RatingAndComments setActiveStep={setActiveStep} />;
       case STORE_CONFIG_STEPS.PRINT_SCHEMA:
