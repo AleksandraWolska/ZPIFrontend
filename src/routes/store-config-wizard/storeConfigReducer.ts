@@ -1,7 +1,7 @@
 import { StoreConfig, StoreConfigStep, STORE_CONFIG_STEPS } from "./types";
 
 export const STORE_CONFIG_ACTION_TYPES = {
-  SET_LAYOUT_CONFIG: "SET_LAYOUT_CONFIG",
+  SET_OWNER_ATTRIBUTE: "SET_OWNER_ATTRIBUTE",
   APPEND_TO_CORE_CONFIG: "APPEND_TO_CORE_CONFIG",
   WITHDRAW_TO_CORE_CONFIG: "WITHDRAW_TO_CORE_CONFIG",
   SET_ATTRIBUTES: "SET_ATTRIBUTES",
@@ -9,9 +9,9 @@ export const STORE_CONFIG_ACTION_TYPES = {
   SET_COMMENTS_OPTIONS: "SET_COMMENTS_OPTIONS",
 } as const;
 
-type SetLayoutConfigAction = {
-  type: typeof STORE_CONFIG_ACTION_TYPES.SET_LAYOUT_CONFIG;
-  payload: StoreConfig["layoutConfig"];
+type SetOwnerAttributeAction = {
+  type: typeof STORE_CONFIG_ACTION_TYPES.SET_OWNER_ATTRIBUTE;
+  payload: Partial<StoreConfig["owner"]>;
 };
 
 type AppendToCoreConfigAction = {
@@ -40,7 +40,7 @@ type SetCommentsOptionsAction = {
 };
 
 type StoreConfigAction =
-  | SetLayoutConfigAction
+  | SetOwnerAttributeAction
   | AppendToCoreConfigAction
   | WithdrawToCoreConfigAction
   | SetAttributesAction
@@ -52,8 +52,11 @@ export function storeConfigReducer(
   action: StoreConfigAction,
 ): StoreConfig {
   switch (action.type) {
-    case STORE_CONFIG_ACTION_TYPES.SET_LAYOUT_CONFIG:
-      return { ...storeConfig, layoutConfig: action.payload };
+    case STORE_CONFIG_ACTION_TYPES.SET_OWNER_ATTRIBUTE:
+      return {
+        ...storeConfig,
+        owner: { ...storeConfig.owner, ...action.payload },
+      };
     case STORE_CONFIG_ACTION_TYPES.APPEND_TO_CORE_CONFIG:
       return {
         ...storeConfig,

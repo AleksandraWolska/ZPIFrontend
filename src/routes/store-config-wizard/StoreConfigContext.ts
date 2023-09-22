@@ -3,7 +3,7 @@ import { StoreConfig, StoreConfigStep } from "./types";
 
 export type StoreConfigContextType = {
   storeConfig: StoreConfig;
-  setLayoutConfig: (layoutConfig: StoreConfig["layoutConfig"]) => void;
+  setOwnerAttribute: (key: keyof StoreConfig["owner"], value: string) => void;
   setCoreConfigAttribute: (
     key: keyof StoreConfig["coreConfig"],
     value: boolean,
