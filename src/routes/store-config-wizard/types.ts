@@ -1,7 +1,7 @@
 import { ObjectValues } from "../../types";
 
 export const STORE_CONFIG_STEPS = {
-  LAYOUT_CONFIG: "LAYOUT_CONFIG",
+  OWNER: "OWNER",
   FLEXIBILITY: "FLEXIBILITY",
   GRANULARITY: "GRANULARITY",
   SIMULTANEOUS: "SIMULTANEOUS",
@@ -16,13 +16,11 @@ export const STORE_CONFIG_STEPS = {
 
 export type StoreConfigStep = ObjectValues<typeof STORE_CONFIG_STEPS>;
 
-export type LayoutConfig = {
+export type Owner = {
   name: string;
-  welcomeTextLine1: string;
-  welcomeTextLine2: string;
   logoSrc: string;
-  showLogo: boolean;
-  enableFiltering: boolean;
+  phone: string;
+  email: string;
 };
 
 export type Flexibility = boolean;
@@ -60,7 +58,7 @@ export type CommentsOptions = {
 };
 
 export type StoreConfig = {
-  layoutConfig: LayoutConfig;
+  owner: Owner;
   coreConfig: CoreConfig;
   attributes: Attribute[];
   ratingOptions: RatingOptions;

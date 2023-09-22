@@ -18,7 +18,7 @@ function Flexibility({
       <button
         type="button"
         onClick={() => {
-          const prevStep = STORE_CONFIG_STEPS.LAYOUT_CONFIG;
+          const prevStep = STORE_CONFIG_STEPS.OWNER;
           setActiveStep(prevStep);
         }}
       >

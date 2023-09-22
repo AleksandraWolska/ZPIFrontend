@@ -11,18 +11,18 @@ import CoreSummary from "./steps/CoreSummary";
 import Attributes from "./steps/Attributes";
 import PrintStoreConfig from "./steps/PrintStoreConfig";
 import RatingAndComments from "./steps/RatingAndComments";
-import LayoutConfig from "./steps/LayoutConfig";
+import Owner from "./steps/Owner";
 
 function Stepper() {
   const [activeStep, setActiveStep] = useState<StoreConfigStep>(
-    STORE_CONFIG_STEPS.LAYOUT_CONFIG,
+    STORE_CONFIG_STEPS.OWNER,
   );
   const [progress, setProgress] = useState(0);
 
   const renderStepContent = () => {
     switch (activeStep) {
-      case STORE_CONFIG_STEPS.LAYOUT_CONFIG:
-        return <LayoutConfig setActiveStep={setActiveStep} />;
+      case STORE_CONFIG_STEPS.OWNER:
+        return <Owner />;
       case STORE_CONFIG_STEPS.FLEXIBILITY:
         return (
           <Flexibility

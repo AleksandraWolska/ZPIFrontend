@@ -10,13 +10,11 @@ import {
 } from "./StoreConfigContext";
 
 const initialStoreConfig: StoreConfig = {
-  layoutConfig: {
+  owner: {
     name: "",
-    welcomeTextLine1: "",
-    welcomeTextLine2: "",
     logoSrc: "",
-    showLogo: false,
-    enableFiltering: false,
+    phone: "",
+    email: "",
   },
   coreConfig: {},
   attributes: [],
@@ -41,10 +39,13 @@ function StoreConfigProvider({ children }: { children: ReactNode }) {
     console.log("STORE-CONFIG:", storeConfig);
   }, [storeConfig]);
 
-  const setLayoutConfig = (layoutConfig: StoreConfig["layoutConfig"]) => {
+  const setOwnerAttribute = (
+    key: keyof StoreConfig["owner"],
+    value: string,
+  ) => {
     dispatch({
-      type: STORE_CONFIG_ACTION_TYPES.SET_LAYOUT_CONFIG,
-      payload: layoutConfig,
+      type: STORE_CONFIG_ACTION_TYPES.SET_OWNER_ATTRIBUTE,
+      payload: { [key]: value },
     });
   };
 
@@ -93,7 +94,7 @@ function StoreConfigProvider({ children }: { children: ReactNode }) {
   const contextValue = useMemo(
     () => ({
       storeConfig,
-      setLayoutConfig,
+      setOwnerAttribute,
       setCoreConfigAttribute,
       withdrawToCoreConfig,
       setAttributes,
