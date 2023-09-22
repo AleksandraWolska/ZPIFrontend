@@ -18,13 +18,14 @@ const initialStoreConfig: StoreConfig = {
   },
   core: {},
   customAttributesSpec: [],
-  ratingOptions: {
-    allowRating: false,
+  mainPage: {
+    welcomeTextLine1: "",
+    welcomeTextLine2: "",
+    enableFiltering: false,
+    showItemTitle: false,
+    showItemSubtitle: false,
+    showItemImg: false,
     showRating: false,
-  },
-  commentsOptions: {
-    allowComments: false,
-    showComments: false,
   },
 };
 
@@ -75,21 +76,13 @@ function StoreConfigProvider({ children }: { children: ReactNode }) {
     });
   };
 
-  const setRatingOptions = (
-    ratingOptions: Partial<StoreConfig["ratingOptions"]>,
+  const setMainPageAttribute = (
+    key: keyof StoreConfig["mainPage"],
+    value: StoreConfig["mainPage"][typeof key],
   ) => {
     dispatch({
-      type: STORE_CONFIG_ACTION_TYPES.SET_RATING_OPTIONS,
-      payload: ratingOptions,
-    });
-  };
-
-  const setCommentsOptions = (
-    commentsOptions: Partial<StoreConfig["commentsOptions"]>,
-  ) => {
-    dispatch({
-      type: STORE_CONFIG_ACTION_TYPES.SET_COMMENTS_OPTIONS,
-      payload: commentsOptions,
+      type: STORE_CONFIG_ACTION_TYPES.SET_MAIN_PAGE_ATTRIBUTE,
+      payload: { [key]: value },
     });
   };
 
@@ -100,8 +93,7 @@ function StoreConfigProvider({ children }: { children: ReactNode }) {
       appendCoreAttribute,
       withdrawToCoreStep,
       setCustomAttributesSpec,
-      setRatingOptions,
-      setCommentsOptions,
+      setMainPageAttribute,
     }),
     [storeConfig],
   );

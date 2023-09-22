@@ -9,7 +9,7 @@ export const STORE_CONFIG_STEPS = {
   SPECIFIC_RESERVATION: "SPECIFIC_RESERVATION",
   PERIODICITY: "PERIODICITY",
   CUSTOM_ATTRIBUTES_SPEC: "CUSTOM_ATTRIBUTES_SPEC",
-  RATING_AND_COMMENTS: "RATING_AND_COMMENTS",
+  MAIN_PAGE: "MAIN_PAGE",
   PRINT_SCHEMA: "PRINT_SCHEMA",
 } as const;
 
@@ -48,19 +48,20 @@ export type CustomAttributeSpec = {
   limitValues?: boolean;
   possibleValues?: string[];
 };
-export type RatingOptions = {
-  allowRating: boolean;
+
+export type MainPage = {
+  welcomeTextLine1: string;
+  welcomeTextLine2: string;
+  enableFiltering: boolean;
+  showItemTitle: boolean;
+  showItemSubtitle: boolean;
+  showItemImg: boolean;
   showRating: boolean;
-};
-export type CommentsOptions = {
-  allowComments: boolean;
-  showComments: boolean;
 };
 
 export type StoreConfig = {
   owner: Owner;
   core: Core;
   customAttributesSpec: CustomAttributeSpec[];
-  ratingOptions: RatingOptions;
-  commentsOptions: CommentsOptions;
+  mainPage: MainPage;
 };

@@ -9,7 +9,7 @@ import SpecificReservation from "./steps/core/SpecificReservation";
 import Periodicity from "./steps/core/Periodicity";
 import CustomAttributesSpec from "./steps/CustomAttributesSpec";
 import PrintStoreConfig from "./steps/PrintStoreConfig";
-import RatingAndComments from "./steps/RatingAndComments";
+import MainPage from "./steps/MainPage";
 import Owner from "./steps/Owner";
 
 function Stepper() {
@@ -63,8 +63,8 @@ function Stepper() {
         );
       case STORE_CONFIG_STEPS.CUSTOM_ATTRIBUTES_SPEC:
         return <CustomAttributesSpec setActiveStep={setActiveStep} />;
-      case STORE_CONFIG_STEPS.RATING_AND_COMMENTS:
-        return <RatingAndComments setActiveStep={setActiveStep} />;
+      case STORE_CONFIG_STEPS.MAIN_PAGE:
+        return <MainPage setActiveStep={setActiveStep} />;
       case STORE_CONFIG_STEPS.PRINT_SCHEMA:
         return <PrintStoreConfig />;
       default:

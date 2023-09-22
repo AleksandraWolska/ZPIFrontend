@@ -251,7 +251,7 @@ function CustomAttributesSpec({
           }}
           onNext={() => {
             saveCustomAttributesSpec();
-            setActiveStep(STORE_CONFIG_STEPS.RATING_AND_COMMENTS);
+            setActiveStep(STORE_CONFIG_STEPS.MAIN_PAGE);
           }}
         />
       </Box>

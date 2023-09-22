@@ -9,11 +9,9 @@ export type StoreConfigContextType = {
   setCustomAttributesSpec: (
     customAttributesSpec: StoreConfig["customAttributesSpec"],
   ) => void;
-  setRatingOptions: (
-    ratingOptions: Partial<StoreConfig["ratingOptions"]>,
-  ) => void;
-  setCommentsOptions: (
-    commentsOptions: Partial<StoreConfig["commentsOptions"]>,
+  setMainPageAttribute: (
+    key: keyof StoreConfig["mainPage"],
+    value: StoreConfig["mainPage"][typeof key],
   ) => void;
 };
 
