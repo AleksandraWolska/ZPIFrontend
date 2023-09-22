@@ -57,7 +57,7 @@ function Simultaneous({
           const nextStep =
             storeConfig.coreConfig.flexibility === false
               ? STORE_CONFIG_STEPS.PERIODICITY
-              : STORE_CONFIG_STEPS.GAP_BETWEEN;
+              : STORE_CONFIG_STEPS.UNIQUENESS;
           setActiveStep(nextStep);
           setProgress(
             calculateProgress(STORE_CONFIG_STEPS.SIMULTANEOUS, nextStep),

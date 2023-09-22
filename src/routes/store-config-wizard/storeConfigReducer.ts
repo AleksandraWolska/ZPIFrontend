@@ -114,15 +114,6 @@ function resetCoreConfig(
         flexibility: coreConfig.flexibility,
         granularity: coreConfig.granularity,
         simultaneous: coreConfig.simultaneous,
-        ...(coreConfig.gapBetween !== undefined && {
-          gapBetween: coreConfig.gapBetween,
-        }),
-      };
-    case STORE_CONFIG_STEPS.GAP_BETWEEN:
-      return {
-        flexibility: coreConfig.flexibility,
-        granularity: coreConfig.granularity,
-        simultaneous: coreConfig.simultaneous,
       };
     case STORE_CONFIG_STEPS.SPECIFIC_RESERVATION:
       return {

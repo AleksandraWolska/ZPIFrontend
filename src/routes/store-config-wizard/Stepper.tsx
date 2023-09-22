@@ -5,7 +5,6 @@ import Flexibility from "./steps/Flexibility";
 import Granularity from "./steps/Granularity";
 import Simultaneous from "./steps/Simultaneous";
 import Uniqueness from "./steps/Uniqueness";
-import GapBetween from "./steps/GapBetween";
 import SpecificReservation from "./steps/SpecificReservation";
 import Periodicity from "./steps/Periodicity";
 import CoreSummary from "./steps/CoreSummary";
@@ -48,10 +47,6 @@ function Stepper() {
       case STORE_CONFIG_STEPS.UNIQUENESS:
         return (
           <Uniqueness setActiveStep={setActiveStep} setProgress={setProgress} />
-        );
-      case STORE_CONFIG_STEPS.GAP_BETWEEN:
-        return (
-          <GapBetween setActiveStep={setActiveStep} setProgress={setProgress} />
         );
       case STORE_CONFIG_STEPS.SPECIFIC_RESERVATION:
         return (

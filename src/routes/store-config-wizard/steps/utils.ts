@@ -13,16 +13,11 @@ export function calculateProgress(
   } else if (from === STORE_CONFIG_STEPS.SIMULTANEOUS) {
     if (to === STORE_CONFIG_STEPS.GRANULARITY) return 45;
     if (to === STORE_CONFIG_STEPS.FLEXIBILITY) return 0;
-    if (to === STORE_CONFIG_STEPS.GAP_BETWEEN) return 67;
     if (to === STORE_CONFIG_STEPS.SPECIFIC_RESERVATION) return 67.5;
     if (to === STORE_CONFIG_STEPS.UNIQUENESS) return 80;
     if (to === STORE_CONFIG_STEPS.PERIODICITY) return 75;
   } else if (from === STORE_CONFIG_STEPS.UNIQUENESS) {
-    if (to === STORE_CONFIG_STEPS.GAP_BETWEEN) return 67;
     if (to === STORE_CONFIG_STEPS.SIMULTANEOUS) return 55;
-  } else if (from === STORE_CONFIG_STEPS.GAP_BETWEEN) {
-    if (to === STORE_CONFIG_STEPS.SIMULTANEOUS) return 55;
-    if (to === STORE_CONFIG_STEPS.UNIQUENESS) return 83;
   } else if (from === STORE_CONFIG_STEPS.SPECIFIC_RESERVATION) {
     if (to === STORE_CONFIG_STEPS.SIMULTANEOUS) return 45;
     if (to === STORE_CONFIG_STEPS.PERIODICITY) return 80;
