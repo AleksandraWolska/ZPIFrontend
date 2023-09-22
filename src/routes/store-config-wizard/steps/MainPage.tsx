@@ -109,7 +109,7 @@ function MainPage({
           onPrev={() =>
             setActiveStep(STORE_CONFIG_STEPS.CUSTOM_ATTRIBUTES_SPEC)
           }
-          onNext={() => setActiveStep(STORE_CONFIG_STEPS.PRINT_SCHEMA)}
+          onNext={() => setActiveStep(STORE_CONFIG_STEPS.DETAILS_PAGE)}
         />
       </Box>
     </>

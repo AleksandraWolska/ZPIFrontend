@@ -13,6 +13,10 @@ export type StoreConfigContextType = {
     key: keyof StoreConfig["mainPage"],
     value: StoreConfig["mainPage"][typeof key],
   ) => void;
+  setDetailsPageAttribute: (
+    key: keyof StoreConfig["detailsPage"],
+    value: StoreConfig["detailsPage"][typeof key],
+  ) => void;
 };
 
 export const StoreConfigContext = createContext<StoreConfigContextType | null>(

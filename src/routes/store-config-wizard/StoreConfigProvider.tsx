@@ -27,6 +27,16 @@ const initialStoreConfig: StoreConfig = {
     showItemImg: false,
     showRating: false,
   },
+  detailsPage: {
+    showRating: false,
+    showComments: false,
+    showItemDescription: false,
+    showSubitemTitle: false,
+    showSubitemSubtitle: false,
+    reservationConfirmationPrompt: "",
+    reservationFailurePrompt: "",
+    reservationSummaryPrompt: "",
+  },
 };
 
 function StoreConfigProvider({ children }: { children: ReactNode }) {
@@ -86,6 +96,16 @@ function StoreConfigProvider({ children }: { children: ReactNode }) {
     });
   };
 
+  const setDetailsPageAttribute = (
+    key: keyof StoreConfig["detailsPage"],
+    value: StoreConfig["detailsPage"][typeof key],
+  ) => {
+    dispatch({
+      type: STORE_CONFIG_ACTION_TYPES.SET_DETAILS_PAGE_ATTRIBUTE,
+      payload: { [key]: value },
+    });
+  };
+
   const contextValue = useMemo(
     () => ({
       storeConfig,
@@ -94,6 +114,7 @@ function StoreConfigProvider({ children }: { children: ReactNode }) {
       withdrawToCoreStep,
       setCustomAttributesSpec,
       setMainPageAttribute,
+      setDetailsPageAttribute,
     }),
     [storeConfig],
   );

@@ -6,6 +6,7 @@ export const STORE_CONFIG_ACTION_TYPES = {
   WITHDRAW_TO_CORE_STEP: "WITHDRAW_TO_CORE_STEP",
   SET_CUSTOM_ATTRIBUTES_SPEC: "SET_CUSTOM_ATTRIBUTES_SPEC",
   SET_MAIN_PAGE_ATTRIBUTE: "SET_MAIN_PAGE_ATTRIBUTE",
+  SET_DETAILS_PAGE_ATTRIBUTE: "SET_DETAILS_PAGE_ATTRIBUTE",
 } as const;
 
 type SetOwnerAttributeAction = {
@@ -33,12 +34,18 @@ type SetMainPageAttributeAction = {
   payload: Partial<StoreConfig["mainPage"]>;
 };
 
+type SetDetailsPageAttributeAction = {
+  type: typeof STORE_CONFIG_ACTION_TYPES.SET_DETAILS_PAGE_ATTRIBUTE;
+  payload: Partial<StoreConfig["detailsPage"]>;
+};
+
 type StoreConfigAction =
   | SetOwnerAttributeAction
   | AppendCoreAttributeAction
   | WithdrawToCoreStepAction
   | SetCustomAttributesSpecAction
-  | SetMainPageAttributeAction;
+  | SetMainPageAttributeAction
+  | SetDetailsPageAttributeAction;
 
 export function storeConfigReducer(
   storeConfig: StoreConfig,
@@ -66,6 +73,11 @@ export function storeConfigReducer(
       return {
         ...storeConfig,
         mainPage: { ...storeConfig.mainPage, ...action.payload },
+      };
+    case STORE_CONFIG_ACTION_TYPES.SET_DETAILS_PAGE_ATTRIBUTE:
+      return {
+        ...storeConfig,
+        detailsPage: { ...storeConfig.detailsPage, ...action.payload },
       };
     default:
       throw Error("Unknown reducer action!");
