@@ -54,7 +54,6 @@ export function CheckAvailabilityDatepicker({
   };
 
   const handleCheckAvailability = () => {
-    // TODO SEND REQUEST WIH
     console.log(userCount);
     setShowSuggestedDialog(true);
   };
@@ -116,26 +115,6 @@ export function CheckAvailabilityDatepicker({
         />
       </Box>
       {buttons}
-
-      {/* <Dialog
-        open={reservationSuccess}
-        onClose={() => setReservationSuccess(false)}
-      >
-        <DialogTitle>Successful reservation</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            Start Date and Time: {startDateTime?.format("YYYY-MM-DD HH:mm")}{" "}
-            <br />
-            End Date and Time: {endDateTime?.format("YYYY-MM-DD HH:mm")}
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={resetStates} color="primary">
-            OK
-          </Button>
-        </DialogActions>
-      </Dialog> */}
-
       <Dialog
         open={showSuggestedDialog}
         onClose={() => setShowSuggestedDialog(false)}
@@ -143,12 +122,11 @@ export function CheckAvailabilityDatepicker({
         <DialogTitle>Suggested Times</DialogTitle>
         <DialogContent>
           <List>
-            {suggestedDateRanges.map((range, index) => (
+            {suggestedDateRanges.map((range) => (
               <ListItem
                 button
-                // eslint-disable-next-line react/no-array-index-key
-                key={index}
-                onClick={() => handleSuggestedDateClick(index)}
+                key={id}
+                onClick={() => handleSuggestedDateClick(id)}
               >
                 <ListItemText
                   primary={`Start: ${range.start?.format(

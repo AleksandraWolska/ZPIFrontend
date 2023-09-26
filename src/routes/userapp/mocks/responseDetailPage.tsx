@@ -11,7 +11,7 @@ export const jsonStringDetailPage = `{
           "specificReservation": false
         
         },
-        "itemCustomAttributes": [
+        "customAttributesSpec": [
           { "id": 1,
             "name": "Color",
             "dataType": "string",
