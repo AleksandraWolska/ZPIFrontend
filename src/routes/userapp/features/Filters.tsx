@@ -9,14 +9,14 @@ import {
   TextField,
   Button,
 } from "@mui/material";
-import { FilterValue, ItemCustomAttribute } from "../mocks/types";
+import { FilterValue, CustomAttributeSpec } from "../mocks/types";
 
 type FiltersProps = {
   handleAppendFilter: (filter: FilterValue) => void;
-  handleRemoveFilter: (paramKey: string) => void;
+  handleRemoveFilter: (attrKey: string) => void;
   resetFilters: () => void;
   activeFilters: FilterValue[];
-  parameterMap: ItemCustomAttribute[];
+  customAttrubutesSpec: CustomAttributeSpec[];
 };
 
 function Filters({
@@ -24,41 +24,41 @@ function Filters({
   handleRemoveFilter,
   resetFilters,
   activeFilters,
-  parameterMap,
+  customAttrubutesSpec,
 }: FiltersProps) {
   return (
     <Box width="25%" padding={3}>
       <Box bgcolor="lightgrey">
-        {parameterMap
-          .filter((param: ItemCustomAttribute) => param.isFilterable)
-          .map((param: ItemCustomAttribute) => {
+        {customAttrubutesSpec
+          .filter((attr: CustomAttributeSpec) => attr.isFilterable)
+          .map((attr: CustomAttributeSpec) => {
             const activeFilter = activeFilters.find(
-              (filter) => filter.paramKey === param.id.toString(),
+              (filter) => filter.attributeKey === attr.id.toString(),
             );
 
-            switch (param.dataType) {
+            switch (attr.dataType) {
               case "string":
                 return (
-                  <Box key={param.id} marginBottom={2}>
+                  <Box key={attr.id} marginBottom={2}>
                     <FormControl variant="outlined">
-                      <InputLabel>{param.name}</InputLabel>
+                      <InputLabel>{attr.name}</InputLabel>
                       <Select
                         value={activeFilter?.value || ""}
                         onChange={(e) => {
                           const { value } = e.target;
                           if (value) {
                             handleAppendFilter({
-                              paramKey: param.id.toString(),
-                              paramName: param.name,
+                              attributeKey: attr.id.toString(),
+                              attributeName: attr.name,
                               value,
                             });
                           } else {
-                            handleRemoveFilter(param.id.toString());
+                            handleRemoveFilter(attr.id.toString());
                           }
                         }}
-                        label={param.name}
+                        label={attr.name}
                       >
-                        {param.possibleValues?.map((val) => (
+                        {attr.possibleValues?.map((val) => (
                           <MenuItem key={val} value={val}>
                             {val}
                           </MenuItem>
@@ -69,7 +69,7 @@ function Filters({
                 );
               case "boolean":
                 return (
-                  <Box key={param.id} marginBottom={2}>
+                  <Box key={attr.id} marginBottom={2}>
                     <FormControlLabel
                       control={
                         <Checkbox
@@ -78,38 +78,38 @@ function Filters({
                             const { checked } = e.target;
                             if (checked) {
                               handleAppendFilter({
-                                paramKey: param.id.toString(),
-                                paramName: param.name,
+                                attributeKey: attr.id.toString(),
+                                attributeName: attr.name,
                                 value: checked,
                               });
                             } else {
-                              handleRemoveFilter(param.id.toString());
+                              handleRemoveFilter(attr.id.toString());
                             }
                           }}
                         />
                       }
-                      label={param.name}
+                      label={attr.name}
                     />
                   </Box>
                 );
               case "number":
                 return (
-                  <Box key={param.id} marginBottom={2}>
+                  <Box key={attr.id} marginBottom={2}>
                     <TextField
                       type="number"
-                      label={param.name}
+                      label={attr.name}
                       variant="outlined"
                       value={activeFilter?.value || ""}
                       onChange={(e) => {
                         const val = Number(e.target.value);
                         if (val || val === 0) {
                           handleAppendFilter({
-                            paramKey: param.id.toString(),
-                            paramName: param.name,
+                            attributeKey: attr.id.toString(),
+                            attributeName: attr.name,
                             value: val,
                           });
                         } else {
-                          handleRemoveFilter(param.id.toString());
+                          handleRemoveFilter(attr.id.toString());
                         }
                       }}
                     />

@@ -14,7 +14,7 @@ function Home() {
       <br />
       <Link to="/secret">Secret page</Link>
       <br />
-      <Link to="/userapp">UserApp</Link>
+      <Link to="/userapp/1">UserApp</Link>
     </div>
   );
 }

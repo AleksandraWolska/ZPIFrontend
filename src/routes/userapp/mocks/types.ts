@@ -1,6 +1,6 @@
 // PAGE CONFIG
 
-export type ItemCustomAttribute = {
+export type CustomAttributeSpec = {
   id: string;
   name: string;
   dataType: "string" | "number" | "boolean";
@@ -49,7 +49,7 @@ export type StoreConfig = {
   core: Core;
   mainPage: MainPage;
   detailsPage: DetailsPage;
-  itemCustomAttributes: ItemCustomAttribute[];
+  customAttributesSpec: CustomAttributeSpec[];
 };
 
 // ITEM
@@ -91,8 +91,8 @@ export type FilterValues = {
 };
 
 export type FilterValue = {
-  paramKey: string;
-  paramName: string;
+  attributeKey: string;
+  attributeName: string;
   value: string | number | boolean;
 };
 

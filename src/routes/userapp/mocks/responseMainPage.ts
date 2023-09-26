@@ -7,7 +7,7 @@ export const jsonStringMainPage = `{
           "phone": "+1 (123) 456-7890",
           "email": "info@techrental.com"
         },
-        "itemCustomAttributes": [
+        "customAttributesSpec": [
           {
             "id":1,
             "name": "Brand",

@@ -53,7 +53,9 @@ export default function ItemDetailsPage() {
   const handleUserCountInputChangeRestricted = (newValue: number) => {
     setReservationRequestReady(
       selectedSubItemsList.length > 0 &&
-        selectedSubItemsList[0]!.availableAmount! >= newValue,
+        (selectedSubItemsList[0].availableAmount
+          ? selectedSubItemsList[0].availableAmount >= newValue
+          : true),
     );
     setUserCount(newValue || 1);
     setAvailabilityChecked(false);
@@ -187,13 +189,13 @@ export default function ItemDetailsPage() {
 
   const core = (
     <Box>
-      {/*  V9  */}
+      {/*  V5  */}
       {coreConfig.simultaneous &&
         coreConfig.periodicity &&
         !coreConfig.specificReservation &&
         userCountChoiceRestricted}
 
-      {/* V3 & V5 & V10 */}
+      {/* V3 & V9 & V10 */}
       {((coreConfig.simultaneous &&
         !coreConfig.specificReservation &&
         !coreConfig.periodicity) ||
@@ -208,23 +210,17 @@ export default function ItemDetailsPage() {
       {/* V8 & V10 */}
       {coreConfig.flexibility && coreConfig.uniqueness && freeRangesUserInput}
 
-      {/* V2 */}
-      {!coreConfig.flexibility &&
-        !coreConfig.simultaneous &&
-        coreConfig.periodicity &&
-        subItemsListSingle}
-
       {/* V4 & V6 */}
       {!coreConfig.flexibility &&
         coreConfig.simultaneous &&
         coreConfig.specificReservation &&
         subItemsListMultiple}
 
-      {/* V5 */}
+      {/* V2 & V5 */}
       {!coreConfig.flexibility &&
-        coreConfig.simultaneous &&
+        (!coreConfig.simultaneous ||
+          (coreConfig.simultaneous && !coreConfig.specificReservation)) &&
         coreConfig.periodicity &&
-        !coreConfig.specificReservation &&
         subItemsListSingle}
 
       {coreConfig.flexibility ? null : buttons}
@@ -251,10 +247,7 @@ export default function ItemDetailsPage() {
       )}
 
       {storeConfig.detailsPage.showComments && item.commentList && (
-        <CommentList
-          selectedItem={item}
-          handleSendComment={handleSendComment}
-        />
+        <CommentList item={item} handleSendComment={handleSendComment} />
       )}
       <Dialog
         open={showSuccessDialog}

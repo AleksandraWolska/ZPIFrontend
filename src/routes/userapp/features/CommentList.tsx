@@ -11,11 +11,11 @@ import {
 import { Item, Comment as CommentType } from "../mocks/types";
 
 type CommentListProps = {
-  selectedItem: Item;
+  item: Item;
   handleSendComment: (content: string) => void;
 };
 
-function CommentList({ selectedItem, handleSendComment }: CommentListProps) {
+function CommentList({ item, handleSendComment }: CommentListProps) {
   const [userComment, setUserComment] = useState("");
 
   const handleVerifyComment = () => {
@@ -48,9 +48,9 @@ function CommentList({ selectedItem, handleSendComment }: CommentListProps) {
         </Button>
       </Paper>
       <List>
-        {selectedItem &&
-          selectedItem.commentList &&
-          selectedItem.commentList.map((comment: CommentType) => (
+        {item &&
+          item.commentList &&
+          item.commentList.map((comment: CommentType) => (
             <Paper style={{ padding: 15, marginBottom: 15 }}>
               <ListItem key={comment.id} alignItems="flex-start">
                 <ListItemText

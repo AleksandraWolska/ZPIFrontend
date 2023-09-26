@@ -15,7 +15,7 @@ import {
   Item,
   FetchedJsonMainPage,
   FilterValue,
-  ItemCustomAttribute,
+  CustomAttributeSpec,
 } from "./mocks/types";
 
 import ItemImage from "./features/ItemImage";
@@ -34,16 +34,16 @@ export default function UserAppMainPage() {
 
   const handleFilterToggle = () => setShowFilterForm((prev) => !prev);
 
-  const handleRemoveFilter = (paramKey: string) => {
+  const handleRemoveFilter = (attributeKey: string) => {
     setActiveFilters((prev) =>
-      prev.filter((filter) => filter.paramKey !== paramKey),
+      prev.filter((filter) => filter.attributeKey !== attributeKey),
     );
   };
 
   const handleAppendFilter = (newFilter: FilterValue) => {
     setActiveFilters((prev) => {
       const others = prev.filter(
-        (filter) => filter.paramKey !== newFilter.paramKey,
+        (filter) => filter.attributeKey !== newFilter.attributeKey,
       );
       return [...others, newFilter];
     });
@@ -55,7 +55,7 @@ export default function UserAppMainPage() {
     <Box display="flex" gap={1}>
       {activeFilters.map((filter) => (
         <Box
-          key={filter.paramKey}
+          key={filter.attributeKey}
           display="flex"
           alignItems="center"
           padding={1}
@@ -63,11 +63,11 @@ export default function UserAppMainPage() {
           borderRadius={3}
         >
           <Typography variant="body2">
-            {filter.paramName}: {filter.value.toString()}
+            {filter.attributeName}: {filter.value.toString()}
           </Typography>
           <Close
             style={{ marginLeft: "8px", cursor: "pointer" }}
-            onClick={() => handleRemoveFilter(filter.paramKey)}
+            onClick={() => handleRemoveFilter(filter.attributeKey)}
           />
         </Box>
       ))}
@@ -75,20 +75,20 @@ export default function UserAppMainPage() {
   );
 
   const filteredItems = items.filter((item) =>
-    storeConfig.itemCustomAttributes.every((param: ItemCustomAttribute) => {
-      if (!param.isFilterable) return true;
+    storeConfig.customAttributesSpec.every((attr: CustomAttributeSpec) => {
+      if (!attr.isFilterable) return true;
 
-      const itemParam = item.customAttributeList?.find(
-        (p) => p.name === param.name,
+      const itemAttribute = item.customAttributeList?.find(
+        (p) => p.name === attr.name,
       );
-      if (!itemParam) return true;
+      if (!itemAttribute) return true;
 
       const filterObj = activeFilters.find(
-        (f) => f.paramKey === param.id.toString(),
+        (f) => f.attributeKey === attr.id.toString(),
       );
       if (!filterObj) return true;
 
-      return itemParam.value === filterObj.value;
+      return itemAttribute.value === filterObj.value;
     }),
   );
 
@@ -101,7 +101,7 @@ export default function UserAppMainPage() {
             handleRemoveFilter={handleRemoveFilter}
             resetFilters={resetFilters}
             activeFilters={activeFilters}
-            parameterMap={storeConfig.itemCustomAttributes}
+            customAttrubutesSpec={storeConfig.customAttributesSpec}
           />
         )}
 
