@@ -26,16 +26,8 @@
     "react-i18next": "^13.1.2",
     "react-oidc-context": "^2.2.2",
     "react-query": "^3.39.3",
-<<<<<<< HEAD
-<<<<<<< HEAD
     "react-router-dom": "^6.14.2",
     "uuid": "^9.0.0"
-=======
-    "react-router-dom": "^6.16.0"
->>>>>>> a76fb7b (extracted second screen to use own request)
-=======
-    "react-router-dom": "^6.14.2"
->>>>>>> 1b9c94c (react-dom-version rollback)
   },
   "devDependencies": {
     "@types/react": "^18.2.15",
