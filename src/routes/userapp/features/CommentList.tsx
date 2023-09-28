@@ -8,7 +8,7 @@ import {
   ListItemText,
   Typography,
 } from "@mui/material";
-import { Item, Comment as CommentType } from "../mocks/types";
+import { Item, Comment as CommentType } from "../../../types";
 
 type CommentListProps = {
   item: Item;

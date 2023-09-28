@@ -11,17 +11,18 @@ import {
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 
-import { FetchedJsonDetailsPage, SubItem } from "./mocks/types";
-import { jsonStringDetailPage } from "./mocks/responseDetailPage";
+import { SubItem } from "../../../types";
+import { FetchedJsonDetailsPage } from "../types";
+import { jsonStringDetailPage } from "../mocks/responseDetailPage";
 
-import AttributesList from "./features/AttributesList";
-import CommentList from "./features/CommentList";
-import Ratings from "./features/Ratings";
-import RatingsInteractive from "./features/RatingsInteractive";
-import QuantityInput from "./components/core/QuantityInput";
-import { FreeRangesDatepicker } from "./components/core/FreeRangersDatepicker";
-import { CheckAvailabilityDatepicker } from "./components/core/CheckAvailabilityDatepicker";
-import SubItemsList from "./components/core/SubItemsList";
+import AttributesList from "../features/AttributesList";
+import CommentList from "../features/CommentList";
+import Ratings from "../features/Ratings";
+import RatingsInteractive from "../features/RatingsInteractive";
+import QuantityInput from "../components/core/QuantityInput";
+import { FreeRangesDatepicker } from "../components/core/FreeRangersDatepicker";
+import { CheckAvailabilityDatepicker } from "../components/core/CheckAvailabilityDatepicker";
+import SubItemsList from "../components/core/SubItemsList";
 
 export default function ItemDetailsPage() {
   const { itemId } = useParams();

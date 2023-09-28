@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import { FetchedJsonMainPage } from "../mocks/types";
+import { FetchedJsonMainPage } from "../../../types";
 import { jsonStringMainPage } from "../mocks/responseMainPage";
 
 function WelcomeTexts() {

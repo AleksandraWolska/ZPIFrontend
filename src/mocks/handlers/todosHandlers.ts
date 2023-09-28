@@ -25,4 +25,4 @@ const getAllTodos = rest.get("/api/todos", (_req, res, ctx) => {
   return res(ctx.status(200), ctx.json(todos));
 });
 
-export const handlers = [getAllTodos];
+export const todosHandlers = [getAllTodos];

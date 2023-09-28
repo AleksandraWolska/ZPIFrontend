@@ -3,7 +3,7 @@ import {
   FetchedJsonDetailsPage,
   CustomAttribute,
   CustomAttributeSpec,
-} from "../mocks/types";
+} from "../../../types";
 import { jsonStringDetailPage } from "../mocks/responseDetailPage";
 
 const jsonData: FetchedJsonDetailsPage = JSON.parse(jsonStringDetailPage);

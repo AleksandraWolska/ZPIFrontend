@@ -10,24 +10,20 @@ import {
   IconButton,
 } from "@mui/material";
 import { FilterAlt, FilterAltOff, Close } from "@mui/icons-material";
-import { jsonStringMainPage } from "./mocks/responseMainPage";
-import {
-  Item,
-  FetchedJsonMainPage,
-  FilterValue,
-  CustomAttributeSpec,
-} from "./mocks/types";
-
-import ItemImage from "./features/ItemImage";
-import Ratings from "./features/Ratings";
-import Filters from "./features/Filters";
-import WelcomeTexts from "./components/WelcomeTexts";
+import { Item, CustomAttributeSpec, CustomAttribute } from "../../../types";
+import { FilterValue } from "../types";
+import useMainPageConfig from "./useMainPageConfig";
+import useItems from "./useItems";
+import ItemImage from "../features/ItemImage";
+import Ratings from "../features/Ratings";
+import Filters from "../features/Filters";
+import WelcomeTexts from "../components/WelcomeTexts";
 
 export default function UserAppMainPage() {
   const navigate = useNavigate();
 
-  const jsonData: FetchedJsonMainPage = JSON.parse(jsonStringMainPage);
-  const { storeConfig, items } = jsonData.data;
+  const storeConfig = useMainPageConfig();
+  const items = useItems();
 
   const [showFilterForm, setShowFilterForm] = useState(false);
   const [activeFilters, setActiveFilters] = useState<FilterValue[]>([]);
@@ -79,7 +75,7 @@ export default function UserAppMainPage() {
       if (!attr.isFilterable) return true;
 
       const itemAttribute = item.customAttributeList?.find(
-        (p) => p.name === attr.name,
+        (p: CustomAttribute) => p.name === attr.name,
       );
       if (!itemAttribute) return true;
 
@@ -121,9 +117,9 @@ export default function UserAppMainPage() {
 
                 {item.image && <ItemImage url={item.image} />}
 
-                {storeConfig.mainPage.showRating && item.mark && (
-                  <Ratings mark={item.mark} />
-                )}
+                {storeConfig.mainPage &&
+                  storeConfig.mainPage.showRating &&
+                  item.mark && <Ratings mark={item.mark} />}
               </ListItem>
             ))}
           </List>
