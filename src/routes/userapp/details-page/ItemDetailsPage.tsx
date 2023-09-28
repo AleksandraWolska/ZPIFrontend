@@ -9,12 +9,7 @@ import {
   DialogTitle,
 } from "@mui/material";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
-
 import { SubItem } from "../../../types";
-import { FetchedJsonDetailsPage } from "../types";
-import { jsonStringDetailPage } from "../mocks/responseDetailPage";
-
 import AttributesList from "../features/AttributesList";
 import CommentList from "../features/CommentList";
 import Ratings from "../features/Ratings";
@@ -23,13 +18,12 @@ import QuantityInput from "../components/core/QuantityInput";
 import { FreeRangesDatepicker } from "../components/core/FreeRangersDatepicker";
 import { CheckAvailabilityDatepicker } from "../components/core/CheckAvailabilityDatepicker";
 import SubItemsList from "../components/core/SubItemsList";
+import useItemDetails from "./useItemDetails";
+import useDetailsPageConfig from "./useDetailsPageConfig";
 
 export default function ItemDetailsPage() {
-  const { itemId } = useParams();
-  const jsonData: FetchedJsonDetailsPage = JSON.parse(jsonStringDetailPage);
-  const { storeConfig, item } = jsonData.data;
-
-  const { core: coreConfig } = storeConfig;
+  const storeConfig = useDetailsPageConfig();
+  const item = useItemDetails();
 
   const [showSuccessDialog, setShowSuccessDialog] = useState(false);
   const [reservationRequestReady, setReservationRequestReady] = useState(false);
@@ -134,7 +128,7 @@ export default function ItemDetailsPage() {
     end: string,
   ) => {
     setReservationRequestReady(true);
-    console.log("Item ID:", itemId);
+    console.log("Item ID:", id);
     console.log("Start Date:", start);
     console.log("End Date:", end);
   };
@@ -191,40 +185,43 @@ export default function ItemDetailsPage() {
   const core = (
     <Box>
       {/*  V5  */}
-      {coreConfig.simultaneous &&
-        coreConfig.periodicity &&
-        !coreConfig.specificReservation &&
+      {storeConfig.core.simultaneous &&
+        storeConfig.core.periodicity &&
+        !storeConfig.core.specificReservation &&
         userCountChoiceRestricted}
 
       {/* V3 & V9 & V10 */}
-      {((coreConfig.simultaneous &&
-        !coreConfig.specificReservation &&
-        !coreConfig.periodicity) ||
-        (coreConfig.flexibility && coreConfig.simultaneous)) &&
+      {((storeConfig.core.simultaneous &&
+        !storeConfig.core.specificReservation &&
+        !storeConfig.core.periodicity) ||
+        (storeConfig.core.flexibility && storeConfig.core.simultaneous)) &&
         userCountChoice}
 
       {/* V7 & V9 */}
-      {coreConfig.flexibility &&
-        !coreConfig.uniqueness &&
+      {storeConfig.core.flexibility &&
+        !storeConfig.core.uniqueness &&
         checkAvailabilityUserInput}
 
       {/* V8 & V10 */}
-      {coreConfig.flexibility && coreConfig.uniqueness && freeRangesUserInput}
+      {storeConfig.core.flexibility &&
+        storeConfig.core.uniqueness &&
+        freeRangesUserInput}
 
       {/* V4 & V6 */}
-      {!coreConfig.flexibility &&
-        coreConfig.simultaneous &&
-        coreConfig.specificReservation &&
+      {!storeConfig.core.flexibility &&
+        storeConfig.core.simultaneous &&
+        storeConfig.core.specificReservation &&
         subItemsListMultiple}
 
       {/* V2 & V5 */}
-      {!coreConfig.flexibility &&
-        (!coreConfig.simultaneous ||
-          (coreConfig.simultaneous && !coreConfig.specificReservation)) &&
-        coreConfig.periodicity &&
+      {!storeConfig.core.flexibility &&
+        (!storeConfig.core.simultaneous ||
+          (storeConfig.core.simultaneous &&
+            !storeConfig.core.specificReservation)) &&
+        storeConfig.core.periodicity &&
         subItemsListSingle}
 
-      {coreConfig.flexibility ? null : buttons}
+      {storeConfig.core.flexibility ? null : buttons}
     </Box>
   );
 

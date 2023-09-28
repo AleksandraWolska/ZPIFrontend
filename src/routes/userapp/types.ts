@@ -13,6 +13,11 @@ export type FetchedJsonDetailsPage = {
   };
 };
 
+export type DetailsPageConfig = Pick<
+  StoreConfig,
+  "customAttributesSpec" | "detailsPage" | "core"
+>;
+
 export type MainPageConfig = Pick<
   StoreConfig,
   "customAttributesSpec" | "mainPage"

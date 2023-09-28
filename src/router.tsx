@@ -11,6 +11,7 @@ import { loader as userAppMainPageLoader } from "./routes/userapp/main-page/load
 import ItemDetailsPage from "./routes/userapp/details-page/ItemDetailsPage";
 import UserAppWrapper from "./routes/userapp/wrapper/UserAppWrapper";
 import { loader as userAppWrapperLoader } from "./routes/userapp/wrapper/loader";
+import { loader as detailsPageLoader } from "./routes/userapp/details-page/loader";
 
 if (process.env.NODE_ENV === "development") {
   const { worker } = await import("./mocks/browser");
@@ -70,6 +71,7 @@ const router = createBrowserRouter([
       {
         path: ":itemId",
         element: <ItemDetailsPage />,
+        loader: detailsPageLoader(queryClient),
       },
     ],
   },

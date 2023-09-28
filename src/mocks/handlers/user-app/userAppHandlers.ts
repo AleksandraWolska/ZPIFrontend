@@ -1,7 +1,16 @@
 import { rest } from "msw";
 
+/*
+storeIds from 1-10 are reserved for core configurations
+What is below might look weird but goal was to enable using any other storeId
+and it uses default folder core_0
+
+Sorry for dynamic import! Seemed clearer than importing all cores
+*/
 async function fetchData(storeId: string, type: string) {
-  const module = await import(/* @vite-ignore */ `./core_${storeId}/${type}`);
+  const number = parseInt(storeId, 10);
+  const id = number && number > 0 && number < 10 ? storeId : "0";
+  const module = await import(/* @vite-ignore */ `./core_${id}/${type}`);
   return module.default;
 }
 
@@ -49,4 +58,40 @@ const getItems = rest.get(
   },
 );
 
-export const userAppHandlers = [getOwner, getMainPageConfig, getItems];
+const getDetailsPageConfig = rest.get(
+  "/api/stores/:storeId/details-page-config",
+  async (req, res, ctx) => {
+    const { storeId } = req.params;
+    console.log("requested main page config for storeId: ", storeId);
+
+    if (typeof storeId !== "string") {
+      return res(ctx.status(400), ctx.text("Invalid storeId"));
+    }
+    const data = await fetchData(storeId, "dummyDetailsPageConfig");
+
+    return res(ctx.status(200), ctx.json(data));
+  },
+);
+
+const getItemDetails = rest.get(
+  "/api/stores/:storeId/items/:itemId",
+  async (req, res, ctx) => {
+    const { storeId, itemId } = req.params;
+
+    if (typeof storeId !== "string" || typeof itemId !== "string") {
+      return res(ctx.status(400), ctx.text("Invalid parameters"));
+    }
+
+    const data = await fetchData(storeId, `items/dummyItem_${itemId}`);
+
+    return res(ctx.status(200), ctx.json(data));
+  },
+);
+
+export const userAppHandlers = [
+  getOwner,
+  getMainPageConfig,
+  getDetailsPageConfig,
+  getItems,
+  getItemDetails,
+];
