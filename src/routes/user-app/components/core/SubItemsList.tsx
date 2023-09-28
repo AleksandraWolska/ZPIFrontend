@@ -1,6 +1,6 @@
 import { List, ListItem, ListItemText } from "@mui/material";
 import { Box } from "@mui/system";
-import { Item, SubItem } from "../../mocks/types";
+import { Item, SubItem } from "../../../../types";
 
 type SubItemsListProps = {
   selectedItem: Item | null;
@@ -17,7 +17,7 @@ function SubItemsList({
     <Box>
       {selectedItem && (
         <List>
-          {selectedItem.subitemList?.map((subItem) => (
+          {selectedItem.subItemList?.map((subItem) => (
             <ListItem
               button
               key={subItem.id}

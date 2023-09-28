@@ -1,11 +1,6 @@
 import { Box } from "@mui/material";
 
-type Props = {
-  url: string;
-};
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function ItemImage({ url }: Props) {
+function ItemImage() {
   return (
     <Box
       width={40}

@@ -10,24 +10,21 @@ import {
   IconButton,
 } from "@mui/material";
 import { FilterAlt, FilterAltOff, Close } from "@mui/icons-material";
-import { jsonStringMainPage } from "./mocks/responseMainPage";
-import {
-  Item,
-  FetchedJsonMainPage,
-  FilterValue,
-  CustomAttributeSpec,
-} from "./mocks/types";
+import { FilterValue } from "../types";
 
-import ItemImage from "./features/ItemImage";
-import Ratings from "./features/Ratings";
-import Filters from "./features/Filters";
-import WelcomeTexts from "./components/WelcomeTexts";
+import ItemImage from "../features/ItemImage";
+import Ratings from "../features/Ratings";
+import Filters from "../features/Filters";
+import WelcomeTexts from "../components/WelcomeTexts";
+import useMainPageConfig from "./useMainPageConfig";
+import useItems from "./useItems";
+import { CustomAttributeSpec, Item } from "../../../types";
 
 export default function UserAppMainPage() {
   const navigate = useNavigate();
 
-  const jsonData: FetchedJsonMainPage = JSON.parse(jsonStringMainPage);
-  const { storeConfig, items } = jsonData.data;
+  const storeConfig = useMainPageConfig();
+  const items = useItems();
 
   const [showFilterForm, setShowFilterForm] = useState(false);
   const [activeFilters, setActiveFilters] = useState<FilterValue[]>([]);
@@ -119,7 +116,7 @@ export default function UserAppMainPage() {
               <ListItem key={item.id} onClick={() => navigate(`${item.id}`)}>
                 <ListItemText primary={item.title} secondary={item.subtitle} />
 
-                {item.image && <ItemImage url={item.image} />}
+                {item.image && <ItemImage />}
 
                 {storeConfig.mainPage.showRating && item.mark && (
                   <Ratings mark={item.mark} />

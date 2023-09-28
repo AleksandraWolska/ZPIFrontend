@@ -1,5 +1,5 @@
 import { ReactNode, useContext, useEffect, useMemo, useReducer } from "react";
-import { StoreConfig, StoreConfigStep } from "./types";
+import { StoreConfigStep } from "./types";
 import {
   STORE_CONFIG_ACTION_TYPES,
   storeConfigReducer,
@@ -8,6 +8,7 @@ import {
   StoreConfigContext,
   StoreConfigContextType,
 } from "./StoreConfigContext";
+import { StoreConfig } from "../../types";
 
 const initialStoreConfig: StoreConfig = {
   owner: {

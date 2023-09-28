@@ -9,7 +9,8 @@ import {
   TextField,
   Button,
 } from "@mui/material";
-import { FilterValue, CustomAttributeSpec } from "../mocks/types";
+import { FilterValue } from "../types";
+import { CustomAttributeSpec } from "../../../types";
 
 type FiltersProps = {
   handleAppendFilter: (filter: FilterValue) => void;

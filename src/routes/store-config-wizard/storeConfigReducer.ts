@@ -1,4 +1,5 @@
-import { StoreConfig, StoreConfigStep, STORE_CONFIG_STEPS } from "./types";
+import { StoreConfigStep, STORE_CONFIG_STEPS } from "./types";
+import { StoreConfig } from "../../types";
 
 export const STORE_CONFIG_ACTION_TYPES = {
   SET_OWNER_ATTRIBUTE: "SET_OWNER_ATTRIBUTE",

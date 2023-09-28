@@ -1,5 +1,5 @@
 import { Box, Rating } from "@mui/material";
-import { useState } from "react";
+import { SyntheticEvent, useState } from "react";
 
 type RatingsInteractiveProps = {
   handleSetRating: (rating: number) => void;
@@ -7,10 +7,7 @@ type RatingsInteractiveProps = {
 
 function RatingsInteractive({ handleSetRating }: RatingsInteractiveProps) {
   const [ratingValue, setRatingValue] = useState<number | null>(null);
-  const handleChange = (
-    event: React.SyntheticEvent,
-    newValue: number | null,
-  ) => {
+  const handleChange = (_event: SyntheticEvent, newValue: number | null) => {
     setRatingValue(newValue);
     handleSetRating(newValue!);
   };

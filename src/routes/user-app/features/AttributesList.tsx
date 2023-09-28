@@ -1,10 +1,7 @@
 import { Box, Typography } from "@mui/material";
-import {
-  FetchedJsonDetailsPage,
-  CustomAttribute,
-  CustomAttributeSpec,
-} from "../mocks/types";
+import { FetchedJsonDetailsPage } from "../types";
 import { jsonStringDetailPage } from "../mocks/responseDetailPage";
+import { CustomAttribute, CustomAttributeSpec } from "../../../types";
 
 const jsonData: FetchedJsonDetailsPage = JSON.parse(jsonStringDetailPage);
 const { customAttributesSpec } = jsonData.data.storeConfig;
