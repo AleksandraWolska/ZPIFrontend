@@ -7,6 +7,7 @@ export const dummyCustomAttributesSpec = [
     isFilterable: true,
     showMainPage: true,
     showDetailsPage: true,
+    limitValues: true,
     possibleValues: [
       "ASUS",
       "Apple",
@@ -26,6 +27,7 @@ export const dummyCustomAttributesSpec = [
     isFilterable: true,
     showMainPage: true,
     showDetailsPage: true,
+    limitValues: true,
     possibleValues: [
       "Intel Core i7",
       "Intel Core i5",
