@@ -1,7 +1,7 @@
 import {
-  Box,
   Checkbox,
   FormControlLabel,
+  Grid,
   MenuItem,
   Select,
   TextField,
@@ -30,16 +30,19 @@ function CustomAttributes({
 
   return (
     <>
-      {newItem.customAttributeList &&
-        newItem.customAttributeList.map((attribute) => (
-          <Box key={attribute.name}>
-            {renderCustomAttributeInput(
-              attribute,
-              setCustomAttribute,
-              customAttributesSpec,
-            )}
-          </Box>
-        ))}
+      {newItem.customAttributeList && (
+        <Grid container spacing={1} width="50%">
+          {newItem.customAttributeList.map((attribute) => (
+            <Grid key={attribute.name} item xs={12} sm={6}>
+              {renderCustomAttributeInput(
+                attribute,
+                setCustomAttribute,
+                customAttributesSpec,
+              )}
+            </Grid>
+          ))}
+        </Grid>
+      )}
 
       <button type="button" onClick={goPrev}>
         Prev
@@ -74,6 +77,7 @@ function renderCustomAttributeInput(
               value: e.target.value as string,
             });
           }}
+          fullWidth
         >
           {attributeSpec.possibleValues.map((value) => {
             return (
@@ -93,6 +97,7 @@ function renderCustomAttributeInput(
               value: e.target.value as string,
             })
           }
+          fullWidth
           required={attributeSpec.isRequired}
         />
       );
@@ -107,6 +112,7 @@ function renderCustomAttributeInput(
               value: Number(e.target.value),
             })
           }
+          fullWidth
           type="number"
           required={attributeSpec.isRequired}
         />
