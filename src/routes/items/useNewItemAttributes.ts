@@ -1,5 +1,4 @@
-import { useReducer } from "react";
-import { NEW_ITEM_ACTION_TYPES, newItemReducer } from "./newItemReducer";
+import { useState } from "react";
 import { NewItem } from "./types";
 import useNewItem from "./useNewItem";
 import { CustomAttribute, CustomAttributeSpec } from "../userapp/mocks/types";
@@ -12,26 +11,31 @@ const initialNewItem: NewItem = {
   availableAmount: 0,
 };
 
-function useNewItemReducer() {
+function useNewItemAttributes() {
   const customAttributesSpec = useNewItem();
   const customAttributeList = initializeCustomAttributes(customAttributesSpec);
 
-  const [newItem, dispatch] = useReducer(newItemReducer, {
+  const [newItem, setNewItem] = useState<NewItem>({
     ...initialNewItem,
     customAttributeList,
   });
 
   const setAttribute = (attr: Partial<NewItem>) => {
-    dispatch({
-      type: NEW_ITEM_ACTION_TYPES.SET_ATTRIBUTE,
-      payload: attr,
+    setNewItem({
+      ...newItem,
+      ...attr,
     });
   };
 
   const setCustomAttribute = (attr: CustomAttribute) => {
-    dispatch({
-      type: NEW_ITEM_ACTION_TYPES.SET_CUSTOM_ATTRIBUTE,
-      payload: attr,
+    setNewItem({
+      ...newItem,
+      customAttributeList: newItem.customAttributeList?.map((item) => {
+        if (item.name === attr.name) {
+          return attr;
+        }
+        return item;
+      }),
     });
   };
 
@@ -56,4 +60,4 @@ function initializeCustomAttributes(
   });
 }
 
-export default useNewItemReducer;
+export default useNewItemAttributes;
