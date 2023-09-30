@@ -31,6 +31,13 @@ const router = createBrowserRouter([
     },
   },
   {
+    path: "items/new",
+    lazy: async () => {
+      const NewItem = (await import("./routes/items/NewItem")).default;
+      return { Component: NewItem };
+    },
+  },
+  {
     path: "todos",
     lazy: async () => {
       const TodosLayout = (await import("./routes/todos/TodosLayout")).default;
