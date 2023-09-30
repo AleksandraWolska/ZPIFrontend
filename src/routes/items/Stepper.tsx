@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Stepper as MUIStepper, Step, StepLabel } from "@mui/material";
 import GeneralInfo from "./steps/GeneralInfo";
-import useNewItemReducer from "./useNewItemReducer";
+import useNewItemAttributes from "./useNewItemAttributes";
 import CustomAttributes from "./steps/CustomAttributes";
 
 const steps = [
@@ -15,7 +15,7 @@ function Stepper() {
   const goNext = () => setActiveStep((prev) => prev + 1);
   const goPrev = () => setActiveStep((prev) => prev - 1);
 
-  const { newItem, setAttribute, setCustomAttribute } = useNewItemReducer();
+  const { newItem, setAttribute, setCustomAttribute } = useNewItemAttributes();
 
   const renderStepContent = () => {
     switch (activeStep) {
