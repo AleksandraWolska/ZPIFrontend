@@ -1,31 +1,16 @@
-import { useReducer } from "react";
-import { NEW_ITEM_ACTION_TYPES, newItemReducer } from "./newItemReducer";
-import { NewItem } from "./types";
-
-const initialNewItem: NewItem = {
-  title: "",
-  subtitle: "",
-  description: "",
-  image: "",
-  availableAmount: 0,
-  subitemList: [],
-  customAttributeList: [],
-};
+import { useParams } from "react-router-dom";
+import { useQuery } from "react-query";
+import { CustomAttributeSpec } from "../userapp/mocks/types";
+import { getCustomAttributesSpecQuery } from "./loader";
 
 function useNewItem() {
-  const [newItem, dispatch] = useReducer(newItemReducer, initialNewItem);
+  const params = useParams() as { storeId: string };
 
-  const setAttribute = (attr: Partial<NewItem>) => {
-    dispatch({
-      type: NEW_ITEM_ACTION_TYPES.SET_ATTRIBUTE,
-      payload: attr,
-    });
+  const { data } = useQuery(getCustomAttributesSpecQuery(params.storeId)) as {
+    data: CustomAttributeSpec[];
   };
 
-  return {
-    newItem,
-    setAttribute,
-  };
+  return data;
 }
 
 export default useNewItem;

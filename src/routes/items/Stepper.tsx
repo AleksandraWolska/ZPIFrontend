@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Stepper as MUIStepper, Step, StepLabel } from "@mui/material";
 import GeneralInfo from "./steps/GeneralInfo";
-import useNewItem from "./useNewItem";
+import useNewItemReducer from "./useNewItemReducer";
+import CustomAttributes from "./steps/CustomAttributes";
 
 const steps = [
   { label: "General Info" },
@@ -12,9 +13,9 @@ const steps = [
 function Stepper() {
   const [activeStep, setActiveStep] = useState(0);
   const goNext = () => setActiveStep((prev) => prev + 1);
-  // const goPrev = () => setActiveStep((prev) => prev - 1);
+  const goPrev = () => setActiveStep((prev) => prev - 1);
 
-  const { newItem, setAttribute } = useNewItem();
+  const { newItem, setAttribute, setCustomAttribute } = useNewItemReducer();
 
   const renderStepContent = () => {
     switch (activeStep) {
@@ -27,7 +28,14 @@ function Stepper() {
           />
         );
       case 1:
-        return <div>attributes</div>;
+        return (
+          <CustomAttributes
+            newItem={newItem}
+            setCustomAttribute={setCustomAttribute}
+            goNext={goNext}
+            goPrev={goPrev}
+          />
+        );
       case 2:
         return <div>schedule</div>;
       default:

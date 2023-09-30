@@ -10,6 +10,7 @@ import ItemDetailsPage from "./routes/userapp/details-page/ItemDetailsPage";
 import UserAppWrapper from "./routes/userapp/wrapper/UserAppWrapper";
 import { loader as userAppWrapperLoader } from "./routes/userapp/wrapper/loader";
 import { loader as detailsPageLoader } from "./routes/userapp/details-page/loader";
+import { loader as newItemLoader } from "./routes/items/loader";
 
 if (process.env.NODE_ENV === "development") {
   const { worker } = await import("./mocks/browser");
@@ -31,7 +32,8 @@ const router = createBrowserRouter([
     },
   },
   {
-    path: "items/new",
+    path: "stores/:storeId/items/new",
+    loader: newItemLoader(queryClient),
     lazy: async () => {
       const NewItem = (await import("./routes/items/NewItem")).default;
       return { Component: NewItem };

@@ -10,7 +10,7 @@ function Home() {
       <br />
       <Link to="/store-config-wizard">Store config wizard</Link>
       <br />
-      <Link to="/items/new">New item</Link>
+      <Link to="/stores/1/items/new">New item</Link>
       <br />
       <Link to="/todos">Todos</Link>
       <br />
