@@ -9,9 +9,9 @@ import {
   DialogTitle,
 } from "@mui/material";
 import { useState } from "react";
-import { SubItem } from "../../../types";
+import { Comment, SubItem } from "../../../types";
 import AttributesList from "../features/AttributesList";
-import CommentList from "../features/CommentList";
+import CommentComponent from "../features/CommentComponent";
 import Ratings from "../features/Ratings";
 import RatingsInteractive from "../features/RatingsInteractive";
 import QuantityInput from "../components/core/QuantityInput";
@@ -57,7 +57,7 @@ export default function ItemDetailsPage() {
   };
 
   const handleSendComment = (content: string) => {
-    const newComment = {
+    const newComment: Comment = {
       id: Math.random() * 1000,
       userId: Math.random() * 1000,
       nickname: "YourNickname",
@@ -245,7 +245,7 @@ export default function ItemDetailsPage() {
       )}
 
       {storeConfig.detailsPage.showComments && item.commentList && (
-        <CommentList item={item} handleSendComment={handleSendComment} />
+        <CommentComponent handleSendComment={handleSendComment} />
       )}
       <Dialog
         open={showSuccessDialog}

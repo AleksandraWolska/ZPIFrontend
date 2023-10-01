@@ -1,7 +1,7 @@
 import { QueryClient } from "react-query";
 import { defer, LoaderFunctionArgs } from "react-router-dom";
 import { Item } from "../../../types";
-import { DetailsPageConfig } from "../types";
+import { CommentList, DetailsPageConfig } from "../types";
 
 const fetchDetailsConfig = async (
   storeId: string,
@@ -28,6 +28,19 @@ export const getItemDetailsQuery = (storeId: string, itemId: string) => ({
   queryFn: async () => fetchItemDetails(storeId, itemId),
 });
 
+export const getCommentsListQuery = (storeId: string, itemId: string) => ({
+  queryKey: ["commentsList", storeId, itemId],
+  queryFn: async () => fetchCommentsList(storeId, itemId),
+});
+
+const fetchCommentsList = async (
+  storeId: string,
+  itemId: string,
+): Promise<CommentList> => {
+  const res = await fetch(`/api/stores/${storeId}/items/${itemId}/comments`);
+  return res.json();
+};
+
 export const loader =
   (queryClient: QueryClient) =>
   async ({ params }: LoaderFunctionArgs) => {
@@ -49,5 +62,17 @@ export const loader =
       );
     });
 
-    return defer({ config: await config, item: await item });
+    const commentsListQuery = getCommentsListQuery(storeId, itemId);
+    const commentsList = new Promise((resolve) => {
+      resolve(
+        queryClient.getQueryData(commentsListQuery.queryKey) ??
+          queryClient.fetchQuery(commentsListQuery),
+      );
+    });
+
+    return defer({
+      config: await config,
+      item: await item,
+      commentsList: await commentsList,
+    });
   };

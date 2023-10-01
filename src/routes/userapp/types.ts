@@ -1,4 +1,4 @@
-import { Item, StoreConfig } from "../../types";
+import { Item, StoreConfig, Comment } from "../../types";
 
 export type FilterValue = {
   attributeKey: string;
@@ -22,3 +22,5 @@ export type MainPageConfig = Pick<
   StoreConfig,
   "customAttributesSpec" | "mainPage"
 >;
+
+export type CommentList = Comment[];

@@ -88,10 +88,26 @@ const getItemDetails = rest.get(
   },
 );
 
+const getCommentsList = rest.get(
+  "/api/stores/:storeId/items/:itemId/comments",
+  async (req, res, ctx) => {
+    const { storeId, itemId } = req.params;
+
+    if (typeof storeId !== "string" || typeof itemId !== "string") {
+      return res(ctx.status(400), ctx.text("Invalid parameters"));
+    }
+
+    const data = await fetchData(storeId, `items/dummyComments_${itemId}`);
+
+    return res(ctx.status(200), ctx.json(data));
+  },
+);
+
 export const userAppHandlers = [
   getOwner,
   getMainPageConfig,
   getDetailsPageConfig,
   getItems,
   getItemDetails,
+  getCommentsList,
 ];
