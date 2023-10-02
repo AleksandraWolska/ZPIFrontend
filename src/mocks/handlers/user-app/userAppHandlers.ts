@@ -84,8 +84,7 @@ const getItemDetails = rest.get(
     if (typeof storeId !== "string" || typeof itemId !== "string") {
       return res(ctx.status(400), ctx.text("Invalid parameters"));
     }
-    console.log(`dummyite nr ${itemId} of store ${storeId}`);
-    const data = await fetchData(storeId, `items/dummyItem_${itemId}`);
+    const data = await fetchData(storeId, `items/dummyItem_1`);
 
     return res(ctx.status(200), ctx.json(data));
   },

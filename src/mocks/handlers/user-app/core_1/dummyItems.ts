@@ -362,7 +362,7 @@ export const dummyItems: Item[] = [
     image: "https://example.com/all-in-one-pc.jpg",
   },
   {
-    id: "1"0,
+    id: "1",
     title: "Wizyta Kardiolog Michał Michalski",
     subtitle: "10.10.2023 w lokalizacji Wyszyńskiego 8",
     customAttributeList: [

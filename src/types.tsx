@@ -100,4 +100,5 @@ export type Item = {
   mark?: number;
   availableAmount?: number;
   image?: string;
+  date?: string;
 };
