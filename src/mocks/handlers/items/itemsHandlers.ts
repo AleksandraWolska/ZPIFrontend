@@ -1,10 +1,10 @@
 import { rest } from "msw";
-import { dummyCustomAttributesSpec } from "./dummyCustomAttributesSpec";
+import { dummyAddItemConfig } from "./dummyAddItemConfig";
 
 const getDummyCustomAttributesSpec = rest.get(
-  "/api/stores/:storeId/custom-attributes-spec",
+  "/api/stores/:storeId/add-item-config",
   (_req, res, ctx) => {
-    return res(ctx.status(200), ctx.json(dummyCustomAttributesSpec));
+    return res(ctx.status(200), ctx.json(dummyAddItemConfig));
   },
 );
 

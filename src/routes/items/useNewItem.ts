@@ -1,13 +1,13 @@
 import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
-import { CustomAttributeSpec } from "../userapp/mocks/types";
-import { getCustomAttributesSpecQuery } from "./loader";
+import { getAddItemConfigQuery } from "./loader";
+import { AddItemConfig } from "./types";
 
 function useNewItem() {
   const params = useParams() as { storeId: string };
 
-  const { data } = useQuery(getCustomAttributesSpecQuery(params.storeId)) as {
-    data: CustomAttributeSpec[];
+  const { data } = useQuery(getAddItemConfigQuery(params.storeId)) as {
+    data: AddItemConfig;
   };
 
   return data;

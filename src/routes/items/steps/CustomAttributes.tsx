@@ -24,9 +24,7 @@ function CustomAttributes({
   goNext: () => void;
   goPrev: () => void;
 }) {
-  const customAttributesSpec = useNewItem();
-
-  console.log(newItem);
+  const { customAttributesSpec } = useNewItem();
 
   return (
     <>

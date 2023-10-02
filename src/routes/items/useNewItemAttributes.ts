@@ -3,16 +3,17 @@ import { NewItem } from "./types";
 import useNewItem from "./useNewItem";
 import { CustomAttribute, CustomAttributeSpec } from "../userapp/mocks/types";
 
-const initialNewItem: NewItem = {
+const initialNewItem = {
   title: "",
   subtitle: "",
   description: "",
   image: "",
   availableAmount: 0,
+  subitemList: [],
 };
 
 function useNewItemAttributes() {
-  const customAttributesSpec = useNewItem();
+  const { customAttributesSpec } = useNewItem();
   const customAttributeList = initializeCustomAttributes(customAttributesSpec);
 
   const [newItem, setNewItem] = useState<NewItem>({
