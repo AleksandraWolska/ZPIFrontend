@@ -3,7 +3,7 @@ import { Box } from "@mui/system";
 import { Item, SubItem } from "../../../../types";
 
 type SubItemsListProps = {
-  selectedItem: Item | null;
+  selectedItem: Item;
   selectedSubItemsList: SubItem[];
   toggleItemSelection: (subItem: SubItem) => void;
 };

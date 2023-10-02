@@ -78,6 +78,7 @@ export type SubItem = {
   title: string;
   subtitle?: string;
   availableAmount?: number;
+  date?: string;
 };
 
 export type Comment = {
