@@ -36,45 +36,62 @@ const dummyItem: Item = {
   subItemList: [
     {
       id: "1",
-      title: "Wieczór z Anna Majewska",
-      date: "2023-10-01T12:00:00Z",
-      subtitle: "01.10.2023",
+      title: "Rząd 1 Miejsce 1",
       availableAmount: 1,
     },
+
     {
       id: "2",
-      title: "Wieczór z Anna Majewska",
-      date: "2023-10-02T12:00:00Z",
-      subtitle: "02.10.2023",
-      availableAmount: 2,
+      title: "Rząd 1 Miejsce 2",
+      availableAmount: 1,
     },
+
     {
       id: "3",
-      title: "Wieczór z Anna Majewska",
-      date: "2023-10-03T12:00:00Z",
-      subtitle: "03.10.2023",
-      availableAmount: 3,
+      title: "Rząd 1 Miejsce 3",
+      availableAmount: 1,
     },
+
     {
       id: "4",
-      title: "Wieczór z Anna Majewska",
-      date: "2023-10-04T12:00:00Z",
-      subtitle: "04.10.2023",
-      availableAmount: 4,
+      title: "Rząd 1 Miejsce 4",
+      availableAmount: 1,
     },
+
     {
       id: "5",
-      title: "Wieczór z Anna Majewska",
-      date: "2023-10-05T12:00:00Z",
-      subtitle: "05.10.2023",
-      availableAmount: 5,
+      title: "Rząd 1 Miejsce 5",
+      availableAmount: 1,
     },
+
     {
       id: "6",
-      title: "Wieczór z Anna Majewska",
-      date: "2023-10-06T12:00:00Z",
-      subtitle: "06.10.2023",
-      availableAmount: 6,
+      title: "Rząd 2 Miejsce 1",
+      availableAmount: 1,
+    },
+
+    {
+      id: "7",
+      title: "Rząd 2 Miejsce 2",
+      availableAmount: 1,
+    },
+
+    {
+      id: "8",
+      title: "Rząd 2 Miejsce 3",
+      availableAmount: 1,
+    },
+
+    {
+      id: "9",
+      title: "Rząd 2 Miejsce 4",
+      availableAmount: 1,
+    },
+
+    {
+      id: "10",
+      title: "Rząd 2 Miejsce 5",
+      availableAmount: 1,
     },
   ],
   mark: 4.5,

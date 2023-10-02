@@ -19,8 +19,8 @@ export const dummyDetailsPageConfig: DetailsPageConfig = {
     flexibility: false,
     simultaneous: true,
     uniqueness: false,
-    periodicity: true,
-    specificReservation: false,
+    periodicity: false,
+    specificReservation: true,
   },
 };
 
