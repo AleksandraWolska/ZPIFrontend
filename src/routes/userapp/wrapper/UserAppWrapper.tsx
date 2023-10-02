@@ -1,7 +1,18 @@
 import { AppBar, Toolbar, Typography, Button, Box } from "@mui/material";
 import { Outlet } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { blue, lime, red, green, yellow } from "@mui/material/colors";
+import {
+  blue,
+  lime,
+  red,
+  green,
+  yellow,
+  deepPurple,
+  teal,
+  amber,
+  pink,
+  lightGreen,
+} from "@mui/material/colors";
 import useOwner from "./useOwner";
 
 function UserAppWrapper() {
@@ -10,7 +21,12 @@ function UserAppWrapper() {
   const colorMap: { [key: string]: unknown } = {
     lime,
     red,
+    deepPurple,
+    teal,
+    lightGreen,
+    amber,
     blue,
+    pink,
     green,
     yellow,
   };

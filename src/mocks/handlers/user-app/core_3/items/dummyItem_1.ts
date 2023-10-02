@@ -1,68 +1,38 @@
 const dummyItem = {
   id: 1,
-  title: "Sample Computer",
-  subtitle: "High-performance computer",
-  description: "This computer is perfect for all your computing needs.",
+  title: "Spotkanie z kulturą: Anna Majewska",
+  subtitle: "w lokalizacji Wyszyńskiego 8",
+  description:
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu.",
   customAttributeList: [
     {
       id: 1,
-      name: "Color",
-      value: "Black",
+      name: "Lokalizacja",
+      value: "Wyszyńskiego 8",
     },
     {
       id: 2,
-      name: "Price",
-      value: "$999.99",
+      name: "Typ lekarza",
+      value: "Dentysta",
     },
     {
       id: 3,
-      name: "InStock",
+      name: "Staż pracy",
+      value: 5,
+    },
+    {
+      id: 4,
+      name: "NFZ",
       value: true,
     },
     {
-      id: 4,
-      name: "Brand",
-      value: "Sample Brand",
-    },
-    {
       id: 5,
-      name: "Rating",
-      value: 4.7,
+      name: "Nazwisko",
+      value: "Anna Majewska",
     },
   ],
-  subitemList: [
-    {
-      id: 1,
-      title: "Accessories Bundle",
-      subtitle: "Includes keyboard and mouse",
-      availableAmount: 2,
-    },
-    {
-      id: 2,
-      title: "Extended Warranty",
-      subtitle: "2-year warranty",
-      availableAmount: 5,
-    },
-    {
-      id: 3,
-      title: "Software Package",
-      subtitle: "Includes productivity software",
-      availableAmount: 3,
-    },
-    {
-      id: 4,
-      title: "Monitor Upgrade",
-      availableAmount: 2,
-    },
-    {
-      id: 5,
-      title: "Additional Storage",
-      subtitle: "1TB HDD upgrade",
-      availableAmount: 1,
-    },
-  ],
+  availableAmount: 4,
   mark: 4.5,
-  availableAmount: 25,
   image: "https://example.com/sample-computer.jpg",
 };
 

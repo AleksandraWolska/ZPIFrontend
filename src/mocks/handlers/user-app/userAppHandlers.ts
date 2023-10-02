@@ -99,7 +99,7 @@ const getCommentsList = rest.get(
       return res(ctx.status(400), ctx.text("Invalid parameters"));
     }
 
-    const data = await fetchData(storeId, `items/dummyComments_${itemId}`);
+    const data = await fetchData(storeId, `items/dummyComments_1`);
 
     return res(ctx.status(200), ctx.json(data));
   },
