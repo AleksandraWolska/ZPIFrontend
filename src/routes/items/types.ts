@@ -8,7 +8,7 @@
 //
 // export type NewItemStep = ObjectValues<typeof NEW_ITEM_STEPS>;
 
-import { Item } from "../userapp/mocks/types";
+import { Item, StoreConfig } from "../userapp/mocks/types";
 
 export type NewItem = Pick<
   Item,
@@ -20,3 +20,5 @@ export type NewItem = Pick<
   | "subitemList"
   | "customAttributeList"
 >;
+
+export type AddItemConfig = Pick<StoreConfig, "core" | "customAttributesSpec">;

@@ -1,24 +1,22 @@
 import { QueryClient } from "react-query";
 import { LoaderFunctionArgs } from "react-router-dom";
-import { CustomAttributeSpec } from "../userapp/mocks/types";
+import { AddItemConfig } from "./types";
 
-const fetchCustomAttributesSpec = async (
-  storeId: string,
-): Promise<CustomAttributeSpec[]> => {
-  const res = await fetch(`/api/stores/${storeId}/custom-attributes-spec`);
+const fetchAddItemConfig = async (storeId: string): Promise<AddItemConfig> => {
+  const res = await fetch(`/api/stores/${storeId}/add-item-config`);
   return res.json();
 };
 
-export const getCustomAttributesSpecQuery = (storeId: string) => ({
-  queryKey: ["custom-attributes-spec", storeId],
-  queryFn: () => fetchCustomAttributesSpec(storeId),
+export const getAddItemConfigQuery = (storeId: string) => ({
+  queryKey: ["add-item-config", storeId],
+  queryFn: () => fetchAddItemConfig(storeId),
 });
 
 export const loader =
   (queryClient: QueryClient) =>
   async ({ params }: LoaderFunctionArgs) => {
     const { storeId } = params as { storeId: string };
-    const query = getCustomAttributesSpecQuery(storeId);
+    const query = getAddItemConfigQuery(storeId);
 
     return (
       queryClient.getQueryData(query.queryKey) ??
