@@ -1,33 +1,33 @@
 const dummyItem = {
   id: 1,
-  title: "Sample Computer",
+  title: "Sample Cfffffffomputer",
   subtitle: "High-performance computer",
   description: "This computer is perfect for all your computing needs.",
   customAttributeList: [
     {
       id: 1,
-      name: "Color",
-      value: "Black",
+      name: "Brand",
+      value: "ASUS",
     },
     {
       id: 2,
-      name: "Price",
-      value: "$999.99",
+      name: "Processor",
+      value: "Intel Core i7",
     },
     {
       id: 3,
-      name: "InStock",
-      value: true,
+      name: "RAM",
+      value: "16",
     },
     {
       id: 4,
-      name: "Brand",
-      value: "Sample Brand",
+      name: "Storage",
+      value: "512GB SSD",
     },
     {
       id: 5,
-      name: "Rating",
-      value: 4.7,
+      name: "Available",
+      value: "true",
     },
   ],
   subitemList: [

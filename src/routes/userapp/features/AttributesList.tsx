@@ -1,25 +1,19 @@
 import { Box, Typography } from "@mui/material";
-import {
-  FetchedJsonDetailsPage,
-  CustomAttribute,
-  CustomAttributeSpec,
-} from "../../../types";
-import { jsonStringDetailPage } from "../mocks/responseDetailPage";
+import { CustomAttribute, CustomAttributeSpec } from "../../../types";
 
-const jsonData: FetchedJsonDetailsPage = JSON.parse(jsonStringDetailPage);
-const { customAttributesSpec } = jsonData.data.storeConfig;
 type AttributesListProps = {
   itemAttributes: CustomAttribute[];
+  attributesConfig: CustomAttributeSpec[];
 };
 
 const renderParameter = (
-  attributeConfig: CustomAttributeSpec,
+  attributesConfig: CustomAttributeSpec,
   itemAttribute: CustomAttribute,
 ) => {
   let displayValue;
   let style = {};
 
-  switch (attributeConfig.dataType) {
+  switch (attributesConfig.dataType) {
     case "string":
       displayValue = itemAttribute.value;
       style = {
@@ -40,7 +34,7 @@ const renderParameter = (
       };
       break;
     case "number":
-      displayValue = `${itemAttribute.value} ${attributeConfig.units || ""}`;
+      displayValue = `${itemAttribute.value} ${attributesConfig.units || ""}`;
       style = {
         backgroundColor: "lightBlue",
         color: "black",
@@ -54,23 +48,29 @@ const renderParameter = (
   }
 
   return (
-    <Box key={attributeConfig.name} style={style}>
-      <Typography paddingRight="3px">{attributeConfig.name}:</Typography>
+    <Box key={attributesConfig.name} style={style}>
+      <Typography paddingRight="3px">{attributesConfig.name}:</Typography>
       <Typography>{displayValue}</Typography>
     </Box>
   );
 };
 
-function AttributesList({ itemAttributes }: AttributesListProps) {
+function AttributesList({
+  itemAttributes,
+  attributesConfig,
+}: AttributesListProps) {
+  console.log(itemAttributes);
+  console.log(attributesConfig);
   return (
     <Box width="fit-content">
       {itemAttributes.map((itemAttribute) => {
-        const paramConfig = customAttributesSpec.find(
+        const currentAttrConfig = attributesConfig.find(
           (p) => p.name === itemAttribute.name,
         );
-        if (!paramConfig || !paramConfig.showDetailsPage) return null;
+        if (!currentAttrConfig || !currentAttrConfig.showDetailsPage)
+          return null;
 
-        return renderParameter(paramConfig, itemAttribute);
+        return renderParameter(currentAttrConfig, itemAttribute);
       })}
     </Box>
   );

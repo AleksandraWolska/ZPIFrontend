@@ -102,7 +102,7 @@ export default function UserAppMainPage() {
         )}
 
         <Box width="75%" padding={3}>
-          <WelcomeTexts />
+          <WelcomeTexts config={storeConfig.mainPage} />
 
           <IconButton onClick={handleFilterToggle}>
             {showFilterForm ? <FilterAltOff /> : <FilterAlt />}

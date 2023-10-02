@@ -17,7 +17,7 @@ function SubItemsList({
     <Box>
       {selectedItem && (
         <List>
-          {selectedItem.subitemList?.map((subItem) => (
+          {selectedItem.subItemList?.map((subItem) => (
             <ListItem
               button
               key={subItem.id}

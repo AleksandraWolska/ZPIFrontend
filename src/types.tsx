@@ -6,6 +6,7 @@ export type Owner = {
   logoSrc: string;
   phone: string;
   email: string;
+  color?: string;
 };
 
 export type Flexibility = boolean;
@@ -67,28 +68,28 @@ export type StoreConfig = {
 
 // ITEM ========================================================================
 export type CustomAttribute = {
-  id: number;
+  id: string;
   name: string;
   value: string | number | boolean;
 };
 
 export type SubItem = {
-  id: number;
+  id: string;
   title: string;
   subtitle?: string;
   availableAmount?: number;
 };
 
 export type Comment = {
-  id: number;
-  userId: number;
+  id: string;
+  userId: string;
   nickname: string;
   content: string;
   datetime: string;
 };
 
 export type Item = {
-  id: number;
+  id: string;
   title: string;
   subtitle?: string;
   description?: string;

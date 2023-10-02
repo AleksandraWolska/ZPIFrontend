@@ -20,13 +20,30 @@ import { CheckAvailabilityDatepicker } from "../components/core/CheckAvailabilit
 import SubItemsList from "../components/core/SubItemsList";
 import useItemDetails from "./useItemDetails";
 import useDetailsPageConfig from "./useDetailsPageConfig";
+import { CoreConfig } from "../../schemas/types";
+
+const initializeReservationRequestReady = (
+  core: CoreConfig,
+  availableAmount: number | undefined,
+): boolean => {
+  if (
+    !core.flexibility &&
+    !core.periodicity &&
+    availableAmount &&
+    availableAmount > 0
+  )
+    return true;
+  return false;
+};
 
 export default function ItemDetailsPage() {
   const storeConfig = useDetailsPageConfig();
   const item = useItemDetails();
 
   const [showSuccessDialog, setShowSuccessDialog] = useState(false);
-  const [reservationRequestReady, setReservationRequestReady] = useState(false);
+  const [reservationRequestReady, setReservationRequestReady] = useState(
+    initializeReservationRequestReady(storeConfig.core, item.availableAmount),
+  );
   const [userCount, setUserCount] = useState(1);
   const [availabilityChecked, setAvailabilityChecked] = useState(false);
   const [selectedSubItemsList, setSelectedSubItemsList] = useState<SubItem[]>(
@@ -58,8 +75,8 @@ export default function ItemDetailsPage() {
 
   const handleSendComment = (content: string) => {
     const newComment: Comment = {
-      id: Math.random() * 1000,
-      userId: Math.random() * 1000,
+      id: "new",
+      userId: "new",
       nickname: "YourNickname",
       datetime: new Date().toISOString(),
       content,
@@ -123,7 +140,7 @@ export default function ItemDetailsPage() {
   );
 
   const handleAvailabilityChecked = (
-    id: number,
+    id: string,
     start: string,
     end: string,
   ) => {
@@ -237,14 +254,17 @@ export default function ItemDetailsPage() {
       )}
 
       {item.customAttributeList && (
-        <AttributesList itemAttributes={item.customAttributeList!} />
+        <AttributesList
+          attributesConfig={storeConfig.customAttributesSpec}
+          itemAttributes={item.customAttributeList!}
+        />
       )}
       {core}
       {storeConfig.detailsPage.showRating && (
         <RatingsInteractive handleSetRating={handleRatingAdd} />
       )}
 
-      {storeConfig.detailsPage.showComments && item.commentList && (
+      {storeConfig.detailsPage.showComments && (
         <CommentComponent handleSendComment={handleSendComment} />
       )}
       <Dialog

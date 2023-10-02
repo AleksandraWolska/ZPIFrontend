@@ -4,9 +4,9 @@ import dayjs from "dayjs";
 import { DateTimePicker } from "@mui/x-date-pickers";
 
 type FreeRangesUserInputProps = {
-  id: number;
+  id: string;
   userCount: number;
-  onAvailabilityChecked: (id: number, start: string, end: string) => void;
+  onAvailabilityChecked: (id: string, start: string, end: string) => void;
 };
 
 export function FreeRangesDatepicker({

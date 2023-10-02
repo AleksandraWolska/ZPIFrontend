@@ -9,7 +9,10 @@ Sorry for dynamic import! Seemed clearer than importing all cores
 */
 async function fetchData(storeId: string, type: string) {
   const number = parseInt(storeId, 10);
+  console.log(`numer store${number}`);
   const id = number && number > 0 && number < 10 ? storeId : "0";
+  console.log(`numer store${id}`);
+  console.log(`type: ${type}`);
   const module = await import(/* @vite-ignore */ `./core_${id}/${type}`);
   return module.default;
 }
@@ -62,7 +65,7 @@ const getDetailsPageConfig = rest.get(
   "/api/stores/:storeId/details-page-config",
   async (req, res, ctx) => {
     const { storeId } = req.params;
-    console.log("requested main page config for storeId: ", storeId);
+    console.log("requested details page config for storeId: ", storeId);
 
     if (typeof storeId !== "string") {
       return res(ctx.status(400), ctx.text("Invalid storeId"));
@@ -81,7 +84,7 @@ const getItemDetails = rest.get(
     if (typeof storeId !== "string" || typeof itemId !== "string") {
       return res(ctx.status(400), ctx.text("Invalid parameters"));
     }
-
+    console.log(`dummyite nr ${itemId} of store ${storeId}`);
     const data = await fetchData(storeId, `items/dummyItem_${itemId}`);
 
     return res(ctx.status(200), ctx.json(data));
