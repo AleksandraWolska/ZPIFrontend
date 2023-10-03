@@ -19,6 +19,7 @@ if (process.env.NODE_ENV === "development") {
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 const router = createBrowserRouter([
   {
     path: "/",
@@ -70,6 +71,18 @@ const router = createBrowserRouter([
       ).default;
       return { Component: StoreConfigWizard };
 =======
+=======
+if (process.env.NODE_ENV === "production") {
+  const { worker } = await import("./mocks/browser");
+  await worker.start({
+    onUnhandledRequest: "bypass",
+    serviceWorker: {
+      url: "/ZPIFrontend/mockServiceWorker.js",
+    },
+  });
+}
+
+>>>>>>> 6217087 (test msw)
 const router = createBrowserRouter(
   [
     {
