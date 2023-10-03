@@ -81,11 +81,11 @@ export const dummyDetailsPageConfig: DetailsPageConfig = {
   },
   core: {
     granularity: true,
-    flexibility: false,
-    simultaneous: true,
+    flexibility: true,
+    simultaneous: false,
     uniqueness: false,
     specificReservation: false,
-    periodicity: true,
+    periodicity: false,
   },
 };
 

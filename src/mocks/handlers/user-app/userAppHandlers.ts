@@ -9,10 +9,7 @@ Sorry for dynamic import! Seemed clearer than importing all cores
 */
 async function fetchData(storeId: string, type: string) {
   const number = parseInt(storeId, 10);
-  console.log(`numer store${number}`);
-  const id = number && number > 0 && number < 10 ? storeId : "0";
-  console.log(`numer store${id}`);
-  console.log(`type: ${type}`);
+  const id = number && number > 0 && number <= 10 ? storeId : "0";
   const module = await import(/* @vite-ignore */ `./core_${id}/${type}`);
   return module.default;
 }

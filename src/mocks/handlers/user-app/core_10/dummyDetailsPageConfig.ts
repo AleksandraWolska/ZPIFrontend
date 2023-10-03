@@ -1,6 +1,6 @@
-import { MainPageConfig } from "../../../../routes/userapp/types";
+import { DetailsPageConfig } from "../../../../routes/userapp/types";
 
-export const dummyMainPageConfig: MainPageConfig = {
+export const dummyDetailsPageConfig: DetailsPageConfig = {
   customAttributesSpec: [
     {
       id: "1",
@@ -68,15 +68,25 @@ export const dummyMainPageConfig: MainPageConfig = {
       showDetailsPage: true,
     },
   ],
-  mainPage: {
-    welcomeTextLine1: "Welcome to default page!",
-    welcomeTextLine2: "Rent the latest computers and gadgets.",
-    enableFiltering: true,
-    showItemTitle: true,
-    showItemSubtitle: true,
-    showItemImg: true,
+  detailsPage: {
     showRating: true,
+    showComments: true,
+    showItemDescription: true,
+    showSubitemTitle: true,
+    showSubitemSubtitle: true,
+    reservationConfirmationPrompt: "Thank you for your reservation!",
+    reservationFailurePrompt: "Sorry, reservation failed.",
+    reservationSummaryPrompt:
+      "Review your reservation details before confirming.",
+  },
+  core: {
+    granularity: true,
+    flexibility: true,
+    simultaneous: true,
+    uniqueness: true,
+    specificReservation: false,
+    periodicity: false,
   },
 };
 
-export default dummyMainPageConfig;
+export default dummyDetailsPageConfig;

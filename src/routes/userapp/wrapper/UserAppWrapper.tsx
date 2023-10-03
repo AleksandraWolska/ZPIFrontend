@@ -10,6 +10,7 @@ import {
   deepPurple,
   teal,
   amber,
+  orange,
   pink,
   lightGreen,
 } from "@mui/material/colors";
@@ -25,6 +26,7 @@ function UserAppWrapper() {
     teal,
     lightGreen,
     amber,
+    orange,
     blue,
     pink,
     green,

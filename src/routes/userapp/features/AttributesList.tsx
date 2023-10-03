@@ -59,8 +59,6 @@ function AttributesList({
   itemAttributes,
   attributesConfig,
 }: AttributesListProps) {
-  console.log(itemAttributes);
-  console.log(attributesConfig);
   return (
     <Box width="fit-content">
       {itemAttributes.map((itemAttribute) => {

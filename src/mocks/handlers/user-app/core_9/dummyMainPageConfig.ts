@@ -69,8 +69,8 @@ export const dummyMainPageConfig: MainPageConfig = {
     },
   ],
   mainPage: {
-    welcomeTextLine1: "Welcome to TechRental!",
-    welcomeTextLine2: "Rent the latest computers and gadgets.",
+    welcomeTextLine1: "Usługi nieunikalne, wiele osób na raz",
+    welcomeTextLine2: "Weścia na usługi: korzystanie z sal nauki",
     enableFiltering: true,
     showItemTitle: true,
     showItemSubtitle: true,

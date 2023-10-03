@@ -3,7 +3,7 @@ import { Item } from "../../../../types";
 export const dummyItems: Item[] = [
   {
     id: "1",
-    title: "Cotygodniowy wieczór z kulturą: Anna Majewska",
+    title: "Film: Anna Majewska",
     subtitle: "w lokalizacji Wyszyńskiego 8",
     customAttributeList: [
       {
@@ -38,7 +38,7 @@ export const dummyItems: Item[] = [
   },
   {
     id: "2",
-    title: "Cotygodniowy wieczór z kulturą: Kamil Kruk",
+    title: "Film: Kamil Kruk",
     subtitle: "w lokalizacji Zdalnie",
     customAttributeList: [
       {
@@ -73,7 +73,7 @@ export const dummyItems: Item[] = [
   },
   {
     id: "3",
-    title: "Cotygodniowy wieczór z kulturą:g Michał Michalski",
+    title: "Film:g Michał Michalski",
     subtitle: "w lokalizacji Nowowiejska 56",
     customAttributeList: [
       {
@@ -108,7 +108,7 @@ export const dummyItems: Item[] = [
   },
   {
     id: "4",
-    title: "Cotygodniowy wieczór z kulturą:",
+    title: "Film:",
     subtitle: "w lokalizacji Pasaż Grunwaldzki",
     customAttributeList: [
       {
@@ -143,7 +143,7 @@ export const dummyItems: Item[] = [
   },
   {
     id: "5",
-    title: "Cotygodniowy wieczór z kulturą: Anna Majewska",
+    title: "Film: Anna Majewska",
     subtitle: "w lokalizacji Zdalnie",
     customAttributeList: [
       {

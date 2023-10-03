@@ -69,8 +69,9 @@ export const dummyMainPageConfig: MainPageConfig = {
     },
   ],
   mainPage: {
-    welcomeTextLine1: "Welcome to TechRental!",
-    welcomeTextLine2: "Rent the latest computers and gadgets.",
+    welcomeTextLine1:
+      "Wypozyczalnia dla itemów unikalnych, jedna osoba na raz ",
+    welcomeTextLine2: "Sprzęty, samochody, pokoje nauki, stoliki",
     enableFiltering: true,
     showItemTitle: true,
     showItemSubtitle: true,

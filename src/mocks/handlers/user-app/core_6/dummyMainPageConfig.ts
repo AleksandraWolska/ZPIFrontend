@@ -67,8 +67,8 @@ export const dummyMainPageConfig: MainPageConfig = {
   ],
   mainPage: {
     welcomeTextLine1:
-      "Wydarzenia dla wielu osób, niecykliczne, rezerwacja miejsc",
-    welcomeTextLine2: "Rent the latest computers and gadgets.",
+      "Wydarzenia dla wielu osób, rezerwacja miejsc, cykliczne - reprezentacja TODO",
+    welcomeTextLine2: "Trzeba wprowadzic grupowanie",
     enableFiltering: true,
     showItemTitle: true,
     showItemSubtitle: true,

@@ -69,8 +69,9 @@ export const dummyMainPageConfig: MainPageConfig = {
     },
   ],
   mainPage: {
-    welcomeTextLine1: "Welcome to TechRental!",
-    welcomeTextLine2: "Rent the latest computers and gadgets.",
+    welcomeTextLine1:
+      "Wypozyczalnia dla itemów nieunikalnych - w bazie jest więcej niż 1 sztuka tożsamego itemu",
+    welcomeTextLine2: "TBD think of usecase c7/c9 - biblioteka",
     enableFiltering: true,
     showItemTitle: true,
     showItemSubtitle: true,
