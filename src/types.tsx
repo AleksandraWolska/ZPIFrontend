@@ -51,8 +51,8 @@ export type DetailsPage = {
   showRating: boolean;
   showComments: boolean;
   showItemDescription: boolean;
-  showSubitemTitle: boolean;
-  showSubitemSubtitle: boolean;
+  showSubItemTitle: boolean;
+  showSubItemSubtitle: boolean;
   reservationConfirmationPrompt: string;
   reservationFailurePrompt: string;
   reservationSummaryPrompt: string;

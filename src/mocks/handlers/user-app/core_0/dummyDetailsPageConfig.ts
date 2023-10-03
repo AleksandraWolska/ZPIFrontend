@@ -72,8 +72,8 @@ export const dummyDetailsPageConfig: DetailsPageConfig = {
     showRating: true,
     showComments: true,
     showItemDescription: true,
-    showSubitemTitle: true,
-    showSubitemSubtitle: true,
+    showSubItemTitle: true,
+    showSubItemSubtitle: true,
     reservationConfirmationPrompt: "Thank you for your reservation!",
     reservationFailurePrompt: "Sorry, reservation failed.",
     reservationSummaryPrompt:
