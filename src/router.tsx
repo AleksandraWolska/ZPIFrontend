@@ -4,8 +4,6 @@ import { loader as todosLoader } from "./routes/todos/all-todos/loader";
 import Home from "./routes/home/Home";
 import RequireLogin from "./auth/RequireLogin";
 import Secret from "./routes/secret/Secret";
-
-import { mocksLoader } from "./routes/mocks/mocksLoader";
 import UserAppMainPage from "./routes/userapp/main-page/UserAppMainPage";
 import { loader as userAppMainPageLoader } from "./routes/userapp/main-page/loader";
 import ItemDetailsPage from "./routes/userapp/details-page/ItemDetailsPage";
@@ -49,14 +47,6 @@ const router = createBrowserRouter([
         },
       },
     ],
-  },
-  {
-    path: "mocks",
-    loader: mocksLoader(queryClient),
-    lazy: async () => {
-      const Mocks = (await import("./routes/mocks/Mocks")).default;
-      return { Component: Mocks };
-    },
   },
   {
     path: "userapp/:storeId",
