@@ -3,7 +3,7 @@ import { useState } from "react";
 import { IconButton, Stack, TextField } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { NewItem } from "../types";
-import { SubItem } from "../../userapp/mocks/types";
+import { SubItem } from "../../../types";
 
 const defaultSubItem: Omit<SubItem, "id"> = {
   title: "",
@@ -23,7 +23,7 @@ function SubItems({
   goPrev: () => void;
 }) {
   const initialLocalSubItems = [
-    ...(newItem.subitemList || []),
+    ...(newItem.subItemList || []),
     {
       id: uuid(),
       ...defaultSubItem,
@@ -40,8 +40,8 @@ function SubItems({
   };
 
   const saveSubItemList = () => {
-    const subitemList = localSubItems.filter((s) => s.title !== "");
-    setAttribute({ subitemList });
+    const subItemList = localSubItems.filter((s) => s.title !== "");
+    setAttribute({ subItemList });
   };
 
   return (

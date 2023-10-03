@@ -1,15 +1,16 @@
 import { useState } from "react";
+import { v4 as uuid } from "uuid";
 import { NewItem } from "./types";
 import useNewItem from "./useNewItem";
-import { CustomAttribute, CustomAttributeSpec } from "../userapp/mocks/types";
+import { CustomAttribute, CustomAttributeSpec } from "../../types";
 
-const initialNewItem = {
+const initialNewItem: Omit<NewItem, "customAttributeList"> = {
   title: "",
   subtitle: "",
   description: "",
   image: "",
   availableAmount: 0,
-  subitemList: [],
+  subItemList: [],
 };
 
 function useNewItemAttributes() {
@@ -32,7 +33,7 @@ function useNewItemAttributes() {
     setNewItem({
       ...newItem,
       customAttributeList: newItem.customAttributeList?.map((item) => {
-        if (item.name === attr.name) {
+        if (item.id === attr.id) {
           return attr;
         }
         return item;
@@ -56,6 +57,7 @@ function initializeCustomAttributes(
       spec.dataType === "string" ? "" : spec.dataType === "number" ? 0 : false;
 
     return {
+      id: uuid(),
       name: spec.name,
       value,
     };
