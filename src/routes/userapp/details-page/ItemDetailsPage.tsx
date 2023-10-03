@@ -255,7 +255,7 @@ export default function ItemDetailsPage() {
       {item.customAttributeList && (
         <AttributesList
           attributesConfig={storeConfig.customAttributesSpec}
-          itemAttributes={item.customAttributeList!}
+          itemAttributes={item.customAttributeList}
         />
       )}
       {core}

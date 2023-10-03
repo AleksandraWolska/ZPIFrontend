@@ -7,13 +7,13 @@ type AttributesListProps = {
 };
 
 const renderParameter = (
-  attributesConfig: CustomAttributeSpec,
+  attributeConfig: CustomAttributeSpec,
   itemAttribute: CustomAttribute,
 ) => {
   let displayValue;
   let style = {};
 
-  switch (attributesConfig.dataType) {
+  switch (attributeConfig.dataType) {
     case "string":
       displayValue = itemAttribute.value;
       style = {
@@ -34,7 +34,7 @@ const renderParameter = (
       };
       break;
     case "number":
-      displayValue = `${itemAttribute.value} ${attributesConfig.units || ""}`;
+      displayValue = `${itemAttribute.value} ${attributeConfig.units || ""}`;
       style = {
         backgroundColor: "lightBlue",
         color: "black",
@@ -48,8 +48,8 @@ const renderParameter = (
   }
 
   return (
-    <Box key={attributesConfig.name} style={style}>
-      <Typography paddingRight="3px">{attributesConfig.name}:</Typography>
+    <Box key={attributeConfig.name} style={style}>
+      <Typography paddingRight="3px">{attributeConfig.name}:</Typography>
       <Typography>{displayValue}</Typography>
     </Box>
   );

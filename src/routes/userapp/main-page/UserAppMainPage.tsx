@@ -74,7 +74,7 @@ export default function UserAppMainPage() {
     storeConfig.customAttributesSpec.every((attr: CustomAttributeSpec) => {
       if (!attr.isFilterable) return true;
 
-      const itemAttribute = item.customAttributeList?.find(
+      const itemAttribute = item.customAttributeList.find(
         (p: CustomAttribute) => p.name === attr.name,
       );
       if (!itemAttribute) return true;
