@@ -17,6 +17,7 @@ async function init() {
   if (process.env.NODE_ENV === "development") {
     const { worker } = await import("./mocks/browser");
     await worker.start({ onUnhandledRequest: "bypass" });
+<<<<<<< HEAD
   }
 
 <<<<<<< HEAD
@@ -84,6 +85,9 @@ if (process.env.NODE_ENV === "production") {
   });
 =======
   if (process.env.NODE_ENV === "production") {
+=======
+  } else if (process.env.NODE_ENV === "production") {
+>>>>>>> 45c1e4d (top level await)
     const { worker } = await import("./mocks/browser");
     await worker.start({
       onUnhandledRequest: "bypass",
@@ -94,7 +98,11 @@ if (process.env.NODE_ENV === "production") {
   }
 >>>>>>> 0764c95 (top level await crashes build)
 }
-init();
+if (process.env.NODE_ENV === "development") {
+  await init();
+} else {
+  init();
+}
 
 >>>>>>> 6217087 (test msw)
 const router = createBrowserRouter(
@@ -160,7 +168,7 @@ const router = createBrowserRouter(
       ],
     },
   ],
-  { basename: import.meta.env.DEV ? "/" : "/ZPIFrontend/" },
+  { basename: process.env.NODE_ENV === "production" ? "/ZPIFrontend/" : "/" },
 );
 
 export default router;
