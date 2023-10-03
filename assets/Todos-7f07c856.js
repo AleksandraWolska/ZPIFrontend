@@ -1,0 +1,1 @@
+import{Z as r,$ as u,j as o}from"./index-705e55f4.js";function n(){return r(u)}function a(){var s;const e=n();return o.jsx("ul",{children:(s=e.data)==null?void 0:s.map(t=>o.jsx("li",{children:t.title},t.id))})}export{a as default};
