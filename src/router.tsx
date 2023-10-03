@@ -13,11 +13,13 @@ import { loader as detailsPageLoader } from "./routes/userapp/details-page/loade
 import { loader as itemListLoader } from "./routes/admin-app/item-list/loader";
 import { loader as newItemLoader } from "./routes/admin-app/new-item/loader";
 
-if (process.env.NODE_ENV === "development") {
-  const { worker } = await import("./mocks/browser");
-  await worker.start({ onUnhandledRequest: "bypass" });
-}
+async function init() {
+  if (process.env.NODE_ENV === "development") {
+    const { worker } = await import("./mocks/browser");
+    await worker.start({ onUnhandledRequest: "bypass" });
+  }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 const router = createBrowserRouter([
@@ -80,7 +82,19 @@ if (process.env.NODE_ENV === "production") {
       url: "/ZPIFrontend/mockServiceWorker.js",
     },
   });
+=======
+  if (process.env.NODE_ENV === "production") {
+    const { worker } = await import("./mocks/browser");
+    await worker.start({
+      onUnhandledRequest: "bypass",
+      serviceWorker: {
+        url: "/ZPIFrontend/mockServiceWorker.js",
+      },
+    });
+  }
+>>>>>>> 0764c95 (top level await crashes build)
 }
+init();
 
 >>>>>>> 6217087 (test msw)
 const router = createBrowserRouter(
