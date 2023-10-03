@@ -9,7 +9,7 @@ import {
   DialogTitle,
 } from "@mui/material";
 import { useState } from "react";
-import { Comment, SubItem } from "../../../types";
+import { Comment, StoreConfig, SubItem } from "../../../types";
 import AttributesList from "../features/AttributesList";
 import CommentComponent from "../features/CommentComponent";
 import Ratings from "../features/Ratings";
@@ -20,10 +20,9 @@ import { CheckAvailabilityDatepicker } from "../components/core/CheckAvailabilit
 import SubItemsList from "../components/core/SubItemsList";
 import useItemDetails from "./useItemDetails";
 import useDetailsPageConfig from "./useDetailsPageConfig";
-import { CoreConfig } from "../../schemas/types";
 
 const initializeReservationRequestReady = (
-  core: CoreConfig,
+  core: StoreConfig["core"],
   availableAmount: number | undefined,
 ): boolean => {
   if (

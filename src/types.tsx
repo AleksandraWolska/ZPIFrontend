@@ -96,7 +96,6 @@ export type Item = {
   description?: string;
   customAttributeList: CustomAttribute[];
   subItemList?: SubItem[];
-  commentList?: Comment[];
   mark?: number;
   availableAmount?: number;
   image?: string;
