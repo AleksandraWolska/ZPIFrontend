@@ -1,4 +1,6 @@
 import { Grid, TextField } from "@mui/material";
+import { DateTimePicker } from "@mui/x-date-pickers";
+import dayjs from "dayjs";
 import { NewItem } from "../types";
 
 function GeneralInfo({
@@ -23,6 +25,7 @@ function GeneralInfo({
             required
           />
         </Grid>
+
         <Grid item xs={12} sm={6}>
           <TextField
             label="subtitle"
@@ -32,6 +35,7 @@ function GeneralInfo({
             fullWidth
           />
         </Grid>
+
         <Grid item xs={12} sm={6}>
           <TextField
             label="description"
@@ -42,6 +46,7 @@ function GeneralInfo({
             multiline
           />
         </Grid>
+
         <Grid item xs={12} sm={6}>
           <TextField
             label="image"
@@ -51,6 +56,7 @@ function GeneralInfo({
             fullWidth
           />
         </Grid>
+
         <Grid item xs={12} sm={6}>
           <TextField
             label="availableAmount"
@@ -61,6 +67,16 @@ function GeneralInfo({
             }
             fullWidth
             type="number"
+          />
+        </Grid>
+
+        <Grid item xs={12} sm={6}>
+          <DateTimePicker
+            label="date"
+            value={newItem.date ? dayjs(newItem.date) : dayjs()}
+            onChange={(date) => {
+              if (date) setAttribute({ date: date.toString() });
+            }}
           />
         </Grid>
       </Grid>

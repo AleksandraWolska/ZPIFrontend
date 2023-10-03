@@ -8,7 +8,7 @@ import SubItems from "./steps/SubItems";
 import { Core } from "../../types";
 
 function Stepper() {
-  const { core } = useNewItem();
+  const { core, customAttributesSpec } = useNewItem();
   const showSubItems = shouldShowSubItems(core);
   const steps = getSteps(showSubItems);
 
@@ -16,8 +16,7 @@ function Stepper() {
   const goNext = () => setActiveStep((prev) => prev + 1);
   const goPrev = () => setActiveStep((prev) => prev - 1);
 
-  const { newItem, setAttribute, customAttributesSpec, setCustomAttribute } =
-    useNewItemAttributes();
+  const { newItem, setAttribute, setCustomAttribute } = useNewItemAttributes();
 
   console.log("stepper");
 

@@ -44,7 +44,6 @@ function useNewItemAttributes() {
   return {
     newItem,
     setAttribute,
-    customAttributesSpec,
     setCustomAttribute,
   };
 }
