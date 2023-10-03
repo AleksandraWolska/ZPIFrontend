@@ -7,10 +7,7 @@ import {
   TextField,
 } from "@mui/material";
 import { NewItem } from "../types";
-import {
-  CustomAttribute,
-  CustomAttributeSpec,
-} from "../../userapp/mocks/types";
+import { CustomAttribute, CustomAttributeSpec } from "../../../types";
 
 function CustomAttributes({
   newItem,
@@ -70,7 +67,7 @@ function renderCustomAttributeInput(
           value={attribute.value}
           onChange={(e) => {
             setCustomAttribute({
-              name: attribute.name,
+              ...attribute,
               value: e.target.value as string,
             });
           }}
@@ -90,7 +87,7 @@ function renderCustomAttributeInput(
           value={attribute.value}
           onChange={(e) =>
             setCustomAttribute({
-              name: attribute.name,
+              ...attribute,
               value: e.target.value as string,
             })
           }
@@ -105,7 +102,7 @@ function renderCustomAttributeInput(
           value={attribute.value}
           onChange={(e) =>
             setCustomAttribute({
-              name: attribute.name,
+              ...attribute,
               value: Number(e.target.value),
             })
           }
@@ -122,7 +119,7 @@ function renderCustomAttributeInput(
               checked={attribute.value as boolean}
               onChange={(e) => {
                 setCustomAttribute({
-                  name: attribute.name,
+                  ...attribute,
                   value: e.target.checked,
                 });
               }}

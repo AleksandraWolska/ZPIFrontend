@@ -4,8 +4,8 @@ import GeneralInfo from "./steps/GeneralInfo";
 import useNewItemAttributes from "./useNewItemAttributes";
 import CustomAttributes from "./steps/CustomAttributes";
 import useNewItem from "./useNewItem";
-import { Core } from "../userapp/mocks/types";
 import SubItems from "./steps/SubItems";
+import { Core } from "../../types";
 
 function Stepper() {
   const { core } = useNewItem();
@@ -83,9 +83,9 @@ const shouldShowSubItems = (core: Core) => {
   } = core;
 
   return (
-    (!f && !s && !u && p && !r) ||
-    (!f && s && !u && !p && r) ||
-    (!f && s && !u && p && !r)
+    ((!f && !s && !u && p && !r) ||
+      (!f && s && !u && !p && r) ||
+      (!f && s && !u && p && !r)) === true
   );
 };
 
