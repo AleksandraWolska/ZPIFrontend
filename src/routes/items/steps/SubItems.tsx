@@ -2,6 +2,8 @@ import { v4 as uuid } from "uuid";
 import { useState } from "react";
 import { IconButton, Stack, TextField } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import dayjs from "dayjs";
+import { DateTimePicker } from "@mui/x-date-pickers";
 import { NewItem } from "../types";
 import { SubItem } from "../../../types";
 
@@ -9,6 +11,7 @@ const defaultSubItem: Omit<SubItem, "id"> = {
   title: "",
   subtitle: "",
   availableAmount: 0,
+  date: dayjs().toString(),
 };
 
 function SubItems({
@@ -84,6 +87,18 @@ function SubItems({
                 });
               }}
               type="number"
+              disabled={disabled}
+            />
+
+            <DateTimePicker
+              label="date"
+              value={subItem.date ? dayjs(subItem.date) : dayjs()}
+              onChange={(date) => {
+                if (date)
+                  updateLocalSubItem(subItem.id, {
+                    date: date.toString(),
+                  });
+              }}
               disabled={disabled}
             />
 
