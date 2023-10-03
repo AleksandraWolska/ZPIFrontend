@@ -18,6 +18,7 @@ if (process.env.NODE_ENV === "development") {
   await worker.start({ onUnhandledRequest: "bypass" });
 }
 
+<<<<<<< HEAD
 const router = createBrowserRouter([
   {
     path: "/",
@@ -68,53 +69,71 @@ const router = createBrowserRouter([
         await import("./routes/store-config-wizard/StoreConfigWizard")
       ).default;
       return { Component: StoreConfigWizard };
+=======
+const router = createBrowserRouter(
+  [
+    {
+      path: "/",
+      element: <Home />,
+>>>>>>> ef54b04 (test)
     },
-  },
-  {
-    path: "todos",
-    lazy: async () => {
-      const TodosLayout = (await import("./routes/todos/TodosLayout")).default;
-      return { Component: TodosLayout };
+    {
+      path: "store-config-wizard",
+      lazy: async () => {
+        const StoreConfigWizard = (
+          await import("./routes/store-config-wizard/StoreConfigWizard")
+        ).default;
+        return { Component: StoreConfigWizard };
+      },
     },
-    children: [
-      {
-        path: "all",
-        loader: todosLoader(queryClient),
-        lazy: async () => {
-          const Todos = (await import("./routes/todos/all-todos/Todos"))
-            .default;
-          return { Component: Todos };
+    {
+      path: "todos",
+      lazy: async () => {
+        const TodosLayout = (await import("./routes/todos/TodosLayout"))
+          .default;
+        return { Component: TodosLayout };
+      },
+      children: [
+        {
+          path: "all",
+          loader: todosLoader(queryClient),
+          lazy: async () => {
+            const Todos = (await import("./routes/todos/all-todos/Todos"))
+              .default;
+            return { Component: Todos };
+          },
         },
-      },
-    ],
-  },
-  {
-    path: "userapp/:storeId",
-    element: <UserAppWrapper />,
-    loader: userAppWrapperLoader(queryClient),
-    children: [
-      {
-        index: true,
-        element: <UserAppMainPage />,
-        loader: userAppMainPageLoader(queryClient),
-      },
-      {
-        path: ":itemId",
-        element: <ItemDetailsPage />,
-        loader: detailsPageLoader(queryClient),
-      },
-    ],
-  },
+      ],
+    },
+    {
+      path: "userapp/:storeId",
+      element: <UserAppWrapper />,
+      loader: userAppWrapperLoader(queryClient),
+      children: [
+        {
+          index: true,
+          element: <UserAppMainPage />,
+          loader: userAppMainPageLoader(queryClient),
+        },
+        {
+          path: ":itemId",
+          element: <ItemDetailsPage />,
+          loader: detailsPageLoader(queryClient),
+        },
+      ],
+    },
 
-  {
-    element: <RequireLogin />,
-    children: [
-      {
-        path: "secret",
-        element: <Secret />,
-      },
-    ],
-  },
-]);
+    {
+      element: <RequireLogin />,
+      children: [
+        {
+          path: "secret",
+          element: <Secret />,
+        },
+      ],
+    },
+  ],
+  { basename: import.meta.env.DEV ? "/" : "/ZPIFrontend/" },
+);
 
 export default router;
