@@ -7,7 +7,6 @@ import {
   TextField,
 } from "@mui/material";
 import { NewItem } from "../types";
-import useNewItem from "../useNewItem";
 import {
   CustomAttribute,
   CustomAttributeSpec,
@@ -15,17 +14,17 @@ import {
 
 function CustomAttributes({
   newItem,
+  customAttributesSpec,
   setCustomAttribute,
   goNext,
   goPrev,
 }: {
   newItem: NewItem;
+  customAttributesSpec: CustomAttributeSpec[];
   setCustomAttribute: (attr: CustomAttribute) => void;
   goNext: () => void;
   goPrev: () => void;
 }) {
-  const { customAttributesSpec } = useNewItem();
-
   return (
     <>
       {newItem.customAttributeList && (

@@ -16,7 +16,8 @@ function Stepper() {
   const goNext = () => setActiveStep((prev) => prev + 1);
   const goPrev = () => setActiveStep((prev) => prev - 1);
 
-  const { newItem, setAttribute, setCustomAttribute } = useNewItemAttributes();
+  const { newItem, setAttribute, customAttributesSpec, setCustomAttribute } =
+    useNewItemAttributes();
 
   console.log("stepper");
 
@@ -34,6 +35,7 @@ function Stepper() {
         return (
           <CustomAttributes
             newItem={newItem}
+            customAttributesSpec={customAttributesSpec}
             setCustomAttribute={setCustomAttribute}
             goNext={goNext}
             goPrev={goPrev}
