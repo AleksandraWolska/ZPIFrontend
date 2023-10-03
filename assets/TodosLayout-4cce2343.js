@@ -1,1 +1,0 @@
-import{W as r,j as s,X as e,Y as t}from"./index-02b744d5.js";function n(){const{t:o}=r();return s.jsxs("div",{children:[s.jsx("h1",{children:o("todos.title")}),s.jsx(e,{}),s.jsx("br",{}),s.jsx(t,{to:"all",children:"All"}),s.jsx("br",{}),s.jsx(t,{to:"/",children:"Home"})]})}export{n as default};
