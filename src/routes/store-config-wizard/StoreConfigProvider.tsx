@@ -8,6 +8,7 @@ import {
   StoreConfigContext,
   StoreConfigContextType,
 } from "./StoreConfigContext";
+import { OWNER_COLORS } from "../../types";
 
 const initialStoreConfig: StoreConfig = {
   owner: {
@@ -15,6 +16,7 @@ const initialStoreConfig: StoreConfig = {
     logoSrc: "",
     phone: "",
     email: "",
+    color: OWNER_COLORS.BLUE,
   },
   core: {},
   customAttributesSpec: [],

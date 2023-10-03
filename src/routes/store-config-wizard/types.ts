@@ -1,4 +1,4 @@
-import { ObjectValues } from "../../types";
+import { ObjectValues, OwnerColor } from "../../types";
 
 export const STORE_CONFIG_STEPS = {
   OWNER: "OWNER",
@@ -21,6 +21,7 @@ export type Owner = {
   logoSrc: string;
   phone: string;
   email: string;
+  color?: OwnerColor;
 };
 
 export type Flexibility = boolean;

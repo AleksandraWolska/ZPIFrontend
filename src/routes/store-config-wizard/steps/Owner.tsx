@@ -1,7 +1,15 @@
-import { Box, Grid, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Grid,
+  MenuItem,
+  Select,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { useStoreConfig } from "../StoreConfigProvider";
 import ChangePageButtons from "../components/ChangePageButtons";
 import { STORE_CONFIG_STEPS, StoreConfigStep } from "../types";
+import { OWNER_COLORS } from "../../../types";
 
 function Owner({
   setActiveStep,
@@ -27,6 +35,7 @@ function Owner({
             fullWidth
           />
         </Grid>
+
         <Grid item xs={12} sm={6}>
           <TextField
             label="logoSrc"
@@ -36,6 +45,7 @@ function Owner({
             fullWidth
           />
         </Grid>
+
         <Grid item xs={12} sm={6}>
           <TextField
             label="phone"
@@ -45,6 +55,7 @@ function Owner({
             fullWidth
           />
         </Grid>
+
         <Grid item xs={12} sm={6}>
           <TextField
             label="email"
@@ -53,6 +64,22 @@ function Owner({
             onChange={(e) => setOwnerAttribute("email", e.target.value)}
             fullWidth
           />
+        </Grid>
+
+        <Grid item xs={12} sm={6}>
+          <Select
+            value={owner.color}
+            onChange={(e) => setOwnerAttribute("color", e.target.value)}
+            fullWidth
+          >
+            {Object.values(OWNER_COLORS).map((color) => {
+              return (
+                <MenuItem key={color} value={color}>
+                  {color}
+                </MenuItem>
+              );
+            })}
+          </Select>
         </Grid>
       </Grid>
 

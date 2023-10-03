@@ -6,8 +6,24 @@ export type Owner = {
   logoSrc: string;
   phone: string;
   email: string;
-  color?: string;
+  color?: OwnerColor;
 };
+
+export const OWNER_COLORS = {
+  BLUE: "blue",
+  LIME: "lime",
+  RED: "red",
+  GREEN: "green",
+  YELLOW: "yellow",
+  DEEP_PURPLE: "deepPurple",
+  TEAL: "teal",
+  AMBER: "amber",
+  ORANGE: "orange",
+  PINK: "pink",
+  LIGHT_GREEN: "lightGreen",
+} as const;
+
+export type OwnerColor = ObjectValues<typeof OWNER_COLORS>;
 
 export type Flexibility = boolean;
 export type Granularity = boolean;
