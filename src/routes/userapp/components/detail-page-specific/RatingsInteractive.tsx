@@ -8,7 +8,7 @@ type RatingsInteractiveProps = {
 function RatingsInteractive({ handleSetRating }: RatingsInteractiveProps) {
   const [ratingValue, setRatingValue] = useState<number | null>(null);
   const handleChange = (
-    event: React.SyntheticEvent,
+    _event: React.SyntheticEvent,
     newValue: number | null,
   ) => {
     setRatingValue(newValue);
