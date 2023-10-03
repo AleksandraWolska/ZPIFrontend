@@ -98,11 +98,8 @@ if (process.env.NODE_ENV === "production") {
   }
 >>>>>>> 0764c95 (top level await crashes build)
 }
-if (process.env.NODE_ENV === "development") {
-  await init();
-} else {
-  init();
-}
+
+await init();
 
 >>>>>>> 6217087 (test msw)
 const router = createBrowserRouter(
