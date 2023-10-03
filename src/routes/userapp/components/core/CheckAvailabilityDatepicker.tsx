@@ -14,9 +14,9 @@ import { DateTimePicker } from "@mui/x-date-pickers";
 import { useState } from "react";
 
 type CheckAvailabilityDatepickerProps = {
-  id: number;
+  id: string;
   userCount: number;
-  onAvailabilityChecked: (id: number, start: string, end: string) => void;
+  onAvailabilityChecked: (idx: string, start: string, end: string) => void;
   availabilityChecked: boolean;
   setAvailabilityChecked: React.Dispatch<React.SetStateAction<boolean>>;
 };
@@ -33,16 +33,21 @@ export function CheckAvailabilityDatepicker({
   const [showSuggestedDialog, setShowSuggestedDialog] = useState(false);
 
   const suggestedDateRanges = [
-    { id: 1, startOffset: 0.5, endOffset: 0.5 },
-    { id: 2, startOffset: 1, endOffset: 1 },
-    { id: 3, startOffset: 2, endOffset: 2 },
+    { idx: "1", startOffset: 0.5, endOffset: 0.5 },
+    { idx: "2", startOffset: 1, endOffset: 1 },
+    { idx: "3", startOffset: 2, endOffset: 2 },
   ].map((range) => ({
+    idx: range.idx,
     start: startDateTime?.add(range.startOffset, "hour") || null,
     end: endDateTime?.add(range.endOffset, "hour") || null,
   }));
 
-  const handleSuggestedDateClick = (index: number) => {
-    const suggestedDate = suggestedDateRanges[index];
+  const handleSuggestedDateClick = (idx: string) => {
+    const suggestedDate = suggestedDateRanges.find(
+      (range) => range.idx === idx,
+    );
+
+    if (!suggestedDate) return;
     setStartDateTime(suggestedDate.start);
     setEndDateTime(suggestedDate.end);
     setShowSuggestedDialog(false);

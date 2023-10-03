@@ -4,9 +4,12 @@ import { loader as todosLoader } from "./routes/todos/all-todos/loader";
 import Home from "./routes/home/Home";
 import RequireLogin from "./auth/RequireLogin";
 import Secret from "./routes/secret/Secret";
-import UserAppMainPage from "./routes/userapp/UserAppMainPage";
-import ItemDetailsPage from "./routes/userapp/ItemDetailsPage";
-import UserAppWrapper from "./routes/userapp/UserAppWrapper";
+import UserAppMainPage from "./routes/userapp/main-page/UserAppMainPage";
+import { loader as userAppMainPageLoader } from "./routes/userapp/main-page/loader";
+import ItemDetailsPage from "./routes/userapp/details-page/ItemDetailsPage";
+import UserAppWrapper from "./routes/userapp/wrapper/UserAppWrapper";
+import { loader as userAppWrapperLoader } from "./routes/userapp/wrapper/loader";
+import { loader as detailsPageLoader } from "./routes/userapp/details-page/loader";
 
 if (process.env.NODE_ENV === "development") {
   const { worker } = await import("./mocks/browser");
@@ -46,16 +49,19 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "userapp/:appId",
+    path: "userapp/:storeId",
     element: <UserAppWrapper />,
+    loader: userAppWrapperLoader(queryClient),
     children: [
       {
-        path: "",
+        index: true,
         element: <UserAppMainPage />,
+        loader: userAppMainPageLoader(queryClient),
       },
       {
         path: ":itemId",
         element: <ItemDetailsPage />,
+        loader: detailsPageLoader(queryClient),
       },
     ],
   },

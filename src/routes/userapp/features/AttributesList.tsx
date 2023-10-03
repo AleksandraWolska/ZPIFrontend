@@ -1,15 +1,9 @@
 import { Box, Typography } from "@mui/material";
-import {
-  FetchedJsonDetailsPage,
-  CustomAttribute,
-  CustomAttributeSpec,
-} from "../mocks/types";
-import { jsonStringDetailPage } from "../mocks/responseDetailPage";
+import { CustomAttribute, CustomAttributeSpec } from "../../../types";
 
-const jsonData: FetchedJsonDetailsPage = JSON.parse(jsonStringDetailPage);
-const { customAttributesSpec } = jsonData.data.storeConfig;
 type AttributesListProps = {
   itemAttributes: CustomAttribute[];
+  attributesConfig: CustomAttributeSpec[];
 };
 
 const renderParameter = (
@@ -61,16 +55,20 @@ const renderParameter = (
   );
 };
 
-function AttributesList({ itemAttributes }: AttributesListProps) {
+function AttributesList({
+  itemAttributes,
+  attributesConfig,
+}: AttributesListProps) {
   return (
     <Box width="fit-content">
       {itemAttributes.map((itemAttribute) => {
-        const paramConfig = customAttributesSpec.find(
+        const currentAttrConfig = attributesConfig.find(
           (p) => p.name === itemAttribute.name,
         );
-        if (!paramConfig || !paramConfig.showDetailsPage) return null;
+        if (!currentAttrConfig || !currentAttrConfig.showDetailsPage)
+          return null;
 
-        return renderParameter(paramConfig, itemAttribute);
+        return renderParameter(currentAttrConfig, itemAttribute);
       })}
     </Box>
   );

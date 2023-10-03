@@ -1,18 +1,17 @@
 import { Box, Typography } from "@mui/material";
-import { FetchedJsonMainPage } from "../mocks/types";
-import { jsonStringMainPage } from "../mocks/responseMainPage";
+import { MainPage } from "../../../types";
 
-function WelcomeTexts() {
-  const jsonData: FetchedJsonMainPage = JSON.parse(jsonStringMainPage);
+type WelcomeTextsProps = {
+  config: MainPage;
+};
 
+function WelcomeTexts({ config }: WelcomeTextsProps) {
   return (
     <Box>
-      <Typography variant="h6">
-        {jsonData.data.storeConfig.mainPage.welcomeTextLine1}
-      </Typography>
-      {jsonData.data.storeConfig.mainPage.welcomeTextLine2 && (
+      <Typography variant="h6">{config.welcomeTextLine1}</Typography>
+      {config.welcomeTextLine2 && (
         <Typography variant="body1" color="orange">
-          {jsonData.data.storeConfig.mainPage.welcomeTextLine1}
+          {config.welcomeTextLine2}
         </Typography>
       )}
     </Box>
