@@ -1,5 +1,5 @@
 import { ReactNode, useContext, useEffect, useMemo, useReducer } from "react";
-import { StoreConfig, StoreConfigStep } from "./types";
+import { StoreConfigStep } from "./types";
 import {
   STORE_CONFIG_ACTION_TYPES,
   storeConfigReducer,
@@ -8,7 +8,7 @@ import {
   StoreConfigContext,
   StoreConfigContextType,
 } from "./StoreConfigContext";
-import { OWNER_COLORS } from "../../types";
+import { OWNER_COLORS, StoreConfig } from "../../types";
 
 const initialStoreConfig: StoreConfig = {
   owner: {
@@ -33,8 +33,8 @@ const initialStoreConfig: StoreConfig = {
     showRating: false,
     showComments: false,
     showItemDescription: false,
-    showSubitemTitle: false,
-    showSubitemSubtitle: false,
+    showSubItemTitle: false,
+    showSubItemSubtitle: false,
     reservationConfirmationPrompt: "",
     reservationFailurePrompt: "",
     reservationSummaryPrompt: "",

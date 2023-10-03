@@ -67,28 +67,28 @@ function DetailsPage({
         <FormControlLabel
           control={
             <Checkbox
-              checked={detailsPage.showSubitemTitle}
+              checked={detailsPage.showSubItemTitle}
               onChange={(e) => {
-                setDetailsPageAttribute("showSubitemTitle", e.target.checked);
+                setDetailsPageAttribute("showSubItemTitle", e.target.checked);
               }}
             />
           }
-          label="showSubitemTitle"
+          label="showSubItemTitle"
         />
 
         <FormControlLabel
           control={
             <Checkbox
-              checked={detailsPage.showSubitemSubtitle}
+              checked={detailsPage.showSubItemSubtitle}
               onChange={(e) => {
                 setDetailsPageAttribute(
-                  "showSubitemSubtitle",
+                  "showSubItemSubtitle",
                   e.target.checked,
                 );
               }}
             />
           }
-          label="showSubitemSubtitle"
+          label="showSubItemSubtitle"
         />
       </FormGroup>
 

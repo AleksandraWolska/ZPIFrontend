@@ -15,14 +15,10 @@ import {
   Typography,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import {
-  CustomAttributeSpec,
-  STORE_CONFIG_STEPS,
-  StoreConfig,
-  StoreConfigStep,
-} from "../types";
+import { STORE_CONFIG_STEPS, StoreConfigStep } from "../types";
 import { useStoreConfig } from "../StoreConfigProvider";
 import ChangePageButtons from "../components/ChangePageButtons";
+import { CustomAttributeSpec, StoreConfig } from "../../../types";
 
 const defaultCustomAttributeSpec: Omit<CustomAttributeSpec, "id"> = {
   name: "",
