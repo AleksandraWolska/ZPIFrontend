@@ -57,28 +57,32 @@ function GeneralInfo({
           />
         </Grid>
 
-        <Grid item xs={12} sm={6}>
-          <TextField
-            label="availableAmount"
-            name="availableAmount"
-            value={newItem.availableAmount}
-            onChange={(e) =>
-              setAttribute({ availableAmount: Number(e.target.value) })
-            }
-            fullWidth
-            type="number"
-          />
-        </Grid>
+        {"availableAmount" in newItem && (
+          <Grid item xs={12} sm={6}>
+            <TextField
+              label="availableAmount"
+              name="availableAmount"
+              value={newItem.availableAmount}
+              onChange={(e) =>
+                setAttribute({ availableAmount: Number(e.target.value) })
+              }
+              fullWidth
+              type="number"
+            />
+          </Grid>
+        )}
 
-        <Grid item xs={12} sm={6}>
-          <DateTimePicker
-            label="date"
-            value={newItem.date ? dayjs(newItem.date) : dayjs()}
-            onChange={(date) => {
-              if (date) setAttribute({ date: date.toString() });
-            }}
-          />
-        </Grid>
+        {"date" in newItem && (
+          <Grid item xs={12} sm={6}>
+            <DateTimePicker
+              label="date"
+              value={newItem.date ? dayjs(newItem.date) : dayjs()}
+              onChange={(date) => {
+                if (date) setAttribute({ date: date.toString() });
+              }}
+            />
+          </Grid>
+        )}
       </Grid>
 
       <button type="button" onClick={goNext}>

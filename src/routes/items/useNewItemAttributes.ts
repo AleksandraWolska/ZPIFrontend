@@ -1,26 +1,16 @@
 import { useState } from "react";
 import { v4 as uuid } from "uuid";
-import { NewItem } from "./types";
+import dayjs from "dayjs";
+import { AddItemConfig, NewItem } from "./types";
 import useNewItem from "./useNewItem";
-import { CustomAttribute, CustomAttributeSpec } from "../../types";
-
-const initialNewItem: Omit<NewItem, "customAttributeList"> = {
-  title: "",
-  subtitle: "",
-  description: "",
-  image: "",
-  availableAmount: 0,
-  subItemList: [],
-};
+import { Core, CustomAttribute, CustomAttributeSpec } from "../../types";
 
 function useNewItemAttributes() {
-  const { customAttributesSpec } = useNewItem();
-  const customAttributeList = initializeCustomAttributes(customAttributesSpec);
+  const addItemConfig = useNewItem();
 
-  const [newItem, setNewItem] = useState<NewItem>({
-    ...initialNewItem,
-    customAttributeList,
-  });
+  const [newItem, setNewItem] = useState<NewItem>(
+    initializeNewItem(addItemConfig),
+  );
 
   const setAttribute = (attr: Partial<NewItem>) => {
     setNewItem({
@@ -48,6 +38,38 @@ function useNewItemAttributes() {
   };
 }
 
+const initialNewItem: Pick<
+  NewItem,
+  "title" | "subtitle" | "description" | "image"
+> = {
+  title: "",
+  subtitle: "",
+  description: "",
+  image: "",
+};
+
+function initializeNewItem(config: AddItemConfig): NewItem {
+  const { core, customAttributesSpec } = config;
+
+  const customAttributeList = initializeCustomAttributes(customAttributesSpec);
+
+  const optionalAttributes: Partial<NewItem> = {};
+
+  if (core.uniqueness === false) {
+    optionalAttributes.availableAmount = 0;
+  }
+
+  if (core.flexibility === false) {
+    optionalAttributes.date = dayjs().toString();
+  }
+
+  if (shouldShowSubItems(core)) {
+    optionalAttributes.subItemList = [];
+  }
+
+  return { ...initialNewItem, customAttributeList, ...optionalAttributes };
+}
+
 function initializeCustomAttributes(
   customAttributesSpec: CustomAttributeSpec[],
 ): CustomAttribute[] {
@@ -62,5 +84,21 @@ function initializeCustomAttributes(
     };
   });
 }
+
+export const shouldShowSubItems = (core: Core) => {
+  const {
+    flexibility: f,
+    simultaneous: s,
+    uniqueness: u,
+    periodicity: p,
+    specificReservation: r,
+  } = core;
+
+  return (
+    ((!f && !s && !u && p && !r) ||
+      (!f && s && !u && !p && r) ||
+      (!f && s && !u && p && !r)) === true
+  );
+};
 
 export default useNewItemAttributes;

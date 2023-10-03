@@ -5,18 +5,17 @@ import useNewItemAttributes from "./useNewItemAttributes";
 import CustomAttributes from "./steps/CustomAttributes";
 import useNewItem from "./useNewItem";
 import SubItems from "./steps/SubItems";
-import { Core } from "../../types";
 
 function Stepper() {
-  const { core, customAttributesSpec } = useNewItem();
-  const showSubItems = shouldShowSubItems(core);
-  const steps = getSteps(showSubItems);
+  const { customAttributesSpec } = useNewItem();
 
   const [activeStep, setActiveStep] = useState(0);
   const goNext = () => setActiveStep((prev) => prev + 1);
   const goPrev = () => setActiveStep((prev) => prev - 1);
 
   const { newItem, setAttribute, setCustomAttribute } = useNewItemAttributes();
+  const showSubItems = "subItemList" in newItem;
+  const steps = getSteps(showSubItems);
 
   console.log("stepper");
 
@@ -49,10 +48,10 @@ function Stepper() {
             goPrev={goPrev}
           />
         ) : (
-          <div>schedule</div>
+          <div>Summary</div>
         );
       case 3:
-        return <div>schedule</div>;
+        return <div>Summary</div>;
       default:
         return <div>Error!</div>;
     }
@@ -72,27 +71,11 @@ function Stepper() {
   );
 }
 
-const shouldShowSubItems = (core: Core) => {
-  const {
-    flexibility: f,
-    simultaneous: s,
-    uniqueness: u,
-    periodicity: p,
-    specificReservation: r,
-  } = core;
-
-  return (
-    ((!f && !s && !u && p && !r) ||
-      (!f && s && !u && !p && r) ||
-      (!f && s && !u && p && !r)) === true
-  );
-};
-
 const getSteps = (showSubItems: boolean) => {
   const steps = [
     { label: "General Info" },
     { label: "Custom Attributes" },
-    { label: "Schedule" },
+    { label: "Summary" },
   ];
 
   if (showSubItems) steps.splice(2, 0, { label: "Sub Items" });
