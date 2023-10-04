@@ -1,40 +1,42 @@
 import { List, ListItem, ListItemText } from "@mui/material";
 import { Box } from "@mui/system";
-import { Item, SubItem } from "../../../../types";
+import { ItemInfo, SubItemInfo } from "../../../../types";
 
 type SubItemsListProps = {
-  selectedItem: Item;
-  selectedSubItemsList: SubItem[];
-  toggleItemSelection: (subItem: SubItem) => void;
+  selectedItemInfo: ItemInfo;
+  selectedSubItemsList: SubItemInfo[];
+  toggleItemSelection: (subItem: SubItemInfo) => void;
 };
 
 function SubItemsList({
-  selectedItem,
+  selectedItemInfo,
   selectedSubItemsList,
   toggleItemSelection,
 }: SubItemsListProps) {
   return (
     <Box>
-      {selectedItem && (
+      {selectedItemInfo && (
         <List>
-          {selectedItem.subItemList?.map((subItem) => (
+          {selectedItemInfo.subItemsInfo?.map((subItemInfo) => (
             <ListItem
               button
-              key={subItem.id}
-              onClick={() => toggleItemSelection(subItem)}
+              key={subItemInfo.subItem.id}
+              onClick={() => toggleItemSelection(subItemInfo)}
               style={{
                 backgroundColor: selectedSubItemsList.some(
-                  (i) => i.id === subItem.id,
+                  (i) => i.subItem.id === subItemInfo.subItem.id,
                 )
                   ? "#AACCFF"
                   : "white",
               }}
             >
               <ListItemText
-                primary={subItem.title}
-                secondary={subItem.subtitle}
+                primary={subItemInfo.subItem.title}
+                secondary={subItemInfo.subItem.subtitle}
                 style={{
-                  color: selectedSubItemsList.some((i) => i.id === subItem.id)
+                  color: selectedSubItemsList.some(
+                    (i) => i.subItem.id === subItemInfo.subItem.id,
+                  )
                     ? "white"
                     : "black",
                 }}
