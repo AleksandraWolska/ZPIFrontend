@@ -93,12 +93,11 @@ export type SubItem = {
   id: string;
   title: string;
   subtitle: string;
-  schedule?: Availability;
   amount?: number;
 };
 
 export type SubItemStatus = {
-  date?: string;
+  schedule?: Availability;
   availableAmount?: number;
 };
 
@@ -148,14 +147,13 @@ export type Item = {
   subtitle: string;
   description: string;
   image: string;
-  schedule?: Availability;
   customAttributeList: CustomAttribute[];
   amount?: number;
   subItemList?: SubItem[];
 };
 
 export type ItemStatus = {
-  date?: string;
+  schedule?: Availability;
   mark?: number;
   availableAmount?: number;
 };

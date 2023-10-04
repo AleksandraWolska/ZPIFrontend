@@ -47,78 +47,72 @@ const dummyItemInfo: ItemInfo = {
       subItem: {
         id: "1",
         title: "Wizyta Anna Majewska",
-        schedule: "2023-10-01T12:00:00Z",
         subtitle: "01.10.2023",
         amount: 1,
       },
       subItemStatus: {
+        schedule: "2023-10-01T12:00:00Z",
         availableAmount: 1,
-        date: "2023-10-01T12:00:00Z",
       },
     },
     {
       subItem: {
         id: "2",
         title: "Wizyta Anna Majewska",
-        schedule: "2023-10-02T12:00:00Z",
         subtitle: "02.10.2023",
         amount: 2,
       },
       subItemStatus: {
+        schedule: "2023-10-02T12:00:00Z",
         availableAmount: 2,
-        date: "2023-10-02T12:00:00Z",
       },
     },
     {
       subItem: {
         id: "3",
         title: "Wizyta Anna Majewska",
-        schedule: "2023-10-03T12:00:00Z",
         subtitle: "03.10.2023",
         amount: 3,
       },
       subItemStatus: {
+        schedule: "2023-10-03T12:00:00Z",
         availableAmount: 3,
-        date: "2023-10-03T12:00:00Z",
       },
     },
     {
       subItem: {
         id: "4",
         title: "Wizyta Anna Majewska",
-        schedule: "2023-10-04T12:00:00Z",
         subtitle: "04.10.2023",
         amount: 4,
       },
       subItemStatus: {
+        schedule: "2023-10-04T12:00:00Z",
         availableAmount: 4,
-        date: "2023-10-04T12:00:00Z",
       },
     },
     {
       subItem: {
         id: "5",
         title: "Wizyta Anna Majewska",
-        schedule: "2023-10-05T12:00:00Z",
         subtitle: "05.10.2023",
         amount: 5,
       },
       subItemStatus: {
+        schedule: "2023-10-05T12:00:00Z",
         availableAmount: 5,
-        date: "2023-10-05T12:00:00Z",
       },
     },
     {
       subItem: {
         id: "6",
         title: "Wizyta Anna Majewska",
-        schedule: "2023-10-06T12:00:00Z",
         subtitle: "06.10.2023",
         amount: 6,
       },
       subItemStatus: {
+        schedule: "2023-10-06T12:00:00Z",
         availableAmount: 6,
-        date: "2023-10-06T12:00:00Z",
       },
     },
   ],
