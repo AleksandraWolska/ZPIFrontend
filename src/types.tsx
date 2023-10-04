@@ -92,9 +92,19 @@ export type CustomAttribute = {
 export type SubItem = {
   id: string;
   title: string;
-  subtitle?: string;
-  availableAmount?: number;
+  subtitle: string;
+  schedule?: Availability;
+  amount?: number;
+};
+
+export type SubItemStatus = {
   date?: string;
+  availableAmount?: number;
+};
+
+export type SubItemInfo = {
+  subItem: SubItem;
+  subItemStatus: SubItemStatus;
 };
 
 export type Comment = {
@@ -105,15 +115,53 @@ export type Comment = {
   datetime: string;
 };
 
+type SpecificAvailability = {
+  startDateTime: string;
+  endDateTime: string;
+};
+
+type DailyAvailability = {
+  startTime: string;
+  endTime: string;
+};
+
+type WeeklyAvailability = {
+  startDate: string;
+  endDate: string;
+  weekDays: {
+    monday?: DailyAvailability[];
+    tuesday?: DailyAvailability[];
+    wednesday?: DailyAvailability[];
+    thursday?: DailyAvailability[];
+    friday?: DailyAvailability[];
+    saturday?: DailyAvailability[];
+    sunday?: DailyAvailability[];
+  };
+};
+
+export type Availability = string | SpecificAvailability[] | WeeklyAvailability;
+
 export type Item = {
   id: string;
+  active: boolean;
   title: string;
-  subtitle?: string;
-  description?: string;
+  subtitle: string;
+  description: string;
+  image: string;
+  schedule?: Availability;
   customAttributeList: CustomAttribute[];
+  amount?: number;
   subItemList?: SubItem[];
+};
+
+export type ItemStatus = {
+  date?: string;
   mark?: number;
   availableAmount?: number;
-  image?: string;
-  date?: string;
+};
+
+export type ItemInfo = {
+  item: Omit<Item, "subItemList">;
+  itemStatus: ItemStatus;
+  subItemsInfo?: SubItemInfo[];
 };

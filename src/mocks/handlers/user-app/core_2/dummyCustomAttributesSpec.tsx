@@ -9,6 +9,7 @@ export const dummyCustomAttributeSpec: CustomAttributeSpec[] = [
     isFilterable: true,
     showMainPage: true,
     showDetailsPage: true,
+    limitValues: true,
     possibleValues: [
       "Zdalnie",
       "Wyszyńskiego 8",
@@ -24,6 +25,7 @@ export const dummyCustomAttributeSpec: CustomAttributeSpec[] = [
     isFilterable: true,
     showMainPage: true,
     showDetailsPage: true,
+    limitValues: true,
     possibleValues: ["Dentysta", "Kardiolog", "Neurolog", "Okulista"],
   },
   {
@@ -52,6 +54,7 @@ export const dummyCustomAttributeSpec: CustomAttributeSpec[] = [
     isFilterable: true,
     showMainPage: true,
     showDetailsPage: true,
+    limitValues: true,
     possibleValues: ["Anna Majewska", "Kamil Kruk", "Michał Michalski"],
   },
   {

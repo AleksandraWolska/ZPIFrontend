@@ -10,7 +10,7 @@ import {
   IconButton,
 } from "@mui/material";
 import { FilterAlt, FilterAltOff, Close } from "@mui/icons-material";
-import { Item, CustomAttributeSpec, CustomAttribute } from "../../../types";
+import { CustomAttributeSpec, CustomAttribute } from "../../../types";
 import { FilterValue } from "../types";
 import useMainPageConfig from "./useMainPageConfig";
 import useItems from "./useItems";
@@ -23,7 +23,7 @@ export default function UserAppMainPage() {
   const navigate = useNavigate();
 
   const storeConfig = useMainPageConfig();
-  const items = useItems();
+  const itemInfos = useItems();
 
   const [showFilterForm, setShowFilterForm] = useState(false);
   const [activeFilters, setActiveFilters] = useState<FilterValue[]>([]);
@@ -70,11 +70,11 @@ export default function UserAppMainPage() {
     </Box>
   );
 
-  const filteredItems = items.filter((item) =>
+  const filteredItemInfos = itemInfos.filter((itemInfo) =>
     storeConfig.customAttributesSpec.every((attr: CustomAttributeSpec) => {
       if (!attr.isFilterable) return true;
 
-      const itemAttribute = item.customAttributeList.find(
+      const itemAttribute = itemInfo.item.customAttributeList.find(
         (p: CustomAttribute) => p.name === attr.name,
       );
       if (!itemAttribute) return true;
@@ -111,15 +111,23 @@ export default function UserAppMainPage() {
           {activeFiltersList}
 
           <List>
-            {filteredItems.map((item: Item) => (
-              <ListItem key={item.id} onClick={() => navigate(`${item.id}`)}>
-                <ListItemText primary={item.title} secondary={item.subtitle} />
+            {filteredItemInfos.map((itemInfo) => (
+              <ListItem
+                key={itemInfo.item.id}
+                onClick={() => navigate(`${itemInfo.item.id}`)}
+              >
+                <ListItemText
+                  primary={itemInfo.item.title}
+                  secondary={itemInfo.item.subtitle}
+                />
 
-                {item.image && <ItemImage url={item.image} />}
+                {itemInfo.item.image && <ItemImage url={itemInfo.item.image} />}
 
                 {storeConfig.mainPage &&
                   storeConfig.mainPage.showRating &&
-                  item.mark && <Ratings mark={item.mark} />}
+                  itemInfo.itemStatus.mark && (
+                    <Ratings mark={itemInfo.itemStatus.mark} />
+                  )}
               </ListItem>
             ))}
           </List>

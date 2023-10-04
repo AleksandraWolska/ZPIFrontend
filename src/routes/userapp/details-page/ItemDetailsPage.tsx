@@ -9,7 +9,7 @@ import {
   DialogTitle,
 } from "@mui/material";
 import { useState } from "react";
-import { Comment, StoreConfig, SubItem } from "../../../types";
+import { Comment, StoreConfig, SubItemInfo } from "../../../types";
 import AttributesList from "../features/AttributesList";
 import CommentComponent from "../features/CommentComponent";
 import Ratings from "../features/Ratings";
@@ -37,17 +37,20 @@ const initializeReservationRequestReady = (
 
 export default function ItemDetailsPage() {
   const storeConfig = useDetailsPageConfig();
-  const item = useItemDetails();
+  const itemInfo = useItemDetails();
 
   const [showSuccessDialog, setShowSuccessDialog] = useState(false);
   const [reservationRequestReady, setReservationRequestReady] = useState(
-    initializeReservationRequestReady(storeConfig.core, item.availableAmount),
+    initializeReservationRequestReady(
+      storeConfig.core,
+      itemInfo.itemStatus.availableAmount,
+    ),
   );
   const [userCount, setUserCount] = useState(1);
   const [availabilityChecked, setAvailabilityChecked] = useState(false);
-  const [selectedSubItemsList, setSelectedSubItemsList] = useState<SubItem[]>(
-    [],
-  );
+  const [selectedSubItemsInfoList, setSelectedSubItemsInfoList] = useState<
+    SubItemInfo[]
+  >([]);
 
   const handleRatingAdd = (rating: number) => {
     console.log("New Rating:", rating);
@@ -55,7 +58,9 @@ export default function ItemDetailsPage() {
 
   const handleUserCountInputChange = (newValue: number) => {
     setReservationRequestReady(
-      item.availableAmount ? item.availableAmount >= newValue : true,
+      itemInfo.itemStatus.availableAmount
+        ? itemInfo.itemStatus.availableAmount >= newValue
+        : true,
     );
     setUserCount(newValue || 1);
     setAvailabilityChecked(false);
@@ -63,9 +68,10 @@ export default function ItemDetailsPage() {
 
   const handleUserCountInputChangeRestricted = (newValue: number) => {
     setReservationRequestReady(
-      selectedSubItemsList.length > 0 &&
-        (selectedSubItemsList[0].availableAmount
-          ? selectedSubItemsList[0].availableAmount >= newValue
+      selectedSubItemsInfoList.length > 0 &&
+        (selectedSubItemsInfoList[0].subItemStatus.availableAmount
+          ? selectedSubItemsInfoList[0].subItemStatus.availableAmount >=
+            newValue
           : true),
     );
     setUserCount(newValue || 1);
@@ -83,43 +89,54 @@ export default function ItemDetailsPage() {
     console.log(`Send request with newcomment: ${newComment}`);
   };
 
-  const toggleItemSingleSelection = (subItem: SubItem) => {
-    if (selectedSubItemsList.some((selected) => selected.id === subItem.id)) {
-      setSelectedSubItemsList((prev) =>
-        prev.filter((selected) => selected.id !== subItem.id),
+  const toggleItemSingleSelection = (subItemInfo: SubItemInfo) => {
+    if (
+      selectedSubItemsInfoList.some(
+        (selected) => selected.subItem.id === subItemInfo.subItem.id,
+      )
+    ) {
+      setSelectedSubItemsInfoList((prev) =>
+        prev.filter(
+          (selected) => selected.subItem.id !== subItemInfo.subItem.id,
+        ),
       );
     } else {
-      setSelectedSubItemsList(() => {
-        return [subItem];
+      setSelectedSubItemsInfoList(() => {
+        return [subItemInfo];
       });
     }
     console.log(
-      `set ${subItem}of amount ${subItem.availableAmount} usercount ${userCount}`,
+      `set ${subItemInfo}of amount ${subItemInfo.subItemStatus.availableAmount} usercount ${userCount}`,
     );
     setReservationRequestReady(
-      !subItem.availableAmount || subItem.availableAmount >= userCount,
+      !subItemInfo.subItemStatus.availableAmount ||
+        subItemInfo.subItemStatus.availableAmount >= userCount,
     );
   };
 
-  const toggleItemMultipleSelection = (subItem: SubItem) => {
+  const toggleItemMultipleSelection = (subItemInfo: SubItemInfo) => {
     let updatedSubItemsList;
 
-    if (selectedSubItemsList.some((selected) => selected.id === subItem.id)) {
-      updatedSubItemsList = selectedSubItemsList.filter(
-        (selected) => selected.id !== subItem.id,
+    if (
+      selectedSubItemsInfoList.some(
+        (selected) => selected.subItem.id === subItemInfo.subItem.id,
+      )
+    ) {
+      updatedSubItemsList = selectedSubItemsInfoList.filter(
+        (selected) => selected.subItem.id !== subItemInfo.subItem.id,
       );
     } else {
-      updatedSubItemsList = [...selectedSubItemsList, subItem];
+      updatedSubItemsList = [...selectedSubItemsInfoList, subItemInfo];
     }
 
-    setSelectedSubItemsList(updatedSubItemsList);
+    setSelectedSubItemsInfoList(updatedSubItemsList);
     setReservationRequestReady(updatedSubItemsList.length > 0);
   };
 
   const userCountChoiceRestricted = (
     <Box>
       <QuantityInput
-        disabled={selectedSubItemsList.length === 0}
+        disabled={selectedSubItemsInfoList.length === 0}
         value={userCount}
         onUserCountChange={(value: number) =>
           handleUserCountInputChangeRestricted(value)
@@ -151,7 +168,7 @@ export default function ItemDetailsPage() {
 
   const freeRangesUserInput = (
     <FreeRangesDatepicker
-      id={item.id}
+      id={itemInfo.item.id}
       userCount={userCount}
       onAvailabilityChecked={handleAvailabilityChecked}
     />
@@ -159,7 +176,7 @@ export default function ItemDetailsPage() {
 
   const checkAvailabilityUserInput = (
     <CheckAvailabilityDatepicker
-      id={item.id}
+      id={itemInfo.item.id}
       userCount={userCount}
       onAvailabilityChecked={handleAvailabilityChecked}
       availabilityChecked={availabilityChecked}
@@ -169,15 +186,15 @@ export default function ItemDetailsPage() {
 
   const subItemsListSingle = (
     <SubItemsList
-      selectedItem={item}
-      selectedSubItemsList={selectedSubItemsList}
+      selectedItemInfo={itemInfo}
+      selectedSubItemsList={selectedSubItemsInfoList}
       toggleItemSelection={toggleItemSingleSelection}
     />
   );
   const subItemsListMultiple = (
     <SubItemsList
-      selectedItem={item}
-      selectedSubItemsList={selectedSubItemsList}
+      selectedItemInfo={itemInfo}
+      selectedSubItemsList={selectedSubItemsInfoList}
       toggleItemSelection={toggleItemMultipleSelection}
     />
   );
@@ -243,21 +260,22 @@ export default function ItemDetailsPage() {
 
   return (
     <Box padding={3}>
-      <Typography variant="h3">{item.title}</Typography>
-      {item.subtitle && <Typography variant="h5">{item.subtitle}</Typography>}
-      {item.description && (
-        <Typography variant="body2">{item.description}</Typography>
+      <Typography variant="h3">{itemInfo.item.title}</Typography>
+      {itemInfo.item.subtitle && (
+        <Typography variant="h5">{itemInfo.item.subtitle}</Typography>
       )}
-      {storeConfig.detailsPage.showRating && item.mark && (
-        <Ratings mark={item.mark} />
+      {itemInfo.item.description && (
+        <Typography variant="body2">{itemInfo.item.description}</Typography>
+      )}
+      {storeConfig.detailsPage.showRating && itemInfo.itemStatus.mark && (
+        <Ratings mark={itemInfo.itemStatus.mark} />
       )}
 
-      {item.customAttributeList && (
-        <AttributesList
-          attributesConfig={storeConfig.customAttributesSpec}
-          itemAttributes={item.customAttributeList}
-        />
-      )}
+      <AttributesList
+        attributesConfig={storeConfig.customAttributesSpec}
+        itemAttributes={itemInfo.item.customAttributeList}
+      />
+
       {core}
       {storeConfig.detailsPage.showRating && (
         <RatingsInteractive handleSetRating={handleRatingAdd} />
@@ -274,14 +292,14 @@ export default function ItemDetailsPage() {
         <DialogContent>
           <DialogContentText>
             You have selected:{" "}
-            {selectedSubItemsList.map((i) => i.title).join(", ")}
+            {selectedSubItemsInfoList.map((i) => i.subItem.title).join(", ")}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button
             onClick={() => {
               setShowSuccessDialog(false);
-              setSelectedSubItemsList([]); // Reset the selected items
+              setSelectedSubItemsInfoList([]); // Reset the selected items
             }}
             color="primary"
           >
