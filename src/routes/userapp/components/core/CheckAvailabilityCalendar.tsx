@@ -160,6 +160,7 @@ export function CheckAvailabilityCalendar({
     </Box>
   );
 
+  const minHours = new Date().setHours(8, 30, 0);
   return (
     <>
       <Box style={{ width: "400px", height: "400px" }}>
@@ -169,7 +170,10 @@ export function CheckAvailabilityCalendar({
           view={Views.WEEK}
           formats={baseFormats}
           components={{}}
+          min={new Date("2023-10-05T08:00:00Z")}
+          max={new Date("2023-10-05T20:00:00Z")}
           selectable
+          getNow={() => new Date()}
           events={events}
           onSelectSlot={handleSelectSlot}
           onSelectEvent={handleSelectEvent}

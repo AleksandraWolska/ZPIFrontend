@@ -16,10 +16,10 @@ import Ratings from "../features/Ratings";
 import RatingsInteractive from "../features/RatingsInteractive";
 import QuantityInput from "../components/core/QuantityInput";
 import { FreeRangesDatepicker } from "../components/core/FreeRangersDatepicker";
-import { CheckAvailabilityDatepicker } from "../components/core/CheckAvailabilityDatepicker";
 import SubItemsList from "../components/core/SubItemsList";
 import useItemDetails from "./useItemDetails";
 import useDetailsPageConfig from "./useDetailsPageConfig";
+import { CheckAvailabilityCalendar } from "../components/core/CheckAvailabilityCalendar";
 
 const initializeReservationRequestReady = (
   core: StoreConfig["core"],
@@ -175,8 +175,8 @@ export default function ItemDetailsPage() {
   );
 
   const checkAvailabilityUserInput = (
-    <CheckAvailabilityDatepicker
-      id={itemInfo.item.id}
+    <CheckAvailabilityCalendar
+      itemId={itemInfo.item.id}
       userCount={userCount}
       onAvailabilityChecked={handleAvailabilityChecked}
       availabilityChecked={availabilityChecked}
