@@ -1,4 +1,5 @@
 import { ItemInfo } from "../../../../../types";
+import { dummyAvailability } from "./dummyAvailability";
 
 const dummyItemInfo: ItemInfo = {
   item: {
@@ -40,68 +41,7 @@ const dummyItemInfo: ItemInfo = {
   itemStatus: {
     availableAmount: 25,
     mark: 4.5,
+    schedule: dummyAvailability,
   },
-  subItemsInfo: [
-    {
-      subItem: {
-        id: "1",
-        title: "Accessories Bundle",
-        subtitle: "Includes keyboard and mouse",
-        amount: 2,
-      },
-      subItemStatus: {
-        schedule: "",
-        availableAmount: 2,
-      },
-    },
-    {
-      subItem: {
-        id: "2",
-        title: "Extended Warranty",
-        subtitle: "2-year warranty",
-        amount: 5,
-      },
-      subItemStatus: {
-        schedule: "",
-        availableAmount: 5,
-      },
-    },
-    {
-      subItem: {
-        id: "3",
-        title: "Software Package",
-        subtitle: "Includes productivity software",
-        amount: 3,
-      },
-      subItemStatus: {
-        schedule: "",
-        availableAmount: 3,
-      },
-    },
-    {
-      subItem: {
-        id: "4",
-        title: "Monitor Upgrade",
-        subtitle: "",
-        amount: 2,
-      },
-      subItemStatus: {
-        schedule: "",
-        availableAmount: 2,
-      },
-    },
-    {
-      subItem: {
-        id: "5",
-        title: "Additional Storage",
-        subtitle: "1TB HDD upgrade",
-        amount: 1,
-      },
-      subItemStatus: {
-        schedule: "",
-        availableAmount: 1,
-      },
-    },
-  ],
 };
 export default dummyItemInfo;

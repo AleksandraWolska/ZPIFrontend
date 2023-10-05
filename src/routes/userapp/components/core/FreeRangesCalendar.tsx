@@ -7,18 +7,7 @@ import {
 } from "react-big-calendar";
 import { v4 as uuid } from "uuid";
 import { useState, useCallback, useMemo, useEffect } from "react";
-import {
-  Box,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  List,
-  ListItem,
-  ListItemText,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { SpecificAvailability } from "../../../../types";
 
@@ -29,7 +18,6 @@ type Event = {
   start: Date;
   end: Date;
   type?: string;
-  mine?: boolean;
 };
 
 const baseFormats = {
@@ -44,26 +32,21 @@ const baseFormats = {
     )}`,
 };
 
-type CheckAvailabilityCalendarProps = {
+type FreeRangesCalendarProps = {
   itemId: string;
   userCount: number;
   availability: SpecificAvailability[];
   onAvailabilityChecked: (idx: string, start: string, end: string) => void;
-  availabilityChecked: boolean;
-  setAvailabilityChecked: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export function CheckAvailabilityCalendar({
+export function FreeRangesCalendar({
   itemId,
   userCount,
   onAvailabilityChecked,
   availability,
-  availabilityChecked,
-  setAvailabilityChecked,
-}: CheckAvailabilityCalendarProps) {
+}: FreeRangesCalendarProps) {
   const [events, setEvents] = useState<Event[]>([]);
-  const [showSuggestedDialog, setShowSuggestedDialog] = useState(false);
-
+  console.log(userCount);
   useEffect(() => {
     console.log("OPEN HOURS:", events);
   }, [events]);
@@ -86,20 +69,6 @@ export function CheckAvailabilityCalendar({
     [availability],
   );
 
-  const suggestedDateRanges = useMemo(() => {
-    if (!events[0]) return [];
-
-    return [
-      { idx: "1", startOffset: 0.5, endOffset: 0.5 },
-      { idx: "2", startOffset: 1, endOffset: 1 },
-      { idx: "3", startOffset: 2, endOffset: 2 },
-    ].map((range) => ({
-      idx: range.idx,
-      start: dayjs(events[0].start).add(range.startOffset, "hour"),
-      end: dayjs(events[0].end).add(range.endOffset, "hour"),
-    }));
-  }, [events]);
-
   const handleSelectSlot = useCallback(
     ({ start, end }: { start: Date; end: Date }) => {
       const withinBackgroundEvent = transformedAvailability.some((e) => {
@@ -107,10 +76,9 @@ export function CheckAvailabilityCalendar({
       });
       if (withinBackgroundEvent) {
         setEvents(() => [{ id: uuid(), start, end, type: "userchoice" }]);
-        setAvailabilityChecked(false);
       }
     },
-    [setEvents, setAvailabilityChecked, transformedAvailability],
+    [setEvents, transformedAvailability],
   );
 
   const handleSelecting = useCallback(
@@ -137,44 +105,9 @@ export function CheckAvailabilityCalendar({
     [transformedAvailability],
   );
 
-  const handleCheckAvailability = () => {
-    console.log(userCount);
-    setShowSuggestedDialog(true);
-  };
-
-  const handleSuggestedDateClick = useCallback(
-    (idx: string) => {
-      const suggestedDate = suggestedDateRanges.find(
-        (range) => range.idx === idx,
-      );
-
-      if (!suggestedDate) return;
-      setEvents(() => [
-        {
-          id: uuid(),
-          start: suggestedDate.start?.toDate(),
-          end: suggestedDate.end?.toDate(),
-        },
-      ]);
-      setShowSuggestedDialog(false);
-      setAvailabilityChecked(true);
-    },
-    [setAvailabilityChecked, suggestedDateRanges],
-  );
-
   const buttons = (
     <Box marginTop={2}>
-      {!availabilityChecked && (
-        <Button
-          variant="contained"
-          color="primary"
-          disabled={!events[0] || !events[0].start || !events[0].end}
-          onClick={() => handleCheckAvailability()}
-        >
-          Check Availability
-        </Button>
-      )}
-      {availabilityChecked && events[0] && events[0].start && events[0].end && (
+      {events[0] && events[0].start && events[0].end && (
         <Button
           variant="contained"
           color="primary"
@@ -216,7 +149,6 @@ export function CheckAvailabilityCalendar({
           style={{ height: "400px" }}
           timeslots={8}
           eventPropGetter={(event) => {
-            // color set here to match page theme
             let color;
             switch (event.type) {
               case "available":
@@ -247,34 +179,6 @@ export function CheckAvailabilityCalendar({
           : "Wybierz termin"}
       </Typography>
       {buttons}
-      <Dialog
-        open={showSuggestedDialog}
-        onClose={() => setShowSuggestedDialog(false)}
-      >
-        <DialogTitle>Suggested Times</DialogTitle>
-        <DialogContent>
-          <List>
-            {suggestedDateRanges.map((range) => (
-              <ListItem
-                button
-                key={range.idx}
-                onClick={() => handleSuggestedDateClick(range.idx)}
-              >
-                <ListItemText
-                  primary={`Start: ${range.start?.format(
-                    "YYYY-MM-DD HH:mm",
-                  )}, End: ${range.end?.format("YYYY-MM-DD HH:mm")}`}
-                />
-              </ListItem>
-            ))}
-          </List>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setShowSuggestedDialog(false)} color="primary">
-            Cancel
-          </Button>
-        </DialogActions>
-      </Dialog>
     </>
   );
 }

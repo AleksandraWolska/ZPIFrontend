@@ -1,4 +1,5 @@
 import { ItemInfo } from "../../../../../types";
+import { dummyAvailability } from "./dummyAvailability";
 
 const dummyItemInfo: ItemInfo = {
   item: {
@@ -38,6 +39,7 @@ const dummyItemInfo: ItemInfo = {
     image: "https://example.com/sample-computer.jpg",
   },
   itemStatus: {
+    schedule: dummyAvailability,
     availableAmount: 25,
     mark: 4.5,
   },

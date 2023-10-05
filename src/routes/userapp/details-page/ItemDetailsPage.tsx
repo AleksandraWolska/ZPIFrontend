@@ -20,6 +20,7 @@ import SubItemsList from "../components/core/SubItemsList";
 import useItemDetails from "./useItemDetails";
 import useDetailsPageConfig from "./useDetailsPageConfig";
 import { CheckAvailabilityCalendar } from "../components/core/CheckAvailabilityCalendar";
+import { FreeRangesCalendar } from "../components/core/FreeRangesCalendar";
 
 const initializeReservationRequestReady = (
   core: StoreConfig["core"],
@@ -167,8 +168,9 @@ export default function ItemDetailsPage() {
   };
 
   const freeRangesUserInput = (
-    <FreeRangesDatepicker
+    <FreeRangesCalendar
       id={itemInfo.item.id}
+      availability={itemInfo.itemStatus.schedule}
       userCount={userCount}
       onAvailabilityChecked={handleAvailabilityChecked}
     />
@@ -177,6 +179,7 @@ export default function ItemDetailsPage() {
   const checkAvailabilityUserInput = (
     <CheckAvailabilityCalendar
       itemId={itemInfo.item.id}
+      availability={itemInfo.itemStatus.schedule}
       userCount={userCount}
       onAvailabilityChecked={handleAvailabilityChecked}
       availabilityChecked={availabilityChecked}

@@ -1,4 +1,5 @@
 import { ItemInfo } from "../../../../../types";
+import { dummyAvailability } from "./dummyAvailability";
 
 const dummyItemInfo: ItemInfo = {
   item: {
@@ -39,6 +40,7 @@ const dummyItemInfo: ItemInfo = {
   },
   itemStatus: {
     availableAmount: 25,
+    schedule: dummyAvailability,
     mark: 4.5,
   },
   subItemsInfo: [
