@@ -41,6 +41,34 @@ const fetchCommentsList = async (
   return res.json();
 };
 
+export const getAvailabilityCheckQuery = (storeId: string, itemId: string) => ({
+  queryKey: ["commentsList", storeId, itemId],
+  queryFn: async () => fetchAvailabilityCheck(storeId, itemId),
+});
+
+// type AvailabilityCheckRequest = {
+//   storeId: string;
+//   itemId: string;
+//   peopleCount: number;
+//   startDate: number;
+//   endDate: number;
+// };
+
+// type AvailabilityCheckResponse = {
+//   isValid: boolean;
+//   alternativeValidDates: { start: string; end: string }[];
+// };
+
+const fetchAvailabilityCheck = async (
+  storeId: string,
+  itemId: string,
+): Promise<CommentList> => {
+  const res = await fetch(
+    `/api/stores/${storeId}/items/${itemId}/availabilitycheck`,
+  );
+  return res.json();
+};
+
 export const loader =
   (queryClient: QueryClient) =>
   async ({ params }: LoaderFunctionArgs) => {
