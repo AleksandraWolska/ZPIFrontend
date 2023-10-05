@@ -35,7 +35,6 @@ const dummyItemInfo: ItemInfo = {
         value: "Anna Majewska",
       },
     ],
-    amount: 1,
     image: "https://example.com/sample-computer.jpg",
   },
   itemStatus: {
@@ -48,7 +47,6 @@ const dummyItemInfo: ItemInfo = {
         id: "1",
         title: "Wizyta Anna Majewska",
         subtitle: "01.10.2023",
-        amount: 1,
       },
       subItemStatus: {
         schedule: "2023-10-01T12:00:00Z",
@@ -60,7 +58,6 @@ const dummyItemInfo: ItemInfo = {
         id: "2",
         title: "Wizyta Anna Majewska",
         subtitle: "02.10.2023",
-        amount: 2,
       },
       subItemStatus: {
         schedule: "2023-10-02T12:00:00Z",
@@ -72,7 +69,6 @@ const dummyItemInfo: ItemInfo = {
         id: "3",
         title: "Wizyta Anna Majewska",
         subtitle: "03.10.2023",
-        amount: 3,
       },
       subItemStatus: {
         schedule: "2023-10-03T12:00:00Z",
@@ -84,7 +80,6 @@ const dummyItemInfo: ItemInfo = {
         id: "4",
         title: "Wizyta Anna Majewska",
         subtitle: "04.10.2023",
-        amount: 4,
       },
       subItemStatus: {
         schedule: "2023-10-04T12:00:00Z",
@@ -96,7 +91,6 @@ const dummyItemInfo: ItemInfo = {
         id: "5",
         title: "Wizyta Anna Majewska",
         subtitle: "05.10.2023",
-        amount: 5,
       },
       subItemStatus: {
         schedule: "2023-10-05T12:00:00Z",
@@ -108,7 +102,6 @@ const dummyItemInfo: ItemInfo = {
         id: "6",
         title: "Wizyta Anna Majewska",
         subtitle: "06.10.2023",
-        amount: 6,
       },
       subItemStatus: {
         schedule: "2023-10-06T12:00:00Z",

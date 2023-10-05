@@ -35,7 +35,6 @@ export const dummyItems: ItemInfo[] = [
           value: "Anna Majewska",
         },
       ],
-      amount: 10,
       image: "https://example.com/gaming-laptop.jpg",
     },
     itemStatus: {
@@ -77,7 +76,6 @@ export const dummyItems: ItemInfo[] = [
           value: "Kamil Kruk",
         },
       ],
-      amount: 15,
       image: "https://example.com/macbook-pro.jpg",
     },
     itemStatus: {
@@ -119,7 +117,6 @@ export const dummyItems: ItemInfo[] = [
           value: "Michał Michalski",
         },
       ],
-      amount: 8,
       image: "https://example.com/desktop-pc.jpg",
     },
     itemStatus: {
@@ -161,7 +158,6 @@ export const dummyItems: ItemInfo[] = [
           value: "Kamil Kruk",
         },
       ],
-      amount: 20,
       image: "https://example.com/chromebook.jpg",
     },
     itemStatus: {
@@ -203,7 +199,6 @@ export const dummyItems: ItemInfo[] = [
           value: "Anna Majewska",
         },
       ],
-      amount: 12,
       image: "https://example.com/workstation-laptop.jpg",
     },
     itemStatus: {

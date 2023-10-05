@@ -93,7 +93,6 @@ export type SubItem = {
   id: string;
   title: string;
   subtitle: string;
-  amount?: number;
 };
 
 export type SubItemStatus = {
@@ -148,7 +147,6 @@ export type Item = {
   description: string;
   image: string;
   customAttributeList: CustomAttribute[];
-  amount?: number;
   subItemList?: SubItem[];
 };
 
