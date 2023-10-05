@@ -36,78 +36,78 @@ const dummyItemInfo: ItemInfo = {
       },
     ],
     image: "https://example.com/sample-computer.jpg",
+    subItemInfoList: [
+      {
+        subItem: {
+          id: "1",
+          title: "Wizyta Anna Majewska",
+          subtitle: "01.10.2023",
+        },
+        subItemStatus: {
+          schedule: "2023-10-01T12:00:00Z",
+          availableAmount: 1,
+        },
+      },
+      {
+        subItem: {
+          id: "2",
+          title: "Wizyta Anna Majewska",
+          subtitle: "02.10.2023",
+        },
+        subItemStatus: {
+          schedule: "2023-10-02T12:00:00Z",
+          availableAmount: 2,
+        },
+      },
+      {
+        subItem: {
+          id: "3",
+          title: "Wizyta Anna Majewska",
+          subtitle: "03.10.2023",
+        },
+        subItemStatus: {
+          schedule: "2023-10-03T12:00:00Z",
+          availableAmount: 3,
+        },
+      },
+      {
+        subItem: {
+          id: "4",
+          title: "Wizyta Anna Majewska",
+          subtitle: "04.10.2023",
+        },
+        subItemStatus: {
+          schedule: "2023-10-04T12:00:00Z",
+          availableAmount: 4,
+        },
+      },
+      {
+        subItem: {
+          id: "5",
+          title: "Wizyta Anna Majewska",
+          subtitle: "05.10.2023",
+        },
+        subItemStatus: {
+          schedule: "2023-10-05T12:00:00Z",
+          availableAmount: 5,
+        },
+      },
+      {
+        subItem: {
+          id: "6",
+          title: "Wizyta Anna Majewska",
+          subtitle: "06.10.2023",
+        },
+        subItemStatus: {
+          schedule: "2023-10-06T12:00:00Z",
+          availableAmount: 6,
+        },
+      },
+    ],
   },
   itemStatus: {
     availableAmount: 1,
     mark: 4.5,
   },
-  subItemsInfo: [
-    {
-      subItem: {
-        id: "1",
-        title: "Wizyta Anna Majewska",
-        subtitle: "01.10.2023",
-      },
-      subItemStatus: {
-        schedule: "2023-10-01T12:00:00Z",
-        availableAmount: 1,
-      },
-    },
-    {
-      subItem: {
-        id: "2",
-        title: "Wizyta Anna Majewska",
-        subtitle: "02.10.2023",
-      },
-      subItemStatus: {
-        schedule: "2023-10-02T12:00:00Z",
-        availableAmount: 2,
-      },
-    },
-    {
-      subItem: {
-        id: "3",
-        title: "Wizyta Anna Majewska",
-        subtitle: "03.10.2023",
-      },
-      subItemStatus: {
-        schedule: "2023-10-03T12:00:00Z",
-        availableAmount: 3,
-      },
-    },
-    {
-      subItem: {
-        id: "4",
-        title: "Wizyta Anna Majewska",
-        subtitle: "04.10.2023",
-      },
-      subItemStatus: {
-        schedule: "2023-10-04T12:00:00Z",
-        availableAmount: 4,
-      },
-    },
-    {
-      subItem: {
-        id: "5",
-        title: "Wizyta Anna Majewska",
-        subtitle: "05.10.2023",
-      },
-      subItemStatus: {
-        schedule: "2023-10-05T12:00:00Z",
-        availableAmount: 5,
-      },
-    },
-    {
-      subItem: {
-        id: "6",
-        title: "Wizyta Anna Majewska",
-        subtitle: "06.10.2023",
-      },
-      subItemStatus: {
-        schedule: "2023-10-06T12:00:00Z",
-        availableAmount: 6,
-      },
-    },
-  ],
 };
 export default dummyItemInfo;

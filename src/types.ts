@@ -157,7 +157,8 @@ export type ItemStatus = {
 };
 
 export type ItemInfo = {
-  item: Omit<Item, "subItemList">;
+  item: Omit<Item, "subItemList"> & {
+    subItemInfoList?: SubItemInfo[];
+  };
   itemStatus: ItemStatus;
-  subItemsInfo?: SubItemInfo[];
 };
