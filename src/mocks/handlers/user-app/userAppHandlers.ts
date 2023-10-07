@@ -81,7 +81,7 @@ const getItemDetails = rest.get(
     if (typeof storeId !== "string" || typeof itemId !== "string") {
       return res(ctx.status(400), ctx.text("Invalid parameters"));
     }
-    const data = await fetchData(storeId, `items/dummyItemInfo_1`);
+    const data = await fetchData(storeId, `items/dummyItem_1`);
 
     return res(ctx.status(200), ctx.json(data));
   },
