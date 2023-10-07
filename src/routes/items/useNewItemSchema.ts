@@ -3,7 +3,8 @@ import { v4 as uuid } from "uuid";
 import dayjs from "dayjs";
 import { NewItemSchema, NewItemConfig, NewItemOptions, NewItem } from "./types";
 import useNewItemConfig from "./useNewItemConfig";
-import { Core, CustomAttribute, CustomAttributeSpec } from "../../types";
+import { CustomAttribute, CustomAttributeSpec } from "../../types";
+import { askForAmount, askForDate, askForSubItems } from "./utils";
 
 function useNewItemSchema() {
   const newItemConfig = useNewItemConfig();
@@ -75,15 +76,15 @@ function initializeNewItemSchema(config: NewItemConfig): NewItemSchema {
   schema.item.customAttributeList =
     initializeCustomAttributes(customAttributesSpec);
 
-  if (core.uniqueness === false) {
+  if (askForAmount(core)) {
     schema.options.amount = 0;
   }
 
-  if (core.flexibility === false) {
+  if (askForDate(core)) {
     schema.options.schedule = dayjs().toString();
   }
 
-  if (shouldShowSubItems(core)) {
+  if (askForSubItems(core)) {
     schema.item.subItemList = [];
   }
 
@@ -104,21 +105,5 @@ function initializeCustomAttributes(
     };
   });
 }
-
-export const shouldShowSubItems = (core: Core) => {
-  const {
-    flexibility: f,
-    simultaneous: s,
-    uniqueness: u,
-    periodicity: p,
-    specificReservation: r,
-  } = core;
-
-  return (
-    ((!f && !s && !u && p && !r) ||
-      (!f && s && !u && !p && r) ||
-      (!f && s && !u && p && !r)) === true
-  );
-};
 
 export default useNewItemSchema;

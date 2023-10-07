@@ -2,14 +2,18 @@ import { Grid, TextField } from "@mui/material";
 import { DateTimePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 import { NewItemSchema, NewItemOptions, NewItem } from "../types";
+import { Core } from "../../../types";
+import { askForAmount, askForDate } from "../utils";
 
 function GeneralInfo({
   newItemSchema,
+  core,
   setItemAttribute,
   setItemOption,
   goNext,
 }: {
   newItemSchema: NewItemSchema;
+  core: Core;
   setItemAttribute: (attr: Partial<NewItem>) => void;
   setItemOption: (option: Partial<NewItemOptions>) => void;
   goNext: () => void;
@@ -59,7 +63,7 @@ function GeneralInfo({
           />
         </Grid>
 
-        {"amount" in newItemSchema.options && (
+        {askForAmount(core) && (
           <Grid item xs={12} sm={6}>
             <TextField
               label="amount"
@@ -74,7 +78,7 @@ function GeneralInfo({
           </Grid>
         )}
 
-        {"schedule" in newItemSchema.options && (
+        {askForDate(core) && (
           <Grid item xs={12} sm={6}>
             <DateTimePicker
               label="schedule"

@@ -1,7 +1,7 @@
 export const dummyAddItemConfig = {
   core: {
     granularity: true,
-    flexibility: false,
+    flexibility: true,
     simultaneous: true,
     uniqueness: false,
     specificReservation: false,

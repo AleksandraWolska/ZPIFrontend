@@ -5,13 +5,15 @@ import useNewItemSchema from "./useNewItemSchema";
 import CustomAttributes from "./steps/CustomAttributes";
 import useNewItemConfig from "./useNewItemConfig";
 import SubItems from "./steps/SubItems";
+import Schedule from "./steps/schedule/Schedule";
+import { askForDate, askForSubItems } from "./utils";
 
 function Stepper() {
-  const { customAttributesSpec } = useNewItemConfig();
-
   const [activeStep, setActiveStep] = useState(0);
   const goNext = () => setActiveStep((prev) => prev + 1);
   const goPrev = () => setActiveStep((prev) => prev - 1);
+
+  const { core, customAttributesSpec } = useNewItemConfig();
 
   const {
     newItemSchema,
@@ -19,49 +21,66 @@ function Stepper() {
     setItemCustomAttribute,
     setItemOption,
   } = useNewItemSchema();
-  const showSubItems = "subItemList" in newItemSchema.item;
-  const steps = getSteps(showSubItems);
 
   console.log("stepper", newItemSchema);
 
-  const renderStepContent = () => {
-    switch (activeStep) {
-      case 0:
-        return (
-          <GeneralInfo
-            newItemSchema={newItemSchema}
-            setItemAttribute={setItemAttribute}
-            setItemOption={setItemOption}
-            goNext={goNext}
-          />
-        );
-      case 1:
-        return (
-          <CustomAttributes
-            newItem={newItemSchema.item}
-            customAttributesSpec={customAttributesSpec}
-            setItemCustomAttribute={setItemCustomAttribute}
-            goNext={goNext}
-            goPrev={goPrev}
-          />
-        );
-      case 2:
-        return showSubItems ? (
+  const getSteps = () => {
+    const steps = [];
+
+    steps.push({
+      label: "General Info",
+      component: (
+        <GeneralInfo
+          newItemSchema={newItemSchema}
+          core={core}
+          setItemAttribute={setItemAttribute}
+          setItemOption={setItemOption}
+          goNext={goNext}
+        />
+      ),
+    });
+    steps.push({
+      label: "Custom Attributes",
+      component: (
+        <CustomAttributes
+          newItem={newItemSchema.item}
+          customAttributesSpec={customAttributesSpec}
+          setItemCustomAttribute={setItemCustomAttribute}
+          goNext={goNext}
+          goPrev={goPrev}
+        />
+      ),
+    });
+    if (askForSubItems(core))
+      steps.push({
+        label: "Sub Items",
+        component: (
           <SubItems
             newItemSchema={newItemSchema.item}
             setItemAttribute={setItemAttribute}
             goNext={goNext}
             goPrev={goPrev}
           />
-        ) : (
-          <div>Summary</div>
-        );
-      case 3:
-        return <div>Summary</div>;
-      default:
-        return <div>Error!</div>;
-    }
+        ),
+      });
+    if (!askForDate(core))
+      steps.push({
+        label: "Schedule",
+        component: (
+          <Schedule
+            newItemSchedule={newItemSchema.options.schedule}
+            setItemOption={setItemOption}
+            goNext={goNext}
+            goPrev={goPrev}
+          />
+        ),
+      });
+    steps.push({ label: "Summary", component: <div>Summary</div> });
+
+    return steps;
   };
+
+  const steps = getSteps();
 
   return (
     <>
@@ -72,21 +91,9 @@ function Stepper() {
           </Step>
         ))}
       </MUIStepper>
-      {renderStepContent()}
+      {steps[activeStep].component}
     </>
   );
 }
-
-const getSteps = (showSubItems: boolean) => {
-  const steps = [
-    { label: "General Info" },
-    { label: "Custom Attributes" },
-    { label: "Summary" },
-  ];
-
-  if (showSubItems) steps.splice(2, 0, { label: "Sub Items" });
-
-  return steps;
-};
 
 export default Stepper;

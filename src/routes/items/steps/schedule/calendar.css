@@ -1,0 +1,21 @@
+@import "react-big-calendar/lib/css/react-big-calendar.css";
+
+.rbc-allday-cell {
+    display: none;
+}
+
+.rbc-header {
+    border-bottom: none;
+}
+
+.rbc-current-time-indicator {
+    display: none;
+}
+
+.rbc-today {
+    background-color: #fff;
+}
+
+.rbc-day-slot .rbc-events-container {
+    margin-right: 0;
+}
