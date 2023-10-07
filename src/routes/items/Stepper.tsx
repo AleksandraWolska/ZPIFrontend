@@ -1,40 +1,46 @@
 import { useState } from "react";
 import { Stepper as MUIStepper, Step, StepLabel } from "@mui/material";
 import GeneralInfo from "./steps/GeneralInfo";
-import useNewItemAttributes from "./useNewItemAttributes";
+import useNewItemSchema from "./useNewItemSchema";
 import CustomAttributes from "./steps/CustomAttributes";
-import useNewItem from "./useNewItem";
+import useNewItemConfig from "./useNewItemConfig";
 import SubItems from "./steps/SubItems";
 
 function Stepper() {
-  const { customAttributesSpec } = useNewItem();
+  const { customAttributesSpec } = useNewItemConfig();
 
   const [activeStep, setActiveStep] = useState(0);
   const goNext = () => setActiveStep((prev) => prev + 1);
   const goPrev = () => setActiveStep((prev) => prev - 1);
 
-  const { newItem, setAttribute, setCustomAttribute } = useNewItemAttributes();
-  const showSubItems = "subItemList" in newItem;
+  const {
+    newItemSchema,
+    setItemAttribute,
+    setItemCustomAttribute,
+    setItemOption,
+  } = useNewItemSchema();
+  const showSubItems = "subItemList" in newItemSchema.item;
   const steps = getSteps(showSubItems);
 
-  console.log("stepper");
+  console.log("stepper", newItemSchema);
 
   const renderStepContent = () => {
     switch (activeStep) {
       case 0:
         return (
           <GeneralInfo
-            newItem={newItem}
-            setAttribute={setAttribute}
+            newItemSchema={newItemSchema}
+            setItemAttribute={setItemAttribute}
+            setItemOption={setItemOption}
             goNext={goNext}
           />
         );
       case 1:
         return (
           <CustomAttributes
-            newItem={newItem}
+            newItem={newItemSchema.item}
             customAttributesSpec={customAttributesSpec}
-            setCustomAttribute={setCustomAttribute}
+            setItemCustomAttribute={setItemCustomAttribute}
             goNext={goNext}
             goPrev={goPrev}
           />
@@ -42,8 +48,8 @@ function Stepper() {
       case 2:
         return showSubItems ? (
           <SubItems
-            newItem={newItem}
-            setAttribute={setAttribute}
+            newItemSchema={newItemSchema.item}
+            setItemAttribute={setItemAttribute}
             goNext={goNext}
             goPrev={goPrev}
           />
