@@ -1,15 +1,17 @@
 import { Grid, TextField } from "@mui/material";
 import { DateTimePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
-import { NewItem } from "../types";
+import { NewItemSchema, NewItemOptions, NewItem } from "../types";
 
 function GeneralInfo({
-  newItem,
-  setAttribute,
+  newItemSchema,
+  setItemAttribute,
+  setItemOption,
   goNext,
 }: {
-  newItem: NewItem;
-  setAttribute: (attr: Partial<NewItem>) => void;
+  newItemSchema: NewItemSchema;
+  setItemAttribute: (attr: Partial<NewItem>) => void;
+  setItemOption: (option: Partial<NewItemOptions>) => void;
   goNext: () => void;
 }) {
   return (
@@ -19,8 +21,8 @@ function GeneralInfo({
           <TextField
             label="title"
             name="title"
-            value={newItem.title}
-            onChange={(e) => setAttribute({ title: e.target.value })}
+            value={newItemSchema.item.title}
+            onChange={(e) => setItemAttribute({ title: e.target.value })}
             fullWidth
             required
           />
@@ -30,8 +32,8 @@ function GeneralInfo({
           <TextField
             label="subtitle"
             name="subtitle"
-            value={newItem.subtitle}
-            onChange={(e) => setAttribute({ subtitle: e.target.value })}
+            value={newItemSchema.item.subtitle}
+            onChange={(e) => setItemAttribute({ subtitle: e.target.value })}
             fullWidth
           />
         </Grid>
@@ -40,8 +42,8 @@ function GeneralInfo({
           <TextField
             label="description"
             name="description"
-            value={newItem.description}
-            onChange={(e) => setAttribute({ description: e.target.value })}
+            value={newItemSchema.item.description}
+            onChange={(e) => setItemAttribute({ description: e.target.value })}
             fullWidth
             multiline
           />
@@ -51,20 +53,20 @@ function GeneralInfo({
           <TextField
             label="image"
             name="image"
-            value={newItem.image}
-            onChange={(e) => setAttribute({ image: e.target.value })}
+            value={newItemSchema.item.image}
+            onChange={(e) => setItemAttribute({ image: e.target.value })}
             fullWidth
           />
         </Grid>
 
-        {"availableAmount" in newItem && (
+        {"amount" in newItemSchema.options && (
           <Grid item xs={12} sm={6}>
             <TextField
-              label="availableAmount"
-              name="availableAmount"
-              value={newItem.availableAmount}
+              label="amount"
+              name="amount"
+              value={newItemSchema.options.amount}
               onChange={(e) =>
-                setAttribute({ availableAmount: Number(e.target.value) })
+                setItemOption({ amount: Number(e.target.value) })
               }
               fullWidth
               type="number"
@@ -72,13 +74,18 @@ function GeneralInfo({
           </Grid>
         )}
 
-        {"date" in newItem && (
+        {"schedule" in newItemSchema.options && (
           <Grid item xs={12} sm={6}>
             <DateTimePicker
-              label="date"
-              value={newItem.date ? dayjs(newItem.date) : dayjs()}
+              label="schedule"
+              slotProps={{ textField: { fullWidth: true } }}
+              value={
+                newItemSchema.options.schedule
+                  ? dayjs(newItemSchema.options.schedule as string)
+                  : dayjs()
+              }
               onChange={(date) => {
-                if (date) setAttribute({ date: date.toString() });
+                if (date) setItemOption({ schedule: date.toString() });
               }}
             />
           </Grid>

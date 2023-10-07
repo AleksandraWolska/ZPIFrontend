@@ -6,37 +6,35 @@ import {
   Select,
   TextField,
 } from "@mui/material";
-import { NewItem } from "../types";
 import { CustomAttribute, CustomAttributeSpec } from "../../../types";
+import { NewItem } from "../types";
 
 function CustomAttributes({
   newItem,
   customAttributesSpec,
-  setCustomAttribute,
+  setItemCustomAttribute,
   goNext,
   goPrev,
 }: {
   newItem: NewItem;
   customAttributesSpec: CustomAttributeSpec[];
-  setCustomAttribute: (attr: CustomAttribute) => void;
+  setItemCustomAttribute: (attr: CustomAttribute) => void;
   goNext: () => void;
   goPrev: () => void;
 }) {
   return (
     <>
-      {newItem.customAttributeList && (
-        <Grid container spacing={1} width="50%">
-          {newItem.customAttributeList.map((attribute) => (
-            <Grid key={attribute.name} item xs={12} sm={6}>
-              {renderCustomAttributeInput(
-                attribute,
-                setCustomAttribute,
-                customAttributesSpec,
-              )}
-            </Grid>
-          ))}
-        </Grid>
-      )}
+      <Grid container spacing={1} width="50%">
+        {newItem.customAttributeList.map((attribute) => (
+          <Grid key={attribute.name} item xs={12} sm={6}>
+            {renderCustomAttributeInput(
+              attribute,
+              setItemCustomAttribute,
+              customAttributesSpec,
+            )}
+          </Grid>
+        ))}
+      </Grid>
 
       <button type="button" onClick={goPrev}>
         Prev

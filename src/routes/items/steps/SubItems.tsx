@@ -4,65 +4,104 @@ import { IconButton, Stack, TextField } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import dayjs from "dayjs";
 import { DateTimePicker } from "@mui/x-date-pickers";
-import { NewItem } from "../types";
-import { SubItem } from "../../../types";
+import {
+  NewItem,
+  NewSubItem,
+  NewSubItemOptions,
+  NewSubItemSchema,
+} from "../types";
 
-const defaultSubItem: Omit<SubItem, "id"> = {
-  title: "",
-  subtitle: "",
-  availableAmount: 0,
-  date: dayjs().toString(),
+const defaultSubItemSchema: NewSubItemSchema = {
+  subItem: {
+    title: "",
+    subtitle: "",
+  },
+  options: {
+    amount: 0,
+    schedule: dayjs().toString(),
+  },
 };
 
+type LocalSubItemSchema = NewSubItemSchema & { id: string };
+
 function SubItems({
-  newItem,
-  setAttribute,
+  newItemSchema,
+  setItemAttribute,
   goNext,
   goPrev,
 }: {
-  newItem: NewItem;
-  setAttribute: (attr: Partial<NewItem>) => void;
+  newItemSchema: NewItem;
+  setItemAttribute: (attr: Partial<NewItem>) => void;
   goNext: () => void;
   goPrev: () => void;
 }) {
-  const initialLocalSubItems = [
-    ...(newItem.subItemList || []),
+  const initialLocalSubItemSchemas: LocalSubItemSchema[] = [
+    ...(newItemSchema.subItemList || []).map((s) => ({
+      id: uuid(),
+      ...s,
+    })),
     {
       id: uuid(),
-      ...defaultSubItem,
+      ...defaultSubItemSchema,
     },
   ];
 
-  const [localSubItems, setLocalSubItems] = useState(initialLocalSubItems);
-  const lastIdx = localSubItems.length - 1;
+  const [localSubItemSchemas, setLocalSubItemSchemas] = useState(
+    initialLocalSubItemSchemas,
+  );
+  const lastIdx = localSubItemSchemas.length - 1;
 
-  const updateLocalSubItem = (id: string, subItem: Partial<SubItem>) => {
-    setLocalSubItems((prev) =>
-      prev.map((s) => (s.id === id ? { ...s, ...subItem } : s)),
+  const updateLocalSubItemAttribute = (
+    id: string,
+    attr: Partial<NewSubItem>,
+  ) => {
+    setLocalSubItemSchemas((prev) =>
+      prev.map((s) =>
+        s.id === id ? { ...s, subItem: { ...s.subItem, ...attr } } : s,
+      ),
+    );
+  };
+
+  const updateLocalSubItemOption = (
+    id: string,
+    option: Partial<NewSubItemOptions>,
+  ) => {
+    setLocalSubItemSchemas((prev) =>
+      prev.map((s) =>
+        s.id === id ? { ...s, options: { ...s.options, ...option } } : s,
+      ),
     );
   };
 
   const saveSubItemList = () => {
-    const subItemList = localSubItems.filter((s) => s.title !== "");
-    setAttribute({ subItemList });
+    const subItemList = localSubItemSchemas
+      .filter((s) => s.subItem.title !== "")
+      .map((s) => {
+        const { id, ...rest } = s;
+        return rest;
+      });
+    console.log("subItems", subItemList);
+    setItemAttribute({ subItemList });
   };
 
   return (
     <>
-      {localSubItems.map((subItem, idx) => {
-        const disabled = subItem.title === "";
+      {localSubItemSchemas.map((subItemSchema, idx) => {
+        const disabled = subItemSchema.subItem.title === "";
 
         return (
-          <Stack key={subItem.id} direction="row" gap={1}>
+          <Stack key={subItemSchema.id} direction="row" gap={1}>
             <TextField
               label="title"
-              value={subItem.title}
+              value={subItemSchema.subItem.title}
               onChange={(e) => {
-                updateLocalSubItem(subItem.id, { title: e.target.value });
+                updateLocalSubItemAttribute(subItemSchema.id, {
+                  title: e.target.value,
+                });
                 if (idx === lastIdx) {
-                  setLocalSubItems((prev) => [
+                  setLocalSubItemSchemas((prev) => [
                     ...prev,
-                    { id: uuid(), ...defaultSubItem },
+                    { id: uuid(), ...defaultSubItemSchema },
                   ]);
                 }
               }}
@@ -71,19 +110,21 @@ function SubItems({
 
             <TextField
               label="subtitle"
-              value={subItem.subtitle}
+              value={subItemSchema.subItem.subtitle}
               onChange={(e) => {
-                updateLocalSubItem(subItem.id, { subtitle: e.target.value });
+                updateLocalSubItemAttribute(subItemSchema.id, {
+                  subtitle: e.target.value,
+                });
               }}
               disabled={disabled}
             />
 
             <TextField
-              label="availableAmount"
-              value={subItem.availableAmount}
+              label="amount"
+              value={subItemSchema.options.amount}
               onChange={(e) => {
-                updateLocalSubItem(subItem.id, {
-                  availableAmount: Number(e.target.value),
+                updateLocalSubItemOption(subItemSchema.id, {
+                  amount: Number(e.target.value),
                 });
               }}
               type="number"
@@ -92,11 +133,15 @@ function SubItems({
 
             <DateTimePicker
               label="date"
-              value={subItem.date ? dayjs(subItem.date) : dayjs()}
+              value={
+                subItemSchema.options.schedule
+                  ? dayjs(subItemSchema.options.schedule as string)
+                  : dayjs()
+              }
               onChange={(date) => {
                 if (date)
-                  updateLocalSubItem(subItem.id, {
-                    date: date.toString(),
+                  updateLocalSubItemOption(subItemSchema.id, {
+                    schedule: date.toString(),
                   });
               }}
               disabled={disabled}
@@ -104,8 +149,8 @@ function SubItems({
 
             <IconButton
               onClick={() => {
-                setLocalSubItems((prev) =>
-                  prev.filter((s) => s.id !== subItem.id),
+                setLocalSubItemSchemas((prev) =>
+                  prev.filter((s) => s.id !== subItemSchema.id),
                 );
               }}
               disabled={idx === lastIdx}

@@ -1,8 +1,8 @@
 import { QueryClient } from "react-query";
 import { LoaderFunctionArgs } from "react-router-dom";
-import { AddItemConfig } from "./types";
+import { NewItemConfig } from "./types";
 
-const fetchAddItemConfig = async (storeId: string): Promise<AddItemConfig> => {
+const fetchAddItemConfig = async (storeId: string): Promise<NewItemConfig> => {
   const res = await fetch(`/api/stores/${storeId}/add-item-config`);
   return res.json();
 };
