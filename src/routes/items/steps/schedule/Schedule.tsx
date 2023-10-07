@@ -22,7 +22,7 @@ function Schedule({
   goNext: () => void;
   goPrev: () => void;
 }) {
-  const scheduleMode: ScheduleMode = "weekly"; // TODO: Should be computed based on core
+  const scheduleMode: ScheduleMode = "specific"; // TODO: Should be computed based on core
 
   return (
     <>

@@ -9,9 +9,7 @@ export type SpecificSchedule = {
     startDateTime: string;
     endDateTime: string;
   }[];
-  options: {
-    granularity: number;
-  };
+  granularity: number;
 };
 
 export type WeeklySchedule = {

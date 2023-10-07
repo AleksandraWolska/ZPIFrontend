@@ -5,9 +5,7 @@ import Granularity from "./Granularity";
 
 export const defaultSpecificSchedule: SpecificSchedule = {
   available: [],
-  options: {
-    granularity: 0,
-  },
+  granularity: 0,
 };
 
 function SpecificScheduleCalendar({
@@ -20,14 +18,11 @@ function SpecificScheduleCalendar({
   return (
     <>
       <Granularity
-        granularity={specificSchedule.options.granularity}
+        granularity={specificSchedule.granularity}
         setGranularity={(granularity: number) =>
           setSchedule({
             ...specificSchedule,
-            options: {
-              ...specificSchedule.options,
-              granularity,
-            },
+            granularity,
           })
         }
       />
