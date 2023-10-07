@@ -113,28 +113,30 @@ export type Comment = {
   datetime: string;
 };
 
-type SpecificAvailability = {
+export type SpecificAvailability = {
   startDateTime: string;
   endDateTime: string;
 };
 
-type DailyAvailability = {
+export type DailyAvailability = {
   startTime: string;
   endTime: string;
 };
 
-type WeeklyAvailability = {
+export type WeekDaysSchedule = {
+  monday: DailyAvailability[];
+  tuesday: DailyAvailability[];
+  wednesday: DailyAvailability[];
+  thursday: DailyAvailability[];
+  friday: DailyAvailability[];
+  saturday: DailyAvailability[];
+  sunday: DailyAvailability[];
+};
+
+export type WeeklyAvailability = {
   startDate: string;
   endDate: string;
-  weekDays: {
-    monday?: DailyAvailability[];
-    tuesday?: DailyAvailability[];
-    wednesday?: DailyAvailability[];
-    thursday?: DailyAvailability[];
-    friday?: DailyAvailability[];
-    saturday?: DailyAvailability[];
-    sunday?: DailyAvailability[];
-  };
+  weekDays: WeekDaysSchedule;
 };
 
 export type Availability = string | SpecificAvailability[] | WeeklyAvailability;
