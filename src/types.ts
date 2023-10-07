@@ -124,13 +124,13 @@ export type DailyAvailability = {
 };
 
 export type WeekDaysSchedule = {
-  monday: DailyAvailability[];
-  tuesday: DailyAvailability[];
-  wednesday: DailyAvailability[];
-  thursday: DailyAvailability[];
-  friday: DailyAvailability[];
-  saturday: DailyAvailability[];
-  sunday: DailyAvailability[];
+  0: DailyAvailability[];
+  1: DailyAvailability[];
+  2: DailyAvailability[];
+  3: DailyAvailability[];
+  4: DailyAvailability[];
+  5: DailyAvailability[];
+  6: DailyAvailability[];
 };
 
 export type WeeklyAvailability = {

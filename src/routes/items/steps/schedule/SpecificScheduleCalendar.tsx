@@ -1,8 +1,14 @@
-import { Checkbox, FormControlLabel, Stack, TextField } from "@mui/material";
-import { useState } from "react";
 import { v4 as uuid } from "uuid";
 import ScheduleCalendar, { Event } from "./ScheduleCalendar";
 import { SpecificSchedule } from "../../types";
+import Granularity from "./Granularity";
+
+export const defaultSpecificSchedule: SpecificSchedule = {
+  available: [],
+  options: {
+    granularity: 0,
+  },
+};
 
 function SpecificScheduleCalendar({
   specificSchedule,
@@ -11,59 +17,27 @@ function SpecificScheduleCalendar({
   specificSchedule: SpecificSchedule;
   setSchedule: (schedule: SpecificSchedule) => void;
 }) {
-  const [granularityEnabled, setGranularityEnabled] = useState(false);
-
   return (
     <>
-      <Stack direction="row">
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={granularityEnabled}
-              onChange={(e) => {
-                const enabled = e.target.checked;
-
-                if (!enabled) {
-                  setSchedule({
-                    ...specificSchedule,
-                    options: {
-                      ...specificSchedule.options,
-                      granularity: 0,
-                    },
-                  });
-                }
-
-                setGranularityEnabled(enabled);
-              }}
-            />
-          }
-          label="granularity enabled"
-        />
-
-        {granularityEnabled && (
-          <TextField
-            type="number"
-            label="granularity"
-            value={specificSchedule.options.granularity}
-            onChange={(e) => {
-              setSchedule({
-                ...specificSchedule,
-                options: {
-                  ...specificSchedule.options,
-                  granularity: Number(e.target.value),
-                },
-              });
-            }}
-          />
-        )}
-      </Stack>
+      <Granularity
+        granularity={specificSchedule.options.granularity}
+        setGranularity={(granularity: number) =>
+          setSchedule({
+            ...specificSchedule,
+            options: {
+              ...specificSchedule.options,
+              granularity,
+            },
+          })
+        }
+      />
 
       <ScheduleCalendar
-        defaultEvents={parseScheduleToEvents(specificSchedule.available)}
+        defaultEvents={parseAvailableToEvents(specificSchedule.available)}
         onEventsChange={(events) =>
           setSchedule({
             ...specificSchedule,
-            available: parseEventsToSchedule(events),
+            available: parseEventsToAvailable(events),
           })
         }
         mode="specific"
@@ -72,10 +46,9 @@ function SpecificScheduleCalendar({
   );
 }
 
-function parseEventsToSchedule(events: Event[]): {
-  startDateTime: string;
-  endDateTime: string;
-}[] {
+function parseEventsToAvailable(
+  events: Event[],
+): SpecificSchedule["available"] {
   return events.map((e) => {
     return {
       startDateTime: e.start.toString(),
@@ -84,10 +57,10 @@ function parseEventsToSchedule(events: Event[]): {
   });
 }
 
-function parseScheduleToEvents(
-  schedule: SpecificSchedule["available"],
+function parseAvailableToEvents(
+  available: SpecificSchedule["available"],
 ): Event[] {
-  return schedule.map((e) => {
+  return available.map((e) => {
     return {
       id: uuid(),
       start: new Date(e.startDateTime),
