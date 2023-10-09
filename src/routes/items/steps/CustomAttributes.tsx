@@ -13,36 +13,23 @@ function CustomAttributes({
   newItem,
   customAttributesSpec,
   setItemCustomAttribute,
-  goNext,
-  goPrev,
 }: {
   newItem: NewItem;
   customAttributesSpec: CustomAttributeSpec[];
   setItemCustomAttribute: (attr: CustomAttribute) => void;
-  goNext: () => void;
-  goPrev: () => void;
 }) {
   return (
-    <>
-      <Grid container spacing={1} width="50%">
-        {newItem.customAttributeList.map((attribute) => (
-          <Grid key={attribute.name} item xs={12} sm={6}>
-            {renderCustomAttributeInput(
-              attribute,
-              setItemCustomAttribute,
-              customAttributesSpec,
-            )}
-          </Grid>
-        ))}
-      </Grid>
-
-      <button type="button" onClick={goPrev}>
-        Prev
-      </button>
-      <button type="button" onClick={goNext}>
-        Next
-      </button>
-    </>
+    <Grid container spacing={1} width="50%">
+      {newItem.customAttributeList.map((attribute) => (
+        <Grid key={attribute.name} item xs={12} sm={6}>
+          {renderCustomAttributeInput(
+            attribute,
+            setItemCustomAttribute,
+            customAttributesSpec,
+          )}
+        </Grid>
+      ))}
+    </Grid>
   );
 }
 

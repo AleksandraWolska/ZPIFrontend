@@ -1,11 +1,12 @@
-export const dummyAddItemConfig = {
+import { NewItemConfig } from "../../../routes/items/types";
+
+export const dummyNewItemConfig: NewItemConfig = {
   core: {
-    granularity: true,
-    flexibility: true,
     simultaneous: true,
     uniqueness: false,
     specificReservation: false,
     periodicity: true,
+    scheduleType: "fixed",
   },
   customAttributesSpec: [
     {

@@ -10,7 +10,15 @@ function Home() {
       <br />
       <Link to="/store-config-wizard">Store config wizard</Link>
       <br />
-      <Link to="/stores/1/items/new">New item</Link>
+      <br />
+      <Link to="/stores/1/items/new">New item 1 (fixed)</Link>
+      <br />
+      <Link to="/stores/2/items/new">New item 2 (shortSlots)</Link>
+      <br />
+      <Link to="/stores/3/items/new">New item 3 (multiDay)</Link>
+      <br />
+      <Link to="/stores/4/items/new">New item 4 (free)</Link>
+      <br />
       <br />
       <Link to="/todos">Todos</Link>
       <br />

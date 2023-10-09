@@ -17,7 +17,7 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import { STORE_CONFIG_STEPS, StoreConfigStep } from "../types";
 import { useStoreConfig } from "../StoreConfigProvider";
-import ChangePageButtons from "../components/ChangePageButtons";
+import ChangePageButtons from "../../../shared-components/ChangePageButtons";
 import { CustomAttributeSpec, StoreConfig } from "../../../types";
 
 const defaultCustomAttributeSpec: Omit<CustomAttributeSpec, "id"> = {

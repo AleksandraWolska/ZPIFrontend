@@ -1,6 +1,12 @@
 import { v4 as uuid } from "uuid";
 import { useState } from "react";
-import { IconButton, Stack, TextField } from "@mui/material";
+import {
+  Checkbox,
+  FormControlLabel,
+  IconButton,
+  Stack,
+  TextField,
+} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import dayjs from "dayjs";
 import { DateTimePicker } from "@mui/x-date-pickers";
@@ -18,7 +24,6 @@ const defaultSubItemSchema: NewSubItemSchema = {
   },
   options: {
     amount: 0,
-    schedule: dayjs().toString(),
   },
 };
 
@@ -131,21 +136,63 @@ function SubItems({
               disabled={disabled}
             />
 
-            <DateTimePicker
-              label="date"
-              value={
-                subItemSchema.options.schedule
-                  ? dayjs(subItemSchema.options.schedule as string)
-                  : dayjs()
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={!!subItemSchema.options.schedule}
+                  onChange={(e) => {
+                    updateLocalSubItemOption(subItemSchema.id, {
+                      schedule: e.target.checked
+                        ? {
+                            startDateTime: dayjs(),
+                            endDateTime: dayjs(),
+                          }
+                        : undefined,
+                    });
+                  }}
+                />
               }
-              onChange={(date) => {
-                if (date)
-                  updateLocalSubItemOption(subItemSchema.id, {
-                    schedule: date.toString(),
-                  });
-              }}
+              label="schedule"
               disabled={disabled}
             />
+
+            {!!subItemSchema.options.schedule && (
+              <>
+                <DateTimePicker
+                  label="startDateTime"
+                  value={subItemSchema.options.schedule.startDateTime}
+                  onChange={(date) => {
+                    if (date)
+                      updateLocalSubItemOption(subItemSchema.id, {
+                        schedule: {
+                          startDateTime: date,
+                          endDateTime:
+                            subItemSchema.options.schedule?.endDateTime ||
+                            dayjs(),
+                        },
+                      });
+                  }}
+                  disabled={disabled}
+                />
+
+                <DateTimePicker
+                  label="endDateTime"
+                  value={subItemSchema.options.schedule.endDateTime}
+                  onChange={(date) => {
+                    if (date)
+                      updateLocalSubItemOption(subItemSchema.id, {
+                        schedule: {
+                          startDateTime:
+                            subItemSchema.options.schedule?.startDateTime ||
+                            dayjs(),
+                          endDateTime: date,
+                        },
+                      });
+                  }}
+                  disabled={disabled}
+                />
+              </>
+            )}
 
             <IconButton
               onClick={() => {

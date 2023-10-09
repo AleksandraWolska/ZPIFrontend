@@ -1,12 +1,14 @@
 import { useState } from "react";
-import { Stepper as MUIStepper, Step, StepLabel } from "@mui/material";
+import { Stepper as MUIStepper, Step, StepLabel, Box } from "@mui/material";
 import GeneralInfo from "./steps/GeneralInfo";
 import useNewItemSchema from "./useNewItemSchema";
 import CustomAttributes from "./steps/CustomAttributes";
 import useNewItemConfig from "./useNewItemConfig";
 import SubItems from "./steps/SubItems";
 import Schedule from "./steps/schedule/Schedule";
-import { askForDate, askForSubItems } from "./utils";
+import { askForSubItems } from "./utils";
+import ChangePageButtons from "../../shared-components/ChangePageButtons";
+import Summary from "./steps/Summary";
 
 function Stepper() {
   const [activeStep, setActiveStep] = useState(0);
@@ -35,7 +37,6 @@ function Stepper() {
           core={core}
           setItemAttribute={setItemAttribute}
           setItemOption={setItemOption}
-          goNext={goNext}
         />
       ),
     });
@@ -46,8 +47,6 @@ function Stepper() {
           newItem={newItemSchema.item}
           customAttributesSpec={customAttributesSpec}
           setItemCustomAttribute={setItemCustomAttribute}
-          goNext={goNext}
-          goPrev={goPrev}
         />
       ),
     });
@@ -63,19 +62,20 @@ function Stepper() {
           />
         ),
       });
-    if (!askForDate(core))
-      steps.push({
-        label: "Schedule",
-        component: (
-          <Schedule
-            newItemSchedule={newItemSchema.options.schedule}
-            setItemOption={setItemOption}
-            goNext={goNext}
-            goPrev={goPrev}
-          />
-        ),
-      });
-    steps.push({ label: "Summary", component: <div>Summary</div> });
+    steps.push({
+      label: "Schedule",
+      component: (
+        <Schedule
+          newItemSchedule={newItemSchema.options.schedule}
+          setItemOption={setItemOption}
+          scheduleType={core.scheduleType}
+        />
+      ),
+    });
+    steps.push({
+      label: "Summary",
+      component: <Summary newItemSchema={newItemSchema} />,
+    });
 
     return steps;
   };
@@ -84,14 +84,26 @@ function Stepper() {
 
   return (
     <>
-      <MUIStepper activeStep={activeStep} alternativeLabel>
+      <MUIStepper
+        activeStep={activeStep}
+        alternativeLabel
+        sx={{ marginTop: 1 }}
+      >
         {steps.map(({ label }) => (
           <Step key={label}>
             <StepLabel>{label}</StepLabel>
           </Step>
         ))}
       </MUIStepper>
+
       {steps[activeStep].component}
+
+      <Box marginTop={2}>
+        <ChangePageButtons
+          onNext={activeStep !== steps.length - 1 ? goNext : undefined}
+          onPrev={activeStep !== 0 ? goPrev : undefined}
+        />
+      </Box>
     </>
   );
 }

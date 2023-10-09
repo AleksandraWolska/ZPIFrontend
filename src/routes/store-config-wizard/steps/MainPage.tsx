@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import { useStoreConfig } from "../StoreConfigProvider";
 import { STORE_CONFIG_STEPS, StoreConfigStep } from "../types";
-import ChangePageButtons from "../components/ChangePageButtons";
+import ChangePageButtons from "../../../shared-components/ChangePageButtons";
 
 function MainPage({
   setActiveStep,

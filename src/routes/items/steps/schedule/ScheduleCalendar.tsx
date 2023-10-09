@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback } from "react";
 import dayjs from "dayjs";
 import {
   Calendar as BigCalendar,
@@ -9,7 +9,6 @@ import {
 import { v4 as uuid } from "uuid";
 
 import "./calendar.css";
-import { ScheduleMode } from "../../types";
 
 const dayjsLoc = dayjsLocalizer(dayjs);
 
@@ -19,7 +18,7 @@ export type Event = {
   end: Date;
 };
 
-const baseFormats = {
+const formats = {
   timeGutterFormat: "HH:mm",
   eventTimeRangeFormat: (range: DateRange) =>
     `${dayjs(range.start).format("HH:mm")} - ${dayjs(range.end).format(
@@ -32,53 +31,30 @@ const baseFormats = {
 };
 
 function ScheduleCalendar({
-  mode,
-  defaultEvents,
+  events,
   onEventsChange,
+  step,
 }: {
-  mode: ScheduleMode;
-  defaultEvents?: Event[];
-  onEventsChange?: (events: Event[]) => void;
+  events: Event[];
+  onEventsChange: (events: Event[]) => void;
+  step?: number;
 }) {
-  const [events, setEvents] = useState<Event[]>(defaultEvents || []);
-
-  const { formats } = useMemo(() => {
-    return mode === "weekly"
-      ? {
-          formats: {
-            ...baseFormats,
-            dayFormat: "ddd",
-          },
-        }
-      : { formats: baseFormats };
-  }, [mode]);
-
-  const components = useMemo(() => {
-    return mode === "weekly"
-      ? {
-          toolbar: () => null,
-        }
-      : {};
-  }, [mode]);
-
   const handleSelectSlot = useCallback(
     ({ start, end }: { start: Date; end: Date }) => {
       console.log("select slot");
       const newEvents = [...events, { id: uuid(), start, end }];
-      setEvents(newEvents);
-      if (onEventsChange) onEventsChange(newEvents);
+      onEventsChange(newEvents);
     },
-    [events, setEvents, onEventsChange],
+    [events, onEventsChange],
   );
 
   const handleSelectEvent = useCallback(
     (event: Event) => {
       console.log("select event");
       const newEvents = events.filter((e) => e.id !== event.id);
-      setEvents(newEvents);
-      if (onEventsChange) onEventsChange(newEvents);
+      onEventsChange(newEvents);
     },
-    [events, setEvents, onEventsChange],
+    [events, onEventsChange],
   );
 
   const handleSelecting = useCallback(
@@ -96,27 +72,27 @@ function ScheduleCalendar({
   );
 
   return (
-    <div style={{ width: "80%", height: "600px" }}>
+    <div style={{ height: "600px" }}>
       <BigCalendar
         localizer={dayjsLoc}
         view={Views.WEEK}
         views={[Views.WEEK]}
         onView={() => {}}
         formats={formats}
-        components={components}
         selectable
         events={events}
         onSelectSlot={handleSelectSlot}
         onSelectEvent={handleSelectEvent}
         onSelecting={handleSelecting}
+        timeslots={1}
+        step={step}
       />
     </div>
   );
 }
 
 ScheduleCalendar.defaultProps = {
-  defaultEvents: null,
-  onEventsChange: null,
+  step: 30,
 };
 
 export default ScheduleCalendar;
