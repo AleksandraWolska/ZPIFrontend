@@ -25,19 +25,16 @@ export const OWNER_COLORS = {
 
 export type OwnerColor = ObjectValues<typeof OWNER_COLORS>;
 
-export type Flexibility = boolean;
-export type Granularity = boolean;
 export type Simultaneous = boolean;
 export type Uniqueness = boolean;
 export type SpecificReservation = boolean;
 export type Periodicity = boolean;
 export type Core = {
-  flexibility?: Flexibility;
-  granularity?: Granularity;
   simultaneous?: Simultaneous;
   uniqueness?: Uniqueness;
   specificReservation?: SpecificReservation;
   periodicity?: Periodicity;
+  scheduleType: ScheduleType;
 };
 
 export type CustomAttributeSpec = {
@@ -164,3 +161,4 @@ export type ItemInfo = {
   };
   itemStatus: ItemStatus;
 };
+export type ScheduleType = "fixed" | "shortSlots" | "multiDay" | "free";

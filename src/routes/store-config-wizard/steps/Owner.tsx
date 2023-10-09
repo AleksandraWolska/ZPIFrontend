@@ -7,7 +7,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useStoreConfig } from "../StoreConfigProvider";
-import ChangePageButtons from "../components/ChangePageButtons";
+import ChangePageButtons from "../../../shared-components/ChangePageButtons";
 import { STORE_CONFIG_STEPS, StoreConfigStep } from "../types";
 import { OWNER_COLORS } from "../../../types";
 

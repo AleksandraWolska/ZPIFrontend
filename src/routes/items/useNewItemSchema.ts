@@ -1,10 +1,20 @@
 import { useState } from "react";
 import { v4 as uuid } from "uuid";
 import dayjs from "dayjs";
-import { NewItemSchema, NewItemConfig, NewItemOptions, NewItem } from "./types";
+import {
+  NewItemSchema,
+  NewItemConfig,
+  NewItemOptions,
+  NewItem,
+  Schedule,
+} from "./types";
 import useNewItemConfig from "./useNewItemConfig";
-import { CustomAttribute, CustomAttributeSpec } from "../../types";
-import { askForAmount, askForDate, askForSubItems } from "./utils";
+import {
+  CustomAttribute,
+  CustomAttributeSpec,
+  ScheduleType,
+} from "../../types";
+import { askForAmount, askForSubItems } from "./utils";
 
 function useNewItemSchema() {
   const newItemConfig = useNewItemConfig();
@@ -56,32 +66,29 @@ function useNewItemSchema() {
   };
 }
 
-const defaultNewItemSchema: NewItemSchema = {
-  item: {
-    active: true,
-    title: "",
-    subtitle: "",
-    description: "",
-    image: "",
-    customAttributeList: [],
-  },
-  options: {},
+const defaultNewItem: Omit<NewItem, "customAttributeList"> = {
+  active: true,
+  title: "",
+  subtitle: "",
+  description: "",
+  image: "",
 };
 
 function initializeNewItemSchema(config: NewItemConfig): NewItemSchema {
   const { core, customAttributesSpec } = config;
 
-  const schema: NewItemSchema = { ...defaultNewItemSchema };
-
-  schema.item.customAttributeList =
-    initializeCustomAttributes(customAttributesSpec);
+  const schema: NewItemSchema = {
+    item: {
+      ...defaultNewItem,
+      customAttributeList: initializeCustomAttributes(customAttributesSpec),
+    },
+    options: {
+      schedule: initializeSchedule(core.scheduleType),
+    },
+  };
 
   if (askForAmount(core)) {
     schema.options.amount = 0;
-  }
-
-  if (askForDate(core)) {
-    schema.options.schedule = dayjs().toString();
   }
 
   if (askForSubItems(core)) {
@@ -104,6 +111,34 @@ function initializeCustomAttributes(
       value,
     };
   });
+}
+
+function initializeSchedule(scheduleType: ScheduleType): Schedule {
+  switch (scheduleType) {
+    case "fixed":
+      return {
+        startDateTime: dayjs(),
+        endDateTime: dayjs(),
+      };
+    case "shortSlots":
+      return {
+        scheduleSlots: [],
+      };
+    case "multiDay":
+      return {
+        startDate: dayjs(),
+        endDate: dayjs(),
+        reservationStartTime: dayjs(),
+        reservationEndTime: dayjs(),
+      };
+    case "free":
+      return {
+        startDateTime: dayjs(),
+        endDateTime: dayjs(),
+      };
+    default:
+      throw new Error("Invalid schedule type");
+  }
 }
 
 export default useNewItemSchema;

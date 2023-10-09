@@ -1,71 +1,51 @@
-import SpecificScheduleCalendar, {
-  defaultSpecificSchedule,
-} from "./SpecificScheduleCalendar";
 import {
-  ScheduleMode,
+  FixedSchedule,
+  FreeSchedule,
+  MultiDaySchedule,
   NewItemOptions,
-  SpecificSchedule,
-  WeeklySchedule,
+  ShortSlotsSchedule,
 } from "../../types";
-import WeeklyScheduleCalendar, {
-  defaultWeeklySchedule,
-} from "./WeeklyScheduleCalendar";
+import ShortSlots from "./ShortSlots";
+import MultiDay from "./MultiDay";
+import Fixed from "./Fixed";
+import Free from "./Free";
+import { ScheduleType } from "../../../../types";
 
 function Schedule({
   newItemSchedule,
   setItemOption,
-  goNext,
-  goPrev,
+  scheduleType,
 }: {
   newItemSchedule: NewItemOptions["schedule"];
   setItemOption: (option: Partial<NewItemOptions>) => void;
-  goNext: () => void;
-  goPrev: () => void;
+  scheduleType: ScheduleType;
 }) {
-  const scheduleMode: ScheduleMode = "specific"; // TODO: Should be computed based on core
-
   return (
     <>
-      {scheduleMode === "specific" ? (
-        <SpecificScheduleCalendar
-          specificSchedule={
-            !newItemSchedule || typeof newItemSchedule === "string"
-              ? defaultSpecificSchedule
-              : (newItemSchedule as SpecificSchedule)
-          }
-          setSchedule={(schedule: SpecificSchedule) =>
-            setItemOption({ schedule })
-          }
-        />
-      ) : (
-        <WeeklyScheduleCalendar
-          weeklySchedule={
-            !newItemSchedule || typeof newItemSchedule === "string"
-              ? defaultWeeklySchedule
-              : (newItemSchedule as WeeklySchedule)
-          }
-          setSchedule={(schedule: WeeklySchedule) =>
-            setItemOption({ schedule })
-          }
+      {scheduleType === "fixed" && (
+        <Fixed
+          newItemSchedule={newItemSchedule as FixedSchedule}
+          setItemOption={setItemOption}
         />
       )}
-
-      <button
-        type="button"
-        onClick={() => {
-          goPrev();
-        }}
-      >
-        Prev
-      </button>
-      <button
-        type="button"
-        onClick={() => {
-          goNext();
-        }}
-      >
-        Next
-      </button>
+      {scheduleType === "shortSlots" && (
+        <ShortSlots
+          newItemSchedule={newItemSchedule as ShortSlotsSchedule}
+          setItemOption={setItemOption}
+        />
+      )}
+      {scheduleType === "multiDay" && (
+        <MultiDay
+          newItemSchedule={newItemSchedule as MultiDaySchedule}
+          setItemOption={setItemOption}
+        />
+      )}
+      {scheduleType === "free" && (
+        <Free
+          newItemSchedule={newItemSchedule as FreeSchedule}
+          setItemOption={setItemOption}
+        />
+      )}
     </>
   );
 }
