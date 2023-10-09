@@ -15,7 +15,6 @@ import CommentComponent from "../features/CommentComponent";
 import Ratings from "../features/Ratings";
 import RatingsInteractive from "../features/RatingsInteractive";
 import QuantityInput from "../components/core/QuantityInput";
-import { FreeRangesDatepicker } from "../components/core/FreeRangersDatepicker";
 import SubItemsList from "../components/core/SubItemsList";
 import useItemDetails from "./useItemDetails";
 import useDetailsPageConfig from "./useDetailsPageConfig";
