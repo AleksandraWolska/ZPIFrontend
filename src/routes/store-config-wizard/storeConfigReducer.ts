@@ -92,19 +92,19 @@ function resetCoreConfig(
   switch (step) {
     case STORE_CONFIG_STEPS.FLEXIBILITY:
       return {};
-    case STORE_CONFIG_STEPS.GRANULARITY:
+    case STORE_CONFIG_STEPS.SCHEDULE_TYPE:
       return { flexibility: coreConfig.flexibility };
     case STORE_CONFIG_STEPS.SIMULTANEOUS:
       return {
         flexibility: coreConfig.flexibility,
-        ...(coreConfig.granularity !== undefined && {
-          granularity: coreConfig.granularity,
+        ...(coreConfig.scheduleType !== undefined && {
+          scheduleType: coreConfig.scheduleType,
         }),
       };
     case STORE_CONFIG_STEPS.UNIQUENESS:
       return {
         flexibility: coreConfig.flexibility,
-        granularity: coreConfig.granularity,
+        scheduleType: coreConfig.scheduleType,
         simultaneous: coreConfig.simultaneous,
       };
     case STORE_CONFIG_STEPS.SPECIFIC_RESERVATION:

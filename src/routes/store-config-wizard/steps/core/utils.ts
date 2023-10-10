@@ -6,12 +6,12 @@ export function calculateProgress(
 ): number {
   if (from === STORE_CONFIG_STEPS.FLEXIBILITY) {
     if (to === STORE_CONFIG_STEPS.SIMULTANEOUS) return 45;
-    if (to === STORE_CONFIG_STEPS.GRANULARITY) return 36.5;
-  } else if (from === STORE_CONFIG_STEPS.GRANULARITY) {
+    if (to === STORE_CONFIG_STEPS.SCHEDULE_TYPE) return 36.5;
+  } else if (from === STORE_CONFIG_STEPS.SCHEDULE_TYPE) {
     if (to === STORE_CONFIG_STEPS.FLEXIBILITY) return 0;
     if (to === STORE_CONFIG_STEPS.SIMULTANEOUS) return 55;
   } else if (from === STORE_CONFIG_STEPS.SIMULTANEOUS) {
-    if (to === STORE_CONFIG_STEPS.GRANULARITY) return 45;
+    if (to === STORE_CONFIG_STEPS.SCHEDULE_TYPE) return 45;
     if (to === STORE_CONFIG_STEPS.FLEXIBILITY) return 0;
     if (to === STORE_CONFIG_STEPS.SPECIFIC_RESERVATION) return 67.5;
     if (to === STORE_CONFIG_STEPS.UNIQUENESS) return 80;

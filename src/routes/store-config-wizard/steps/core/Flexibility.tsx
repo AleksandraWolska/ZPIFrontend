@@ -28,8 +28,8 @@ function Flexibility({
       <button
         type="button"
         onClick={() => {
-          appendCoreAttribute("flexibility", true);
-          const nextStep = STORE_CONFIG_STEPS.GRANULARITY;
+          appendCoreAttribute({ flexibility: true });
+          const nextStep = STORE_CONFIG_STEPS.SCHEDULE_TYPE;
           setActiveStep(nextStep);
           setProgress(
             calculateProgress(STORE_CONFIG_STEPS.FLEXIBILITY, nextStep),
@@ -42,7 +42,7 @@ function Flexibility({
       <button
         type="button"
         onClick={() => {
-          appendCoreAttribute("flexibility", false);
+          appendCoreAttribute({ flexibility: false });
           const nextStep = STORE_CONFIG_STEPS.SIMULTANEOUS;
           setActiveStep(nextStep);
           setProgress(

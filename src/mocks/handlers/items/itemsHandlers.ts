@@ -6,17 +6,17 @@ const getDummyCustomAttributesSpec = rest.get(
   (req, res, ctx) => {
     const { storeId } = req.params;
 
-    if (typeof storeId !== "string") {
-      return res(ctx.status(400), ctx.text("Invalid storeId"));
-    }
-
     if (storeId === "1") {
-      dummyNewItemConfig.core.scheduleType = "fixed";
+      dummyNewItemConfig.core.flexibility = false;
+      dummyNewItemConfig.core.scheduleType = undefined;
     } else if (storeId === "2") {
+      dummyNewItemConfig.core.flexibility = true;
       dummyNewItemConfig.core.scheduleType = "shortSlots";
     } else if (storeId === "3") {
+      dummyNewItemConfig.core.flexibility = true;
       dummyNewItemConfig.core.scheduleType = "multiDay";
     } else if (storeId === "4") {
+      dummyNewItemConfig.core.flexibility = true;
       dummyNewItemConfig.core.scheduleType = "free";
     }
 
