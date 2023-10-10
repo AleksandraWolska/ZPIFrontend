@@ -34,6 +34,7 @@ function MultiDay({
               }
             }}
             slotProps={{ textField: { fullWidth: true } }}
+            format="DD.MM.YYYY"
           />
         </Grid>
 
@@ -52,6 +53,7 @@ function MultiDay({
               }
             }}
             slotProps={{ textField: { fullWidth: true } }}
+            format="DD.MM.YYYY"
           />
         </Grid>
 
@@ -70,6 +72,8 @@ function MultiDay({
               }
             }}
             slotProps={{ textField: { fullWidth: true } }}
+            format="HH:mm"
+            ampm={false}
           />
         </Grid>
 
@@ -88,6 +92,8 @@ function MultiDay({
               }
             }}
             slotProps={{ textField: { fullWidth: true } }}
+            format="HH:mm"
+            ampm={false}
           />
         </Grid>
       </Grid>

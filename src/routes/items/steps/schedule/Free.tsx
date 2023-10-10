@@ -29,6 +29,8 @@ function Free({
               });
             }
           }}
+          format="DD.MM.YYYY HH:mm"
+          ampm={false}
         />
 
         <DateTimePicker
@@ -44,6 +46,8 @@ function Free({
               });
             }
           }}
+          format="DD.MM.YYYY HH:mm"
+          ampm={false}
         />
       </Stack>
     </>

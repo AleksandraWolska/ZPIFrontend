@@ -84,11 +84,11 @@ function renderCustomAttributeInput(
       return (
         <TextField
           label={attribute.name}
-          value={attribute.value}
+          value={attribute.value.toString()}
           onChange={(e) =>
             setCustomAttribute({
               ...attribute,
-              value: Number(e.target.value),
+              value: parseInt(e.target.value, 10),
             })
           }
           fullWidth

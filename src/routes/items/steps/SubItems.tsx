@@ -32,13 +32,9 @@ type LocalSubItemSchema = NewSubItemSchema & { id: string };
 function SubItems({
   newItemSchema,
   setItemAttribute,
-  goNext,
-  goPrev,
 }: {
   newItemSchema: NewItem;
   setItemAttribute: (attr: Partial<NewItem>) => void;
-  goNext: () => void;
-  goPrev: () => void;
 }) {
   const initialLocalSubItemSchemas: LocalSubItemSchema[] = [
     ...(newItemSchema.subItemList || []).map((s) => ({
@@ -60,26 +56,28 @@ function SubItems({
     id: string,
     attr: Partial<NewSubItem>,
   ) => {
-    setLocalSubItemSchemas((prev) =>
-      prev.map((s) =>
-        s.id === id ? { ...s, subItem: { ...s.subItem, ...attr } } : s,
-      ),
+    const newValue = localSubItemSchemas.map((s) =>
+      s.id === id ? { ...s, subItem: { ...s.subItem, ...attr } } : s,
     );
+
+    setLocalSubItemSchemas(newValue);
+    saveSubItemList(newValue);
   };
 
   const updateLocalSubItemOption = (
     id: string,
     option: Partial<NewSubItemOptions>,
   ) => {
-    setLocalSubItemSchemas((prev) =>
-      prev.map((s) =>
-        s.id === id ? { ...s, options: { ...s.options, ...option } } : s,
-      ),
+    const newValue = localSubItemSchemas.map((s) =>
+      s.id === id ? { ...s, options: { ...s.options, ...option } } : s,
     );
+
+    setLocalSubItemSchemas(newValue);
+    saveSubItemList(newValue);
   };
 
-  const saveSubItemList = () => {
-    const subItemList = localSubItemSchemas
+  const saveSubItemList = (localSchemas: LocalSubItemSchema[]) => {
+    const subItemList = localSchemas
       .filter((s) => s.subItem.title !== "")
       .map((s) => {
         const { id, ...rest } = s;
@@ -126,10 +124,10 @@ function SubItems({
 
             <TextField
               label="amount"
-              value={subItemSchema.options.amount}
+              value={subItemSchema.options.amount?.toString()}
               onChange={(e) => {
                 updateLocalSubItemOption(subItemSchema.id, {
-                  amount: Number(e.target.value),
+                  amount: parseInt(e.target.value, 10),
                 });
               }}
               type="number"
@@ -207,25 +205,6 @@ function SubItems({
           </Stack>
         );
       })}
-
-      <button
-        type="button"
-        onClick={() => {
-          saveSubItemList();
-          goPrev();
-        }}
-      >
-        Prev
-      </button>
-      <button
-        type="button"
-        onClick={() => {
-          saveSubItemList();
-          goNext();
-        }}
-      >
-        Next
-      </button>
     </>
   );
 }

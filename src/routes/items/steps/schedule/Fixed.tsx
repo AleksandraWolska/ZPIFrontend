@@ -32,6 +32,8 @@ function Fixed({
               });
             }
           }}
+          format="DD.MM.YYYY HH:mm"
+          ampm={false}
         />
 
         <DateTimePicker
@@ -47,6 +49,8 @@ function Fixed({
               });
             }
           }}
+          format="DD.MM.YYYY HH:mm"
+          ampm={false}
         />
       </Stack>
     </>
