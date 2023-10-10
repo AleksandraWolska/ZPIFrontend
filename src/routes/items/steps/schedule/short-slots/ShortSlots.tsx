@@ -3,8 +3,8 @@ import { useState } from "react";
 import { Box, Stack, TextField, Typography } from "@mui/material";
 import dayjs from "dayjs";
 import ScheduleCalendar, { Event } from "./ScheduleCalendar";
-import { ShortSlotsSchedule } from "../../types";
-import { useNewItemSchemaConfig } from "../../NewItemSchemaProvider";
+import { ShortSlotsSchedule } from "../../../types";
+import { useNewItemSchemaConfig } from "../../../NewItemSchemaProvider";
 
 function ShortSlots() {
   const { newItemSchema, setOption } = useNewItemSchemaConfig();
