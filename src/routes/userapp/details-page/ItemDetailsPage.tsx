@@ -9,6 +9,7 @@ import {
   DialogTitle,
 } from "@mui/material";
 import { useState } from "react";
+import { useParams } from "react-router-dom";
 import {
   Comment,
   SpecificAvailability,
@@ -25,7 +26,9 @@ import useItemDetails from "./useItemDetails";
 import useDetailsPageConfig from "./useDetailsPageConfig";
 import { CheckAvailabilityCalendar } from "../components/core/CheckAvailabilityCalendar";
 import { FreeRangesCalendar } from "../components/core/FreeRangesCalendar";
+import { FlexibleReservationData, FlexibleReservationRequest } from "../types";
 
+const userId = "user1";
 const initializeReservationRequestReady = (
   core: StoreConfig["core"],
   availableAmount: number | undefined,
@@ -43,6 +46,7 @@ const initializeReservationRequestReady = (
 export default function ItemDetailsPage() {
   const storeConfig = useDetailsPageConfig();
   const itemInfo = useItemDetails();
+  const params = useParams() as { storeId: string; itemId: string };
 
   const [showSuccessDialog, setShowSuccessDialog] = useState(false);
   const [reservationRequestReady, setReservationRequestReady] = useState(
@@ -160,15 +164,13 @@ export default function ItemDetailsPage() {
     </Box>
   );
 
-  const handleAvailabilityChecked = (
-    id: string,
-    start: string,
-    end: string,
-  ) => {
-    setReservationRequestReady(true);
-    console.log("Item ID:", id);
-    console.log("Start Date:", start);
-    console.log("End Date:", end);
+  const prepareFlexibleReservation = (data: FlexibleReservationData) => {
+    const preparedFlexibleRequest: FlexibleReservationRequest = {
+      ...data,
+      storeId: params.storeId,
+      userId,
+    };
+    console.log(preparedFlexibleRequest);
   };
 
   const freeRangesUserInput = (
@@ -176,7 +178,7 @@ export default function ItemDetailsPage() {
       itemId={itemInfo.item.id}
       availability={itemInfo.itemStatus.schedule as SpecificAvailability[]}
       userCount={userCount}
-      onAvailabilityChecked={handleAvailabilityChecked}
+      prepareFlexibleReservation={prepareFlexibleReservation}
     />
   );
 
@@ -185,7 +187,7 @@ export default function ItemDetailsPage() {
       itemId={itemInfo.item.id}
       availabilityList={itemInfo.itemStatus.schedule as SpecificAvailability[]}
       userCount={userCount}
-      onAvailabilityChecked={handleAvailabilityChecked}
+      prepareFlexibleReservation={prepareFlexibleReservation}
       availabilityChecked={availabilityChecked}
       setAvailabilityChecked={setAvailabilityChecked}
     />

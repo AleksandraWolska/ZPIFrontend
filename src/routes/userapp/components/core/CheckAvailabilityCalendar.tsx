@@ -22,7 +22,10 @@ import {
 import { useTheme } from "@mui/material/styles";
 import { SpecificAvailability } from "../../../../types";
 import useAvailabilityCheck from "../../details-page/useAvailabilityCheck";
-import { CheckAvailabilityResponseSuggestion } from "../../types";
+import {
+  CheckAvailabilityResponseSuggestion,
+  FlexibleReservationData,
+} from "../../types";
 
 const dayjsLoc = dayjsLocalizer(dayjs);
 
@@ -31,7 +34,6 @@ type Event = {
   start: Date;
   end: Date;
   type?: string;
-  mine?: boolean;
 };
 
 const baseFormats = {
@@ -49,45 +51,46 @@ const baseFormats = {
 type CheckAvailabilityCalendarProps = {
   itemId: string;
   userCount: number;
-  availabilityList: SpecificAvailability[];
-  onAvailabilityChecked: (idx: string, start: string, end: string) => void;
-  availabilityChecked: boolean;
+  availabilityList: SpecificAvailability[]; // schedule that comes with itemStatus
+  prepareFlexibleReservation: (data: FlexibleReservationData) => void; // function called on reserve button click, after ensuring availability
+  availabilityChecked: boolean; // state in parent as userCount is also connected
   setAvailabilityChecked: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export function CheckAvailabilityCalendar({
   itemId,
   userCount,
-  onAvailabilityChecked,
+  prepareFlexibleReservation,
   availabilityList,
   availabilityChecked,
   setAvailabilityChecked,
 }: CheckAvailabilityCalendarProps) {
-  const [events, setEvents] = useState<Event[]>([]);
-  const [backgroundEvents, setBackgroundEvents] = useState<Event[]>([]);
-  const [showSuggestedDialog, setShowSuggestedDialog] = useState(false);
-  const [isFromResponse, setIsFromResponse] = useState<boolean>(false);
-  const defaultDate = useMemo(() => new Date(), []);
-  const [showReserveDialog, setShowReserveDialog] = useState(false);
-  const [reserveData, setReserveData] = useState<null | {
-    itemId: string;
-    start: string;
-    end: string;
-  }>(null);
   const theme = useTheme();
-
   const { mutate, data: responseData, isError } = useAvailabilityCheck();
 
+  const [events, setEvents] = useState<Event[]>([]);
+  const [backgroundEvents, setBackgroundEvents] = useState<Event[]>([]);
+
+  const [showSuggestedDialog, setShowSuggestedDialog] = useState(false);
+  const [showReserveDialog, setShowReserveDialog] = useState(false);
+
+  const [isFromResponse, setIsFromResponse] = useState<boolean>(false);
+  const defaultDate = useMemo(() => new Date(), []);
+  const [reserveData, setReserveData] =
+    useState<null | FlexibleReservationData>(null);
+
+  // if response is not an array, and has start date, then it is ok, ready to reserve
+  // if response will be an array, then it is suggested dates
   useEffect(() => {
-    if (responseData && !Array.isArray(responseData) && responseData?.start) {
+    if (responseData && !Array.isArray(responseData) && responseData.start) {
       setReserveData({
         itemId,
         start: responseData.start,
         end: responseData.end,
+        amount: responseData.amount,
       });
       setAvailabilityChecked(true);
       setShowReserveDialog(true);
-      console.log("halo");
     }
 
     if (responseData && Array.isArray(responseData)) {
@@ -103,7 +106,10 @@ export function CheckAvailabilityCalendar({
     setBackgroundEvents(transformToArray(availabilityList));
   }, [availabilityList]);
 
-  const transformToArray = (specificAvailabilities: SpecificAvailability[]) => {
+  // transforms SpecificAvailability[] to events
+  const transformToArray = (
+    specificAvailabilities: SpecificAvailability[],
+  ): Event[] => {
     return specificAvailabilities.map((item) => ({
       id: uuid(),
       start: new Date(item.startDateTime),
@@ -149,9 +155,11 @@ export function CheckAvailabilityCalendar({
     [backgroundEvents],
   );
 
-  const shouldShowReserve =
+  // for buttons Reserve/CheckAvailability display
+  const shouldEnableReserve =
     (isFromResponse && availabilityChecked) || availabilityChecked;
-  const shouldShowCheckAvailability = !shouldShowReserve;
+
+  // sends request to check chosen availability
   const handleCheckAvailability = () => {
     console.log(userCount);
     mutate({
@@ -170,6 +178,7 @@ export function CheckAvailabilityCalendar({
       );
 
       if (!suggestedDate) return;
+      // set event to suggestedd start and end date
       setEvents(() => [
         {
           id: uuid(),
@@ -179,8 +188,7 @@ export function CheckAvailabilityCalendar({
         },
       ]);
 
-      // Update the availabilityList with the new schedule
-      // from the suggestedDate
+      // Update the availabilityList with the new schedule from corresponding suggested date
       const newAvailabilityList = suggestedDate.schedule.map(
         (item: SpecificAvailability) => ({
           id: uuid(),
@@ -189,9 +197,10 @@ export function CheckAvailabilityCalendar({
           type: "available",
         }),
       );
+      // background events restrict clickable user choice
+      // this ensures evary new user chosen date would be available
       setBackgroundEvents(newAvailabilityList);
       setIsFromResponse(true);
-
       setShowSuggestedDialog(false);
       setAvailabilityChecked(true);
     },
@@ -200,7 +209,7 @@ export function CheckAvailabilityCalendar({
 
   const buttonCheck = (
     <Box marginTop={2}>
-      {shouldShowCheckAvailability && (
+      {!shouldEnableReserve && (
         <Button
           variant="contained"
           color="primary"
@@ -215,17 +224,18 @@ export function CheckAvailabilityCalendar({
 
   const buttonReserve = (
     <Box marginTop={2}>
-      {shouldShowReserve && events[0] && events[0].start && events[0].end && (
+      {shouldEnableReserve && events[0] && events[0].start && events[0].end && (
         <Button
           variant="contained"
           color="primary"
           disabled={!events[0].start || !events[0].end}
           onClick={() =>
-            onAvailabilityChecked(
+            prepareFlexibleReservation({
               itemId,
-              events[0].start.toISOString(),
-              events[0].end.toISOString(),
-            )
+              start: events[0].start.toISOString(),
+              end: events[0].end.toISOString(),
+              amount: userCount,
+            })
           }
         >
           Reserve Item
@@ -274,7 +284,6 @@ export function CheckAvailabilityCalendar({
           style={{ height: "400px" }}
           timeslots={8}
           eventPropGetter={(event) => {
-            // color set here to match page theme
             let color;
             switch (event.type) {
               case "available":

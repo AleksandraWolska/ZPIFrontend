@@ -36,13 +36,13 @@ type FreeRangesCalendarProps = {
   itemId: string;
   userCount: number;
   availability: SpecificAvailability[];
-  onAvailabilityChecked: (idx: string, start: string, end: string) => void;
+  prepareFlexibleReservation: (idx: string, start: string, end: string) => void;
 };
 
 export function FreeRangesCalendar({
   itemId,
   userCount,
-  onAvailabilityChecked,
+  prepareFlexibleReservation: onAvailabilityChecked,
   availability,
 }: FreeRangesCalendarProps) {
   const [events, setEvents] = useState<Event[]>([]);
