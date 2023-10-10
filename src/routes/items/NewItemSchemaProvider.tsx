@@ -2,12 +2,7 @@ import { ReactNode, useContext, useMemo, useReducer } from "react";
 import { v4 as uuid } from "uuid";
 import dayjs from "dayjs";
 import { NewItem, NewItemConfig, NewItemSchema, Schedule } from "./types";
-import {
-  Core,
-  CustomAttribute,
-  CustomAttributeSpec,
-  ScheduleType,
-} from "../../types";
+import { Core, CustomAttribute, CustomAttributeSpec } from "../../types";
 import useNewItemConfig from "./useNewItemConfig";
 import {
   NEW_ITEM_SCHEMA_ACTION_TYPES,
@@ -88,7 +83,7 @@ function initializeNewItemSchema(config: NewItemConfig): NewItemSchema {
       customAttributeList: initializeCustomAttributes(customAttributesSpec),
     },
     options: {
-      schedule: initializeSchedule(core.scheduleType),
+      schedule: initializeSchedule(core),
     },
   };
 
@@ -126,12 +121,14 @@ function initializeCustomAttributes(
   });
 }
 
-function initializeSchedule(scheduleType: ScheduleType): Schedule {
-  switch (scheduleType) {
-    case "fixed":
-      return {
-        startDateTime: dayjs(),
-      };
+function initializeSchedule(core: Core): Schedule {
+  if (!core.flexibility) {
+    return {
+      startDateTime: dayjs(),
+    };
+  }
+
+  switch (core.scheduleType) {
     case "shortSlots":
       return {
         scheduleSlots: [],
@@ -157,13 +154,12 @@ export const askForAmount = (core: Core) => core.uniqueness === false;
 
 export const askForSubItems = (core: Core) => {
   const {
+    flexibility: f,
     simultaneous: s,
     uniqueness: u,
     periodicity: p,
     specificReservation: r,
   } = core;
-
-  const f = core.scheduleType !== "fixed";
 
   return (
     ((!f && !s && !u && p && !r) ||

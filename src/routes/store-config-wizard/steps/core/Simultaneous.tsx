@@ -20,8 +20,8 @@ function Simultaneous({
         type="button"
         onClick={() => {
           const prevStep =
-            storeConfig.core.granularity !== undefined
-              ? STORE_CONFIG_STEPS.GRANULARITY
+            storeConfig.core.flexibility === true
+              ? STORE_CONFIG_STEPS.SCHEDULE_TYPE
               : STORE_CONFIG_STEPS.FLEXIBILITY;
           withdrawToCoreStep(prevStep);
           setActiveStep(prevStep);
@@ -36,7 +36,7 @@ function Simultaneous({
       <button
         type="button"
         onClick={() => {
-          appendCoreAttribute("simultaneous", true);
+          appendCoreAttribute({ simultaneous: true });
           const nextStep =
             storeConfig.core.flexibility === false
               ? STORE_CONFIG_STEPS.SPECIFIC_RESERVATION
@@ -53,7 +53,7 @@ function Simultaneous({
       <button
         type="button"
         onClick={() => {
-          appendCoreAttribute("simultaneous", false);
+          appendCoreAttribute({ simultaneous: false });
           const nextStep =
             storeConfig.core.flexibility === false
               ? STORE_CONFIG_STEPS.PERIODICITY

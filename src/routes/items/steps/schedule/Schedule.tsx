@@ -6,11 +6,11 @@ import { useNewItemSchemaConfig } from "../../NewItemSchemaProvider";
 
 function Schedule() {
   const { newItemConfig } = useNewItemSchemaConfig();
-  const { scheduleType } = newItemConfig.core;
+  const { flexibility, scheduleType } = newItemConfig.core;
 
   return (
     <>
-      {scheduleType === "fixed" && <Fixed />}
+      {flexibility === false && <Fixed />}
       {scheduleType === "shortSlots" && <ShortSlots />}
       {scheduleType === "multiDay" && <MultiDay />}
       {scheduleType === "free" && <Free />}

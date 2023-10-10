@@ -35,7 +35,7 @@ function SpecificReservation({
       <button
         type="button"
         onClick={() => {
-          appendCoreAttribute("specificReservation", true);
+          appendCoreAttribute({ specificReservation: true });
           const nextStep = STORE_CONFIG_STEPS.CUSTOM_ATTRIBUTES_SPEC;
           setActiveStep(nextStep);
           setProgress(100);
@@ -47,7 +47,7 @@ function SpecificReservation({
       <button
         type="button"
         onClick={() => {
-          appendCoreAttribute("specificReservation", false);
+          appendCoreAttribute({ specificReservation: false });
           const nextStep = STORE_CONFIG_STEPS.PERIODICITY;
           setActiveStep(nextStep);
           setProgress(

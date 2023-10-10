@@ -2,7 +2,7 @@ import { STORE_CONFIG_STEPS, StoreConfigStep } from "../../types";
 import { useStoreConfig } from "../../StoreConfigProvider";
 import { calculateProgress } from "./utils";
 
-function Granularity({
+function ScheduleType({
   setActiveStep,
   setProgress,
 }: {
@@ -13,7 +13,7 @@ function Granularity({
 
   return (
     <>
-      <div>Granularity - True or False?</div>
+      <div>ScheduleType - shortSlots or multiDay or free?</div>
 
       <button
         type="button"
@@ -22,7 +22,7 @@ function Granularity({
           withdrawToCoreStep(prevStep);
           setActiveStep(prevStep);
           setProgress(
-            calculateProgress(STORE_CONFIG_STEPS.GRANULARITY, prevStep),
+            calculateProgress(STORE_CONFIG_STEPS.SCHEDULE_TYPE, prevStep),
           );
         }}
       >
@@ -32,32 +32,46 @@ function Granularity({
       <button
         type="button"
         onClick={() => {
-          appendCoreAttribute("granularity", true);
+          appendCoreAttribute({ scheduleType: "shortSlots" });
           const nextStep = STORE_CONFIG_STEPS.SIMULTANEOUS;
           setActiveStep(nextStep);
           setProgress(
-            calculateProgress(STORE_CONFIG_STEPS.GRANULARITY, nextStep),
+            calculateProgress(STORE_CONFIG_STEPS.SCHEDULE_TYPE, nextStep),
           );
         }}
       >
-        True
+        shortSlots
       </button>
 
       <button
         type="button"
         onClick={() => {
-          appendCoreAttribute("granularity", false);
+          appendCoreAttribute({ scheduleType: "multiDay" });
           const nextStep = STORE_CONFIG_STEPS.SIMULTANEOUS;
           setActiveStep(nextStep);
           setProgress(
-            calculateProgress(STORE_CONFIG_STEPS.GRANULARITY, nextStep),
+            calculateProgress(STORE_CONFIG_STEPS.SCHEDULE_TYPE, nextStep),
           );
         }}
       >
-        False
+        multiDay
+      </button>
+
+      <button
+        type="button"
+        onClick={() => {
+          appendCoreAttribute({ scheduleType: "free" });
+          const nextStep = STORE_CONFIG_STEPS.SIMULTANEOUS;
+          setActiveStep(nextStep);
+          setProgress(
+            calculateProgress(STORE_CONFIG_STEPS.SCHEDULE_TYPE, nextStep),
+          );
+        }}
+      >
+        free
       </button>
     </>
   );
 }
 
-export default Granularity;
+export default ScheduleType;

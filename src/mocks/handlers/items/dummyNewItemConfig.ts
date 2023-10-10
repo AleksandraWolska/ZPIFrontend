@@ -2,11 +2,12 @@ import { NewItemConfig } from "../../../routes/items/types";
 
 export const dummyNewItemConfig: NewItemConfig = {
   core: {
+    flexibility: false,
+    scheduleType: undefined,
     simultaneous: true,
     uniqueness: false,
     specificReservation: false,
     periodicity: true,
-    scheduleType: "fixed",
   },
   customAttributesSpec: [
     {
