@@ -159,9 +159,8 @@ export function CheckAvailabilityCalendar({
   const shouldEnableReserve =
     (isFromResponse && availabilityChecked) || availabilityChecked;
 
-  // sends request to check chosen availability
+  // sends request to check chosen availability for amount of users
   const handleCheckAvailability = () => {
-    console.log(userCount);
     mutate({
       startDate: events[0].start.toISOString(),
       endDate: events[0].end.toISOString(),

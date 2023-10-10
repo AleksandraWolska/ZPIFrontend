@@ -5,6 +5,7 @@ import { SpecificAvailability } from "../../../types";
 import {
   CheckAvailabilityResponseSuccess,
   CheckAvailabilityResponseSuggestion,
+  FetchScheduleResponse,
 } from "../../../routes/userapp/types";
 
 /*
@@ -181,6 +182,42 @@ const postAvailabilityCheck = rest.post(
   },
 );
 
+const postFetchSchedule = rest.post(
+  "/api/fetch-schedule",
+  async (req, res, ctx) => {
+    const { itemId, amount } = await req.json(); // Modified here
+
+    if (typeof itemId !== "string") {
+      return res(ctx.status(400), ctx.text("Invalid input"));
+    }
+
+    const today = dayjs();
+    const startOfWeek = today.startOf("week").add(1, "day"); // Moves to Monday
+
+    const response: FetchScheduleResponse = {
+      itemId,
+      amount,
+      schedule: await Array.from({ length: 7 }).flatMap((_, i) => {
+        const currentDay = startOfWeek.add(i, "day"); // Calculates the day for the current iteration
+
+        const morningEvent: SpecificAvailability = {
+          startDateTime: currentDay.add(14, "hour").toDate().toISOString(),
+          endDateTime: currentDay.add(15, "hour").toDate().toISOString(),
+        };
+
+        const afternoonEvent: SpecificAvailability = {
+          startDateTime: currentDay.add(17, "hour").toDate().toISOString(),
+          endDateTime: currentDay.add(18, "hour").toDate().toISOString(),
+        };
+
+        return [morningEvent, afternoonEvent];
+      }),
+    };
+
+    return res(ctx.status(200), ctx.json(response));
+  },
+);
+
 export const userAppHandlers = [
   getOwner,
   getMainPageConfig,
@@ -189,4 +226,5 @@ export const userAppHandlers = [
   getItemDetails,
   getCommentsList,
   postAvailabilityCheck,
+  postFetchSchedule,
 ];

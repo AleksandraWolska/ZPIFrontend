@@ -1,4 +1,3 @@
-import { User } from "oidc-client-ts";
 import { StoreConfig, Comment, SpecificAvailability } from "../../types";
 
 export type FilterValue = {
@@ -67,4 +66,15 @@ export type FlexibleReservationRequest = {
   end: string;
   amount: number;
   userId: string;
+};
+
+export type FetchScheduleRequest = {
+  itemId: string;
+  amount: number;
+};
+
+export type FetchScheduleResponse = {
+  itemId: string;
+  amount: number;
+  schedule: SpecificAvailability[];
 };

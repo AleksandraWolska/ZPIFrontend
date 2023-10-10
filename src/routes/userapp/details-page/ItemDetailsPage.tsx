@@ -43,6 +43,12 @@ const initializeReservationRequestReady = (
   return false;
 };
 
+const initializeAvailabilityChecked = (core: StoreConfig["core"]): boolean => {
+  console.log(`ustawiono${core.flexibility && !core.uniqueness}`);
+  if (core.flexibility && core.uniqueness) return true;
+  return false;
+};
+
 export default function ItemDetailsPage() {
   const storeConfig = useDetailsPageConfig();
   const itemInfo = useItemDetails();
@@ -56,7 +62,9 @@ export default function ItemDetailsPage() {
     ),
   );
   const [userCount, setUserCount] = useState(1);
-  const [availabilityChecked, setAvailabilityChecked] = useState(false);
+  const [availabilityChecked, setAvailabilityChecked] = useState(
+    initializeAvailabilityChecked(storeConfig.core),
+  );
   const [selectedSubItemsInfoList, setSelectedSubItemsInfoList] = useState<
     SubItemInfo[]
   >([]);
@@ -176,8 +184,10 @@ export default function ItemDetailsPage() {
   const freeRangesUserInput = (
     <FreeRangesCalendar
       itemId={itemInfo.item.id}
-      availability={itemInfo.itemStatus.schedule as SpecificAvailability[]}
+      availabilityList={itemInfo.itemStatus.schedule as SpecificAvailability[]}
       userCount={userCount}
+      availabilityChecked={availabilityChecked}
+      setAvailabilityChecked={setAvailabilityChecked}
       prepareFlexibleReservation={prepareFlexibleReservation}
     />
   );
