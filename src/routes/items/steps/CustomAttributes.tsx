@@ -7,25 +7,20 @@ import {
   TextField,
 } from "@mui/material";
 import { CustomAttribute, CustomAttributeSpec } from "../../../types";
-import { NewItem } from "../types";
+import { useNewItemSchemaConfig } from "../NewItemSchemaProvider";
 
-function CustomAttributes({
-  newItem,
-  customAttributesSpec,
-  setItemCustomAttribute,
-}: {
-  newItem: NewItem;
-  customAttributesSpec: CustomAttributeSpec[];
-  setItemCustomAttribute: (attr: CustomAttribute) => void;
-}) {
+function CustomAttributes() {
+  const { newItemConfig, newItemSchema, setItemCustomAttribute } =
+    useNewItemSchemaConfig();
+
   return (
     <Grid container spacing={1} width="50%">
-      {newItem.customAttributeList.map((attribute) => (
+      {newItemSchema.item.customAttributeList.map((attribute) => (
         <Grid key={attribute.name} item xs={12} sm={6}>
           {renderCustomAttributeInput(
             attribute,
             setItemCustomAttribute,
-            customAttributesSpec,
+            newItemConfig.customAttributesSpec,
           )}
         </Grid>
       ))}

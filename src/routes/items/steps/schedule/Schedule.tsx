@@ -1,51 +1,19 @@
-import {
-  FixedSchedule,
-  FreeSchedule,
-  MultiDaySchedule,
-  NewItemOptions,
-  ShortSlotsSchedule,
-} from "../../types";
 import ShortSlots from "./ShortSlots";
 import MultiDay from "./MultiDay";
 import Fixed from "./Fixed";
 import Free from "./Free";
-import { ScheduleType } from "../../../../types";
+import { useNewItemSchemaConfig } from "../../NewItemSchemaProvider";
 
-function Schedule({
-  newItemSchedule,
-  setItemOption,
-  scheduleType,
-}: {
-  newItemSchedule: NewItemOptions["schedule"];
-  setItemOption: (option: Partial<NewItemOptions>) => void;
-  scheduleType: ScheduleType;
-}) {
+function Schedule() {
+  const { newItemConfig } = useNewItemSchemaConfig();
+  const { scheduleType } = newItemConfig.core;
+
   return (
     <>
-      {scheduleType === "fixed" && (
-        <Fixed
-          newItemSchedule={newItemSchedule as FixedSchedule}
-          setItemOption={setItemOption}
-        />
-      )}
-      {scheduleType === "shortSlots" && (
-        <ShortSlots
-          newItemSchedule={newItemSchedule as ShortSlotsSchedule}
-          setItemOption={setItemOption}
-        />
-      )}
-      {scheduleType === "multiDay" && (
-        <MultiDay
-          newItemSchedule={newItemSchedule as MultiDaySchedule}
-          setItemOption={setItemOption}
-        />
-      )}
-      {scheduleType === "free" && (
-        <Free
-          newItemSchedule={newItemSchedule as FreeSchedule}
-          setItemOption={setItemOption}
-        />
-      )}
+      {scheduleType === "fixed" && <Fixed />}
+      {scheduleType === "shortSlots" && <ShortSlots />}
+      {scheduleType === "multiDay" && <MultiDay />}
+      {scheduleType === "free" && <Free />}
     </>
   );
 }

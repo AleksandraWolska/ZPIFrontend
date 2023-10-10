@@ -1,14 +1,12 @@
 import { DateTimePicker } from "@mui/x-date-pickers";
 import { Stack, Typography } from "@mui/material";
-import { FixedSchedule, NewItemOptions } from "../../types";
+import { FixedSchedule } from "../../types";
+import { useNewItemSchemaConfig } from "../../NewItemSchemaProvider";
 
-function Fixed({
-  newItemSchedule,
-  setItemOption,
-}: {
-  newItemSchedule: FixedSchedule;
-  setItemOption: (option: Partial<NewItemOptions>) => void;
-}) {
+function Fixed() {
+  const { newItemSchema, setOption } = useNewItemSchemaConfig();
+  const { schedule } = newItemSchema.options as { schedule: FixedSchedule };
+
   return (
     <>
       <Typography variant="h4" sx={{ marginBottom: 2 }}>
@@ -21,14 +19,12 @@ function Fixed({
       <Stack alignItems="flex-start" gap={1}>
         <DateTimePicker
           label="startDateTime"
-          value={newItemSchedule.startDateTime}
+          value={schedule.startDateTime}
           onChange={(newValue) => {
             if (newValue) {
-              setItemOption({
-                schedule: {
-                  ...newItemSchedule,
-                  startDateTime: newValue,
-                },
+              setOption("schedule", {
+                ...schedule,
+                startDateTime: newValue,
               });
             }
           }}
@@ -38,14 +34,12 @@ function Fixed({
 
         <DateTimePicker
           label="endDateTime"
-          value={newItemSchedule.endDateTime}
+          value={schedule.endDateTime}
           onChange={(newValue) => {
             if (newValue) {
-              setItemOption({
-                schedule: {
-                  ...newItemSchedule,
-                  endDateTime: newValue,
-                },
+              setOption("schedule", {
+                ...schedule,
+                endDateTime: newValue,
               });
             }
           }}

@@ -10,12 +10,8 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import dayjs from "dayjs";
 import { DateTimePicker } from "@mui/x-date-pickers";
-import {
-  NewItem,
-  NewSubItem,
-  NewSubItemOptions,
-  NewSubItemSchema,
-} from "../types";
+import { NewSubItem, NewSubItemOptions, NewSubItemSchema } from "../types";
+import { useNewItemSchemaConfig } from "../NewItemSchemaProvider";
 
 const defaultSubItemSchema: NewSubItemSchema = {
   subItem: {
@@ -29,15 +25,11 @@ const defaultSubItemSchema: NewSubItemSchema = {
 
 type LocalSubItemSchema = NewSubItemSchema & { id: string };
 
-function SubItems({
-  newItemSchema,
-  setItemAttribute,
-}: {
-  newItemSchema: NewItem;
-  setItemAttribute: (attr: Partial<NewItem>) => void;
-}) {
+function SubItems() {
+  const { newItemSchema, setItemAttribute } = useNewItemSchemaConfig();
+
   const initialLocalSubItemSchemas: LocalSubItemSchema[] = [
-    ...(newItemSchema.subItemList || []).map((s) => ({
+    ...(newItemSchema.item.subItemList || []).map((s) => ({
       id: uuid(),
       ...s,
     })),
@@ -84,7 +76,7 @@ function SubItems({
         return rest;
       });
     console.log("subItems", subItemList);
-    setItemAttribute({ subItemList });
+    setItemAttribute("subItemList", subItemList);
   };
 
   return (
