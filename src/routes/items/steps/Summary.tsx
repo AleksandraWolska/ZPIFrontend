@@ -1,6 +1,9 @@
 import { NewItemSchema } from "../types";
+import { useNewItemSchemaConfig } from "../NewItemSchemaProvider";
 
-function Summary({ newItemSchema }: { newItemSchema: NewItemSchema }) {
+function Summary() {
+  const { newItemSchema } = useNewItemSchemaConfig();
+
   return <div>{JSON.stringify(parseDates(newItemSchema))}</div>;
 }
 

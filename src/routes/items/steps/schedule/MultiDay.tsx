@@ -1,14 +1,14 @@
 import { DatePicker, TimePicker } from "@mui/x-date-pickers";
 import { Grid, Typography } from "@mui/material";
-import { MultiDaySchedule, NewItemOptions } from "../../types";
+import { MultiDaySchedule } from "../../types";
+import { useNewItemSchemaConfig } from "../../NewItemSchemaProvider";
 
-function MultiDay({
-  newItemSchedule,
-  setItemOption,
-}: {
-  newItemSchedule: MultiDaySchedule;
-  setItemOption: (option: Partial<NewItemOptions>) => void;
-}) {
+function MultiDay() {
+  const { newItemSchema, setOption } = useNewItemSchemaConfig();
+  const { schedule } = newItemSchema.options as {
+    schedule: MultiDaySchedule;
+  };
+
   return (
     <>
       <Typography variant="h4" sx={{ marginBottom: 2 }}>
@@ -22,14 +22,12 @@ function MultiDay({
         <Grid item xs={12} sm={6}>
           <DatePicker
             label="startDate"
-            value={newItemSchedule.startDate}
+            value={schedule.startDate}
             onChange={(newValue) => {
               if (newValue) {
-                setItemOption({
-                  schedule: {
-                    ...newItemSchedule,
-                    startDate: newValue,
-                  },
+                setOption("schedule", {
+                  ...schedule,
+                  startDate: newValue,
                 });
               }
             }}
@@ -41,14 +39,12 @@ function MultiDay({
         <Grid item xs={12} sm={6}>
           <DatePicker
             label="end"
-            value={newItemSchedule.endDate}
+            value={schedule.endDate}
             onChange={(newValue) => {
               if (newValue) {
-                setItemOption({
-                  schedule: {
-                    ...newItemSchedule,
-                    endDate: newValue,
-                  },
+                setOption("schedule", {
+                  ...schedule,
+                  endDate: newValue,
                 });
               }
             }}
@@ -60,14 +56,12 @@ function MultiDay({
         <Grid item xs={12} sm={6}>
           <TimePicker
             label="reservationStartTime"
-            value={newItemSchedule.reservationStartTime}
+            value={schedule.reservationStartTime}
             onChange={(newValue) => {
               if (newValue) {
-                setItemOption({
-                  schedule: {
-                    ...newItemSchedule,
-                    reservationStartTime: newValue,
-                  },
+                setOption("schedule", {
+                  ...schedule,
+                  reservationStartTime: newValue,
                 });
               }
             }}
@@ -80,14 +74,12 @@ function MultiDay({
         <Grid item xs={12} sm={6}>
           <TimePicker
             label="reservationEndTime"
-            value={newItemSchedule.reservationEndTime}
+            value={schedule.reservationEndTime}
             onChange={(newValue) => {
               if (newValue) {
-                setItemOption({
-                  schedule: {
-                    ...newItemSchedule,
-                    reservationEndTime: newValue,
-                  },
+                setOption("schedule", {
+                  ...schedule,
+                  reservationEndTime: newValue,
                 });
               }
             }}

@@ -3,15 +3,15 @@ import { useState } from "react";
 import { Box, Stack, TextField, Typography } from "@mui/material";
 import dayjs from "dayjs";
 import ScheduleCalendar, { Event } from "./ScheduleCalendar";
-import { NewItemOptions, ShortSlotsSchedule } from "../../types";
+import { ShortSlotsSchedule } from "../../types";
+import { useNewItemSchemaConfig } from "../../NewItemSchemaProvider";
 
-function ShortSlots({
-  newItemSchedule,
-  setItemOption,
-}: {
-  newItemSchedule: ShortSlotsSchedule;
-  setItemOption: (option: Partial<NewItemOptions>) => void;
-}) {
+function ShortSlots() {
+  const { newItemSchema, setOption } = useNewItemSchemaConfig();
+  const { schedule } = newItemSchema.options as {
+    schedule: ShortSlotsSchedule;
+  };
+
   const [step, setStep] = useState(30);
 
   return (
@@ -38,11 +38,9 @@ function ShortSlots({
 
         <Box width="100%">
           <ScheduleCalendar
-            events={parseScheduleToEvents(newItemSchedule)}
+            events={parseScheduleToEvents(schedule)}
             onEventsChange={(events: Event[]) =>
-              setItemOption({
-                schedule: parseEventsToShortSlotsSchedule(events),
-              })
+              setOption("schedule", parseEventsToShortSlotsSchedule(events))
             }
             step={step > 0 ? step : 30}
           />
