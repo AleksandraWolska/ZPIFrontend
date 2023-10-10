@@ -135,7 +135,7 @@ function SubItems() {
                       schedule: e.target.checked
                         ? {
                             startDateTime: dayjs(),
-                            endDateTime: dayjs(),
+                            endDateTime: undefined,
                           }
                         : undefined,
                     });
@@ -163,24 +163,49 @@ function SubItems() {
                       });
                   }}
                   disabled={disabled}
+                  format="DD.MM.YYYY HH:mm"
+                  ampm={false}
                 />
 
-                <DateTimePicker
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={!!subItemSchema.options.schedule.endDateTime}
+                      onChange={(e) => {
+                        updateLocalSubItemOption(subItemSchema.id, {
+                          schedule: {
+                            startDateTime:
+                              subItemSchema.options.schedule?.startDateTime ||
+                              dayjs(),
+                            endDateTime: e.target.checked ? dayjs() : undefined,
+                          },
+                        });
+                      }}
+                    />
+                  }
                   label="endDateTime"
-                  value={subItemSchema.options.schedule.endDateTime}
-                  onChange={(date) => {
-                    if (date)
-                      updateLocalSubItemOption(subItemSchema.id, {
-                        schedule: {
-                          startDateTime:
-                            subItemSchema.options.schedule?.startDateTime ||
-                            dayjs(),
-                          endDateTime: date,
-                        },
-                      });
-                  }}
-                  disabled={disabled}
                 />
+
+                {!!subItemSchema.options.schedule.endDateTime && (
+                  <DateTimePicker
+                    label="endDateTime"
+                    value={subItemSchema.options.schedule.endDateTime}
+                    onChange={(date) => {
+                      if (date)
+                        updateLocalSubItemOption(subItemSchema.id, {
+                          schedule: {
+                            startDateTime:
+                              subItemSchema.options.schedule?.startDateTime ||
+                              dayjs(),
+                            endDateTime: date,
+                          },
+                        });
+                    }}
+                    disabled={disabled}
+                    format="DD.MM.YYYY HH:mm"
+                    ampm={false}
+                  />
+                )}
               </>
             )}
 

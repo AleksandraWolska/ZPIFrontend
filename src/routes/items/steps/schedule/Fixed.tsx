@@ -1,5 +1,6 @@
 import { DateTimePicker } from "@mui/x-date-pickers";
-import { Stack, Typography } from "@mui/material";
+import { Checkbox, FormControlLabel, Stack, Typography } from "@mui/material";
+import dayjs from "dayjs";
 import { FixedSchedule } from "../../types";
 import { useNewItemSchemaConfig } from "../../NewItemSchemaProvider";
 
@@ -32,20 +33,37 @@ function Fixed() {
           ampm={false}
         />
 
-        <DateTimePicker
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={!!schedule.endDateTime}
+              onChange={(e) => {
+                setOption("schedule", {
+                  ...schedule,
+                  endDateTime: e.target.checked ? dayjs() : undefined,
+                });
+              }}
+            />
+          }
           label="endDateTime"
-          value={schedule.endDateTime}
-          onChange={(newValue) => {
-            if (newValue) {
-              setOption("schedule", {
-                ...schedule,
-                endDateTime: newValue,
-              });
-            }
-          }}
-          format="DD.MM.YYYY HH:mm"
-          ampm={false}
         />
+
+        {!!schedule.endDateTime && (
+          <DateTimePicker
+            label="endDateTime"
+            value={schedule.endDateTime}
+            onChange={(newValue) => {
+              if (newValue) {
+                setOption("schedule", {
+                  ...schedule,
+                  endDateTime: newValue,
+                });
+              }
+            }}
+            format="DD.MM.YYYY HH:mm"
+            ampm={false}
+          />
+        )}
       </Stack>
     </>
   );

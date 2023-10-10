@@ -131,7 +131,6 @@ function initializeSchedule(scheduleType: ScheduleType): Schedule {
     case "fixed":
       return {
         startDateTime: dayjs(),
-        endDateTime: dayjs(),
       };
     case "shortSlots":
       return {
