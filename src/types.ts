@@ -113,33 +113,34 @@ export type Comment = {
   datetime: string;
 };
 
-export type SpecificAvailability = {
+export type FixedAvailability = {
+  startDateTime: string;
+  endDateTime?: string;
+};
+
+export type ShortSlotsAvailability = {
+  availableSlots: {
+    startDateTime: string;
+    endDateTime: string;
+  }[];
+};
+
+export type MultiDayAvailability = {
+  availableDays: {
+    date: string;
+  }[];
+};
+
+export type FreeAvailability = {
   startDateTime: string;
   endDateTime: string;
 };
 
-export type DailyAvailability = {
-  startTime: string;
-  endTime: string;
-};
-
-export type WeekDaysSchedule = {
-  0: DailyAvailability[];
-  1: DailyAvailability[];
-  2: DailyAvailability[];
-  3: DailyAvailability[];
-  4: DailyAvailability[];
-  5: DailyAvailability[];
-  6: DailyAvailability[];
-};
-
-export type WeeklyAvailability = {
-  startDate: string;
-  endDate: string;
-  weekDays: WeekDaysSchedule;
-};
-
-export type Availability = string | SpecificAvailability[] | WeeklyAvailability;
+export type Availability =
+  | FixedAvailability
+  | ShortSlotsAvailability
+  | MultiDayAvailability
+  | FreeAvailability;
 
 export type Item = {
   id: string;
