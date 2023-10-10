@@ -5,7 +5,7 @@ export type NewItemConfig = Pick<StoreConfig, "core" | "customAttributesSpec">;
 
 export type FixedSchedule = {
   startDateTime: Dayjs;
-  endDateTime: Dayjs;
+  endDateTime?: Dayjs;
 };
 
 export type ShortSlotsSchedule = {
