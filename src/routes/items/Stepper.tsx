@@ -57,8 +57,6 @@ function Stepper() {
           <SubItems
             newItemSchema={newItemSchema.item}
             setItemAttribute={setItemAttribute}
-            goNext={goNext}
-            goPrev={goPrev}
           />
         ),
       });

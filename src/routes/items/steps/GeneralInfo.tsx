@@ -63,8 +63,10 @@ function GeneralInfo({
           <TextField
             label="amount"
             name="amount"
-            value={newItemSchema.options.amount}
-            onChange={(e) => setItemOption({ amount: Number(e.target.value) })}
+            value={newItemSchema.options.amount?.toString()}
+            onChange={(e) =>
+              setItemOption({ amount: parseInt(e.target.value, 10) })
+            }
             fullWidth
             type="number"
           />
