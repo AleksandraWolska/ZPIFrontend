@@ -1,4 +1,4 @@
-import ShortSlots from "./ShortSlots";
+import ShortSlots from "./short-slots/ShortSlots";
 import MultiDay from "./MultiDay";
 import Fixed from "./Fixed";
 import Free from "./Free";
