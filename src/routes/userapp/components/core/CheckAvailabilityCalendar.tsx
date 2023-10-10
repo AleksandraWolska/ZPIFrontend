@@ -21,6 +21,8 @@ import {
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { SpecificAvailability } from "../../../../types";
+import useAvailabilityCheck from "../../details-page/useAvailabilityCheck";
+import { CheckAvailabilityResponseSuggestion } from "../../types";
 
 const dayjsLoc = dayjsLocalizer(dayjs);
 
@@ -47,7 +49,7 @@ const baseFormats = {
 type CheckAvailabilityCalendarProps = {
   itemId: string;
   userCount: number;
-  availability: SpecificAvailability[];
+  availabilityList: SpecificAvailability[];
   onAvailabilityChecked: (idx: string, start: string, end: string) => void;
   availabilityChecked: boolean;
   setAvailabilityChecked: React.Dispatch<React.SetStateAction<boolean>>;
@@ -57,20 +59,49 @@ export function CheckAvailabilityCalendar({
   itemId,
   userCount,
   onAvailabilityChecked,
-  availability,
+  availabilityList,
   availabilityChecked,
   setAvailabilityChecked,
 }: CheckAvailabilityCalendarProps) {
   const [events, setEvents] = useState<Event[]>([]);
+  const [backgroundEvents, setBackgroundEvents] = useState<Event[]>([]);
   const [showSuggestedDialog, setShowSuggestedDialog] = useState(false);
-
-  useEffect(() => {
-    console.log("OPEN HOURS:", events);
-  }, [events]);
-
+  const [isFromResponse, setIsFromResponse] = useState<boolean>(false);
+  const defaultDate = useMemo(() => new Date(), []);
+  const [showReserveDialog, setShowReserveDialog] = useState(false);
+  const [reserveData, setReserveData] = useState<null | {
+    itemId: string;
+    start: string;
+    end: string;
+  }>(null);
   const theme = useTheme();
 
-  const defaultDate = useMemo(() => new Date(), []);
+  const { mutate, data: responseData, isError } = useAvailabilityCheck();
+
+  useEffect(() => {
+    if (responseData && !Array.isArray(responseData) && responseData?.start) {
+      setReserveData({
+        itemId,
+        start: responseData.start,
+        end: responseData.end,
+      });
+      setAvailabilityChecked(true);
+      setShowReserveDialog(true);
+      console.log("halo");
+    }
+
+    if (responseData && Array.isArray(responseData)) {
+      setShowSuggestedDialog(true);
+    }
+
+    if (isError) {
+      console.error("An error occurred while checking availability.");
+    }
+  }, [responseData, isError, itemId, setAvailabilityChecked]);
+
+  useEffect(() => {
+    setBackgroundEvents(transformToArray(availabilityList));
+  }, [availabilityList]);
 
   const transformToArray = (specificAvailabilities: SpecificAvailability[]) => {
     return specificAvailabilities.map((item) => ({
@@ -81,52 +112,33 @@ export function CheckAvailabilityCalendar({
     }));
   };
 
-  const transformedAvailability = useMemo(
-    () => transformToArray(availability),
-    [availability],
-  );
-
-  const suggestedDateRanges = useMemo(() => {
-    if (!events[0]) return [];
-
-    return [
-      { idx: "1", startOffset: 0.5, endOffset: 0.5 },
-      { idx: "2", startOffset: 1, endOffset: 1 },
-      { idx: "3", startOffset: 2, endOffset: 2 },
-    ].map((range) => ({
-      idx: range.idx,
-      start: dayjs(events[0].start).add(range.startOffset, "hour"),
-      end: dayjs(events[0].end).add(range.endOffset, "hour"),
-    }));
-  }, [events]);
-
   const handleSelectSlot = useCallback(
     ({ start, end }: { start: Date; end: Date }) => {
-      const withinBackgroundEvent = transformedAvailability.some((e) => {
+      const withinBackgroundEvent = backgroundEvents.some((e) => {
         return start >= e.start && end <= e.end;
       });
       if (withinBackgroundEvent) {
         setEvents(() => [{ id: uuid(), start, end, type: "userchoice" }]);
-        setAvailabilityChecked(false);
+        setAvailabilityChecked(isFromResponse);
       }
     },
-    [setEvents, setAvailabilityChecked, transformedAvailability],
+    [backgroundEvents, isFromResponse, setAvailabilityChecked],
   );
 
   const handleSelecting = useCallback(
     ({ start, end }: { start: Date; end: Date }) => {
-      const withinBackgroundEvent = transformedAvailability.some((e) => {
+      const withinBackgroundEvent = backgroundEvents.some((e) => {
         return start >= e.start && end <= e.end;
       });
 
       return withinBackgroundEvent;
     },
-    [transformedAvailability],
+    [backgroundEvents],
   );
 
   const handleSelectEvent = useCallback(
     (event: Event) => {
-      const withinBackgroundEvent = transformedAvailability.some((e) => {
+      const withinBackgroundEvent = backgroundEvents.some((e) => {
         return event.start >= e.start && event.end <= e.end;
       });
 
@@ -134,47 +146,76 @@ export function CheckAvailabilityCalendar({
         setEvents((prev) => prev.filter((e) => e.id !== event.id));
       }
     },
-    [transformedAvailability],
+    [backgroundEvents],
   );
 
+  const shouldShowReserve =
+    (isFromResponse && availabilityChecked) || availabilityChecked;
+  const shouldShowCheckAvailability = !shouldShowReserve;
   const handleCheckAvailability = () => {
     console.log(userCount);
-    setShowSuggestedDialog(true);
+    mutate({
+      startDate: events[0].start.toISOString(),
+      endDate: events[0].end.toISOString(),
+      amount: userCount,
+      itemId,
+    });
   };
 
   const handleSuggestedDateClick = useCallback(
     (idx: string) => {
-      const suggestedDate = suggestedDateRanges.find(
-        (range) => range.idx === idx,
+      const suggestedDate = responseData.find(
+        (suggestion: CheckAvailabilityResponseSuggestion) =>
+          suggestion.id === idx,
       );
 
       if (!suggestedDate) return;
       setEvents(() => [
         {
           id: uuid(),
-          start: suggestedDate.start?.toDate(),
-          end: suggestedDate.end?.toDate(),
+          start: new Date(suggestedDate.suggestedStart),
+          end: new Date(suggestedDate.suggestedEnd),
+          type: "userchoice",
         },
       ]);
+
+      // Update the availabilityList with the new schedule
+      // from the suggestedDate
+      const newAvailabilityList = suggestedDate.schedule.map(
+        (item: SpecificAvailability) => ({
+          id: uuid(),
+          start: new Date(item.startDateTime),
+          end: new Date(item.endDateTime),
+          type: "available",
+        }),
+      );
+      setBackgroundEvents(newAvailabilityList);
+      setIsFromResponse(true);
+
       setShowSuggestedDialog(false);
       setAvailabilityChecked(true);
     },
-    [setAvailabilityChecked, suggestedDateRanges],
+    [responseData, setAvailabilityChecked],
   );
 
-  const buttons = (
+  const buttonCheck = (
     <Box marginTop={2}>
-      {!availabilityChecked && (
+      {shouldShowCheckAvailability && (
         <Button
           variant="contained"
           color="primary"
-          disabled={!events[0] || !events[0].start || !events[0].end}
+          disabled={!events[0]?.start || !events[0]?.end}
           onClick={() => handleCheckAvailability()}
         >
           Check Availability
         </Button>
       )}
-      {availabilityChecked && events[0] && events[0].start && events[0].end && (
+    </Box>
+  );
+
+  const buttonReserve = (
+    <Box marginTop={2}>
+      {shouldShowReserve && events[0] && events[0].start && events[0].end && (
         <Button
           variant="contained"
           color="primary"
@@ -193,13 +234,30 @@ export function CheckAvailabilityCalendar({
     </Box>
   );
 
+  const buttonReset = (
+    <Box marginTop={2}>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={() => {
+          setBackgroundEvents(transformToArray(availabilityList));
+          setEvents([]);
+          setIsFromResponse(false);
+          setAvailabilityChecked(false);
+        }}
+      >
+        RESET
+      </Button>
+    </Box>
+  );
+
   return (
     <>
       <Box style={{ width: "400px", height: "500px" }}>
         Halooo
         <BigCalendar
           localizer={dayjsLoc}
-          backgroundEvents={transformedAvailability}
+          backgroundEvents={backgroundEvents}
           defaultDate={defaultDate}
           view={Views.WEEK}
           formats={baseFormats}
@@ -240,37 +298,76 @@ export function CheckAvailabilityCalendar({
           }}
         />
       </Box>
-
       <Typography>
         {events && events[0] && events[0].start && events[0].end
           ? `Wybrano termin: ${events[0].start.toLocaleDateString()} ${events[0].start.toLocaleTimeString()} -  ${events[0].end.toLocaleDateString()} ${events[0].end.toLocaleTimeString()}`
           : "Wybierz termin"}
       </Typography>
-      {buttons}
+      {buttonCheck}
+      {buttonReserve}
+      {buttonReset}
+      {Array.isArray(responseData) && (
+        <Dialog
+          open={showSuggestedDialog}
+          onClose={() => setShowSuggestedDialog(false)}
+        >
+          <DialogTitle>
+            Niestety, ten termin nie jest dostępny, może któryś z poniższych Cię
+            zainteresuje?
+          </DialogTitle>
+          <DialogContent>
+            <List>
+              {responseData?.map(
+                (suggestion: CheckAvailabilityResponseSuggestion) => (
+                  <ListItem
+                    button
+                    key={suggestion.id}
+                    onClick={() => handleSuggestedDateClick(suggestion.id)}
+                  >
+                    <ListItemText
+                      primary={`Start: ${dayjs(
+                        suggestion.suggestedStart,
+                      ).format("YYYY-MM-DD HH:mm")}, End: ${dayjs(
+                        suggestion.suggestedEnd,
+                      ).format("YYYY-MM-DD HH:mm")}`}
+                    />
+                  </ListItem>
+                ),
+              )}
+            </List>
+          </DialogContent>
+          <DialogActions>
+            <Button
+              onClick={() => setShowSuggestedDialog(false)}
+              color="primary"
+            >
+              Cancel
+            </Button>
+          </DialogActions>
+        </Dialog>
+      )}
       <Dialog
-        open={showSuggestedDialog}
-        onClose={() => setShowSuggestedDialog(false)}
+        open={showReserveDialog}
+        onClose={() => setShowReserveDialog(false)}
       >
-        <DialogTitle>Suggested Times</DialogTitle>
+        <DialogTitle>Wybrany termin jest dostępny do rezerwacji!</DialogTitle>
         <DialogContent>
-          <List>
-            {suggestedDateRanges.map((range) => (
-              <ListItem
-                button
-                key={range.idx}
-                onClick={() => handleSuggestedDateClick(range.idx)}
-              >
-                <ListItemText
-                  primary={`Start: ${range.start?.format(
-                    "YYYY-MM-DD HH:mm",
-                  )}, End: ${range.end?.format("YYYY-MM-DD HH:mm")}`}
-                />
-              </ListItem>
-            ))}
-          </List>
+          <Typography>
+            Start:{" "}
+            {reserveData
+              ? dayjs(reserveData.start).format("YYYY-MM-DD HH:mm")
+              : ""}
+          </Typography>
+          <Typography>
+            End:{" "}
+            {reserveData
+              ? dayjs(reserveData.end).format("YYYY-MM-DD HH:mm")
+              : ""}
+          </Typography>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setShowSuggestedDialog(false)} color="primary">
+          {buttonReserve}
+          <Button onClick={() => setShowReserveDialog(false)} color="secondary">
             Cancel
           </Button>
         </DialogActions>

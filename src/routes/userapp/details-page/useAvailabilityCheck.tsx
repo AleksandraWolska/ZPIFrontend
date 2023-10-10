@@ -1,18 +1,21 @@
-import { useParams } from "react-router-dom";
-import { useQuery } from "react-query";
-import { getCommentsListQuery } from "./loader";
-import { CommentList } from "../types";
+import { useMutation } from "react-query";
+import { CheckAvailabilityRequest } from "../types";
 
 function useAvailabilityCheck() {
-  const params = useParams() as { storeId: string; itemId: string };
+  const mutation = useMutation((data: CheckAvailabilityRequest) =>
+    fetch(`/api/check-availability`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    }).then((res) => {
+      if (!res.ok) throw new Error("Availability check failed");
+      return res.json();
+    }),
+  );
 
-  const { data } = useQuery(
-    getCommentsListQuery(params.storeId, params.itemId),
-  ) as {
-    data: CommentList;
-  };
-
-  return data;
+  return mutation;
 }
 
 export default useAvailabilityCheck;

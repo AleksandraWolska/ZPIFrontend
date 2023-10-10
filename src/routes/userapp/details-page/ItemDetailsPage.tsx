@@ -9,7 +9,12 @@ import {
   DialogTitle,
 } from "@mui/material";
 import { useState } from "react";
-import { Comment, StoreConfig, SubItemInfo } from "../../../types";
+import {
+  Comment,
+  SpecificAvailability,
+  StoreConfig,
+  SubItemInfo,
+} from "../../../types";
 import AttributesList from "../features/AttributesList";
 import CommentComponent from "../features/CommentComponent";
 import Ratings from "../features/Ratings";
@@ -168,8 +173,8 @@ export default function ItemDetailsPage() {
 
   const freeRangesUserInput = (
     <FreeRangesCalendar
-      id={itemInfo.item.id}
-      availability={itemInfo.itemStatus.schedule}
+      itemId={itemInfo.item.id}
+      availability={itemInfo.itemStatus.schedule as SpecificAvailability[]}
       userCount={userCount}
       onAvailabilityChecked={handleAvailabilityChecked}
     />
@@ -178,7 +183,7 @@ export default function ItemDetailsPage() {
   const checkAvailabilityUserInput = (
     <CheckAvailabilityCalendar
       itemId={itemInfo.item.id}
-      availability={itemInfo.itemStatus.schedule}
+      availabilityList={itemInfo.itemStatus.schedule as SpecificAvailability[]}
       userCount={userCount}
       onAvailabilityChecked={handleAvailabilityChecked}
       availabilityChecked={availabilityChecked}
