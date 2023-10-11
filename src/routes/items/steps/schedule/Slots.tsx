@@ -2,14 +2,14 @@ import { v4 as uuid } from "uuid";
 import { useState } from "react";
 import { Box, Stack, TextField, Typography } from "@mui/material";
 import dayjs from "dayjs";
-import ScheduleCalendar, { Event } from "./ScheduleCalendar";
-import { ShortSlotsSchedule } from "../../../types";
-import { useNewItemSchemaConfig } from "../../../NewItemSchemaProvider";
+import ScheduleCalendar, { Event } from "./schedule-calendar/ScheduleCalendar";
+import { SlotsSchedule } from "../../types";
+import { useNewItemSchemaConfig } from "../../NewItemSchemaProvider";
 
-function ShortSlots() {
+function Slots() {
   const { newItemSchema, setOption } = useNewItemSchemaConfig();
   const { schedule } = newItemSchema.options as {
-    schedule: ShortSlotsSchedule;
+    schedule: SlotsSchedule;
   };
 
   const [step, setStep] = useState(30);
@@ -38,9 +38,9 @@ function ShortSlots() {
 
         <Box width="100%">
           <ScheduleCalendar
-            events={parseScheduleToEvents(schedule)}
+            events={parseSlotsScheduleToEvents(schedule)}
             onEventsChange={(events: Event[]) =>
-              setOption("schedule", parseEventsToShortSlotsSchedule(events))
+              setOption("schedule", parseEventsToSlotsSchedule(events))
             }
             step={step > 0 ? step : 30}
           />
@@ -50,8 +50,8 @@ function ShortSlots() {
   );
 }
 
-function parseScheduleToEvents(schedule: ShortSlotsSchedule): Event[] {
-  return schedule.scheduleSlots.map((s) => {
+function parseSlotsScheduleToEvents(schedule: SlotsSchedule): Event[] {
+  return schedule.scheduledSlots.map((s) => {
     return {
       id: uuid(),
       start: s.startDateTime.toDate(),
@@ -60,9 +60,9 @@ function parseScheduleToEvents(schedule: ShortSlotsSchedule): Event[] {
   });
 }
 
-function parseEventsToShortSlotsSchedule(events: Event[]): ShortSlotsSchedule {
+function parseEventsToSlotsSchedule(events: Event[]): SlotsSchedule {
   return {
-    scheduleSlots: events.map((e) => {
+    scheduledSlots: events.map((e) => {
       return {
         startDateTime: dayjs(e.start),
         endDateTime: dayjs(e.end),
@@ -71,4 +71,4 @@ function parseEventsToShortSlotsSchedule(events: Event[]): ShortSlotsSchedule {
   };
 }
 
-export default ShortSlots;
+export default Slots;

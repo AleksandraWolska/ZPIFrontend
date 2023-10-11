@@ -120,7 +120,7 @@ export type FixedAvailability = {
   endDateTime?: string;
 };
 
-export type ShortSlotsAvailability = {
+export type SlotsAvailability = {
   slots: {
     startDateTime: string;
     endDateTime: string;
@@ -128,17 +128,18 @@ export type ShortSlotsAvailability = {
   }[];
 };
 
-export type MultiDayAvailability = {
-  days: {
-    date: string;
+export type ContinuousAvailability = {
+  ranges: {
+    startDateTime: string;
+    endDateTime: string;
     isAvailable: boolean;
   }[];
 };
 
 export type Availability =
   | FixedAvailability
-  | ShortSlotsAvailability
-  | MultiDayAvailability;
+  | SlotsAvailability
+  | ContinuousAvailability;
 
 export type Item = {
   id: string;

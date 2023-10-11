@@ -122,27 +122,25 @@ function initializeCustomAttributes(
 }
 
 function initializeSchedule(core: Core): Schedule {
-  if (!core.flexibility) {
+  if (core.flexibility === false) {
     return {
       startDateTime: dayjs(),
     };
   }
 
-  switch (core.scheduleType) {
-    case "shortSlots":
-      return {
-        scheduleSlots: [],
-      };
-    case "multiDay":
-      return {
-        startDate: dayjs(),
-        endDate: dayjs(),
-        reservationStartTime: dayjs(),
-        reservationEndTime: dayjs(),
-      };
-    default:
-      throw new Error("Invalid schedule type");
+  if (core.granularity === true) {
+    return {
+      scheduledSlots: [],
+    };
   }
+
+  if (core.granularity === false) {
+    return {
+      scheduledRanges: [],
+    };
+  }
+
+  throw Error("Invalid core configuration!");
 }
 
 export const askForAmount = (core: Core) => core.uniqueness === false;

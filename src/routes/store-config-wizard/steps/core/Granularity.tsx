@@ -33,7 +33,7 @@ function Granularity({
         type="button"
         onClick={() => {
           appendCoreAttribute("granularity", true);
-          const nextStep = STORE_CONFIG_STEPS.ALLOW_OVER_NIGHT;
+          const nextStep = STORE_CONFIG_STEPS.SIMULTANEOUS;
           setActiveStep(nextStep);
           setProgress(
             calculateProgress(STORE_CONFIG_STEPS.GRANULARITY, nextStep),
@@ -47,7 +47,7 @@ function Granularity({
         type="button"
         onClick={() => {
           appendCoreAttribute("granularity", false);
-          const nextStep = STORE_CONFIG_STEPS.SIMULTANEOUS;
+          const nextStep = STORE_CONFIG_STEPS.ALLOW_OVER_NIGHT;
           setActiveStep(nextStep);
           setProgress(
             calculateProgress(STORE_CONFIG_STEPS.GRANULARITY, nextStep),

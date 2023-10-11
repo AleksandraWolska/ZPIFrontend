@@ -22,6 +22,8 @@ function Simultaneous({
           const prevStep =
             storeConfig.core.allowOverNight !== undefined
               ? STORE_CONFIG_STEPS.ALLOW_OVER_NIGHT
+              : storeConfig.core.granularity !== undefined
+              ? STORE_CONFIG_STEPS.GRANULARITY
               : STORE_CONFIG_STEPS.FLEXIBILITY;
           withdrawToCoreStep(prevStep);
           setActiveStep(prevStep);

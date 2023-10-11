@@ -4,6 +4,7 @@ export const dummyNewItemConfig: NewItemConfig = {
   core: {
     flexibility: false,
     granularity: false,
+    allowOverNight: false,
     simultaneous: true,
     uniqueness: false,
     specificReservation: false,

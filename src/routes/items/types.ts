@@ -8,21 +8,21 @@ export type FixedSchedule = {
   endDateTime?: Dayjs;
 };
 
-export type ShortSlotsSchedule = {
-  scheduleSlots: {
+export type SlotsSchedule = {
+  scheduledSlots: {
     startDateTime: Dayjs;
     endDateTime: Dayjs;
   }[];
 };
 
-export type MultiDaySchedule = {
-  startDate: Dayjs;
-  endDate: Dayjs;
-  reservationStartTime: Dayjs;
-  reservationEndTime: Dayjs;
+export type ContinuousSchedule = {
+  scheduledRanges: {
+    startDateTime: Dayjs;
+    endDateTime: Dayjs;
+  }[];
 };
 
-export type Schedule = FixedSchedule | ShortSlotsSchedule | MultiDaySchedule;
+export type Schedule = FixedSchedule | SlotsSchedule | ContinuousSchedule;
 
 export type NewSubItem = Omit<SubItem, "id">;
 

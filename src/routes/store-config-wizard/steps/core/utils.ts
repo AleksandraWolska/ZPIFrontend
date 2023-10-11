@@ -14,6 +14,7 @@ export function calculateProgress(
     if (to === STORE_CONFIG_STEPS.GRANULARITY) return 36.5;
     if (to === STORE_CONFIG_STEPS.SIMULTANEOUS) return 60;
   } else if (from === STORE_CONFIG_STEPS.SIMULTANEOUS) {
+    if (to === STORE_CONFIG_STEPS.GRANULARITY) return 45;
     if (to === STORE_CONFIG_STEPS.ALLOW_OVER_NIGHT) return 55;
     if (to === STORE_CONFIG_STEPS.FLEXIBILITY) return 0;
     if (to === STORE_CONFIG_STEPS.SPECIFIC_RESERVATION) return 67.5;
