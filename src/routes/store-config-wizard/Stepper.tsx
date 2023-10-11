@@ -2,7 +2,7 @@ import { useState } from "react";
 import { LinearProgress } from "@mui/material";
 import { STORE_CONFIG_STEPS, StoreConfigStep } from "./types";
 import Flexibility from "./steps/core/Flexibility";
-import ScheduleType from "./steps/core/ScheduleType";
+import Granularity from "./steps/core/Granularity";
 import Simultaneous from "./steps/core/Simultaneous";
 import Uniqueness from "./steps/core/Uniqueness";
 import SpecificReservation from "./steps/core/SpecificReservation";
@@ -30,9 +30,9 @@ function Stepper() {
             setProgress={setProgress}
           />
         );
-      case STORE_CONFIG_STEPS.SCHEDULE_TYPE:
+      case STORE_CONFIG_STEPS.GRANULARITY:
         return (
-          <ScheduleType
+          <Granularity
             setActiveStep={setActiveStep}
             setProgress={setProgress}
           />

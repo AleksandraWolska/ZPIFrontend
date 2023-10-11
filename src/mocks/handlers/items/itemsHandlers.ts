@@ -8,13 +8,12 @@ const getDummyCustomAttributesSpec = rest.get(
 
     if (storeId === "1") {
       dummyNewItemConfig.core.flexibility = false;
-      dummyNewItemConfig.core.scheduleType = undefined;
     } else if (storeId === "2") {
       dummyNewItemConfig.core.flexibility = true;
-      dummyNewItemConfig.core.scheduleType = "shortSlots";
+      dummyNewItemConfig.core.granularity = true;
     } else if (storeId === "3") {
       dummyNewItemConfig.core.flexibility = true;
-      dummyNewItemConfig.core.scheduleType = "multiDay";
+      dummyNewItemConfig.core.granularity = false;
     }
 
     return res(ctx.status(200), ctx.json(dummyNewItemConfig));

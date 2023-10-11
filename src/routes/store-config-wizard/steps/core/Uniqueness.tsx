@@ -32,7 +32,7 @@ function Uniqueness({
       <button
         type="button"
         onClick={() => {
-          appendCoreAttribute({ uniqueness: true });
+          appendCoreAttribute("uniqueness", true);
           setActiveStep(STORE_CONFIG_STEPS.CUSTOM_ATTRIBUTES_SPEC);
           setProgress(100);
         }}
@@ -43,7 +43,7 @@ function Uniqueness({
       <button
         type="button"
         onClick={() => {
-          appendCoreAttribute({ uniqueness: false });
+          appendCoreAttribute("uniqueness", false);
           setActiveStep(STORE_CONFIG_STEPS.CUSTOM_ATTRIBUTES_SPEC);
           setProgress(100);
         }}
