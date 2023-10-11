@@ -83,6 +83,33 @@ export function FreeRangesCalendar({
     }
   }, [responseData, isError, itemId, setAvailabilityChecked]);
 
+  const isAdjacentToExistingEvents = (start: Date, end: Date) => {
+    return events.some(
+      (event) =>
+        event.start.getTime() === end.getTime() ||
+        event.end.getTime() === start.getTime(),
+    );
+  };
+
+  const hasContinuousCoverage = (start: Date, end: Date) => {
+    const relevantBackgroundEvents = backgroundEvents
+      .filter((e) => e.end > start && e.start < end)
+      .sort((a, b) => a.start.getTime() - b.start.getTime());
+
+    let coverageStart = start.getTime();
+
+    for (const bgEvent of relevantBackgroundEvents) {
+      if (bgEvent.start.getTime() > coverageStart) {
+        return false; // gap detected
+      }
+      if (bgEvent.end.getTime() > coverageStart) {
+        coverageStart = bgEvent.end.getTime();
+      }
+    }
+
+    return coverageStart >= end.getTime();
+  };
+
   // transforms SpecificAvailability[] to events
   const transformToArray = (
     specificAvailabilities: SpecificAvailability[],
@@ -95,19 +122,8 @@ export function FreeRangesCalendar({
     }));
   };
 
-  const findClosestMorningEvent = (afterDate: Date): Event | undefined => {
-    // Filter out events that are "morning" and start after the given date.
-    const potentialMorningEvents = backgroundEvents.filter(
-      (e) => e.type === "morning" && e.start > afterDate,
-    );
 
-    // Sort by start date to get the closest.
-    potentialMorningEvents.sort((a, b) => (a.start > b.start ? 1 : -1));
-
-    // Return the closest one, if it exists.
-    return potentialMorningEvents[0];
-  };
-
+  
   const handleSelectSlot = useCallback(
     ({ start, end }: { start: Date; end: Date }) => {
       const startTypeSlotEvent = backgroundEvents.find((e) => {
@@ -153,63 +169,24 @@ export function FreeRangesCalendar({
 
   const handleSelecting = useCallback(
     ({ start, end }: { start: Date; end: Date }) => {
-      const withinBackgroundEvent = backgroundEvents.some((e) => {
-        return start >= e.start && end <= e.end;
-      });
+      // If there are no events, then just check for continuous coverage
+      if (events.length === 0) {
+        return hasContinuousCoverage(start, end);
+      }
 
-      if (withinBackgroundEvent) return true;
-
-      const withinAdjacentEvent = backgroundEvents.some((e) => {
-        return end >= e.start && end <= e.end;
-      });
-
-      if (withinAdjacentEvent) return within;
-
-      setWithin(false);
-      return false;
+      // If there are events, the selection should be adjacent and have continuous coverage
+      return (
+        isAdjacentToExistingEvents(start, end) &&
+        hasContinuousCoverage(start, end)
+      );
     },
-    [backgroundEvents, within],
+    [
+      backgroundEvents,
+      events,
+      isAdjacentToExistingEvents,
+      hasContinuousCoverage,
+    ],
   );
-
-  // const handleSelectEvent = useCallback(
-  //   (event: Event) => {
-  //   //   const startTypeSlotEvent = backgroundEvents.find((e) => {
-  //   //     return (
-  //   //       event.start >= e.start &&
-  //   //       event.start <= e.end &&
-  //   //       (e.type === "slot" || e.type === "overnight")
-  //   //     );
-  //   //   });
-  //   //   console.log("handle select event");
-  //   //   const endTypeSlotEvent = backgroundEvents.find((e) => {
-  //   //     return (
-  //   //       event.end >= e.start &&
-  //   //       event.end <= e.end &&
-  //   //       (e.type === "slot" || e.type === "overnight")
-  //   //     );
-  //   //   });
-  //   //   const newEvent: Event = {
-  //   //     id: uuid(),
-  //   //     start: startTypeSlotEvent ? startTypeSlotEvent.start : event.start,
-  //   //     end: endTypeSlotEvent ? endTypeSlotEvent.end : event.end,
-  //   //     type: "userchoice",
-  //   //   };
-  //   //   setEvents((prev) => [...prev, newEvent]);
-  //   //   if (endTypeSlotEvent?.type === "overnight") {
-  //   //     const potentialMorningEvents = backgroundEvents.filter(
-  //   //       (e) => e.type === "morning" && e.start > newEvent.end,
-  //   //     );
-  //   //     potentialMorningEvents.sort((a, b) => (a.start > b.start ? 1 : -1));
-
-  //   //     if (potentialMorningEvents[0]) {
-  //   //       setEvents((prev) => [...prev, potentialMorningEvents[0]]);
-  //   //     }
-  //   //   }
-  //   //   setWithin(true);
-  //   },
-
-  //   [backgroundEvents],
-  // );
 
   // sends request to check availability for new user count
   const handleCheckAvailability = () => {
