@@ -9,18 +9,26 @@ import {
   DialogTitle,
 } from "@mui/material";
 import { useState } from "react";
-import { Comment, StoreConfig, SubItemInfo } from "../../../types";
+import { useParams } from "react-router-dom";
+import {
+  Comment,
+  SpecificAvailability,
+  StoreConfig,
+  SubItemInfo,
+} from "../../../types";
 import AttributesList from "../features/AttributesList";
 import CommentComponent from "../features/CommentComponent";
 import Ratings from "../features/Ratings";
 import RatingsInteractive from "../features/RatingsInteractive";
 import QuantityInput from "../components/core/QuantityInput";
-import { FreeRangesDatepicker } from "../components/core/FreeRangersDatepicker";
-import { CheckAvailabilityDatepicker } from "../components/core/CheckAvailabilityDatepicker";
 import SubItemsList from "../components/core/SubItemsList";
 import useItemDetails from "./useItemDetails";
 import useDetailsPageConfig from "./useDetailsPageConfig";
+import { CheckAvailabilityCalendar } from "../components/core/CheckAvailabilityCalendar";
+import { FreeRangesCalendar } from "../components/core/FreeRangesCalendar";
+import { FlexibleReservationData, FlexibleReservationRequest } from "../types";
 
+const userId = "user1";
 const initializeReservationRequestReady = (
   core: StoreConfig["core"],
   availableAmount: number | undefined,
@@ -35,9 +43,16 @@ const initializeReservationRequestReady = (
   return false;
 };
 
+const initializeAvailabilityChecked = (core: StoreConfig["core"]): boolean => {
+  console.log(`ustawiono${core.flexibility && !core.uniqueness}`);
+  if (core.flexibility && core.uniqueness) return true;
+  return false;
+};
+
 export default function ItemDetailsPage() {
   const storeConfig = useDetailsPageConfig();
   const itemInfo = useItemDetails();
+  const params = useParams() as { storeId: string; itemId: string };
 
   const [showSuccessDialog, setShowSuccessDialog] = useState(false);
   const [reservationRequestReady, setReservationRequestReady] = useState(
@@ -47,7 +62,9 @@ export default function ItemDetailsPage() {
     ),
   );
   const [userCount, setUserCount] = useState(1);
-  const [availabilityChecked, setAvailabilityChecked] = useState(false);
+  const [availabilityChecked, setAvailabilityChecked] = useState(
+    initializeAvailabilityChecked(storeConfig.core),
+  );
   const [selectedSubItemsInfoList, setSelectedSubItemsInfoList] = useState<
     SubItemInfo[]
   >([]);
@@ -155,30 +172,32 @@ export default function ItemDetailsPage() {
     </Box>
   );
 
-  const handleAvailabilityChecked = (
-    id: string,
-    start: string,
-    end: string,
-  ) => {
-    setReservationRequestReady(true);
-    console.log("Item ID:", id);
-    console.log("Start Date:", start);
-    console.log("End Date:", end);
+  const prepareFlexibleReservation = (data: FlexibleReservationData) => {
+    const preparedFlexibleRequest: FlexibleReservationRequest = {
+      ...data,
+      storeId: params.storeId,
+      userId,
+    };
+    console.log(preparedFlexibleRequest);
   };
 
   const freeRangesUserInput = (
-    <FreeRangesDatepicker
-      id={itemInfo.item.id}
+    <FreeRangesCalendar
+      itemId={itemInfo.item.id}
+      availabilityList={itemInfo.itemStatus.schedule as SpecificAvailability[]}
       userCount={userCount}
-      onAvailabilityChecked={handleAvailabilityChecked}
+      availabilityChecked={availabilityChecked}
+      setAvailabilityChecked={setAvailabilityChecked}
+      prepareFlexibleReservation={prepareFlexibleReservation}
     />
   );
 
   const checkAvailabilityUserInput = (
-    <CheckAvailabilityDatepicker
-      id={itemInfo.item.id}
+    <CheckAvailabilityCalendar
+      itemId={itemInfo.item.id}
+      availabilityList={itemInfo.itemStatus.schedule as SpecificAvailability[]}
       userCount={userCount}
-      onAvailabilityChecked={handleAvailabilityChecked}
+      prepareFlexibleReservation={prepareFlexibleReservation}
       availabilityChecked={availabilityChecked}
       setAvailabilityChecked={setAvailabilityChecked}
     />

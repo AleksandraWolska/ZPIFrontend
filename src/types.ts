@@ -120,6 +120,11 @@ export type FixedAvailability = {
   endDateTime?: string;
 };
 
+export type SpecificAvailability = {
+  startDateTime: string;
+  endDateTime: string;
+};
+
 export type SlotsAvailability = {
   slots: {
     startDateTime: string;
@@ -139,7 +144,8 @@ export type ContinuousAvailability = {
 export type Availability =
   | FixedAvailability
   | SlotsAvailability
-  | ContinuousAvailability;
+  | ContinuousAvailability
+  | SpecificAvailability[];
 
 export type Item = {
   id: string;

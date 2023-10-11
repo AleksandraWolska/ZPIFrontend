@@ -1,5 +1,60 @@
+@import "./react-big-calendar.css";
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: monospace;
+
+}
+
+.rbc-allday-cell {
+    display: none;
+}
+
+.rbc-header {
+    border-bottom: none;
+}
+
+.rbc-current-time-indicator {
+    display: none;
+ 
+}
+
+.rbc-today {
+    background-color: #aaa;;
+    border: .5px solid black;
+}
+
+.rbc-day-slot .rbc-events-container {
+    margin-right: 0;
+}
+/* 
+.available {
+   background-color: #fff !important;
+   border: none!important;
+   border-radius: 0px!important;
+
+} */
+
+.rbc-background-event {
+    background-color: #fff !important;
+    border: none!important;
+    border-radius: 0px!important;
+}
+
+.unavailable {
+    /* styles for unavailable */
+}
+
+.userchoice {
+    /* styles for userchoice */
+    box-shadow: 3px 3px 3px 1px rgba(0,0,0,.2);
+    border: .5px !important;
+    border-radius: 5px!important;
+ 
+}
+
+.default {
+    /* styles for default */
 }
