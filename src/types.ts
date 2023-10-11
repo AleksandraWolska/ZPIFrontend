@@ -144,7 +144,8 @@ export type ContinuousAvailability = {
 export type Availability =
   | FixedAvailability
   | SlotsAvailability
-  | ContinuousAvailability;
+  | ContinuousAvailability
+  | SpecificAvailability[];
 
 export type Item = {
   id: string;
