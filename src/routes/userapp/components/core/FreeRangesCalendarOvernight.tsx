@@ -56,6 +56,7 @@ export function FreeRangesCalendar({
 
   const [events, setEvents] = useState<Event[]>([]);
   const [backgroundEvents, setBackgroundEvents] = useState<Event[]>([]);
+  const [within, setWithin] = useState(true);
 
   const defaultDate = useMemo(() => new Date(), []);
 
@@ -83,32 +84,54 @@ export function FreeRangesCalendar({
     }
   }, [responseData, isError, itemId, setAvailabilityChecked]);
 
-  const isAdjacentToExistingEvents = (start: Date, end: Date) => {
-    return events.some(
-      (event) =>
-        event.start.getTime() === end.getTime() ||
-        event.end.getTime() === start.getTime(),
-    );
-  };
+  // const isAdjacentToExistingEvents = (start: Date, end: Date) => {
+  //   return events.some(
+  //     (event) =>
+  //       event.start.getTime() === end.getTime() ||
+  //       event.end.getTime() === start.getTime(),
+  //   );
+  // };
 
-  const hasContinuousCoverage = (start: Date, end: Date) => {
-    const relevantBackgroundEvents = backgroundEvents
-      .filter((e) => e.end > start && e.start < end)
-      .sort((a, b) => a.start.getTime() - b.start.getTime());
+  const hasContinuousCoverage = useCallback(
+    (start: Date, end: Date) => {
+      // Find events from the same day.
+      const sameDayEvents = events.filter((e) =>
+        dayjs(e.start).isSame(start, "day"),
+      );
 
-    let coverageStart = start.getTime();
+      // Determine earliest and latest times from the same-day events and the new event.
+      const earliestStart = Math.min(
+        ...sameDayEvents.map((e) => e.start.getTime()),
+        start.getTime(),
+      );
+      const latestEnd = Math.max(
+        ...sameDayEvents.map((e) => e.end.getTime()),
+        end.getTime(),
+      );
 
-    for (const bgEvent of relevantBackgroundEvents) {
-      if (bgEvent.start.getTime() > coverageStart) {
-        return false; // gap detected
+      // Filter relevant background events that fall between the earliest start and latest end.
+      const relevantBackgroundEvents = backgroundEvents
+        .filter(
+          (e) =>
+            e.end > new Date(earliestStart) && e.start < new Date(latestEnd),
+        )
+        .sort((a, b) => a.start.getTime() - b.start.getTime());
+
+      let coverageStart = earliestStart;
+
+      for (const bgEvent of relevantBackgroundEvents) {
+        if (bgEvent.start.getTime() > coverageStart) {
+          return false; // gap detected
+        }
+        if (bgEvent.end.getTime() > coverageStart) {
+          coverageStart = bgEvent.end.getTime();
+        }
       }
-      if (bgEvent.end.getTime() > coverageStart) {
-        coverageStart = bgEvent.end.getTime();
-      }
-    }
 
-    return coverageStart >= end.getTime();
-  };
+      return coverageStart >= latestEnd;
+    },
+    [backgroundEvents, events],
+  );
 
   // transforms SpecificAvailability[] to events
   const transformToArray = (
@@ -122,10 +145,10 @@ export function FreeRangesCalendar({
     }));
   };
 
-
-  
   const handleSelectSlot = useCallback(
     ({ start, end }: { start: Date; end: Date }) => {
+      // New: Check if the selection is allowed, if not, return early.
+
       const startTypeSlotEvent = backgroundEvents.find((e) => {
         return (
           start >= e.start &&
@@ -133,7 +156,7 @@ export function FreeRangesCalendar({
           (e.type === "slot" || e.type === "overnight")
         );
       });
-      console.log("handle select slot");
+
       const endTypeSlotEvent = backgroundEvents.find((e) => {
         return (
           end >= e.start &&
@@ -141,31 +164,84 @@ export function FreeRangesCalendar({
           (e.type === "slot" || e.type === "overnight")
         );
       });
+      if (
+        events.length > 0 &&
+        !hasContinuousCoverage(
+          startTypeSlotEvent ? startTypeSlotEvent.start : start,
+          endTypeSlotEvent ? endTypeSlotEvent.end : end,
+        )
+      ) {
+        console.warn("Selection is not allowed.");
+        return;
+      }
+      if (
+        events.length === 0 &&
+        !hasContinuousCoverage(
+          startTypeSlotEvent ? startTypeSlotEvent.start : start,
+          endTypeSlotEvent ? endTypeSlotEvent.end : end,
+        )
+      ) {
+        console.warn("Selection is not allowed.");
+        return;
+      }
 
-      const newEvent: Event = {
-        id: uuid(),
-        start: startTypeSlotEvent ? startTypeSlotEvent.start : start,
-        end: endTypeSlotEvent ? endTypeSlotEvent.end : end,
-        type: "userchoice",
-      };
-      setEvents((prev) => [...prev, newEvent]);
+      const newEventStart = startTypeSlotEvent
+        ? startTypeSlotEvent.start
+        : start;
+      const newEventEnd = endTypeSlotEvent ? endTypeSlotEvent.end : end;
+
+      let newEvents = [...events];
 
       if (endTypeSlotEvent?.type === "overnight") {
-        const potentialMorningEvents = backgroundEvents.filter(
-          (e) => e.type === "morning" && e.start > newEvent.end,
+        const potentialMorningEvent = backgroundEvents.find(
+          (e) => e.type === "morning" && e.start > newEventEnd,
         );
-        potentialMorningEvents.sort((a, b) => (a.start > b.start ? 1 : -1));
 
-        if (potentialMorningEvents[0]) {
-          setEvents((prev) => [...prev, potentialMorningEvents[0]]);
+        if (potentialMorningEvent) {
+          // Check if there's already a userchoice event for the next day and merge if so
+          const existingNextDayEvent = newEvents.find((event) =>
+            dayjs(event.start).isSame(potentialMorningEvent.start, "day"),
+          );
+
+          if (existingNextDayEvent) {
+            existingNextDayEvent.start = potentialMorningEvent.start;
+          } else {
+            newEvents.push({
+              id: uuid(),
+              start: potentialMorningEvent.start,
+              end: potentialMorningEvent.end,
+              type: "userchoice",
+            });
+          }
         }
       }
 
+      // Check if there's already a userchoice event for the day of the selection and merge if so
+      const existingDayEvent = newEvents.find((event) =>
+        dayjs(event.start).isSame(newEventStart, "day"),
+      );
+
+      if (existingDayEvent) {
+        existingDayEvent.start = new Date(
+          Math.min(existingDayEvent.start.getTime(), newEventStart.getTime()),
+        );
+        existingDayEvent.end = new Date(
+          Math.max(existingDayEvent.end.getTime(), newEventEnd.getTime()),
+        );
+      } else {
+        newEvents.push({
+          id: uuid(),
+          start: newEventStart,
+          end: newEventEnd,
+          type: "userchoice",
+        });
+      }
+
+      setEvents(newEvents);
       setWithin(true);
     },
-    [backgroundEvents],
+    [backgroundEvents, events, hasContinuousCoverage],
   );
-  const [within, setWithin] = useState(true);
 
   const handleSelecting = useCallback(
     ({ start, end }: { start: Date; end: Date }) => {
@@ -175,17 +251,9 @@ export function FreeRangesCalendar({
       }
 
       // If there are events, the selection should be adjacent and have continuous coverage
-      return (
-        isAdjacentToExistingEvents(start, end) &&
-        hasContinuousCoverage(start, end)
-      );
+      return hasContinuousCoverage(start, end);
     },
-    [
-      backgroundEvents,
-      events,
-      isAdjacentToExistingEvents,
-      hasContinuousCoverage,
-    ],
+    [events.length, hasContinuousCoverage],
   );
 
   // sends request to check availability for new user count
