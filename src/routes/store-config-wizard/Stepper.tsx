@@ -12,6 +12,7 @@ import PrintStoreConfig from "./steps/PrintStoreConfig";
 import MainPage from "./steps/MainPage";
 import Owner from "./steps/Owner";
 import DetailsPage from "./steps/DetailsPage";
+import AllowOverNight from "./steps/core/AllowOverNight";
 
 function Stepper() {
   const [activeStep, setActiveStep] = useState<StoreConfigStep>(
@@ -33,6 +34,13 @@ function Stepper() {
       case STORE_CONFIG_STEPS.GRANULARITY:
         return (
           <Granularity
+            setActiveStep={setActiveStep}
+            setProgress={setProgress}
+          />
+        );
+      case STORE_CONFIG_STEPS.ALLOW_OVER_NIGHT:
+        return (
+          <AllowOverNight
             setActiveStep={setActiveStep}
             setProgress={setProgress}
           />

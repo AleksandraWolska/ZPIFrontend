@@ -94,17 +94,24 @@ function resetCoreConfig(
       return {};
     case STORE_CONFIG_STEPS.GRANULARITY:
       return { flexibility: coreConfig.flexibility };
+    case STORE_CONFIG_STEPS.ALLOW_OVER_NIGHT:
+      return {
+        flexibility: coreConfig.flexibility,
+        granularity: coreConfig.granularity,
+      };
     case STORE_CONFIG_STEPS.SIMULTANEOUS:
       return {
         flexibility: coreConfig.flexibility,
         ...(coreConfig.granularity !== undefined && {
           granularity: coreConfig.granularity,
+          allowOverNight: coreConfig.allowOverNight,
         }),
       };
     case STORE_CONFIG_STEPS.UNIQUENESS:
       return {
         flexibility: coreConfig.flexibility,
         granularity: coreConfig.granularity,
+        allowOverNight: coreConfig.allowOverNight,
         simultaneous: coreConfig.simultaneous,
       };
     case STORE_CONFIG_STEPS.SPECIFIC_RESERVATION:

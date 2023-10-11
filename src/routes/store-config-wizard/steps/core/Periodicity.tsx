@@ -36,7 +36,7 @@ function Periodicity({
       <button
         type="button"
         onClick={() => {
-          appendCoreAttribute({ periodicity: true });
+          appendCoreAttribute("periodicity", true);
           setActiveStep(STORE_CONFIG_STEPS.CUSTOM_ATTRIBUTES_SPEC);
           setProgress(100);
         }}
@@ -47,7 +47,7 @@ function Periodicity({
       <button
         type="button"
         onClick={() => {
-          appendCoreAttribute({ periodicity: false });
+          appendCoreAttribute("periodicity", false);
           setActiveStep(STORE_CONFIG_STEPS.CUSTOM_ATTRIBUTES_SPEC);
           setProgress(100);
         }}
