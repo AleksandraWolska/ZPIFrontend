@@ -20,8 +20,8 @@ function Simultaneous({
         type="button"
         onClick={() => {
           const prevStep =
-            storeConfig.core.granularity !== undefined
-              ? STORE_CONFIG_STEPS.GRANULARITY
+            storeConfig.core.allowOverNight !== undefined
+              ? STORE_CONFIG_STEPS.ALLOW_OVER_NIGHT
               : STORE_CONFIG_STEPS.FLEXIBILITY;
           withdrawToCoreStep(prevStep);
           setActiveStep(prevStep);
