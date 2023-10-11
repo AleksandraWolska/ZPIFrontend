@@ -15,9 +15,6 @@ const getDummyCustomAttributesSpec = rest.get(
     } else if (storeId === "3") {
       dummyNewItemConfig.core.flexibility = true;
       dummyNewItemConfig.core.scheduleType = "multiDay";
-    } else if (storeId === "4") {
-      dummyNewItemConfig.core.flexibility = true;
-      dummyNewItemConfig.core.scheduleType = "free";
     }
 
     return res(ctx.status(200), ctx.json(dummyNewItemConfig));

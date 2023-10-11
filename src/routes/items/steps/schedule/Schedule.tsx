@@ -1,7 +1,6 @@
 import ShortSlots from "./short-slots/ShortSlots";
 import MultiDay from "./MultiDay";
 import Fixed from "./Fixed";
-import Free from "./Free";
 import { useNewItemSchemaConfig } from "../../NewItemSchemaProvider";
 
 function Schedule() {
@@ -13,7 +12,6 @@ function Schedule() {
       {flexibility === false && <Fixed />}
       {scheduleType === "shortSlots" && <ShortSlots />}
       {scheduleType === "multiDay" && <MultiDay />}
-      {scheduleType === "free" && <Free />}
     </>
   );
 }

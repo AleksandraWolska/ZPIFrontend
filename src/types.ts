@@ -26,7 +26,7 @@ export const OWNER_COLORS = {
 export type OwnerColor = ObjectValues<typeof OWNER_COLORS>;
 
 export type Flexibility = boolean;
-export type ScheduleType = "shortSlots" | "multiDay" | "free";
+export type ScheduleType = "shortSlots" | "multiDay";
 export type Simultaneous = boolean;
 export type Uniqueness = boolean;
 export type SpecificReservation = boolean;
@@ -119,28 +119,24 @@ export type FixedAvailability = {
 };
 
 export type ShortSlotsAvailability = {
-  availableSlots: {
+  slots: {
     startDateTime: string;
     endDateTime: string;
+    isAvailable: boolean;
   }[];
 };
 
 export type MultiDayAvailability = {
-  availableDays: {
+  days: {
     date: string;
+    isAvailable: boolean;
   }[];
-};
-
-export type FreeAvailability = {
-  startDateTime: string;
-  endDateTime: string;
 };
 
 export type Availability =
   | FixedAvailability
   | ShortSlotsAvailability
-  | MultiDayAvailability
-  | FreeAvailability;
+  | MultiDayAvailability;
 
 export type Item = {
   id: string;
