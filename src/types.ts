@@ -154,7 +154,6 @@ export type Item = {
   description: string;
   image: string;
   customAttributeList: CustomAttribute[];
-  amount?: number;
   subItemList?: SubItem[];
 };
 
