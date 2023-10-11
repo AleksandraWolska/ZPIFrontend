@@ -13,9 +13,9 @@ function Home() {
       <br />
       <Link to="/stores/1/items/new">New item 1 (fixed)</Link>
       <br />
-      <Link to="/stores/2/items/new">New item 2 (shortSlots)</Link>
+      <Link to="/stores/2/items/new">New item 2 (slots)</Link>
       <br />
-      <Link to="/stores/3/items/new">New item 3 (multiDay)</Link>
+      <Link to="/stores/3/items/new">New item 3 (continuous)</Link>
       <br />
       <br />
       <Link to="/todos">Todos</Link>
