@@ -13,7 +13,7 @@ function ScheduleType({
 
   return (
     <>
-      <div>ScheduleType - shortSlots or multiDay or free?</div>
+      <div>ScheduleType - shortSlots or multiDay?</div>
 
       <button
         type="button"
@@ -55,20 +55,6 @@ function ScheduleType({
         }}
       >
         multiDay
-      </button>
-
-      <button
-        type="button"
-        onClick={() => {
-          appendCoreAttribute({ scheduleType: "free" });
-          const nextStep = STORE_CONFIG_STEPS.SIMULTANEOUS;
-          setActiveStep(nextStep);
-          setProgress(
-            calculateProgress(STORE_CONFIG_STEPS.SCHEDULE_TYPE, nextStep),
-          );
-        }}
-      >
-        free
       </button>
     </>
   );

@@ -140,11 +140,6 @@ function initializeSchedule(core: Core): Schedule {
         reservationStartTime: dayjs(),
         reservationEndTime: dayjs(),
       };
-    case "free":
-      return {
-        startDateTime: dayjs(),
-        endDateTime: dayjs(),
-      };
     default:
       throw new Error("Invalid schedule type");
   }

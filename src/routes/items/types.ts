@@ -22,16 +22,7 @@ export type MultiDaySchedule = {
   reservationEndTime: Dayjs;
 };
 
-export type FreeSchedule = {
-  startDateTime: Dayjs;
-  endDateTime: Dayjs;
-};
-
-export type Schedule =
-  | FixedSchedule
-  | ShortSlotsSchedule
-  | MultiDaySchedule
-  | FreeSchedule;
+export type Schedule = FixedSchedule | ShortSlotsSchedule | MultiDaySchedule;
 
 export type NewSubItem = Omit<SubItem, "id">;
 
