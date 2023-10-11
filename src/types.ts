@@ -26,14 +26,16 @@ export const OWNER_COLORS = {
 export type OwnerColor = ObjectValues<typeof OWNER_COLORS>;
 
 export type Flexibility = boolean;
-export type ScheduleType = "shortSlots" | "multiDay";
+export type Granularity = boolean;
+export type AllowOverNight = boolean;
 export type Simultaneous = boolean;
 export type Uniqueness = boolean;
 export type SpecificReservation = boolean;
 export type Periodicity = boolean;
 export type Core = {
   flexibility?: Flexibility;
-  scheduleType?: ScheduleType;
+  granularity?: Granularity;
+  allowOverNight?: AllowOverNight;
   simultaneous?: Simultaneous;
   uniqueness?: Uniqueness;
   specificReservation?: SpecificReservation;

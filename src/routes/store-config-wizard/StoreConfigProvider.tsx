@@ -62,10 +62,13 @@ function StoreConfigProvider({ children }: { children: ReactNode }) {
     });
   };
 
-  const appendCoreAttribute = (attr: StoreConfig["core"]) => {
+  const appendCoreAttribute = (
+    key: keyof StoreConfig["core"],
+    value: boolean,
+  ) => {
     dispatch({
       type: STORE_CONFIG_ACTION_TYPES.APPEND_CORE_ATTRIBUTE,
-      payload: attr,
+      payload: { [key]: value },
     });
   };
 

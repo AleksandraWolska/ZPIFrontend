@@ -2,7 +2,7 @@ import { STORE_CONFIG_STEPS, StoreConfigStep } from "../../types";
 import { useStoreConfig } from "../../StoreConfigProvider";
 import { calculateProgress } from "./utils";
 
-function ScheduleType({
+function Granularity({
   setActiveStep,
   setProgress,
 }: {
@@ -13,7 +13,7 @@ function ScheduleType({
 
   return (
     <>
-      <div>ScheduleType - shortSlots or multiDay?</div>
+      <div>Granularity - True or False?</div>
 
       <button
         type="button"
@@ -22,7 +22,7 @@ function ScheduleType({
           withdrawToCoreStep(prevStep);
           setActiveStep(prevStep);
           setProgress(
-            calculateProgress(STORE_CONFIG_STEPS.SCHEDULE_TYPE, prevStep),
+            calculateProgress(STORE_CONFIG_STEPS.GRANULARITY, prevStep),
           );
         }}
       >
@@ -32,32 +32,32 @@ function ScheduleType({
       <button
         type="button"
         onClick={() => {
-          appendCoreAttribute({ scheduleType: "shortSlots" });
+          appendCoreAttribute("granularity", true);
           const nextStep = STORE_CONFIG_STEPS.SIMULTANEOUS;
           setActiveStep(nextStep);
           setProgress(
-            calculateProgress(STORE_CONFIG_STEPS.SCHEDULE_TYPE, nextStep),
+            calculateProgress(STORE_CONFIG_STEPS.GRANULARITY, nextStep),
           );
         }}
       >
-        shortSlots
+        True
       </button>
 
       <button
         type="button"
         onClick={() => {
-          appendCoreAttribute({ scheduleType: "multiDay" });
+          appendCoreAttribute("granularity", false);
           const nextStep = STORE_CONFIG_STEPS.SIMULTANEOUS;
           setActiveStep(nextStep);
           setProgress(
-            calculateProgress(STORE_CONFIG_STEPS.SCHEDULE_TYPE, nextStep),
+            calculateProgress(STORE_CONFIG_STEPS.GRANULARITY, nextStep),
           );
         }}
       >
-        multiDay
+        False
       </button>
     </>
   );
 }
 
-export default ScheduleType;
+export default Granularity;

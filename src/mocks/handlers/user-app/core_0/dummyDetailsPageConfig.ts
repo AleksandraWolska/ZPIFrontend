@@ -80,7 +80,7 @@ export const dummyDetailsPageConfig: DetailsPageConfig = {
       "Review your reservation details before confirming.",
   },
   core: {
-    scheduleType: "shortSlots",
+    granularity: true,
     flexibility: false,
     simultaneous: true,
     uniqueness: false,
