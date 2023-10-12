@@ -12,6 +12,7 @@ import { useTheme } from "@mui/material/styles";
 import { SpecificAvailability } from "../../../../types";
 import { FlexibleReservationData } from "../../types";
 import useSchedule from "../../details-page/useSchedule";
+import "../../css/react-big-calendar.css";
 
 import "./react-big-calendar.css";
 

@@ -69,8 +69,8 @@ export const dummyMainPageConfig: MainPageConfig = {
     },
   ],
   mainPage: {
-    welcomeTextLine1: "Welcome to default page!",
-    welcomeTextLine2: "Rent the latest computers and gadgets.",
+    welcomeTextLine1: "Usługi unikalne, wiele osób na raz",
+    welcomeTextLine2: "Weścia na usługi: lodowisko, wejścia do muzeum",
     enableFiltering: true,
     showItemTitle: true,
     showItemSubtitle: true,

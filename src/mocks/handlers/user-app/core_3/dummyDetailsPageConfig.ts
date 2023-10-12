@@ -15,7 +15,7 @@ export const dummyDetailsPageConfig: DetailsPageConfig = {
       "Review your reservation details before confirming.",
   },
   core: {
-    granularity: true,
+    granularity: false,
     flexibility: false,
     simultaneous: true,
     uniqueness: false,

@@ -647,6 +647,7 @@ button.rbc-input::-moz-focus-inner {
   -webkit-box-flex: 1;
       -ms-flex: 1 0 0px;
           flex: 1 0 0;
+          
 }
 .rbc-time-slot.rbc-now {
   font-weight: bold;
@@ -809,3 +810,71 @@ button.rbc-input::-moz-focus-inner {
 }
 
 /*# sourceMappingURL=react-big-calendar.css.map */
+
+
+
+.rbc-allday-cell {
+    display: none;
+}
+
+.rbc-header {
+    border-bottom: none;
+}
+
+.rbc-current-time-indicator {
+    display: none;
+ 
+}
+
+.rbc-today {
+    background-color: #aaa;;
+    border: .5px solid black;
+}
+
+.rbc-day-slot .rbc-events-container {
+    margin-right: 0;
+}
+/* 
+.available {
+   background-color: #fff !important;
+   border: none!important;
+   border-radius: 0px!important;
+
+} */
+
+.rbc-background-event {
+    background-color: #fff !important;
+    border: none!important;
+    border-radius: 0px!important;
+}
+
+.unavailable {
+    /* styles for unavailable */
+}
+
+.userchoice {
+    /* styles for userchoice */
+    box-shadow: 3px 3px 3px 1px rgba(0,0,0,.2);
+    border: .5px !important;
+    border-radius: 5px!important;
+ 
+}
+.overnight {
+    /* styles for userchoice */
+    box-shadow: 3px 3px 3px 1px rgba(0,0,0,.2);
+    border: 2px solid red !important;
+    border-radius: 5px!important;
+ 
+}
+
+.morning {
+    /* styles for userchoice */
+    box-shadow: 3px 3px 3px 1px rgba(0,0,0,.2);
+    border: 2px solid blue !important;
+    border-radius: 5px!important;
+ 
+}
+
+.default {
+    /* styles for default */
+}
