@@ -25,7 +25,7 @@ import SubItemsList from "../components/core/SubItemsList";
 import useItemDetails from "./useItemDetails";
 import useDetailsPageConfig from "./useDetailsPageConfig";
 import { CheckAvailabilityCalendar } from "../components/core/CheckAvailabilityCalendar";
-import { FreeRangesCalendar } from "../components/core/FreeRangesCalendarOvernight";
+import { FreeRangesCalendar } from "../components/core/FreeRangesCalendar";
 import { FlexibleReservationData, FlexibleReservationRequest } from "../types";
 
 const userId = "user1";
