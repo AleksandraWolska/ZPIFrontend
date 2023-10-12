@@ -283,6 +283,16 @@ export function CheckAvailabilityCalendar({
     ],
   );
 
+  const earliestStartTime = events.reduce(
+    (min, event) => (event.start.getTime() < min ? event.start.getTime() : min),
+    Infinity,
+  );
+
+  const latestEndTime = events.reduce(
+    (max, event) => (event.end.getTime() > max ? event.end.getTime() : max),
+    -Infinity,
+  );
+
   const handleSelecting = useCallback(
     ({ start, end }: { start: Date; end: Date }) => {
       // this shows dimmed selection
@@ -327,8 +337,8 @@ export function CheckAvailabilityCalendar({
   // sends request to check chosen availability for amount of users
   const handleCheckAvailability = () => {
     mutate({
-      startDate: events[0].start.toISOString(),
-      endDate: events[0].end.toISOString(),
+      startDate: new Date(earliestStartTime).toISOString(),
+      endDate: new Date(latestEndTime).toISOString(),
       amount: userCount,
       itemId,
     });
@@ -396,8 +406,8 @@ export function CheckAvailabilityCalendar({
           onClick={() =>
             prepareFlexibleReservation({
               itemId,
-              start: events[0].start.toISOString(),
-              end: events[0].end.toISOString(),
+              start: new Date(earliestStartTime).toISOString(),
+              end: new Date(latestEndTime).toISOString(),
               amount: userCount,
             })
           }

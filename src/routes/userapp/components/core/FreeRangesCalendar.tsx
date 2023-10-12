@@ -263,6 +263,16 @@ export function FreeRangesCalendar({
     [events],
   );
 
+  const earliestStartTime = events.reduce(
+    (min, event) => (event.start.getTime() < min ? event.start.getTime() : min),
+    Infinity,
+  );
+
+  const latestEndTime = events.reduce(
+    (max, event) => (event.end.getTime() > max ? event.end.getTime() : max),
+    -Infinity,
+  );
+
   const handleSelecting = useCallback(
     ({ start, end }: { start: Date; end: Date }) => {
       // this shows dimmed selection
@@ -327,8 +337,8 @@ export function FreeRangesCalendar({
           onClick={() =>
             prepareFlexibleReservation({
               itemId,
-              start: events[0].start.toISOString(),
-              end: events[0].end.toISOString(),
+              start: new Date(earliestStartTime).toISOString(),
+              end: new Date(latestEndTime).toISOString(),
               amount: userCount,
             })
           }
