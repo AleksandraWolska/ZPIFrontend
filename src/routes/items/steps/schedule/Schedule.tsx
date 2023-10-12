@@ -10,8 +10,8 @@ function Schedule() {
   return (
     <>
       {flexibility === false && <Fixed />}
-      {granularity === true && <Slots />}
-      {granularity === false && <Continuous />}
+      {flexibility === true && granularity === true && <Slots />}
+      {flexibility === true && granularity === false && <Continuous />}
     </>
   );
 }

@@ -27,6 +27,8 @@ import {
   FlexibleReservationData,
 } from "../../types";
 
+import "./react-big-calendar.css";
+
 const dayjsLoc = dayjsLocalizer(dayjs);
 
 type Event = {

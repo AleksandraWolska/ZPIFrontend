@@ -48,7 +48,6 @@ function StoreConfigProvider({ children }: { children: ReactNode }) {
   );
 
   useEffect(() => {
-    // eslint-disable-next-line no-console
     console.log("STORE-CONFIG:", storeConfig);
   }, [storeConfig]);
 

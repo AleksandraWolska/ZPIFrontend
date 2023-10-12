@@ -13,6 +13,8 @@ import { SpecificAvailability } from "../../../../types";
 import { FlexibleReservationData } from "../../types";
 import useSchedule from "../../details-page/useSchedule";
 
+import "./react-big-calendar.css";
+
 const dayjsLoc = dayjsLocalizer(dayjs);
 
 type Event = {
