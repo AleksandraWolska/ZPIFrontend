@@ -84,20 +84,16 @@ export function FreeRangesCalendar({
     }
   }, [responseData, isError, itemId, setAvailabilityChecked]);
 
-  // const isAdjacentToExistingEvents = (start: Date, end: Date) => {
-  //   return events.some(
-  //     (event) =>
-  //       event.start.getTime() === end.getTime() ||
-  //       event.end.getTime() === start.getTime(),
-  //   );
-  // };
-
   const hasContinuousCoverage = useCallback(
     (start: Date, end: Date) => {
       // Find events from the same day.
       const sameDayEvents = events.filter((e) =>
         dayjs(e.start).isSame(start, "day"),
       );
+
+      if (events.length > 0 && sameDayEvents.length === 0) {
+        return false;
+      }
 
       // Determine earliest and latest times from the same-day events and the new event.
       const earliestStart = Math.min(
@@ -117,18 +113,27 @@ export function FreeRangesCalendar({
         )
         .sort((a, b) => a.start.getTime() - b.start.getTime());
 
-      let coverageStart = earliestStart;
+      let coverageEnd = earliestStart;
 
-      for (const bgEvent of relevantBackgroundEvents) {
-        if (bgEvent.start.getTime() > coverageStart) {
-          return false; // gap detected
-        }
-        if (bgEvent.end.getTime() > coverageStart) {
-          coverageStart = bgEvent.end.getTime();
-        }
-      }
+      // Check if each event starts where the last one ended to ensure continuous coverage
+      return (
+        relevantBackgroundEvents.every((bgEvent, index) => {
+          if (index === 0 && bgEvent.start.getTime() > coverageEnd) {
+            return false;
+          }
 
-      return coverageStart >= latestEnd;
+          if (
+            index > 0 &&
+            bgEvent.start.getTime() !==
+              relevantBackgroundEvents[index - 1].end.getTime()
+          ) {
+            return false; // gap detected
+          }
+
+          coverageEnd = bgEvent.end.getTime();
+          return true;
+        }) && coverageEnd >= latestEnd
+      );
     },
     [backgroundEvents, events],
   );
@@ -147,8 +152,6 @@ export function FreeRangesCalendar({
 
   const handleSelectSlot = useCallback(
     ({ start, end }: { start: Date; end: Date }) => {
-      // New: Check if the selection is allowed, if not, return early.
-
       const startTypeSlotEvent = backgroundEvents.find((e) => {
         return (
           start >= e.start &&
@@ -190,7 +193,7 @@ export function FreeRangesCalendar({
         : start;
       const newEventEnd = endTypeSlotEvent ? endTypeSlotEvent.end : end;
 
-      let newEvents = [...events];
+      const newEvents = [...events];
 
       if (endTypeSlotEvent?.type === "overnight") {
         const potentialMorningEvent = backgroundEvents.find(
@@ -243,8 +246,32 @@ export function FreeRangesCalendar({
     [backgroundEvents, events, hasContinuousCoverage],
   );
 
+  const handleSelectEvent = useCallback(
+    (event: Event) => {
+      if (events.some((e) => e.id === event.id)) {
+        setEvents([]);
+      }
+    },
+    [events],
+  );
+
   const handleSelecting = useCallback(
     ({ start, end }: { start: Date; end: Date }) => {
+      // this shows dimmed selection
+      const withinBackgroundEvent = backgroundEvents.some((e) => {
+        return start >= e.start && end <= e.end;
+      });
+
+      if (withinBackgroundEvent) return true;
+
+      const withinAdjacentEvent = backgroundEvents.some((e) => {
+        return end >= e.start && end <= e.end;
+      });
+
+      if (withinAdjacentEvent) return within;
+
+      setWithin(false);
+
       // If there are no events, then just check for continuous coverage
       if (events.length === 0) {
         return hasContinuousCoverage(start, end);
@@ -253,7 +280,7 @@ export function FreeRangesCalendar({
       // If there are events, the selection should be adjacent and have continuous coverage
       return hasContinuousCoverage(start, end);
     },
-    [events.length, hasContinuousCoverage],
+    [backgroundEvents, events.length, hasContinuousCoverage, within],
   );
 
   // sends request to check availability for new user count
@@ -317,7 +344,7 @@ export function FreeRangesCalendar({
           events={events}
           step={15}
           onSelectSlot={handleSelectSlot}
-          // onSelectEvent={handleSelectEvent}
+          onSelectEvent={handleSelectEvent}
           onSelecting={handleSelecting}
           style={{ height: "600px" }}
           timeslots={8}

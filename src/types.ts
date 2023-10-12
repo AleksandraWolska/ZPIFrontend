@@ -123,6 +123,7 @@ export type FixedAvailability = {
 export type SpecificAvailability = {
   startDateTime: string;
   endDateTime: string;
+  type: string;
 };
 
 export type SlotsAvailability = {
