@@ -84,6 +84,18 @@ export function FreeRangesCalendar({
     }
   }, [responseData, isError, itemId, setAvailabilityChecked]);
 
+  // transforms SpecificAvailability[] to events
+  const transformToArray = (
+    specificAvailabilities: SpecificAvailability[],
+  ): Event[] => {
+    return specificAvailabilities.map((item) => ({
+      id: uuid(),
+      start: new Date(item.startDateTime),
+      end: new Date(item.endDateTime),
+      type: item.type,
+    }));
+  };
+
   const hasContinuousCoverage = useCallback(
     (start: Date, end: Date) => {
       // Find events from the same day.
@@ -138,24 +150,23 @@ export function FreeRangesCalendar({
     [backgroundEvents, events],
   );
 
-  // transforms SpecificAvailability[] to events
-  const transformToArray = (
-    specificAvailabilities: SpecificAvailability[],
-  ): Event[] => {
-    return specificAvailabilities.map((item) => ({
-      id: uuid(),
-      start: new Date(item.startDateTime),
-      end: new Date(item.endDateTime),
-      type: item.type,
-    }));
-  };
-
   const handleSelectSlot = useCallback(
     ({ start, end }: { start: Date; end: Date }) => {
+      const endInMorning = backgroundEvents.find((e) => {
+        return end >= e.start && end <= e.end && e.type === "morning";
+      });
+      if (endInMorning) return;
+
+      const startInMorning = backgroundEvents.find((e) => {
+        return start >= e.start && start <= e.end && e.type === "morning";
+      });
+
+      let newEventStart = startInMorning ? startInMorning.end : start;
+
       const startTypeSlotEvent = backgroundEvents.find((e) => {
         return (
-          start >= e.start &&
-          start <= e.end &&
+          newEventStart >= e.start &&
+          newEventStart <= e.end &&
           (e.type === "slot" || e.type === "overnight")
         );
       });
@@ -167,31 +178,26 @@ export function FreeRangesCalendar({
           (e.type === "slot" || e.type === "overnight")
         );
       });
+
+      newEventStart = startTypeSlotEvent
+        ? startTypeSlotEvent.start
+        : newEventStart;
+      const newEventEnd = endTypeSlotEvent ? endTypeSlotEvent.end : end;
+
       if (
         events.length > 0 &&
-        !hasContinuousCoverage(
-          startTypeSlotEvent ? startTypeSlotEvent.start : start,
-          endTypeSlotEvent ? endTypeSlotEvent.end : end,
-        )
+        !hasContinuousCoverage(newEventStart, newEventEnd)
       ) {
         console.warn("Selection is not allowed.");
         return;
       }
       if (
         events.length === 0 &&
-        !hasContinuousCoverage(
-          startTypeSlotEvent ? startTypeSlotEvent.start : start,
-          endTypeSlotEvent ? endTypeSlotEvent.end : end,
-        )
+        !hasContinuousCoverage(newEventStart, newEventEnd)
       ) {
         console.warn("Selection is not allowed.");
         return;
       }
-
-      const newEventStart = startTypeSlotEvent
-        ? startTypeSlotEvent.start
-        : start;
-      const newEventEnd = endTypeSlotEvent ? endTypeSlotEvent.end : end;
 
       const newEvents = [...events];
 
@@ -258,9 +264,11 @@ export function FreeRangesCalendar({
   const handleSelecting = useCallback(
     ({ start, end }: { start: Date; end: Date }) => {
       // this shows dimmed selection
-      const withinBackgroundEvent = backgroundEvents.some((e) => {
-        return start >= e.start && end <= e.end;
-      });
+      const withinBackgroundEvent = backgroundEvents
+        .filter((e) => e.type !== "morning")
+        .some((e) => {
+          return start >= e.start && end <= e.end;
+        });
 
       if (withinBackgroundEvent) return true;
 
@@ -340,6 +348,8 @@ export function FreeRangesCalendar({
           formats={baseFormats}
           components={{}}
           selectable
+          min={new Date("2023-10-05T04:00:00Z")}
+          max={new Date("2023-10-05T21:00:00Z")}
           getNow={() => new Date()}
           events={events}
           step={15}
