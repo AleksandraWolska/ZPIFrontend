@@ -2,7 +2,9 @@ import { v4 as uuid } from "uuid";
 import { useState } from "react";
 import { Box, Stack, TextField, Typography } from "@mui/material";
 import dayjs from "dayjs";
-import ScheduleCalendar, { Event } from "./schedule-calendar/ScheduleCalendar";
+import ScheduleCalendar, {
+  BigCalendarEvent,
+} from "./schedule-calendar/ScheduleCalendar";
 import { SlotsSchedule } from "../../types";
 import { useNewItemSchemaConfig } from "../../NewItemSchemaProvider";
 
@@ -39,7 +41,7 @@ function Slots() {
         <Box width="100%">
           <ScheduleCalendar
             events={parseSlotsScheduleToEvents(schedule)}
-            onEventsChange={(events: Event[]) =>
+            onEventsChange={(events: BigCalendarEvent[]) =>
               setOption("schedule", parseEventsToSlotsSchedule(events))
             }
             step={step > 0 ? step : 30}
@@ -50,7 +52,9 @@ function Slots() {
   );
 }
 
-function parseSlotsScheduleToEvents(schedule: SlotsSchedule): Event[] {
+function parseSlotsScheduleToEvents(
+  schedule: SlotsSchedule,
+): BigCalendarEvent[] {
   return schedule.scheduledSlots.map((s) => {
     return {
       id: uuid(),
@@ -60,7 +64,7 @@ function parseSlotsScheduleToEvents(schedule: SlotsSchedule): Event[] {
   });
 }
 
-function parseEventsToSlotsSchedule(events: Event[]): SlotsSchedule {
+function parseEventsToSlotsSchedule(events: BigCalendarEvent[]): SlotsSchedule {
   return {
     scheduledSlots: events.map((e) => {
       return {

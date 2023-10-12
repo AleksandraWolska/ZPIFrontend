@@ -2,17 +2,23 @@ import { useCallback } from "react";
 import dayjs from "dayjs";
 import {
   Calendar as BigCalendar,
-  Views,
-  dayjsLocalizer,
   DateRange,
+  dayjsLocalizer,
+  Views,
 } from "react-big-calendar";
 import { v4 as uuid } from "uuid";
+import withDragAndDrop, {
+  EventInteractionArgs,
+} from "react-big-calendar/lib/addons/dragAndDrop";
+import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
 
 import "./calendar.css";
 
+const DnDCalendar = withDragAndDrop(BigCalendar);
+
 const dayjsLoc = dayjsLocalizer(dayjs);
 
-export type Event = {
+export type BigCalendarEvent = {
   id: string;
   start: Date;
   end: Date;
@@ -35,8 +41,8 @@ function ScheduleCalendar({
   onEventsChange,
   step,
 }: {
-  events: Event[];
-  onEventsChange: (events: Event[]) => void;
+  events: BigCalendarEvent[];
+  onEventsChange: (events: BigCalendarEvent[]) => void;
   step?: number;
 }) {
   const handleSelectSlot = useCallback(
@@ -49,7 +55,8 @@ function ScheduleCalendar({
   );
 
   const handleSelectEvent = useCallback(
-    (event: Event) => {
+    (event: object) => {
+      if (!("id" in event)) return;
       console.log("select event");
       const newEvents = events.filter((e) => e.id !== event.id);
       onEventsChange(newEvents);
@@ -60,35 +67,66 @@ function ScheduleCalendar({
   const handleSelecting = useCallback(
     ({ start, end }: { start: Date; end: Date }) => {
       console.log("selecting");
-      const conflicted = events.some((e) => {
-        return (
-          (start > e.start && start < e.end) || (end > e.start && end < e.end)
-        );
-      });
-      console.log(conflicted);
-      return !conflicted;
+      return !conflicted({ start, end }, events);
     },
     [events],
   );
 
+  const handleEventResize = (args: EventInteractionArgs<object>) => {
+    console.log("resize", args);
+    const event = args.event as BigCalendarEvent;
+
+    if (
+      conflicted(
+        {
+          start: new Date(args.start),
+          end: new Date(args.end),
+        },
+        events.filter((e) => e.id !== event.id),
+      )
+    ) {
+      return;
+    }
+
+    const newEvents = events.map((e) => {
+      if (e.id === event.id) {
+        return {
+          ...e,
+          start: new Date(args.start),
+          end: new Date(args.end),
+        };
+      }
+      return e;
+    });
+    onEventsChange(newEvents);
+  };
+
   return (
-    <div style={{ height: "600px" }}>
-      <BigCalendar
-        localizer={dayjsLoc}
-        view={Views.WEEK}
-        views={[Views.WEEK]}
-        onView={() => {}}
-        formats={formats}
-        selectable
-        events={events}
-        onSelectSlot={handleSelectSlot}
-        onSelectEvent={handleSelectEvent}
-        onSelecting={handleSelecting}
-        timeslots={1}
-        step={step}
-      />
-    </div>
+    <DnDCalendar
+      localizer={dayjsLoc}
+      view={Views.WEEK}
+      views={[Views.WEEK]}
+      onView={() => {}}
+      formats={formats}
+      selectable
+      events={events}
+      onSelectSlot={handleSelectSlot}
+      onSelectEvent={handleSelectEvent}
+      onSelecting={handleSelecting}
+      timeslots={1}
+      step={step}
+      onEventResize={handleEventResize}
+    />
   );
+}
+
+function conflicted(
+  event: Omit<BigCalendarEvent, "id">,
+  otherEvents: BigCalendarEvent[],
+) {
+  return otherEvents.some((e) => {
+    return event.start < e.end && e.start < event.end;
+  });
 }
 
 ScheduleCalendar.defaultProps = {

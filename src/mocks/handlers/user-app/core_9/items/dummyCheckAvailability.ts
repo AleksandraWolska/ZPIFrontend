@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import {  SpecificAvailability } from "../../../../../types";
+import { SpecificAvailability } from "../../../../../types";
 
 const today = dayjs();
 const startOfWeek = today.startOf("week").add(1, "day"); // Moves to Monday

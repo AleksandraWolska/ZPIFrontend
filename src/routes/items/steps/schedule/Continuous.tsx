@@ -4,7 +4,9 @@ import dayjs from "dayjs";
 import { Box, Stack, TextField, Typography } from "@mui/material";
 import { useNewItemSchemaConfig } from "../../NewItemSchemaProvider";
 import { ContinuousSchedule } from "../../types";
-import ScheduleCalendar, { Event } from "./schedule-calendar/ScheduleCalendar";
+import ScheduleCalendar, {
+  BigCalendarEvent,
+} from "./schedule-calendar/ScheduleCalendar";
 
 function Continuous() {
   const { newItemSchema, setOption } = useNewItemSchemaConfig();
@@ -37,7 +39,7 @@ function Continuous() {
         <Box width="100%">
           <ScheduleCalendar
             events={parseContinuousScheduleToEvents(schedule)}
-            onEventsChange={(events: Event[]) =>
+            onEventsChange={(events: BigCalendarEvent[]) =>
               setOption("schedule", parseEventsToContinuousSchedule(events))
             }
             step={step > 0 ? step : 30}
@@ -50,7 +52,7 @@ function Continuous() {
 
 function parseContinuousScheduleToEvents(
   schedule: ContinuousSchedule,
-): Event[] {
+): BigCalendarEvent[] {
   return schedule.scheduledRanges.map((r) => {
     return {
       id: uuid(),
@@ -60,7 +62,9 @@ function parseContinuousScheduleToEvents(
   });
 }
 
-function parseEventsToContinuousSchedule(events: Event[]): ContinuousSchedule {
+function parseEventsToContinuousSchedule(
+  events: BigCalendarEvent[],
+): ContinuousSchedule {
   return {
     scheduledRanges: events.map((e) => {
       return {
