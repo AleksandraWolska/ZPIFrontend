@@ -1,6 +1,6 @@
 import { Item } from "../../../../types";
 
-export const dummyItems: Item[] = [
+const dummyItems: Item[] = [
   {
     id: "1",
     active: true,
@@ -52,3 +52,5 @@ export const dummyItems: Item[] = [
     ],
   },
 ];
+
+export default dummyItems;
