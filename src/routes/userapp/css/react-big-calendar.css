@@ -53,9 +53,10 @@ button.rbc-input::-moz-focus-inner {
   bottom: 0;
 }
 
+/* poazywaie tekstu w eventach */
 .rbc-ellipsis, .rbc-show-more, .rbc-row-segment .rbc-event-content, .rbc-event-label {
   display: block;
-  overflow: hidden;
+  overflow: word-wrap;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -550,7 +551,7 @@ button.rbc-input::-moz-focus-inner {
 }
 .rbc-day-slot .rbc-events-container {
   bottom: 0;
-  left: 0;
+    left: 0;
   position: absolute;
   /* changed */
   background-color: lightgray;
@@ -587,7 +588,7 @@ button.rbc-input::-moz-focus-inner {
       -ms-flex: none;
           flex: none;
   padding-right: 5px;
-  width: auto;
+  
 }
 .rbc-day-slot .rbc-event-content {
   width: 100%;
@@ -808,8 +809,6 @@ button.rbc-input::-moz-focus-inner {
   background-color: #74ad31;
   pointer-events: none;
 }
-
-/*# sourceMappingURL=react-big-calendar.css.map */
 
 
 

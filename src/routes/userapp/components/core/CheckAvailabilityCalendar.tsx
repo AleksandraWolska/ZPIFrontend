@@ -28,8 +28,6 @@ import {
 } from "../../types";
 import "../../css/react-big-calendar.css";
 
-import "./react-big-calendar.css";
-
 const dayjsLoc = dayjsLocalizer(dayjs);
 
 type Event = {
