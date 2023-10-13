@@ -1,4 +1,4 @@
-import { NewItemConfig } from "../../../../routes/items/types";
+import { NewItemConfig } from "../../../../routes/admin-app/new-item/types";
 
 const dummyNewItemConfig: NewItemConfig = {
   core: {

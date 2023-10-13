@@ -2,7 +2,7 @@ import { ReactNode, useContext, useMemo, useReducer } from "react";
 import { v4 as uuid } from "uuid";
 import dayjs from "dayjs";
 import { NewItem, NewItemConfig, NewItemSchema, Schedule } from "./types";
-import { Core, CustomAttribute, CustomAttributeSpec } from "../../types";
+import { Core, CustomAttribute, CustomAttributeSpec } from "../../../types";
 import useNewItemConfig from "./useNewItemConfig";
 import {
   NEW_ITEM_SCHEMA_ACTION_TYPES,

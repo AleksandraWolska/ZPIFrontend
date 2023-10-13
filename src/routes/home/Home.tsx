@@ -11,11 +11,11 @@ function Home() {
       <Link to="/store-config-wizard">Store config wizard</Link>
       <br />
       <br />
-      <Link to="/stores/1/items/new">New item 1 (fixed)</Link>
+      <Link to="/admin/1">AdminApp 1</Link>
       <br />
-      <Link to="/stores/2/items/new">New item 2 (slots)</Link>
+      <Link to="/admin/2">AdminApp 2</Link>
       <br />
-      <Link to="/stores/3/items/new">New item 3 (continuous)</Link>
+      <Link to="/admin/3">AdminApp 3</Link>
       <br />
       <br />
       <Link to="/todos">Todos</Link>

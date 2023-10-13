@@ -10,7 +10,7 @@ import ItemDetailsPage from "./routes/userapp/details-page/ItemDetailsPage";
 import UserAppWrapper from "./routes/userapp/wrapper/UserAppWrapper";
 import { loader as userAppWrapperLoader } from "./routes/userapp/wrapper/loader";
 import { loader as detailsPageLoader } from "./routes/userapp/details-page/loader";
-import { loader as newItemLoader } from "./routes/items/loader";
+import { loader as newItemLoader } from "./routes/admin-app/new-item/loader";
 
 if (process.env.NODE_ENV === "development") {
   const { worker } = await import("./mocks/browser");
@@ -23,20 +23,40 @@ const router = createBrowserRouter([
     element: <Home />,
   },
   {
+    path: "admin/:storeId",
+    lazy: async () => {
+      const AdminAppWrapper = (
+        await import("./routes/admin-app/AdminAppWrapper")
+      ).default;
+      return { Component: AdminAppWrapper };
+    },
+    children: [
+      {
+        index: true,
+        lazy: async () => {
+          const AdminApp = (await import("./routes/admin-app/AdminApp"))
+            .default;
+          return { Component: AdminApp };
+        },
+      },
+      {
+        path: "new-item",
+        loader: newItemLoader(queryClient),
+        lazy: async () => {
+          const NewItem = (await import("./routes/admin-app/new-item/NewItem"))
+            .default;
+          return { Component: NewItem };
+        },
+      },
+    ],
+  },
+  {
     path: "store-config-wizard",
     lazy: async () => {
       const StoreConfigWizard = (
         await import("./routes/store-config-wizard/StoreConfigWizard")
       ).default;
       return { Component: StoreConfigWizard };
-    },
-  },
-  {
-    path: "stores/:storeId/items/new",
-    loader: newItemLoader(queryClient),
-    lazy: async () => {
-      const NewItem = (await import("./routes/items/NewItem")).default;
-      return { Component: NewItem };
     },
   },
   {

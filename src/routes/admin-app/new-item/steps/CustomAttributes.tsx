@@ -6,7 +6,7 @@ import {
   Select,
   TextField,
 } from "@mui/material";
-import { CustomAttribute, CustomAttributeSpec } from "../../../types";
+import { CustomAttribute, CustomAttributeSpec } from "../../../../types";
 import { useNewItemSchemaConfig } from "../NewItemSchemaProvider";
 
 function CustomAttributes() {
