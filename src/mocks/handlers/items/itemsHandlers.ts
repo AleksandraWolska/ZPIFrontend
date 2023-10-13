@@ -1,23 +1,28 @@
 import { rest } from "msw";
-import { dummyNewItemConfig } from "./dummyNewItemConfig";
 
-const getDummyCustomAttributesSpec = rest.get(
-  "/api/stores/:storeId/add-item-config",
-  (req, res, ctx) => {
+const getDummyNewItemConfig = rest.get(
+  "/api/stores/:storeId/new-item-config",
+  async (req, res, ctx) => {
     const { storeId } = req.params;
 
     if (storeId === "1") {
-      dummyNewItemConfig.core.flexibility = false;
-    } else if (storeId === "2") {
-      dummyNewItemConfig.core.flexibility = true;
-      dummyNewItemConfig.core.granularity = true;
-    } else if (storeId === "3") {
-      dummyNewItemConfig.core.flexibility = true;
-      dummyNewItemConfig.core.granularity = false;
+      const config = (await import("./store-1/dummyNewItemConfig")).default;
+      return res(ctx.status(200), ctx.json(config));
+    }
+    if (storeId === "2") {
+      const config = (await import("./store-2/dummyNewItemConfig")).default;
+      return res(ctx.status(200), ctx.json(config));
     }
 
-    return res(ctx.status(200), ctx.json(dummyNewItemConfig));
+    const config = (await import("./store-3/dummyNewItemConfig")).default;
+    return res(ctx.status(200), ctx.json(config));
   },
 );
 
-export const itemsHandlers = [getDummyCustomAttributesSpec];
+const addItem = rest.post("/api/stores/:storeId/add-item", (req, res, ctx) => {
+  console.log("req", req.json());
+
+  return res(ctx.status(200));
+});
+
+export const itemsHandlers = [getDummyNewItemConfig, addItem];

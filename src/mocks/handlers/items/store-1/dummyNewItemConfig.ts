@@ -1,0 +1,85 @@
+import { NewItemConfig } from "../../../../routes/items/types";
+
+const dummyNewItemConfig: NewItemConfig = {
+  core: {
+    flexibility: false,
+    simultaneous: true,
+    specificReservation: true,
+  },
+  customAttributesSpec: [
+    {
+      id: "1",
+      name: "Director",
+      dataType: "string",
+      isRequired: false,
+      isFilterable: true,
+      showMainPage: true,
+      showDetailsPage: true,
+    },
+    {
+      id: "2",
+      name: "Category",
+      dataType: "string",
+      isRequired: false,
+      isFilterable: true,
+      showMainPage: true,
+      showDetailsPage: true,
+      limitValues: true,
+      possibleValues: [
+        "Thriller",
+        "Action",
+        "Comedy",
+        "Drama",
+        "Horror",
+        "Romance",
+      ],
+    },
+    {
+      id: "3",
+      name: "Year",
+      dataType: "number",
+      isRequired: false,
+      isFilterable: true,
+      showMainPage: false,
+      showDetailsPage: true,
+    },
+    {
+      id: "4",
+      name: "Country",
+      dataType: "string",
+      isRequired: false,
+      isFilterable: true,
+      showMainPage: false,
+      showDetailsPage: true,
+    },
+    {
+      id: "5",
+      name: "Duration",
+      dataType: "number",
+      isRequired: false,
+      isFilterable: false,
+      showMainPage: false,
+      showDetailsPage: true,
+    },
+    {
+      id: "6",
+      name: "Language",
+      dataType: "string",
+      isRequired: false,
+      isFilterable: true,
+      showMainPage: true,
+      showDetailsPage: true,
+    },
+    {
+      id: "7",
+      name: "Subtitles",
+      dataType: "string",
+      isRequired: false,
+      isFilterable: true,
+      showMainPage: true,
+      showDetailsPage: true,
+    },
+  ],
+};
+
+export default dummyNewItemConfig;

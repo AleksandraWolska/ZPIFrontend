@@ -1,12 +1,12 @@
 import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
-import { getAddItemConfigQuery } from "./loader";
+import { getNewItemConfigQuery } from "./loader";
 import { NewItemConfig } from "./types";
 
 function useNewItemConfig() {
   const params = useParams() as { storeId: string };
 
-  const { data } = useQuery(getAddItemConfigQuery(params.storeId)) as {
+  const { data } = useQuery(getNewItemConfigQuery(params.storeId)) as {
     data: NewItemConfig;
   };
 
