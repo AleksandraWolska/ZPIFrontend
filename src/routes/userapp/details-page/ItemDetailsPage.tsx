@@ -44,7 +44,6 @@ const initializeReservationRequestReady = (
 };
 
 const initializeAvailabilityChecked = (core: StoreConfig["core"]): boolean => {
-  console.log(`ustawiono${core.flexibility && !core.uniqueness}`);
   if (core.flexibility && core.uniqueness) return true;
   return false;
 };

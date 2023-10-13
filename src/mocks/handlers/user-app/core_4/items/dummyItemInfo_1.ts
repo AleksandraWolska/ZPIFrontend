@@ -37,132 +37,132 @@ const dummyItemInfo: ItemInfo = {
     ],
     amount: 1,
     image: "https://example.com/sample-computer.jpg",
+    subItemInfoList: [
+      {
+        subItem: {
+          id: "1",
+          title: "Rząd 1 Miejsce 1",
+          amount: 1,
+          subtitle: "subtitle",
+        },
+        subItemStatus: {
+          schedule: "",
+          availableAmount: 1,
+        },
+      },
+      {
+        subItem: {
+          id: "2",
+          title: "Rząd 1 Miejsce 2",
+          amount: 1,
+          subtitle: "subtitle",
+        },
+        subItemStatus: {
+          schedule: "",
+          availableAmount: 1,
+        },
+      },
+      {
+        subItem: {
+          id: "3",
+          title: "Rząd 1 Miejsce 3",
+          amount: 1,
+          subtitle: "subtitle",
+        },
+        subItemStatus: {
+          schedule: "",
+          availableAmount: 1,
+        },
+      },
+      {
+        subItem: {
+          id: "4",
+          title: "Rząd 1 Miejsce 4",
+          amount: 1,
+          subtitle: "subtitle",
+        },
+        subItemStatus: {
+          schedule: "",
+          availableAmount: 1,
+        },
+      },
+      {
+        subItem: {
+          id: "5",
+          title: "Rząd 1 Miejsce 5",
+          amount: 1,
+          subtitle: "subtitle",
+        },
+        subItemStatus: {
+          schedule: "",
+          availableAmount: 1,
+        },
+      },
+      {
+        subItem: {
+          id: "6",
+          title: "Rząd 2 Miejsce 1",
+          amount: 1,
+          subtitle: "subtitle",
+        },
+        subItemStatus: {
+          schedule: "",
+          availableAmount: 1,
+        },
+      },
+      {
+        subItem: {
+          id: "7",
+          title: "Rząd 2 Miejsce 2",
+          amount: 1,
+          subtitle: "subtitle",
+        },
+        subItemStatus: {
+          schedule: "",
+          availableAmount: 1,
+        },
+      },
+      {
+        subItem: {
+          id: "8",
+          title: "Rząd 2 Miejsce 3",
+          amount: 1,
+          subtitle: "subtitle",
+        },
+        subItemStatus: {
+          schedule: "",
+          availableAmount: 1,
+        },
+      },
+      {
+        subItem: {
+          id: "9",
+          title: "Rząd 2 Miejsce 4",
+          amount: 1,
+          subtitle: "subtitle",
+        },
+        subItemStatus: {
+          schedule: "",
+          availableAmount: 1,
+        },
+      },
+      {
+        subItem: {
+          id: "10",
+          title: "Rząd 2 Miejsce 5",
+          amount: 1,
+          subtitle: "subtitle",
+        },
+        subItemStatus: {
+          schedule: "",
+          availableAmount: 1,
+        },
+      },
+    ],
   },
   itemStatus: {
     availableAmount: 1,
     mark: 4.5,
   },
-  subItemsInfo: [
-    {
-      subItem: {
-        id: "1",
-        title: "Rząd 1 Miejsce 1",
-        amount: 1,
-        subtitle: "subtitle",
-      },
-      subItemStatus: {
-        schedule: "",
-        availableAmount: 1,
-      },
-    },
-    {
-      subItem: {
-        id: "2",
-        title: "Rząd 1 Miejsce 2",
-        amount: 1,
-        subtitle: "subtitle",
-      },
-      subItemStatus: {
-        schedule: "",
-        availableAmount: 1,
-      },
-    },
-    {
-      subItem: {
-        id: "3",
-        title: "Rząd 1 Miejsce 3",
-        amount: 1,
-        subtitle: "subtitle",
-      },
-      subItemStatus: {
-        schedule: "",
-        availableAmount: 1,
-      },
-    },
-    {
-      subItem: {
-        id: "4",
-        title: "Rząd 1 Miejsce 4",
-        amount: 1,
-        subtitle: "subtitle",
-      },
-      subItemStatus: {
-        schedule: "",
-        availableAmount: 1,
-      },
-    },
-    {
-      subItem: {
-        id: "5",
-        title: "Rząd 1 Miejsce 5",
-        amount: 1,
-        subtitle: "subtitle",
-      },
-      subItemStatus: {
-        schedule: "",
-        availableAmount: 1,
-      },
-    },
-    {
-      subItem: {
-        id: "6",
-        title: "Rząd 2 Miejsce 1",
-        amount: 1,
-        subtitle: "subtitle",
-      },
-      subItemStatus: {
-        schedule: "",
-        availableAmount: 1,
-      },
-    },
-    {
-      subItem: {
-        id: "7",
-        title: "Rząd 2 Miejsce 2",
-        amount: 1,
-        subtitle: "subtitle",
-      },
-      subItemStatus: {
-        schedule: "",
-        availableAmount: 1,
-      },
-    },
-    {
-      subItem: {
-        id: "8",
-        title: "Rząd 2 Miejsce 3",
-        amount: 1,
-        subtitle: "subtitle",
-      },
-      subItemStatus: {
-        schedule: "",
-        availableAmount: 1,
-      },
-    },
-    {
-      subItem: {
-        id: "9",
-        title: "Rząd 2 Miejsce 4",
-        amount: 1,
-        subtitle: "subtitle",
-      },
-      subItemStatus: {
-        schedule: "",
-        availableAmount: 1,
-      },
-    },
-    {
-      subItem: {
-        id: "10",
-        title: "Rząd 2 Miejsce 5",
-        amount: 1,
-        subtitle: "subtitle",
-      },
-      subItemStatus: {
-        schedule: "",
-        availableAmount: 1,
-      },
-    },
-  ],
 };
 export default dummyItemInfo;

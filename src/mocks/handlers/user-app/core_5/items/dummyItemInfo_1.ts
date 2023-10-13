@@ -41,7 +41,7 @@ const dummyItemInfo: ItemInfo = {
       {
         subItem: {
           id: "1",
-          title: "Rząd 1 Miejsce 1",
+          title: "Tydzień 1",
           amount: 1,
           subtitle: "subtitle",
         },
@@ -53,7 +53,7 @@ const dummyItemInfo: ItemInfo = {
       {
         subItem: {
           id: "2",
-          title: "Rząd 1 Miejsce 2",
+          title: "Tydzień 2",
           amount: 1,
           subtitle: "subtitle",
         },
@@ -65,7 +65,7 @@ const dummyItemInfo: ItemInfo = {
       {
         subItem: {
           id: "3",
-          title: "Rząd 1 Miejsce 3",
+          title: "Tydzień 3",
           amount: 1,
           subtitle: "subtitle",
         },
@@ -77,7 +77,7 @@ const dummyItemInfo: ItemInfo = {
       {
         subItem: {
           id: "4",
-          title: "Rząd 1 Miejsce 4",
+          title: "Tydzień 4",
           amount: 1,
           subtitle: "subtitle",
         },
@@ -89,7 +89,7 @@ const dummyItemInfo: ItemInfo = {
       {
         subItem: {
           id: "5",
-          title: "Rząd 1 Miejsce 5",
+          title: "Tydzień 5",
           amount: 1,
           subtitle: "subtitle",
         },
@@ -101,7 +101,7 @@ const dummyItemInfo: ItemInfo = {
       {
         subItem: {
           id: "6",
-          title: "Rząd 2 Miejsce 1",
+          title: "Tydzień 1",
           amount: 1,
           subtitle: "subtitle",
         },
@@ -113,7 +113,7 @@ const dummyItemInfo: ItemInfo = {
       {
         subItem: {
           id: "7",
-          title: "Rząd 2 Miejsce 2",
+          title: "Tydzień 1",
           amount: 1,
           subtitle: "subtitle",
         },
@@ -125,7 +125,7 @@ const dummyItemInfo: ItemInfo = {
       {
         subItem: {
           id: "8",
-          title: "Rząd 2 Miejsce 3",
+          title: "Tydzień 1",
           amount: 1,
           subtitle: "subtitle",
         },
@@ -137,7 +137,7 @@ const dummyItemInfo: ItemInfo = {
       {
         subItem: {
           id: "9",
-          title: "Rząd 2 Miejsce 4",
+          title: "Tydzień 1",
           amount: 1,
           subtitle: "subtitle",
         },
@@ -149,7 +149,7 @@ const dummyItemInfo: ItemInfo = {
       {
         subItem: {
           id: "10",
-          title: "Rząd 2 Miejsce 5",
+          title: "Tydzień 1",
           amount: 1,
           subtitle: "subtitle",
         },
@@ -164,6 +164,5 @@ const dummyItemInfo: ItemInfo = {
     availableAmount: 1,
     mark: 4.5,
   },
- 
 };
 export default dummyItemInfo;
