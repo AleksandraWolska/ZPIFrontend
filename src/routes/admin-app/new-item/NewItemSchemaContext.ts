@@ -1,6 +1,6 @@
 import { createContext } from "react";
 import { NewItem, NewItemConfig, NewItemSchema } from "./types";
-import { CustomAttribute } from "../../types";
+import { CustomAttribute } from "../../../types";
 
 export type NewItemSchemaContextType = {
   newItemConfig: NewItemConfig;

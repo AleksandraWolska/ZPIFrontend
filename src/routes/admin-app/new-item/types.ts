@@ -1,5 +1,5 @@
 import { Dayjs } from "dayjs";
-import { Item, StoreConfig, SubItem } from "../../types";
+import { Item, StoreConfig, SubItem } from "../../../types";
 
 export type NewItemConfig = Pick<StoreConfig, "core" | "customAttributesSpec">;
 

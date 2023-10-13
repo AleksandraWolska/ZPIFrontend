@@ -1,6 +1,9 @@
 import { rest } from "msw";
 import { v4 as uuid } from "uuid";
-import { NewItem, NewItemSchema } from "../../../routes/items/types";
+import {
+  NewItem,
+  NewItemSchema,
+} from "../../../routes/admin-app/new-item/types";
 import { Item } from "../../../types";
 
 const getDummyNewItemConfig = rest.get(
@@ -30,7 +33,7 @@ const addItem = rest.post(
 
     if (storeId === "1") {
       const items = (await import("./store-1/dummyItems")).default;
-      // console.log("length before push", items.length);
+      console.log("length before push", items.length);
       items.push(enhanceNewItem(body.item));
       return res(ctx.status(200), ctx.json({ message: "Added new item." }));
     }

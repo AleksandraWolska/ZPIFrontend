@@ -1,5 +1,5 @@
 import { NewItem, NewItemSchema } from "./types";
-import { CustomAttribute } from "../../types";
+import { CustomAttribute } from "../../../types";
 
 export const NEW_ITEM_SCHEMA_ACTION_TYPES = {
   SET_ITEM_ATTRIBUTE: "SET_ITEM_ATTRIBUTE",
