@@ -1,6 +1,7 @@
 import { useMutation } from "react-query";
 import { useParams } from "react-router-dom";
 import { NewItemSchema } from "./types";
+import { queryClient } from "../../../query";
 
 const addNewItem = (storeId: string, newItemSchema: NewItemSchema) => {
   return fetch(`/api/stores/${storeId}/add-item`, {
@@ -19,6 +20,9 @@ function useAddNewItem() {
   return useMutation({
     mutationFn: (newSchema: NewItemSchema) => {
       return addNewItem(params.storeId, newSchema);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(["items", params.storeId]);
     },
   });
 }

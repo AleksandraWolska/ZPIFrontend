@@ -25,6 +25,28 @@ const getDummyNewItemConfig = rest.get(
   },
 );
 
+const getItems = rest.get(
+  "/api/admin/:storeId/items",
+  async (req, res, ctx) => {
+    const { storeId } = req.params;
+
+    if (storeId === "1") {
+      const items = (await import("./store-1/dummyItems")).default;
+      return res(ctx.status(200), ctx.json(items));
+    }
+    if (storeId === "2") {
+      const items = (await import("./store-2/dummyItems")).default;
+      return res(ctx.status(200), ctx.json(items));
+    }
+    if (storeId === "3") {
+      const items = (await import("./store-3/dummyItems")).default;
+      return res(ctx.status(200), ctx.json(items));
+    }
+
+    return res(ctx.status(404), ctx.json({ message: "Invalid store ID." }));
+  },
+);
+
 const addItem = rest.post(
   "/api/stores/:storeId/add-item",
   async (req, res, ctx) => {
@@ -65,4 +87,4 @@ const enhanceNewItem = (newItem: NewItem): Item => {
   };
 };
 
-export const itemsHandlers = [getDummyNewItemConfig, addItem];
+export const adminAppHandlers = [getDummyNewItemConfig, getItems, addItem];
