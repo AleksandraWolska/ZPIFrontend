@@ -352,6 +352,7 @@ export function FreeRangesCalendar({
     <>
       <Box style={{ width: "400px", height: "500px" }}>
         <BigCalendar
+          className="reserveCalendar"
           localizer={dayjsLoc}
           backgroundEvents={backgroundEvents}
           defaultDate={defaultDate}

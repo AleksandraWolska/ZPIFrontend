@@ -116,6 +116,7 @@ function ScheduleCalendar({
       timeslots={1}
       step={step}
       onEventResize={handleEventResize}
+      className="scheduleCalendar"
     />
   );
 }
