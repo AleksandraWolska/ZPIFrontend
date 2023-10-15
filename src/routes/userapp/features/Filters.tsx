@@ -4,8 +4,6 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  FormControlLabel,
-  Checkbox,
   TextField,
   Button,
 } from "@mui/material";
@@ -28,20 +26,26 @@ function Filters({
   customAttrubutesSpec,
 }: FiltersProps) {
   return (
-    <Box width="25%" padding={3}>
-      <Box bgcolor="lightgrey">
-        {customAttrubutesSpec
-          .filter((attr: CustomAttributeSpec) => attr.isFilterable)
-          .map((attr: CustomAttributeSpec) => {
-            const activeFilter = activeFilters.find(
-              (filter) => filter.attributeKey === attr.id.toString(),
-            );
+    <Box
+      padding={2}
+      width="100%"
+      bgcolor="white"
+      boxShadow={3}
+      borderRadius="10px"
+    >
+      {customAttrubutesSpec
+        .filter((attr: CustomAttributeSpec) => attr.isFilterable)
+        .map((attr: CustomAttributeSpec) => {
+          const activeFilter = activeFilters.find(
+            (filter) => filter.attributeKey === attr.id.toString(),
+          );
 
-            switch (attr.dataType) {
-              case "string":
+          switch (attr.dataType) {
+            case "string":
+              if (attr.possibleValues && attr.possibleValues.length > 0) {
                 return (
                   <Box key={attr.id} marginBottom={2}>
-                    <FormControl variant="outlined">
+                    <FormControl fullWidth variant="outlined">
                       <InputLabel>{attr.name}</InputLabel>
                       <Select
                         value={activeFilter?.value || ""}
@@ -59,7 +63,7 @@ function Filters({
                         }}
                         label={attr.name}
                       >
-                        {attr.possibleValues?.map((val) => (
+                        {attr.possibleValues.map((val) => (
                           <MenuItem key={val} value={val}>
                             {val}
                           </MenuItem>
@@ -68,59 +72,67 @@ function Filters({
                     </FormControl>
                   </Box>
                 );
-              case "boolean":
-                return (
-                  <Box key={attr.id} marginBottom={2}>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={!!activeFilter?.value}
-                          onChange={(e) => {
-                            const { checked } = e.target;
-                            if (checked) {
-                              handleAppendFilter({
-                                attributeKey: attr.id.toString(),
-                                attributeName: attr.name,
-                                value: checked,
-                              });
-                            } else {
-                              handleRemoveFilter(attr.id.toString());
-                            }
-                          }}
-                        />
+              }
+              return (
+                <Box key={attr.id} marginBottom={2}>
+                  <TextField
+                    fullWidth
+                    label={attr.name}
+                    variant="outlined"
+                    value={activeFilter?.value || ""}
+                    onChange={(e) => {
+                      const { value } = e.target;
+                      if (value) {
+                        handleAppendFilter({
+                          attributeKey: attr.id.toString(),
+                          attributeName: attr.name,
+                          value,
+                        });
+                      } else {
+                        handleRemoveFilter(attr.id.toString());
                       }
-                      label={attr.name}
-                    />
-                  </Box>
-                );
-              case "number":
-                return (
-                  <Box key={attr.id} marginBottom={2}>
-                    <TextField
-                      type="number"
-                      label={attr.name}
-                      variant="outlined"
-                      value={activeFilter?.value || ""}
-                      onChange={(e) => {
-                        const val = Number(e.target.value);
-                        if (val || val === 0) {
-                          handleAppendFilter({
-                            attributeKey: attr.id.toString(),
-                            attributeName: attr.name,
-                            value: val,
-                          });
-                        } else {
-                          handleRemoveFilter(attr.id.toString());
-                        }
-                      }}
-                    />
-                  </Box>
-                );
-              default:
-                return null;
-            }
-          })}
-        <Button onClick={resetFilters}>Reset</Button>
+                    }}
+                  />
+                </Box>
+              );
+
+            case "number":
+              return (
+                <Box key={attr.id} marginBottom={2}>
+                  <TextField
+                    fullWidth
+                    type="number"
+                    label={attr.name}
+                    variant="outlined"
+                    value={activeFilter?.value || ""}
+                    onChange={(e) => {
+                      const val = Number(e.target.value);
+                      if (val || val === 0) {
+                        handleAppendFilter({
+                          attributeKey: attr.id.toString(),
+                          attributeName: attr.name,
+                          value: val,
+                        });
+                      } else {
+                        handleRemoveFilter(attr.id.toString());
+                      }
+                    }}
+                  />
+                </Box>
+              );
+            default:
+              return null;
+          }
+        })}
+      <Box display="flex" justifyContent="center">
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={resetFilters}
+          fullWidth
+        >
+          Reset
+        </Button>
       </Box>
     </Box>
   );

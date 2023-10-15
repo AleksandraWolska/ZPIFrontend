@@ -36,7 +36,7 @@ export const dummyItems: ItemInfo[] = [
         },
       ],
       amount: 10,
-      image: "https://example.com/gaming-laptop.jpg",
+      image: "https://api.slingacademy.com/public/sample-photos/2.jpeg",
     },
     itemStatus: {
       mark: 4.5,
@@ -78,7 +78,7 @@ export const dummyItems: ItemInfo[] = [
         },
       ],
       amount: 15,
-      image: "https://example.com/macbook-pro.jpg",
+      image: "https://api.slingacademy.com/public/sample-photos/5.jpeg",
     },
     itemStatus: {
       mark: 4.8,
@@ -120,7 +120,7 @@ export const dummyItems: ItemInfo[] = [
         },
       ],
       amount: 8,
-      image: "https://example.com/desktop-pc.jpg",
+      image: "https://api.slingacademy.com/public/sample-photos/3.jpeg",
     },
     itemStatus: {
       mark: 4.6,
@@ -162,7 +162,7 @@ export const dummyItems: ItemInfo[] = [
         },
       ],
       amount: 20,
-      image: "https://example.com/chromebook.jpg",
+      image: "https://api.slingacademy.com/public/sample-photos/4.jpeg",
     },
     itemStatus: {
       mark: 4,
@@ -204,7 +204,7 @@ export const dummyItems: ItemInfo[] = [
         },
       ],
       amount: 12,
-      image: "https://example.com/workstation-laptop.jpg",
+      image: "https://api.slingacademy.com/public/sample-photos/5.jpeg",
     },
     itemStatus: {
       mark: 4.7,

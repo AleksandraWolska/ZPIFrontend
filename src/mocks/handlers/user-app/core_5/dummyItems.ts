@@ -39,12 +39,12 @@ export const dummyItems: ItemInfo[] = [
           value: "Anna Majewska",
         },
       ],
-      image: "https://example.com/gaming-laptop.jpg",
+      image: "https://api.slingacademy.com/public/sample-photos/1.jpeg",
     },
   },
   {
     itemStatus: {
-      availableAmount: 3,
+      availableAmount: 0,
       mark: 4.5,
     },
     item: {
@@ -81,7 +81,7 @@ export const dummyItems: ItemInfo[] = [
         },
       ],
 
-      image: "https://example.com/macbook-pro.jpg",
+      image: "https://api.slingacademy.com/public/sample-photos/1.jpeg",
     },
   },
   {
@@ -122,7 +122,7 @@ export const dummyItems: ItemInfo[] = [
           value: "Michał Michalski",
         },
       ],
-      image: "https://example.com/desktop-pc.jpg",
+      image: "https://api.slingacademy.com/public/sample-photos/1.jpeg",
     },
   },
   {
@@ -164,7 +164,7 @@ export const dummyItems: ItemInfo[] = [
         },
       ],
 
-      image: "https://example.com/chromebook.jpg",
+      image: "https://api.slingacademy.com/public/sample-photos/1.jpeg",
     },
   },
   {
@@ -206,7 +206,7 @@ export const dummyItems: ItemInfo[] = [
         },
       ],
 
-      image: "https://example.com/workstation-laptop.jpg",
+      image: "https://api.slingacademy.com/public/sample-photos/1.jpeg",
     },
   },
 ];
