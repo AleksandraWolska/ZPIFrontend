@@ -26,7 +26,14 @@ import useItemDetails from "./useItemDetails";
 import useDetailsPageConfig from "./useDetailsPageConfig";
 import { CheckAvailabilityCalendar } from "../components/core/CheckAvailabilityCalendar";
 import { FreeRangesCalendar } from "../components/core/FreeRangesCalendar";
-import { FlexibleReservationData, FlexibleReservationRequest } from "../types";
+import {
+  FixedReservationData,
+  FlexibleReservationData,
+  RequiredUserInfo,
+  ReservationRequest,
+} from "../types";
+import useReserveItem from "./useReserveItem";
+import { ReservationDialog } from "./ReservationDialog";
 
 const userId = "user1";
 const initializeReservationRequestReady = (
@@ -51,9 +58,14 @@ const initializeAvailabilityChecked = (core: StoreConfig["core"]): boolean => {
 export default function ItemDetailsPage() {
   const storeConfig = useDetailsPageConfig();
   const itemInfo = useItemDetails();
+  const reserveItem = useReserveItem();
+
   const params = useParams() as { storeId: string; itemId: string };
 
   const [showSuccessDialog, setShowSuccessDialog] = useState(false);
+  const [reservationSummary, setReservationSummary] = useState(false);
+  const [reservationRequest, setReservationRequest] =
+    useState<ReservationRequest>();
   const [reservationRequestReady, setReservationRequestReady] = useState(
     initializeReservationRequestReady(
       storeConfig.core,
@@ -67,6 +79,48 @@ export default function ItemDetailsPage() {
   const [selectedSubItemsInfoList, setSelectedSubItemsInfoList] = useState<
     SubItemInfo[]
   >([]);
+
+  const makeReservationRequest = async (request: ReservationRequest) => {
+    setReservationSummary(false);
+
+    setReservationSummary(false);
+    // console.log(request);
+
+    try {
+      await reserveItem.mutateAsync(request); // calling the useReserveItem mutation
+      setShowSuccessDialog(true); // Show success dialog upon successful reservation
+    } catch (error) {
+      console.error("Error during reservation: ", error);
+      // Handle error accordingly, e.g. show an error message to the user
+    }
+    console.log(request);
+  };
+
+  const prepareFixedReservationRequest = () => {
+    const subItemIds = selectedSubItemsInfoList.map((info) => info.subItem);
+
+    const data: FixedReservationData = {
+      subItemList: subItemIds,
+      amount: userCount,
+    };
+    setReservationRequest({
+      storeId: params.storeId,
+      itemId: params.itemId,
+      userData: { id: userId },
+      reservationData: data,
+    });
+    setReservationSummary(true);
+  };
+
+  const prepareFlexibleReservation = (data: FlexibleReservationData) => {
+    setReservationRequest({
+      storeId: params.storeId,
+      itemId: params.itemId,
+      userData: { id: userId },
+      reservationData: data,
+    });
+    setReservationSummary(true);
+  };
 
   const handleRatingAdd = (rating: number) => {
     console.log("New Rating:", rating);
@@ -171,15 +225,6 @@ export default function ItemDetailsPage() {
     </Box>
   );
 
-  const prepareFlexibleReservation = (data: FlexibleReservationData) => {
-    const preparedFlexibleRequest: FlexibleReservationRequest = {
-      ...data,
-      storeId: params.storeId,
-      userId,
-    };
-    console.log(preparedFlexibleRequest);
-  };
-
   const freeRangesUserInput = (
     <FreeRangesCalendar
       itemId={itemInfo.item.id}
@@ -225,7 +270,7 @@ export default function ItemDetailsPage() {
           variant="contained"
           color="primary"
           disabled={!reservationRequestReady}
-          onClick={() => setShowSuccessDialog(true)}
+          onClick={() => prepareFixedReservationRequest()}
         >
           Submit
         </Button>
@@ -276,8 +321,21 @@ export default function ItemDetailsPage() {
     </Box>
   );
 
+  const handleReservationFinished = () => {
+    setShowSuccessDialog(false);
+    setSelectedSubItemsInfoList([]);
+    setUserCount(1);
+    setReservationRequest(undefined);
+  };
   return (
     <Box padding={3}>
+      {reservationSummary && reservationRequest && (
+        <ReservationDialog
+          reservationRequest={reservationRequest}
+          requiredUserInfo={["email", "name", "surname"] as RequiredUserInfo}
+          makeReservationRequest={makeReservationRequest}
+        />
+      )}
       <Typography variant="h3">{itemInfo.item.title}</Typography>
       {itemInfo.item.subtitle && (
         <Typography variant="h5">{itemInfo.item.subtitle}</Typography>
@@ -288,39 +346,24 @@ export default function ItemDetailsPage() {
       {storeConfig.detailsPage.showRating && itemInfo.itemStatus.mark && (
         <Ratings mark={itemInfo.itemStatus.mark} />
       )}
-
       <AttributesList
         attributesConfig={storeConfig.customAttributesSpec}
         itemAttributes={itemInfo.item.customAttributeList}
       />
-
       {core}
       {storeConfig.detailsPage.showRating && (
         <RatingsInteractive handleSetRating={handleRatingAdd} />
       )}
-
       {storeConfig.detailsPage.showComments && (
         <CommentComponent handleSendComment={handleSendComment} />
       )}
-      <Dialog
-        open={showSuccessDialog}
-        onClose={() => setShowSuccessDialog(false)}
-      >
+      <Dialog open={showSuccessDialog} onClose={handleReservationFinished}>
         <DialogTitle>Successful</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            You have selected:{" "}
-            {selectedSubItemsInfoList.map((i) => i.subItem.title).join(", ")}
-          </DialogContentText>
+          <DialogContentText>Reservation is done!</DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button
-            onClick={() => {
-              setShowSuccessDialog(false);
-              setSelectedSubItemsInfoList([]); // Reset the selected items
-            }}
-            color="primary"
-          >
+          <Button onClick={handleReservationFinished} color="primary">
             OK
           </Button>
         </DialogActions>

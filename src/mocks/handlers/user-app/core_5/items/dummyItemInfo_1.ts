@@ -47,7 +47,7 @@ const dummyItemInfo: ItemInfo = {
         },
         subItemStatus: {
           schedule: "",
-          availableAmount: 1,
+          availableAmount: 3,
         },
       },
       {
@@ -59,7 +59,7 @@ const dummyItemInfo: ItemInfo = {
         },
         subItemStatus: {
           schedule: "",
-          availableAmount: 1,
+          availableAmount: 4,
         },
       },
       {
