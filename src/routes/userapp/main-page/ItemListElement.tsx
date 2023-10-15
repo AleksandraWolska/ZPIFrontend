@@ -1,5 +1,5 @@
 import { Box, ListItemText } from "@mui/material";
-import { ItemInfo, StoreConfig } from "../../../types";
+import { ItemInfo } from "../../../types";
 
 import Ratings from "../features/Ratings";
 import ItemImage from "../features/ItemImage";

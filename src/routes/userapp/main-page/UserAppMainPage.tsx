@@ -5,7 +5,6 @@ import {
   Typography,
   List,
   ListItem,
-  ListItemText,
   Divider,
   IconButton,
 } from "@mui/material";
@@ -14,8 +13,6 @@ import { CustomAttributeSpec, CustomAttribute } from "../../../types";
 import { FilterValue } from "../types";
 import useMainPageConfig from "./useMainPageConfig";
 import useItems from "./useItems";
-import ItemImage from "../features/ItemImage";
-import Ratings from "../features/Ratings";
 import Filters from "../features/Filters";
 import WelcomeTexts from "../components/WelcomeTexts";
 import ItemListElement from "./ItemListElement";

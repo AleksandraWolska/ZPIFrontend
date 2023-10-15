@@ -30,7 +30,7 @@ const dummyItemInfo: ItemInfo = {
         },
         subItemStatus: {
           schedule: "2023-10-02T12:00:00Z",
-          availableAmount: 2,
+          availableAmount: 0,
         },
       },
       {
@@ -110,7 +110,7 @@ const dummyItemInfo: ItemInfo = {
       },
     ],
     amount: 1,
-    image: "https://example.com/sample-computer.jpg",
+    image: "https://api.slingacademy.com/public/sample-photos/8.jpeg",
   },
   itemStatus: {
     availableAmount: 1,

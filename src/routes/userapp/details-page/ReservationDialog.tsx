@@ -8,6 +8,7 @@ import {
   List,
   ListItem,
   Typography,
+  Box,
 } from "@mui/material";
 import {
   FixedReservationData,
@@ -43,10 +44,15 @@ export function ReservationDialog({
   };
 
   return (
-    <Dialog open maxWidth="sm" fullWidth>
+    <Dialog
+      open
+      maxWidth="sm"
+      fullWidth
+      PaperProps={{ sx: { borderRadius: "10px" } }}
+    >
       <DialogTitle>Reservation</DialogTitle>
       <DialogContent>
-        <section>
+        <Box mb={3}>
           <Typography variant="h6">Podsumowanie:</Typography>
           {isFlexibleData(reservationRequest.reservationData) ? (
             <>
@@ -71,13 +77,15 @@ export function ReservationDialog({
           <Typography>
             Amount: {reservationRequest.reservationData.amount}
           </Typography>
-        </section>
-        <section>
+        </Box>
+        <Box mb={3}>
           <Typography variant="h6">Informacje:</Typography>
           {requiredUserInfo.map((infoKey) => (
             <TextField
               key={infoKey}
               label={infoKey}
+              fullWidth
+              margin="normal"
               onChange={(e) =>
                 handleInputChange(infoKey as keyof UserData, e.target.value)
               }
@@ -88,10 +96,11 @@ export function ReservationDialog({
               {key}: {value}
             </Typography>
           ))}
-        </section>
+        </Box>
         <Button
           color="primary"
           variant="contained"
+          fullWidth
           onClick={() =>
             makeReservationRequest({
               ...reservationRequest,

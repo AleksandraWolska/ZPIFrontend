@@ -34,6 +34,7 @@ import {
 } from "../types";
 import useReserveItem from "./useReserveItem";
 import { ReservationDialog } from "./ReservationDialog";
+import ItemImage from "../features/ItemImage";
 
 const userId = "user1";
 const initializeReservationRequestReady = (
@@ -336,16 +337,35 @@ export default function ItemDetailsPage() {
           makeReservationRequest={makeReservationRequest}
         />
       )}
-      <Typography variant="h3">{itemInfo.item.title}</Typography>
-      {itemInfo.item.subtitle && (
-        <Typography variant="h5">{itemInfo.item.subtitle}</Typography>
-      )}
-      {itemInfo.item.description && (
-        <Typography variant="body2">{itemInfo.item.description}</Typography>
-      )}
-      {storeConfig.detailsPage.showRating && itemInfo.itemStatus.mark && (
-        <Ratings mark={itemInfo.itemStatus.mark} />
-      )}
+      <Box display="flex">
+        <Box
+          borderRadius="10%"
+          marginRight={3}
+          marginBottom={3}
+          maxWidth="25%"
+          overflow="hidden"
+          display="flex"
+          alignItems="center"
+        >
+          {itemInfo.item.image && <ItemImage url={itemInfo.item.image} />}
+        </Box>
+        <Box>
+          <Typography variant="h3" marginBottom={1}>
+            {itemInfo.item.title}
+          </Typography>
+          {itemInfo.item.subtitle && (
+            <Typography variant="h5" marginBottom={1}>
+              {itemInfo.item.subtitle}
+            </Typography>
+          )}
+          {storeConfig.detailsPage.showRating && itemInfo.itemStatus.mark && (
+            <Ratings mark={itemInfo.itemStatus.mark} />
+          )}
+          {itemInfo.item.description && (
+            <Typography variant="body2">{itemInfo.item.description}</Typography>
+          )}
+        </Box>
+      </Box>
       <AttributesList
         attributesConfig={storeConfig.customAttributesSpec}
         itemAttributes={itemInfo.item.customAttributeList}
