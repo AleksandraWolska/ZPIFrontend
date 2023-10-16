@@ -5,10 +5,11 @@ import { StoreConfig } from "../../../types";
 const fetchOwner = async (storeId: string): Promise<StoreConfig["owner"]> => {
   const res = await fetch(
     `${
-      process.env.NODE_ENV === "development" ? "" : "https://zpibackend.fly.dev"
-    }/store-configs`,
+      process.env.NODE_ENV === "development"
+        ? `/api/stores/${storeId}/owner`
+        : "http://zpibackend.fly.dev/store-configs"
+    }`,
   );
-  console.log(storeId)
   return res.json();
 };
 
