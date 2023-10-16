@@ -7,8 +7,9 @@ const fetchConfig = async (storeId: string): Promise<MainPageConfig> => {
   const res = await fetch(
     `${
       process.env.NODE_ENV === "development" ? "" : "http://zpibackend.fly.dev"
-    }/api/stores/${storeId}/main-page-config`,
+    }/store-config`,
   );
+  console.log(storeId)
   return res.json();
 };
 
@@ -18,8 +19,7 @@ export const getConfigQuery = (storeId: string) => ({
 });
 
 const fetchItems = async (storeId: string): Promise<ItemInfo[]> => {
-  const res = await fetch(`/store-configs`);
-  console.log(storeId);
+  const res = await fetch(`/api/stores/${storeId}/items`);
   return res.json();
 };
 
