@@ -6,8 +6,8 @@ import { ItemInfo } from "../../../types";
 const fetchConfig = async (storeId: string): Promise<MainPageConfig> => {
   const res = await fetch(
     `${
-      process.env.NODE_ENV === "development" ? "" : "https://zpibackend.fly.dev"
-    }/store-config`,
+      process.env.NODE_ENV === "development" ? "" : "http://zpibackend.fly.dev"
+    }/api/store-configs`,
   );
   console.log(storeId)
   return res.json();
