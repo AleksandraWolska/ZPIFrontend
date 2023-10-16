@@ -4,7 +4,11 @@ import { MainPageConfig } from "../types";
 import { ItemInfo } from "../../../types";
 
 const fetchConfig = async (storeId: string): Promise<MainPageConfig> => {
-  const res = await fetch(`/api/stores/${storeId}/main-page-config`);
+  const res = await fetch(
+    `${
+      process.env.NODE_ENV === "development" ? "" : "http://zpibackend.fly.dev"
+    }/api/stores/${storeId}/main-page-config`,
+  );
   return res.json();
 };
 
