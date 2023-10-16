@@ -19,7 +19,7 @@ function AdminAppWrapper() {
             gap: "1rem",
           }}
         >
-          <Link to="/">Home</Link>
+          <Link to="/ZPIFrontend">Home</Link>
           <Link to="item-list">Item list</Link>
           <Link to="new-item">New item</Link>
         </div>
