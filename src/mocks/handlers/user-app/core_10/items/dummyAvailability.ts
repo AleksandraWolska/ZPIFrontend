@@ -50,10 +50,6 @@ export const dummyAvailability: Availability = Array.from({
   return [morningEvent, event1, overnightEvent];
 });
 
-
-
-
-
 // import dayjs from "dayjs";
 // import { Availability, SpecificAvailability } from "../../../../../types";
 

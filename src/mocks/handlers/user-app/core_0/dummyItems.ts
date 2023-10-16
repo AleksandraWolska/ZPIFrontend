@@ -3,8 +3,10 @@ import { Item } from "../../../../types";
 export const dummyItems: Item[] = [
   {
     id: "1",
+    active: true,
     title: "Gaming Laptop",
     subtitle: "High-performance gaming laptop",
+    description: "",
     customAttributeList: [
       {
         id: "1",
@@ -33,13 +35,15 @@ export const dummyItems: Item[] = [
       },
     ],
     mark: 4.5,
-    availableAmount: 10,
+    amount: 10,
     image: "https://api.slingacademy.com/public/sample-photos/2.jpeg",
   },
   {
     id: "2",
+    active: true,
     title: "MacBook Pro",
     subtitle: "Apple MacBook Pro with Retina display",
+    description: "",
     customAttributeList: [
       {
         id: "1",
@@ -68,14 +72,15 @@ export const dummyItems: Item[] = [
       },
     ],
     mark: 4.8,
-    availableAmount: 15,
-    image:
-      "https://api.slingacademy.com/public/sample-photos/5.jpeg",
+    amount: 15,
+    image: "https://api.slingacademy.com/public/sample-photos/5.jpeg",
   },
   {
     id: "3",
+    active: true,
     title: "Desktop PC",
     subtitle: "Powerful desktop computer for work or play",
+    description: "",
     customAttributeList: [
       {
         id: "1",
@@ -104,13 +109,15 @@ export const dummyItems: Item[] = [
       },
     ],
     mark: 4.6,
-    availableAmount: 8,
+    amount: 8,
     image: "https://api.slingacademy.com/public/sample-photos/3.jpeg",
   },
   {
     id: "4",
+    active: true,
     title: "Chromebook",
     subtitle: "Lightweight and affordable Chromebook",
+    description: "",
     customAttributeList: [
       {
         id: "1",
@@ -139,13 +146,15 @@ export const dummyItems: Item[] = [
       },
     ],
     mark: 4,
-    availableAmount: 20,
+    amount: 20,
     image: "https://api.slingacademy.com/public/sample-photos/4.jpeg",
   },
   {
     id: "5",
+    active: true,
     title: "Workstation Laptop",
     subtitle: "High-performance laptop for professionals",
+    description: "",
     customAttributeList: [
       {
         id: "1",
@@ -174,13 +183,15 @@ export const dummyItems: Item[] = [
       },
     ],
     mark: 4.7,
-    availableAmount: 12,
+    amount: 12,
     image: "https://api.slingacademy.com/public/sample-photos/5.jpeg",
   },
   {
     id: "6",
+    active: true,
     title: "Tablet",
     subtitle: "Versatile tablet for entertainment and productivity",
+    description: "",
     customAttributeList: [
       {
         id: "1",
@@ -209,13 +220,15 @@ export const dummyItems: Item[] = [
       },
     ],
     mark: 4.2,
-    availableAmount: 25,
+    amount: 25,
     image: "https://example.com/tablet.jpg",
   },
   {
     id: "7",
+    active: true,
     title: "Gaming PC",
     subtitle: "Custom gaming PC with RGB lighting",
+    description: "",
     customAttributeList: [
       {
         id: "1",
@@ -244,13 +257,15 @@ export const dummyItems: Item[] = [
       },
     ],
     mark: 4.9,
-    availableAmount: 5,
+    amount: 5,
     image: "https://example.com/gaming-pc.jpg",
   },
   {
     id: "8",
+    active: true,
     title: "Ultrabook",
     subtitle: "Thin and lightweight ultrabook for portability",
+    description: "",
     customAttributeList: [
       {
         id: "1",
@@ -279,13 +294,15 @@ export const dummyItems: Item[] = [
       },
     ],
     mark: 4.4,
-    availableAmount: 18,
+    amount: 18,
     image: "https://example.com/ultrabook.jpg",
   },
   {
     id: "9",
+    active: true,
     title: "All-in-One PC",
     subtitle: "Space-saving all-in-one computer",
+    description: "",
     customAttributeList: [
       {
         id: "1",
@@ -314,13 +331,15 @@ export const dummyItems: Item[] = [
       },
     ],
     mark: 4.3,
-    availableAmount: 14,
+    amount: 14,
     image: "https://example.com/all-in-one-pc.jpg",
   },
   {
     id: "10",
+    active: true,
     title: "Budget Laptop",
     subtitle: "Affordable laptop for everyday use",
+    description: "",
     customAttributeList: [
       {
         id: "1",
@@ -349,7 +368,7 @@ export const dummyItems: Item[] = [
       },
     ],
     mark: 3.9,
-    availableAmount: 30,
+    amount: 30,
     image: "https://example.com/budget-laptop.jpg",
   },
 ];

@@ -17,7 +17,10 @@ const dummyItemInfo: ItemInfo = {
           amount: 1,
         },
         subItemStatus: {
-          schedule: "2023-10-01T12:00:00Z",
+          schedule: {
+            startDateTime: "2021-09-20T09:00:00.000Z",
+            endDateTime: "2021-09-20T10:00:00.000Z",
+          },
           availableAmount: 1,
         },
       },
@@ -29,7 +32,10 @@ const dummyItemInfo: ItemInfo = {
           amount: 2,
         },
         subItemStatus: {
-          schedule: "2023-10-02T12:00:00Z",
+          schedule: {
+            startDateTime: "2021-09-20T09:00:00.000Z",
+            endDateTime: "2021-09-20T10:00:00.000Z",
+          },
           availableAmount: 0,
         },
       },
@@ -41,7 +47,10 @@ const dummyItemInfo: ItemInfo = {
           amount: 3,
         },
         subItemStatus: {
-          schedule: "2023-10-03T12:00:00Z",
+          schedule: {
+            startDateTime: "2021-09-20T09:00:00.000Z",
+            endDateTime: "2021-09-20T10:00:00.000Z",
+          },
           availableAmount: 3,
         },
       },
@@ -53,7 +62,10 @@ const dummyItemInfo: ItemInfo = {
           amount: 4,
         },
         subItemStatus: {
-          schedule: "2023-10-04T12:00:00Z",
+          schedule: {
+            startDateTime: "2021-09-20T09:00:00.000Z",
+            endDateTime: "2021-09-20T10:00:00.000Z",
+          },
           availableAmount: 4,
         },
       },
@@ -65,7 +77,10 @@ const dummyItemInfo: ItemInfo = {
           amount: 5,
         },
         subItemStatus: {
-          schedule: "2023-10-05T12:00:00Z",
+          schedule: {
+            startDateTime: "2021-09-20T09:00:00.000Z",
+            endDateTime: "2021-09-20T10:00:00.000Z",
+          },
           availableAmount: 5,
         },
       },
@@ -77,7 +92,10 @@ const dummyItemInfo: ItemInfo = {
           amount: 6,
         },
         subItemStatus: {
-          schedule: "2023-10-06T12:00:00Z",
+          schedule: {
+            startDateTime: "2021-09-20T09:00:00.000Z",
+            endDateTime: "2021-09-20T10:00:00.000Z",
+          },
           availableAmount: 6,
         },
       },

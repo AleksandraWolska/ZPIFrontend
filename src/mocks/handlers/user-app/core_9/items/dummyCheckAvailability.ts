@@ -12,11 +12,13 @@ export const dummyCheckAvailability: SpecificAvailability[] = Array.from({
   const morningEvent: SpecificAvailability = {
     startDateTime: currentDay.add(9, "hour").toDate().toISOString(),
     endDateTime: currentDay.add(11, "hour").toDate().toISOString(),
+    type: "morning",
   };
 
   const afternoonEvent: SpecificAvailability = {
     startDateTime: currentDay.add(16, "hour").toDate().toISOString(),
     endDateTime: currentDay.add(19, "hour").toDate().toISOString(),
+    type: "afternoon",
   };
 
   return [morningEvent, afternoonEvent];

@@ -46,7 +46,10 @@ const dummyItemInfo: ItemInfo = {
           subtitle: "subtitle",
         },
         subItemStatus: {
-          schedule: "",
+          schedule: {
+            startDateTime: "2021-09-20T09:00:00.000Z",
+            endDateTime: "2021-09-20T10:00:00.000Z",
+          },
           availableAmount: 1,
         },
       },
@@ -58,7 +61,10 @@ const dummyItemInfo: ItemInfo = {
           subtitle: "subtitle",
         },
         subItemStatus: {
-          schedule: "",
+          schedule: {
+            startDateTime: "2021-09-20T09:00:00.000Z",
+            endDateTime: "2021-09-20T10:00:00.000Z",
+          },
           availableAmount: 1,
         },
       },
@@ -70,7 +76,10 @@ const dummyItemInfo: ItemInfo = {
           subtitle: "subtitle",
         },
         subItemStatus: {
-          schedule: "",
+          schedule: {
+            startDateTime: "2021-09-20T09:00:00.000Z",
+            endDateTime: "2021-09-20T10:00:00.000Z",
+          },
           availableAmount: 1,
         },
       },
@@ -82,7 +91,10 @@ const dummyItemInfo: ItemInfo = {
           subtitle: "subtitle",
         },
         subItemStatus: {
-          schedule: "",
+          schedule: {
+            startDateTime: "2021-09-20T09:00:00.000Z",
+            endDateTime: "2021-09-20T10:00:00.000Z",
+          },
           availableAmount: 1,
         },
       },
@@ -94,7 +106,10 @@ const dummyItemInfo: ItemInfo = {
           subtitle: "subtitle",
         },
         subItemStatus: {
-          schedule: "",
+          schedule: {
+            startDateTime: "2021-09-20T09:00:00.000Z",
+            endDateTime: "2021-09-20T10:00:00.000Z",
+          },
           availableAmount: 1,
         },
       },
@@ -106,7 +121,10 @@ const dummyItemInfo: ItemInfo = {
           subtitle: "subtitle",
         },
         subItemStatus: {
-          schedule: "",
+          schedule: {
+            startDateTime: "2021-09-20T09:00:00.000Z",
+            endDateTime: "2021-09-20T10:00:00.000Z",
+          },
           availableAmount: 1,
         },
       },
@@ -118,7 +136,10 @@ const dummyItemInfo: ItemInfo = {
           subtitle: "subtitle",
         },
         subItemStatus: {
-          schedule: "",
+          schedule: {
+            startDateTime: "2021-09-20T09:00:00.000Z",
+            endDateTime: "2021-09-20T10:00:00.000Z",
+          },
           availableAmount: 1,
         },
       },
@@ -130,7 +151,10 @@ const dummyItemInfo: ItemInfo = {
           subtitle: "subtitle",
         },
         subItemStatus: {
-          schedule: "",
+          schedule: {
+            startDateTime: "2021-09-20T09:00:00.000Z",
+            endDateTime: "2021-09-20T10:00:00.000Z",
+          },
           availableAmount: 1,
         },
       },
@@ -142,7 +166,10 @@ const dummyItemInfo: ItemInfo = {
           subtitle: "subtitle",
         },
         subItemStatus: {
-          schedule: "",
+          schedule: {
+            startDateTime: "2021-09-20T09:00:00.000Z",
+            endDateTime: "2021-09-20T10:00:00.000Z",
+          },
           availableAmount: 1,
         },
       },
@@ -154,7 +181,10 @@ const dummyItemInfo: ItemInfo = {
           subtitle: "subtitle",
         },
         subItemStatus: {
-          schedule: "",
+          schedule: {
+            startDateTime: "2021-09-20T09:00:00.000Z",
+            endDateTime: "2021-09-20T10:00:00.000Z",
+          },
           availableAmount: 1,
         },
       },
@@ -164,6 +194,5 @@ const dummyItemInfo: ItemInfo = {
     availableAmount: 1,
     mark: 4.5,
   },
- 
 };
 export default dummyItemInfo;
