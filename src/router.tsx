@@ -24,7 +24,7 @@ const router = createBrowserRouter([
     element: <Home />,
   },
   {
-    path: "/admin/:storeId",
+    path: "admin/:storeId",
     lazy: async () => {
       const AdminAppWrapper = (
         await import("./routes/admin-app/AdminAppWrapper")
@@ -62,7 +62,7 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/store-config-wizard",
+    path: "store-config-wizard",
     lazy: async () => {
       const StoreConfigWizard = (
         await import("./routes/store-config-wizard/StoreConfigWizard")
@@ -71,7 +71,7 @@ const router = createBrowserRouter([
     },
   },
   {
-    path: "/todos",
+    path: "todos",
     lazy: async () => {
       const TodosLayout = (await import("./routes/todos/TodosLayout")).default;
       return { Component: TodosLayout };
@@ -89,7 +89,7 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/userapp/:storeId",
+    path: "userapp/:storeId",
     element: <UserAppWrapper />,
     loader: userAppWrapperLoader(queryClient),
     children: [
@@ -110,7 +110,7 @@ const router = createBrowserRouter([
     element: <RequireLogin />,
     children: [
       {
-        path: "/secret",
+        path: "secret",
         element: <Secret />,
       },
     ],
