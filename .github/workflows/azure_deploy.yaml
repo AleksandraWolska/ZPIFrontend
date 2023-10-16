@@ -62,7 +62,7 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: {name_of_your_app}
+          app-name: genervation
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE }} # Publish profile should always be stored as secrets in your repository Settings - Secrets and variables - Actions - secrets
           package: .
