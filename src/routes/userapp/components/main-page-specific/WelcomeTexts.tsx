@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import { MainPage } from "../../../types";
+import { MainPage } from "../../../../types";
 
 type WelcomeTextsProps = {
   config: MainPage;

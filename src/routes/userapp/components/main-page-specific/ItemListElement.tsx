@@ -1,10 +1,10 @@
 import { Box, ListItemText } from "@mui/material";
-import { ItemInfo } from "../../../types";
+import { ItemInfo } from "../../../../types";
 
-import Ratings from "../features/Ratings";
-import ItemImage from "../features/ItemImage";
+import Ratings from "../shared/Ratings";
+import ItemImage from "../shared/ItemImage";
 import AttributesList from "./AttributesList";
-import { MainPageConfig } from "../types";
+import { MainPageConfig } from "../../types";
 
 type ItemListElementProps = {
   itemInfo: ItemInfo;

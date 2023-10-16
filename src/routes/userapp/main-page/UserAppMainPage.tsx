@@ -13,9 +13,9 @@ import { CustomAttributeSpec, CustomAttribute } from "../../../types";
 import { FilterValue } from "../types";
 import useMainPageConfig from "./useMainPageConfig";
 import useItems from "./useItems";
-import Filters from "../features/Filters";
-import WelcomeTexts from "../components/WelcomeTexts";
-import ItemListElement from "./ItemListElement";
+import Filters from "../components/main-page-specific/Filters";
+import WelcomeTexts from "../components/main-page-specific/WelcomeTexts";
+import ItemListElement from "../components/main-page-specific/ItemListElement";
 
 export default function UserAppMainPage() {
   const navigate = useNavigate();

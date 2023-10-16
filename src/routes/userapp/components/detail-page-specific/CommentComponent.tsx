@@ -8,9 +8,9 @@ import {
   ListItemText,
   Typography,
 } from "@mui/material";
-import { Comment } from "../../../types";
-import { CommentList } from "../types";
-import useCommentList from "../details-page/useCommentList";
+import { Comment } from "../../../../types";
+import { CommentList } from "../../types";
+import useCommentList from "../../details-page/useCommentList";
 
 type CommentComponentProps = {
   handleSendComment: (content: string) => void;

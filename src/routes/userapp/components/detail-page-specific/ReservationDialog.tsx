@@ -16,7 +16,7 @@ import {
   RequiredUserInfo,
   ReservationRequest,
   UserData,
-} from "../types";
+} from "../../types";
 
 type Props = {
   reservationRequest: ReservationRequest;

@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import { CustomAttribute, CustomAttributeSpec } from "../../../types";
+import { CustomAttribute, CustomAttributeSpec } from "../../../../types";
 
 type AttributesListProps = {
   itemAttributes: CustomAttribute[];

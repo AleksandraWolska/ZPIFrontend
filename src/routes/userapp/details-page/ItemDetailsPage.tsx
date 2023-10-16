@@ -16,10 +16,10 @@ import {
   StoreConfig,
   SubItemInfo,
 } from "../../../types";
-import AttributesList from "../features/AttributesList";
-import CommentComponent from "../features/CommentComponent";
-import Ratings from "../features/Ratings";
-import RatingsInteractive from "../features/RatingsInteractive";
+import AttributesList from "../components/detail-page-specific/AttributesList";
+import CommentComponent from "../components/detail-page-specific/CommentComponent";
+import Ratings from "../components/shared/Ratings";
+import RatingsInteractive from "../components/detail-page-specific/RatingsInteractive";
 import QuantityInput from "../components/core/QuantityInput";
 import SubItemsList from "../components/core/SubItemsList";
 import useItemDetails from "./useItemDetails";
@@ -33,8 +33,8 @@ import {
   ReservationRequest,
 } from "../types";
 import useReserveItem from "./useReserveItem";
-import { ReservationDialog } from "./ReservationDialog";
-import ItemImage from "../features/ItemImage";
+import { ReservationDialog } from "../components/detail-page-specific/ReservationDialog";
+import ItemImage from "../components/shared/ItemImage";
 
 const userId = "user1";
 const initializeReservationRequestReady = (
