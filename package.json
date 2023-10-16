@@ -4,12 +4,6 @@
   "version": "0.0.0",
   "type": "module",
   "homepage": "https://aleksandrawolska.github.io/ZPIFrontend/",
-  "browserslist": [
-    "last 2 Chrome versions",
-    "last 2 Firefox versions",
-    "last 2 Safari versions"
-  ],
-  
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
