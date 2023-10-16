@@ -13,16 +13,11 @@ import { loader as detailsPageLoader } from "./routes/userapp/details-page/loade
 import { loader as itemListLoader } from "./routes/admin-app/item-list/loader";
 import { loader as newItemLoader } from "./routes/admin-app/new-item/loader";
 
-async function init() {
-  if (process.env.NODE_ENV === "development") {
-    const { worker } = await import("./mocks/browser");
-    await worker.start({ onUnhandledRequest: "bypass" });
-<<<<<<< HEAD
-  }
+if (process.env.NODE_ENV === "development") {
+  const { worker } = await import("./mocks/browser");
+  await worker.start({ onUnhandledRequest: "bypass" });
+}
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 const router = createBrowserRouter([
   {
     path: "/",
@@ -73,99 +68,53 @@ const router = createBrowserRouter([
         await import("./routes/store-config-wizard/StoreConfigWizard")
       ).default;
       return { Component: StoreConfigWizard };
-=======
-=======
-if (process.env.NODE_ENV === "production") {
-  const { worker } = await import("./mocks/browser");
-  await worker.start({
-    onUnhandledRequest: "bypass",
-    serviceWorker: {
-      url: "/ZPIFrontend/mockServiceWorker.js",
     },
-  });
-=======
-  if (process.env.NODE_ENV === "production") {
-=======
-  } else if (process.env.NODE_ENV === "production") {
->>>>>>> 45c1e4d (top level await)
-    const { worker } = await import("./mocks/browser");
-    await worker.start({
-      onUnhandledRequest: "bypass",
-      serviceWorker: {
-        url: "/ZPIFrontend/mockServiceWorker.js",
+  },
+  {
+    path: "todos",
+    lazy: async () => {
+      const TodosLayout = (await import("./routes/todos/TodosLayout")).default;
+      return { Component: TodosLayout };
+    },
+    children: [
+      {
+        path: "all",
+        loader: todosLoader(queryClient),
+        lazy: async () => {
+          const Todos = (await import("./routes/todos/all-todos/Todos"))
+            .default;
+          return { Component: Todos };
+        },
       },
-    });
-  }
->>>>>>> 0764c95 (top level await crashes build)
-}
-
-await init();
-
->>>>>>> 6217087 (test msw)
-const router = createBrowserRouter(
-  [
-    {
-      path: "/",
-      element: <Home />,
->>>>>>> ef54b04 (test)
-    },
-    {
-      path: "store-config-wizard",
-      lazy: async () => {
-        const StoreConfigWizard = (
-          await import("./routes/store-config-wizard/StoreConfigWizard")
-        ).default;
-        return { Component: StoreConfigWizard };
+    ],
+  },
+  {
+    path: "userapp/:storeId",
+    element: <UserAppWrapper />,
+    loader: userAppWrapperLoader(queryClient),
+    children: [
+      {
+        index: true,
+        element: <UserAppMainPage />,
+        loader: userAppMainPageLoader(queryClient),
       },
-    },
-    {
-      path: "todos",
-      lazy: async () => {
-        const TodosLayout = (await import("./routes/todos/TodosLayout"))
-          .default;
-        return { Component: TodosLayout };
+      {
+        path: ":itemId",
+        element: <ItemDetailsPage />,
+        loader: detailsPageLoader(queryClient),
       },
-      children: [
-        {
-          path: "all",
-          loader: todosLoader(queryClient),
-          lazy: async () => {
-            const Todos = (await import("./routes/todos/all-todos/Todos"))
-              .default;
-            return { Component: Todos };
-          },
-        },
-      ],
-    },
-    {
-      path: "userapp/:storeId",
-      element: <UserAppWrapper />,
-      loader: userAppWrapperLoader(queryClient),
-      children: [
-        {
-          index: true,
-          element: <UserAppMainPage />,
-          loader: userAppMainPageLoader(queryClient),
-        },
-        {
-          path: ":itemId",
-          element: <ItemDetailsPage />,
-          loader: detailsPageLoader(queryClient),
-        },
-      ],
-    },
+    ],
+  },
 
-    {
-      element: <RequireLogin />,
-      children: [
-        {
-          path: "secret",
-          element: <Secret />,
-        },
-      ],
-    },
-  ],
-  { basename: process.env.NODE_ENV === "production" ? "/ZPIFrontend/" : "/" },
-);
+  {
+    element: <RequireLogin />,
+    children: [
+      {
+        path: "secret",
+        element: <Secret />,
+      },
+    ],
+  },
+]);
 
 export default router;
