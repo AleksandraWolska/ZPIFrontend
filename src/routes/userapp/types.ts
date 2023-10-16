@@ -66,6 +66,7 @@ export type FlexibleReservationData = {
 export type FixedReservationData = {
   subItemList: SubItem[];
   amount: number;
+  itemId?: string;
 };
 
 export type RequiredUserInfo = (
