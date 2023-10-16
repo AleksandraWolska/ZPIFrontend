@@ -335,7 +335,6 @@ export function FreeRangesCalendar({
           disabled={!events[0] || !events[0].start || !events[0].end}
           onClick={() =>
             prepareFlexibleReservation({
-              itemId,
               start: new Date(earliestStartTime).toISOString(),
               end: new Date(latestEndTime).toISOString(),
               amount: userCount,
