@@ -95,6 +95,7 @@ export type SubItem = {
   id: string;
   title: string;
   subtitle: string;
+  amount?: number; // temp
 };
 
 export type SubItemStatus = {
@@ -157,6 +158,8 @@ export type Item = {
   image: string;
   customAttributeList: CustomAttribute[];
   subItemList?: SubItem[];
+  amount?: number; // temp
+  mark?: number; // temp
 };
 
 export type ItemStatus = {
