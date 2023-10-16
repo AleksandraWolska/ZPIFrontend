@@ -5,7 +5,6 @@ import {
   Typography,
   List,
   ListItem,
-  ListItemText,
   Divider,
   IconButton,
 } from "@mui/material";
@@ -14,10 +13,9 @@ import { CustomAttributeSpec, CustomAttribute } from "../../../types";
 import { FilterValue } from "../types";
 import useMainPageConfig from "./useMainPageConfig";
 import useItems from "./useItems";
-import ItemImage from "../features/ItemImage";
-import Ratings from "../features/Ratings";
-import Filters from "../features/Filters";
-import WelcomeTexts from "../components/WelcomeTexts";
+import Filters from "../components/main-page-specific/Filters";
+import WelcomeTexts from "../components/main-page-specific/WelcomeTexts";
+import ItemListElement from "../components/main-page-specific/ItemListElement";
 
 export default function UserAppMainPage() {
   const navigate = useNavigate();
@@ -48,15 +46,16 @@ export default function UserAppMainPage() {
   const resetFilters = () => setActiveFilters([]);
 
   const activeFiltersList = (
-    <Box display="flex" gap={1}>
+    <Box display="flex" margin={1} marginLeft={2} gap={1}>
       {activeFilters.map((filter) => (
         <Box
           key={filter.attributeKey}
           display="flex"
           alignItems="center"
           padding={1}
-          border="1px solid"
-          borderRadius={3}
+          borderRadius="10px"
+          bgcolor="white"
+          boxShadow={2}
         >
           <Typography variant="body2">
             {filter.attributeName}: {filter.value.toString()}
@@ -91,17 +90,32 @@ export default function UserAppMainPage() {
   return (
     <Box padding={3}>
       <Box display="flex" justifyContent="space-between">
-        {showFilterForm && (
-          <Filters
-            handleAppendFilter={handleAppendFilter}
-            handleRemoveFilter={handleRemoveFilter}
-            resetFilters={resetFilters}
-            activeFilters={activeFilters}
-            customAttrubutesSpec={storeConfig.customAttributesSpec}
-          />
-        )}
+        <Box
+          // width={showFilterForm ? "25%" : "0"}
+          // display={showFilterForm ? "inline-block" : "none"}
+          sx={{
+            transition: "width 0.3s ease-in-out",
+            width: showFilterForm ? "25%" : "0",
+          }}
+        >
+          {showFilterForm && (
+            <Filters
+              handleAppendFilter={handleAppendFilter}
+              handleRemoveFilter={handleRemoveFilter}
+              resetFilters={resetFilters}
+              activeFilters={activeFilters}
+              customAttrubutesSpec={storeConfig.customAttributesSpec}
+            />
+          )}
+        </Box>
 
-        <Box width="75%" padding={3}>
+        <Box
+          sx={{
+            transition: "width 0.3s ease-in-out",
+          }}
+          width={showFilterForm ? "75%" : "100%"}
+          padding={3}
+        >
           <WelcomeTexts config={storeConfig.mainPage} />
 
           <IconButton onClick={handleFilterToggle}>
@@ -111,25 +125,24 @@ export default function UserAppMainPage() {
           {activeFiltersList}
 
           <List>
-            {filteredItemInfos.map((itemInfo) => (
-              <ListItem
-                key={itemInfo.item.id}
-                onClick={() => navigate(`${itemInfo.item.id}`)}
-              >
-                <ListItemText
-                  primary={itemInfo.item.title}
-                  secondary={itemInfo.item.subtitle}
-                />
-
-                {itemInfo.item.image && <ItemImage url={itemInfo.item.image} />}
-
-                {storeConfig.mainPage &&
-                  storeConfig.mainPage.showRating &&
-                  itemInfo.itemStatus.mark && (
-                    <Ratings mark={itemInfo.itemStatus.mark} />
-                  )}
-              </ListItem>
-            ))}
+            {filteredItemInfos.map((itemInfo) => {
+              const isAvailable = itemInfo.itemStatus.availableAmount !== 0;
+              return (
+                <ListItem
+                  key={itemInfo.item.id}
+                  onClick={
+                    isAvailable
+                      ? () => navigate(`${itemInfo.item.id}`)
+                      : undefined
+                  }
+                  style={{
+                    cursor: isAvailable ? "pointer" : "default",
+                  }}
+                >
+                  <ItemListElement config={storeConfig} itemInfo={itemInfo} />
+                </ListItem>
+              );
+            })}
           </List>
 
           <Divider style={{ margin: "20px 0" }} />

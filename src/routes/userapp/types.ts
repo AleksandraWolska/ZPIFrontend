@@ -1,4 +1,9 @@
-import { StoreConfig, Comment, SpecificAvailability } from "../../types";
+import {
+  StoreConfig,
+  Comment,
+  SpecificAvailability,
+  SubItem,
+} from "../../types";
 
 export type FilterValue = {
   attributeKey: string;
@@ -53,19 +58,36 @@ export type CheckAvailabilityResponse =
   | CheckAvailabilityResponseFailure;
 
 export type FlexibleReservationData = {
-  itemId: string;
   start: string;
   end: string;
   amount: number;
 };
 
-export type FlexibleReservationRequest = {
+export type FixedReservationData = {
+  subItemList: SubItem[];
+  amount: number;
+};
+
+export type RequiredUserInfo = (
+  | "login"
+  | "email"
+  | "name"
+  | "surname"
+  | "phone"
+)[];
+
+export type UserData = {
+  id: string;
+  name?: string;
+  surname?: string;
+  email?: string;
+  phone?: string;
+};
+export type ReservationRequest = {
   storeId: string;
   itemId: string;
-  start: string;
-  end: string;
-  amount: number;
-  userId: string;
+  userData: UserData;
+  reservationData: FlexibleReservationData | FixedReservationData;
 };
 
 export type FetchScheduleRequest = {

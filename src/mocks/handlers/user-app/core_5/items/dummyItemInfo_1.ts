@@ -36,7 +36,7 @@ const dummyItemInfo: ItemInfo = {
       },
     ],
     amount: 1,
-    image: "https://example.com/sample-computer.jpg",
+    image: "https://api.slingacademy.com/public/sample-photos/8.jpeg",
     subItemInfoList: [
       {
         subItem: {
@@ -47,7 +47,7 @@ const dummyItemInfo: ItemInfo = {
         },
         subItemStatus: {
           schedule: "",
-          availableAmount: 1,
+          availableAmount: 3,
         },
       },
       {
@@ -59,7 +59,7 @@ const dummyItemInfo: ItemInfo = {
         },
         subItemStatus: {
           schedule: "",
-          availableAmount: 1,
+          availableAmount: 4,
         },
       },
       {

@@ -89,7 +89,6 @@ export function CheckAvailabilityCalendar({
   useEffect(() => {
     if (responseData && !Array.isArray(responseData) && responseData.start) {
       setReserveData({
-        itemId,
         start: responseData.start,
         end: responseData.end,
         amount: responseData.amount,
@@ -97,6 +96,7 @@ export function CheckAvailabilityCalendar({
       setAvailabilityChecked(true);
       setShowReserveDialog(true);
     }
+    console.log(JSON.stringify(responseData));
 
     if (responseData && Array.isArray(responseData)) {
       setShowSuggestedDialog(true);
@@ -404,7 +404,6 @@ export function CheckAvailabilityCalendar({
           disabled={!events[0].start || !events[0].end}
           onClick={() =>
             prepareFlexibleReservation({
-              itemId,
               start: new Date(earliestStartTime).toISOString(),
               end: new Date(latestEndTime).toISOString(),
               amount: userCount,

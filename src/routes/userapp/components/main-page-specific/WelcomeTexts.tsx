@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import { MainPage } from "../../../types";
+import { MainPage } from "../../../../types";
 
 type WelcomeTextsProps = {
   config: MainPage;
@@ -8,9 +8,11 @@ type WelcomeTextsProps = {
 function WelcomeTexts({ config }: WelcomeTextsProps) {
   return (
     <Box>
-      <Typography variant="h6">{config.welcomeTextLine1}</Typography>
+      <Typography variant="h3" margin={1}>
+        {config.welcomeTextLine1}
+      </Typography>
       {config.welcomeTextLine2 && (
-        <Typography variant="body1" color="orange">
+        <Typography variant="h5" marginLeft={1}>
           {config.welcomeTextLine2}
         </Typography>
       )}

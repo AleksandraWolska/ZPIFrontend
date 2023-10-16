@@ -140,16 +140,29 @@ const postAvailabilityCheck = rest.post(
             const currentDay = startOfWeek.add(i, "day"); // Calculates the day for the current iteration
 
             const morningEvent: SpecificAvailability = {
+              startDateTime: currentDay.add(8, "hour").toDate().toISOString(),
+              endDateTime: currentDay.add(9, "hour").toDate().toISOString(),
+              type: "morning",
+            };
+            const event1: SpecificAvailability = {
               startDateTime: currentDay.add(9, "hour").toDate().toISOString(),
-              endDateTime: currentDay.add(11, "hour").toDate().toISOString(),
+              endDateTime: currentDay.add(12, "hour").toDate().toISOString(),
+              type: "continuous",
             };
 
-            const afternoonEvent: SpecificAvailability = {
+            const event2: SpecificAvailability = {
+              startDateTime: currentDay.add(12, "hour").toDate().toISOString(),
+              endDateTime: currentDay.add(15, "hour").toDate().toISOString(),
+              type: "slot",
+            };
+
+            const overnightEvent: SpecificAvailability = {
               startDateTime: currentDay.add(16, "hour").toDate().toISOString(),
               endDateTime: currentDay.add(19, "hour").toDate().toISOString(),
+              type: "overnight",
             };
 
-            return [morningEvent, afternoonEvent];
+            return [morningEvent, event1, event2, overnightEvent];
           }),
           suggestedStart: new Date(
             new Date(startDate).setHours(startHour + hourOffset + 1),
@@ -182,6 +195,15 @@ const postAvailabilityCheck = rest.post(
   },
 );
 
+const postReserveItem = rest.post("/api/reserve", async (req, res, ctx) => {
+  const { storeId, itemId } = await req.json();
+
+  if (typeof itemId !== "string" || typeof storeId !== "string") {
+    return res(ctx.status(400), ctx.text("Invalid input"));
+  }
+  return res(ctx.status(200), ctx.json({ status: "ok" }));
+});
+
 const postFetchSchedule = rest.post(
   "/api/fetch-schedule",
   async (req, res, ctx) => {
@@ -203,11 +225,13 @@ const postFetchSchedule = rest.post(
         const morningEvent: SpecificAvailability = {
           startDateTime: currentDay.add(14, "hour").toDate().toISOString(),
           endDateTime: currentDay.add(15, "hour").toDate().toISOString(),
+          type: "continuous",
         };
 
         const afternoonEvent: SpecificAvailability = {
           startDateTime: currentDay.add(17, "hour").toDate().toISOString(),
           endDateTime: currentDay.add(18, "hour").toDate().toISOString(),
+          type: "continuous",
         };
 
         return [morningEvent, afternoonEvent];
@@ -227,4 +251,5 @@ export const userAppHandlers = [
   getCommentsList,
   postAvailabilityCheck,
   postFetchSchedule,
+  postReserveItem,
 ];
