@@ -14,7 +14,4 @@ export default defineConfig({
       },
     },
   },
-  esbuild: {
-    target: "esnext", // or 'es2021'
-  },
 });

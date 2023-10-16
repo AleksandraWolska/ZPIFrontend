@@ -13,7 +13,7 @@ function TodosLayout() {
       <br />
       <Link to="all">All</Link>
       <br />
-      <Link to="/">Home</Link>
+      <Link to="/ZPIFrontend">Home</Link>
     </div>
   );
 }

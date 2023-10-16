@@ -8,21 +8,21 @@ function Home() {
     <div>
       <h1>{t("home.title")}</h1>
       <br />
-      <Link to="/store-config-wizard">Store config wizard</Link>
+      <Link to="/ZPIFrontend/store-config-wizard">Store config wizard</Link>
       <br />
       <br />
-      <Link to="/admin/1">AdminApp 1</Link>
+      <Link to="/ZPIFrontend/admin/1">AdminApp 1</Link>
       <br />
-      <Link to="/admin/2">AdminApp 2</Link>
+      <Link to="/ZPIFrontend/admin/2">AdminApp 2</Link>
       <br />
-      <Link to="/admin/3">AdminApp 3</Link>
+      <Link to="/ZPIFrontend/admin/3">AdminApp 3</Link>
       <br />
       <br />
-      <Link to="/todos">Todos</Link>
+      <Link to="/ZPIFrontend/todos">Todos</Link>
       <br />
-      <Link to="/secret">Secret page</Link>
+      <Link to="/ZPIFrontend/secret">Secret page</Link>
       <br />
-      <Link to="/userapp/1">UserApp</Link>
+      <Link to="/ZPIFrontend/userapp/1">UserApp</Link>
     </div>
   );
 }
