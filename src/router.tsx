@@ -20,7 +20,7 @@ if (process.env.NODE_ENV === "development") {
 
 const router = createBrowserRouter([
   {
-    path: "",
+    path: "/",
     element: <Home />,
   },
   {
