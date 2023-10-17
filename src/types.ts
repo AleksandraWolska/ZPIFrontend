@@ -110,9 +110,10 @@ export type SubItemInfo = {
 
 export type Comment = {
   id: string;
-  userId: string;
-  nickname: string;
-  content: string;
+  userId?: string;
+  nickname?: string;
+  content?: string;
+  rating?: number;
   datetime: string;
 };
 

@@ -4,7 +4,7 @@ import { dummyCustomAttributeSpec } from "./DummyCustomAttributesSpec";
 export const dummyDetailsPageConfig: DetailsPageConfig = {
   customAttributesSpec: dummyCustomAttributeSpec,
   detailsPage: {
-    showRating: true,
+    showRating: false,
     showComments: true,
     showItemDescription: true,
     showSubItemTitle: true,

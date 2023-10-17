@@ -23,6 +23,11 @@ export type MainPageConfig = Pick<
 
 export type CommentList = Comment[];
 
+export type NewComment = Pick<
+  Comment,
+  "nickname" | "content" | "rating" | "datetime"
+>;
+
 export type CheckAvailabilityRequest = {
   startDate: string;
   amount: number;
