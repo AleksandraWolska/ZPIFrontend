@@ -80,7 +80,7 @@ function CommentInput({
         </>
       )}
 
-      <div
+      <Box
         style={{
           display: "flex",
           justifyContent: "space-between",
@@ -97,12 +97,12 @@ function CommentInput({
         <Button variant="outlined" onClick={handleCancel}>
           Cancel
         </Button>
-      </div>
+      </Box>
     </Box>
   );
 
   return (
-    <div>
+    <Box>
       {isCommentInputVisible ? (
         //   <Paper style={{ padding: 15, marginBottom: 15 }}>{content}</Paper>
         <Dialog onClose={handleCancel} fullWidth open>
@@ -118,7 +118,7 @@ function CommentInput({
           {showComments ? "Add comment" : "Rate"}
         </Button>
       )}
-    </div>
+    </Box>
   );
 }
 
