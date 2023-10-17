@@ -6,13 +6,14 @@ import { CommentList } from "../types";
 function useCommentList() {
   const params = useParams() as { storeId: string; itemId: string };
 
-  const { data } = useQuery(
+  const { data, refetch } = useQuery(
     getCommentsListQuery(params.storeId, params.itemId),
   ) as {
     data: CommentList;
+    refetch: () => void;
   };
 
-  return data;
+  return { data, refetch };
 }
 
 export default useCommentList;

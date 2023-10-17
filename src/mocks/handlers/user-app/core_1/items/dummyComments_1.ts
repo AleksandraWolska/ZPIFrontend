@@ -6,6 +6,7 @@ const dummyComments: CommentList = [
     userId: "101",
     nickname: "TechGeek",
     content: "Great computer, very fast!",
+    rating: 3.5,
     datetime: "2023-09-20T10:30:00",
   },
   {

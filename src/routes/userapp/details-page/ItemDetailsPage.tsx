@@ -7,6 +7,7 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  Divider,
 } from "@mui/material";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
@@ -17,9 +18,7 @@ import {
   SubItemInfo,
 } from "../../../types";
 import AttributesList from "../components/detail-page-specific/AttributesList";
-import CommentComponent from "../components/detail-page-specific/CommentComponent";
 import Ratings from "../components/shared/Ratings";
-import RatingsInteractive from "../components/detail-page-specific/RatingsInteractive";
 import QuantityInput from "../components/core/QuantityInput";
 import SubItemsList from "../components/core/SubItemsList";
 import useItemDetails from "./useItemDetails";
@@ -29,12 +28,15 @@ import { FreeRangesCalendar } from "../components/core/FreeRangesCalendar";
 import {
   FixedReservationData,
   FlexibleReservationData,
+  NewComment,
   RequiredUserInfo,
   ReservationRequest,
 } from "../types";
 import useReserveItem from "./useReserveItem";
 import { ReservationDialog } from "../components/detail-page-specific/ReservationDialog";
 import ItemImage from "../components/shared/ItemImage";
+import CommentsDisplay from "../components/detail-page-specific/CommentsDisplay";
+import CommentInput from "../components/detail-page-specific/CommentInput";
 
 const userId = "user1";
 const initializeReservationRequestReady = (
@@ -80,6 +82,7 @@ export default function ItemDetailsPage() {
   const [selectedSubItemsInfoList, setSelectedSubItemsInfoList] = useState<
     SubItemInfo[]
   >([]);
+  const [commentRefetch, setCommentRefetch] = useState(false);
 
   const makeReservationRequest = async (request: ReservationRequest) => {
     setReservationSummary(false);
@@ -123,10 +126,6 @@ export default function ItemDetailsPage() {
     setReservationSummary(true);
   };
 
-  const handleRatingAdd = (rating: number) => {
-    console.log("New Rating:", rating);
-  };
-
   const handleUserCountInputChange = (newValue: number) => {
     setReservationRequestReady(
       itemInfo.itemStatus.availableAmount
@@ -149,15 +148,18 @@ export default function ItemDetailsPage() {
     setAvailabilityChecked(false);
   };
 
-  const handleSendComment = (content: string) => {
-    const newComment: Comment = {
+  const handleSendComment = (newComment: NewComment) => {
+    const userComment: Comment = {
       id: "new",
       userId: "new",
-      nickname: "YourNickname",
-      datetime: new Date().toISOString(),
-      content,
+      rating: newComment.rating,
+      nickname: newComment.nickname,
+      datetime: newComment.datetime,
+      content: newComment.content,
     };
-    console.log(`Send request with newcomment: ${newComment}`);
+    console.log(`Send request with newcomment`);
+    console.log(userComment);
+    setCommentRefetch((prev) => !prev);
   };
 
   const toggleItemSingleSelection = (subItemInfo: SubItemInfo) => {
@@ -273,7 +275,7 @@ export default function ItemDetailsPage() {
           disabled={!reservationRequestReady}
           onClick={() => prepareFixedReservationRequest()}
         >
-          Submit
+          Reserve
         </Button>
       </Box>
     </Box>
@@ -371,11 +373,24 @@ export default function ItemDetailsPage() {
         itemAttributes={itemInfo.item.customAttributeList}
       />
       {core}
-      {storeConfig.detailsPage.showRating && (
-        <RatingsInteractive handleSetRating={handleRatingAdd} />
-      )}
-      {storeConfig.detailsPage.showComments && (
-        <CommentComponent handleSendComment={handleSendComment} />
+      {(storeConfig.detailsPage.showComments ||
+        storeConfig.detailsPage.showRating) && (
+        <Box marginTop="30px">
+          <Box sx={{ m: 7 }} />
+          <Typography variant="h5">
+            {storeConfig.detailsPage.showComments ? "Reviews" : "Your rating"}
+          </Typography>
+          <Divider />
+          <Box sx={{ m: 2 }} />
+          <CommentInput
+            showRatings={storeConfig.detailsPage.showRating}
+            showComments={storeConfig.detailsPage.showComments}
+            handleSendComment={handleSendComment}
+          />
+          {storeConfig.detailsPage.showComments && (
+            <CommentsDisplay shouldRefetch={commentRefetch} />
+          )}
+        </Box>
       )}
       <Dialog open={showSuccessDialog} onClose={handleReservationFinished}>
         <DialogTitle>Successful</DialogTitle>
