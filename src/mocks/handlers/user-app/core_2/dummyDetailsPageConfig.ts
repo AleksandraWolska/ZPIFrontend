@@ -5,7 +5,7 @@ export const dummyDetailsPageConfig: DetailsPageConfig = {
   customAttributesSpec: dummyCustomAttributeSpec,
   detailsPage: {
     showRating: true,
-    showComments: true,
+    showComments: false,
     showItemDescription: true,
     showSubItemTitle: true,
     showSubItemSubtitle: true,
