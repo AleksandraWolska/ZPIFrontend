@@ -14,5 +14,3 @@ const config =
       };
 
 export const keycloak = new Keycloak(config);
-
-await keycloak.init({});
