@@ -13,9 +13,13 @@ const renderApp = () =>
   );
 
 const initializeApp = () => {
-  keycloak.init({}).then(() => {
+  if (process.env.NODE_ENV === "development") {
+    keycloak.init({}).then(() => {
+      renderApp();
+    });
+  } else {
     renderApp();
-  });
+  }
 };
 
 initializeApp();
