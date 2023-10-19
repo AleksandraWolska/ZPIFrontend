@@ -1,12 +1,13 @@
 import { Link } from "react-router-dom";
-import { keycloak } from "../../auth/keycloak";
+import { useAuth } from "react-oidc-context";
 
 function Secret() {
+  const auth = useAuth();
+
   return (
     <div>
       <p>
-        Hello {keycloak.tokenParsed?.preferred_username}! This is the secret
-        page.
+        Hello {auth.user?.profile.preferred_username}! This is the secret page.
       </p>
 
       <Link to="/">Home</Link>
@@ -14,7 +15,7 @@ function Secret() {
       <button
         type="button"
         onClick={() => {
-          keycloak.logout();
+          auth.signoutSilent();
         }}
       >
         Logout

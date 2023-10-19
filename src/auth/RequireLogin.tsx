@@ -1,19 +1,20 @@
 import { Outlet } from "react-router-dom";
-import { keycloak } from "./keycloak";
+import { useAuth } from "react-oidc-context";
 
 function RequireLogin() {
-  console.log("auth", keycloak);
+  const auth = useAuth();
 
-  return keycloak.authenticated ? (
+  console.log("auth", auth);
+
+  return auth.isAuthenticated ? (
     <Outlet />
   ) : (
     <div>
       <p>You are not logged in!</p>
-
       <button
         type="button"
         onClick={() => {
-          keycloak.login();
+          auth.signinRedirect();
         }}
       >
         Login
