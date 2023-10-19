@@ -1,8 +1,13 @@
 import { QueryClient } from "react-query";
 import { LoaderFunctionArgs } from "react-router-dom";
 import { Item } from "../../../types";
+import { getUser } from "../../../auth/utils";
 
 const fetchItems = async (storeId: string): Promise<Item[]> => {
+  const user = getUser();
+  const token = user?.access_token;
+  console.log("token", token);
+
   const res = await fetch(
     `${
       process.env.NODE_ENV === "development" ? "" : "http://zpibackend.fly.dev"
