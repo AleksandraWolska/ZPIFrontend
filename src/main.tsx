@@ -14,9 +14,13 @@ const renderApp = () =>
 
 const initializeApp = () => {
   if (process.env.NODE_ENV === "development") {
-    keycloak.init({}).then(() => {
-      renderApp();
-    });
+    keycloak
+      .init({
+        onLoad: "check-sso",
+      })
+      .then(() => {
+        renderApp();
+      });
   } else {
     renderApp();
   }

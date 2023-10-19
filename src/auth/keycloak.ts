@@ -9,8 +9,8 @@ const config =
       }
     : {
         authority: "http://130.61.252.200:8180",
-        realm: "staffect",
-        clientId: "staffect",
+        realm: "zpi",
+        clientId: "zpi_client",
       };
 
 export const keycloak = new Keycloak(config);
