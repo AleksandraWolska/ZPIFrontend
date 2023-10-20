@@ -42,7 +42,7 @@ function Slots() {
           <ScheduleCalendar
             events={parseSlotsScheduleToEvents(schedule)}
             onEventsChange={(events: BigCalendarEvent[]) =>
-              setOption("schedule", parseEventsToSlotsSchedule(events))
+              setOption({ schedule: parseEventsToSlotsSchedule(events) })
             }
             step={step > 0 ? step : 30}
           />

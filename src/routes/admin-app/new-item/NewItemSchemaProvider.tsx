@@ -22,29 +22,25 @@ function NewItemSchemaProvider({ children }: { children: ReactNode }) {
   );
 
   const setItemAttribute = (
-    key: keyof Omit<NewItem, "customAttributeList">,
-    value: Omit<NewItem, "customAttributeList">[typeof key],
+    attr: Partial<Omit<NewItem, "customAttributeList">>,
   ) => {
     dispatch({
       type: NEW_ITEM_SCHEMA_ACTION_TYPES.SET_ITEM_ATTRIBUTE,
-      payload: { [key]: value },
+      payload: attr,
     });
   };
 
-  const setItemCustomAttribute = (attribute: CustomAttribute) => {
+  const setItemCustomAttribute = (attr: CustomAttribute) => {
     dispatch({
       type: NEW_ITEM_SCHEMA_ACTION_TYPES.SET_ITEM_CUSTOM_ATTRIBUTE,
-      payload: attribute,
+      payload: attr,
     });
   };
 
-  const setOption = (
-    key: keyof NewItemSchema["options"],
-    value: NewItemSchema["options"][typeof key],
-  ) => {
+  const setOption = (option: Partial<NewItemSchema["options"]>) => {
     dispatch({
       type: NEW_ITEM_SCHEMA_ACTION_TYPES.SET_OPTION,
-      payload: { [key]: value },
+      payload: option,
     });
   };
 

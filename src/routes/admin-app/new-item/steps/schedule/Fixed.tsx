@@ -23,9 +23,11 @@ function Fixed() {
           value={schedule.startDateTime}
           onChange={(newValue) => {
             if (newValue) {
-              setOption("schedule", {
-                ...schedule,
-                startDateTime: newValue,
+              setOption({
+                schedule: {
+                  ...schedule,
+                  startDateTime: newValue,
+                },
               });
             }
           }}
@@ -38,9 +40,11 @@ function Fixed() {
             <Checkbox
               checked={!!schedule.endDateTime}
               onChange={(e) => {
-                setOption("schedule", {
-                  ...schedule,
-                  endDateTime: e.target.checked ? dayjs() : undefined,
+                setOption({
+                  schedule: {
+                    ...schedule,
+                    endDateTime: e.target.checked ? dayjs() : undefined,
+                  },
                 });
               }}
             />
@@ -54,9 +58,11 @@ function Fixed() {
             value={schedule.endDateTime}
             onChange={(newValue) => {
               if (newValue) {
-                setOption("schedule", {
-                  ...schedule,
-                  endDateTime: newValue,
+                setOption({
+                  schedule: {
+                    ...schedule,
+                    endDateTime: newValue,
+                  },
                 });
               }
             }}
