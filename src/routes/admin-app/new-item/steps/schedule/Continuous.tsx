@@ -40,7 +40,7 @@ function Continuous() {
           <ScheduleCalendar
             events={parseContinuousScheduleToEvents(schedule)}
             onEventsChange={(events: BigCalendarEvent[]) =>
-              setOption("schedule", parseEventsToContinuousSchedule(events))
+              setOption({ schedule: parseEventsToContinuousSchedule(events) })
             }
             step={step > 0 ? step : 30}
           />

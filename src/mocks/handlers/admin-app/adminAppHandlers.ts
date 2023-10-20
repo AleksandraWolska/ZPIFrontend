@@ -47,6 +47,30 @@ const getItems = rest.get(
   },
 );
 
+const getItemById = rest.get(
+  "/api/admin/:storeId/items/:itemId",
+  async (req, res, ctx) => {
+    const { storeId, itemId } = req.params;
+
+    let items: Item[] = [];
+
+    if (storeId === "1") {
+      items = (await import("./store-1/dummyItems")).default;
+    }
+    if (storeId === "2") {
+      items = (await import("./store-2/dummyItems")).default;
+    }
+    if (storeId === "3") {
+      items = (await import("./store-3/dummyItems")).default;
+    }
+
+    const item = items.find((i) => i.id === itemId);
+    return item
+      ? res(ctx.status(200), ctx.json(item))
+      : res(ctx.status(404), ctx.json({ message: "Item not found." }));
+  },
+);
+
 const addItem = rest.post(
   "/api/stores/:storeId/add-item",
   async (req, res, ctx) => {
@@ -87,4 +111,9 @@ const enhanceNewItem = (newItem: NewItem): Item => {
   };
 };
 
-export const adminAppHandlers = [getDummyNewItemConfig, getItems, addItem];
+export const adminAppHandlers = [
+  getDummyNewItemConfig,
+  getItems,
+  getItemById,
+  addItem,
+];

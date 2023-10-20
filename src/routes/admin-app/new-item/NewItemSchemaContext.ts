@@ -6,14 +6,10 @@ export type NewItemSchemaContextType = {
   newItemConfig: NewItemConfig;
   newItemSchema: NewItemSchema;
   setItemAttribute: (
-    key: keyof Omit<NewItem, "customAttributeList">,
-    value: Omit<NewItem, "customAttributeList">[typeof key],
+    attr: Partial<Omit<NewItem, "customAttributeList">>,
   ) => void;
-  setItemCustomAttribute: (attribute: CustomAttribute) => void;
-  setOption: (
-    key: keyof NewItemSchema["options"],
-    value: NewItemSchema["options"][typeof key],
-  ) => void;
+  setItemCustomAttribute: (attr: CustomAttribute) => void;
+  setOption: (option: Partial<NewItemSchema["options"]>) => void;
 };
 
 export const NewItemSchemaContext =

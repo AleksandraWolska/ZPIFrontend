@@ -1,3 +1,5 @@
+import { Card, CardActions, CardContent, Typography } from "@mui/material";
+import { Link } from "react-router-dom";
 import useItems from "./useItems";
 
 function ItemList() {
@@ -11,11 +13,16 @@ function ItemList() {
 
       {items.map((item) => {
         return (
-          <div key={item.id}>
-            {JSON.stringify(item)}
-            <br />
-            <br />
-          </div>
+          <Card key={item.id} sx={{ maxWidth: "800px", marginTop: 2 }}>
+            <CardContent>
+              <Typography>
+                {item.id} - {item.title}
+              </Typography>
+            </CardContent>
+            <CardActions>
+              <Link to={`edit/${item.id}`}>Edit</Link>
+            </CardActions>
+          </Card>
         );
       })}
     </>

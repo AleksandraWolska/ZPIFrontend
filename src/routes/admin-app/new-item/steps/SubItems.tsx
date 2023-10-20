@@ -76,7 +76,7 @@ function SubItems() {
         return rest;
       });
     console.log("subItems", subItemList);
-    setItemAttribute("subItemList", subItemList);
+    setItemAttribute({ subItemList });
   };
 
   return (

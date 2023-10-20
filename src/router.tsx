@@ -12,6 +12,7 @@ import { loader as userAppWrapperLoader } from "./routes/userapp/wrapper/loader"
 import { loader as detailsPageLoader } from "./routes/userapp/details-page/loader";
 import { loader as itemListLoader } from "./routes/admin-app/item-list/loader";
 import { loader as newItemLoader } from "./routes/admin-app/new-item/loader";
+import { loader as editItemLoader } from "./routes/admin-app/edit-item/loader";
 
 if (process.env.NODE_ENV === "development") {
   const { worker } = await import("./mocks/browser");
@@ -48,6 +49,16 @@ const router = createBrowserRouter([
             await import("./routes/admin-app/item-list/ItemList")
           ).default;
           return { Component: ItemList };
+        },
+      },
+      {
+        path: "item-list/edit/:itemId",
+        loader: editItemLoader(queryClient),
+        lazy: async () => {
+          const EditItem = (
+            await import("./routes/admin-app/edit-item/EditItem")
+          ).default;
+          return { Component: EditItem };
         },
       },
       {

@@ -30,7 +30,7 @@ type NewItemSchemaAction =
 export function newItemSchemaReducer(
   newItemSchema: NewItemSchema,
   action: NewItemSchemaAction,
-) {
+): NewItemSchema {
   switch (action.type) {
     case NEW_ITEM_SCHEMA_ACTION_TYPES.SET_ITEM_ATTRIBUTE:
       return {
