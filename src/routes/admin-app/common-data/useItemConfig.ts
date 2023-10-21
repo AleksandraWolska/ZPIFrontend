@@ -1,8 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
-import { getItemConfigQuery } from "./loader";
-
 import { ItemConfig } from "../types";
+import { getItemConfigQuery } from "./itemConfigQuery";
 
 function useItemConfig() {
   const params = useParams() as { storeId: string };

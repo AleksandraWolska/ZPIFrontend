@@ -1,8 +1,9 @@
 import { QueryClient } from "react-query";
 import { defer, LoaderFunctionArgs } from "react-router-dom";
-import { EnhancedItem, ItemConfig } from "../types";
+import { EnhancedItem } from "../types";
+import { getItemConfigQuery } from "../common-data/itemConfigQuery";
 
-const fetchEnhancedItem = async (
+const fetchItemToBeEdited = async (
   storeId: string,
   itemId: string,
 ): Promise<EnhancedItem> => {
@@ -10,19 +11,9 @@ const fetchEnhancedItem = async (
   return res.json();
 };
 
-export const getEnhancedItemQuery = (storeId: string, itemId: string) => ({
+export const getItemToBeEditedQuery = (storeId: string, itemId: string) => ({
   queryKey: ["enhanced-items", storeId, itemId],
-  queryFn: () => fetchEnhancedItem(storeId, itemId),
-});
-
-const fetchItemConfig = async (storeId: string): Promise<ItemConfig> => {
-  const res = await fetch(`/api/stores/${storeId}/item-config`);
-  return res.json();
-};
-
-export const getItemConfigQuery = (storeId: string) => ({
-  queryKey: ["item-config", storeId],
-  queryFn: () => fetchItemConfig(storeId),
+  queryFn: () => fetchItemToBeEdited(storeId, itemId),
 });
 
 export const loader =
@@ -30,11 +21,11 @@ export const loader =
   async ({ params }: LoaderFunctionArgs) => {
     const { storeId, itemId } = params as { storeId: string; itemId: string };
 
-    const enhancedItemQuery = getEnhancedItemQuery(storeId, itemId);
-    const enhancedItem = new Promise((resolve) => {
+    const itemToBeEditedQuery = getItemToBeEditedQuery(storeId, itemId);
+    const itemToBeEdited = new Promise((resolve) => {
       resolve(
-        queryClient.getQueryData(enhancedItemQuery.queryKey) ??
-          queryClient.fetchQuery(enhancedItemQuery),
+        queryClient.getQueryData(itemToBeEditedQuery.queryKey) ??
+          queryClient.fetchQuery(itemToBeEditedQuery),
       );
     });
 
@@ -47,7 +38,7 @@ export const loader =
     });
 
     return defer({
-      enhancedItem: await enhancedItem,
+      itemToBeEdited: await itemToBeEdited,
       itemConfig: await itemConfig,
     });
   };

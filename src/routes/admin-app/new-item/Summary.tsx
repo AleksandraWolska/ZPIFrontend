@@ -1,9 +1,9 @@
-import useAddEnhancedItem from "./useAddEnhancedItem";
+import useAddItem from "./useAddItem";
 import { useEnhancedItem } from "../enhanced-item-context/EnhancedItemProvider";
 
 function Summary() {
   const { enhancedItem } = useEnhancedItem();
-  const addEnhancedItem = useAddEnhancedItem();
+  const addItem = useAddItem();
 
   return (
     <>
@@ -11,7 +11,7 @@ function Summary() {
       <button
         type="button"
         onClick={() => {
-          addEnhancedItem.mutate(enhancedItem);
+          addItem.mutate(enhancedItem);
         }}
       >
         ADD ITEM

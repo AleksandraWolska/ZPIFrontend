@@ -18,7 +18,7 @@ const editItem = (
   });
 };
 
-function useEditEnhancedItem() {
+function useEditItem() {
   const { storeId, itemId } = useParams() as {
     storeId: string;
     itemId: string;
@@ -34,4 +34,4 @@ function useEditEnhancedItem() {
   });
 }
 
-export default useEditEnhancedItem;
+export default useEditItem;

@@ -3,7 +3,6 @@ import dayjs from "dayjs";
 import EnhancedItemProvider from "../enhanced-item-context/EnhancedItemProvider";
 import { EnhancedItem, ItemConfig, Schedule } from "../types";
 import { Core, CustomAttribute, CustomAttributeSpec } from "../../../types";
-import useItemConfig from "./useItemConfig";
 import { askForAmount, askForSubItems } from "../utils";
 import GeneralInfo from "../enhanced-item-form/GeneralInfo";
 import CustomAttributes from "../enhanced-item-form/CustomAttributes";
@@ -11,6 +10,7 @@ import SubItems from "../enhanced-item-form/SubItems";
 import Summary from "./Summary";
 import ScheduleComponent from "../enhanced-item-form/schedule/Schedule";
 import Stepper from "../enhanced-item-form/Stepper";
+import useItemConfig from "../common-data/useItemConfig";
 
 function NewItem() {
   const itemConfig = useItemConfig();

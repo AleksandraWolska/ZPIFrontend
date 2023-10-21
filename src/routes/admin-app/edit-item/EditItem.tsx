@@ -1,5 +1,5 @@
 import EnhancedItemProvider from "../enhanced-item-context/EnhancedItemProvider";
-import useEnhancedItemToBeEdited from "./useEnhancedItemToBeEdited";
+import useItemToBeEdited from "./useItemToBeEdited";
 import GeneralInfo from "../enhanced-item-form/GeneralInfo";
 import CustomAttributes from "../enhanced-item-form/CustomAttributes";
 import { askForSubItems } from "../utils";
@@ -7,17 +7,17 @@ import SubItems from "../enhanced-item-form/SubItems";
 import Schedule from "../enhanced-item-form/schedule/Schedule";
 import Summary from "./Summary";
 import { Core } from "../../../types";
-import useItemConfig from "./useItemConfig";
 import Stepper from "../enhanced-item-form/Stepper";
+import useItemConfig from "../common-data/useItemConfig";
 
 function EditItem() {
   const itemConfig = useItemConfig();
-  const enhancedItemToBeEdited = useEnhancedItemToBeEdited();
+  const itemToBeEdited = useItemToBeEdited();
 
   const steps = getSteps(itemConfig.core);
 
   return (
-    <EnhancedItemProvider initialEnhancedItem={enhancedItemToBeEdited}>
+    <EnhancedItemProvider initialEnhancedItem={itemToBeEdited}>
       <Stepper steps={steps} />
     </EnhancedItemProvider>
   );
