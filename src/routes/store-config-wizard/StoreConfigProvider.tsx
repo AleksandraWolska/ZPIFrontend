@@ -127,7 +127,7 @@ function StoreConfigProvider({ children }: { children: ReactNode }) {
   );
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
+// eslint-disable-next-line react-refresh/only-export-enhanced-item-form
 export function useStoreConfig(): StoreConfigContextType {
   const ctx = useContext(StoreConfigContext);
   if (!ctx) {

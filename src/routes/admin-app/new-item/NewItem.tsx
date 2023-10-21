@@ -1,23 +1,58 @@
 import { v4 as uuid } from "uuid";
 import dayjs from "dayjs";
-import Stepper from "./Stepper";
 import EnhancedItemProvider from "../enhanced-item-context/EnhancedItemProvider";
 import { EnhancedItem, ItemConfig, Schedule } from "../types";
 import { Core, CustomAttribute, CustomAttributeSpec } from "../../../types";
 import useItemConfig from "./useItemConfig";
-import { askForAmount, askForSubItems } from "./utils";
+import { askForAmount, askForSubItems } from "../utils";
+import GeneralInfo from "../enhanced-item-form/GeneralInfo";
+import CustomAttributes from "../enhanced-item-form/CustomAttributes";
+import SubItems from "../enhanced-item-form/SubItems";
+import Summary from "./Summary";
+import ScheduleComponent from "../enhanced-item-form/schedule/Schedule";
+import Stepper from "../enhanced-item-form/Stepper";
 
 function NewItem() {
   const itemConfig = useItemConfig();
+
+  const steps = getSteps(itemConfig.core);
 
   return (
     <EnhancedItemProvider
       initialEnhancedItem={initializeEnhancedItem(itemConfig)}
     >
-      <Stepper />
+      <Stepper steps={steps} />
     </EnhancedItemProvider>
   );
 }
+
+const getSteps = (core: Core) => {
+  const steps = [];
+
+  steps.push({
+    label: "General Info",
+    component: <GeneralInfo />,
+  });
+  steps.push({
+    label: "Custom Attributes",
+    component: <CustomAttributes />,
+  });
+  if (askForSubItems(core))
+    steps.push({
+      label: "Sub Items",
+      component: <SubItems />,
+    });
+  steps.push({
+    label: "Schedule",
+    component: <ScheduleComponent />,
+  });
+  steps.push({
+    label: "Summary",
+    component: <Summary />,
+  });
+
+  return steps;
+};
 
 function initializeEnhancedItem(config: ItemConfig): EnhancedItem {
   const { core, customAttributesSpec } = config;

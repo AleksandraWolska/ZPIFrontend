@@ -1,7 +1,7 @@
-import Fixed from "../../components/schedule/Fixed";
-import Slots from "../../components/schedule/Slots";
-import Continuous from "../../components/schedule/Continuous";
 import { useEnhancedItem } from "../../enhanced-item-context/EnhancedItemProvider";
+import Fixed from "./Fixed";
+import Slots from "./Slots";
+import Continuous from "./Continuous";
 
 function Schedule() {
   const { itemConfig, enhancedItem, setInitialStatus } = useEnhancedItem();
