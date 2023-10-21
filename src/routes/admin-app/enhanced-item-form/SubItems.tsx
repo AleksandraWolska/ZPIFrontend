@@ -10,7 +10,8 @@ import {
 import dayjs from "dayjs";
 import { DateTimePicker } from "@mui/x-date-pickers";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { EnhancedItem, EnhancedSubItem } from "../types";
+import { EnhancedSubItem } from "../types";
+import { useEnhancedItem } from "../enhanced-item-context/EnhancedItemProvider";
 
 type EnhancedSubItemWithoutSubItemId = Omit<EnhancedSubItem, "subItem"> & {
   subItem: Omit<EnhancedSubItem["subItem"], "id">;
@@ -26,15 +27,9 @@ const defaultEnhancedSubItem: EnhancedSubItemWithoutSubItemId = {
   },
 };
 
-function SubItemsForm({
-  enhancedItem,
-  setItemAttribute,
-}: {
-  enhancedItem: EnhancedItem;
-  setItemAttribute: (
-    attr: Partial<Omit<EnhancedItem["item"], "customAttributeList">>,
-  ) => void;
-}) {
+function SubItems() {
+  const { enhancedItem, setItemAttribute } = useEnhancedItem();
+
   const initialLocalEnhancedSubItems: EnhancedSubItem[] = [
     ...(enhancedItem.item.subItemList || []),
     {
@@ -263,4 +258,4 @@ function SubItemsForm({
   );
 }
 
-export default SubItemsForm;
+export default SubItems;

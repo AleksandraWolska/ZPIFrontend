@@ -1,21 +1,11 @@
 import { Grid, TextField } from "@mui/material";
-import { Core } from "../../../types";
-import { EnhancedItem } from "../types";
-import { askForAmount } from "../new-item/utils";
+import { askForAmount } from "../utils";
+import { useEnhancedItem } from "../enhanced-item-context/EnhancedItemProvider";
 
-function GeneralInfoForm({
-  enhancedItem,
-  setItemAttribute,
-  setInitialStatus,
-  core,
-}: {
-  enhancedItem: EnhancedItem;
-  setItemAttribute: (
-    attr: Partial<Omit<EnhancedItem["item"], "customAttributeList">>,
-  ) => void;
-  setInitialStatus: (option: Partial<EnhancedItem["initialStatus"]>) => void;
-  core: Core;
-}) {
+function GeneralInfo() {
+  const { itemConfig, enhancedItem, setItemAttribute, setInitialStatus } =
+    useEnhancedItem();
+
   return (
     <Grid container spacing={1} width="50%">
       <Grid item xs={12} sm={6}>
@@ -60,7 +50,7 @@ function GeneralInfoForm({
         />
       </Grid>
 
-      {askForAmount(core) && (
+      {askForAmount(itemConfig.core) && (
         <Grid item xs={12} sm={6}>
           <TextField
             label="amount"
@@ -78,4 +68,4 @@ function GeneralInfoForm({
   );
 }
 
-export default GeneralInfoForm;
+export default GeneralInfo;
