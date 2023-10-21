@@ -1,26 +1,26 @@
 import { Card, CardActions, CardContent, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
-import useItems from "./useItems";
+import useItemSchemas from "./useItemSchemas";
 
 function ItemList() {
-  const items = useItems();
+  const schemas = useItemSchemas();
 
   return (
     <>
-      <p>Length: {items.length}</p>
+      <p>Length: {schemas.length}</p>
       <br />
       <br />
 
-      {items.map((item) => {
+      {schemas.map((schema) => {
         return (
-          <Card key={item.id} sx={{ maxWidth: "800px", marginTop: 2 }}>
+          <Card key={schema.item.id} sx={{ maxWidth: "800px", marginTop: 2 }}>
             <CardContent>
               <Typography>
-                {item.id} - {item.title}
+                {schema.item.id} - {schema.item.title}
               </Typography>
             </CardContent>
             <CardActions>
-              <Link to={`edit/${item.id}`}>Edit</Link>
+              <Link to={`edit/${schema.item.id}`}>Edit</Link>
             </CardActions>
           </Card>
         );

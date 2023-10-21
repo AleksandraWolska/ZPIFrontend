@@ -10,7 +10,7 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import dayjs from "dayjs";
 import { DateTimePicker } from "@mui/x-date-pickers";
-import { NewSubItem, NewSubItemOptions, NewSubItemSchema } from "../types";
+import { NewSubItemSchema } from "../types";
 import { useNewItemSchemaConfig } from "../NewItemSchemaProvider";
 
 const defaultSubItemSchema: NewSubItemSchema = {
@@ -46,7 +46,7 @@ function SubItems() {
 
   const updateLocalSubItemAttribute = (
     id: string,
-    attr: Partial<NewSubItem>,
+    attr: Partial<NewSubItemSchema["subItem"]>,
   ) => {
     const newValue = localSubItemSchemas.map((s) =>
       s.id === id ? { ...s, subItem: { ...s.subItem, ...attr } } : s,
@@ -58,7 +58,7 @@ function SubItems() {
 
   const updateLocalSubItemOption = (
     id: string,
-    option: Partial<NewSubItemOptions>,
+    option: Partial<NewSubItemSchema["options"]>,
   ) => {
     const newValue = localSubItemSchemas.map((s) =>
       s.id === id ? { ...s, options: { ...s.options, ...option } } : s,
@@ -134,7 +134,7 @@ function SubItems() {
                     updateLocalSubItemOption(subItemSchema.id, {
                       schedule: e.target.checked
                         ? {
-                            startDateTime: dayjs(),
+                            startDateTime: dayjs().toString(),
                             endDateTime: undefined,
                           }
                         : undefined,
@@ -150,15 +150,16 @@ function SubItems() {
               <>
                 <DateTimePicker
                   label="startDateTime"
-                  value={subItemSchema.options.schedule.startDateTime}
+                  value={dayjs(subItemSchema.options.schedule.startDateTime)}
                   onChange={(date) => {
                     if (date)
                       updateLocalSubItemOption(subItemSchema.id, {
                         schedule: {
-                          startDateTime: date,
-                          endDateTime:
+                          startDateTime: date.toString(),
+                          endDateTime: (
                             subItemSchema.options.schedule?.endDateTime ||
-                            dayjs(),
+                            dayjs()
+                          ).toString(),
                         },
                       });
                   }}
@@ -174,10 +175,13 @@ function SubItems() {
                       onChange={(e) => {
                         updateLocalSubItemOption(subItemSchema.id, {
                           schedule: {
-                            startDateTime:
+                            startDateTime: (
                               subItemSchema.options.schedule?.startDateTime ||
-                              dayjs(),
-                            endDateTime: e.target.checked ? dayjs() : undefined,
+                              dayjs()
+                            ).toString(),
+                            endDateTime: e.target.checked
+                              ? dayjs().toString()
+                              : undefined,
                           },
                         });
                       }}
@@ -189,15 +193,16 @@ function SubItems() {
                 {!!subItemSchema.options.schedule.endDateTime && (
                   <DateTimePicker
                     label="endDateTime"
-                    value={subItemSchema.options.schedule.endDateTime}
+                    value={dayjs(subItemSchema.options.schedule.endDateTime)}
                     onChange={(date) => {
                       if (date)
                         updateLocalSubItemOption(subItemSchema.id, {
                           schedule: {
-                            startDateTime:
+                            startDateTime: (
                               subItemSchema.options.schedule?.startDateTime ||
-                              dayjs(),
-                            endDateTime: date,
+                              dayjs()
+                            ).toString(),
+                            endDateTime: date.toString(),
                           },
                         });
                     }}

@@ -1,8 +1,8 @@
 import { DateTimePicker } from "@mui/x-date-pickers";
 import { Checkbox, FormControlLabel, Stack, Typography } from "@mui/material";
 import dayjs from "dayjs";
-import { FixedSchedule } from "../../types";
 import { useNewItemSchemaConfig } from "../../NewItemSchemaProvider";
+import { FixedSchedule } from "../../../types";
 
 function Fixed() {
   const { newItemSchema, setOption } = useNewItemSchemaConfig();
@@ -20,13 +20,13 @@ function Fixed() {
       <Stack alignItems="flex-start" gap={1}>
         <DateTimePicker
           label="startDateTime"
-          value={schedule.startDateTime}
+          value={dayjs(schedule.startDateTime)}
           onChange={(newValue) => {
             if (newValue) {
               setOption({
                 schedule: {
                   ...schedule,
-                  startDateTime: newValue,
+                  startDateTime: newValue.toString(),
                 },
               });
             }
@@ -43,7 +43,9 @@ function Fixed() {
                 setOption({
                   schedule: {
                     ...schedule,
-                    endDateTime: e.target.checked ? dayjs() : undefined,
+                    endDateTime: e.target.checked
+                      ? dayjs().toString()
+                      : undefined,
                   },
                 });
               }}
@@ -55,13 +57,13 @@ function Fixed() {
         {!!schedule.endDateTime && (
           <DateTimePicker
             label="endDateTime"
-            value={schedule.endDateTime}
+            value={dayjs(schedule.endDateTime)}
             onChange={(newValue) => {
               if (newValue) {
                 setOption({
                   schedule: {
                     ...schedule,
-                    endDateTime: newValue,
+                    endDateTime: newValue.toString(),
                   },
                 });
               }

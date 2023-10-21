@@ -1,8 +1,8 @@
 import { Grid, TextField } from "@mui/material";
-import { NewItem, NewItemSchema } from "../new-item/types";
-import { EditedItem, EditedItemSchema } from "../edit-item/types";
+import { NewItemSchema } from "../new-item/types";
 import { askForAmount } from "../new-item/NewItemSchemaProvider";
 import { Core } from "../../../types";
+import { ItemSchema } from "../types";
 
 function GeneralInfoForm({
   itemSchema,
@@ -10,13 +10,13 @@ function GeneralInfoForm({
   setOption,
   core,
 }: {
-  itemSchema: NewItemSchema | EditedItemSchema;
+  itemSchema: NewItemSchema | ItemSchema;
   setItemAttribute: (
-    attr: Partial<Omit<NewItem | EditedItem, "customAttributeList">>,
+    attr: Partial<
+      Omit<ItemSchema["item"] | NewItemSchema["item"], "customAttributeList">
+    >,
   ) => void;
-  setOption: (
-    option: Partial<(NewItemSchema | EditedItemSchema)["options"]>,
-  ) => void;
+  setOption: (option: Partial<(NewItemSchema | ItemSchema)["options"]>) => void;
   core: Core;
 }) {
   return (

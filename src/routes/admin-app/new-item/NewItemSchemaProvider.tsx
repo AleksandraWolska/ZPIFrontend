@@ -1,9 +1,9 @@
 import { ReactNode, useContext, useMemo, useReducer } from "react";
 import { v4 as uuid } from "uuid";
 import dayjs from "dayjs";
-import { NewItem, NewItemConfig, NewItemSchema, Schedule } from "./types";
+import { NewItemSchema } from "./types";
 import { Core, CustomAttribute, CustomAttributeSpec } from "../../../types";
-import useNewItemConfig from "./useNewItemConfig";
+import useItemConfig from "./useItemConfig";
 import {
   NEW_ITEM_SCHEMA_ACTION_TYPES,
   newItemSchemaReducer,
@@ -12,17 +12,18 @@ import {
   NewItemSchemaContext,
   NewItemSchemaContextType,
 } from "./NewItemSchemaContext";
+import { ItemConfig, Schedule } from "../types";
 
 function NewItemSchemaProvider({ children }: { children: ReactNode }) {
-  const newItemConfig = useNewItemConfig();
+  const itemConfig = useItemConfig();
 
   const [newItemSchema, dispatch] = useReducer(
     newItemSchemaReducer,
-    initializeNewItemSchema(newItemConfig),
+    initializeNewItemSchema(itemConfig),
   );
 
   const setItemAttribute = (
-    attr: Partial<Omit<NewItem, "customAttributeList">>,
+    attr: Partial<Omit<NewItemSchema["item"], "customAttributeList">>,
   ) => {
     dispatch({
       type: NEW_ITEM_SCHEMA_ACTION_TYPES.SET_ITEM_ATTRIBUTE,
@@ -46,13 +47,13 @@ function NewItemSchemaProvider({ children }: { children: ReactNode }) {
 
   const contextValue = useMemo(
     () => ({
-      newItemConfig,
+      newItemConfig: itemConfig,
       newItemSchema,
       setItemAttribute,
       setItemCustomAttribute,
       setOption,
     }),
-    [newItemConfig, newItemSchema],
+    [itemConfig, newItemSchema],
   );
 
   return (
@@ -70,7 +71,7 @@ export function useNewItemSchemaConfig(): NewItemSchemaContextType {
   return ctx;
 }
 
-function initializeNewItemSchema(config: NewItemConfig): NewItemSchema {
+function initializeNewItemSchema(config: ItemConfig): NewItemSchema {
   const { core, customAttributesSpec } = config;
 
   const schema: NewItemSchema = {
@@ -94,7 +95,7 @@ function initializeNewItemSchema(config: NewItemConfig): NewItemSchema {
   return schema;
 }
 
-const defaultNewItem: Omit<NewItem, "customAttributeList"> = {
+const defaultNewItem: Omit<NewItemSchema["item"], "customAttributeList"> = {
   active: true,
   title: "",
   subtitle: "",
@@ -120,7 +121,7 @@ function initializeCustomAttributes(
 function initializeSchedule(core: Core): Schedule {
   if (core.flexibility === false) {
     return {
-      startDateTime: dayjs(),
+      startDateTime: dayjs().toString(),
     };
   }
 

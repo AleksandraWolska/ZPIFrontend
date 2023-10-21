@@ -1,9 +1,9 @@
 import { useNewItemSchemaConfig } from "../NewItemSchemaProvider";
-import useAddNewItem from "../useAddNewItem";
+import useAddNewItemSchema from "../useAddNewItemSchema";
 
 function Summary() {
   const { newItemSchema } = useNewItemSchemaConfig();
-  const addNewItem = useAddNewItem();
+  const addNewItem = useAddNewItemSchema();
 
   return (
     <>

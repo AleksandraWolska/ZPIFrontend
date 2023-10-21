@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Stepper as MUIStepper, Step, StepLabel, Box } from "@mui/material";
 import GeneralInfo from "./steps/GeneralInfo";
 import CustomAttributes from "./steps/CustomAttributes";
-import useNewItemConfig from "./useNewItemConfig";
+import useItemConfig from "./useItemConfig";
 import SubItems from "./steps/SubItems";
 import Schedule from "./steps/schedule/Schedule";
 import ChangePageButtons from "../../../shared-components/ChangePageButtons";
@@ -14,7 +14,7 @@ function Stepper() {
   const goNext = () => setActiveStep((prev) => prev + 1);
   const goPrev = () => setActiveStep((prev) => prev - 1);
 
-  const { core } = useNewItemConfig();
+  const { core } = useItemConfig();
 
   const getSteps = () => {
     const steps = [];

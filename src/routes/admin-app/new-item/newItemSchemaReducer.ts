@@ -1,4 +1,4 @@
-import { NewItem, NewItemSchema } from "./types";
+import { NewItemSchema } from "./types";
 import { CustomAttribute } from "../../../types";
 
 export const NEW_ITEM_SCHEMA_ACTION_TYPES = {
@@ -9,7 +9,7 @@ export const NEW_ITEM_SCHEMA_ACTION_TYPES = {
 
 type SetItemAttributeAction = {
   type: typeof NEW_ITEM_SCHEMA_ACTION_TYPES.SET_ITEM_ATTRIBUTE;
-  payload: Partial<Omit<NewItem, "customAttributeList">>;
+  payload: Partial<Omit<NewItemSchema["item"], "customAttributeList">>;
 };
 
 type SetItemCustomAttributeAction = {

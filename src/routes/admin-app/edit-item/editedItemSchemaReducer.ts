@@ -1,5 +1,5 @@
 import { CustomAttribute } from "../../../types";
-import { EditedItem, EditedItemSchema } from "./types";
+import { ItemSchema } from "../types";
 
 export const EDITED_ITEM_SCHEMA_ACTION_TYPES = {
   SET_ITEM_ATTRIBUTE: "SET_ITEM_ATTRIBUTE",
@@ -9,7 +9,7 @@ export const EDITED_ITEM_SCHEMA_ACTION_TYPES = {
 
 type SetItemAttributeAction = {
   type: typeof EDITED_ITEM_SCHEMA_ACTION_TYPES.SET_ITEM_ATTRIBUTE;
-  payload: Partial<Omit<EditedItem, "customAttributeList">>;
+  payload: Partial<Omit<ItemSchema["item"], "customAttributeList">>;
 };
 
 type SetItemCustomAttributeAction = {
@@ -19,7 +19,7 @@ type SetItemCustomAttributeAction = {
 
 type SetOptionAction = {
   type: typeof EDITED_ITEM_SCHEMA_ACTION_TYPES.SET_OPTION;
-  payload: Partial<EditedItemSchema["options"]>;
+  payload: Partial<ItemSchema["options"]>;
 };
 
 type EditedItemSchemaAction =
@@ -28,9 +28,9 @@ type EditedItemSchemaAction =
   | SetOptionAction;
 
 export function editedItemSchemaReducer(
-  editedItemSchema: EditedItemSchema,
+  editedItemSchema: ItemSchema,
   action: EditedItemSchemaAction,
-): EditedItemSchema {
+): ItemSchema {
   switch (action.type) {
     case EDITED_ITEM_SCHEMA_ACTION_TYPES.SET_ITEM_ATTRIBUTE:
       return {
