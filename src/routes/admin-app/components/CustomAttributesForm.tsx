@@ -7,22 +7,21 @@ import {
   TextField,
 } from "@mui/material";
 import { CustomAttribute, CustomAttributeSpec } from "../../../types";
-import { NewItemSchema } from "../new-item/types";
 
-import { ItemSchema } from "../types";
+import { EnhancedItem } from "../types";
 
 function CustomAttributesForm({
-  itemSchema,
+  enhancedItem,
   setItemCustomAttribute,
   customAttributesSpec,
 }: {
-  itemSchema: NewItemSchema | ItemSchema;
+  enhancedItem: EnhancedItem;
   setItemCustomAttribute: (attr: CustomAttribute) => void;
   customAttributesSpec: CustomAttributeSpec[];
 }) {
   return (
     <Grid container spacing={1} width="50%">
-      {itemSchema.item.customAttributeList.map((attribute) => (
+      {enhancedItem.item.customAttributeList.map((attribute) => (
         <Grid key={attribute.name} item xs={12} sm={6}>
           {renderCustomAttributeInput(
             attribute,

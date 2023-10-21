@@ -1,6 +1,6 @@
-import { ItemSchema } from "../../../../routes/admin-app/types";
+import { EnhancedItem } from "../../../../routes/admin-app/types";
 
-const dummyItemSchemas: ItemSchema[] = [
+const dummyEnhancedItems: EnhancedItem[] = [
   {
     item: {
       id: "1",
@@ -42,7 +42,7 @@ const dummyItemSchemas: ItemSchema[] = [
         },
       ],
     },
-    options: {
+    initialStatus: {
       schedule: {
         scheduledRanges: [
           {
@@ -110,7 +110,7 @@ const dummyItemSchemas: ItemSchema[] = [
         },
       ],
     },
-    options: {
+    initialStatus: {
       schedule: {
         scheduledRanges: [
           {
@@ -139,4 +139,4 @@ const dummyItemSchemas: ItemSchema[] = [
   },
 ];
 
-export default dummyItemSchemas;
+export default dummyEnhancedItems;

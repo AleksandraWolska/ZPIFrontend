@@ -1,101 +1,103 @@
 import { ReactNode, useContext, useMemo, useReducer } from "react";
 import { v4 as uuid } from "uuid";
 import dayjs from "dayjs";
-import { NewItemSchema } from "./types";
 import { Core, CustomAttribute, CustomAttributeSpec } from "../../../types";
 import useItemConfig from "./useItemConfig";
+import { NewItemContext, NewItemContextType } from "./NewItemContext";
+import { EnhancedItem, ItemConfig, Schedule } from "../types";
 import {
-  NEW_ITEM_SCHEMA_ACTION_TYPES,
-  newItemSchemaReducer,
-} from "./newItemSchemaReducer";
-import {
-  NewItemSchemaContext,
-  NewItemSchemaContextType,
-} from "./NewItemSchemaContext";
-import { ItemConfig, Schedule } from "../types";
+  ENHANCED_ITEM_ACTION_TYPES,
+  enhancedItemReducer,
+} from "../enhancedItemReducer";
 
-function NewItemSchemaProvider({ children }: { children: ReactNode }) {
+function NewItemProvider({ children }: { children: ReactNode }) {
   const itemConfig = useItemConfig();
 
-  const [newItemSchema, dispatch] = useReducer(
-    newItemSchemaReducer,
-    initializeNewItemSchema(itemConfig),
+  const [enhancedItem, dispatch] = useReducer(
+    enhancedItemReducer,
+    initializeEnhancedItem(itemConfig),
   );
 
   const setItemAttribute = (
-    attr: Partial<Omit<NewItemSchema["item"], "customAttributeList">>,
+    attr: Partial<Omit<EnhancedItem["item"], "customAttributeList">>,
   ) => {
     dispatch({
-      type: NEW_ITEM_SCHEMA_ACTION_TYPES.SET_ITEM_ATTRIBUTE,
+      type: ENHANCED_ITEM_ACTION_TYPES.SET_ITEM_ATTRIBUTE,
       payload: attr,
     });
   };
 
   const setItemCustomAttribute = (attr: CustomAttribute) => {
     dispatch({
-      type: NEW_ITEM_SCHEMA_ACTION_TYPES.SET_ITEM_CUSTOM_ATTRIBUTE,
+      type: ENHANCED_ITEM_ACTION_TYPES.SET_ITEM_CUSTOM_ATTRIBUTE,
       payload: attr,
     });
   };
 
-  const setOption = (option: Partial<NewItemSchema["options"]>) => {
+  const setInitialStatus = (
+    initialStatus: Partial<EnhancedItem["initialStatus"]>,
+  ) => {
     dispatch({
-      type: NEW_ITEM_SCHEMA_ACTION_TYPES.SET_OPTION,
-      payload: option,
+      type: ENHANCED_ITEM_ACTION_TYPES.SET_INITIAL_STATUS,
+      payload: initialStatus,
     });
   };
 
   const contextValue = useMemo(
     () => ({
-      newItemConfig: itemConfig,
-      newItemSchema,
+      itemConfig,
+      enhancedItem,
       setItemAttribute,
       setItemCustomAttribute,
-      setOption,
+      setInitialStatus,
     }),
-    [itemConfig, newItemSchema],
+    [itemConfig, enhancedItem],
   );
 
   return (
-    <NewItemSchemaContext.Provider value={contextValue}>
+    <NewItemContext.Provider value={contextValue}>
       {children}
-    </NewItemSchemaContext.Provider>
+    </NewItemContext.Provider>
   );
 }
 
-export function useNewItemSchemaConfig(): NewItemSchemaContextType {
-  const ctx = useContext(NewItemSchemaContext);
+export function useNewItem(): NewItemContextType {
+  const ctx = useContext(NewItemContext);
   if (!ctx) {
     throw Error("NewItemSchema context used outside provider!");
   }
   return ctx;
 }
 
-function initializeNewItemSchema(config: ItemConfig): NewItemSchema {
+function initializeEnhancedItem(config: ItemConfig): EnhancedItem {
   const { core, customAttributesSpec } = config;
 
-  const schema: NewItemSchema = {
+  const enhancedItem: EnhancedItem = {
     item: {
-      ...defaultNewItem,
+      id: uuid(),
+      ...defaultEnhancedItem,
       customAttributeList: initializeCustomAttributes(customAttributesSpec),
     },
-    options: {
+    initialStatus: {
       schedule: initializeSchedule(core),
     },
   };
 
   if (askForAmount(core)) {
-    schema.options.amount = 0;
+    enhancedItem.initialStatus.amount = 0;
   }
 
   if (askForSubItems(core)) {
-    schema.item.subItemList = [];
+    enhancedItem.item.subItemList = [];
   }
 
-  return schema;
+  return enhancedItem;
 }
 
-const defaultNewItem: Omit<NewItemSchema["item"], "customAttributeList"> = {
+const defaultEnhancedItem: Omit<
+  EnhancedItem["item"],
+  "id" | "customAttributeList"
+> = {
   active: true,
   title: "",
   subtitle: "",
@@ -158,4 +160,4 @@ export const askForSubItems = (core: Core) => {
   );
 };
 
-export default NewItemSchemaProvider;
+export default NewItemProvider;

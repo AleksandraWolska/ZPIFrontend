@@ -2,15 +2,15 @@ import { v4 as uuid } from "uuid";
 import { useState } from "react";
 import dayjs from "dayjs";
 import { Box, Stack, TextField, Typography } from "@mui/material";
-import { useNewItemSchemaConfig } from "../../NewItemSchemaProvider";
+import { useNewItem } from "../../NewItemProvider";
 import ScheduleCalendar, {
   BigCalendarEvent,
 } from "./schedule-calendar/ScheduleCalendar";
 import { ContinuousSchedule } from "../../../types";
 
 function Continuous() {
-  const { newItemSchema, setOption } = useNewItemSchemaConfig();
-  const { schedule } = newItemSchema.options as {
+  const { enhancedItem, setInitialStatus } = useNewItem();
+  const { schedule } = enhancedItem.initialStatus as {
     schedule: ContinuousSchedule;
   };
 
@@ -40,7 +40,9 @@ function Continuous() {
           <ScheduleCalendar
             events={parseContinuousScheduleToEvents(schedule)}
             onEventsChange={(events: BigCalendarEvent[]) =>
-              setOption({ schedule: parseEventsToContinuousSchedule(events) })
+              setInitialStatus({
+                schedule: parseEventsToContinuousSchedule(events),
+              })
             }
             step={step > 0 ? step : 30}
           />

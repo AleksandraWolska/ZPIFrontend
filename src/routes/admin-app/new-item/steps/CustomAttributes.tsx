@@ -1,15 +1,14 @@
-import { useNewItemSchemaConfig } from "../NewItemSchemaProvider";
+import { useNewItem } from "../NewItemProvider";
 import CustomAttributesForm from "../../components/CustomAttributesForm";
 
 function CustomAttributes() {
-  const { newItemConfig, newItemSchema, setItemCustomAttribute } =
-    useNewItemSchemaConfig();
+  const { itemConfig, enhancedItem, setItemCustomAttribute } = useNewItem();
 
   return (
     <CustomAttributesForm
-      itemSchema={newItemSchema}
+      enhancedItem={enhancedItem}
       setItemCustomAttribute={setItemCustomAttribute}
-      customAttributesSpec={newItemConfig.customAttributesSpec}
+      customAttributesSpec={itemConfig.customAttributesSpec}
     />
   );
 }

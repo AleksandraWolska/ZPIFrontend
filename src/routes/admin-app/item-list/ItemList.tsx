@@ -1,26 +1,29 @@
 import { Card, CardActions, CardContent, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
-import useItemSchemas from "./useItemSchemas";
+import useEnhancedItems from "./useEnhancedItems";
 
 function ItemList() {
-  const schemas = useItemSchemas();
+  const enhancedItems = useEnhancedItems();
 
   return (
     <>
-      <p>Length: {schemas.length}</p>
+      <p>Length: {enhancedItems.length}</p>
       <br />
       <br />
 
-      {schemas.map((schema) => {
+      {enhancedItems.map((enhancedItem) => {
         return (
-          <Card key={schema.item.id} sx={{ maxWidth: "800px", marginTop: 2 }}>
+          <Card
+            key={enhancedItem.item.id}
+            sx={{ maxWidth: "800px", marginTop: 2 }}
+          >
             <CardContent>
               <Typography>
-                {schema.item.id} - {schema.item.title}
+                {enhancedItem.item.id} - {enhancedItem.item.title}
               </Typography>
             </CardContent>
             <CardActions>
-              <Link to={`edit/${schema.item.id}`}>Edit</Link>
+              <Link to={`edit/${enhancedItem.item.id}`}>Edit</Link>
             </CardActions>
           </Card>
         );

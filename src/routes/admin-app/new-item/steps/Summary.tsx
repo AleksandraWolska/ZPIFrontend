@@ -1,17 +1,17 @@
-import { useNewItemSchemaConfig } from "../NewItemSchemaProvider";
-import useAddNewItemSchema from "../useAddNewItemSchema";
+import { useNewItem } from "../NewItemProvider";
+import useAddEnhancedItem from "../useAddEnhancedItem";
 
 function Summary() {
-  const { newItemSchema } = useNewItemSchemaConfig();
-  const addNewItem = useAddNewItemSchema();
+  const { enhancedItem } = useNewItem();
+  const addEnhancedItem = useAddEnhancedItem();
 
   return (
     <>
-      <div>{JSON.stringify(newItemSchema)}</div>
+      <div>{JSON.stringify(enhancedItem)}</div>
       <button
         type="button"
         onClick={() => {
-          addNewItem.mutate(newItemSchema);
+          addEnhancedItem.mutate(enhancedItem);
         }}
       >
         ADD ITEM

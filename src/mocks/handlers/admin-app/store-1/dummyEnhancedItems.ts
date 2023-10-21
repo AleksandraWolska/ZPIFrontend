@@ -1,6 +1,6 @@
-import { ItemSchema } from "../../../../routes/admin-app/types";
+import { EnhancedItem } from "../../../../routes/admin-app/types";
 
-const dummyItemSchemas: ItemSchema[] = [
+const dummyEnhancedItems: EnhancedItem[] = [
   {
     item: {
       id: "1",
@@ -53,7 +53,7 @@ const dummyItemSchemas: ItemSchema[] = [
             title: "A-1",
             subtitle: "",
           },
-          options: {},
+          initialStatus: {},
         },
         {
           subItem: {
@@ -61,7 +61,7 @@ const dummyItemSchemas: ItemSchema[] = [
             title: "A-2",
             subtitle: "",
           },
-          options: {},
+          initialStatus: {},
         },
         {
           subItem: {
@@ -69,7 +69,7 @@ const dummyItemSchemas: ItemSchema[] = [
             title: "A-3",
             subtitle: "",
           },
-          options: {},
+          initialStatus: {},
         },
         {
           subItem: {
@@ -77,7 +77,7 @@ const dummyItemSchemas: ItemSchema[] = [
             title: "A-4",
             subtitle: "",
           },
-          options: {},
+          initialStatus: {},
         },
         {
           subItem: {
@@ -85,7 +85,7 @@ const dummyItemSchemas: ItemSchema[] = [
             title: "A-5",
             subtitle: "",
           },
-          options: {},
+          initialStatus: {},
         },
         {
           subItem: {
@@ -93,7 +93,7 @@ const dummyItemSchemas: ItemSchema[] = [
             title: "A-6",
             subtitle: "",
           },
-          options: {},
+          initialStatus: {},
         },
         {
           subItem: {
@@ -101,7 +101,7 @@ const dummyItemSchemas: ItemSchema[] = [
             title: "B-1",
             subtitle: "",
           },
-          options: {},
+          initialStatus: {},
         },
         {
           subItem: {
@@ -109,7 +109,7 @@ const dummyItemSchemas: ItemSchema[] = [
             title: "B-2",
             subtitle: "",
           },
-          options: {},
+          initialStatus: {},
         },
         {
           subItem: {
@@ -117,7 +117,7 @@ const dummyItemSchemas: ItemSchema[] = [
             title: "B-3",
             subtitle: "",
           },
-          options: {},
+          initialStatus: {},
         },
         {
           subItem: {
@@ -125,7 +125,7 @@ const dummyItemSchemas: ItemSchema[] = [
             title: "B-4",
             subtitle: "",
           },
-          options: {},
+          initialStatus: {},
         },
         {
           subItem: {
@@ -133,7 +133,7 @@ const dummyItemSchemas: ItemSchema[] = [
             title: "B-5",
             subtitle: "",
           },
-          options: {},
+          initialStatus: {},
         },
         {
           subItem: {
@@ -141,7 +141,7 @@ const dummyItemSchemas: ItemSchema[] = [
             title: "B-6",
             subtitle: "",
           },
-          options: {},
+          initialStatus: {},
         },
         {
           subItem: {
@@ -149,7 +149,7 @@ const dummyItemSchemas: ItemSchema[] = [
             title: "C-1",
             subtitle: "",
           },
-          options: {},
+          initialStatus: {},
         },
         {
           subItem: {
@@ -157,7 +157,7 @@ const dummyItemSchemas: ItemSchema[] = [
             title: "C-2",
             subtitle: "",
           },
-          options: {},
+          initialStatus: {},
         },
         {
           subItem: {
@@ -165,7 +165,7 @@ const dummyItemSchemas: ItemSchema[] = [
             title: "C-3",
             subtitle: "",
           },
-          options: {},
+          initialStatus: {},
         },
         {
           subItem: {
@@ -173,7 +173,7 @@ const dummyItemSchemas: ItemSchema[] = [
             title: "C-4",
             subtitle: "",
           },
-          options: {},
+          initialStatus: {},
         },
         {
           subItem: {
@@ -181,7 +181,7 @@ const dummyItemSchemas: ItemSchema[] = [
             title: "C-5",
             subtitle: "",
           },
-          options: {},
+          initialStatus: {},
         },
         {
           subItem: {
@@ -189,7 +189,7 @@ const dummyItemSchemas: ItemSchema[] = [
             title: "C-6",
             subtitle: "",
           },
-          options: {},
+          initialStatus: {},
         },
         {
           subItem: {
@@ -197,7 +197,7 @@ const dummyItemSchemas: ItemSchema[] = [
             title: "C-7",
             subtitle: "",
           },
-          options: {},
+          initialStatus: {},
         },
         {
           subItem: {
@@ -205,11 +205,11 @@ const dummyItemSchemas: ItemSchema[] = [
             title: "C-8",
             subtitle: "",
           },
-          options: {},
+          initialStatus: {},
         },
       ],
     },
-    options: {
+    initialStatus: {
       schedule: {
         startDateTime: "2023-10-21T14:30:20.452Z",
       },
@@ -267,7 +267,7 @@ const dummyItemSchemas: ItemSchema[] = [
             title: "A-1",
             subtitle: "",
           },
-          options: {},
+          initialStatus: {},
         },
         {
           subItem: {
@@ -275,7 +275,7 @@ const dummyItemSchemas: ItemSchema[] = [
             title: "A-2",
             subtitle: "",
           },
-          options: {},
+          initialStatus: {},
         },
         {
           subItem: {
@@ -283,7 +283,7 @@ const dummyItemSchemas: ItemSchema[] = [
             title: "A-3",
             subtitle: "",
           },
-          options: {},
+          initialStatus: {},
         },
         {
           subItem: {
@@ -291,7 +291,7 @@ const dummyItemSchemas: ItemSchema[] = [
             title: "A-4",
             subtitle: "",
           },
-          options: {},
+          initialStatus: {},
         },
         {
           subItem: {
@@ -299,7 +299,7 @@ const dummyItemSchemas: ItemSchema[] = [
             title: "A-5",
             subtitle: "",
           },
-          options: {},
+          initialStatus: {},
         },
         {
           subItem: {
@@ -307,7 +307,7 @@ const dummyItemSchemas: ItemSchema[] = [
             title: "A-6",
             subtitle: "",
           },
-          options: {},
+          initialStatus: {},
         },
         {
           subItem: {
@@ -315,7 +315,7 @@ const dummyItemSchemas: ItemSchema[] = [
             title: "B-1",
             subtitle: "",
           },
-          options: {},
+          initialStatus: {},
         },
         {
           subItem: {
@@ -323,7 +323,7 @@ const dummyItemSchemas: ItemSchema[] = [
             title: "B-2",
             subtitle: "",
           },
-          options: {},
+          initialStatus: {},
         },
         {
           subItem: {
@@ -331,7 +331,7 @@ const dummyItemSchemas: ItemSchema[] = [
             title: "B-3",
             subtitle: "",
           },
-          options: {},
+          initialStatus: {},
         },
         {
           subItem: {
@@ -339,7 +339,7 @@ const dummyItemSchemas: ItemSchema[] = [
             title: "B-4",
             subtitle: "",
           },
-          options: {},
+          initialStatus: {},
         },
         {
           subItem: {
@@ -347,7 +347,7 @@ const dummyItemSchemas: ItemSchema[] = [
             title: "B-5",
             subtitle: "",
           },
-          options: {},
+          initialStatus: {},
         },
         {
           subItem: {
@@ -355,7 +355,7 @@ const dummyItemSchemas: ItemSchema[] = [
             title: "B-6",
             subtitle: "",
           },
-          options: {},
+          initialStatus: {},
         },
         {
           subItem: {
@@ -363,7 +363,7 @@ const dummyItemSchemas: ItemSchema[] = [
             title: "C-1",
             subtitle: "",
           },
-          options: {},
+          initialStatus: {},
         },
         {
           subItem: {
@@ -371,7 +371,7 @@ const dummyItemSchemas: ItemSchema[] = [
             title: "C-2",
             subtitle: "",
           },
-          options: {},
+          initialStatus: {},
         },
         {
           subItem: {
@@ -379,7 +379,7 @@ const dummyItemSchemas: ItemSchema[] = [
             title: "C-3",
             subtitle: "",
           },
-          options: {},
+          initialStatus: {},
         },
         {
           subItem: {
@@ -387,7 +387,7 @@ const dummyItemSchemas: ItemSchema[] = [
             title: "C-4",
             subtitle: "",
           },
-          options: {},
+          initialStatus: {},
         },
         {
           subItem: {
@@ -395,7 +395,7 @@ const dummyItemSchemas: ItemSchema[] = [
             title: "C-5",
             subtitle: "",
           },
-          options: {},
+          initialStatus: {},
         },
         {
           subItem: {
@@ -403,7 +403,7 @@ const dummyItemSchemas: ItemSchema[] = [
             title: "C-6",
             subtitle: "",
           },
-          options: {},
+          initialStatus: {},
         },
         {
           subItem: {
@@ -411,7 +411,7 @@ const dummyItemSchemas: ItemSchema[] = [
             title: "C-7",
             subtitle: "",
           },
-          options: {},
+          initialStatus: {},
         },
         {
           subItem: {
@@ -419,11 +419,11 @@ const dummyItemSchemas: ItemSchema[] = [
             title: "C-8",
             subtitle: "",
           },
-          options: {},
+          initialStatus: {},
         },
       ],
     },
-    options: {
+    initialStatus: {
       schedule: {
         startDateTime: "2023-10-21T16:30:20.452Z",
       },
@@ -431,4 +431,4 @@ const dummyItemSchemas: ItemSchema[] = [
   },
 ];
 
-export default dummyItemSchemas;
+export default dummyEnhancedItems;
