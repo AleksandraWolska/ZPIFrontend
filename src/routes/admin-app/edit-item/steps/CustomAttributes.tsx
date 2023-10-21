@@ -1,8 +1,9 @@
 import CustomAttributesForm from "../../components/CustomAttributesForm";
-import { useEditItem } from "../EditItemProvider";
+import { useEnhancedItem } from "../../enhanced-item-context/EnhancedItemProvider";
 
 function CustomAttributes() {
-  const { itemConfig, enhancedItem, setItemCustomAttribute } = useEditItem();
+  const { itemConfig, enhancedItem, setItemCustomAttribute } =
+    useEnhancedItem();
 
   return (
     <CustomAttributesForm

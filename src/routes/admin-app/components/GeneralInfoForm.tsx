@@ -1,7 +1,7 @@
 import { Grid, TextField } from "@mui/material";
-import { askForAmount } from "../new-item/NewItemProvider";
 import { Core } from "../../../types";
 import { EnhancedItem } from "../types";
+import { askForAmount } from "../new-item/utils";
 
 function GeneralInfoForm({
   enhancedItem,

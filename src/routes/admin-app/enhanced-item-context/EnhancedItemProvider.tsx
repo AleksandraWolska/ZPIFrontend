@@ -1,21 +1,28 @@
 import { ReactNode, useContext, useMemo, useReducer } from "react";
-import useEnhancedItem from "./useEnhancedItem";
+import useItemConfig from "../edit-item/useItemConfig";
 import {
   ENHANCED_ITEM_ACTION_TYPES,
   enhancedItemReducer,
-} from "../enhancedItemReducer";
+} from "./enhancedItemReducer";
 import { EnhancedItem } from "../types";
 import { CustomAttribute } from "../../../types";
-import { EditItemContext, EditItemContextType } from "./EditItemContext";
-import useItemConfig from "./useItemConfig";
+import {
+  EnhancedItemContext,
+  EnhancedItemContextType,
+} from "./EnhancedItemContext";
 
-function EditItemProvider({ children }: { children: ReactNode }) {
-  const enhancedItemToBeEdited = useEnhancedItem();
+function EnhancedItemProvider({
+  children,
+  initialEnhancedItem,
+}: {
+  children: ReactNode;
+  initialEnhancedItem: EnhancedItem;
+}) {
   const itemConfig = useItemConfig();
 
   const [enhancedItem, dispatch] = useReducer(
     enhancedItemReducer,
-    enhancedItemToBeEdited,
+    initialEnhancedItem,
   );
 
   const setItemAttribute = (
@@ -55,18 +62,18 @@ function EditItemProvider({ children }: { children: ReactNode }) {
   );
 
   return (
-    <EditItemContext.Provider value={contextValue}>
+    <EnhancedItemContext.Provider value={contextValue}>
       {children}
-    </EditItemContext.Provider>
+    </EnhancedItemContext.Provider>
   );
 }
 
-export function useEditItem(): EditItemContextType {
-  const ctx = useContext(EditItemContext);
+export function useEnhancedItem(): EnhancedItemContextType {
+  const ctx = useContext(EnhancedItemContext);
   if (!ctx) {
-    throw Error("EditItem context used outside provider!");
+    throw Error("Enhanced item context used outside provider!");
   }
   return ctx;
 }
 
-export default EditItemProvider;
+export default EnhancedItemProvider;

@@ -7,7 +7,8 @@ import SubItems from "./steps/SubItems";
 import Schedule from "./steps/Schedule";
 import ChangePageButtons from "../../../shared-components/ChangePageButtons";
 import Summary from "./steps/Summary";
-import { askForSubItems } from "./NewItemProvider";
+
+import { askForSubItems } from "./utils";
 
 function Stepper() {
   const [activeStep, setActiveStep] = useState(0);

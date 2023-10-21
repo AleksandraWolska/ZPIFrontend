@@ -1,8 +1,8 @@
-import { useEditItem } from "../EditItemProvider";
 import useEditEnhancedItem from "../useEditEnhancedItem";
+import { useEnhancedItem } from "../../enhanced-item-context/EnhancedItemProvider";
 
 function Summary() {
-  const { enhancedItem } = useEditItem();
+  const { enhancedItem } = useEnhancedItem();
   const editEnhancedItem = useEditEnhancedItem();
 
   return (

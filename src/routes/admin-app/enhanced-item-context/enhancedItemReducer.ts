@@ -1,5 +1,5 @@
-import { EnhancedItem } from "./types";
-import { CustomAttribute } from "../../types";
+import { EnhancedItem } from "../types";
+import { CustomAttribute } from "../../../types";
 
 export const ENHANCED_ITEM_ACTION_TYPES = {
   SET_ITEM_ATTRIBUTE: "SET_ITEM_ATTRIBUTE",
