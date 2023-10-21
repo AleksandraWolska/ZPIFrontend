@@ -5,8 +5,8 @@ import dayjs from "dayjs";
 import ScheduleCalendar, {
   BigCalendarEvent,
 } from "./schedule-calendar/ScheduleCalendar";
-import { SlotsSchedule } from "../../types";
 import { useNewItemSchemaConfig } from "../../NewItemSchemaProvider";
+import { SlotsSchedule } from "../../../types";
 
 function Slots() {
   const { newItemSchema, setOption } = useNewItemSchemaConfig();
@@ -58,8 +58,8 @@ function parseSlotsScheduleToEvents(
   return schedule.scheduledSlots.map((s) => {
     return {
       id: uuid(),
-      start: s.startDateTime.toDate(),
-      end: s.endDateTime.toDate(),
+      start: dayjs(s.startDateTime).toDate(),
+      end: dayjs(s.endDateTime).toDate(),
     };
   });
 }
@@ -68,8 +68,8 @@ function parseEventsToSlotsSchedule(events: BigCalendarEvent[]): SlotsSchedule {
   return {
     scheduledSlots: events.map((e) => {
       return {
-        startDateTime: dayjs(e.start),
-        endDateTime: dayjs(e.end),
+        startDateTime: e.start.toString(),
+        endDateTime: e.end.toString(),
       };
     }),
   };

@@ -1,119 +1,130 @@
 import { rest } from "msw";
 import { v4 as uuid } from "uuid";
-import {
-  NewItem,
-  NewItemSchema,
-} from "../../../routes/admin-app/new-item/types";
-import { Item } from "../../../types";
+import { NewItemSchema } from "../../../routes/admin-app/new-item/types";
+import { ItemSchema } from "../../../routes/admin-app/types";
 
-const getDummyNewItemConfig = rest.get(
-  "/api/stores/:storeId/new-item-config",
+const getDummyItemConfig = rest.get(
+  "/api/stores/:storeId/item-config",
   async (req, res, ctx) => {
     const { storeId } = req.params;
 
     if (storeId === "1") {
-      const config = (await import("./store-1/dummyNewItemConfig")).default;
+      const config = (await import("./store-1/dummyItemConfig")).default;
       return res(ctx.status(200), ctx.json(config));
     }
     if (storeId === "2") {
-      const config = (await import("./store-2/dummyNewItemConfig")).default;
+      const config = (await import("./store-2/dummyItemConfig")).default;
       return res(ctx.status(200), ctx.json(config));
     }
 
-    const config = (await import("./store-3/dummyNewItemConfig")).default;
+    const config = (await import("./store-3/dummyItemConfig")).default;
     return res(ctx.status(200), ctx.json(config));
   },
 );
 
-const getItems = rest.get(
-  "/api/admin/:storeId/items",
+const getItemSchemas = rest.get(
+  "/api/admin/:storeId/item-schemas",
   async (req, res, ctx) => {
     const { storeId } = req.params;
 
     if (storeId === "1") {
-      const items = (await import("./store-1/dummyItems")).default;
-      return res(ctx.status(200), ctx.json(items));
+      const schemas = (await import("./store-1/dummyItemSchemas")).default;
+      return res(ctx.status(200), ctx.json(schemas));
     }
     if (storeId === "2") {
-      const items = (await import("./store-2/dummyItems")).default;
-      return res(ctx.status(200), ctx.json(items));
+      const schemas = (await import("./store-2/dummyItemSchemas")).default;
+      return res(ctx.status(200), ctx.json(schemas));
     }
     if (storeId === "3") {
-      const items = (await import("./store-3/dummyItems")).default;
-      return res(ctx.status(200), ctx.json(items));
+      const schemas = (await import("./store-3/dummyItemSchemas")).default;
+      return res(ctx.status(200), ctx.json(schemas));
     }
 
     return res(ctx.status(404), ctx.json({ message: "Invalid store ID." }));
   },
 );
 
-const getItemById = rest.get(
-  "/api/admin/:storeId/items/:itemId",
+const getSchemaByItemId = rest.get(
+  "/api/admin/:storeId/item-schemas/:itemId",
   async (req, res, ctx) => {
     const { storeId, itemId } = req.params;
 
-    let items: Item[] = [];
+    let schemas: ItemSchema[] = [];
 
     if (storeId === "1") {
-      items = (await import("./store-1/dummyItems")).default;
+      schemas = (await import("./store-1/dummyItemSchemas")).default;
     }
     if (storeId === "2") {
-      items = (await import("./store-2/dummyItems")).default;
+      schemas = (await import("./store-2/dummyItemSchemas")).default;
     }
     if (storeId === "3") {
-      items = (await import("./store-3/dummyItems")).default;
+      schemas = (await import("./store-3/dummyItemSchemas")).default;
     }
 
-    const item = items.find((i) => i.id === itemId);
+    const item = schemas.find((s) => s.item.id === itemId);
     return item
       ? res(ctx.status(200), ctx.json(item))
       : res(ctx.status(404), ctx.json({ message: "Item not found." }));
   },
 );
 
-const addItem = rest.post(
-  "/api/stores/:storeId/add-item",
+const addItemSchema = rest.post(
+  "/api/stores/:storeId/add-item-schema",
   async (req, res, ctx) => {
     const { storeId } = req.params;
     const body = (await req.json()) as NewItemSchema;
 
     if (storeId === "1") {
-      const items = (await import("./store-1/dummyItems")).default;
-      console.log("length before push", items.length);
-      items.push(enhanceNewItem(body.item));
-      return res(ctx.status(200), ctx.json({ message: "Added new item." }));
+      const schemas = (await import("./store-1/dummyItemSchemas")).default;
+      schemas.push(enhanceNewItemSchema(body));
+      return res(
+        ctx.status(200),
+        ctx.json({ message: "Added new item schema." }),
+      );
     }
     if (storeId === "2") {
-      const items = (await import("./store-2/dummyItems")).default;
-      items.push(enhanceNewItem(body.item));
-      return res(ctx.status(200), ctx.json({ message: "Added new item." }));
+      const schemas = (await import("./store-2/dummyItemSchemas")).default;
+      schemas.push(enhanceNewItemSchema(body));
+      return res(
+        ctx.status(200),
+        ctx.json({ message: "Added new item schema." }),
+      );
     }
     if (storeId === "3") {
-      const items = (await import("./store-3/dummyItems")).default;
-      items.push(enhanceNewItem(body.item));
-      return res(ctx.status(200), ctx.json({ message: "Added new item." }));
+      const schemas = (await import("./store-3/dummyItemSchemas")).default;
+      schemas.push(enhanceNewItemSchema(body));
+      return res(
+        ctx.status(200),
+        ctx.json({ message: "Added new item schema." }),
+      );
     }
 
     return res(ctx.status(404), ctx.json({ message: "Invalid store ID." }));
   },
 );
 
-const enhanceNewItem = (newItem: NewItem): Item => {
+const enhanceNewItemSchema = (newItemSchema: NewItemSchema): ItemSchema => {
   return {
-    ...newItem,
-    id: uuid(),
-    subItemList: newItem.subItemList?.map((subItemSchema) => {
-      return {
-        ...subItemSchema.subItem,
-        id: uuid(),
-      };
-    }),
+    item: {
+      ...newItemSchema.item,
+      id: uuid(),
+      subItemList: newItemSchema.item.subItemList?.map((subItemSchema) => {
+        return {
+          subItem: {
+            ...subItemSchema.subItem,
+            id: uuid(),
+          },
+          options: subItemSchema.options,
+        };
+      }),
+    },
+    options: newItemSchema.options,
   };
 };
 
 export const adminAppHandlers = [
-  getDummyNewItemConfig,
-  getItems,
-  getItemById,
-  addItem,
+  getDummyItemConfig,
+  getItemSchemas,
+  getSchemaByItemId,
+  addItemSchema,
 ];

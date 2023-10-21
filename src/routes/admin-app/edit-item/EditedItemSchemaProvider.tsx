@@ -2,9 +2,9 @@ import { ReactNode } from "react";
 import useEditItem from "./useEditItem";
 
 function EditedItemSchemaProvider({ children }: { children: ReactNode }) {
-  const item = useEditItem();
+  const schema = useEditItem();
 
-  console.log("item", item);
+  console.log("item schema", schema);
 
   return <div>{children}</div>;
 }

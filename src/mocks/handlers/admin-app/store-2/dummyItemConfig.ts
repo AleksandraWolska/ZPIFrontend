@@ -1,6 +1,6 @@
-import { NewItemConfig } from "../../../../routes/admin-app/new-item/types";
+import { ItemConfig } from "../../../../routes/admin-app/types";
 
-const dummyNewItemConfig: NewItemConfig = {
+const dummyItemConfig: ItemConfig = {
   core: {
     flexibility: true,
     granularity: true,
@@ -47,4 +47,4 @@ const dummyNewItemConfig: NewItemConfig = {
   ],
 };
 
-export default dummyNewItemConfig;
+export default dummyItemConfig;

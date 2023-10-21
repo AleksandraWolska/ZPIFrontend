@@ -1,38 +1,33 @@
-import { NewItemConfig } from "../../../../routes/admin-app/new-item/types";
+import { ItemConfig } from "../../../../routes/admin-app/types";
 
-const dummyNewItemConfig: NewItemConfig = {
+const dummyItemConfig: ItemConfig = {
   core: {
-    flexibility: false,
-    simultaneous: true,
-    specificReservation: true,
+    flexibility: true,
+    granularity: true,
+    allowOverNight: true,
+    simultaneous: false,
+    uniqueness: true,
   },
   customAttributesSpec: [
     {
       id: "1",
-      name: "Director",
+      name: "Manufacturer",
       dataType: "string",
-      isRequired: false,
-      isFilterable: true,
-      showMainPage: true,
-      showDetailsPage: true,
-    },
-    {
-      id: "2",
-      name: "Category",
-      dataType: "string",
-      isRequired: false,
+      isRequired: true,
       isFilterable: true,
       showMainPage: true,
       showDetailsPage: true,
       limitValues: true,
-      possibleValues: [
-        "Thriller",
-        "Action",
-        "Comedy",
-        "Drama",
-        "Horror",
-        "Romance",
-      ],
+      possibleValues: ["Mercedes", "Audi", "BMW"],
+    },
+    {
+      id: "2",
+      name: "Model",
+      dataType: "string",
+      isRequired: true,
+      isFilterable: true,
+      showMainPage: true,
+      showDetailsPage: true,
     },
     {
       id: "3",
@@ -45,35 +40,26 @@ const dummyNewItemConfig: NewItemConfig = {
     },
     {
       id: "4",
-      name: "Country",
-      dataType: "string",
-      isRequired: false,
-      isFilterable: true,
-      showMainPage: false,
-      showDetailsPage: true,
-    },
-    {
-      id: "5",
-      name: "Duration",
+      name: "Passengers",
       dataType: "number",
-      isRequired: false,
-      isFilterable: false,
-      showMainPage: false,
-      showDetailsPage: true,
-    },
-    {
-      id: "6",
-      name: "Language",
-      dataType: "string",
       isRequired: false,
       isFilterable: true,
       showMainPage: true,
       showDetailsPage: true,
     },
     {
-      id: "7",
-      name: "Subtitles",
-      dataType: "string",
+      id: "5",
+      name: "Power",
+      dataType: "number",
+      isRequired: false,
+      isFilterable: true,
+      showMainPage: false,
+      showDetailsPage: true,
+    },
+    {
+      id: "6",
+      name: "Automatic",
+      dataType: "boolean",
       isRequired: false,
       isFilterable: true,
       showMainPage: true,
@@ -82,4 +68,4 @@ const dummyNewItemConfig: NewItemConfig = {
   ],
 };
 
-export default dummyNewItemConfig;
+export default dummyItemConfig;

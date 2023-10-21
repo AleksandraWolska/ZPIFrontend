@@ -3,8 +3,8 @@ import { useParams } from "react-router-dom";
 import { NewItemSchema } from "./types";
 import { queryClient } from "../../../query";
 
-const addNewItem = (storeId: string, newItemSchema: NewItemSchema) => {
-  return fetch(`/api/stores/${storeId}/add-item`, {
+const addNewItemSchema = (storeId: string, newItemSchema: NewItemSchema) => {
+  return fetch(`/api/stores/${storeId}/add-item-schema`, {
     method: "POST",
     headers: {
       Accept: "application/json",
@@ -14,17 +14,17 @@ const addNewItem = (storeId: string, newItemSchema: NewItemSchema) => {
   });
 };
 
-function useAddNewItem() {
+function useAddNewItemSchema() {
   const params = useParams() as { storeId: string };
 
   return useMutation({
     mutationFn: (newSchema: NewItemSchema) => {
-      return addNewItem(params.storeId, newSchema);
+      return addNewItemSchema(params.storeId, newSchema);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(["items", params.storeId]);
+      queryClient.invalidateQueries(["item-schemas", params.storeId]);
     },
   });
 }
 
-export default useAddNewItem;
+export default useAddNewItemSchema;

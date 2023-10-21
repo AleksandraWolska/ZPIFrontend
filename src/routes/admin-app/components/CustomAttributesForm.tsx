@@ -8,14 +8,15 @@ import {
 } from "@mui/material";
 import { CustomAttribute, CustomAttributeSpec } from "../../../types";
 import { NewItemSchema } from "../new-item/types";
-import { EditedItemSchema } from "../edit-item/types";
+
+import { ItemSchema } from "../types";
 
 function CustomAttributesForm({
   itemSchema,
   setItemCustomAttribute,
   customAttributesSpec,
 }: {
-  itemSchema: NewItemSchema | EditedItemSchema;
+  itemSchema: NewItemSchema | ItemSchema;
   setItemCustomAttribute: (attr: CustomAttribute) => void;
   customAttributesSpec: CustomAttributeSpec[];
 }) {

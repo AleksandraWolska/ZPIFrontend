@@ -3,10 +3,10 @@ import { useState } from "react";
 import dayjs from "dayjs";
 import { Box, Stack, TextField, Typography } from "@mui/material";
 import { useNewItemSchemaConfig } from "../../NewItemSchemaProvider";
-import { ContinuousSchedule } from "../../types";
 import ScheduleCalendar, {
   BigCalendarEvent,
 } from "./schedule-calendar/ScheduleCalendar";
+import { ContinuousSchedule } from "../../../types";
 
 function Continuous() {
   const { newItemSchema, setOption } = useNewItemSchemaConfig();
@@ -56,8 +56,8 @@ function parseContinuousScheduleToEvents(
   return schedule.scheduledRanges.map((r) => {
     return {
       id: uuid(),
-      start: r.startDateTime.toDate(),
-      end: r.endDateTime.toDate(),
+      start: dayjs(r.startDateTime).toDate(),
+      end: dayjs(r.endDateTime).toDate(),
     };
   });
 }
@@ -68,8 +68,8 @@ function parseEventsToContinuousSchedule(
   return {
     scheduledRanges: events.map((e) => {
       return {
-        startDateTime: dayjs(e.start),
-        endDateTime: dayjs(e.end),
+        startDateTime: e.start.toString(),
+        endDateTime: e.end.toString(),
       };
     }),
   };

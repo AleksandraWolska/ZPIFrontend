@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
-import { getItemQuery } from "./loader";
-import { Item } from "../../../types";
+import { getItemSchemaQuery } from "./loader";
+import { ItemSchema } from "../types";
 
 function useEditItem() {
   const { storeId, itemId } = useParams() as {
@@ -9,8 +9,8 @@ function useEditItem() {
     itemId: string;
   };
 
-  const { data } = useQuery(getItemQuery(storeId, itemId)) as {
-    data: Item;
+  const { data } = useQuery(getItemSchemaQuery(storeId, itemId)) as {
+    data: ItemSchema;
   };
 
   return data;

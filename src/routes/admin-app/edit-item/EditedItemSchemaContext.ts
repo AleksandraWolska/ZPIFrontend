@@ -1,16 +1,15 @@
 import { createContext } from "react";
-import { NewItemConfig } from "../new-item/types";
 import { CustomAttribute } from "../../../types";
-import { EditedItem, EditedItemSchema } from "./types";
+import { ItemSchema, ItemConfig } from "../types";
 
 export type EditedItemSchemaContextType = {
-  itemConfig: NewItemConfig;
-  editedItemSchema: EditedItemSchema;
+  itemConfig: ItemConfig;
+  editedItemSchema: ItemSchema;
   setItemAttribute: (
-    attr: Partial<Omit<EditedItem, "customAttributeList">>,
+    attr: Partial<Omit<ItemSchema["item"], "customAttributeList">>,
   ) => void;
   setItemCustomAttribute: (attr: CustomAttribute) => void;
-  setOption: (option: Partial<EditedItemSchema["options"]>) => void;
+  setOption: (option: Partial<ItemSchema["options"]>) => void;
 };
 
 export const EditedItemSchemaContext =
