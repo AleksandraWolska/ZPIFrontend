@@ -1,11 +1,15 @@
-import { DateTimePicker } from "@mui/x-date-pickers";
 import { Checkbox, FormControlLabel, Stack, Typography } from "@mui/material";
+import { DateTimePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
-import { useNewItem } from "../../NewItemProvider";
-import { FixedSchedule } from "../../../types";
+import { EnhancedItem, FixedSchedule } from "../../types";
 
-function Fixed() {
-  const { enhancedItem, setInitialStatus } = useNewItem();
+function Fixed({
+  enhancedItem,
+  setInitialStatus,
+}: {
+  enhancedItem: EnhancedItem;
+  setInitialStatus: (option: Partial<EnhancedItem["initialStatus"]>) => void;
+}) {
   const { schedule } = enhancedItem.initialStatus as {
     schedule: FixedSchedule;
   };

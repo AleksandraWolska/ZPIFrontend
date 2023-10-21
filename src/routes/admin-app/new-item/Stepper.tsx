@@ -4,7 +4,7 @@ import GeneralInfo from "./steps/GeneralInfo";
 import CustomAttributes from "./steps/CustomAttributes";
 import useItemConfig from "./useItemConfig";
 import SubItems from "./steps/SubItems";
-import Schedule from "./steps/schedule/Schedule";
+import Schedule from "./steps/Schedule";
 import ChangePageButtons from "../../../shared-components/ChangePageButtons";
 import Summary from "./steps/Summary";
 import { askForSubItems } from "./NewItemProvider";
