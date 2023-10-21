@@ -1,7 +1,7 @@
 import { Checkbox, FormControlLabel, Stack, Typography } from "@mui/material";
 import { DateTimePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
-import { EnhancedItem, FixedSchedule } from "../../types";
+import { EnhancedItem, FixedSchedule } from "../../../types";
 
 function Fixed({
   enhancedItem,

@@ -1,6 +1,6 @@
 import { QueryClient } from "react-query";
 import { defer, LoaderFunctionArgs } from "react-router-dom";
-import { EnhancedItem } from "../types";
+import { EnhancedItem } from "../../types";
 import { getItemConfigQuery } from "../common-data/itemConfigQuery";
 
 const fetchItemToBeEdited = async (

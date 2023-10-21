@@ -6,7 +6,7 @@ import { askForSubItems } from "../utils";
 import SubItems from "../enhanced-item-form/SubItems";
 import Schedule from "../enhanced-item-form/schedule/Schedule";
 import Summary from "./Summary";
-import { Core } from "../../../types";
+import { Core } from "../../../../types";
 import Stepper from "../enhanced-item-form/Stepper";
 import useItemConfig from "../common-data/useItemConfig";
 

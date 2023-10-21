@@ -1,8 +1,8 @@
 import { QueryClient } from "react-query";
 import { LoaderFunctionArgs } from "react-router-dom";
-import { EnhancedItem } from "../types";
-import { getAccessToken } from "../../../auth/utils";
-import { BACKEND_URL } from "../../../query";
+import { EnhancedItem } from "../../types";
+import { getAccessToken } from "../../../../auth/utils";
+import { BACKEND_URL } from "../../../../query";
 
 const fetchEnhancedItems = async (storeId: string): Promise<EnhancedItem[]> => {
   const token = getAccessToken();

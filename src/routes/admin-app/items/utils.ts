@@ -1,4 +1,4 @@
-import { Core } from "../../types";
+import { Core } from "../../../types";
 
 export const askForAmount = (core: Core) => core.uniqueness === false;
 
