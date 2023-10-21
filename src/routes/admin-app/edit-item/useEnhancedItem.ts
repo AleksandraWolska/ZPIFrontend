@@ -3,7 +3,7 @@ import { useQuery } from "react-query";
 import { getEnhancedItemQuery } from "./loader";
 import { EnhancedItem } from "../types";
 
-function useEditItem() {
+function useEnhancedItem() {
   const { storeId, itemId } = useParams() as {
     storeId: string;
     itemId: string;
@@ -16,4 +16,4 @@ function useEditItem() {
   return data;
 }
 
-export default useEditItem;
+export default useEnhancedItem;

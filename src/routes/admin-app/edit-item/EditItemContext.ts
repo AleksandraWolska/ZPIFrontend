@@ -1,8 +1,9 @@
 import { createContext } from "react";
 import { CustomAttribute } from "../../../types";
-import { EnhancedItem } from "../types";
+import { EnhancedItem, ItemConfig } from "../types";
 
 export type EditItemContextType = {
+  itemConfig: ItemConfig;
   enhancedItem: EnhancedItem;
   setItemAttribute: (
     attr: Partial<Omit<EnhancedItem["item"], "customAttributeList">>,

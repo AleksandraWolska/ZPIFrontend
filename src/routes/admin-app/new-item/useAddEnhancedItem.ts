@@ -4,7 +4,7 @@ import { queryClient } from "../../../query";
 import { EnhancedItem } from "../types";
 
 const addEnhancedItem = (storeId: string, enhancedItem: EnhancedItem) => {
-  return fetch(`/api/stores/${storeId}/add-enhanced-item`, {
+  return fetch(`/api/stores/${storeId}/enhanced-items`, {
     method: "POST",
     headers: {
       Accept: "application/json",
