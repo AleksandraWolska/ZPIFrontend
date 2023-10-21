@@ -1,11 +1,11 @@
 import Stepper from "./Stepper";
-import NewItemSchemaProvider from "./NewItemSchemaProvider";
+import NewItemProvider from "./NewItemProvider";
 
 function NewItem() {
   return (
-    <NewItemSchemaProvider>
+    <NewItemProvider>
       <Stepper />
-    </NewItemSchemaProvider>
+    </NewItemProvider>
   );
 }
 

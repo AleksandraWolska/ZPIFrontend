@@ -10,93 +10,112 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import dayjs from "dayjs";
 import { DateTimePicker } from "@mui/x-date-pickers";
-import { NewSubItemSchema } from "../types";
-import { useNewItemSchemaConfig } from "../NewItemSchemaProvider";
+import { useNewItem } from "../NewItemProvider";
+import { EnhancedSubItem } from "../../types";
 
-const defaultSubItemSchema: NewSubItemSchema = {
+type EnhancedSubItemWithoutSubItemId = Omit<EnhancedSubItem, "subItem"> & {
+  subItem: Omit<EnhancedSubItem["subItem"], "id">;
+};
+
+const defaultEnhancedSubItem: EnhancedSubItemWithoutSubItemId = {
   subItem: {
     title: "",
     subtitle: "",
   },
-  options: {
+  initialStatus: {
     amount: 0,
   },
 };
 
-type LocalSubItemSchema = NewSubItemSchema & { id: string };
-
 function SubItems() {
-  const { newItemSchema, setItemAttribute } = useNewItemSchemaConfig();
+  const { enhancedItem, setItemAttribute } = useNewItem();
 
-  const initialLocalSubItemSchemas: LocalSubItemSchema[] = [
-    ...(newItemSchema.item.subItemList || []).map((s) => ({
-      id: uuid(),
-      ...s,
-    })),
+  const initialLocalEnhancedSubItems: EnhancedSubItem[] = [
+    ...(enhancedItem.item.subItemList || []),
     {
-      id: uuid(),
-      ...defaultSubItemSchema,
+      subItem: {
+        ...defaultEnhancedSubItem.subItem,
+        id: uuid(),
+      },
+      initialStatus: { ...defaultEnhancedSubItem.initialStatus },
     },
   ];
 
-  const [localSubItemSchemas, setLocalSubItemSchemas] = useState(
-    initialLocalSubItemSchemas,
+  const [localEnhancedSubItems, setLocalEnhancedSubItems] = useState(
+    initialLocalEnhancedSubItems,
   );
-  const lastIdx = localSubItemSchemas.length - 1;
+  const lastIdx = localEnhancedSubItems.length - 1;
 
-  const updateLocalSubItemAttribute = (
+  const updateLocalAttribute = (
     id: string,
-    attr: Partial<NewSubItemSchema["subItem"]>,
+    attr: Partial<EnhancedSubItem["subItem"]>,
   ) => {
-    const newValue = localSubItemSchemas.map((s) =>
-      s.id === id ? { ...s, subItem: { ...s.subItem, ...attr } } : s,
+    const newValue = localEnhancedSubItems.map((enhancedSubItem) =>
+      enhancedSubItem.subItem.id === id
+        ? {
+            ...enhancedSubItem,
+            subItem: { ...enhancedSubItem.subItem, ...attr },
+          }
+        : enhancedSubItem,
     );
 
-    setLocalSubItemSchemas(newValue);
+    setLocalEnhancedSubItems(newValue);
     saveSubItemList(newValue);
   };
 
-  const updateLocalSubItemOption = (
+  const updateLocalInitialStatus = (
     id: string,
-    option: Partial<NewSubItemSchema["options"]>,
+    initialStatus: Partial<EnhancedSubItem["initialStatus"]>,
   ) => {
-    const newValue = localSubItemSchemas.map((s) =>
-      s.id === id ? { ...s, options: { ...s.options, ...option } } : s,
+    const newValue = localEnhancedSubItems.map((enhancedSubItem) =>
+      enhancedSubItem.subItem.id === id
+        ? {
+            ...enhancedSubItem,
+            initialStatus: {
+              ...enhancedSubItem.initialStatus,
+              ...initialStatus,
+            },
+          }
+        : enhancedSubItem,
     );
 
-    setLocalSubItemSchemas(newValue);
+    setLocalEnhancedSubItems(newValue);
     saveSubItemList(newValue);
   };
 
-  const saveSubItemList = (localSchemas: LocalSubItemSchema[]) => {
-    const subItemList = localSchemas
-      .filter((s) => s.subItem.title !== "")
-      .map((s) => {
-        const { id, ...rest } = s;
-        return rest;
-      });
+  const saveSubItemList = (local: EnhancedSubItem[]) => {
+    const subItemList = local.filter((s) => s.subItem.title !== "");
+
     console.log("subItems", subItemList);
     setItemAttribute({ subItemList });
   };
 
   return (
     <>
-      {localSubItemSchemas.map((subItemSchema, idx) => {
-        const disabled = subItemSchema.subItem.title === "";
+      {localEnhancedSubItems.map((enhancedSubItem, idx) => {
+        const disabled = enhancedSubItem.subItem.title === "";
 
         return (
-          <Stack key={subItemSchema.id} direction="row" gap={1}>
+          <Stack key={enhancedSubItem.subItem.id} direction="row" gap={1}>
             <TextField
               label="title"
-              value={subItemSchema.subItem.title}
+              value={enhancedSubItem.subItem.title}
               onChange={(e) => {
-                updateLocalSubItemAttribute(subItemSchema.id, {
+                updateLocalAttribute(enhancedSubItem.subItem.id, {
                   title: e.target.value,
                 });
                 if (idx === lastIdx) {
-                  setLocalSubItemSchemas((prev) => [
+                  setLocalEnhancedSubItems((prev) => [
                     ...prev,
-                    { id: uuid(), ...defaultSubItemSchema },
+                    {
+                      subItem: {
+                        ...defaultEnhancedSubItem.subItem,
+                        id: uuid(),
+                      },
+                      initialStatus: {
+                        ...defaultEnhancedSubItem.initialStatus,
+                      },
+                    },
                   ]);
                 }
               }}
@@ -105,9 +124,9 @@ function SubItems() {
 
             <TextField
               label="subtitle"
-              value={subItemSchema.subItem.subtitle}
+              value={enhancedSubItem.subItem.subtitle}
               onChange={(e) => {
-                updateLocalSubItemAttribute(subItemSchema.id, {
+                updateLocalAttribute(enhancedSubItem.subItem.id, {
                   subtitle: e.target.value,
                 });
               }}
@@ -116,9 +135,9 @@ function SubItems() {
 
             <TextField
               label="amount"
-              value={subItemSchema.options.amount?.toString()}
+              value={enhancedSubItem.initialStatus.amount?.toString()}
               onChange={(e) => {
-                updateLocalSubItemOption(subItemSchema.id, {
+                updateLocalInitialStatus(enhancedSubItem.subItem.id, {
                   amount: parseInt(e.target.value, 10),
                 });
               }}
@@ -129,9 +148,9 @@ function SubItems() {
             <FormControlLabel
               control={
                 <Checkbox
-                  checked={!!subItemSchema.options.schedule}
+                  checked={!!enhancedSubItem.initialStatus.schedule}
                   onChange={(e) => {
-                    updateLocalSubItemOption(subItemSchema.id, {
+                    updateLocalInitialStatus(enhancedSubItem.subItem.id, {
                       schedule: e.target.checked
                         ? {
                             startDateTime: dayjs().toString(),
@@ -146,19 +165,21 @@ function SubItems() {
               disabled={disabled}
             />
 
-            {!!subItemSchema.options.schedule && (
+            {!!enhancedSubItem.initialStatus.schedule && (
               <>
                 <DateTimePicker
                   label="startDateTime"
-                  value={dayjs(subItemSchema.options.schedule.startDateTime)}
+                  value={dayjs(
+                    enhancedSubItem.initialStatus.schedule.startDateTime,
+                  )}
                   onChange={(date) => {
                     if (date)
-                      updateLocalSubItemOption(subItemSchema.id, {
+                      updateLocalInitialStatus(enhancedSubItem.subItem.id, {
                         schedule: {
                           startDateTime: date.toString(),
                           endDateTime: (
-                            subItemSchema.options.schedule?.endDateTime ||
-                            dayjs()
+                            enhancedSubItem.initialStatus.schedule
+                              ?.endDateTime || dayjs()
                           ).toString(),
                         },
                       });
@@ -171,13 +192,15 @@ function SubItems() {
                 <FormControlLabel
                   control={
                     <Checkbox
-                      checked={!!subItemSchema.options.schedule.endDateTime}
+                      checked={
+                        !!enhancedSubItem.initialStatus.schedule.endDateTime
+                      }
                       onChange={(e) => {
-                        updateLocalSubItemOption(subItemSchema.id, {
+                        updateLocalInitialStatus(enhancedSubItem.subItem.id, {
                           schedule: {
                             startDateTime: (
-                              subItemSchema.options.schedule?.startDateTime ||
-                              dayjs()
+                              enhancedSubItem.initialStatus.schedule
+                                ?.startDateTime || dayjs()
                             ).toString(),
                             endDateTime: e.target.checked
                               ? dayjs().toString()
@@ -190,17 +213,19 @@ function SubItems() {
                   label="endDateTime"
                 />
 
-                {!!subItemSchema.options.schedule.endDateTime && (
+                {!!enhancedSubItem.initialStatus.schedule.endDateTime && (
                   <DateTimePicker
                     label="endDateTime"
-                    value={dayjs(subItemSchema.options.schedule.endDateTime)}
+                    value={dayjs(
+                      enhancedSubItem.initialStatus.schedule.endDateTime,
+                    )}
                     onChange={(date) => {
                       if (date)
-                        updateLocalSubItemOption(subItemSchema.id, {
+                        updateLocalInitialStatus(enhancedSubItem.subItem.id, {
                           schedule: {
                             startDateTime: (
-                              subItemSchema.options.schedule?.startDateTime ||
-                              dayjs()
+                              enhancedSubItem.initialStatus.schedule
+                                ?.startDateTime || dayjs()
                             ).toString(),
                             endDateTime: date.toString(),
                           },
@@ -216,8 +241,10 @@ function SubItems() {
 
             <IconButton
               onClick={() => {
-                setLocalSubItemSchemas((prev) =>
-                  prev.filter((s) => s.id !== subItemSchema.id),
+                setLocalEnhancedSubItems((prev) =>
+                  prev.filter(
+                    (s) => s.subItem.id !== enhancedSubItem.subItem.id,
+                  ),
                 );
               }}
               disabled={idx === lastIdx}

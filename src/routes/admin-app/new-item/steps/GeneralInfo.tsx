@@ -1,16 +1,16 @@
-import { useNewItemSchemaConfig } from "../NewItemSchemaProvider";
+import { useNewItem } from "../NewItemProvider";
 import GeneralInfoForm from "../../components/GeneralInfoForm";
 
 function GeneralInfo() {
-  const { newItemConfig, newItemSchema, setItemAttribute, setOption } =
-    useNewItemSchemaConfig();
+  const { itemConfig, enhancedItem, setItemAttribute, setInitialStatus } =
+    useNewItem();
 
   return (
     <GeneralInfoForm
-      itemSchema={newItemSchema}
+      enhancedItem={enhancedItem}
       setItemAttribute={setItemAttribute}
-      setOption={setOption}
-      core={newItemConfig.core}
+      setInitialStatus={setInitialStatus}
+      core={itemConfig.core}
     />
   );
 }

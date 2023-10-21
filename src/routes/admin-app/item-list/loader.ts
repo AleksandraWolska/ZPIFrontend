@@ -1,23 +1,26 @@
 import { QueryClient } from "react-query";
 import { LoaderFunctionArgs } from "react-router-dom";
-import { ItemSchema } from "../types";
+import { EnhancedItem } from "../types";
 import { getAccessToken } from "../../../auth/utils";
 import { BACKEND_URL } from "../../../query";
 
-const fetchItemSchemas = async (storeId: string): Promise<ItemSchema[]> => {
+const fetchEnhancedItems = async (storeId: string): Promise<EnhancedItem[]> => {
   const token = getAccessToken();
 
-  const res = await fetch(`${BACKEND_URL}/api/admin/${storeId}/item-schemas`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
+  const res = await fetch(
+    `${BACKEND_URL}/api/admin/${storeId}/enhanced-items`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     },
-  });
+  );
   return res.json();
 };
 
-export const getItemSchemasQuery = (storeId: string) => ({
-  queryKey: ["items-schemas", storeId],
-  queryFn: () => fetchItemSchemas(storeId),
+export const getEnhancedItemsQuery = (storeId: string) => ({
+  queryKey: ["enhanced-items", storeId],
+  queryFn: () => fetchEnhancedItems(storeId),
 });
 
 export const loader =
@@ -26,7 +29,7 @@ export const loader =
     const { storeId } = params as {
       storeId: string;
     };
-    const query = getItemSchemasQuery(storeId);
+    const query = getEnhancedItemsQuery(storeId);
 
     return (
       queryClient.getQueryData(query.queryKey) ??

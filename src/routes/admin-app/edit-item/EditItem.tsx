@@ -1,10 +1,10 @@
-import EditedItemSchemaProvider from "./EditedItemSchemaProvider";
+import EditItemProvider from "./EditItemProvider";
 
 function EditItem() {
   return (
-    <EditedItemSchemaProvider>
+    <EditItemProvider>
       <div>EditItem</div>
-    </EditedItemSchemaProvider>
+    </EditItemProvider>
   );
 }
 

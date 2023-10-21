@@ -5,12 +5,12 @@ import dayjs from "dayjs";
 import ScheduleCalendar, {
   BigCalendarEvent,
 } from "./schedule-calendar/ScheduleCalendar";
-import { useNewItemSchemaConfig } from "../../NewItemSchemaProvider";
+import { useNewItem } from "../../NewItemProvider";
 import { SlotsSchedule } from "../../../types";
 
 function Slots() {
-  const { newItemSchema, setOption } = useNewItemSchemaConfig();
-  const { schedule } = newItemSchema.options as {
+  const { enhancedItem, setInitialStatus } = useNewItem();
+  const { schedule } = enhancedItem.initialStatus as {
     schedule: SlotsSchedule;
   };
 
@@ -42,7 +42,7 @@ function Slots() {
           <ScheduleCalendar
             events={parseSlotsScheduleToEvents(schedule)}
             onEventsChange={(events: BigCalendarEvent[]) =>
-              setOption({ schedule: parseEventsToSlotsSchedule(events) })
+              setInitialStatus({ schedule: parseEventsToSlotsSchedule(events) })
             }
             step={step > 0 ? step : 30}
           />

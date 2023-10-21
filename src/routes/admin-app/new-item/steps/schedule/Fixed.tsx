@@ -1,12 +1,14 @@
 import { DateTimePicker } from "@mui/x-date-pickers";
 import { Checkbox, FormControlLabel, Stack, Typography } from "@mui/material";
 import dayjs from "dayjs";
-import { useNewItemSchemaConfig } from "../../NewItemSchemaProvider";
+import { useNewItem } from "../../NewItemProvider";
 import { FixedSchedule } from "../../../types";
 
 function Fixed() {
-  const { newItemSchema, setOption } = useNewItemSchemaConfig();
-  const { schedule } = newItemSchema.options as { schedule: FixedSchedule };
+  const { enhancedItem, setInitialStatus } = useNewItem();
+  const { schedule } = enhancedItem.initialStatus as {
+    schedule: FixedSchedule;
+  };
 
   return (
     <>
@@ -23,7 +25,7 @@ function Fixed() {
           value={dayjs(schedule.startDateTime)}
           onChange={(newValue) => {
             if (newValue) {
-              setOption({
+              setInitialStatus({
                 schedule: {
                   ...schedule,
                   startDateTime: newValue.toString(),
@@ -40,7 +42,7 @@ function Fixed() {
             <Checkbox
               checked={!!schedule.endDateTime}
               onChange={(e) => {
-                setOption({
+                setInitialStatus({
                   schedule: {
                     ...schedule,
                     endDateTime: e.target.checked
@@ -60,7 +62,7 @@ function Fixed() {
             value={dayjs(schedule.endDateTime)}
             onChange={(newValue) => {
               if (newValue) {
-                setOption({
+                setInitialStatus({
                   schedule: {
                     ...schedule,
                     endDateTime: newValue.toString(),

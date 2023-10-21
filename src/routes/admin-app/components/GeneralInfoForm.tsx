@@ -1,22 +1,19 @@
 import { Grid, TextField } from "@mui/material";
-import { NewItemSchema } from "../new-item/types";
-import { askForAmount } from "../new-item/NewItemSchemaProvider";
+import { askForAmount } from "../new-item/NewItemProvider";
 import { Core } from "../../../types";
-import { ItemSchema } from "../types";
+import { EnhancedItem } from "../types";
 
 function GeneralInfoForm({
-  itemSchema,
+  enhancedItem,
   setItemAttribute,
-  setOption,
+  setInitialStatus,
   core,
 }: {
-  itemSchema: NewItemSchema | ItemSchema;
+  enhancedItem: EnhancedItem;
   setItemAttribute: (
-    attr: Partial<
-      Omit<ItemSchema["item"] | NewItemSchema["item"], "customAttributeList">
-    >,
+    attr: Partial<Omit<EnhancedItem["item"], "customAttributeList">>,
   ) => void;
-  setOption: (option: Partial<(NewItemSchema | ItemSchema)["options"]>) => void;
+  setInitialStatus: (option: Partial<EnhancedItem["initialStatus"]>) => void;
   core: Core;
 }) {
   return (
@@ -25,7 +22,7 @@ function GeneralInfoForm({
         <TextField
           label="title"
           name="title"
-          value={itemSchema.item.title}
+          value={enhancedItem.item.title}
           onChange={(e) => setItemAttribute({ title: e.target.value })}
           fullWidth
           required
@@ -36,7 +33,7 @@ function GeneralInfoForm({
         <TextField
           label="subtitle"
           name="subtitle"
-          value={itemSchema.item.subtitle}
+          value={enhancedItem.item.subtitle}
           onChange={(e) => setItemAttribute({ subtitle: e.target.value })}
           fullWidth
         />
@@ -46,7 +43,7 @@ function GeneralInfoForm({
         <TextField
           label="description"
           name="description"
-          value={itemSchema.item.description}
+          value={enhancedItem.item.description}
           onChange={(e) => setItemAttribute({ description: e.target.value })}
           fullWidth
           multiline
@@ -57,7 +54,7 @@ function GeneralInfoForm({
         <TextField
           label="image"
           name="image"
-          value={itemSchema.item.image}
+          value={enhancedItem.item.image}
           onChange={(e) => setItemAttribute({ image: e.target.value })}
           fullWidth
         />
@@ -68,9 +65,9 @@ function GeneralInfoForm({
           <TextField
             label="amount"
             name="amount"
-            value={itemSchema.options.amount?.toString()}
+            value={enhancedItem.initialStatus.amount?.toString()}
             onChange={(e) =>
-              setOption({ amount: parseInt(e.target.value, 10) })
+              setInitialStatus({ amount: parseInt(e.target.value, 10) })
             }
             fullWidth
             type="number"

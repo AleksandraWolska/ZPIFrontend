@@ -1,11 +1,11 @@
 import Slots from "./Slots";
 import Continuous from "./Continuous";
 import Fixed from "./Fixed";
-import { useNewItemSchemaConfig } from "../../NewItemSchemaProvider";
+import { useNewItem } from "../../NewItemProvider";
 
 function Schedule() {
-  const { newItemConfig } = useNewItemSchemaConfig();
-  const { flexibility, granularity } = newItemConfig.core;
+  const { itemConfig } = useNewItem();
+  const { flexibility, granularity } = itemConfig.core;
 
   return (
     <>
