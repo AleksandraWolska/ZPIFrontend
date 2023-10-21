@@ -72,8 +72,8 @@ function parseEventsToSlotsSchedule(events: BigCalendarEvent[]): SlotsSchedule {
   return {
     scheduledSlots: events.map((e) => {
       return {
-        startDateTime: e.start.toString(),
-        endDateTime: e.end.toString(),
+        startDateTime: e.start.toISOString(),
+        endDateTime: e.end.toISOString(),
       };
     }),
   };

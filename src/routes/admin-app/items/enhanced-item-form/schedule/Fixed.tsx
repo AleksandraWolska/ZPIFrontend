@@ -32,7 +32,7 @@ function Fixed({
               setInitialStatus({
                 schedule: {
                   ...schedule,
-                  startDateTime: newValue.toString(),
+                  startDateTime: newValue.toISOString(),
                 },
               });
             }
@@ -50,7 +50,7 @@ function Fixed({
                   schedule: {
                     ...schedule,
                     endDateTime: e.target.checked
-                      ? dayjs().toString()
+                      ? dayjs().toISOString()
                       : undefined,
                   },
                 });
@@ -69,7 +69,7 @@ function Fixed({
                 setInitialStatus({
                   schedule: {
                     ...schedule,
-                    endDateTime: newValue.toString(),
+                    endDateTime: newValue.toISOString(),
                   },
                 });
               }

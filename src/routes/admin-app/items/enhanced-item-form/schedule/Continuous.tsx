@@ -74,8 +74,8 @@ function parseEventsToContinuousSchedule(
   return {
     scheduledRanges: events.map((e) => {
       return {
-        startDateTime: e.start.toString(),
-        endDateTime: e.end.toString(),
+        startDateTime: e.start.toISOString(),
+        endDateTime: e.end.toISOString(),
       };
     }),
   };

@@ -153,7 +153,7 @@ function SubItems() {
                     updateLocalInitialStatus(enhancedSubItem.subItem.id, {
                       schedule: e.target.checked
                         ? {
-                            startDateTime: dayjs().toString(),
+                            startDateTime: dayjs().toISOString(),
                             endDateTime: undefined,
                           }
                         : undefined,
@@ -176,11 +176,10 @@ function SubItems() {
                     if (date)
                       updateLocalInitialStatus(enhancedSubItem.subItem.id, {
                         schedule: {
-                          startDateTime: date.toString(),
-                          endDateTime: (
+                          startDateTime: date.toISOString(),
+                          endDateTime:
                             enhancedSubItem.initialStatus.schedule
-                              ?.endDateTime || dayjs()
-                          ).toString(),
+                              ?.endDateTime || dayjs().toISOString(),
                         },
                       });
                   }}
@@ -198,12 +197,11 @@ function SubItems() {
                       onChange={(e) => {
                         updateLocalInitialStatus(enhancedSubItem.subItem.id, {
                           schedule: {
-                            startDateTime: (
+                            startDateTime:
                               enhancedSubItem.initialStatus.schedule
-                                ?.startDateTime || dayjs()
-                            ).toString(),
+                                ?.startDateTime || dayjs().toISOString(),
                             endDateTime: e.target.checked
-                              ? dayjs().toString()
+                              ? dayjs().toISOString()
                               : undefined,
                           },
                         });
@@ -223,11 +221,10 @@ function SubItems() {
                       if (date)
                         updateLocalInitialStatus(enhancedSubItem.subItem.id, {
                           schedule: {
-                            startDateTime: (
+                            startDateTime:
                               enhancedSubItem.initialStatus.schedule
-                                ?.startDateTime || dayjs()
-                            ).toString(),
-                            endDateTime: date.toString(),
+                                ?.startDateTime || dayjs().toISOString(),
+                            endDateTime: date.toISOString(),
                           },
                         });
                     }}

@@ -108,7 +108,7 @@ function initializeCustomAttributes(
 function initializeSchedule(core: Core): Schedule {
   if (core.flexibility === false) {
     return {
-      startDateTime: dayjs().toString(),
+      startDateTime: dayjs().toISOString(),
     };
   }
 
