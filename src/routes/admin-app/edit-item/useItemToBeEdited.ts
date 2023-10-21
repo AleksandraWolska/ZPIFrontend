@@ -1,19 +1,19 @@
 import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
-import { getEnhancedItemQuery } from "./loader";
+import { getItemToBeEditedQuery } from "./loader";
 import { EnhancedItem } from "../types";
 
-function useEnhancedItemToBeEdited() {
+function useItemToBeEdited() {
   const { storeId, itemId } = useParams() as {
     storeId: string;
     itemId: string;
   };
 
-  const { data } = useQuery(getEnhancedItemQuery(storeId, itemId)) as {
+  const { data } = useQuery(getItemToBeEditedQuery(storeId, itemId)) as {
     data: EnhancedItem;
   };
 
   return data;
 }
 
-export default useEnhancedItemToBeEdited;
+export default useItemToBeEdited;

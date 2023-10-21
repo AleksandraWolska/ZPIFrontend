@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { queryClient } from "../../../query";
 import { EnhancedItem } from "../types";
 
-const addEnhancedItem = (storeId: string, enhancedItem: EnhancedItem) => {
+const addItem = (storeId: string, enhancedItem: EnhancedItem) => {
   return fetch(`/api/stores/${storeId}/enhanced-items`, {
     method: "POST",
     headers: {
@@ -14,12 +14,12 @@ const addEnhancedItem = (storeId: string, enhancedItem: EnhancedItem) => {
   });
 };
 
-function useAddEnhancedItem() {
+function useAddItem() {
   const params = useParams() as { storeId: string };
 
   return useMutation({
     mutationFn: (enhancedItem: EnhancedItem) => {
-      return addEnhancedItem(params.storeId, enhancedItem);
+      return addItem(params.storeId, enhancedItem);
     },
     onSuccess: () => {
       queryClient.invalidateQueries(["enhanced-items", params.storeId]);
@@ -27,4 +27,4 @@ function useAddEnhancedItem() {
   });
 }
 
-export default useAddEnhancedItem;
+export default useAddItem;

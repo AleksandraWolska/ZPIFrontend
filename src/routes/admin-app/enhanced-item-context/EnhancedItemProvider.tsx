@@ -1,5 +1,5 @@
 import { ReactNode, useContext, useMemo, useReducer } from "react";
-import useItemConfig from "../edit-item/useItemConfig";
+import useItemConfig from "../common-data/useItemConfig";
 import {
   ENHANCED_ITEM_ACTION_TYPES,
   enhancedItemReducer,
