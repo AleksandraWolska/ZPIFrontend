@@ -1,17 +1,21 @@
-import { v4 as uuid } from "uuid";
 import { useState } from "react";
 import { Box, Stack, TextField, Typography } from "@mui/material";
+import { v4 as uuid } from "uuid";
 import dayjs from "dayjs";
+import { ContinuousSchedule, EnhancedItem } from "../../types";
 import ScheduleCalendar, {
   BigCalendarEvent,
 } from "./schedule-calendar/ScheduleCalendar";
-import { useNewItem } from "../../NewItemProvider";
-import { SlotsSchedule } from "../../../types";
 
-function Slots() {
-  const { enhancedItem, setInitialStatus } = useNewItem();
+function Continuous({
+  enhancedItem,
+  setInitialStatus,
+}: {
+  enhancedItem: EnhancedItem;
+  setInitialStatus: (option: Partial<EnhancedItem["initialStatus"]>) => void;
+}) {
   const { schedule } = enhancedItem.initialStatus as {
-    schedule: SlotsSchedule;
+    schedule: ContinuousSchedule;
   };
 
   const [step, setStep] = useState(30);
@@ -19,11 +23,9 @@ function Slots() {
   return (
     <>
       <Typography variant="h4" sx={{ marginBottom: 2 }}>
-        Short slots
+        Continuous
       </Typography>
-      <Typography sx={{ marginBottom: 2 }}>
-        Office hours, appointments
-      </Typography>
+      <Typography sx={{ marginBottom: 2 }}>Apartments, cars</Typography>
 
       <Stack width="80%" gap={2} alignItems="flex-end">
         <TextField
@@ -40,9 +42,11 @@ function Slots() {
 
         <Box width="100%">
           <ScheduleCalendar
-            events={parseSlotsScheduleToEvents(schedule)}
+            events={parseContinuousScheduleToEvents(schedule)}
             onEventsChange={(events: BigCalendarEvent[]) =>
-              setInitialStatus({ schedule: parseEventsToSlotsSchedule(events) })
+              setInitialStatus({
+                schedule: parseEventsToContinuousSchedule(events),
+              })
             }
             step={step > 0 ? step : 30}
           />
@@ -52,21 +56,23 @@ function Slots() {
   );
 }
 
-function parseSlotsScheduleToEvents(
-  schedule: SlotsSchedule,
+function parseContinuousScheduleToEvents(
+  schedule: ContinuousSchedule,
 ): BigCalendarEvent[] {
-  return schedule.scheduledSlots.map((s) => {
+  return schedule.scheduledRanges.map((r) => {
     return {
       id: uuid(),
-      start: dayjs(s.startDateTime).toDate(),
-      end: dayjs(s.endDateTime).toDate(),
+      start: dayjs(r.startDateTime).toDate(),
+      end: dayjs(r.endDateTime).toDate(),
     };
   });
 }
 
-function parseEventsToSlotsSchedule(events: BigCalendarEvent[]): SlotsSchedule {
+function parseEventsToContinuousSchedule(
+  events: BigCalendarEvent[],
+): ContinuousSchedule {
   return {
-    scheduledSlots: events.map((e) => {
+    scheduledRanges: events.map((e) => {
       return {
         startDateTime: e.start.toString(),
         endDateTime: e.end.toString(),
@@ -75,4 +81,4 @@ function parseEventsToSlotsSchedule(events: BigCalendarEvent[]): SlotsSchedule {
   };
 }
 
-export default Slots;
+export default Continuous;
