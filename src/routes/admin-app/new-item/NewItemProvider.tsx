@@ -64,7 +64,7 @@ function NewItemProvider({ children }: { children: ReactNode }) {
 export function useNewItem(): NewItemContextType {
   const ctx = useContext(NewItemContext);
   if (!ctx) {
-    throw Error("NewItemSchema context used outside provider!");
+    throw Error("NewItem context used outside provider!");
   }
   return ctx;
 }

@@ -25,23 +25,19 @@ const getEnhancedItems = rest.get(
   async (req, res, ctx) => {
     const { storeId } = req.params;
 
+    let enhancedItems: EnhancedItem[] = [];
+
     if (storeId === "1") {
-      const enhancedItems = (await import("./store-1/dummyEnhancedItems"))
-        .default;
-      return res(ctx.status(200), ctx.json(enhancedItems));
+      enhancedItems = (await import("./store-1/dummyEnhancedItems")).default;
     }
     if (storeId === "2") {
-      const enhancedItems = (await import("./store-2/dummyEnhancedItems"))
-        .default;
-      return res(ctx.status(200), ctx.json(enhancedItems));
+      enhancedItems = (await import("./store-2/dummyEnhancedItems")).default;
     }
     if (storeId === "3") {
-      const enhancedItems = (await import("./store-3/dummyEnhancedItems"))
-        .default;
-      return res(ctx.status(200), ctx.json(enhancedItems));
+      enhancedItems = (await import("./store-3/dummyEnhancedItems")).default;
     }
 
-    return res(ctx.status(404), ctx.json({ message: "Invalid store ID." }));
+    return res(ctx.status(200), ctx.json(enhancedItems));
   },
 );
 
@@ -70,37 +66,60 @@ const getEnhancedItemById = rest.get(
 );
 
 const addEnhancedItem = rest.post(
-  "/api/stores/:storeId/add-enhanced-item",
+  "/api/stores/:storeId/enhanced-items",
   async (req, res, ctx) => {
     const { storeId } = req.params;
     const body = (await req.json()) as EnhancedItem;
 
+    let enhancedItems: EnhancedItem[] = [];
+
     if (storeId === "1") {
-      const schemas = (await import("./store-1/dummyEnhancedItems")).default;
-      schemas.push(body);
-      return res(
-        ctx.status(200),
-        ctx.json({ message: "Added new item schema." }),
-      );
+      enhancedItems = (await import("./store-1/dummyEnhancedItems")).default;
     }
     if (storeId === "2") {
-      const schemas = (await import("./store-2/dummyEnhancedItems")).default;
-      schemas.push(body);
-      return res(
-        ctx.status(200),
-        ctx.json({ message: "Added new item schema." }),
-      );
+      enhancedItems = (await import("./store-2/dummyEnhancedItems")).default;
     }
     if (storeId === "3") {
-      const schemas = (await import("./store-3/dummyEnhancedItems")).default;
-      schemas.push(body);
+      enhancedItems = (await import("./store-3/dummyEnhancedItems")).default;
+    }
+
+    enhancedItems.push(body);
+
+    return res(
+      ctx.status(200),
+      ctx.json({ message: "Added new item schema." }),
+    );
+  },
+);
+
+const editEnhancedItem = rest.put(
+  "/api/stores/:storeId/enhanced-items/:itemId",
+  async (req, res, ctx) => {
+    const { storeId, itemId } = req.params;
+    const body = (await req.json()) as EnhancedItem;
+
+    let enhancedItems: EnhancedItem[] = [];
+
+    if (storeId === "1") {
+      enhancedItems = (await import("./store-1/dummyEnhancedItems")).default;
+    }
+    if (storeId === "2") {
+      enhancedItems = (await import("./store-2/dummyEnhancedItems")).default;
+    }
+    if (storeId === "3") {
+      enhancedItems = (await import("./store-3/dummyEnhancedItems")).default;
+    }
+
+    const idx = enhancedItems.findIndex((e) => e.item.id === itemId);
+    if (idx === -1) {
       return res(
-        ctx.status(200),
-        ctx.json({ message: "Added new item schema." }),
+        ctx.status(404),
+        ctx.json({ message: "Enhanced item not found." }),
       );
     }
 
-    return res(ctx.status(404), ctx.json({ message: "Invalid store ID." }));
+    enhancedItems[idx] = body;
+    return res(ctx.status(200), ctx.json({ message: "Edited enhanced item." }));
   },
 );
 
@@ -128,4 +147,5 @@ export const adminAppHandlers = [
   getEnhancedItems,
   getEnhancedItemById,
   addEnhancedItem,
+  editEnhancedItem,
 ];

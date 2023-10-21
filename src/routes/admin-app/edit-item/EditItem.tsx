@@ -1,9 +1,10 @@
 import EditItemProvider from "./EditItemProvider";
+import Stepper from "./Stepper";
 
 function EditItem() {
   return (
     <EditItemProvider>
-      <div>EditItem</div>
+      <Stepper />
     </EditItemProvider>
   );
 }
