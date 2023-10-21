@@ -1,6 +1,6 @@
 import { createContext } from "react";
-import { EnhancedItem, ItemConfig } from "../types";
-import { CustomAttribute } from "../../../types";
+import { EnhancedItem, ItemConfig } from "../../types";
+import { CustomAttribute } from "../../../../types";
 
 export type EnhancedItemContextType = {
   itemConfig: ItemConfig;

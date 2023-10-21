@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import { getEnhancedItemsQuery } from "./loader";
-import { EnhancedItem } from "../types";
+import { EnhancedItem } from "../../types";
 
 function useEnhancedItems() {
   const params = useParams() as { storeId: string };

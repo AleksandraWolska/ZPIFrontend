@@ -1,8 +1,8 @@
 import { v4 as uuid } from "uuid";
 import dayjs from "dayjs";
 import EnhancedItemProvider from "../enhanced-item-context/EnhancedItemProvider";
-import { EnhancedItem, ItemConfig, Schedule } from "../types";
-import { Core, CustomAttribute, CustomAttributeSpec } from "../../../types";
+import { EnhancedItem, ItemConfig, Schedule } from "../../types";
+import { Core, CustomAttribute, CustomAttributeSpec } from "../../../../types";
 import { askForAmount, askForSubItems } from "../utils";
 import GeneralInfo from "../enhanced-item-form/GeneralInfo";
 import CustomAttributes from "../enhanced-item-form/CustomAttributes";

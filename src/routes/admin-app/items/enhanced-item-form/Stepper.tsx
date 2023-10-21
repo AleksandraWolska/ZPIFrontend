@@ -1,6 +1,6 @@
 import { ReactNode, useState } from "react";
 import { Box, Step, StepLabel, Stepper as MUIStepper } from "@mui/material";
-import ChangePageButtons from "../../../shared-components/ChangePageButtons";
+import ChangePageButtons from "../../../../shared-components/ChangePageButtons";
 
 function Stepper({
   steps,

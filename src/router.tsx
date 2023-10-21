@@ -10,9 +10,9 @@ import ItemDetailsPage from "./routes/userapp/details-page/ItemDetailsPage";
 import UserAppWrapper from "./routes/userapp/wrapper/UserAppWrapper";
 import { loader as userAppWrapperLoader } from "./routes/userapp/wrapper/loader";
 import { loader as detailsPageLoader } from "./routes/userapp/details-page/loader";
-import { loader as itemListLoader } from "./routes/admin-app/item-list/loader";
-import { loader as newItemLoader } from "./routes/admin-app/new-item/loader";
-import { loader as editItemLoader } from "./routes/admin-app/edit-item/loader";
+import { loader as itemListLoader } from "./routes/admin-app/items/item-list/loader";
+import { loader as newItemLoader } from "./routes/admin-app/items/new-item/loader";
+import { loader as editItemLoader } from "./routes/admin-app/items/edit-item/loader";
 
 if (process.env.NODE_ENV === "development") {
   const { worker } = await import("./mocks/browser");
@@ -46,7 +46,7 @@ const router = createBrowserRouter([
         loader: itemListLoader(queryClient),
         lazy: async () => {
           const ItemList = (
-            await import("./routes/admin-app/item-list/ItemList")
+            await import("./routes/admin-app/items/item-list/ItemList")
           ).default;
           return { Component: ItemList };
         },
@@ -56,7 +56,7 @@ const router = createBrowserRouter([
         loader: editItemLoader(queryClient),
         lazy: async () => {
           const EditItem = (
-            await import("./routes/admin-app/edit-item/EditItem")
+            await import("./routes/admin-app/items/edit-item/EditItem")
           ).default;
           return { Component: EditItem };
         },
@@ -65,8 +65,9 @@ const router = createBrowserRouter([
         path: "new-item",
         loader: newItemLoader(queryClient),
         lazy: async () => {
-          const NewItem = (await import("./routes/admin-app/new-item/NewItem"))
-            .default;
+          const NewItem = (
+            await import("./routes/admin-app/items/new-item/NewItem")
+          ).default;
           return { Component: NewItem };
         },
       },

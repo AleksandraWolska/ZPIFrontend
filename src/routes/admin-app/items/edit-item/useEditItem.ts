@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useMutation } from "react-query";
-import { EnhancedItem } from "../types";
-import { queryClient } from "../../../query";
+import { EnhancedItem } from "../../types";
+import { queryClient } from "../../../../query";
 
 const editItem = (
   storeId: string,

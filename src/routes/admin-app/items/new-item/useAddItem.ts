@@ -1,7 +1,7 @@
 import { useMutation } from "react-query";
 import { useParams } from "react-router-dom";
-import { queryClient } from "../../../query";
-import { EnhancedItem } from "../types";
+import { queryClient } from "../../../../query";
+import { EnhancedItem } from "../../types";
 
 const addItem = (storeId: string, enhancedItem: EnhancedItem) => {
   return fetch(`/api/stores/${storeId}/enhanced-items`, {

@@ -1,4 +1,4 @@
-import { ItemConfig } from "../types";
+import { ItemConfig } from "../../types";
 
 const fetchItemConfig = async (storeId: string): Promise<ItemConfig> => {
   const res = await fetch(`/api/stores/${storeId}/item-config`);

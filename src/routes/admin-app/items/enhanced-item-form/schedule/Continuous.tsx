@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Box, Stack, TextField, Typography } from "@mui/material";
 import { v4 as uuid } from "uuid";
 import dayjs from "dayjs";
-import { ContinuousSchedule, EnhancedItem } from "../../types";
+import { ContinuousSchedule, EnhancedItem } from "../../../types";
 import ScheduleCalendar, {
   BigCalendarEvent,
 } from "./schedule-calendar/ScheduleCalendar";

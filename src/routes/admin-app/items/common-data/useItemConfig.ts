@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
-import { ItemConfig } from "../types";
+import { ItemConfig } from "../../types";
 import { getItemConfigQuery } from "./itemConfigQuery";
 
 function useItemConfig() {

@@ -10,7 +10,7 @@ import {
 import dayjs from "dayjs";
 import { DateTimePicker } from "@mui/x-date-pickers";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { EnhancedSubItem } from "../types";
+import { EnhancedSubItem } from "../../types";
 import { useEnhancedItem } from "../enhanced-item-context/EnhancedItemProvider";
 
 type EnhancedSubItemWithoutSubItemId = Omit<EnhancedSubItem, "subItem"> & {

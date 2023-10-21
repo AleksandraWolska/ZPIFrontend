@@ -4,8 +4,8 @@ import {
   ENHANCED_ITEM_ACTION_TYPES,
   enhancedItemReducer,
 } from "./enhancedItemReducer";
-import { EnhancedItem } from "../types";
-import { CustomAttribute } from "../../../types";
+import { EnhancedItem } from "../../types";
+import { CustomAttribute } from "../../../../types";
 import {
   EnhancedItemContext,
   EnhancedItemContextType,
