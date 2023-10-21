@@ -1,15 +1,18 @@
 import { createContext } from "react";
-import { CustomAttribute } from "../../../types";
 import { EnhancedItem, ItemConfig } from "../types";
+import { CustomAttribute } from "../../../types";
 
-export type NewItemContextType = {
+export type EnhancedItemContextType = {
   itemConfig: ItemConfig;
   enhancedItem: EnhancedItem;
   setItemAttribute: (
     attr: Partial<Omit<EnhancedItem["item"], "customAttributeList">>,
   ) => void;
   setItemCustomAttribute: (attr: CustomAttribute) => void;
-  setInitialStatus: (option: Partial<EnhancedItem["initialStatus"]>) => void;
+  setInitialStatus: (
+    initialStatus: Partial<EnhancedItem["initialStatus"]>,
+  ) => void;
 };
 
-export const NewItemContext = createContext<NewItemContextType | null>(null);
+export const EnhancedItemContext =
+  createContext<EnhancedItemContextType | null>(null);

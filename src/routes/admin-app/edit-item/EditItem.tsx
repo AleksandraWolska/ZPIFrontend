@@ -1,11 +1,14 @@
-import EditItemProvider from "./EditItemProvider";
 import Stepper from "./Stepper";
+import EnhancedItemProvider from "../enhanced-item-context/EnhancedItemProvider";
+import useEnhancedItemToBeEdited from "./useEnhancedItemToBeEdited";
 
 function EditItem() {
+  const enhancedItemToBeEdited = useEnhancedItemToBeEdited();
+
   return (
-    <EditItemProvider>
+    <EnhancedItemProvider initialEnhancedItem={enhancedItemToBeEdited}>
       <Stepper />
-    </EditItemProvider>
+    </EnhancedItemProvider>
   );
 }
 

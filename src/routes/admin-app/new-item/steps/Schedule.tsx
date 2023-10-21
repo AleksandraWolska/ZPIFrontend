@@ -1,10 +1,10 @@
-import { useNewItem } from "../NewItemProvider";
 import Fixed from "../../components/schedule/Fixed";
 import Slots from "../../components/schedule/Slots";
 import Continuous from "../../components/schedule/Continuous";
+import { useEnhancedItem } from "../../enhanced-item-context/EnhancedItemProvider";
 
 function Schedule() {
-  const { itemConfig, enhancedItem, setInitialStatus } = useNewItem();
+  const { itemConfig, enhancedItem, setInitialStatus } = useEnhancedItem();
   const { flexibility, granularity } = itemConfig.core;
 
   return (

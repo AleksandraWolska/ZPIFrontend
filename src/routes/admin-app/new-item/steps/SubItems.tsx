@@ -1,8 +1,8 @@
-import { useNewItem } from "../NewItemProvider";
 import SubItemsForm from "../../components/SubItemsForm";
+import { useEnhancedItem } from "../../enhanced-item-context/EnhancedItemProvider";
 
 function SubItems() {
-  const { enhancedItem, setItemAttribute } = useNewItem();
+  const { enhancedItem, setItemAttribute } = useEnhancedItem();
 
   return (
     <SubItemsForm

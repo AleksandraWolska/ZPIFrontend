@@ -1,9 +1,9 @@
 import GeneralInfoForm from "../../components/GeneralInfoForm";
-import { useEditItem } from "../EditItemProvider";
+import { useEnhancedItem } from "../../enhanced-item-context/EnhancedItemProvider";
 
 function GeneralInfo() {
   const { itemConfig, enhancedItem, setItemAttribute, setInitialStatus } =
-    useEditItem();
+    useEnhancedItem();
 
   return (
     <GeneralInfoForm

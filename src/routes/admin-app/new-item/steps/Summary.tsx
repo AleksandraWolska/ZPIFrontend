@@ -1,8 +1,8 @@
-import { useNewItem } from "../NewItemProvider";
 import useAddEnhancedItem from "../useAddEnhancedItem";
+import { useEnhancedItem } from "../../enhanced-item-context/EnhancedItemProvider";
 
 function Summary() {
-  const { enhancedItem } = useNewItem();
+  const { enhancedItem } = useEnhancedItem();
   const addEnhancedItem = useAddEnhancedItem();
 
   return (

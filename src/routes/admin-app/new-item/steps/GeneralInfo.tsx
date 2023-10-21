@@ -1,9 +1,9 @@
-import { useNewItem } from "../NewItemProvider";
 import GeneralInfoForm from "../../components/GeneralInfoForm";
+import { useEnhancedItem } from "../../enhanced-item-context/EnhancedItemProvider";
 
 function GeneralInfo() {
   const { itemConfig, enhancedItem, setItemAttribute, setInitialStatus } =
-    useNewItem();
+    useEnhancedItem();
 
   return (
     <GeneralInfoForm

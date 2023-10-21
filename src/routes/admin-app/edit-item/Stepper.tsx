@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Box, Step, StepLabel, Stepper as MUIStepper } from "@mui/material";
-import { askForSubItems } from "../new-item/NewItemProvider";
 import useItemConfig from "./useItemConfig";
 import GeneralInfo from "./steps/GeneralInfo";
 import CustomAttributes from "./steps/CustomAttributes";
@@ -8,6 +7,7 @@ import SubItems from "./steps/SubItems";
 import Schedule from "./steps/Schedule";
 import ChangePageButtons from "../../../shared-components/ChangePageButtons";
 import Summary from "./steps/Summary";
+import { askForSubItems } from "../new-item/utils";
 
 function Stepper() {
   const [activeStep, setActiveStep] = useState(0);
