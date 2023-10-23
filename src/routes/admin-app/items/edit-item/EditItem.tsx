@@ -2,7 +2,7 @@ import EnhancedItemProvider from "../enhanced-item-context/EnhancedItemProvider"
 import useItemToBeEdited from "./useItemToBeEdited";
 import GeneralInfo from "../enhanced-item-form/GeneralInfo";
 import CustomAttributes from "../enhanced-item-form/CustomAttributes";
-import { askForSubItems } from "../utils";
+import { askForSubItems, askForSubItemSchedule } from "../utils";
 import SubItems from "../enhanced-item-form/SubItems";
 import Schedule from "../enhanced-item-form/schedule/Schedule";
 import Summary from "./Summary";
@@ -39,10 +39,11 @@ const getSteps = (core: Core) => {
       label: "Sub Items",
       component: <SubItems />,
     });
-  steps.push({
-    label: "Schedule",
-    component: <Schedule />,
-  });
+  if (!askForSubItemSchedule(core))
+    steps.push({
+      label: "Schedule",
+      component: <Schedule />,
+    });
   steps.push({
     label: "Summary",
     component: <Summary />,
