@@ -21,7 +21,7 @@ function AdminAppWrapper() {
         >
           <Link to="/">Home</Link>
           <Link to="item-list">Item list</Link>
-          <Link to="new-item">New item</Link>
+          <Link to="add-item">Add item</Link>
         </div>
       </div>
 

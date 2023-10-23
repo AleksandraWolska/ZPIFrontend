@@ -12,7 +12,7 @@ import ScheduleComponent from "../enhanced-item-form/schedule/Schedule";
 import Stepper from "../enhanced-item-form/Stepper";
 import useItemConfig from "../common-data/useItemConfig";
 
-function NewItem() {
+function AddItem() {
   const itemConfig = useItemConfig();
 
   const steps = getSteps(itemConfig.core);
@@ -127,4 +127,4 @@ function initializeSchedule(core: Core): Schedule {
   throw Error("Invalid core configuration!");
 }
 
-export default NewItem;
+export default AddItem;

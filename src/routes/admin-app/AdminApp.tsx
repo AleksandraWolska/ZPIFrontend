@@ -5,7 +5,7 @@ function AdminApp() {
     <>
       <Link to="item-list">Item list</Link>
       <br />
-      <Link to="new-item">New item</Link>
+      <Link to="add-item">New item</Link>
     </>
   );
 }
