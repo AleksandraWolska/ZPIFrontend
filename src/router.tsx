@@ -11,7 +11,7 @@ import UserAppWrapper from "./routes/userapp/wrapper/UserAppWrapper";
 import { loader as userAppWrapperLoader } from "./routes/userapp/wrapper/loader";
 import { loader as detailsPageLoader } from "./routes/userapp/details-page/loader";
 import { loader as itemListLoader } from "./routes/admin-app/items/item-list/loader";
-import { loader as newItemLoader } from "./routes/admin-app/items/new-item/loader";
+import { loader as newItemLoader } from "./routes/admin-app/items/add-item/loader";
 import { loader as editItemLoader } from "./routes/admin-app/items/edit-item/loader";
 
 if (process.env.NODE_ENV === "development") {
@@ -62,11 +62,11 @@ const router = createBrowserRouter([
         },
       },
       {
-        path: "new-item",
+        path: "add-item",
         loader: newItemLoader(queryClient),
         lazy: async () => {
           const NewItem = (
-            await import("./routes/admin-app/items/new-item/NewItem")
+            await import("./routes/admin-app/items/add-item/AddItem")
           ).default;
           return { Component: NewItem };
         },

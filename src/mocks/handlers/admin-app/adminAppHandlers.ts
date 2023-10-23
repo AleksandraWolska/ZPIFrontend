@@ -1,5 +1,7 @@
 import { rest } from "msw";
+import { v4 as uuid } from "uuid";
 import { EnhancedItem } from "../../../routes/admin-app/types";
+import { EnhancedItemWithoutIds } from "../../../routes/admin-app/items/add-item/useAddItem";
 
 const getDummyItemConfig = rest.get(
   "/api/stores/:storeId/item-config",
@@ -83,7 +85,7 @@ const addEnhancedItem = rest.post(
       enhancedItems = (await import("./store-3/dummyEnhancedItems")).default;
     }
 
-    enhancedItems.push(body);
+    enhancedItems.push(addIdsToEnhancedItem(body));
 
     return res(
       ctx.status(200),
@@ -123,24 +125,26 @@ const editEnhancedItem = rest.put(
   },
 );
 
-// const enhanceNewItemSchema = (newItemSchema: NewItemSchema): EnhancedItem => {
-//   return {
-//     item: {
-//       ...newItemSchema.item,
-//       id: uuid(),
-//       subItemList: newItemSchema.item.subItemList?.map((subItemSchema) => {
-//         return {
-//           subItem: {
-//             ...subItemSchema.subItem,
-//             id: uuid(),
-//           },
-//           options: subItemSchema.options,
-//         };
-//       }),
-//     },
-//     initialStatus: newItemSchema.options,
-//   };
-// };
+const addIdsToEnhancedItem = (
+  enhancedItem: EnhancedItemWithoutIds,
+): EnhancedItem => {
+  return {
+    item: {
+      ...enhancedItem.item,
+      id: uuid(),
+      subItemList: enhancedItem.item.subItemList?.map((subItemSchema) => {
+        return {
+          subItem: {
+            ...subItemSchema.subItem,
+            id: uuid(),
+          },
+          initialStatus: subItemSchema.initialStatus,
+        };
+      }),
+    },
+    initialStatus: enhancedItem.initialStatus,
+  };
+};
 
 export const adminAppHandlers = [
   getDummyItemConfig,

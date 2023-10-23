@@ -1,4 +1,4 @@
-import useAddItem from "./useAddItem";
+import useAddItem, { removeIdsFromEnhancedItem } from "./useAddItem";
 import { useEnhancedItem } from "../enhanced-item-context/EnhancedItemProvider";
 
 function Summary() {
@@ -11,7 +11,7 @@ function Summary() {
       <button
         type="button"
         onClick={() => {
-          addItem.mutate(enhancedItem);
+          addItem.mutate(removeIdsFromEnhancedItem(enhancedItem));
         }}
       >
         ADD ITEM
