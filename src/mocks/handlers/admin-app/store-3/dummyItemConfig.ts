@@ -3,7 +3,7 @@ import { ItemConfig } from "../../../../routes/admin-app/types";
 const dummyItemConfig: ItemConfig = {
   core: {
     flexibility: true,
-    granularity: true,
+    granularity: false,
     allowOverNight: true,
     simultaneous: false,
     uniqueness: true,
