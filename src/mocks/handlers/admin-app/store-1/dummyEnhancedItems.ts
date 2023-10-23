@@ -23,7 +23,7 @@ const dummyEnhancedItems: EnhancedItem[] = [
         {
           id: "3",
           name: "Year",
-          value: "1990",
+          value: 1990,
         },
         {
           id: "4",
@@ -33,7 +33,7 @@ const dummyEnhancedItems: EnhancedItem[] = [
         {
           id: "5",
           name: "Duration",
-          value: "146",
+          value: 146,
         },
         {
           id: "6",
@@ -237,7 +237,7 @@ const dummyEnhancedItems: EnhancedItem[] = [
         {
           id: "3",
           name: "Year",
-          value: "1972",
+          value: 1972,
         },
         {
           id: "4",
@@ -247,7 +247,7 @@ const dummyEnhancedItems: EnhancedItem[] = [
         {
           id: "5",
           name: "Duration",
-          value: "175",
+          value: 175,
         },
         {
           id: "6",

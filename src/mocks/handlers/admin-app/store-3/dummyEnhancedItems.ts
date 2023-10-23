@@ -8,7 +8,8 @@ const dummyEnhancedItems: EnhancedItem[] = [
       title: "Audi A4",
       subtitle: "",
       description: "",
-      image: "",
+      image:
+        "https://carleasepolska.pl/uploads/2fb1b2eca05788293f0ab3948a6d446b.webp",
       customAttributeList: [
         {
           id: "1",
@@ -23,22 +24,22 @@ const dummyEnhancedItems: EnhancedItem[] = [
         {
           id: "3",
           name: "Year",
-          value: "2022",
+          value: 2022,
         },
         {
           id: "4",
           name: "Passengers",
-          value: "5",
+          value: 5,
         },
         {
           id: "5",
           name: "Power",
-          value: "150",
+          value: 150,
         },
         {
           id: "6",
           name: "Automatic",
-          value: "true",
+          value: true,
         },
       ],
     },
@@ -72,11 +73,12 @@ const dummyEnhancedItems: EnhancedItem[] = [
   {
     item: {
       id: "2",
-      active: true,
+      active: false,
       title: "Mercedes C",
       subtitle: "",
       description: "",
-      image: "",
+      image:
+        "https://www.motortrend.com/uploads/2022/04/2023-Mercedes-AMG-C43-sedan-9.jpg",
       customAttributeList: [
         {
           id: "1",
@@ -91,22 +93,22 @@ const dummyEnhancedItems: EnhancedItem[] = [
         {
           id: "3",
           name: "Year",
-          value: "2023",
+          value: 2023,
         },
         {
           id: "4",
           name: "Passengers",
-          value: "5",
+          value: 5,
         },
         {
           id: "5",
           name: "Power",
-          value: "200",
+          value: 200,
         },
         {
           id: "6",
           name: "Automatic",
-          value: "true",
+          value: true,
         },
       ],
     },

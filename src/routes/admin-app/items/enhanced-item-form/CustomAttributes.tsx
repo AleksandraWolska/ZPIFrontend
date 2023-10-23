@@ -96,7 +96,7 @@ function renderCustomAttributeInput(
         <FormControlLabel
           control={
             <Checkbox
-              checked={attribute.value as boolean}
+              checked={!!attribute.value}
               onChange={(e) => {
                 setCustomAttribute({
                   ...attribute,
