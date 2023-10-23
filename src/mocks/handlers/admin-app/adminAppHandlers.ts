@@ -125,6 +125,32 @@ const editEnhancedItem = rest.put(
   },
 );
 
+const deleteEnhancedItem = rest.delete(
+  "/api/stores/:storeId/enhanced-items/:itemId",
+  async (req, res, ctx) => {
+    const { storeId, itemId } = req.params;
+
+    let enhancedItems: EnhancedItem[] = [];
+
+    if (storeId === "1") {
+      enhancedItems = (await import("./store-1/dummyEnhancedItems")).default;
+    }
+    if (storeId === "2") {
+      enhancedItems = (await import("./store-2/dummyEnhancedItems")).default;
+    }
+    if (storeId === "3") {
+      enhancedItems = (await import("./store-3/dummyEnhancedItems")).default;
+    }
+
+    const idx = enhancedItems.findIndex((e) => e.item.id === itemId);
+    enhancedItems.splice(idx, 1);
+
+    return idx
+      ? res(ctx.status(200), ctx.json({ message: "Item deleted." }))
+      : res(ctx.status(404), ctx.json({ message: "Item not found." }));
+  },
+);
+
 const addIdsToEnhancedItem = (
   enhancedItem: EnhancedItemWithoutIds,
 ): EnhancedItem => {
@@ -152,4 +178,5 @@ export const adminAppHandlers = [
   getEnhancedItemById,
   addEnhancedItem,
   editEnhancedItem,
+  deleteEnhancedItem,
 ];
