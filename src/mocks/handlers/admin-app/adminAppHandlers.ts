@@ -151,6 +151,66 @@ const deleteEnhancedItem = rest.delete(
   },
 );
 
+const activateItem = rest.put(
+  "/api/admin/:storeId/enhanced-items/:itemId/activate",
+  async (req, res, ctx) => {
+    const { storeId, itemId } = req.params;
+
+    let enhancedItems: EnhancedItem[] = [];
+
+    if (storeId === "1") {
+      enhancedItems = (await import("./store-1/dummyEnhancedItems")).default;
+    }
+    if (storeId === "2") {
+      enhancedItems = (await import("./store-2/dummyEnhancedItems")).default;
+    }
+    if (storeId === "3") {
+      enhancedItems = (await import("./store-3/dummyEnhancedItems")).default;
+    }
+
+    const idx = enhancedItems.findIndex((e) => e.item.id === itemId);
+    if (idx === -1) {
+      return res(
+        ctx.status(404),
+        ctx.json({ message: "Enhanced item not found." }),
+      );
+    }
+
+    enhancedItems[idx].item.active = true;
+    return res(ctx.status(200), ctx.json({ message: "Item activated." }));
+  },
+);
+
+const deactivateItem = rest.put(
+  "/api/admin/:storeId/enhanced-items/:itemId/deactivate",
+  async (req, res, ctx) => {
+    const { storeId, itemId } = req.params;
+
+    let enhancedItems: EnhancedItem[] = [];
+
+    if (storeId === "1") {
+      enhancedItems = (await import("./store-1/dummyEnhancedItems")).default;
+    }
+    if (storeId === "2") {
+      enhancedItems = (await import("./store-2/dummyEnhancedItems")).default;
+    }
+    if (storeId === "3") {
+      enhancedItems = (await import("./store-3/dummyEnhancedItems")).default;
+    }
+
+    const idx = enhancedItems.findIndex((e) => e.item.id === itemId);
+    if (idx === -1) {
+      return res(
+        ctx.status(404),
+        ctx.json({ message: "Enhanced item not found." }),
+      );
+    }
+
+    enhancedItems[idx].item.active = false;
+    return res(ctx.status(200), ctx.json({ message: "Item deactivated." }));
+  },
+);
+
 const addIdsToEnhancedItem = (
   enhancedItem: EnhancedItemWithoutIds,
 ): EnhancedItem => {
@@ -179,4 +239,6 @@ export const adminAppHandlers = [
   addEnhancedItem,
   editEnhancedItem,
   deleteEnhancedItem,
+  activateItem,
+  deactivateItem,
 ];
