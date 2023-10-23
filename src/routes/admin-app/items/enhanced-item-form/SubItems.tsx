@@ -12,6 +12,7 @@ import { DateTimePicker } from "@mui/x-date-pickers";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { EnhancedSubItem } from "../../types";
 import { useEnhancedItem } from "../enhanced-item-context/EnhancedItemProvider";
+import { askForSubItemAmount, askForSubItemSchedule } from "../utils";
 
 type EnhancedSubItemWithoutSubItemId = Omit<EnhancedSubItem, "subItem"> & {
   subItem: Omit<EnhancedSubItem["subItem"], "id">;
@@ -22,13 +23,22 @@ const defaultEnhancedSubItem: EnhancedSubItemWithoutSubItemId = {
     title: "",
     subtitle: "",
   },
-  initialStatus: {
-    amount: 0,
-  },
+  initialStatus: {},
 };
 
 function SubItems() {
-  const { enhancedItem, setItemAttribute } = useEnhancedItem();
+  const { itemConfig, enhancedItem, setItemAttribute } = useEnhancedItem();
+
+  const defaultInitialStatus = {
+    ...(askForSubItemAmount(itemConfig.core) && {
+      amount: 2,
+    }),
+    ...(askForSubItemSchedule(itemConfig.core) && {
+      schedule: {
+        startDateTime: dayjs().toISOString(),
+      },
+    }),
+  };
 
   const initialLocalEnhancedSubItems: EnhancedSubItem[] = [
     ...(enhancedItem.item.subItemList || []),
@@ -37,7 +47,10 @@ function SubItems() {
         ...defaultEnhancedSubItem.subItem,
         id: uuid(),
       },
-      initialStatus: { ...defaultEnhancedSubItem.initialStatus },
+      initialStatus: {
+        ...defaultEnhancedSubItem.initialStatus,
+        ...defaultInitialStatus,
+      },
     },
   ];
 
@@ -114,6 +127,7 @@ function SubItems() {
                       },
                       initialStatus: {
                         ...defaultEnhancedSubItem.initialStatus,
+                        ...defaultInitialStatus,
                       },
                     },
                   ]);
@@ -133,44 +147,26 @@ function SubItems() {
               disabled={disabled}
             />
 
-            <TextField
-              label="amount"
-              value={enhancedSubItem.initialStatus.amount?.toString()}
-              onChange={(e) => {
-                updateLocalInitialStatus(enhancedSubItem.subItem.id, {
-                  amount: parseInt(e.target.value, 10),
-                });
-              }}
-              type="number"
-              disabled={disabled}
-            />
+            {askForSubItemAmount(itemConfig.core) && (
+              <TextField
+                label="amount"
+                value={enhancedSubItem.initialStatus.amount?.toString()}
+                onChange={(e) => {
+                  updateLocalInitialStatus(enhancedSubItem.subItem.id, {
+                    amount: parseInt(e.target.value, 10),
+                  });
+                }}
+                type="number"
+                disabled={disabled}
+              />
+            )}
 
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={!!enhancedSubItem.initialStatus.schedule}
-                  onChange={(e) => {
-                    updateLocalInitialStatus(enhancedSubItem.subItem.id, {
-                      schedule: e.target.checked
-                        ? {
-                            startDateTime: dayjs().toISOString(),
-                            endDateTime: undefined,
-                          }
-                        : undefined,
-                    });
-                  }}
-                />
-              }
-              label="schedule"
-              disabled={disabled}
-            />
-
-            {!!enhancedSubItem.initialStatus.schedule && (
+            {askForSubItemSchedule(itemConfig.core) && (
               <>
                 <DateTimePicker
                   label="startDateTime"
                   value={dayjs(
-                    enhancedSubItem.initialStatus.schedule.startDateTime,
+                    enhancedSubItem.initialStatus.schedule?.startDateTime,
                   )}
                   onChange={(date) => {
                     if (date)
@@ -192,7 +188,7 @@ function SubItems() {
                   control={
                     <Checkbox
                       checked={
-                        !!enhancedSubItem.initialStatus.schedule.endDateTime
+                        !!enhancedSubItem.initialStatus.schedule?.endDateTime
                       }
                       onChange={(e) => {
                         updateLocalInitialStatus(enhancedSubItem.subItem.id, {
@@ -211,7 +207,7 @@ function SubItems() {
                   label="endDateTime"
                 />
 
-                {!!enhancedSubItem.initialStatus.schedule.endDateTime && (
+                {!!enhancedSubItem.initialStatus.schedule?.endDateTime && (
                   <DateTimePicker
                     label="endDateTime"
                     value={dayjs(

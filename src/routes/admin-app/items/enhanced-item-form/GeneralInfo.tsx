@@ -1,5 +1,5 @@
 import { Grid, TextField } from "@mui/material";
-import { askForAmount } from "../utils";
+import { askForItemAmount } from "../utils";
 import { useEnhancedItem } from "../enhanced-item-context/EnhancedItemProvider";
 
 function GeneralInfo() {
@@ -50,7 +50,7 @@ function GeneralInfo() {
         />
       </Grid>
 
-      {askForAmount(itemConfig.core) && (
+      {askForItemAmount(itemConfig.core) && (
         <Grid item xs={12} sm={6}>
           <TextField
             label="amount"

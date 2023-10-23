@@ -5,6 +5,7 @@ const dummyItemConfig: ItemConfig = {
     flexibility: false,
     simultaneous: true,
     specificReservation: true,
+    periodicity: false,
   },
   customAttributesSpec: [
     {
