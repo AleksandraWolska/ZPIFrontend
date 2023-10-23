@@ -13,16 +13,16 @@ const deleteItem = (storeId: string, itemId: string) => {
 };
 
 function useDeleteItem() {
-  const params = useParams() as {
+  const { storeId } = useParams() as {
     storeId: string;
   };
 
   return useMutation({
     mutationFn: (itemId: string) => {
-      return deleteItem(params.storeId, itemId);
+      return deleteItem(storeId, itemId);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(["enhanced-items"]);
+      queryClient.invalidateQueries(["enhanced-items", storeId]);
     },
   });
 }

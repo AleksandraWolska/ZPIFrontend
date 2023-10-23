@@ -7,30 +7,31 @@ import {
   Typography,
 } from "@mui/material";
 
-function DeleteConfirmDialog({
+function ConfirmDialog({
   isOpen,
   onCancel,
   onConfirm,
+  title,
+  message,
 }: {
   isOpen: boolean;
   onCancel: () => void;
   onConfirm: () => void;
+  title: string;
+  message: string;
 }) {
   return (
     <Dialog open={isOpen} onClose={onCancel}>
-      <DialogTitle>Are you sure?</DialogTitle>
+      <DialogTitle>{title}</DialogTitle>
       <DialogContent>
-        <Typography variant="body1">
-          Are you sure you want to delete this item? This action cannot be
-          undone.
-        </Typography>
+        <Typography variant="body1">{message}</Typography>
       </DialogContent>
       <DialogActions>
         <Button onClick={onCancel}>Cancel</Button>
-        <Button onClick={onConfirm}>Delete</Button>
+        <Button onClick={onConfirm}>Confirm</Button>
       </DialogActions>
     </Dialog>
   );
 }
 
-export default DeleteConfirmDialog;
+export default ConfirmDialog;

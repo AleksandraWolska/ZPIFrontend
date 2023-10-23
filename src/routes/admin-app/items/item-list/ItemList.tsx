@@ -12,11 +12,18 @@ import { Box } from "@mui/system";
 import { useState } from "react";
 import useEnhancedItems from "./useEnhancedItems";
 import theme from "../../../../theme";
-import DeleteConfirmDialog from "./DeleteConfirmDialog";
+import ConfirmDialog from "./ConfirmDialog";
 import useDeleteItem from "./useDeleteItem";
+import useSetItemActive from "./useSetItemActive";
 
 function ItemList() {
   const enhancedItems = useEnhancedItems();
+
+  const [itemActivityUpdate, setItemActivityUpdate] = useState<{
+    itemId: string;
+    active: boolean;
+  } | null>(null);
+  const setItemActivity = useSetItemActive();
 
   const [itemToBeDeleted, setItemToBeDeleted] = useState<string | null>(null);
   const deleteItem = useDeleteItem();
@@ -105,15 +112,19 @@ function ItemList() {
                     Edit
                   </Button>
                 </Link>
-                <Link to={`edit/${enhancedItem.item.id}`}>
-                  <Button
-                    variant="outlined"
-                    fullWidth
-                    sx={{ fontSize: "1.2rem" }}
-                  >
-                    Desactivate
-                  </Button>
-                </Link>
+                <Button
+                  onClick={() =>
+                    setItemActivityUpdate({
+                      itemId: enhancedItem.item.id,
+                      active: !enhancedItem.item.active,
+                    })
+                  }
+                  variant="outlined"
+                  fullWidth
+                  sx={{ fontSize: "1.2rem" }}
+                >
+                  {enhancedItem.item.active ? "Deactivate" : "Activate"}
+                </Button>
                 <Button
                   onClick={() => setItemToBeDeleted(enhancedItem.item.id)}
                   variant="outlined"
@@ -127,13 +138,29 @@ function ItemList() {
           );
         })}
       </Stack>
-      <DeleteConfirmDialog
+      <ConfirmDialog
+        isOpen={!!itemActivityUpdate}
+        onCancel={() => setItemActivityUpdate(null)}
+        onConfirm={() => {
+          setItemActivity.mutate(itemActivityUpdate!);
+          setItemActivityUpdate(null);
+        }}
+        title={itemActivityUpdate?.active ? "Activate Item" : "Deactivate Item"}
+        message={
+          itemActivityUpdate?.active
+            ? "Activate this item?"
+            : "Deactivate this item?"
+        }
+      />
+      <ConfirmDialog
         isOpen={!!itemToBeDeleted}
         onCancel={() => setItemToBeDeleted(null)}
         onConfirm={() => {
           deleteItem.mutate(itemToBeDeleted!);
           setItemToBeDeleted(null);
         }}
+        title="Delete Item"
+        message="Are you sure you want to delete this item? This action cannot be undone."
       />
     </>
   );
