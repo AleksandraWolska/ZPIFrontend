@@ -11,7 +11,7 @@ const {
       redirect_uri: "http://localhost:5173/secret",
     }
   : {
-      authority: "https://keycloak.weasked.pl/realms/zpi",
+      authority: "http://130.61.252.200:8180/realms/zpi",
       client_id: "zpi_client",
       redirect_uri: "http://genervation.azurewebsites.net/secret",
     };
@@ -20,10 +20,9 @@ export const oidcConfig = {
   authority,
   client_id: clientId,
   redirect_uri: redirectUri,
-  // scope: "openid",
-  // onSigninCallback: () => {
-  //   window.history.replaceState({}, document.title, window.location.pathname);
-  // },
+  onSigninCallback: () => {
+    window.history.replaceState({}, document.title, window.location.pathname);
+  },
 };
 
 export function getUser() {
