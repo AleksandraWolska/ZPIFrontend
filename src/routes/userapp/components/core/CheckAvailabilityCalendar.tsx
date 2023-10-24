@@ -6,7 +6,13 @@ import {
   DateRange,
 } from "react-big-calendar";
 import { v4 as uuid } from "uuid";
-import { useState, useCallback, useMemo, useEffect } from "react";
+import {
+  useState,
+  useCallback,
+  useMemo,
+  useEffect,
+  CSSProperties,
+} from "react";
 import {
   Box,
   Button,
@@ -27,6 +33,7 @@ import {
   FlexibleReservationData,
 } from "../../types";
 import "../../css/react-big-calendar.css";
+import CustomToolbar from "./CustomCalendarToolbar";
 
 const dayjsLoc = dayjsLocalizer(dayjs);
 
@@ -433,20 +440,28 @@ export function CheckAvailabilityCalendar({
     </Box>
   );
 
+  const min = new Date("2023-10-05T04:00:00Z");
+  const max = new Date("2023-10-05T21:00:00Z");
+
+  const slots = Math.floor(
+    (max.getTime() - min.getTime()) / (1000 * 60 * 60 * 2),
+  );
+
   return (
     <>
-      <Box style={{ width: "400px", height: "500px" }}>
-        Halooo
+      <Box style={{ width: "600px" }}>
         <BigCalendar
           className="reserveCalendar"
+          components={{
+            toolbar: CustomToolbar,
+          }}
           localizer={dayjsLoc}
           backgroundEvents={backgroundEvents}
           defaultDate={defaultDate}
           view={Views.WEEK}
           formats={baseFormats}
-          components={{}}
-          min={new Date("2023-10-05T04:00:00Z")}
-          max={new Date("2023-10-05T21:00:00Z")}
+          min={min}
+          max={max}
           selectable
           getNow={() => new Date()}
           events={events}
@@ -454,28 +469,32 @@ export function CheckAvailabilityCalendar({
           onSelectSlot={handleSelectSlot}
           onSelectEvent={handleSelectEvent}
           onSelecting={handleSelecting}
-          style={{ height: "400px" }}
-          timeslots={8}
+          style={{ height: "100%" }}
+          timeslots={slots}
           eventPropGetter={(event) => {
-            let color;
+            const styles: CSSProperties = {};
             switch (event.type) {
               case "available":
-                color = "white";
+                styles.backgroundColor = "white";
                 break;
               case "unavailable":
-                color = theme.palette.error.main;
+                styles.backgroundColor = theme.palette.error.main;
                 break;
               case "userchoice":
-                color = theme.palette.primary.main;
+                styles.backgroundColor = theme.palette.primary.main;
+                break;
+              case "morning":
+                styles.display = "none";
+                break;
+              case "overnight":
                 break;
               default:
-                color = "white";
                 break;
             }
 
             return {
               className: event.type || "default",
-              style: { backgroundColor: color },
+              style: styles,
             };
           }}
         />
