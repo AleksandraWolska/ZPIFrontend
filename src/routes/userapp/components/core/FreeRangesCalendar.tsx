@@ -6,13 +6,20 @@ import {
   DateRange,
 } from "react-big-calendar";
 import { v4 as uuid } from "uuid";
-import { useState, useCallback, useMemo, useEffect } from "react";
+import {
+  useState,
+  useCallback,
+  useMemo,
+  useEffect,
+  CSSProperties,
+} from "react";
 import { Box, Button, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { Availability } from "../../../../types";
 import { FlexibleReservationData } from "../../types";
 import useSchedule from "../../details-page/useSchedule";
 import "../../css/react-big-calendar.css";
+import CustomCalendarToolbar from "./CustomCalendarToolbar";
 
 const dayjsLoc = dayjsLocalizer(dayjs);
 
@@ -347,39 +354,53 @@ export function FreeRangesCalendar({
     </Box>
   );
 
+  const min = new Date("2023-10-05T04:00:00Z");
+  const max = new Date("2023-10-05T21:00:00Z");
+
+  const slots = Math.floor(
+    (max.getTime() - min.getTime()) / (1000 * 60 * 60 * 2),
+  );
+
   return (
     <>
-      <Box style={{ width: "400px", height: "500px" }}>
+      <Box style={{ width: "600px" }}>
         <BigCalendar
           className="reserveCalendar"
+          components={{
+            toolbar: CustomCalendarToolbar,
+          }}
           localizer={dayjsLoc}
           backgroundEvents={backgroundEvents}
           defaultDate={defaultDate}
           view={Views.WEEK}
           formats={baseFormats}
-          components={{}}
           selectable
-          min={new Date("2023-10-05T04:00:00Z")}
-          max={new Date("2023-10-05T21:00:00Z")}
+          min={min}
+          max={max}
           getNow={() => new Date()}
           events={events}
           step={15}
           onSelectSlot={handleSelectSlot}
           onSelectEvent={handleSelectEvent}
           onSelecting={handleSelecting}
-          style={{ height: "600px" }}
-          timeslots={8}
+          timeslots={slots}
           eventPropGetter={(event) => {
-            let color;
+            const styles: CSSProperties = {};
             switch (event.type) {
               case "available":
-                color = "white";
+                styles.backgroundColor = "white";
                 break;
               case "unavailable":
-                color = theme.palette.error.main;
+                styles.backgroundColor = theme.palette.error.main;
                 break;
               case "userchoice":
-                color = theme.palette.primary.main;
+                styles.backgroundColor = theme.palette.primary.main;
+                break;
+              case "morning":
+                styles.display = "none";
+                break;
+              case "overnight":
+                // styles.backgroundColor = "#bbbbbb"
                 break;
               default:
                 break;
@@ -387,7 +408,7 @@ export function FreeRangesCalendar({
 
             return {
               className: event.type || "default",
-              style: { backgroundColor: color },
+              style: styles,
             };
           }}
         />
