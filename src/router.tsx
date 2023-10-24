@@ -62,6 +62,16 @@ const router = createBrowserRouter([
         },
       },
       {
+        path: "item-list/reschedule/:itemId",
+        loader: editItemLoader(queryClient),
+        lazy: async () => {
+          const RescheduleItem = (
+            await import("./routes/admin-app/items/edit-item/RescheduleItem")
+          ).default;
+          return { Component: RescheduleItem };
+        },
+      },
+      {
         path: "add-item",
         loader: newItemLoader(queryClient),
         lazy: async () => {
