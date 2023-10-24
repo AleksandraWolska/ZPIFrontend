@@ -11,7 +11,7 @@ const {
       redirect_uri: "http://localhost:5173/secret",
     }
   : {
-      authority: "http://130.61.252.200:8180/realms/zpi",
+      authority: "https://keycloak.weasked.pl/realms/zpi",
       client_id: "zpi_client",
       redirect_uri: "http://genervation.azurewebsites.net/secret",
     };
