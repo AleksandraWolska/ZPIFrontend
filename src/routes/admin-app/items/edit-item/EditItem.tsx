@@ -1,25 +1,52 @@
-import EnhancedItemProvider from "../enhanced-item-context/EnhancedItemProvider";
+import { useNavigate } from "react-router-dom";
+import EnhancedItemProvider, {
+  useEnhancedItem,
+} from "../enhanced-item-context/EnhancedItemProvider";
 import useItemToBeEdited from "./useItemToBeEdited";
 import GeneralInfo from "../enhanced-item-form/GeneralInfo";
 import CustomAttributes from "../enhanced-item-form/CustomAttributes";
 import { askForSubItems, askForSubItemSchedule } from "../utils";
 import SubItems from "../enhanced-item-form/SubItems";
-import Schedule from "../enhanced-item-form/schedule/Schedule";
-import Summary from "./Summary";
 import { Core } from "../../../../types";
 import Stepper from "../enhanced-item-form/Stepper";
 import useItemConfig from "../common-data/useItemConfig";
+import Schedule from "../enhanced-item-form/schedule/Schedule";
+import useEditItem from "./useEditItem";
 
 function EditItem() {
-  const itemConfig = useItemConfig();
   const itemToBeEdited = useItemToBeEdited();
+
+  return (
+    <EnhancedItemProvider initialEnhancedItem={itemToBeEdited}>
+      <EditForm />
+    </EnhancedItemProvider>
+  );
+}
+
+function EditForm() {
+  const itemConfig = useItemConfig();
+  const { enhancedItem } = useEnhancedItem();
+  const editItem = useEditItem();
+  const navigate = useNavigate();
 
   const steps = getSteps(itemConfig.core);
 
   return (
-    <EnhancedItemProvider initialEnhancedItem={itemToBeEdited}>
+    <>
       <Stepper steps={steps} />
-    </EnhancedItemProvider>
+      <button
+        type="button"
+        onClick={() => {
+          editItem.mutate(enhancedItem, {
+            onSuccess: () => {
+              navigate("../..", { relative: "path" });
+            },
+          });
+        }}
+      >
+        EDIT ITEM
+      </button>
+    </>
   );
 }
 
@@ -39,15 +66,11 @@ const getSteps = (core: Core) => {
       label: "Sub Items",
       component: <SubItems />,
     });
-  if (!askForSubItemSchedule(core))
+  if (core.flexibility === false && !askForSubItemSchedule(core))
     steps.push({
       label: "Schedule",
       component: <Schedule />,
     });
-  steps.push({
-    label: "Summary",
-    component: <Summary />,
-  });
 
   return steps;
 };

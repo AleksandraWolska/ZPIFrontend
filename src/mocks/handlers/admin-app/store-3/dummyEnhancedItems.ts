@@ -47,24 +47,24 @@ const dummyEnhancedItems: EnhancedItem[] = [
       schedule: {
         scheduledRanges: [
           {
-            startDateTime: "2021-11-06T06:00:00.000Z",
-            endDateTime: "2021-11-06T16:00:00.000Z",
+            startDateTime: "2023-11-06T06:00:00.000Z",
+            endDateTime: "2023-11-06T16:00:00.000Z",
           },
           {
-            startDateTime: "2021-11-07T06:00:00.000Z",
-            endDateTime: "2021-11-07T16:00:00.000Z",
+            startDateTime: "2023-11-07T06:00:00.000Z",
+            endDateTime: "2023-11-07T16:00:00.000Z",
           },
           {
-            startDateTime: "2021-11-08T06:00:00.000Z",
-            endDateTime: "2021-11-08T16:00:00.000Z",
+            startDateTime: "2023-11-08T06:00:00.000Z",
+            endDateTime: "2023-11-08T16:00:00.000Z",
           },
           {
-            startDateTime: "2021-11-09T06:00:00.000Z",
-            endDateTime: "2021-11-09T16:00:00.000Z",
+            startDateTime: "2023-11-09T06:00:00.000Z",
+            endDateTime: "2023-11-09T16:00:00.000Z",
           },
           {
-            startDateTime: "2021-11-10T06:00:00.000Z",
-            endDateTime: "2021-11-10T10:00:00.000Z",
+            startDateTime: "2023-11-10T06:00:00.000Z",
+            endDateTime: "2023-11-10T10:00:00.000Z",
           },
         ],
       },
@@ -116,24 +116,24 @@ const dummyEnhancedItems: EnhancedItem[] = [
       schedule: {
         scheduledRanges: [
           {
-            startDateTime: "2021-11-06T06:00:00.000Z",
-            endDateTime: "2021-11-06T16:00:00.000Z",
+            startDateTime: "2023-11-06T06:00:00.000Z",
+            endDateTime: "2023-11-06T16:00:00.000Z",
           },
           {
-            startDateTime: "2021-11-07T06:00:00.000Z",
-            endDateTime: "2021-11-07T16:00:00.000Z",
+            startDateTime: "2023-11-07T06:00:00.000Z",
+            endDateTime: "2023-11-07T16:00:00.000Z",
           },
           {
-            startDateTime: "2021-11-08T06:00:00.000Z",
-            endDateTime: "2021-11-08T10:00:00.000Z",
+            startDateTime: "2023-11-08T06:00:00.000Z",
+            endDateTime: "2023-11-08T10:00:00.000Z",
           },
           {
-            startDateTime: "2021-11-08T12:00:00.000Z",
-            endDateTime: "2021-11-08T16:00:00.000Z",
+            startDateTime: "2023-11-08T12:00:00.000Z",
+            endDateTime: "2023-11-08T16:00:00.000Z",
           },
           {
-            startDateTime: "2021-11-09T06:00:00.000Z",
-            endDateTime: "2021-11-09T16:00:00.000Z",
+            startDateTime: "2023-11-09T06:00:00.000Z",
+            endDateTime: "2023-11-09T16:00:00.000Z",
           },
         ],
       },

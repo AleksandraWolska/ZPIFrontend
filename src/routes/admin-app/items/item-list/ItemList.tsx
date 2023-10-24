@@ -15,9 +15,12 @@ import theme from "../../../../theme";
 import ConfirmDialog from "./ConfirmDialog";
 import useDeleteItem from "./useDeleteItem";
 import useSetItemActive from "./useSetItemActive";
+import useItemConfig from "../common-data/useItemConfig";
+import { EnhancedItem } from "../../types";
 
 function ItemList() {
   const enhancedItems = useEnhancedItems();
+  const itemConfig = useItemConfig();
 
   const [itemActivityUpdate, setItemActivityUpdate] = useState<{
     itemId: string;
@@ -50,89 +53,38 @@ function ItemList() {
                 }}
                 style={{ border: "2px solid black" }}
               >
-                {enhancedItem.item.image ? (
-                  <img
-                    src={enhancedItem.item.image}
-                    alt={enhancedItem.item.title}
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "contain",
-                    }}
-                  />
-                ) : (
-                  <NoPhotographyIcon sx={{ fontSize: "8rem" }} />
-                )}
+                <ItemImage item={enhancedItem.item} />
               </Box>
+
               <CardContent sx={{ width: "80%", paddingLeft: 4 }}>
-                <Box>
-                  <Stack direction="row" spacing={1}>
-                    <Typography variant="h4">
-                      {enhancedItem.item.title}
-                    </Typography>
-                    {enhancedItem.item.active ? (
-                      <Chip label="active" color="success" />
-                    ) : (
-                      <Chip label="inactive" color="error" />
-                    )}
-                  </Stack>
-                  <Typography variant="h5" color={theme.palette.text.secondary}>
-                    {enhancedItem.item.id}
-                  </Typography>
-                  <Box marginTop={2}>
-                    {enhancedItem.item.customAttributeList.map(
-                      (customAttribute) => {
-                        return (
-                          <Typography
-                            key={customAttribute.id}
-                            variant="h6"
-                          >{`${customAttribute.name}: ${customAttribute.value}`}</Typography>
-                        );
-                      },
-                    )}
-                  </Box>
-                </Box>
+                <ItemDescription item={enhancedItem.item} />
               </CardContent>
+
               <Stack width="20%" spacing={2} padding={2}>
+                {itemConfig.core.flexibility && (
+                  <Link to={`reschedule/${enhancedItem.item.id}`}>
+                    <ActionBtn text="Reschedule" />
+                  </Link>
+                )}
+
                 <Link to={`edit/${enhancedItem.item.id}`}>
-                  <Button
-                    variant="outlined"
-                    fullWidth
-                    sx={{ fontSize: "1.2rem" }}
-                  >
-                    Reschedule
-                  </Button>
+                  <ActionBtn text="Edit" />
                 </Link>
-                <Link to={`edit/${enhancedItem.item.id}`}>
-                  <Button
-                    variant="outlined"
-                    fullWidth
-                    sx={{ fontSize: "1.2rem" }}
-                  >
-                    Edit
-                  </Button>
-                </Link>
-                <Button
+
+                <ActionBtn
+                  text={enhancedItem.item.active ? "Deactivate" : "Activate"}
                   onClick={() =>
                     setItemActivityUpdate({
                       itemId: enhancedItem.item.id,
                       active: !enhancedItem.item.active,
                     })
                   }
-                  variant="outlined"
-                  fullWidth
-                  sx={{ fontSize: "1.2rem" }}
-                >
-                  {enhancedItem.item.active ? "Deactivate" : "Activate"}
-                </Button>
-                <Button
+                />
+
+                <ActionBtn
+                  text="Delete"
                   onClick={() => setItemToBeDeleted(enhancedItem.item.id)}
-                  variant="outlined"
-                  fullWidth
-                  sx={{ fontSize: "1.2rem" }}
-                >
-                  Delete
-                </Button>
+                />
               </Stack>
             </Card>
           );
@@ -163,6 +115,66 @@ function ItemList() {
         message="Are you sure you want to delete this item? This action cannot be undone."
       />
     </>
+  );
+}
+
+function ItemImage({ item }: { item: EnhancedItem["item"] }) {
+  const { image, title } = item;
+
+  return image ? (
+    <img
+      src={image}
+      alt={title}
+      style={{
+        width: "100%",
+        height: "100%",
+        objectFit: "contain",
+      }}
+    />
+  ) : (
+    <NoPhotographyIcon sx={{ fontSize: "8rem" }} />
+  );
+}
+
+function ItemDescription({ item }: { item: EnhancedItem["item"] }) {
+  return (
+    <>
+      <Stack direction="row" spacing={1}>
+        <Typography variant="h4">{item.title}</Typography>
+        {item.active ? (
+          <Chip label="active" color="success" />
+        ) : (
+          <Chip label="inactive" color="error" />
+        )}
+      </Stack>
+      <Typography variant="h5" color={theme.palette.text.secondary}>
+        {item.id}
+      </Typography>
+      <Box marginTop={2}>
+        {item.customAttributeList.map((customAttribute) => {
+          return (
+            <Typography
+              key={customAttribute.id}
+              variant="h6"
+            >{`${customAttribute.name}: ${customAttribute.value}`}</Typography>
+          );
+        })}
+      </Box>
+    </>
+  );
+}
+
+// eslint-disable-next-line react/require-default-props
+function ActionBtn({ text, onClick }: { text: string; onClick?: () => void }) {
+  return (
+    <Button
+      onClick={onClick}
+      variant="outlined"
+      fullWidth
+      sx={{ fontSize: "1.2rem" }}
+    >
+      {text}
+    </Button>
   );
 }
 
