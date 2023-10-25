@@ -40,37 +40,47 @@ function CommentsDisplay() {
   return (
     <List>
       {reservations.map((reservation: UserReservation) => (
-        <div key={reservation.reservationId}>
-          <Paper style={{ padding: 15, marginBottom: 15 }}>
-            <ListItem alignItems="flex-start">
-              <ListItemText
-                primary={
-                  <Box display="flex" alignItems="center">
-                    <Typography
-                      sx={{ marginRight: 1 }}
-                      component="span"
-                      variant="body1"
-                      color="textPrimary"
-                    >
-                      {reservation.item.title}
-                      {reservation.subitem && (
-                        <span> - {reservation.subitem.title}</span>
-                      )}
-                    </Typography>
-                    <Typography
-                      component="span"
-                      variant="caption"
-                      color="textSecondary"
-                    >
-                      {` — ${formatDate(reservation.start)}`}
-                    </Typography>
-                  </Box>
-                }
-                secondary={formatDate(reservation.end)}
-              />
+        <Paper
+          key={reservation.reservationId}
+          style={{ marginBottom: 15, overflow: "hidden" }}
+        >
+          <ListItem alignItems="flex-start">
+            <ListItemText
+              primary={
+                <Box display="flex" alignItems="center">
+                  <Typography
+                    sx={{ marginRight: 1 }}
+                    component="span"
+                    variant="body1"
+                    color="textPrimary"
+                  >
+                    {reservation.item.title}
+                    {reservation.subitem && (
+                      <span> - {reservation.subitem.title}</span>
+                    )}
+                  </Typography>
+                  <Typography
+                    component="span"
+                    variant="caption"
+                    color="textSecondary"
+                  >
+                    {` — ${formatDate(reservation.start)}`}
+                  </Typography>
+                </Box>
+              }
+              secondary={formatDate(reservation.end)}
+            />
+            <Box>
               <IconButton
                 onClick={() => handleExpand(reservation.reservationId)}
                 aria-label="expand"
+                style={{
+                  transform:
+                    expandedId === reservation.reservationId
+                      ? "rotate(180deg)"
+                      : "rotate(0deg)",
+                  transition: "transform 150ms",
+                }}
               >
                 <ExpandMore />
               </IconButton>
@@ -80,22 +90,22 @@ function CommentsDisplay() {
               >
                 <Delete />
               </IconButton>
-              <Link to={`/userapp/${storeId}/${reservation.item.id}`}>
+              <Link
+                to={`/userapp/${storeId}/${reservation.item.id}`}
+                style={{ textDecoration: "none" }}
+              >
                 <Button variant="outlined" color="primary">
-                  Item info
+                  Item page
                 </Button>
               </Link>
-              <Button
-                variant="outlined"
-                color="primary"
-                onClick={() => handleExpand(reservation.reservationId)}
-              >
-                Details
-              </Button>
-            </ListItem>
-          </Paper>
-          <Collapse in={expandedId === reservation.reservationId}>
-            <Paper style={{ padding: 15 }}>
+            </Box>
+          </ListItem>
+          <Collapse
+            in={expandedId === reservation.reservationId}
+            timeout="auto"
+            unmountOnExit
+          >
+            <Box style={{ padding: 15 }}>
               <Typography variant="body2" color="textPrimary" gutterBottom>
                 Details:
               </Typography>
@@ -106,9 +116,9 @@ function CommentsDisplay() {
                 Item ID: {reservation.item.id}
               </Typography>
               {/* Add more details here as needed */}
-            </Paper>
+            </Box>
           </Collapse>
-        </div>
+        </Paper>
       ))}
     </List>
   );
