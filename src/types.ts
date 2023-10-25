@@ -98,87 +98,68 @@ export type CustomAttribute = {
   value: string | number | boolean;
 };
 
-export type SubItem = {
-  id: string;
-  title: string;
-  subtitle: string;
-  amount?: number; // temp
-};
-
-export type SubItemStatus = {
-  schedule?: Availability;
-  availableAmount?: number;
-};
-
-export type SubItemInfo = {
-  subItem: SubItem;
-  subItemStatus: SubItemStatus;
-};
-
 export type Comment = {
   id: string;
-  userId?: string;
-  nickname?: string;
-  content?: string;
-  rating?: number;
+  userId: string;
+  nickname: string;
+  content: string;
   datetime: string;
 };
 
-export type FixedAvailability = {
+export type FixedSchedule = {
   startDateTime: string;
   endDateTime?: string;
 };
 
-export type SpecificAvailability = {
+export type SlotsSchedule = {
+  scheduledSlots: {
+    startDateTime: string;
+    endDateTime: string;
+  }[];
+};
+
+export type ContinuousSchedule = {
+  scheduledRanges: {
+    startDateTime: string;
+    endDateTime: string;
+  }[];
+};
+
+export type Schedule = FixedSchedule | SlotsSchedule | ContinuousSchedule;
+
+export type Availability = {
   startDateTime: string;
   endDateTime: string;
   type: string;
 };
 
-export type SlotsAvailability = {
-  slots: {
-    startDateTime: string;
-    endDateTime: string;
-    isAvailable: boolean;
-  }[];
+export type SubItem = {
+  id: string;
+  title: string;
+  subtitle: string;
+  amount?: number;
+  availableAmount?: number;
+  schedule?: Schedule;
 };
-
-export type ContinuousAvailability = {
-  ranges: {
-    startDateTime: string;
-    endDateTime: string;
-    isAvailable: boolean;
-  }[];
-};
-
-export type Availability =
-  | FixedAvailability
-  | SlotsAvailability
-  | ContinuousAvailability
-  | SpecificAvailability[];
 
 export type Item = {
   id: string;
-  active: boolean;
-  title: string;
-  subtitle: string;
-  description: string;
-  image: string;
-  customAttributeList: CustomAttribute[];
-  subItemList?: SubItem[];
-  amount?: number; // temp
-  mark?: number; // temp
-};
-
-export type ItemStatus = {
-  schedule?: Availability;
-  mark?: number;
-  availableAmount?: number;
-};
-
-export type ItemInfo = {
-  item: Omit<Item, "subItemList"> & {
-    subItemInfoList?: SubItemInfo[];
+  attributes: {
+    title: string;
+    subtitle: string;
+    description: string;
+    image: string;
+    customAttributeList: CustomAttribute[];
   };
-  itemStatus: ItemStatus;
+  initialSettings: {
+    amount?: number;
+    schedule?: Schedule;
+  };
+  status: {
+    active: boolean;
+    availableAmount?: number;
+    availability?: Availability[];
+    mark?: number;
+  };
+  subItems?: SubItem[];
 };

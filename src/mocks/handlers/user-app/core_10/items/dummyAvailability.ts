@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { Availability, SpecificAvailability } from "../../../../../types";
+import { Availability, Availability } from "../../../../../types";
 
 const today = dayjs();
 const startOfWeek = today.startOf("week").add(1, "day"); // Moves to Monday
@@ -9,12 +9,12 @@ export const dummyAvailability: Availability = Array.from({
 }).flatMap((_, i) => {
   const currentDay = startOfWeek.add(i, "day"); // Calculates the day for the current iteration
 
-  const morningEvent: SpecificAvailability = {
+  const morningEvent: Availability = {
     startDateTime: currentDay.add(7, "hour").toDate().toISOString(),
     endDateTime: currentDay.add(8, "hour").toDate().toISOString(),
     type: "morning",
   };
-  const event1: SpecificAvailability = {
+  const event1: Availability = {
     startDateTime: currentDay.add(8, "hour").toDate().toISOString(),
     endDateTime: currentDay.add(21, "hour").toDate().toISOString(),
     type: "continuous",
@@ -41,7 +41,7 @@ export const dummyAvailability: Availability = Array.from({
   //   type: "slot",
   // };
 
-  const overnightEvent: SpecificAvailability = {
+  const overnightEvent: Availability = {
     startDateTime: currentDay.add(21, "hour").toDate().toISOString(),
     endDateTime: currentDay.add(23, "hour").toDate().toISOString(),
     type: "overnight",

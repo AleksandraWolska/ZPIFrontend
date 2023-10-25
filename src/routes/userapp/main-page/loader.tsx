@@ -1,7 +1,7 @@
 import { QueryClient } from "react-query";
 import { defer, LoaderFunctionArgs } from "react-router-dom";
 import { MainPageConfig } from "../types";
-import { ItemInfo } from "../../../types";
+import { Item } from "../../../types";
 import { getAccessToken } from "../../../auth/utils";
 
 const fetchConfig = async (storeId: string): Promise<MainPageConfig> => {
@@ -28,7 +28,7 @@ export const getConfigQuery = (storeId: string) => ({
   queryFn: async () => fetchConfig(storeId),
 });
 
-const fetchItems = async (storeId: string): Promise<ItemInfo[]> => {
+const fetchItems = async (storeId: string): Promise<Item[]> => {
   const res = await fetch(`/api/stores/${storeId}/items`);
   return res.json();
 };

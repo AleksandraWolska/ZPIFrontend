@@ -1,5 +1,5 @@
 import { Box, ListItemText } from "@mui/material";
-import { ItemInfo } from "../../../../types";
+import { Item } from "../../../../types";
 
 import Ratings from "../shared/Ratings";
 import ItemImage from "../shared/ItemImage";
@@ -7,11 +7,11 @@ import AttributesList from "./AttributesList";
 import { MainPageConfig } from "../../types";
 
 type ItemListElementProps = {
-  itemInfo: ItemInfo;
+  item: Item;
   config: MainPageConfig;
 };
 
-function ItemListElement({ itemInfo, config }: ItemListElementProps) {
+function ItemListElement({ item, config }: ItemListElementProps) {
   return (
     <Box
       padding={2}
@@ -23,7 +23,7 @@ function ItemListElement({ itemInfo, config }: ItemListElementProps) {
       justifyContent="space-between"
       alignItems="center"
       style={{
-        opacity: itemInfo.itemStatus.availableAmount !== 0 ? 1 : 0.4,
+        opacity: item.status.availableAmount !== 0 ? 1 : 0.4,
       }}
     >
       {/* Image Box */}
@@ -35,28 +35,26 @@ function ItemListElement({ itemInfo, config }: ItemListElementProps) {
         display="flex"
         alignItems="center"
       >
-        {itemInfo.item.image && <ItemImage url={itemInfo.item.image} />}
+        {item.attributes.image && <ItemImage url={item.attributes.image} />}
       </Box>
 
       {/* Text Information */}
       <Box flexGrow={1} marginRight={2}>
         <ListItemText
-          primary={itemInfo.item.title}
-          secondary={itemInfo.item.subtitle}
+          primary={item.attributes.title}
+          secondary={item.attributes.subtitle}
         />
 
-        {config.mainPage &&
-          config.mainPage.showRating &&
-          itemInfo.itemStatus.mark && (
-            <Ratings mark={itemInfo.itemStatus.mark} />
-          )}
+        {config.mainPage && config.mainPage.showRating && item.status.mark && (
+          <Ratings mark={item.status.mark} />
+        )}
       </Box>
 
       {/* Attributes List */}
       <Box>
         <AttributesList
           attributesConfig={config.customAttributesSpec}
-          itemAttributes={itemInfo.item.customAttributeList}
+          itemAttributes={item.attributes.customAttributeList}
         />
       </Box>
     </Box>

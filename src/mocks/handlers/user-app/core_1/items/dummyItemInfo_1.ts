@@ -1,9 +1,8 @@
-import { ItemInfo } from "../../../../../types";
+import { Item } from "../../../../../types";
 
-const dummyItemInfo: ItemInfo = {
-  item: {
-    id: "1",
-    active: true,
+const item: Item = {
+  id: "1",
+  attributes: {
     title: "Wizyta Dentysta Anna Majewska",
     subtitle: "w lokalizacji Wyszyńskiego 8",
     description:
@@ -35,12 +34,15 @@ const dummyItemInfo: ItemInfo = {
         value: "Anna Majewska",
       },
     ],
-    amount: 1,
     image: "https://api.slingacademy.com/public/sample-photos/8.jpeg",
   },
-  itemStatus: {
+  initialSettings: {
+    amount: 1,
+  },
+  status: {
+    active: true,
     availableAmount: 1,
     mark: 4.5,
   },
 };
-export default dummyItemInfo;
+export default item;

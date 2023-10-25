@@ -1,7 +1,7 @@
 import { rest } from "msw";
 import dayjs from "dayjs";
 import { v4 as uuid } from "uuid";
-import { SpecificAvailability } from "../../../types";
+import { Availability } from "../../../types";
 import {
   CheckAvailabilityResponseSuccess,
   CheckAvailabilityResponseSuggestion,
@@ -139,24 +139,24 @@ const postAvailabilityCheck = rest.post(
           }).flatMap((_, i) => {
             const currentDay = startOfWeek.add(i, "day"); // Calculates the day for the current iteration
 
-            const morningEvent: SpecificAvailability = {
+            const morningEvent: Availability = {
               startDateTime: currentDay.add(8, "hour").toDate().toISOString(),
               endDateTime: currentDay.add(9, "hour").toDate().toISOString(),
               type: "morning",
             };
-            const event1: SpecificAvailability = {
+            const event1: Availability = {
               startDateTime: currentDay.add(9, "hour").toDate().toISOString(),
               endDateTime: currentDay.add(12, "hour").toDate().toISOString(),
               type: "continuous",
             };
 
-            const event2: SpecificAvailability = {
+            const event2: Availability = {
               startDateTime: currentDay.add(12, "hour").toDate().toISOString(),
               endDateTime: currentDay.add(15, "hour").toDate().toISOString(),
               type: "slot",
             };
 
-            const overnightEvent: SpecificAvailability = {
+            const overnightEvent: Availability = {
               startDateTime: currentDay.add(16, "hour").toDate().toISOString(),
               endDateTime: currentDay.add(19, "hour").toDate().toISOString(),
               type: "overnight",
@@ -222,13 +222,13 @@ const postFetchSchedule = rest.post(
       schedule: await Array.from({ length: 7 }).flatMap((_, i) => {
         const currentDay = startOfWeek.add(i, "day"); // Calculates the day for the current iteration
 
-        const morningEvent: SpecificAvailability = {
+        const morningEvent: Availability = {
           startDateTime: currentDay.add(14, "hour").toDate().toISOString(),
           endDateTime: currentDay.add(15, "hour").toDate().toISOString(),
           type: "continuous",
         };
 
-        const afternoonEvent: SpecificAvailability = {
+        const afternoonEvent: Availability = {
           startDateTime: currentDay.add(17, "hour").toDate().toISOString(),
           endDateTime: currentDay.add(18, "hour").toDate().toISOString(),
           type: "continuous",

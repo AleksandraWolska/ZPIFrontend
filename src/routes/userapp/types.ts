@@ -1,9 +1,4 @@
-import {
-  StoreConfig,
-  Comment,
-  SpecificAvailability,
-  SubItem,
-} from "../../types";
+import { StoreConfig, Comment, Availability, SubItem } from "../../types";
 
 export type FilterValue = {
   attributeKey: string;
@@ -39,7 +34,7 @@ export type CheckAvailabilityResponseSuggestion = {
   id: string;
   itemId: string;
   amount: number;
-  schedule: SpecificAvailability[];
+  schedule: Availability[];
   suggestedStart: string;
   suggestedEnd: string;
 };
@@ -104,5 +99,5 @@ export type FetchScheduleRequest = {
 export type FetchScheduleResponse = {
   itemId: string;
   amount: number;
-  schedule: SpecificAvailability[];
+  schedule: Availability[];
 };

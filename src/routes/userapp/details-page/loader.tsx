@@ -1,6 +1,6 @@
 import { QueryClient } from "react-query";
 import { defer, LoaderFunctionArgs } from "react-router-dom";
-import { ItemInfo } from "../../../types";
+import { Item } from "../../../types";
 import { CommentList, DetailsPageConfig } from "../types";
 
 const fetchDetailsConfig = async (
@@ -18,7 +18,7 @@ export const getDetailsConfigQuery = (storeId: string) => ({
 const fetchItemDetails = async (
   storeId: string,
   itemId: string,
-): Promise<ItemInfo> => {
+): Promise<Item> => {
   const res = await fetch(`/api/stores/${storeId}/items/${itemId}`);
   return res.json();
 };

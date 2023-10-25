@@ -20,7 +20,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import { SpecificAvailability } from "../../../../types";
+import { Availability } from "../../../../types";
 import useAvailabilityCheck from "../../details-page/useAvailabilityCheck";
 import {
   CheckAvailabilityResponseSuggestion,
@@ -52,7 +52,7 @@ const baseFormats = {
 type CheckAvailabilityCalendarProps = {
   itemId: string;
   userCount: number;
-  availabilityList: SpecificAvailability[]; // schedule that comes with itemStatus
+  availabilityList: Availability[]; // schedule that comes with itemStatus
   prepareFlexibleReservation: (data: FlexibleReservationData) => void; // function called on reserve button click, after ensuring availability
   availabilityChecked: boolean; // state in parent as userCount is also connected
   setAvailabilityChecked: React.Dispatch<React.SetStateAction<boolean>>;
@@ -109,7 +109,7 @@ export function CheckAvailabilityCalendar({
 
   // transforms SpecificAvailability[] to events
   const transformToArray = (
-    specificAvailabilities: SpecificAvailability[],
+    specificAvailabilities: Availability[],
   ): Event[] => {
     return specificAvailabilities.map((item) => ({
       id: uuid(),
@@ -363,7 +363,7 @@ export function CheckAvailabilityCalendar({
 
       // Update the availabilityList with the new schedule from corresponding suggested date
       const newAvailabilityList = suggestedDate.schedule.map(
-        (item: SpecificAvailability) => ({
+        (item: Availability) => ({
           id: uuid(),
           start: new Date(item.startDateTime),
           end: new Date(item.endDateTime),

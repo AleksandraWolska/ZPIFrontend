@@ -21,7 +21,7 @@ export default function UserAppMainPage() {
   const navigate = useNavigate();
 
   const storeConfig = useMainPageConfig();
-  const itemInfos = useItems();
+  const items = useItems();
 
   const [showFilterForm, setShowFilterForm] = useState(false);
   const [activeFilters, setActiveFilters] = useState<FilterValue[]>([]);
@@ -69,11 +69,11 @@ export default function UserAppMainPage() {
     </Box>
   );
 
-  const filteredItemInfos = itemInfos.filter((itemInfo) =>
+  const filteredItems = items.filter((item) =>
     storeConfig.customAttributesSpec.every((attr: CustomAttributeSpec) => {
       if (!attr.isFilterable) return true;
 
-      const itemAttribute = itemInfo.item.customAttributeList.find(
+      const itemAttribute = item.attributes.customAttributeList.find(
         (p: CustomAttribute) => p.name === attr.name,
       );
       if (!itemAttribute) return true;
@@ -125,21 +125,19 @@ export default function UserAppMainPage() {
           {activeFiltersList}
 
           <List>
-            {filteredItemInfos.map((itemInfo) => {
-              const isAvailable = itemInfo.itemStatus.availableAmount !== 0;
+            {filteredItems.map((item) => {
+              const isAvailable = item.status.availableAmount !== 0;
               return (
                 <ListItem
-                  key={itemInfo.item.id}
+                  key={item.id}
                   onClick={
-                    isAvailable
-                      ? () => navigate(`${itemInfo.item.id}`)
-                      : undefined
+                    isAvailable ? () => navigate(`${item.id}`) : undefined
                   }
                   style={{
                     cursor: isAvailable ? "pointer" : "default",
                   }}
                 >
-                  <ItemListElement config={storeConfig} itemInfo={itemInfo} />
+                  <ItemListElement config={storeConfig} item={item} />
                 </ListItem>
               );
             })}
