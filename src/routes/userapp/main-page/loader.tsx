@@ -2,15 +2,24 @@ import { QueryClient } from "react-query";
 import { defer, LoaderFunctionArgs } from "react-router-dom";
 import { MainPageConfig } from "../types";
 import { ItemInfo } from "../../../types";
+import { getAccessToken } from "../../../auth/utils";
 
 const fetchConfig = async (storeId: string): Promise<MainPageConfig> => {
+  const token = getAccessToken();
+
   const res = await fetch(
     `${
       process.env.NODE_ENV === "development"
         ? `/api/stores/${storeId}/main-page-config`
         : "http://zpibackend.fly.dev/store-configs"
     }`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
   );
+
   return res.json();
 };
 

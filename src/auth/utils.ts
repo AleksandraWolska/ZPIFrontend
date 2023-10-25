@@ -36,3 +36,13 @@ export function getUser() {
 
   return User.fromStorageString(oidcStorage);
 }
+
+export function getAccessToken() {
+  const user = getUser();
+
+  if (!user) {
+    return null;
+  }
+
+  return user.access_token;
+}
