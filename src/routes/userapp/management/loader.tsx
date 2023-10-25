@@ -1,7 +1,6 @@
 import { QueryClient } from "react-query";
 import { defer, LoaderFunctionArgs } from "react-router-dom";
-import { ItemInfo } from "../../../types";
-import { CommentList, DetailsPageConfig } from "../types";
+import { UserReservation } from "../types";
 
 export const getUserReservationListQuery = (
   storeId: string,
@@ -14,7 +13,7 @@ export const getUserReservationListQuery = (
 const fetchUserReservationList = async (
   storeId: string,
   userId: string,
-): Promise<CommentList> => {
+): Promise<UserReservation[]> => {
   const res = await fetch(`/api/store/${storeId}/user/${userId}/reservations`);
   return res.json();
 };
