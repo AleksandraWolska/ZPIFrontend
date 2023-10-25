@@ -1,10 +1,9 @@
-import { ItemInfo } from "../../../../types";
+import { Item } from "../../../../types";
 
-export const dummyItems: ItemInfo[] = [
+export const items: Item[] = [
   {
-    item: {
-      id: "1",
-      active: true,
+    id: "1",
+    attributes: {
       title: "Wizyta Dentysta Anna Majewska",
       subtitle: "w lokalizacji Wyszyńskiego 8",
       description: "",
@@ -35,18 +34,20 @@ export const dummyItems: ItemInfo[] = [
           value: "Anna Majewska",
         },
       ],
-      amount: 10,
       image: "https://api.slingacademy.com/public/sample-photos/2.jpeg",
     },
-    itemStatus: {
+    initialSettings: {
+      amount: 10,
+    },
+    status: {
+      active: true,
       mark: 4.5,
       availableAmount: 10,
     },
   },
   {
-    item: {
-      id: "2",
-      active: true,
+    id: "2",
+    attributes: {
       title: "Wizyta Okulista Kamil Kruk",
       subtitle: "w lokalizacji Zdalnie",
       description: "",
@@ -77,18 +78,20 @@ export const dummyItems: ItemInfo[] = [
           value: "Kamil Kruk",
         },
       ],
-      amount: 15,
       image: "https://api.slingacademy.com/public/sample-photos/5.jpeg",
     },
-    itemStatus: {
+    initialSettings: {
+      amount: 15,
+    },
+    status: {
+      active: true,
       mark: 4.8,
       availableAmount: 15,
     },
   },
   {
-    item: {
-      id: "3",
-      active: true,
+    id: "3",
+    attributes: {
       title: "Wizyta Kardiolog Michał Michalski",
       subtitle: "w lokalizacji Nowowiejska 56",
       description: "",
@@ -119,18 +122,20 @@ export const dummyItems: ItemInfo[] = [
           value: "Michał Michalski",
         },
       ],
-      amount: 8,
       image: "https://api.slingacademy.com/public/sample-photos/3.jpeg",
     },
-    itemStatus: {
+    initialSettings: {
+      amount: 8,
+    },
+    status: {
+      active: true,
       mark: 4.6,
       availableAmount: 8,
     },
   },
   {
-    item: {
-      id: "4",
-      active: true,
+    id: "4",
+    attributes: {
       title: "Wizyta Neurolog",
       subtitle: "w lokalizacji Pasaż Grunwaldzki",
       description: "",
@@ -161,18 +166,20 @@ export const dummyItems: ItemInfo[] = [
           value: "Kamil Kruk",
         },
       ],
-      amount: 20,
       image: "https://api.slingacademy.com/public/sample-photos/4.jpeg",
     },
-    itemStatus: {
+    initialSettings: {
+      amount: 20,
+    },
+    status: {
+      active: true,
       mark: 4,
       availableAmount: 20,
     },
   },
   {
-    item: {
-      id: "5",
-      active: true,
+    id: "5",
+    attributes: {
       title: "Wizyta Dentysta Anna Majewska",
       subtitle: "w lokalizacji Zdalnie",
       description: "",
@@ -203,14 +210,17 @@ export const dummyItems: ItemInfo[] = [
           value: "Anna Majewska",
         },
       ],
-      amount: 12,
       image: "https://api.slingacademy.com/public/sample-photos/5.jpeg",
     },
-    itemStatus: {
+    initialSettings: {
+      amount: 12,
+    },
+    status: {
+      active: true,
       mark: 4.7,
       availableAmount: 12,
     },
   },
 ];
 
-export default dummyItems;
+export default items;

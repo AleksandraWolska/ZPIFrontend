@@ -1,37 +1,35 @@
 import { List, ListItem, ListItemText } from "@mui/material";
 import { Box, useTheme } from "@mui/system";
-import { ItemInfo, SubItemInfo } from "../../../../types";
+import { Item, SubItem } from "../../../../types";
 
 type SubItemsListProps = {
-  selectedItemInfo: ItemInfo;
-  selectedSubItemsList: SubItemInfo[];
-  toggleItemSelection: (subItem: SubItemInfo) => void;
+  selectedItem: Item;
+  selectedSubItemsList: SubItem[];
+  toggleItemSelection: (subItem: SubItem) => void;
 };
 
 function SubItemsList({
-  selectedItemInfo,
+  selectedItem,
   selectedSubItemsList,
   toggleItemSelection,
 }: SubItemsListProps) {
   const theme = useTheme();
   return (
     <Box>
-      {selectedItemInfo && (
+      {selectedItem && (
         <List>
-          {selectedItemInfo.item.subItemInfoList?.map((subItemInfo) => {
-            const isAvailable = subItemInfo.subItemStatus.availableAmount !== 0;
+          {selectedItem.subItems?.map((subItem) => {
+            const isAvailable = subItem.availableAmount !== 0;
 
             const isSelected = selectedSubItemsList.some(
-              (i) => i.subItem.id === subItemInfo.subItem.id,
+              (i) => i.id === subItem.id,
             );
 
             return (
               <ListItem
-                key={subItemInfo.subItem.id}
+                key={subItem.id}
                 onClick={
-                  isAvailable
-                    ? () => toggleItemSelection(subItemInfo)
-                    : undefined
+                  isAvailable ? () => toggleItemSelection(subItem) : undefined
                 }
                 style={{
                   cursor: isAvailable ? "pointer" : "default",
@@ -54,8 +52,8 @@ function SubItemsList({
                   {/* Text Information */}
                   <Box flexGrow={1} marginRight={2}>
                     <ListItemText
-                      primary={subItemInfo.subItem.title}
-                      secondary={subItemInfo.subItem.subtitle}
+                      primary={subItem.title}
+                      secondary={subItem.subtitle}
                       style={{
                         color: "black",
                       }}

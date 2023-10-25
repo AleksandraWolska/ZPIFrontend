@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import { getItemDetailsQuery } from "./loader";
-import { ItemInfo } from "../../../types";
+import { Item } from "../../../types";
 
 function useItemDetails() {
   const params = useParams() as { storeId: string; itemId: string };
@@ -9,7 +9,7 @@ function useItemDetails() {
   const { data } = useQuery(
     getItemDetailsQuery(params.storeId, params.itemId),
   ) as {
-    data: ItemInfo;
+    data: Item;
   };
 
   return data;

@@ -9,7 +9,7 @@ import { v4 as uuid } from "uuid";
 import { useState, useCallback, useMemo, useEffect } from "react";
 import { Box, Button, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import { SpecificAvailability } from "../../../../types";
+import { Availability } from "../../../../types";
 import { FlexibleReservationData } from "../../types";
 import useSchedule from "../../details-page/useSchedule";
 import "../../css/react-big-calendar.css";
@@ -38,7 +38,7 @@ const baseFormats = {
 type FreeRangesCalendarProps = {
   itemId: string;
   userCount: number;
-  availabilityList: SpecificAvailability[];
+  availabilityList: Availability[];
   prepareFlexibleReservation: (data: FlexibleReservationData) => void;
   availabilityChecked: boolean; // state in parent as userCount is also connected
   setAvailabilityChecked: React.Dispatch<React.SetStateAction<boolean>>;
@@ -68,7 +68,7 @@ export function FreeRangesCalendar({
   useEffect(() => {
     if (responseData) {
       const newAvailabilityList = responseData.schedule.map(
-        (item: SpecificAvailability) => ({
+        (item: Availability) => ({
           id: uuid(),
           start: new Date(item.startDateTime),
           end: new Date(item.endDateTime),
@@ -87,7 +87,7 @@ export function FreeRangesCalendar({
 
   // transforms SpecificAvailability[] to events
   const transformToArray = (
-    specificAvailabilities: SpecificAvailability[],
+    specificAvailabilities: Availability[],
   ): Event[] => {
     return specificAvailabilities.map((item) => ({
       id: uuid(),

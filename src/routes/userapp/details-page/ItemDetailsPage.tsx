@@ -11,12 +11,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import {
-  Comment,
-  SpecificAvailability,
-  StoreConfig,
-  SubItemInfo,
-} from "../../../types";
+import { Comment, StoreConfig, SubItem } from "../../../types";
 import AttributesList from "../components/detail-page-specific/AttributesList";
 import Ratings from "../components/shared/Ratings";
 import QuantityInput from "../components/core/QuantityInput";
@@ -60,7 +55,7 @@ const initializeAvailabilityChecked = (core: StoreConfig["core"]): boolean => {
 
 export default function ItemDetailsPage() {
   const storeConfig = useDetailsPageConfig();
-  const itemInfo = useItemDetails();
+  const item = useItemDetails();
   const reserveItem = useReserveItem();
 
   const params = useParams() as { storeId: string; itemId: string };
@@ -72,7 +67,7 @@ export default function ItemDetailsPage() {
   const [reservationRequestReady, setReservationRequestReady] = useState(
     initializeReservationRequestReady(
       storeConfig.core,
-      itemInfo.itemStatus.availableAmount,
+      item.status.availableAmount,
     ),
   );
   const [userCount, setUserCount] = useState(1);
@@ -80,7 +75,7 @@ export default function ItemDetailsPage() {
     initializeAvailabilityChecked(storeConfig.core),
   );
   const [selectedSubItemsInfoList, setSelectedSubItemsInfoList] = useState<
-    SubItemInfo[]
+    SubItem[]
   >([]);
   const [commentRefetch, setCommentRefetch] = useState(false);
 
@@ -101,10 +96,8 @@ export default function ItemDetailsPage() {
   };
 
   const prepareFixedReservationRequest = () => {
-    const subItemIds = selectedSubItemsInfoList.map((info) => info.subItem);
-
     const data: FixedReservationData = {
-      subItemList: subItemIds,
+      subItemList: selectedSubItemsInfoList,
       amount: userCount,
     };
     setReservationRequest({
@@ -128,8 +121,8 @@ export default function ItemDetailsPage() {
 
   const handleUserCountInputChange = (newValue: number) => {
     setReservationRequestReady(
-      itemInfo.itemStatus.availableAmount
-        ? itemInfo.itemStatus.availableAmount >= newValue
+      item.status.availableAmount
+        ? item.status.availableAmount >= newValue
         : true,
     );
     setUserCount(newValue || 1);
@@ -139,9 +132,8 @@ export default function ItemDetailsPage() {
   const handleUserCountInputChangeRestricted = (newValue: number) => {
     setReservationRequestReady(
       selectedSubItemsInfoList.length > 0 &&
-        (selectedSubItemsInfoList[0].subItemStatus.availableAmount
-          ? selectedSubItemsInfoList[0].subItemStatus.availableAmount >=
-            newValue
+        (selectedSubItemsInfoList[0].availableAmount
+          ? selectedSubItemsInfoList[0].availableAmount >= newValue
           : true),
     );
     setUserCount(newValue || 1);
@@ -162,44 +154,37 @@ export default function ItemDetailsPage() {
     setCommentRefetch((prev) => !prev);
   };
 
-  const toggleItemSingleSelection = (subItemInfo: SubItemInfo) => {
+  const toggleItemSingleSelection = (subItem: SubItem) => {
     if (
-      selectedSubItemsInfoList.some(
-        (selected) => selected.subItem.id === subItemInfo.subItem.id,
-      )
+      selectedSubItemsInfoList.some((selected) => selected.id === subItem.id)
     ) {
       setSelectedSubItemsInfoList((prev) =>
-        prev.filter(
-          (selected) => selected.subItem.id !== subItemInfo.subItem.id,
-        ),
+        prev.filter((selected) => selected.id !== subItem.id),
       );
     } else {
       setSelectedSubItemsInfoList(() => {
-        return [subItemInfo];
+        return [subItem];
       });
     }
     console.log(
-      `set ${subItemInfo}of amount ${subItemInfo.subItemStatus.availableAmount} usercount ${userCount}`,
+      `set ${subItem}of amount ${subItem.availableAmount} usercount ${userCount}`,
     );
     setReservationRequestReady(
-      !subItemInfo.subItemStatus.availableAmount ||
-        subItemInfo.subItemStatus.availableAmount >= userCount,
+      !subItem.availableAmount || subItem.availableAmount >= userCount,
     );
   };
 
-  const toggleItemMultipleSelection = (subItemInfo: SubItemInfo) => {
+  const toggleItemMultipleSelection = (subItem: SubItem) => {
     let updatedSubItemsList;
 
     if (
-      selectedSubItemsInfoList.some(
-        (selected) => selected.subItem.id === subItemInfo.subItem.id,
-      )
+      selectedSubItemsInfoList.some((selected) => selected.id === subItem.id)
     ) {
       updatedSubItemsList = selectedSubItemsInfoList.filter(
-        (selected) => selected.subItem.id !== subItemInfo.subItem.id,
+        (selected) => selected.id !== subItem.id,
       );
     } else {
-      updatedSubItemsList = [...selectedSubItemsInfoList, subItemInfo];
+      updatedSubItemsList = [...selectedSubItemsInfoList, subItem];
     }
 
     setSelectedSubItemsInfoList(updatedSubItemsList);
@@ -230,8 +215,8 @@ export default function ItemDetailsPage() {
 
   const freeRangesUserInput = (
     <FreeRangesCalendar
-      itemId={itemInfo.item.id}
-      availabilityList={itemInfo.itemStatus.schedule as SpecificAvailability[]}
+      itemId={item.id}
+      availabilityList={item.status.availability || []}
       userCount={userCount}
       availabilityChecked={availabilityChecked}
       setAvailabilityChecked={setAvailabilityChecked}
@@ -241,8 +226,8 @@ export default function ItemDetailsPage() {
 
   const checkAvailabilityUserInput = (
     <CheckAvailabilityCalendar
-      itemId={itemInfo.item.id}
-      availabilityList={itemInfo.itemStatus.schedule as SpecificAvailability[]}
+      itemId={item.id}
+      availabilityList={item.status.availability || []}
       userCount={userCount}
       prepareFlexibleReservation={prepareFlexibleReservation}
       availabilityChecked={availabilityChecked}
@@ -252,14 +237,14 @@ export default function ItemDetailsPage() {
 
   const subItemsListSingle = (
     <SubItemsList
-      selectedItemInfo={itemInfo}
+      selectedItem={item}
       selectedSubItemsList={selectedSubItemsInfoList}
       toggleItemSelection={toggleItemSingleSelection}
     />
   );
   const subItemsListMultiple = (
     <SubItemsList
-      selectedItemInfo={itemInfo}
+      selectedItem={item}
       selectedSubItemsList={selectedSubItemsInfoList}
       toggleItemSelection={toggleItemMultipleSelection}
     />
@@ -349,28 +334,30 @@ export default function ItemDetailsPage() {
           display="flex"
           alignItems="center"
         >
-          {itemInfo.item.image && <ItemImage url={itemInfo.item.image} />}
+          {item.attributes.image && <ItemImage url={item.attributes.image} />}
         </Box>
         <Box>
           <Typography variant="h3" marginBottom={1}>
-            {itemInfo.item.title}
+            {item.attributes.title}
           </Typography>
-          {itemInfo.item.subtitle && (
+          {item.attributes.subtitle && (
             <Typography variant="h5" marginBottom={1}>
-              {itemInfo.item.subtitle}
+              {item.attributes.subtitle}
             </Typography>
           )}
-          {storeConfig.detailsPage.showRating && itemInfo.itemStatus.mark && (
-            <Ratings mark={itemInfo.itemStatus.mark} />
+          {storeConfig.detailsPage.showRating && item.status.mark && (
+            <Ratings mark={item.status.mark} />
           )}
-          {itemInfo.item.description && (
-            <Typography variant="body2">{itemInfo.item.description}</Typography>
+          {item.attributes.description && (
+            <Typography variant="body2">
+              {item.attributes.description}
+            </Typography>
           )}
         </Box>
       </Box>
       <AttributesList
         attributesConfig={storeConfig.customAttributesSpec}
-        itemAttributes={itemInfo.item.customAttributeList}
+        itemAttributes={item.attributes.customAttributeList}
       />
       {core}
       {(storeConfig.detailsPage.showComments ||
