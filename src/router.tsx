@@ -118,7 +118,7 @@ const router = createBrowserRouter([
         loader: detailsPageLoader(queryClient),
       },
       {
-        path: "management/:userId",
+        path: "reservations/:userId",
         element: <ManagementPage />,
         loader: userManagementPageLoader(queryClient),
       },
