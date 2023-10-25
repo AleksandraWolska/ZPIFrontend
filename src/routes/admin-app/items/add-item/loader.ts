@@ -1,8 +1,8 @@
 import { QueryClient } from "react-query";
 import { LoaderFunctionArgs } from "react-router-dom";
-import { getAccessToken } from "../../../auth/utils";
-import { BACKEND_URL } from "../../../query";
-import { ItemConfig } from "../types";
+import { ItemConfig } from "../../types";
+import { getAccessToken } from "../../../../auth/utils";
+import { BACKEND_URL } from "../../../../query";
 
 const fetchItemConfig = async (storeId: string): Promise<ItemConfig> => {
   const token = getAccessToken();
