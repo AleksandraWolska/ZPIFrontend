@@ -1,5 +1,5 @@
 import { AppBar, Toolbar, Typography, Button, Box } from "@mui/material";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate, useParams } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import {
   blue,
@@ -18,6 +18,8 @@ import useOwner from "./useOwner";
 
 function UserAppWrapper() {
   const owner = useOwner();
+  const { storeId } = useParams();
+  const navigate = useNavigate();
 
   const colorMap: { [key: string]: unknown } = {
     lime,
@@ -39,16 +41,33 @@ function UserAppWrapper() {
       primary: chosenColor,
     },
   });
+
+  const handleMyReservationsClick = () => {
+    if (storeId) {
+      navigate(`/userapp/${storeId}/reservations/1`);
+    } else {
+      console.error("Missing userId or storeId");
+    }
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <>
         <Box sx={{ flexGrow: 1 }}>
           <AppBar position="static">
             <Toolbar>
-              <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+              <Typography
+                variant="h6"
+                onClick={() => navigate(`/userapp/${storeId}`)}
+                component="div"
+                sx={{ flexGrow: 1 }}
+              >
                 {owner.name}
               </Typography>
-              <Button color="inherit">Contact</Button>
+              <Button color="inherit" onClick={handleMyReservationsClick}>
+                My reservations
+              </Button>
+              <Button color="inherit">About</Button>
               <Button color="inherit">Log in</Button>
             </Toolbar>
           </AppBar>
