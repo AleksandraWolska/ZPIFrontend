@@ -20,7 +20,7 @@ import { Link, useParams } from "react-router-dom";
 import useUserReservedItems from "./useUserReservedItems";
 import { UserReservation } from "../types";
 
-function ManagementPage() {
+function UserReservationsPage() {
   const { data: reservations } = useUserReservedItems();
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
@@ -189,4 +189,4 @@ function ManagementPage() {
   );
 }
 
-export default ManagementPage;
+export default UserReservationsPage;
