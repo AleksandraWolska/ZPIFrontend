@@ -409,13 +409,14 @@ export function CheckAvailabilityCalendar({
           variant="contained"
           color="primary"
           disabled={!events[0].start || !events[0].end}
-          onClick={() =>
+          onClick={() => {
+            setShowReserveDialog(false);
             prepareFlexibleReservation({
               start: new Date(earliestStartTime).toISOString(),
               end: new Date(latestEndTime).toISOString(),
               amount: userCount,
-            })
-          }
+            });
+          }}
         >
           Reserve Item
         </Button>
@@ -551,7 +552,7 @@ export function CheckAvailabilityCalendar({
         open={showReserveDialog}
         onClose={() => setShowReserveDialog(false)}
       >
-        <DialogTitle>Wybrany termin jest dostępny do rezerwacji!</DialogTitle>
+        <DialogTitle>Chosen item is available for reservation!</DialogTitle>
         <DialogContent>
           <Typography>
             Start:{" "}
@@ -564,6 +565,7 @@ export function CheckAvailabilityCalendar({
             {reserveData
               ? dayjs(reserveData.end).format("YYYY-MM-DD HH:mm")
               : ""}
+            Wybrany termin jest dostępny do rezerwacji
           </Typography>
         </DialogContent>
         <DialogActions>
