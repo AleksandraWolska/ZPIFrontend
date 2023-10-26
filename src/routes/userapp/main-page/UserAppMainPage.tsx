@@ -7,9 +7,14 @@ import {
   ListItem,
   Divider,
   IconButton,
+  MenuItem,
+  Select,
+  FormControl,
+  InputLabel,
 } from "@mui/material";
-import { FilterAlt, FilterAltOff, Close } from "@mui/icons-material";
-import { CustomAttributeSpec, CustomAttribute } from "../../../types";
+
+import { FilterAlt, FilterAltOff, Close, SwapVert } from "@mui/icons-material";
+import { CustomAttributeSpec, CustomAttribute, Item } from "../../../types";
 import { FilterValue } from "../types";
 import useMainPageConfig from "./useMainPageConfig";
 import useItems from "./useItems";
@@ -25,6 +30,9 @@ export default function UserAppMainPage() {
 
   const [showFilterForm, setShowFilterForm] = useState(false);
   const [activeFilters, setActiveFilters] = useState<FilterValue[]>([]);
+
+  const [sortCriteria, setSortCriteria] = useState("title");
+  const [sortOrder, setSortOrder] = useState("asc");
 
   const handleFilterToggle = () => setShowFilterForm((prev) => !prev);
 
@@ -87,6 +95,26 @@ export default function UserAppMainPage() {
     }),
   );
 
+  const sortedItemInfos = filteredItems.sort((a: Item, b: Item) => {
+    let valueA;
+    let valueB;
+    if (sortCriteria === "title") {
+      valueA = a.attributes[sortCriteria];
+      valueB = b.attributes[sortCriteria];
+    } else if (sortCriteria === "mark" || sortCriteria === "availableAmount") {
+      valueA = a.status[sortCriteria] || 0;
+      valueB = b.status[sortCriteria] || 0;
+    } else {
+      valueA = a.attributes.title;
+      valueB = b.attributes.title;
+    }
+
+    if (sortOrder === "asc") {
+      return valueA > valueB ? 1 : -1;
+    }
+    return valueA < valueB ? 1 : -1;
+  });
+
   return (
     <Box padding={3}>
       <Box display="flex" justifyContent="space-between">
@@ -108,7 +136,6 @@ export default function UserAppMainPage() {
             />
           )}
         </Box>
-
         <Box
           sx={{
             transition: "width 0.3s ease-in-out",
@@ -117,15 +144,39 @@ export default function UserAppMainPage() {
           padding={3}
         >
           <WelcomeTexts config={storeConfig.mainPage} />
-
-          <IconButton onClick={handleFilterToggle}>
-            {showFilterForm ? <FilterAltOff /> : <FilterAlt />}
-          </IconButton>
-
+          <Box display="flex" justifyContent="space-between" padding="10px">
+            <IconButton onClick={handleFilterToggle}>
+              {showFilterForm ? <FilterAltOff /> : <FilterAlt />}
+            </IconButton>
+            <Box display="flex" alignItems="center">
+              <FormControl size="small" style={{ marginRight: 8 }}>
+                <InputLabel id="sort-criteria-select-label">Sort By</InputLabel>
+                <Select
+                  labelId="sort-criteria-select-label"
+                  id="sort-criteria-select"
+                  value={sortCriteria}
+                  label="Sort By"
+                  onChange={(e) => setSortCriteria(e.target.value)}
+                >
+                  <MenuItem value="title">Title</MenuItem>
+                  <MenuItem value="availableAmount">Available Amount</MenuItem>
+                  {storeConfig.mainPage.showRating && (
+                    <MenuItem value="mark">Rating</MenuItem>
+                  )}
+                </Select>
+              </FormControl>
+              <IconButton
+                onClick={() =>
+                  setSortOrder(sortOrder === "asc" ? "desc" : "asc")
+                }
+              >
+                <SwapVert />
+              </IconButton>
+            </Box>
+          </Box>
           {activeFiltersList}
-
           <List>
-            {filteredItems.map((item) => {
+            {sortedItemInfos.map((item) => {
               const isAvailable = item.status.availableAmount !== 0;
               return (
                 <ListItem
