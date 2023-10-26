@@ -46,7 +46,7 @@ function UserAppWrapper() {
     if (storeId) {
       navigate(`/userapp/${storeId}/reservations/1`);
     } else {
-      console.error("Missing userId or storeId");
+      console.error("Missing storeId");
     }
   };
 

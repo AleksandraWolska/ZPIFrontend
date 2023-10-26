@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   List,
   Paper,
@@ -9,6 +9,11 @@ import {
   Button,
   Collapse,
   IconButton,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
 } from "@mui/material";
 import { ExpandMore, Delete } from "@mui/icons-material";
 import { Link, useParams } from "react-router-dom";
@@ -18,15 +23,34 @@ import { UserReservation } from "../types";
 function ManagementPage() {
   const { data: reservations } = useUserReservedItems();
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [reservationToDelete, setReservationToDelete] =
+    useState<UserReservation | null>(null);
   const { storeId } = useParams();
 
   const handleExpand = (reservationId: string) => {
     setExpandedId((prev) => (prev === reservationId ? null : reservationId));
   };
 
-  const handleDelete = (reservationId: string) => {
-    console.log(`Deleted reservation with ID: ${reservationId}`);
-    // Add your delete logic here
+  const handleDeleteClick = (reservation: UserReservation) => {
+    setReservationToDelete(reservation);
+    setDeleteDialogOpen(true);
+  };
+
+  const handleDeleteConfirm = () => {
+    if (reservationToDelete) {
+      console.log(
+        `Deleted reservation with ID: ${reservationToDelete.reservationId}`,
+      );
+      // Add your delete logic here
+    }
+    setDeleteDialogOpen(false);
+    setReservationToDelete(null);
+  };
+
+  const handleDeleteCancel = () => {
+    setDeleteDialogOpen(false);
+    setReservationToDelete(null);
   };
 
   const formatDate = (dateString: string) => {
@@ -94,7 +118,7 @@ function ManagementPage() {
                     <ExpandMore />
                   </IconButton>
                   <IconButton
-                    onClick={() => handleDelete(reservation.reservationId)}
+                    onClick={() => handleDeleteClick(reservation)}
                     aria-label="delete"
                   >
                     <Delete />
@@ -139,6 +163,28 @@ function ManagementPage() {
           ))}
         </List>
       </Box>
+      <Dialog
+        open={deleteDialogOpen}
+        onClose={handleDeleteCancel}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">Delete Reservation?</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            {`Are you sure you want to delete reservation for "${reservationToDelete
+              ?.item.title}" starting on ${formatDate(
+              reservationToDelete?.start || "",
+            )}, ending on ${formatDate(reservationToDelete?.end || "")}?`}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleDeleteCancel}>Cancel</Button>
+          <Button onClick={handleDeleteConfirm} autoFocus>
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 }
