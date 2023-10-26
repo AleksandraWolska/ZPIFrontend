@@ -13,8 +13,8 @@ import { loader as itemListLoader } from "./routes/admin-app/items/item-list/loa
 import { loader as editItemLoader } from "./routes/admin-app/items/edit-item/loader";
 import { loader as adminAppLoader } from "./routes/admin-app/loader";
 import { loader as reservationsLoader } from "./routes/admin-app/reservations/loader";
-import { loader as userManagementPageLoader } from "./routes/userapp/management/loader";
-import ManagementPage from "./routes/userapp/management/ManagementPage";
+import { loader as userReservationsPageLoader } from "./routes/userapp/user-reservations/loader";
+import UserReservationsPage from "./routes/userapp/user-reservations/UserReservationsPage";
 
 if (process.env.NODE_ENV === "development") {
   const { worker } = await import("./mocks/browser");
@@ -119,8 +119,8 @@ const router = createBrowserRouter([
       },
       {
         path: "reservations/:userId",
-        element: <ManagementPage />,
-        loader: userManagementPageLoader(queryClient),
+        element: <UserReservationsPage />,
+        loader: userReservationsPageLoader(queryClient),
       },
     ],
   },
