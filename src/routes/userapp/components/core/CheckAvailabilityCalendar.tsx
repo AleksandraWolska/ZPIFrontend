@@ -56,6 +56,16 @@ const baseFormats = {
     )}`,
 };
 
+// transforms SpecificAvailability[] to events
+const transformToArray = (specificAvailabilities: Availability[]): Event[] => {
+  return specificAvailabilities.map((item) => ({
+    id: uuid(),
+    start: new Date(item.startDateTime),
+    end: new Date(item.endDateTime),
+    type: item.type,
+  }));
+};
+
 type CheckAvailabilityCalendarProps = {
   itemId: string;
   userCount: number;
@@ -77,7 +87,9 @@ export function CheckAvailabilityCalendar({
   const { mutate, data: responseData, isError } = useAvailabilityCheck();
 
   const [events, setEvents] = useState<Event[]>([]);
-  const [backgroundEvents, setBackgroundEvents] = useState<Event[]>([]);
+  const [backgroundEvents, setBackgroundEvents] = useState<Event[]>(
+    transformToArray(availabilityList),
+  );
 
   const [showSuggestedDialog, setShowSuggestedDialog] = useState(false);
   const [showReserveDialog, setShowReserveDialog] = useState(false);
@@ -88,9 +100,6 @@ export function CheckAvailabilityCalendar({
     useState<null | FlexibleReservationData>(null);
   const [within, setWithin] = useState(true);
 
-  useEffect(() => {
-    setBackgroundEvents(transformToArray(availabilityList));
-  }, [availabilityList]);
   // if response is not an array, and has start date, then it is ok, ready to reserve
   // if response will be an array, then it is suggested dates
   useEffect(() => {
@@ -114,17 +123,6 @@ export function CheckAvailabilityCalendar({
     }
   }, [responseData, isError, itemId, setAvailabilityChecked]);
 
-  // transforms SpecificAvailability[] to events
-  const transformToArray = (
-    specificAvailabilities: Availability[],
-  ): Event[] => {
-    return specificAvailabilities.map((item) => ({
-      id: uuid(),
-      start: new Date(item.startDateTime),
-      end: new Date(item.endDateTime),
-      type: item.type,
-    }));
-  };
 
   const hasContinuousCoverage = useCallback(
     (start: Date, end: Date) => {
