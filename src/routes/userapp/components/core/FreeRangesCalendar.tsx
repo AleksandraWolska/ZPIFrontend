@@ -42,6 +42,16 @@ const baseFormats = {
     )}`,
 };
 
+// transforms SpecificAvailability[] to events
+const transformToArray = (specificAvailabilities: Availability[]): Event[] => {
+  return specificAvailabilities.map((item) => ({
+    id: uuid(),
+    start: new Date(item.startDateTime),
+    end: new Date(item.endDateTime),
+    type: item.type,
+  }));
+};
+
 type FreeRangesCalendarProps = {
   itemId: string;
   userCount: number;
@@ -63,14 +73,12 @@ export function FreeRangesCalendar({
   const { mutate, data: responseData, isError } = useSchedule();
 
   const [events, setEvents] = useState<Event[]>([]);
-  const [backgroundEvents, setBackgroundEvents] = useState<Event[]>([]);
+  const [backgroundEvents, setBackgroundEvents] = useState<Event[]>(
+    transformToArray(availabilityList),
+  );
   const [within, setWithin] = useState(true);
 
   const defaultDate = useMemo(() => new Date(), []);
-
-  useEffect(() => {
-    setBackgroundEvents(transformToArray(availabilityList));
-  }, [availabilityList]);
 
   useEffect(() => {
     if (responseData) {
@@ -91,18 +99,6 @@ export function FreeRangesCalendar({
       console.error("An error occurred while checking availability.");
     }
   }, [responseData, isError, itemId, setAvailabilityChecked]);
-
-  // transforms SpecificAvailability[] to events
-  const transformToArray = (
-    specificAvailabilities: Availability[],
-  ): Event[] => {
-    return specificAvailabilities.map((item) => ({
-      id: uuid(),
-      start: new Date(item.startDateTime),
-      end: new Date(item.endDateTime),
-      type: item.type,
-    }));
-  };
 
   const hasContinuousCoverage = useCallback(
     (start: Date, end: Date) => {
