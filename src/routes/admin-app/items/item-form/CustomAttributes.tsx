@@ -7,15 +7,14 @@ import {
   TextField,
 } from "@mui/material";
 import { CustomAttribute, CustomAttributeSpec } from "../../../../types";
-import { useEnhancedItem } from "../enhanced-item-context/EnhancedItemProvider";
+import { useItemForm } from "./ItemFormProvider";
 
 function CustomAttributes() {
-  const { itemConfig, enhancedItem, setItemCustomAttribute } =
-    useEnhancedItem();
+  const { itemConfig, item, setItemCustomAttribute } = useItemForm();
 
   return (
     <Grid container spacing={1} width="50%">
-      {enhancedItem.item.customAttributeList.map((attribute) => (
+      {item.customAttributeList.map((attribute) => (
         <Grid key={attribute.name} item xs={12} sm={6}>
           {renderCustomAttributeInput(
             attribute,

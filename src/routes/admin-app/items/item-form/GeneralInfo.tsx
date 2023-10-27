@@ -1,10 +1,10 @@
 import { Grid, TextField } from "@mui/material";
 import { askForItemAmount } from "../utils";
-import { useEnhancedItem } from "../enhanced-item-context/EnhancedItemProvider";
+import { useItemForm } from "./ItemFormProvider";
 
 function GeneralInfo() {
-  const { itemConfig, enhancedItem, setItemAttribute, setInitialStatus } =
-    useEnhancedItem();
+  const { itemConfig, item, setItemAttribute, setInitialSetting } =
+    useItemForm();
 
   return (
     <Grid container spacing={1} width="50%">
@@ -12,7 +12,7 @@ function GeneralInfo() {
         <TextField
           label="title"
           name="title"
-          value={enhancedItem.item.title}
+          value={item.attributes.title}
           onChange={(e) => setItemAttribute({ title: e.target.value })}
           fullWidth
           required
@@ -23,7 +23,7 @@ function GeneralInfo() {
         <TextField
           label="subtitle"
           name="subtitle"
-          value={enhancedItem.item.subtitle}
+          value={item.attributes.subtitle}
           onChange={(e) => setItemAttribute({ subtitle: e.target.value })}
           fullWidth
         />
@@ -33,7 +33,7 @@ function GeneralInfo() {
         <TextField
           label="description"
           name="description"
-          value={enhancedItem.item.description}
+          value={item.attributes.description}
           onChange={(e) => setItemAttribute({ description: e.target.value })}
           fullWidth
           multiline
@@ -44,7 +44,7 @@ function GeneralInfo() {
         <TextField
           label="image"
           name="image"
-          value={enhancedItem.item.image}
+          value={item.attributes.image}
           onChange={(e) => setItemAttribute({ image: e.target.value })}
           fullWidth
         />
@@ -55,9 +55,9 @@ function GeneralInfo() {
           <TextField
             label="amount"
             name="amount"
-            value={enhancedItem.initialStatus.amount?.toString()}
+            value={item.initialSettings.amount?.toString()}
             onChange={(e) =>
-              setInitialStatus({ amount: parseInt(e.target.value, 10) })
+              setInitialSetting({ amount: parseInt(e.target.value, 10) })
             }
             fullWidth
             type="number"

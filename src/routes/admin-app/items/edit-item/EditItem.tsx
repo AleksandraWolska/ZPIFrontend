@@ -1,31 +1,31 @@
 import { useNavigate } from "react-router-dom";
-import EnhancedItemProvider, {
-  useEnhancedItem,
-} from "../enhanced-item-context/EnhancedItemProvider";
+import ItemFormProvider, {
+  useItemForm,
+} from "../item-form/ItemFormProvider";
 import useItemToBeEdited from "./useItemToBeEdited";
-import GeneralInfo from "../enhanced-item-form/GeneralInfo";
-import CustomAttributes from "../enhanced-item-form/CustomAttributes";
+import GeneralInfo from "../item-form/GeneralInfo";
+import CustomAttributes from "../item-form/CustomAttributes";
 import { askForSubItems, askForSubItemSchedule } from "../utils";
-import SubItems from "../enhanced-item-form/SubItems";
+import SubItems from "../item-form/SubItems";
 import { Core } from "../../../../types";
-import Stepper from "../enhanced-item-form/Stepper";
+import Stepper from "../item-form/Stepper";
 import useItemConfig from "../common-data/useItemConfig";
-import Schedule from "../enhanced-item-form/schedule/Schedule";
+import Schedule from "../item-form/schedule/Schedule";
 import useEditItem from "./useEditItem";
 
 function EditItem() {
   const itemToBeEdited = useItemToBeEdited();
 
   return (
-    <EnhancedItemProvider initialEnhancedItem={itemToBeEdited}>
+    <ItemFormProvider initial={itemToBeEdited}>
       <EditForm />
-    </EnhancedItemProvider>
+    </ItemFormProvider>
   );
 }
 
 function EditForm() {
   const itemConfig = useItemConfig();
-  const { enhancedItem } = useEnhancedItem();
+  const { item } = useItemForm();
   const editItem = useEditItem();
   const navigate = useNavigate();
 
@@ -37,7 +37,7 @@ function EditForm() {
       <button
         type="button"
         onClick={() => {
-          editItem.mutate(enhancedItem, {
+          editItem.mutate(item, {
             onSuccess: () => {
               navigate("../..", { relative: "path" });
             },
