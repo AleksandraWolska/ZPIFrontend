@@ -3,7 +3,7 @@ import { useMutation } from "react-query";
 import { queryClient } from "../../../../query";
 
 const activateItem = (storeId: string, itemId: string) => {
-  return fetch(`/api/admin/${storeId}/enhanced-items/${itemId}/activate`, {
+  return fetch(`/api/stores/${storeId}/items/${itemId}/activate`, {
     method: "PUT",
     headers: {
       Accept: "application/json",
@@ -13,7 +13,7 @@ const activateItem = (storeId: string, itemId: string) => {
 };
 
 const deactivateItem = (storeId: string, itemId: string) => {
-  return fetch(`/api/admin/${storeId}/enhanced-items/${itemId}/deactivate`, {
+  return fetch(`/api/stores/${storeId}/items/${itemId}/deactivate`, {
     method: "PUT",
     headers: {
       Accept: "application/json",
@@ -22,7 +22,7 @@ const deactivateItem = (storeId: string, itemId: string) => {
   });
 };
 
-function useSetItemActive() {
+function useUpdateItemActivity() {
   const { storeId } = useParams() as { storeId: string };
 
   return useMutation({
@@ -32,9 +32,9 @@ function useSetItemActive() {
         : deactivateItem(storeId, itemId);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(["enhanced-items", storeId]);
+      queryClient.invalidateQueries(["items", storeId]);
     },
   });
 }
 
-export default useSetItemActive;
+export default useUpdateItemActivity;

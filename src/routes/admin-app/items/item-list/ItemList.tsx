@@ -10,23 +10,24 @@ import { Link } from "react-router-dom";
 import NoPhotographyIcon from "@mui/icons-material/NoPhotography";
 import { Box } from "@mui/system";
 import { useState } from "react";
-import useEnhancedItems from "./useEnhancedItems";
+import useItems from "./useItems";
 import theme from "../../../../theme";
 import ConfirmDialog from "./ConfirmDialog";
 import useDeleteItem from "./useDeleteItem";
-import useSetItemActive from "./useSetItemActive";
+import useUpdateItemActivity from "./useUpdateItemActivity";
 import useItemConfig from "../common-data/useItemConfig";
-import { EnhancedItem } from "../../types";
+import { Item } from "../../../../types";
 
 function ItemList() {
-  const enhancedItems = useEnhancedItems();
+  const items = useItems();
   const itemConfig = useItemConfig();
 
-  const [itemActivityUpdate, setItemActivityUpdate] = useState<{
-    itemId: string;
-    active: boolean;
-  } | null>(null);
-  const setItemActivity = useSetItemActive();
+  const [itemToHaveActivityUpdated, setItemToHaveActivityUpdated] = useState<
+    string | null
+  >(null);
+  const currentActivity = items.find((i) => i.id === itemToHaveActivityUpdated)
+    ?.status.active;
+  const updateItemActivity = useUpdateItemActivity();
 
   const [itemToBeDeleted, setItemToBeDeleted] = useState<string | null>(null);
   const deleteItem = useDeleteItem();
@@ -34,13 +35,9 @@ function ItemList() {
   return (
     <>
       <Stack spacing={4} width="80%">
-        {enhancedItems.map((enhancedItem) => {
+        {items.map((item) => {
           return (
-            <Card
-              key={enhancedItem.item.id}
-              sx={{ display: "flex", padding: 1 }}
-              raised
-            >
+            <Card key={item.id} sx={{ display: "flex", padding: 1 }} raised>
               <Box
                 sx={{
                   width: "300px",
@@ -53,37 +50,35 @@ function ItemList() {
                 }}
                 style={{ border: "2px solid black" }}
               >
-                <ItemImage item={enhancedItem.item} />
+                <ItemImage
+                  image={item.attributes.image}
+                  title={item.attributes.title}
+                />
               </Box>
 
               <CardContent sx={{ width: "80%", paddingLeft: 4 }}>
-                <ItemDescription item={enhancedItem.item} />
+                <ItemDescription item={item} />
               </CardContent>
 
               <Stack width="20%" spacing={2} padding={2}>
                 {itemConfig.core.flexibility && (
-                  <Link to={`reschedule/${enhancedItem.item.id}`}>
+                  <Link to={`reschedule/${item.id}`}>
                     <ActionBtn text="Reschedule" />
                   </Link>
                 )}
 
-                <Link to={`edit/${enhancedItem.item.id}`}>
+                <Link to={`edit/${item.id}`}>
                   <ActionBtn text="Edit" />
                 </Link>
 
                 <ActionBtn
-                  text={enhancedItem.item.active ? "Deactivate" : "Activate"}
-                  onClick={() =>
-                    setItemActivityUpdate({
-                      itemId: enhancedItem.item.id,
-                      active: !enhancedItem.item.active,
-                    })
-                  }
+                  text={item.status.active ? "Deactivate" : "Activate"}
+                  onClick={() => setItemToHaveActivityUpdated(item.id)}
                 />
 
                 <ActionBtn
                   text="Delete"
-                  onClick={() => setItemToBeDeleted(enhancedItem.item.id)}
+                  onClick={() => setItemToBeDeleted(item.id)}
                 />
               </Stack>
             </Card>
@@ -91,17 +86,18 @@ function ItemList() {
         })}
       </Stack>
       <ConfirmDialog
-        isOpen={!!itemActivityUpdate}
-        onCancel={() => setItemActivityUpdate(null)}
+        isOpen={!!itemToHaveActivityUpdated}
+        onCancel={() => setItemToHaveActivityUpdated(null)}
         onConfirm={() => {
-          setItemActivity.mutate(itemActivityUpdate!);
-          setItemActivityUpdate(null);
+          updateItemActivity.mutate({
+            itemId: itemToHaveActivityUpdated!,
+            active: !currentActivity,
+          });
+          setItemToHaveActivityUpdated(null);
         }}
-        title={itemActivityUpdate?.active ? "Activate Item" : "Deactivate Item"}
+        title={currentActivity ? "Activate Item" : "Deactivate Item"}
         message={
-          itemActivityUpdate?.active
-            ? "Activate this item?"
-            : "Deactivate this item?"
+          currentActivity ? "Activate this item?" : "Deactivate this item?"
         }
       />
       <ConfirmDialog
@@ -118,9 +114,7 @@ function ItemList() {
   );
 }
 
-function ItemImage({ item }: { item: EnhancedItem["item"] }) {
-  const { image, title } = item;
-
+function ItemImage({ image, title }: { image: string; title: string }) {
   return image ? (
     <img
       src={image}
@@ -136,12 +130,12 @@ function ItemImage({ item }: { item: EnhancedItem["item"] }) {
   );
 }
 
-function ItemDescription({ item }: { item: EnhancedItem["item"] }) {
+function ItemDescription({ item }: { item: Item }) {
   return (
     <>
       <Stack direction="row" spacing={1}>
-        <Typography variant="h4">{item.title}</Typography>
-        {item.active ? (
+        <Typography variant="h4">{item.attributes.title}</Typography>
+        {item.status.active ? (
           <Chip label="active" color="success" />
         ) : (
           <Chip label="inactive" color="error" />

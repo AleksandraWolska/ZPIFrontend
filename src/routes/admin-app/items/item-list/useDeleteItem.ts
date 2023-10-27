@@ -3,7 +3,7 @@ import { useMutation } from "react-query";
 import { queryClient } from "../../../../query";
 
 const deleteItem = (storeId: string, itemId: string) => {
-  return fetch(`/api/stores/${storeId}/enhanced-items/${itemId}`, {
+  return fetch(`/api/stores/${storeId}/items/${itemId}`, {
     method: "DELETE",
     headers: {
       Accept: "application/json",
@@ -22,7 +22,7 @@ function useDeleteItem() {
       return deleteItem(storeId, itemId);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(["enhanced-items", storeId]);
+      queryClient.invalidateQueries(["items", storeId]);
     },
   });
 }

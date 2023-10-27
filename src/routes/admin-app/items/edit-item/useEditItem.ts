@@ -1,20 +1,17 @@
 import { useParams } from "react-router-dom";
 import { useMutation } from "react-query";
-import { EnhancedItem } from "../../types";
 import { queryClient } from "../../../../query";
+import { Item } from "../../../../types";
 
-const editItem = (storeId: string, enhancedItem: EnhancedItem) => {
-  return fetch(
-    `/api/stores/${storeId}/enhanced-items/${enhancedItem.item.id}`,
-    {
-      method: "PUT",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(enhancedItem),
+const editItem = (storeId: string, item: Item) => {
+  return fetch(`/api/stores/${storeId}/items/${item.id}`, {
+    method: "PUT",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
     },
-  );
+    body: JSON.stringify(item),
+  });
 };
 
 function useEditItem() {
@@ -23,11 +20,11 @@ function useEditItem() {
   };
 
   return useMutation({
-    mutationFn: (enhancedItem: EnhancedItem) => {
-      return editItem(storeId, enhancedItem);
+    mutationFn: (item: Item) => {
+      return editItem(storeId, item);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(["enhanced-items", storeId]);
+      queryClient.invalidateQueries(["items", storeId]);
     },
   });
 }

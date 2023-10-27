@@ -1,7 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import ItemFormProvider, {
-  useItemForm,
-} from "../item-form/ItemFormProvider";
+import ItemFormProvider, { useItemForm } from "../item-form/ItemFormProvider";
 import useItemToBeEdited from "./useItemToBeEdited";
 import GeneralInfo from "../item-form/GeneralInfo";
 import CustomAttributes from "../item-form/CustomAttributes";
@@ -17,7 +15,7 @@ function EditItem() {
   const itemToBeEdited = useItemToBeEdited();
 
   return (
-    <ItemFormProvider initial={itemToBeEdited}>
+    <ItemFormProvider initialItem={itemToBeEdited}>
       <EditForm />
     </ItemFormProvider>
   );
