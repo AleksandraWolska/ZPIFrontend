@@ -2,12 +2,9 @@ import { useMutation } from "react-query";
 import { useParams } from "react-router-dom";
 import { queryClient } from "../../../../query";
 import { Item, SubItem } from "../../../../types";
+import { ItemWithoutIds } from "../../types";
 
-export type ItemWithoutId = Omit<Item, "id" | "subItems"> & {
-  subItems?: Omit<SubItem, "id">[];
-};
-
-export const removeIdsFromItem = (item: Item): ItemWithoutId => {
+export const removeIdsFromItem = (item: Item): ItemWithoutIds => {
   const { subItems } = item;
 
   const subItemsWithoutId = subItems?.map((si): Omit<SubItem, "id"> => {
@@ -28,7 +25,7 @@ export const removeIdsFromItem = (item: Item): ItemWithoutId => {
   };
 };
 
-const addItem = (storeId: string, item: ItemWithoutId) => {
+const addItem = (storeId: string, item: ItemWithoutIds) => {
   return fetch(`/api/stores/${storeId}/items`, {
     method: "POST",
     headers: {
@@ -43,7 +40,7 @@ function useAddItem() {
   const params = useParams() as { storeId: string };
 
   return useMutation({
-    mutationFn: (item: ItemWithoutId) => {
+    mutationFn: (item: ItemWithoutIds) => {
       return addItem(params.storeId, item);
     },
     onSuccess: () => {

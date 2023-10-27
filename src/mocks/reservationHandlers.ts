@@ -1,116 +1,14 @@
 import { rest } from "msw";
 import dayjs from "dayjs";
 import { v4 as uuid } from "uuid";
-import { Availability } from "../../../types";
 import {
   CheckAvailabilityResponseSuccess,
   CheckAvailabilityResponseSuggestion,
   FetchScheduleResponse,
-} from "../../../routes/userapp/types";
+} from "../routes/userapp/types";
+import { Availability } from "../types";
 
-/*
-storeIds from 1-10 are reserved for core configurations
-What is below might look weird but goal was to enable using any other storeId
-and it uses default folder core_0
-
-Sorry for dynamic import! Seemed clearer than importing all cores
-*/
-async function fetchData(storeId: string, type: string) {
-  const number = parseInt(storeId, 10);
-  const id = number && number > 0 && number <= 10 ? storeId : "0";
-  const module = await import(/* @vite-ignore */ `./core_${id}/${type}`);
-  return module.default;
-}
-
-const getOwner = rest.get(
-  "/api/stores/:storeId/owner",
-  async (req, res, ctx) => {
-    const { storeId } = req.params;
-    console.log("requested owner for storeId: ", storeId);
-
-    if (typeof storeId !== "string") {
-      return res(ctx.status(400), ctx.text("Invalid storeId"));
-    }
-
-    const data = await fetchData(storeId, "dummyOwner");
-    return res(ctx.status(200), ctx.json(data));
-  },
-);
-
-const getMainPageConfig = rest.get(
-  "/api/stores/:storeId/main-page-config",
-  async (req, res, ctx) => {
-    const { storeId } = req.params;
-    console.log("requested main page config for storeId: ", storeId);
-
-    if (typeof storeId !== "string") {
-      return res(ctx.status(400), ctx.text("Invalid storeId"));
-    }
-    const data = await fetchData(storeId, "dummyMainPageConfig");
-
-    return res(ctx.status(200), ctx.json(data));
-  },
-);
-
-const getItems = rest.get(
-  "/api/stores/:storeId/items",
-  async (req, res, ctx) => {
-    const { storeId } = req.params;
-
-    if (typeof storeId !== "string") {
-      return res(ctx.status(400), ctx.text("Invalid storeId"));
-    }
-    const data = await fetchData(storeId, "dummyItems");
-
-    return res(ctx.status(200), ctx.json(data));
-  },
-);
-
-const getDetailsPageConfig = rest.get(
-  "/api/stores/:storeId/details-page-config",
-  async (req, res, ctx) => {
-    const { storeId } = req.params;
-    console.log("requested details page config for storeId: ", storeId);
-
-    if (typeof storeId !== "string") {
-      return res(ctx.status(400), ctx.text("Invalid storeId"));
-    }
-    const data = await fetchData(storeId, "dummyDetailsPageConfig");
-
-    return res(ctx.status(200), ctx.json(data));
-  },
-);
-
-const getItemDetails = rest.get(
-  "/api/stores/:storeId/items/:itemId",
-  async (req, res, ctx) => {
-    const { storeId, itemId } = req.params;
-
-    if (typeof storeId !== "string" || typeof itemId !== "string") {
-      return res(ctx.status(400), ctx.text("Invalid parameters"));
-    }
-    const data = await fetchData(storeId, `items/dummyItemInfo_1`);
-
-    return res(ctx.status(200), ctx.json(data));
-  },
-);
-
-const getCommentsList = rest.get(
-  "/api/stores/:storeId/items/:itemId/comments",
-  async (req, res, ctx) => {
-    const { storeId, itemId } = req.params;
-
-    if (typeof storeId !== "string" || typeof itemId !== "string") {
-      return res(ctx.status(400), ctx.text("Invalid parameters"));
-    }
-
-    const data = await fetchData(storeId, `items/dummyComments_1`);
-
-    return res(ctx.status(200), ctx.json(data));
-  },
-);
-
-const postAvailabilityCheck = rest.post(
+const checkAvailability = rest.post(
   "/api/check-availability",
   async (req, res, ctx) => {
     const { startDate, endDate, itemId, amount } = await req.json();
@@ -122,15 +20,16 @@ const postAvailabilityCheck = rest.post(
     ) {
       return res(ctx.status(400), ctx.text("Invalid input"));
     }
+
     const today = dayjs();
     const startOfWeek = today.startOf("week").add(1, "day"); // Moves to Monday
     const startHour = new Date(startDate).getHours();
 
     // If before noon
-    if (startHour < 13) {
+    if (startHour <= 12) {
       const suggestedHours = [1, 2, 3];
       const suggestions: CheckAvailabilityResponseSuggestion[] =
-        await suggestedHours.map((hourOffset) => ({
+        suggestedHours.map((hourOffset) => ({
           id: itemId + hourOffset,
           itemId,
           amount,
@@ -195,7 +94,7 @@ const postAvailabilityCheck = rest.post(
   },
 );
 
-const postReserveItem = rest.post("/api/reserve", async (req, res, ctx) => {
+const reserve = rest.post("/api/reserve", async (req, res, ctx) => {
   const { storeId, itemId } = await req.json();
 
   if (typeof itemId !== "string" || typeof storeId !== "string") {
@@ -204,7 +103,7 @@ const postReserveItem = rest.post("/api/reserve", async (req, res, ctx) => {
   return res(ctx.status(200), ctx.json({ status: "ok" }));
 });
 
-const postFetchSchedule = rest.post(
+const fetchSchedule = rest.post(
   "/api/fetch-schedule",
   async (req, res, ctx) => {
     const { itemId, amount } = await req.json(); // Modified here
@@ -219,7 +118,7 @@ const postFetchSchedule = rest.post(
     const response: FetchScheduleResponse = {
       itemId,
       amount,
-      schedule: await Array.from({ length: 7 }).flatMap((_, i) => {
+      schedule: Array.from({ length: 7 }).flatMap((_, i) => {
         const currentDay = startOfWeek.add(i, "day"); // Calculates the day for the current iteration
 
         const morningEvent: Availability = {
@@ -242,14 +141,4 @@ const postFetchSchedule = rest.post(
   },
 );
 
-export const userAppHandlers = [
-  getOwner,
-  getMainPageConfig,
-  getDetailsPageConfig,
-  getItems,
-  getItemDetails,
-  getCommentsList,
-  postAvailabilityCheck,
-  postFetchSchedule,
-  postReserveItem,
-];
+export const reservationHandlers = [checkAvailability, reserve, fetchSchedule];

@@ -357,7 +357,7 @@ export default function ItemDetailsPage() {
       </Box>
       <AttributesList
         attributesConfig={storeConfig.customAttributesSpec}
-        itemAttributes={item.attributes.customAttributeList}
+        itemAttributes={item.customAttributeList}
       />
       {core}
       {(storeConfig.detailsPage.showComments ||

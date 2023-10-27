@@ -1,5 +1,12 @@
 import { setupWorker } from "msw";
-import { userAppHandlers } from "./handlers/user-app/userAppHandlers";
-import { adminAppHandlers } from "./handlers/admin-app/adminAppHandlers";
+import { itemsHandlers } from "./itemsHandlers";
+import { storeConfigHandlers } from "./storeConfigHandlers";
+import { commentsHandlers } from "./commentsHandlers";
+import { reservationHandlers } from "./reservationHandlers";
 
-export const worker = setupWorker(...userAppHandlers, ...adminAppHandlers);
+export const worker = setupWorker(
+  ...itemsHandlers,
+  ...storeConfigHandlers,
+  ...commentsHandlers,
+  ...reservationHandlers,
+);

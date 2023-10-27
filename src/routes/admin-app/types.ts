@@ -44,3 +44,7 @@ export type EnhancedItem = {
   };
   initialStatus: ItemInitialStatus;
 };
+
+export type ItemWithoutIds = Omit<Item, "id" | "subItems"> & {
+  subItems?: Omit<SubItem, "id">[];
+};

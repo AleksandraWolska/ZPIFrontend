@@ -54,7 +54,7 @@ function ItemListElement({ item, config }: ItemListElementProps) {
       <Box>
         <AttributesList
           attributesConfig={config.customAttributesSpec}
-          itemAttributes={item.attributes.customAttributeList}
+          itemAttributes={item.customAttributeList}
         />
       </Box>
     </Box>
