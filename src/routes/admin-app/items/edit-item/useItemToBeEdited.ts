@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import { getItemToBeEditedQuery } from "./loader";
-import { EnhancedItem } from "../../types";
+import { Item } from "../../../../types";
 
 function useItemToBeEdited() {
   const { storeId, itemId } = useParams() as {
@@ -10,7 +10,7 @@ function useItemToBeEdited() {
   };
 
   const { data } = useQuery(getItemToBeEditedQuery(storeId, itemId)) as {
-    data: EnhancedItem;
+    data: Item;
   };
 
   return data;

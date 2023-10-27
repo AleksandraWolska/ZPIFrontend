@@ -1,27 +1,24 @@
 import { QueryClient } from "react-query";
 import { defer, LoaderFunctionArgs } from "react-router-dom";
-import { EnhancedItem } from "../../types";
 import { getAccessToken } from "../../../../auth/utils";
 import { BACKEND_URL } from "../../../../query";
 import { getItemConfigQuery } from "../common-data/itemConfigQuery";
+import { Item } from "../../../../types";
 
-const fetchEnhancedItems = async (storeId: string): Promise<EnhancedItem[]> => {
+const fetchItems = async (storeId: string): Promise<Item[]> => {
   const token = getAccessToken();
 
-  const res = await fetch(
-    `${BACKEND_URL}/api/admin/${storeId}/enhanced-items`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+  const res = await fetch(`${BACKEND_URL}/api/stores/${storeId}/items`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
     },
-  );
+  });
   return res.json();
 };
 
-export const getEnhancedItemsQuery = (storeId: string) => ({
-  queryKey: ["enhanced-items", storeId],
-  queryFn: () => fetchEnhancedItems(storeId),
+export const getItemsQuery = (storeId: string) => ({
+  queryKey: ["items", storeId],
+  queryFn: () => fetchItems(storeId),
 });
 
 export const loader =
@@ -31,11 +28,11 @@ export const loader =
       storeId: string;
     };
 
-    const enhancedItemsQuery = getEnhancedItemsQuery(storeId);
-    const enhancedItems = new Promise((resolve) => {
+    const itemsQuery = getItemsQuery(storeId);
+    const items = new Promise((resolve) => {
       resolve(
-        queryClient.getQueryData(enhancedItemsQuery.queryKey) ??
-          queryClient.fetchQuery(enhancedItemsQuery),
+        queryClient.getQueryData(itemsQuery.queryKey) ??
+          queryClient.fetchQuery(itemsQuery),
       );
     });
 
@@ -48,7 +45,7 @@ export const loader =
     });
 
     return defer({
-      enhancedItems: await enhancedItems,
+      items: await items,
       itemConfig: await itemConfig,
     });
   };

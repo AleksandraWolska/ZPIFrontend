@@ -1,8 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import useItemToBeEdited from "./useItemToBeEdited";
-import ItemFormProvider, {
-  useItemForm,
-} from "../item-form/ItemFormProvider";
+import ItemFormProvider, { useItemForm } from "../item-form/ItemFormProvider";
 import Schedule from "../item-form/schedule/Schedule";
 import useEditItem from "./useEditItem";
 
@@ -10,7 +8,7 @@ function RescheduleItem() {
   const itemToBeEdited = useItemToBeEdited();
 
   return (
-    <ItemFormProvider initial={itemToBeEdited}>
+    <ItemFormProvider initialItem={itemToBeEdited}>
       <ScheduleForm />
     </ItemFormProvider>
   );

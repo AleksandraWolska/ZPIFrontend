@@ -1,18 +1,18 @@
 import { QueryClient } from "react-query";
 import { defer, LoaderFunctionArgs } from "react-router-dom";
-import { EnhancedItem } from "../../types";
 import { getItemConfigQuery } from "../common-data/itemConfigQuery";
+import { Item } from "../../../../types";
 
 const fetchItemToBeEdited = async (
   storeId: string,
   itemId: string,
-): Promise<EnhancedItem> => {
-  const res = await fetch(`/api/admin/${storeId}/enhanced-items/${itemId}`);
+): Promise<Item> => {
+  const res = await fetch(`/api/stores/${storeId}/items/${itemId}`);
   return res.json();
 };
 
 export const getItemToBeEditedQuery = (storeId: string, itemId: string) => ({
-  queryKey: ["enhanced-items", storeId, itemId],
+  queryKey: ["items", storeId, itemId],
   queryFn: () => fetchItemToBeEdited(storeId, itemId),
 });
 

@@ -1,7 +1,7 @@
 import { rest } from "msw";
 import { v4 as uuid } from "uuid";
 import { EnhancedItem } from "../../../routes/admin-app/types";
-import { EnhancedItemWithoutIds } from "../../../routes/admin-app/items/add-item/useAddItem";
+import { ItemWithoutId } from "../../../routes/admin-app/items/add-item/useAddItem";
 
 const getDummyItemConfig = rest.get(
   "/api/stores/:storeId/item-config",
@@ -212,7 +212,7 @@ const deactivateItem = rest.put(
 );
 
 const addIdsToEnhancedItem = (
-  enhancedItem: EnhancedItemWithoutIds,
+  enhancedItem: ItemWithoutId,
 ): EnhancedItem => {
   return {
     item: {
