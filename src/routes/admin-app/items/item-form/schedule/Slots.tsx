@@ -2,19 +2,16 @@ import { useState } from "react";
 import { Box, Stack, TextField, Typography } from "@mui/material";
 import { v4 as uuid } from "uuid";
 import dayjs from "dayjs";
-import { EnhancedItem, SlotsSchedule } from "../../../types";
+import { SlotsSchedule } from "../../../types";
 import ScheduleCalendar, {
   BigCalendarEvent,
 } from "./schedule-calendar/ScheduleCalendar";
+import { useItemForm } from "../ItemFormProvider";
 
-function Slots({
-  enhancedItem,
-  setInitialStatus,
-}: {
-  enhancedItem: EnhancedItem;
-  setInitialStatus: (option: Partial<EnhancedItem["initialStatus"]>) => void;
-}) {
-  const { schedule } = enhancedItem.initialStatus as {
+function Slots() {
+  const { item, setInitialSetting } = useItemForm();
+
+  const { schedule } = item.initialSettings as {
     schedule: SlotsSchedule;
   };
 
@@ -46,7 +43,9 @@ function Slots({
           <ScheduleCalendar
             events={parseSlotsScheduleToEvents(schedule)}
             onEventsChange={(events: BigCalendarEvent[]) =>
-              setInitialStatus({ schedule: parseEventsToSlotsSchedule(events) })
+              setInitialSetting({
+                schedule: parseEventsToSlotsSchedule(events),
+              })
             }
             step={step > 0 ? step : 30}
           />

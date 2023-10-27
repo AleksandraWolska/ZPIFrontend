@@ -139,7 +139,7 @@ export type SubItem = {
   subtitle: string;
   amount?: number;
   availableAmount?: number;
-  schedule?: Schedule;
+  schedule?: FixedSchedule;
 };
 
 export type Item = {
@@ -149,17 +149,17 @@ export type Item = {
     subtitle: string;
     description: string;
     image: string;
-    customAttributeList: CustomAttribute[];
   };
+  customAttributeList: CustomAttribute[];
   initialSettings: {
     amount?: number;
-    schedule?: Schedule;
+    schedule: Schedule;
   };
+  subItems?: SubItem[];
   status: {
     active: boolean;
     availableAmount?: number;
     availability?: Availability[];
     mark?: number;
   };
-  subItems?: SubItem[];
 };

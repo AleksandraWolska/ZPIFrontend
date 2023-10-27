@@ -1,23 +1,23 @@
 import { useNavigate } from "react-router-dom";
 import useItemToBeEdited from "./useItemToBeEdited";
-import EnhancedItemProvider, {
-  useEnhancedItem,
-} from "../enhanced-item-context/EnhancedItemProvider";
-import Schedule from "../enhanced-item-form/schedule/Schedule";
+import ItemFormProvider, {
+  useItemForm,
+} from "../item-form/ItemFormProvider";
+import Schedule from "../item-form/schedule/Schedule";
 import useEditItem from "./useEditItem";
 
 function RescheduleItem() {
   const itemToBeEdited = useItemToBeEdited();
 
   return (
-    <EnhancedItemProvider initialEnhancedItem={itemToBeEdited}>
+    <ItemFormProvider initial={itemToBeEdited}>
       <ScheduleForm />
-    </EnhancedItemProvider>
+    </ItemFormProvider>
   );
 }
 
 function ScheduleForm() {
-  const { enhancedItem } = useEnhancedItem();
+  const { item } = useItemForm();
   const editItem = useEditItem();
   const navigate = useNavigate();
 
@@ -27,7 +27,7 @@ function ScheduleForm() {
       <button
         type="button"
         onClick={() => {
-          editItem.mutate(enhancedItem, {
+          editItem.mutate(item, {
             onSuccess: () => {
               navigate("../..", { relative: "path" });
             },

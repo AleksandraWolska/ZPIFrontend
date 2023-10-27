@@ -1,16 +1,13 @@
 import { Checkbox, FormControlLabel, Stack, Typography } from "@mui/material";
 import { DateTimePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
-import { EnhancedItem, FixedSchedule } from "../../../types";
+import { FixedSchedule } from "../../../types";
+import { useItemForm } from "../ItemFormProvider";
 
-function Fixed({
-  enhancedItem,
-  setInitialStatus,
-}: {
-  enhancedItem: EnhancedItem;
-  setInitialStatus: (option: Partial<EnhancedItem["initialStatus"]>) => void;
-}) {
-  const { schedule } = enhancedItem.initialStatus as {
+function Fixed() {
+  const { item, setInitialSetting } = useItemForm();
+
+  const { schedule } = item.initialSettings as {
     schedule: FixedSchedule;
   };
 
@@ -29,7 +26,7 @@ function Fixed({
           value={dayjs(schedule.startDateTime)}
           onChange={(newValue) => {
             if (newValue) {
-              setInitialStatus({
+              setInitialSetting({
                 schedule: {
                   ...schedule,
                   startDateTime: newValue.toISOString(),
@@ -46,7 +43,7 @@ function Fixed({
             <Checkbox
               checked={!!schedule.endDateTime}
               onChange={(e) => {
-                setInitialStatus({
+                setInitialSetting({
                   schedule: {
                     ...schedule,
                     endDateTime: e.target.checked
@@ -66,7 +63,7 @@ function Fixed({
             value={dayjs(schedule.endDateTime)}
             onChange={(newValue) => {
               if (newValue) {
-                setInitialStatus({
+                setInitialSetting({
                   schedule: {
                     ...schedule,
                     endDateTime: newValue.toISOString(),

@@ -2,19 +2,16 @@ import { useState } from "react";
 import { Box, Stack, TextField, Typography } from "@mui/material";
 import { v4 as uuid } from "uuid";
 import dayjs from "dayjs";
-import { ContinuousSchedule, EnhancedItem } from "../../../types";
+import { ContinuousSchedule } from "../../../types";
 import ScheduleCalendar, {
   BigCalendarEvent,
 } from "./schedule-calendar/ScheduleCalendar";
+import { useItemForm } from "../ItemFormProvider";
 
-function Continuous({
-  enhancedItem,
-  setInitialStatus,
-}: {
-  enhancedItem: EnhancedItem;
-  setInitialStatus: (option: Partial<EnhancedItem["initialStatus"]>) => void;
-}) {
-  const { schedule } = enhancedItem.initialStatus as {
+function Continuous() {
+  const { item, setInitialSetting } = useItemForm();
+
+  const { schedule } = item.initialSettings as {
     schedule: ContinuousSchedule;
   };
 
@@ -44,7 +41,7 @@ function Continuous({
           <ScheduleCalendar
             events={parseContinuousScheduleToEvents(schedule)}
             onEventsChange={(events: BigCalendarEvent[]) =>
-              setInitialStatus({
+              setInitialSetting({
                 schedule: parseEventsToContinuousSchedule(events),
               })
             }

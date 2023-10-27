@@ -1,19 +1,19 @@
 import { useNavigate } from "react-router-dom";
 import useAddItem, { removeIdsFromEnhancedItem } from "./useAddItem";
-import { useEnhancedItem } from "../enhanced-item-context/EnhancedItemProvider";
+import { useItemForm } from "../item-form/ItemFormProvider";
 
 function Summary() {
-  const { enhancedItem } = useEnhancedItem();
+  const { item } = useItemForm();
   const addItem = useAddItem();
   const navigate = useNavigate();
 
   return (
     <>
-      <div>{JSON.stringify(enhancedItem)}</div>
+      <div>{JSON.stringify(item)}</div>
       <button
         type="button"
         onClick={() => {
-          addItem.mutate(removeIdsFromEnhancedItem(enhancedItem), {
+          addItem.mutate(removeIdsFromEnhancedItem(item), {
             onSuccess: () => {
               navigate("../item-list", { relative: "path" });
             },
