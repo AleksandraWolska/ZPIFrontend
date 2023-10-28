@@ -11,16 +11,27 @@ function Home() {
       <Link to="/store-config-wizard">Store config wizard</Link>
       <br />
       <br />
-      <Link to="/admin/1">AdminApp 1</Link>
-      <br />
-      <Link to="/admin/7">AdminApp 7</Link>
-      <br />
+      {Array.from({ length: 10 }).map((_, i) => {
+        return (
+          <>
+            <Link to={`/admin/${i + 1}`}>AdminApp {i + 1}</Link>
+            <br />
+          </>
+        );
+      })}
       <br />
       <Link to="/secret">Secret page</Link>
       <br />
-      <Link to="/userapp/1">UserApp 1</Link>
       <br />
-      <Link to="/userapp/7">UserApp 7</Link>
+      {Array.from({ length: 10 }).map((_, i) => {
+        return (
+          <>
+            <Link to={`/userapp/${i + 1}`}>Userapp {i + 1}</Link>
+            <br />
+          </>
+        );
+      })}
+      <br />
     </div>
   );
 }

@@ -4,7 +4,7 @@ import { fetchData } from "./utils";
 import { ItemWithoutIds } from "../routes/admin-app/types";
 import { ContinuousSchedule, Item, SlotsSchedule } from "../types";
 import { importStoreConfig } from "./storeConfigHandlers";
-import { calculateAvailability } from "./data/store-7/availability";
+import { calculateAvailability } from "./data/common/availability";
 
 const importItems = async (storeId: string) => {
   return (await fetchData(storeId, "items")) as Item[];
@@ -69,6 +69,13 @@ const editItem = rest.put(
 
     if (idx === -1) {
       return res(ctx.status(404), ctx.json({ message: "Item not found." }));
+    }
+
+    const storeConfig = await importStoreConfig(storeId.toString());
+    if (storeConfig.core.flexibility) {
+      body.status.availability = calculateAvailability(
+        body.initialSettings.schedule as SlotsSchedule | ContinuousSchedule,
+      );
     }
 
     items[idx] = body;
