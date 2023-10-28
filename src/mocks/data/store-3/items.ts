@@ -4,8 +4,8 @@ export const items: Item[] = [
   {
     id: "1",
     attributes: {
-      title: "Wizyta Dentysta Anna Majewska",
-      subtitle: "w lokalizacji Wyszyńskiego 8",
+      title: "Spotkanie z kulturą: Anna Majewska",
+      subtitle: "01.10.2023 w lokalizacji Wyszyńskiego 8",
       description: "",
       image: "https://api.slingacademy.com/public/sample-photos/2.jpeg",
     },
@@ -35,22 +35,29 @@ export const items: Item[] = [
         name: "Nazwisko",
         value: "Anna Majewska",
       },
+      {
+        id: "6",
+        name: "Data",
+        value: "2024-02-01T12:00:00Z",
+      },
     ],
     initialSettings: {
+      amount: 10,
       schedule: {
-        startDateTime: "2023-11-30T10:00:00.000Z",
+        startDateTime: "2024-02-01T12:00:00Z",
       },
     },
     status: {
       active: true,
       mark: 4.5,
+      availableAmount: 10,
     },
   },
   {
     id: "2",
     attributes: {
-      title: "Wizyta Okulista Kamil Kruk",
-      subtitle: "w lokalizacji Zdalnie",
+      title: "Spotkanie z kulturą: Kamil Kruk",
+      subtitle: "02.10.2023 w lokalizacji Zdalnie",
       description: "",
       image: "https://api.slingacademy.com/public/sample-photos/5.jpeg",
     },
@@ -80,22 +87,28 @@ export const items: Item[] = [
         name: "Nazwisko",
         value: "Kamil Kruk",
       },
+      {
+        id: "6",
+        name: "Data",
+        value: "2024-02-02T12:00:00Z",
+      },
     ],
     initialSettings: {
       schedule: {
-        startDateTime: "2023-11-30T10:00:00.000Z",
+        startDateTime: "2024-02-02T12:00:00Z",
       },
     },
     status: {
       active: true,
       mark: 4.8,
+      availableAmount: 5,
     },
   },
   {
     id: "3",
     attributes: {
-      title: "Wizyta Kardiolog Michał Michalski",
-      subtitle: "w lokalizacji Nowowiejska 56",
+      title: "Spotkanie z kulturą: Michał Michalski",
+      subtitle: "03.10.2023 w lokalizacji Nowowiejska 56",
       description: "",
       image: "https://api.slingacademy.com/public/sample-photos/3.jpeg",
     },
@@ -125,22 +138,29 @@ export const items: Item[] = [
         name: "Nazwisko",
         value: "Michał Michalski",
       },
+      {
+        id: "6",
+        name: "Data",
+        value: "2024-02-03T12:00:00Z",
+      },
     ],
     initialSettings: {
+      amount: 20,
       schedule: {
-        startDateTime: "2023-11-30T10:00:00.000Z",
+        startDateTime: "2024-02-03T12:00:00Z",
       },
     },
     status: {
       active: true,
       mark: 4.6,
+      availableAmount: 20,
     },
   },
   {
     id: "4",
     attributes: {
-      title: "Wizyta Neurolog",
-      subtitle: "w lokalizacji Pasaż Grunwaldzki",
+      title: "Spotkanie z kulturą: ",
+      subtitle: "04.10.2023 w lokalizacji Pasaż Grunwaldzki",
       description: "",
       image: "https://api.slingacademy.com/public/sample-photos/4.jpeg",
     },
@@ -170,60 +190,22 @@ export const items: Item[] = [
         name: "Nazwisko",
         value: "Kamil Kruk",
       },
+      {
+        id: "6",
+        name: "Data",
+        value: "2024-02-04T12:00:00Z",
+      },
     ],
     initialSettings: {
+      amount: 20,
       schedule: {
-        startDateTime: "2023-12-01T10:00:00.000Z",
+        startDateTime: "2024-02-04T12:00:00Z",
       },
     },
     status: {
       active: true,
       mark: 4,
-    },
-  },
-  {
-    id: "5",
-    attributes: {
-      title: "Wizyta Dentysta Anna Majewska",
-      subtitle: "w lokalizacji Zdalnie",
-      description: "",
-      image: "https://api.slingacademy.com/public/sample-photos/5.jpeg",
-    },
-    customAttributeList: [
-      {
-        id: "1",
-        name: "Lokalizacja",
-        value: "Zdalnie",
-      },
-      {
-        id: "2",
-        name: "Typ lekarza",
-        value: "Dentysta",
-      },
-      {
-        id: "3",
-        name: "Staż pracy",
-        value: 7,
-      },
-      {
-        id: "4",
-        name: "NFZ",
-        value: true,
-      },
-      {
-        id: "5",
-        name: "Nazwisko",
-        value: "Anna Majewska",
-      },
-    ],
-    initialSettings: {
-      schedule: {
-        startDateTime: "2023-12-01T10:00:00.000Z",
-      },
-    },
-    status: {
-      active: true,
-      mark: 4.7,
+      availableAmount: 20,
     },
   },
 ];
