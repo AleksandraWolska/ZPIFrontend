@@ -16,9 +16,8 @@ import AllowOverNight from "./steps/core/AllowOverNight";
 
 const outerWizardBox = {
   maxWidth: "1000px",
-  minWidth: "500px",
+  width: "90vw",
   boxShadow: "1px 1px 5px 2px rgba(0, 0, 0, .2)",
-  width: "70%",
   borderRadius: "15px",
   padding: "10px",
   margin: "10px",

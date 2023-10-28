@@ -39,6 +39,9 @@ function Uniqueness({
       >
         <ArrowBack />
       </IconButton>
+      <Typography variant="h4" sx={style.titleForm}>
+        Item Uniqueness
+      </Typography>
       <IconButton
         sx={style.infoIcon}
         size="small"
@@ -46,9 +49,6 @@ function Uniqueness({
       >
         <InfoIcon />
       </IconButton>
-      <Typography variant="h4" sx={style.titleForm}>
-        Item Uniqueness
-      </Typography>
       <Box margin="10px">
         <Typography sx={style.descriptionCoreForm}>
           This option defines whether the item is a unique entity or if there

@@ -108,16 +108,18 @@ function CustomAttributesSpec({
         visibility on main and item detail pages and if ou want define possible
         values
       </Typography>
-      <Box margin="20px">
+      <Box width="100%" padding="20px" paddingTop="0px">
         {localAttributesSpec.map((attr, idx) => {
           const disabled = attr.name === "";
 
           return (
             <Box key={attr.id}>
               <Divider sx={{ marginTop: 4, marginBottom: 4 }} />
-              <Stack direction="row" gap={1}>
+              <Stack direction="row" gap={1} marginBottom="10px">
                 <TextField
                   value={attr.name}
+                  sx={{ width: "60%" }}
+                  label="Attribute Name"
                   onChange={(e) => {
                     updateLocalAttributeSpec(attr.id, { name: e.target.value });
                     if (idx === lastIdx) {
@@ -131,6 +133,8 @@ function CustomAttributesSpec({
 
                 <Select
                   value={attr.dataType}
+                  label="Attribute Type"
+                  sx={{ width: "35%" }}
                   onChange={(e) => {
                     const val = e.target
                       .value as CustomAttributeSpec["dataType"];
@@ -144,6 +148,9 @@ function CustomAttributesSpec({
                 </Select>
 
                 <IconButton
+                  sx={{
+                    width: "5%",
+                  }}
                   onClick={() => {
                     setLocalAttributesSpec((prev) =>
                       prev.filter((p) => p.id !== attr.id),
@@ -155,7 +162,13 @@ function CustomAttributesSpec({
                 </IconButton>
               </Stack>
 
-              <FormGroup row>
+              <FormGroup
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
                 <FormControlLabel
                   control={
                     <Checkbox
@@ -167,7 +180,7 @@ function CustomAttributesSpec({
                       }}
                     />
                   }
-                  label="isRequired"
+                  label="Required"
                   disabled={disabled}
                 />
 
@@ -182,7 +195,7 @@ function CustomAttributesSpec({
                       }}
                     />
                   }
-                  label="isFilterable"
+                  label="Filterable"
                   disabled={disabled}
                 />
 
@@ -197,7 +210,7 @@ function CustomAttributesSpec({
                       }}
                     />
                   }
-                  label="showMainPage"
+                  label="Visible on main page"
                   disabled={disabled}
                 />
 
@@ -212,13 +225,16 @@ function CustomAttributesSpec({
                       }}
                     />
                   }
-                  label="showDetailsPage"
+                  label="Visible on details page"
                   disabled={disabled}
                 />
               </FormGroup>
 
               {attr.dataType === "string" && (
-                <Stack direction="row" alignItems="center">
+                <Stack
+                  direction="row"
+                  sx={{ alignItems: "center", marginTop: "10px" }}
+                >
                   <FormControlLabel
                     control={
                       <Checkbox
@@ -230,7 +246,7 @@ function CustomAttributesSpec({
                         }}
                       />
                     }
-                    label="limitValues"
+                    label="Predefine values"
                     disabled={disabled}
                   />
 

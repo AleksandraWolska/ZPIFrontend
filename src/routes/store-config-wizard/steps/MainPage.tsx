@@ -41,23 +41,28 @@ function MainPage({
         <ArrowBack />
       </IconButton>
 
-      <TextField
-        label="Welcome text - line 1"
-        name="welcomeTextLine1"
-        value={mainPage.welcomeTextLine1}
-        onChange={(e) =>
-          setMainPageAttribute("welcomeTextLine1", e.target.value)
-        }
-      />
+      <Box width="100%" padding="20px">
+        <TextField
+          fullWidth
+          sx={{ marginBottom: "10px" }}
+          label="Welcome text - line 1"
+          name="welcomeTextLine1"
+          value={mainPage.welcomeTextLine1}
+          onChange={(e) =>
+            setMainPageAttribute("welcomeTextLine1", e.target.value)
+          }
+        />
 
-      <TextField
-        label="Welcome text - line 2"
-        name="welcomeTextLine2"
-        value={mainPage.welcomeTextLine2}
-        onChange={(e) =>
-          setMainPageAttribute("welcomeTextLine2", e.target.value)
-        }
-      />
+        <TextField
+          fullWidth
+          label="Welcome text - line 2"
+          name="welcomeTextLine2"
+          value={mainPage.welcomeTextLine2}
+          onChange={(e) =>
+            setMainPageAttribute("welcomeTextLine2", e.target.value)
+          }
+        />
+      </Box>
 
       <FormGroup>
         <FormControlLabel

@@ -27,9 +27,6 @@ function Simultaneous({
   const [showInfo, setShowInfo] = useState(false);
   return (
     <Box sx={style.outerFormBox}>
-      <Typography variant="h4" sx={style.titleForm}>
-        Simultaneous Access
-      </Typography>
       <IconButton
         sx={style.backIcon}
         onClick={() => {
@@ -47,7 +44,10 @@ function Simultaneous({
         }}
       >
         <ArrowBack />
-      </IconButton>
+      </IconButton>{" "}
+      <Typography variant="h4" sx={style.titleForm}>
+        Simultaneous Access
+      </Typography>
       <IconButton
         sx={style.infoIcon}
         size="small"
@@ -55,7 +55,6 @@ function Simultaneous({
       >
         <InfoIcon />
       </IconButton>
-
       <Box margin="10px">
         <Typography sx={style.descriptionCoreForm}>
           This field determines whether multiple users can be signed up for an

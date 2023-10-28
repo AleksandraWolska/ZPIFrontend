@@ -42,6 +42,9 @@ function SpecificReservation({
       >
         <ArrowBack />
       </IconButton>
+      <Typography variant="h4" sx={style.titleForm}>
+        Specific Reservation
+      </Typography>
       <IconButton
         sx={style.infoIcon}
         size="small"
@@ -49,29 +52,26 @@ function SpecificReservation({
       >
         <InfoIcon />
       </IconButton>
-      <Typography variant="h4" sx={style.titleForm}>
-        Specific reservation - Yes or No?
-      </Typography>
+
       <Box margin="10px">
         <Typography sx={style.descriptionCoreForm}>
-          Select whether an item's reservation timeframe should be predetermined
-          and fixed, or if the user has the flexibility to choose according to
-          their preferences.
+          This field defines whether users can book specific parts of an item,
+          eq. seats for a movie.
         </Typography>
         <Collapse in={showInfo} timeout="auto" unmountOnExit>
           <Box sx={style.infoCoreOuterContainer}>
             <Box sx={style.infoCoreBox}>
               <Typography sx={style.infoCoreText}>
-                Flexible value means that the item can be reserved for a period
-                chosen by user within specified time frames.
+                Select yes if you want users to reserve specific places or parts
+                within an item. This is best suited for venues with specific
+                seating.
               </Typography>
             </Box>
             <Divider orientation="vertical" flexItem />
             <Box sx={style.infoCoreBox}>
               <Typography sx={style.infoCoreText}>
-                Fixed value indicates that the item has fixed start and end
-                times set by an admin, and users can only sign up for the entire
-                duration.
+                Select no if you want the item or event to be treated as a
+                whole, with no sub-item reservations possible.
               </Typography>
             </Box>
           </Box>
@@ -88,7 +88,7 @@ function SpecificReservation({
             setProgress(100);
           }}
         >
-          yes
+          Yes
         </Button>
         <Button
           sx={style.choiceButton}

@@ -35,6 +35,9 @@ function Flexibility({
       >
         <ArrowBack />
       </IconButton>
+      <Typography variant="h4" sx={style.titleForm}>
+        Time Frame Flexibility
+      </Typography>
       <IconButton
         sx={style.infoIcon}
         size="small"
@@ -42,9 +45,6 @@ function Flexibility({
       >
         <InfoIcon />
       </IconButton>
-      <Typography variant="h4" sx={style.titleForm}>
-        Time frame flexibility
-      </Typography>
       <Box margin="10px">
         <Typography sx={style.descriptionCoreForm}>
           Select whether an item's reservation timeframe should be predetermined

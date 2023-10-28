@@ -26,9 +26,6 @@ function Granularity({
   const [showInfo, setShowInfo] = useState(false);
   return (
     <Box sx={style.outerFormBox}>
-      <Typography variant="h4" sx={style.titleForm}>
-        Time Interval Restriction
-      </Typography>
       <IconButton
         sx={style.backIcon}
         onClick={() => {
@@ -42,6 +39,9 @@ function Granularity({
       >
         <ArrowBack />
       </IconButton>
+      <Typography variant="h4" sx={style.titleForm}>
+        Time Interval Restriction
+      </Typography>
       <IconButton
         sx={style.infoIcon}
         size="small"

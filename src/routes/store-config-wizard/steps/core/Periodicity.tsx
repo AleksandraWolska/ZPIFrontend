@@ -43,6 +43,9 @@ function Periodicity({
       >
         <ArrowBack />
       </IconButton>
+      <Typography variant="h4" sx={style.titleForm}>
+        Event Cyclicity
+      </Typography>
       <IconButton
         sx={style.infoIcon}
         size="small"
@@ -50,9 +53,7 @@ function Periodicity({
       >
         <InfoIcon />
       </IconButton>
-      <Typography variant="h4" sx={style.titleForm}>
-        Cyclicity
-      </Typography>
+
       <Box margin="10px">
         <Typography sx={style.descriptionCoreForm}>
           This field determines the cyclical nature of events or bookings.

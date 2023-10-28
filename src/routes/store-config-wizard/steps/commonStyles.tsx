@@ -44,11 +44,19 @@ export const backIcon = {
   top: 0,
   left: 10,
   position: "absolute",
+  "@media (max-width: 500px)": {
+    position: "static",
+    alignSelf: "flex-start",
+  },
 };
+
 export const infoIcon = {
   top: 0,
   right: 15,
   position: "absolute",
+  "@media (max-width: 500px)": {
+    position: "static",
+  },
 };
 
 export const choiceButton = {
@@ -56,20 +64,17 @@ export const choiceButton = {
   width: "40%",
 };
 
-
 export const changePageButtonContainer = {
   display: "flex",
   flexDirection: "row",
   justifyContent: "space-between",
   width: "100%",
-
 };
 export const changePageButton = {
   flexGrow: 1,
-  mx: 1, // Add some horizontal margin for spacing
+  mx: 1,
   margin: "10px",
 };
-
 
 export const descriptionForm = {
   textAlign: "center",

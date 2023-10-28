@@ -27,9 +27,6 @@ function AllowOverNight({
   const [showInfo, setShowInfo] = useState(false);
   return (
     <Box sx={style.outerFormBox}>
-      <Typography variant="h4" sx={style.titleForm}>
-        Overnight access
-      </Typography>
       <IconButton
         sx={style.backIcon}
         onClick={() => {
@@ -43,6 +40,10 @@ function AllowOverNight({
       >
         <ArrowBack />
       </IconButton>
+
+      <Typography variant="h4" sx={style.titleForm}>
+        Overnight access
+      </Typography>
       <IconButton
         sx={style.infoIcon}
         size="small"
@@ -50,7 +51,6 @@ function AllowOverNight({
       >
         <InfoIcon />
       </IconButton>
-
       <Box margin="10px">
         <Typography sx={style.descriptionCoreForm}>
           Select whether user could have access to an item outside of open
