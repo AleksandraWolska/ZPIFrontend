@@ -1,6 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
 import { queryClient } from "./query";
-import { loader as todosLoader } from "./routes/todos/all-todos/loader";
 import Home from "./routes/home/Home";
 import RequireLogin from "./auth/RequireLogin";
 import Secret from "./routes/secret/Secret";
@@ -91,24 +90,6 @@ const router = createBrowserRouter([
       ).default;
       return { Component: StoreConfigWizard };
     },
-  },
-  {
-    path: "todos",
-    lazy: async () => {
-      const TodosLayout = (await import("./routes/todos/TodosLayout")).default;
-      return { Component: TodosLayout };
-    },
-    children: [
-      {
-        path: "all",
-        loader: todosLoader(queryClient),
-        lazy: async () => {
-          const Todos = (await import("./routes/todos/all-todos/Todos"))
-            .default;
-          return { Component: Todos };
-        },
-      },
-    ],
   },
   {
     path: "userapp/:storeId",

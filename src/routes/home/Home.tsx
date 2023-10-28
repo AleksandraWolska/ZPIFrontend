@@ -18,8 +18,6 @@ function Home() {
       <Link to="/admin/3">AdminApp 3</Link>
       <br />
       <br />
-      <Link to="/todos">Todos</Link>
-      <br />
       <Link to="/secret">Secret page</Link>
       <br />
       <Link to="/userapp/1">UserApp</Link>
