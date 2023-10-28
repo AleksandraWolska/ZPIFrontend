@@ -153,7 +153,7 @@ export type Item = {
   customAttributeList: CustomAttribute[];
   initialSettings: {
     amount?: number;
-    schedule: Schedule;
+    schedule?: Schedule;
   };
   subItems?: SubItem[];
   status: {
