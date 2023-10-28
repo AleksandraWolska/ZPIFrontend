@@ -2,7 +2,9 @@ import { rest } from "msw";
 import { v4 as uuid } from "uuid";
 import { fetchData } from "./utils";
 import { ItemWithoutIds } from "../routes/admin-app/types";
-import { Item } from "../types";
+import { ContinuousSchedule, Item, SlotsSchedule } from "../types";
+import { importStoreConfig } from "./storeConfigHandlers";
+import { calculateAvailability } from "./data/store-7/availability";
 
 const importItems = async (storeId: string) => {
   return (await fetchData(storeId, "items")) as Item[];
@@ -41,8 +43,15 @@ const addItem = rest.post(
     const body = (await req.json()) as ItemWithoutIds;
 
     const items = await importItems(storeId.toString());
+    const storeConfig = await importStoreConfig(storeId.toString());
 
-    items.push(addIdsToItem(body));
+    let item = addIdsToItem(body);
+
+    if (storeConfig.core.flexibility) {
+      item = addAvailabilityToItem(item);
+    }
+
+    items.push(item);
 
     return res(ctx.status(201), ctx.json({ message: "Added new item." }));
   },
@@ -131,6 +140,18 @@ const addIdsToItem = (item: ItemWithoutIds): Item => {
       ...si,
       id: uuid(),
     })),
+  };
+};
+
+const addAvailabilityToItem = (item: Item): Item => {
+  return {
+    ...item,
+    status: {
+      ...item.status,
+      availability: calculateAvailability(
+        item.initialSettings.schedule as SlotsSchedule | ContinuousSchedule,
+      ),
+    },
   };
 };
 

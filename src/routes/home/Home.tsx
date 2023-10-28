@@ -13,14 +13,14 @@ function Home() {
       <br />
       <Link to="/admin/1">AdminApp 1</Link>
       <br />
-      <Link to="/admin/2">AdminApp 2</Link>
-      <br />
-      <Link to="/admin/3">AdminApp 3</Link>
+      <Link to="/admin/7">AdminApp 7</Link>
       <br />
       <br />
       <Link to="/secret">Secret page</Link>
       <br />
-      <Link to="/userapp/1">UserApp</Link>
+      <Link to="/userapp/1">UserApp 1</Link>
+      <br />
+      <Link to="/userapp/7">UserApp 7</Link>
     </div>
   );
 }

@@ -1,25 +1,24 @@
-import dayjs from "dayjs";
-import { Availability } from "../../../types";
+import {
+  Availability,
+  ContinuousSchedule,
+  SlotsSchedule,
+} from "../../../types";
 
-const today = dayjs();
-const startOfWeek = today.startOf("week").add(1, "day"); // Moves to Monday
+// in the future this should contain more complex logic to calculate availability based on reservation requests
+export const calculateAvailability = (
+  schedule: SlotsSchedule | ContinuousSchedule,
+): Availability[] => {
+  if ("scheduledSlots" in schedule) {
+    return schedule.scheduledSlots.map((slot) => ({
+      startDateTime: slot.startDateTime,
+      endDateTime: slot.endDateTime,
+      type: "slot",
+    }));
+  }
 
-export const availability: Availability[] = Array.from({
-  length: 7,
-}).flatMap((_, i) => {
-  const currentDay = startOfWeek.add(i, "day"); // Calculates the day for the current iteration
-
-  const morningEvent: Availability = {
-    startDateTime: currentDay.add(8, "hour").toDate().toISOString(),
-    endDateTime: currentDay.add(12, "hour").toDate().toISOString(),
-    type: "morning",
-  };
-
-  const afternoonEvent: Availability = {
-    startDateTime: currentDay.add(14, "hour").toDate().toISOString(),
-    endDateTime: currentDay.add(18, "hour").toDate().toISOString(),
-    type: "afternoon",
-  };
-
-  return [morningEvent, afternoonEvent];
-});
+  return schedule.scheduledRanges.map((range) => ({
+    startDateTime: range.startDateTime,
+    endDateTime: range.endDateTime,
+    type: "continuous",
+  }));
+};

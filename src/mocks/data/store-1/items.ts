@@ -1,6 +1,6 @@
 import { Item } from "../../../types";
 
-const items: Item[] = [
+export const items: Item[] = [
   {
     id: "1",
     attributes: {
@@ -230,5 +230,3 @@ const items: Item[] = [
     },
   },
 ];
-
-export default items;

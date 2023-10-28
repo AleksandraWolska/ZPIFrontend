@@ -1,10 +1,10 @@
 import dayjs from "dayjs";
-import { Availability, Availability } from "../../../../../types";
+import { Availability } from "../../../../../types";
 
 const today = dayjs();
 const startOfWeek = today.startOf("week").add(1, "day"); // Moves to Monday
 
-export const dummyAvailability: Availability = Array.from({
+export const dummyAvailability: Availability[] = Array.from({
   length: 7,
 }).flatMap((_, i) => {
   const currentDay = startOfWeek.add(i, "day"); // Calculates the day for the current iteration
