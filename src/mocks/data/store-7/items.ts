@@ -1,5 +1,6 @@
 import { Item } from "../../../types";
-import { availability } from "./availability";
+import { calculateAvailability } from "./availability";
+import { schedule } from "./schedule";
 
 export const items: Item[] = [
   {
@@ -39,36 +40,13 @@ export const items: Item[] = [
     ],
     initialSettings: {
       amount: 10,
-      schedule: {
-        scheduledRanges: [
-          {
-            startDateTime: "2023-11-06T06:00:00.000Z",
-            endDateTime: "2023-11-06T16:00:00.000Z",
-          },
-          {
-            startDateTime: "2023-11-07T06:00:00.000Z",
-            endDateTime: "2023-11-07T16:00:00.000Z",
-          },
-          {
-            startDateTime: "2023-11-08T06:00:00.000Z",
-            endDateTime: "2023-11-08T16:00:00.000Z",
-          },
-          {
-            startDateTime: "2023-11-09T06:00:00.000Z",
-            endDateTime: "2023-11-09T16:00:00.000Z",
-          },
-          {
-            startDateTime: "2023-11-10T06:00:00.000Z",
-            endDateTime: "2023-11-10T10:00:00.000Z",
-          },
-        ],
-      },
+      schedule,
     },
     status: {
       active: true,
       mark: 4.5,
       availableAmount: 10,
-      availability,
+      availability: calculateAvailability(schedule),
     },
   },
   {
@@ -108,36 +86,13 @@ export const items: Item[] = [
     ],
     initialSettings: {
       amount: 15,
-      schedule: {
-        scheduledRanges: [
-          {
-            startDateTime: "2023-11-06T06:00:00.000Z",
-            endDateTime: "2023-11-06T16:00:00.000Z",
-          },
-          {
-            startDateTime: "2023-11-07T06:00:00.000Z",
-            endDateTime: "2023-11-07T16:00:00.000Z",
-          },
-          {
-            startDateTime: "2023-11-08T06:00:00.000Z",
-            endDateTime: "2023-11-08T16:00:00.000Z",
-          },
-          {
-            startDateTime: "2023-11-09T06:00:00.000Z",
-            endDateTime: "2023-11-09T16:00:00.000Z",
-          },
-          {
-            startDateTime: "2023-11-10T06:00:00.000Z",
-            endDateTime: "2023-11-10T10:00:00.000Z",
-          },
-        ],
-      },
+      schedule,
     },
     status: {
       active: true,
       mark: 4.8,
       availableAmount: 15,
-      availability,
+      availability: calculateAvailability(schedule),
     },
   },
   {
@@ -177,36 +132,13 @@ export const items: Item[] = [
     ],
     initialSettings: {
       amount: 8,
-      schedule: {
-        scheduledRanges: [
-          {
-            startDateTime: "2023-11-06T06:00:00.000Z",
-            endDateTime: "2023-11-06T16:00:00.000Z",
-          },
-          {
-            startDateTime: "2023-11-07T06:00:00.000Z",
-            endDateTime: "2023-11-07T16:00:00.000Z",
-          },
-          {
-            startDateTime: "2023-11-08T06:00:00.000Z",
-            endDateTime: "2023-11-08T16:00:00.000Z",
-          },
-          {
-            startDateTime: "2023-11-09T06:00:00.000Z",
-            endDateTime: "2023-11-09T16:00:00.000Z",
-          },
-          {
-            startDateTime: "2023-11-10T06:00:00.000Z",
-            endDateTime: "2023-11-10T10:00:00.000Z",
-          },
-        ],
-      },
+      schedule,
     },
     status: {
       active: true,
       mark: 4.6,
       availableAmount: 8,
-      availability,
+      availability: calculateAvailability(schedule),
     },
   },
   {
@@ -246,36 +178,13 @@ export const items: Item[] = [
     ],
     initialSettings: {
       amount: 20,
-      schedule: {
-        scheduledRanges: [
-          {
-            startDateTime: "2023-11-06T06:00:00.000Z",
-            endDateTime: "2023-11-06T16:00:00.000Z",
-          },
-          {
-            startDateTime: "2023-11-07T06:00:00.000Z",
-            endDateTime: "2023-11-07T16:00:00.000Z",
-          },
-          {
-            startDateTime: "2023-11-08T06:00:00.000Z",
-            endDateTime: "2023-11-08T16:00:00.000Z",
-          },
-          {
-            startDateTime: "2023-11-09T06:00:00.000Z",
-            endDateTime: "2023-11-09T16:00:00.000Z",
-          },
-          {
-            startDateTime: "2023-11-10T06:00:00.000Z",
-            endDateTime: "2023-11-10T10:00:00.000Z",
-          },
-        ],
-      },
+      schedule,
     },
     status: {
       active: true,
       mark: 4,
       availableAmount: 20,
-      availability,
+      availability: calculateAvailability(schedule),
     },
   },
   {
@@ -315,38 +224,13 @@ export const items: Item[] = [
     ],
     initialSettings: {
       amount: 12,
-      schedule: {
-        scheduledRanges: [
-          {
-            startDateTime: "2023-11-06T06:00:00.000Z",
-            endDateTime: "2023-11-06T16:00:00.000Z",
-          },
-          {
-            startDateTime: "2023-11-07T06:00:00.000Z",
-            endDateTime: "2023-11-07T16:00:00.000Z",
-          },
-          {
-            startDateTime: "2023-11-08T06:00:00.000Z",
-            endDateTime: "2023-11-08T16:00:00.000Z",
-          },
-          {
-            startDateTime: "2023-11-09T06:00:00.000Z",
-            endDateTime: "2023-11-09T16:00:00.000Z",
-          },
-          {
-            startDateTime: "2023-11-10T06:00:00.000Z",
-            endDateTime: "2023-11-10T10:00:00.000Z",
-          },
-        ],
-      },
+      schedule,
     },
     status: {
       active: true,
       mark: 4.7,
       availableAmount: 12,
-      availability,
+      availability: calculateAvailability(schedule),
     },
   },
 ];
-
-export default items;

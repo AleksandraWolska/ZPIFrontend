@@ -1,6 +1,6 @@
 import { StoreConfig } from "../../../types";
 
-const storeConfig: StoreConfig = {
+export const storeConfig: StoreConfig = {
   owner: {
     name: "C7 TBD",
     logoSrc: "https://example.com/techrental-logo.png",
@@ -106,5 +106,3 @@ const storeConfig: StoreConfig = {
       "Review your reservation details before confirming.",
   },
 };
-
-export default storeConfig;

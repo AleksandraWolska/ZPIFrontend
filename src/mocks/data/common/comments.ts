@@ -1,6 +1,6 @@
 import { Comment } from "../../../types";
 
-const comments: Comment[] = [
+export const comments: Comment[] = [
   {
     id: "1",
     userId: "101",
@@ -37,5 +37,3 @@ const comments: Comment[] = [
     datetime: "2023-09-16T17:55:00",
   },
 ];
-
-export default comments;

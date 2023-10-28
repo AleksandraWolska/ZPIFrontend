@@ -2,7 +2,7 @@ import { rest } from "msw";
 import { fetchData } from "./utils";
 import { StoreConfig } from "../types";
 
-const importStoreConfig = async (storeId: string) => {
+export const importStoreConfig = async (storeId: string) => {
   return (await fetchData(storeId, "storeConfig")) as StoreConfig;
 };
 
