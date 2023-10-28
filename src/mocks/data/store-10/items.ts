@@ -1,6 +1,6 @@
 import { Item } from "../../../types";
-import { calculateAvailability } from "../common/availability";
 import { schedule } from "../common/schedule";
+import { calculateAvailability } from "../common/availability";
 
 export const items: Item[] = [
   {
@@ -39,7 +39,6 @@ export const items: Item[] = [
       },
     ],
     initialSettings: {
-      amount: 10,
       schedule,
     },
     status: {
@@ -84,7 +83,6 @@ export const items: Item[] = [
       },
     ],
     initialSettings: {
-      amount: 15,
       schedule,
     },
     status: {
@@ -129,7 +127,6 @@ export const items: Item[] = [
       },
     ],
     initialSettings: {
-      amount: 8,
       schedule,
     },
     status: {
@@ -174,57 +171,11 @@ export const items: Item[] = [
       },
     ],
     initialSettings: {
-      amount: 20,
       schedule,
     },
     status: {
       active: true,
       mark: 4,
-      availability: calculateAvailability(schedule),
-    },
-  },
-  {
-    id: "5",
-    attributes: {
-      title: "Workstation Laptop",
-      subtitle: "High-performance laptop for professionals",
-      description: "",
-      image: "https://api.slingacademy.com/public/sample-photos/5.jpeg",
-    },
-    customAttributeList: [
-      {
-        id: "1",
-        name: "Brand",
-        value: "Dell",
-      },
-      {
-        id: "2",
-        name: "Processor",
-        value: "Intel Xeon",
-      },
-      {
-        id: "3",
-        name: "RAM",
-        value: 32,
-      },
-      {
-        id: "4",
-        name: "Storage",
-        value: "1TB NVMe SSD",
-      },
-      {
-        id: "5",
-        name: "Available",
-        value: true,
-      },
-    ],
-    initialSettings: {
-      amount: 12,
-      schedule,
-    },
-    status: {
-      active: true,
-      mark: 4.7,
       availability: calculateAvailability(schedule),
     },
   },
