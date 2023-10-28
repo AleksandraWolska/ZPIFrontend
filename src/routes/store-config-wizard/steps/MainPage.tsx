@@ -3,12 +3,20 @@ import {
   Checkbox,
   FormControlLabel,
   FormGroup,
+  IconButton,
   TextField,
   Typography,
 } from "@mui/material";
+import { ArrowBack } from "@mui/icons-material";
 import { useStoreConfig } from "../StoreConfigProvider";
 import { STORE_CONFIG_STEPS, StoreConfigStep } from "../types";
 import ChangePageButtons from "../../../shared-components/ChangePageButtons";
+import {
+  backIcon,
+  descriptionForm,
+  outerFormBox,
+  titleForm,
+} from "./commonStyles";
 
 function MainPage({
   setActiveStep,
@@ -19,13 +27,22 @@ function MainPage({
   const { mainPage } = storeConfig;
 
   return (
-    <>
-      <Typography variant="h4" sx={{ marginBottom: 2 }}>
-        Main Page
+    <Box sx={outerFormBox}>
+      <Typography variant="h4" sx={titleForm}>
+        Main Page Features
       </Typography>
+      <Typography sx={descriptionForm}>
+        Enter welcome texts, and define visibility of features on the main page
+      </Typography>
+      <IconButton
+        sx={backIcon}
+        onClick={() => setActiveStep(STORE_CONFIG_STEPS.CUSTOM_ATTRIBUTES_SPEC)}
+      >
+        <ArrowBack />
+      </IconButton>
 
       <TextField
-        label="welcomeTextLine1"
+        label="Welcome text - line 1"
         name="welcomeTextLine1"
         value={mainPage.welcomeTextLine1}
         onChange={(e) =>
@@ -34,7 +51,7 @@ function MainPage({
       />
 
       <TextField
-        label="welcomeTextLine2"
+        label="Welcome text - line 2"
         name="welcomeTextLine2"
         value={mainPage.welcomeTextLine2}
         onChange={(e) =>
@@ -52,7 +69,7 @@ function MainPage({
               }}
             />
           }
-          label="enableFiltering"
+          label="Enable filters"
         />
 
         <FormControlLabel
@@ -64,7 +81,7 @@ function MainPage({
               }}
             />
           }
-          label="showItemTitle"
+          label="Show title for item"
         />
 
         <FormControlLabel
@@ -76,7 +93,7 @@ function MainPage({
               }}
             />
           }
-          label="showItemSubtitle"
+          label="Show Subtitle for item"
         />
 
         <FormControlLabel
@@ -88,7 +105,7 @@ function MainPage({
               }}
             />
           }
-          label="showItemImg"
+          label="Show item images"
         />
 
         <FormControlLabel
@@ -100,19 +117,15 @@ function MainPage({
               }}
             />
           }
-          label="showRating"
+          label="Show ratings"
         />
       </FormGroup>
 
-      <Box marginTop={2}>
-        <ChangePageButtons
-          onPrev={() =>
-            setActiveStep(STORE_CONFIG_STEPS.CUSTOM_ATTRIBUTES_SPEC)
-          }
-          onNext={() => setActiveStep(STORE_CONFIG_STEPS.DETAILS_PAGE)}
-        />
-      </Box>
-    </>
+      <ChangePageButtons
+        // onPrev={() => setActiveStep(STORE_CONFIG_STEPS.CUSTOM_ATTRIBUTES_SPEC)}
+        onNext={() => setActiveStep(STORE_CONFIG_STEPS.DETAILS_PAGE)}
+      />
+    </Box>
   );
 }
 

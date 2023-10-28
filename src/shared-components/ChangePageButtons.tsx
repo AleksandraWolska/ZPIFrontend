@@ -1,4 +1,8 @@
-import { Button, Stack } from "@mui/material";
+import { Box, Button, Stack } from "@mui/material";
+import {
+  changePageButton,
+  changePageButtonContainer,
+} from "../routes/store-config-wizard/steps/commonStyles";
 
 function ChangePageButtons({
   onPrev,
@@ -8,18 +12,18 @@ function ChangePageButtons({
   onNext?: () => void;
 }) {
   return (
-    <Stack direction="row" spacing={1}>
+    <Box sx={changePageButtonContainer}>
       {onPrev && (
-        <Button onClick={onPrev} variant="outlined">
+        <Button sx={changePageButton} onClick={onPrev} variant="outlined">
           Prev
         </Button>
       )}
       {onNext && (
-        <Button onClick={onNext} variant="contained">
+        <Button sx={changePageButton} onClick={onNext} variant="contained">
           Next
         </Button>
       )}
-    </Stack>
+    </Box>
   );
 }
 

@@ -51,28 +51,25 @@ function Periodicity({
         <InfoIcon />
       </IconButton>
       <Typography variant="h4" sx={style.titleForm}>
-        Periodicity - Yes or No?
+        Cyclicity
       </Typography>
       <Box margin="10px">
-        <Typography sx={style.descriptionForm}>
-          Select whether an item's reservation timeframe should be predetermined
-          and fixed, or if the user has the flexibility to choose according to
-          their preferences.
+        <Typography sx={style.descriptionCoreForm}>
+          This field determines the cyclical nature of events or bookings.
         </Typography>
         <Collapse in={showInfo} timeout="auto" unmountOnExit>
           <Box sx={style.infoCoreOuterContainer}>
             <Box sx={style.infoCoreBox}>
               <Typography sx={style.infoCoreText}>
-                Flexible value means that the item can be reserved for a period
-                chosen by user within specified time frames.
+                Cyclical events are best suited for events that recur over time.
+                User can view and book different instances of the same event.
               </Typography>
             </Box>
             <Divider orientation="vertical" flexItem />
             <Box sx={style.infoCoreBox}>
               <Typography sx={style.infoCoreText}>
-                Fixed value indicates that the item has fixed start and end
-                times set by an admin, and users can only sign up for the entire
-                duration.
+                Non cyclical events is best for one-time events or items. Each
+                item is treated as a separate entity without any grouping.
               </Typography>
             </Box>
           </Box>
@@ -88,7 +85,7 @@ function Periodicity({
             setProgress(100);
           }}
         >
-          yes
+          Cyclic
         </Button>
         <Button
           sx={style.choiceButton}
@@ -100,7 +97,7 @@ function Periodicity({
             setProgress(100);
           }}
         >
-          no
+          Noncyclic
         </Button>
       </Box>
     </Box>

@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import {
   Box,
   Button,
@@ -26,6 +27,9 @@ function AllowOverNight({
   const [showInfo, setShowInfo] = useState(false);
   return (
     <Box sx={style.outerFormBox}>
+      <Typography variant="h4" sx={style.titleForm}>
+        Overnight access
+      </Typography>
       <IconButton
         sx={style.backIcon}
         onClick={() => {
@@ -46,29 +50,26 @@ function AllowOverNight({
       >
         <InfoIcon />
       </IconButton>
-      <Typography variant="h4" sx={style.titleForm}>
-        Allow over night - True or False?
-      </Typography>
+
       <Box margin="10px">
-        <Typography sx={style.descriptionForm}>
-          Select whether an item's reservation timeframe should be predetermined
-          and fixed, or if the user has the flexibility to choose according to
-          their preferences.
+        <Typography sx={style.descriptionCoreForm}>
+          Select whether user could have access to an item outside of open
+          hours.
         </Typography>
         <Collapse in={showInfo} timeout="auto" unmountOnExit>
           <Box sx={style.infoCoreOuterContainer}>
             <Box sx={style.infoCoreBox}>
               <Typography sx={style.infoCoreText}>
-                Flexible value means that the item can be reserved for a period
-                chosen by user within specified time frames.
+                If yes, user can mantain access to an item outside of store pen
+                hours. It's best suited for hotels, and multiday rental (eq.
+                cars)
               </Typography>
             </Box>
             <Divider orientation="vertical" flexItem />
             <Box sx={style.infoCoreBox}>
               <Typography sx={style.infoCoreText}>
-                Fixed value indicates that the item has fixed start and end
-                times set by an admin, and users can only sign up for the entire
-                duration.
+                If no, user can only rent items for time frames within open
+                hours of rental place
               </Typography>
             </Box>
           </Box>

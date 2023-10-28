@@ -47,28 +47,26 @@ function Uniqueness({
         <InfoIcon />
       </IconButton>
       <Typography variant="h4" sx={style.titleForm}>
-      Uniqueness - Yes or No?
+        Item Uniqueness
       </Typography>
       <Box margin="10px">
-        <Typography sx={style.descriptionForm}>
-          Select whether an item's reservation timeframe should be predetermined
-          and fixed, or if the user has the flexibility to choose according to
-          their preferences.
+        <Typography sx={style.descriptionCoreForm}>
+          This option defines whether the item is a unique entity or if there
+          are multiple indistinguishable items available for users.
         </Typography>
         <Collapse in={showInfo} timeout="auto" unmountOnExit>
           <Box sx={style.infoCoreOuterContainer}>
             <Box sx={style.infoCoreBox}>
               <Typography sx={style.infoCoreText}>
-                Flexible value means that the item can be reserved for a period
-                chosen by user within specified time frames.
+                You have one specific item of a type. This is best suited for
+                unique items or services.
               </Typography>
             </Box>
             <Divider orientation="vertical" flexItem />
             <Box sx={style.infoCoreBox}>
               <Typography sx={style.infoCoreText}>
-                Fixed value indicates that the item has fixed start and end
-                times set by an admin, and users can only sign up for the entire
-                duration.
+                There are multiple, identical items available. This is best
+                suited for items like chairs in a rental place.
               </Typography>
             </Box>
           </Box>

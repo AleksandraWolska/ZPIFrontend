@@ -46,7 +46,7 @@ function Flexibility({
         Time frame flexibility
       </Typography>
       <Box margin="10px">
-        <Typography sx={style.descriptionForm}>
+        <Typography sx={style.descriptionCoreForm}>
           Select whether an item's reservation timeframe should be predetermined
           and fixed, or if the user has the flexibility to choose according to
           their preferences.

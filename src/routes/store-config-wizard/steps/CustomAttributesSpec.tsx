@@ -15,10 +15,17 @@ import {
   Typography,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { ArrowBack } from "@mui/icons-material";
 import { STORE_CONFIG_STEPS, StoreConfigStep } from "../types";
 import { useStoreConfig } from "../StoreConfigProvider";
 import ChangePageButtons from "../../../shared-components/ChangePageButtons";
 import { CustomAttributeSpec, StoreConfig } from "../../../types";
+import {
+  backIcon,
+  descriptionForm,
+  outerFormBox,
+  titleForm,
+} from "./commonStyles";
 
 const defaultCustomAttributeSpec: Omit<CustomAttributeSpec, "id"> = {
   name: "",
@@ -75,182 +82,202 @@ function CustomAttributesSpec({
   };
 
   return (
-    <Stack alignItems="center">
-      <Typography variant="h4" sx={{ marginBottom: 2 }}>
-        Custom Attributes Spec
+    <Stack sx={outerFormBox} alignItems="center">
+      <IconButton
+        sx={backIcon}
+        onClick={() => {
+          saveCustomAttributesSpec();
+          const prevStep =
+            storeConfig.core.periodicity !== undefined
+              ? STORE_CONFIG_STEPS.PERIODICITY
+              : storeConfig.core.specificReservation !== undefined
+              ? STORE_CONFIG_STEPS.SPECIFIC_RESERVATION
+              : STORE_CONFIG_STEPS.UNIQUENESS;
+          withdrawToCoreStep(prevStep);
+          setActiveStep(prevStep);
+        }}
+      >
+        <ArrowBack />
+      </IconButton>
+      <Typography variant="h4" sx={titleForm}>
+        Add attributes
       </Typography>
+      <Typography sx={descriptionForm}>
+        Define attributes with which you want to define in your items. Choose if
+        they are obligatory, if they should be enabled in filtering, choose the
+        visibility on main and item detail pages and if ou want define possible
+        values
+      </Typography>
+      <Box margin="20px">
+        {localAttributesSpec.map((attr, idx) => {
+          const disabled = attr.name === "";
 
-      {localAttributesSpec.map((attr, idx) => {
-        const disabled = attr.name === "";
+          return (
+            <Box key={attr.id}>
+              <Divider sx={{ marginTop: 4, marginBottom: 4 }} />
+              <Stack direction="row" gap={1}>
+                <TextField
+                  value={attr.name}
+                  onChange={(e) => {
+                    updateLocalAttributeSpec(attr.id, { name: e.target.value });
+                    if (idx === lastIdx) {
+                      setLocalAttributesSpec((prev) => [
+                        ...prev,
+                        { id: uuid(), ...defaultCustomAttributeSpec },
+                      ]);
+                    }
+                  }}
+                />
 
-        return (
-          <Box key={attr.id} width="50%">
-            <Stack direction="row" gap={1}>
-              <TextField
-                value={attr.name}
-                onChange={(e) => {
-                  updateLocalAttributeSpec(attr.id, { name: e.target.value });
-                  if (idx === lastIdx) {
-                    setLocalAttributesSpec((prev) => [
-                      ...prev,
-                      { id: uuid(), ...defaultCustomAttributeSpec },
-                    ]);
-                  }
-                }}
-              />
+                <Select
+                  value={attr.dataType}
+                  onChange={(e) => {
+                    const val = e.target
+                      .value as CustomAttributeSpec["dataType"];
+                    updateLocalAttributeSpec(attr.id, { dataType: val });
+                  }}
+                  disabled={disabled}
+                >
+                  <MenuItem value="string">string</MenuItem>
+                  <MenuItem value="number">number</MenuItem>
+                  <MenuItem value="boolean">boolean</MenuItem>
+                </Select>
 
-              <Select
-                value={attr.dataType}
-                onChange={(e) => {
-                  const val = e.target.value as CustomAttributeSpec["dataType"];
-                  updateLocalAttributeSpec(attr.id, { dataType: val });
-                }}
-                disabled={disabled}
-              >
-                <MenuItem value="string">string</MenuItem>
-                <MenuItem value="number">number</MenuItem>
-                <MenuItem value="boolean">boolean</MenuItem>
-              </Select>
+                <IconButton
+                  onClick={() => {
+                    setLocalAttributesSpec((prev) =>
+                      prev.filter((p) => p.id !== attr.id),
+                    );
+                  }}
+                  disabled={idx === lastIdx}
+                >
+                  <DeleteIcon />
+                </IconButton>
+              </Stack>
 
-              <IconButton
-                onClick={() => {
-                  setLocalAttributesSpec((prev) =>
-                    prev.filter((p) => p.id !== attr.id),
-                  );
-                }}
-                disabled={idx === lastIdx}
-              >
-                <DeleteIcon />
-              </IconButton>
-            </Stack>
-
-            <FormGroup row>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={attr.isRequired}
-                    onChange={(e) => {
-                      updateLocalAttributeSpec(attr.id, {
-                        isRequired: e.target.checked,
-                      });
-                    }}
-                  />
-                }
-                label="isRequired"
-                disabled={disabled}
-              />
-
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={attr.isFilterable}
-                    onChange={(e) => {
-                      updateLocalAttributeSpec(attr.id, {
-                        isFilterable: e.target.checked,
-                      });
-                    }}
-                  />
-                }
-                label="isFilterable"
-                disabled={disabled}
-              />
-
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={attr.showMainPage}
-                    onChange={(e) => {
-                      updateLocalAttributeSpec(attr.id, {
-                        showMainPage: e.target.checked,
-                      });
-                    }}
-                  />
-                }
-                label="showMainPage"
-                disabled={disabled}
-              />
-
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={attr.showDetailsPage || false}
-                    onChange={(e) => {
-                      updateLocalAttributeSpec(attr.id, {
-                        showDetailsPage: e.target.checked,
-                      });
-                    }}
-                  />
-                }
-                label="showDetailsPage"
-                disabled={disabled}
-              />
-            </FormGroup>
-
-            {attr.dataType === "string" && (
-              <Stack direction="row" alignItems="center">
+              <FormGroup row>
                 <FormControlLabel
                   control={
                     <Checkbox
-                      checked={attr.limitValues}
+                      checked={attr.isRequired}
                       onChange={(e) => {
                         updateLocalAttributeSpec(attr.id, {
-                          limitValues: e.target.checked,
+                          isRequired: e.target.checked,
                         });
                       }}
                     />
                   }
-                  label="limitValues"
+                  label="isRequired"
                   disabled={disabled}
                 />
 
-                <Autocomplete
-                  multiple
-                  freeSolo
-                  fullWidth
-                  onChange={(_e, values) => {
-                    updateLocalAttributeSpec(attr.id, {
-                      possibleValues: values as string[],
-                    });
-                  }}
-                  options={[]}
-                  value={attr.possibleValues || []}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label="Possible values"
-                      placeholder="Add a value typing it and pressing enter"
-                      size="medium"
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={attr.isFilterable}
+                      onChange={(e) => {
+                        updateLocalAttributeSpec(attr.id, {
+                          isFilterable: e.target.checked,
+                        });
+                      }}
                     />
-                  )}
-                  disabled={disabled || !attr.limitValues}
+                  }
+                  label="isFilterable"
+                  disabled={disabled}
                 />
-              </Stack>
-            )}
 
-            <Divider sx={{ marginTop: 4, marginBottom: 4 }} />
-          </Box>
-        );
-      })}
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={attr.showMainPage}
+                      onChange={(e) => {
+                        updateLocalAttributeSpec(attr.id, {
+                          showMainPage: e.target.checked,
+                        });
+                      }}
+                    />
+                  }
+                  label="showMainPage"
+                  disabled={disabled}
+                />
 
-      <Box marginTop={2}>
-        <ChangePageButtons
-          onPrev={() => {
-            saveCustomAttributesSpec();
-            const prevStep =
-              storeConfig.core.periodicity !== undefined
-                ? STORE_CONFIG_STEPS.PERIODICITY
-                : storeConfig.core.specificReservation !== undefined
-                ? STORE_CONFIG_STEPS.SPECIFIC_RESERVATION
-                : STORE_CONFIG_STEPS.UNIQUENESS;
-            withdrawToCoreStep(prevStep);
-            setActiveStep(prevStep);
-          }}
-          onNext={() => {
-            saveCustomAttributesSpec();
-            setActiveStep(STORE_CONFIG_STEPS.MAIN_PAGE);
-          }}
-        />
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={attr.showDetailsPage || false}
+                      onChange={(e) => {
+                        updateLocalAttributeSpec(attr.id, {
+                          showDetailsPage: e.target.checked,
+                        });
+                      }}
+                    />
+                  }
+                  label="showDetailsPage"
+                  disabled={disabled}
+                />
+              </FormGroup>
+
+              {attr.dataType === "string" && (
+                <Stack direction="row" alignItems="center">
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={attr.limitValues}
+                        onChange={(e) => {
+                          updateLocalAttributeSpec(attr.id, {
+                            limitValues: e.target.checked,
+                          });
+                        }}
+                      />
+                    }
+                    label="limitValues"
+                    disabled={disabled}
+                  />
+
+                  <Autocomplete
+                    multiple
+                    freeSolo
+                    fullWidth
+                    onChange={(_e, values) => {
+                      updateLocalAttributeSpec(attr.id, {
+                        possibleValues: values as string[],
+                      });
+                    }}
+                    options={[]}
+                    value={attr.possibleValues || []}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label="Possible values"
+                        placeholder="Add a value typing it and pressing enter"
+                        size="medium"
+                      />
+                    )}
+                    disabled={disabled || !attr.limitValues}
+                  />
+                </Stack>
+              )}
+            </Box>
+          );
+        })}
       </Box>
+      <ChangePageButtons
+        // onPrev={() => {
+        //   saveCustomAttributesSpec();
+        //   const prevStep =
+        //     storeConfig.core.periodicity !== undefined
+        //       ? STORE_CONFIG_STEPS.PERIODICITY
+        //       : storeConfig.core.specificReservation !== undefined
+        //       ? STORE_CONFIG_STEPS.SPECIFIC_RESERVATION
+        //       : STORE_CONFIG_STEPS.UNIQUENESS;
+        //   withdrawToCoreStep(prevStep);
+        //   setActiveStep(prevStep);
+        // }}
+        onNext={() => {
+          saveCustomAttributesSpec();
+          setActiveStep(STORE_CONFIG_STEPS.MAIN_PAGE);
+        }}
+      />
     </Stack>
   );
 }

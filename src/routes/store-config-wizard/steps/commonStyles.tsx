@@ -19,7 +19,7 @@ export const titleForm = {
   marginBottom: "10px",
 };
 
-export const descriptionForm = {
+export const descriptionCoreForm = {
   textAlign: "center",
   margin: "20px",
 };
@@ -54,4 +54,24 @@ export const infoIcon = {
 export const choiceButton = {
   margin: "10px",
   width: "40%",
+};
+
+
+export const changePageButtonContainer = {
+  display: "flex",
+  flexDirection: "row",
+  justifyContent: "space-between",
+  width: "100%",
+
+};
+export const changePageButton = {
+  flexGrow: 1,
+  mx: 1, // Add some horizontal margin for spacing
+  margin: "10px",
+};
+
+
+export const descriptionForm = {
+  textAlign: "center",
+  margin: "10px",
 };

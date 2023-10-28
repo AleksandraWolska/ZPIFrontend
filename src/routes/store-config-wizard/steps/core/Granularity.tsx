@@ -26,6 +26,9 @@ function Granularity({
   const [showInfo, setShowInfo] = useState(false);
   return (
     <Box sx={style.outerFormBox}>
+      <Typography variant="h4" sx={style.titleForm}>
+        Time Interval Restriction
+      </Typography>
       <IconButton
         sx={style.backIcon}
         onClick={() => {
@@ -46,29 +49,27 @@ function Granularity({
       >
         <InfoIcon />
       </IconButton>
-      <Typography variant="h4" sx={style.titleForm}>
-        Granularity
-      </Typography>
+
       <Box margin="10px">
-        <Typography sx={style.descriptionForm}>
-          Select whether an item's reservation timeframe should be predetermined
-          and fixed, or if the user has the flexibility to choose according to
-          their preferences.
+        <Typography sx={style.descriptionCoreForm}>
+          This setting decides the flexibility in the length of time an item can
+          be reserved. Item can be booked for granular time intervals or allow
+          user to freely choose reservation time ranges
         </Typography>
         <Collapse in={showInfo} timeout="auto" unmountOnExit>
           <Box sx={style.infoCoreOuterContainer}>
             <Box sx={style.infoCoreBox}>
               <Typography sx={style.infoCoreText}>
-                Flexible value means that the item can be reserved for a period
-                chosen by user within specified time frames.
+                Granular should be chosen if you want the item to be booked for
+                multiplication of specific time intervals, like an hour.
               </Typography>
             </Box>
             <Divider orientation="vertical" flexItem />
             <Box sx={style.infoCoreBox}>
               <Typography sx={style.infoCoreText}>
-                Fixed value indicates that the item has fixed start and end
-                times set by an admin, and users can only sign up for the entire
-                duration.
+                Continuous shoulb be chosen if you want to allow reservations
+                for any length of time. This offers more flexibility for the
+                user.
               </Typography>
             </Box>
           </Box>

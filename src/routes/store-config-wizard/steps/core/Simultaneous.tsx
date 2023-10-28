@@ -27,6 +27,9 @@ function Simultaneous({
   const [showInfo, setShowInfo] = useState(false);
   return (
     <Box sx={style.outerFormBox}>
+      <Typography variant="h4" sx={style.titleForm}>
+        Simultaneous Access
+      </Typography>
       <IconButton
         sx={style.backIcon}
         onClick={() => {
@@ -52,29 +55,28 @@ function Simultaneous({
       >
         <InfoIcon />
       </IconButton>
-      <Typography variant="h4" sx={style.titleForm}>
-        simultaneus
-      </Typography>
+
       <Box margin="10px">
-        <Typography sx={style.descriptionForm}>
-          Select whether an item's reservation timeframe should be predetermined
-          and fixed, or if the user has the flexibility to choose according to
-          their preferences.
+        <Typography sx={style.descriptionCoreForm}>
+          This field determines whether multiple users can be signed up for an
+          item at the same time. It is crucial for managing the accessibility of
+          your item.
         </Typography>
         <Collapse in={showInfo} timeout="auto" unmountOnExit>
           <Box sx={style.infoCoreOuterContainer}>
             <Box sx={style.infoCoreBox}>
               <Typography sx={style.infoCoreText}>
-                Flexible value means that the item can be reserved for a period
-                chosen by user within specified time frames.
+                Shared access should be chosen is want multiple individuals to
+                access the item simultaneously. This is best suited for items
+                that can be shared, like a public spaces.
               </Typography>
             </Box>
             <Divider orientation="vertical" flexItem />
             <Box sx={style.infoCoreBox}>
               <Typography sx={style.infoCoreText}>
-                Fixed value indicates that the item has fixed start and end
-                times set by an admin, and users can only sign up for the entire
-                duration.
+                Exclusive access should be chosen if you want allow only one
+                user at the time to access the item, ensuring that the user has
+                the item all to themselves.
               </Typography>
             </Box>
           </Box>
@@ -96,7 +98,7 @@ function Simultaneous({
             );
           }}
         >
-          true
+          Shared
         </Button>
         <Button
           sx={style.choiceButton}
@@ -114,7 +116,7 @@ function Simultaneous({
             );
           }}
         >
-          False
+          Exclusive
         </Button>
       </Box>
     </Box>
