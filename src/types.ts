@@ -76,12 +76,19 @@ export type DetailsPage = {
   reservationSummaryPrompt: string;
 };
 
+export type AuthConfig = {
+  requireAuthForActions: boolean;
+  requireAuthForStoreAccess: boolean;
+  requiredPersonalData: ("name" | "surname" | "email" | "phone" | "age")[];
+};
+
 export type StoreConfig = {
   owner: Owner;
   core: Core;
   customAttributesSpec: CustomAttributeSpec[];
   mainPage: MainPage;
   detailsPage: DetailsPage;
+  authConfig: AuthConfig;
 };
 
 // ITEM ========================================================================
