@@ -18,6 +18,7 @@ export type StoreConfigContextType = {
     key: keyof StoreConfig["detailsPage"],
     value: StoreConfig["detailsPage"][typeof key],
   ) => void;
+  setAuthConfigAttribute: (attr: Partial<StoreConfig["authConfig"]>) => void;
 };
 
 export const StoreConfigContext = createContext<StoreConfigContextType | null>(

@@ -13,6 +13,7 @@ import MainPage from "./steps/MainPage";
 import Owner from "./steps/Owner";
 import DetailsPage from "./steps/DetailsPage";
 import AllowOverNight from "./steps/core/AllowOverNight";
+import AuthConfig from "./steps/AuthConfig";
 
 const outerWizardBox = {
   maxWidth: "1000px",
@@ -85,6 +86,8 @@ function Stepper() {
         return <MainPage setActiveStep={setActiveStep} />;
       case STORE_CONFIG_STEPS.DETAILS_PAGE:
         return <DetailsPage setActiveStep={setActiveStep} />;
+      case STORE_CONFIG_STEPS.AUTH_CONFIG:
+        return <AuthConfig setActiveStep={setActiveStep} />;
       case STORE_CONFIG_STEPS.PRINT_STORE_CONFIG:
         return <PrintStoreConfig />;
       default:

@@ -39,6 +39,11 @@ const initialStoreConfig: StoreConfig = {
     reservationFailurePrompt: "",
     reservationSummaryPrompt: "",
   },
+  authConfig: {
+    requireAuthForActions: true,
+    requireAuthForStoreAccess: false,
+    requiredPersonalData: [],
+  },
 };
 
 function StoreConfigProvider({ children }: { children: ReactNode }) {
@@ -107,6 +112,13 @@ function StoreConfigProvider({ children }: { children: ReactNode }) {
     });
   };
 
+  const setAuthConfigAttribute = (attr: Partial<StoreConfig["authConfig"]>) => {
+    dispatch({
+      type: STORE_CONFIG_ACTION_TYPES.SET_AUTH_CONFIG_ATTRIBUTE,
+      payload: attr,
+    });
+  };
+
   const contextValue = useMemo(
     () => ({
       storeConfig,
@@ -116,6 +128,7 @@ function StoreConfigProvider({ children }: { children: ReactNode }) {
       setCustomAttributesSpec,
       setMainPageAttribute,
       setDetailsPageAttribute,
+      setAuthConfigAttribute,
     }),
     [storeConfig],
   );
