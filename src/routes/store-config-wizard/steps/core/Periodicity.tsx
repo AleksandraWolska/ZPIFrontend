@@ -1,6 +1,19 @@
+import {
+  Box,
+  Button,
+  Collapse,
+  Divider,
+  IconButton,
+  Typography,
+} from "@mui/material";
+import InfoIcon from "@mui/icons-material/Info";
+import ArrowBack from "@mui/icons-material/ArrowBack";
+import { useState } from "react";
+
 import { STORE_CONFIG_STEPS, StoreConfigStep } from "../../types";
 import { useStoreConfig } from "../../StoreConfigProvider";
 import { calculateProgress } from "./utils";
+import * as style from "../commonStyles";
 
 function Periodicity({
   setActiveStep,
@@ -11,13 +24,11 @@ function Periodicity({
 }) {
   const { storeConfig, appendCoreAttribute, withdrawToCoreStep } =
     useStoreConfig();
-
+  const [showInfo, setShowInfo] = useState(false);
   return (
-    <>
-      <div>Periodicity - Yes or No?</div>
-
-      <button
-        type="button"
+    <Box sx={style.outerFormBox}>
+      <IconButton
+        sx={style.backIcon}
         onClick={() => {
           const prevStep =
             storeConfig.core.simultaneous === false
@@ -30,31 +41,68 @@ function Periodicity({
           );
         }}
       >
-        BACK
-      </button>
-
-      <button
-        type="button"
-        onClick={() => {
-          appendCoreAttribute("periodicity", true);
-          setActiveStep(STORE_CONFIG_STEPS.CUSTOM_ATTRIBUTES_SPEC);
-          setProgress(100);
-        }}
+        <ArrowBack />
+      </IconButton>
+      <Typography variant="h4" sx={style.titleForm}>
+        Event Periodicity
+      </Typography>
+      <IconButton
+        sx={style.infoIcon}
+        size="small"
+        onClick={() => setShowInfo(!showInfo)}
       >
-        Yes
-      </button>
+        <InfoIcon />
+      </IconButton>
 
-      <button
-        type="button"
-        onClick={() => {
-          appendCoreAttribute("periodicity", false);
-          setActiveStep(STORE_CONFIG_STEPS.CUSTOM_ATTRIBUTES_SPEC);
-          setProgress(100);
-        }}
-      >
-        No
-      </button>
-    </>
+      <Box margin="10px">
+        <Typography sx={style.descriptionCoreForm}>
+          This field determines the cyclical nature of events or bookings.
+        </Typography>
+        <Collapse in={showInfo} timeout="auto" unmountOnExit>
+          <Box sx={style.infoCoreOuterContainer}>
+            <Box sx={style.infoCoreBox}>
+              <Typography sx={style.infoCoreText}>
+                Cyclical events are best suited for events that recur over time.
+                User can view and book different instances of the same event.
+              </Typography>
+            </Box>
+            <Divider orientation="vertical" flexItem />
+            <Box sx={style.infoCoreBox}>
+              <Typography sx={style.infoCoreText}>
+                Non cyclical events are best suited for one-time events or
+                items. Each item is treated as a separate entity without any
+                grouping.
+              </Typography>
+            </Box>
+          </Box>
+        </Collapse>
+      </Box>
+      <Box sx={style.choiceButtonContainer}>
+        <Button
+          sx={style.choiceButton}
+          variant="contained"
+          onClick={() => {
+            appendCoreAttribute("periodicity", true);
+            setActiveStep(STORE_CONFIG_STEPS.CUSTOM_ATTRIBUTES_SPEC);
+            setProgress(100);
+          }}
+        >
+          Cyclic
+        </Button>
+        <Button
+          sx={style.choiceButton}
+          type="button"
+          variant="contained"
+          onClick={() => {
+            appendCoreAttribute("periodicity", false);
+            setActiveStep(STORE_CONFIG_STEPS.CUSTOM_ATTRIBUTES_SPEC);
+            setProgress(100);
+          }}
+        >
+          Noncyclic
+        </Button>
+      </Box>
+    </Box>
   );
 }
 

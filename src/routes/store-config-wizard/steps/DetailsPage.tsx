@@ -1,14 +1,19 @@
 import {
   Box,
   Checkbox,
+  Divider,
   FormControlLabel,
   FormGroup,
+  IconButton,
   TextField,
   Typography,
 } from "@mui/material";
+
+import { ArrowBack } from "@mui/icons-material";
 import { STORE_CONFIG_STEPS, StoreConfigStep } from "../types";
 import { useStoreConfig } from "../StoreConfigProvider";
 import ChangePageButtons from "../../../shared-components/ChangePageButtons";
+import { backIcon, descriptionForm, outerFormBox } from "./commonStyles";
 
 function DetailsPage({
   setActiveStep,
@@ -19,51 +24,24 @@ function DetailsPage({
   const { detailsPage } = storeConfig;
 
   return (
-    <>
+    <Box sx={outerFormBox}>
       <Typography variant="h4" sx={{ marginBottom: 2 }}>
         Details Page
       </Typography>
+      <IconButton
+        sx={backIcon}
+        onClick={() => setActiveStep(STORE_CONFIG_STEPS.MAIN_PAGE)}
+      >
+        <ArrowBack />
+      </IconButton>
+      <Typography sx={descriptionForm}>
+        Define visibility of features on item details page, decide if you want
+        to have ratings and comments in your store. Also, if you want to
+        override reservation prompts for your system, enter them below.
+      </Typography>
+      <Divider sx={{ marginTop: 3 }} />
 
       <FormGroup>
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={detailsPage.showRating}
-              onChange={(e) => {
-                setDetailsPageAttribute("showRating", e.target.checked);
-              }}
-            />
-          }
-          label="showRating"
-        />
-
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={detailsPage.showComments}
-              onChange={(e) => {
-                setDetailsPageAttribute("showComments", e.target.checked);
-              }}
-            />
-          }
-          label="showComments"
-        />
-
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={detailsPage.showItemDescription}
-              onChange={(e) => {
-                setDetailsPageAttribute(
-                  "showItemDescription",
-                  e.target.checked,
-                );
-              }}
-            />
-          }
-          label="showItemDescription"
-        />
-
         <FormControlLabel
           control={
             <Checkbox
@@ -73,7 +51,7 @@ function DetailsPage({
               }}
             />
           }
-          label="showSubItemTitle"
+          label="Display item's title"
         />
 
         <FormControlLabel
@@ -88,47 +66,88 @@ function DetailsPage({
               }}
             />
           }
-          label="showSubItemSubtitle"
+          label="Display item's subtitle"
+        />
+
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={detailsPage.showItemDescription}
+              onChange={(e) => {
+                setDetailsPageAttribute(
+                  "showItemDescription",
+                  e.target.checked,
+                );
+              }}
+            />
+          }
+          label="Display description for items"
+        />
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={detailsPage.showRating}
+              onChange={(e) => {
+                setDetailsPageAttribute("showRating", e.target.checked);
+              }}
+            />
+          }
+          label="Display ratings - this option will allow users to rate your items"
+        />
+
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={detailsPage.showComments}
+              onChange={(e) => {
+                setDetailsPageAttribute("showComments", e.target.checked);
+              }}
+            />
+          }
+          label="Display comments/reviews - this option will allow users to add comments your items"
         />
       </FormGroup>
 
-      <TextField
-        label="reservationConfirmationPrompt"
-        name="reservationConfirmationPrompt"
-        value={detailsPage.reservationConfirmationPrompt}
-        onChange={(e) =>
-          setDetailsPageAttribute(
-            "reservationConfirmationPrompt",
-            e.target.value,
-          )
-        }
-      />
+      <Box sx={{ width: "100%", padding: "20px" }}>
+        <TextField
+          sx={{ marginBottom: "10px" }}
+          fullWidth
+          label="Custom reservation summary prompt"
+          name="reservationSummaryPrompt"
+          value={detailsPage.reservationSummaryPrompt}
+          onChange={(e) =>
+            setDetailsPageAttribute("reservationSummaryPrompt", e.target.value)
+          }
+        />
 
-      <TextField
-        label="reservationFailurePrompt"
-        name="reservationFailurePrompt"
-        value={detailsPage.reservationFailurePrompt}
-        onChange={(e) =>
-          setDetailsPageAttribute("reservationFailurePrompt", e.target.value)
-        }
-      />
+        <TextField
+          sx={{ marginBottom: "10px" }}
+          fullWidth
+          label="Custom reservation confirmation prompt"
+          name="reservationConfirmationPrompt"
+          value={detailsPage.reservationConfirmationPrompt}
+          onChange={(e) =>
+            setDetailsPageAttribute(
+              "reservationConfirmationPrompt",
+              e.target.value,
+            )
+          }
+        />
 
-      <TextField
-        label="reservationSummaryPrompt"
-        name="reservationSummaryPrompt"
-        value={detailsPage.reservationSummaryPrompt}
-        onChange={(e) =>
-          setDetailsPageAttribute("reservationSummaryPrompt", e.target.value)
-        }
-      />
-
-      <Box marginTop={2}>
-        <ChangePageButtons
-          onPrev={() => setActiveStep(STORE_CONFIG_STEPS.MAIN_PAGE)}
-          onNext={() => setActiveStep(STORE_CONFIG_STEPS.PRINT_STORE_CONFIG)}
+        <TextField
+          fullWidth
+          label="Custom reservation failure prompt"
+          name="reservationFailurePrompt"
+          value={detailsPage.reservationFailurePrompt}
+          onChange={(e) =>
+            setDetailsPageAttribute("reservationFailurePrompt", e.target.value)
+          }
         />
       </Box>
-    </>
+      <ChangePageButtons
+        onNext={() => setActiveStep(STORE_CONFIG_STEPS.PRINT_STORE_CONFIG)}
+      />
+    </Box>
   );
 }
 

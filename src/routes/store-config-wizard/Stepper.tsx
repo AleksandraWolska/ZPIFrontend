@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { LinearProgress } from "@mui/material";
+import { Box, LinearProgress } from "@mui/material";
 import { STORE_CONFIG_STEPS, StoreConfigStep } from "./types";
 import Flexibility from "./steps/core/Flexibility";
 import Granularity from "./steps/core/Granularity";
@@ -13,6 +13,15 @@ import MainPage from "./steps/MainPage";
 import Owner from "./steps/Owner";
 import DetailsPage from "./steps/DetailsPage";
 import AllowOverNight from "./steps/core/AllowOverNight";
+
+const outerWizardBox = {
+  maxWidth: "1000px",
+  width: "90vw",
+  boxShadow: "1px 1px 5px 2px rgba(0, 0, 0, .2)",
+  borderRadius: "15px",
+  padding: "10px",
+  margin: "10px",
+};
 
 function Stepper() {
   const [activeStep, setActiveStep] = useState<StoreConfigStep>(
@@ -84,14 +93,14 @@ function Stepper() {
   };
 
   return (
-    <>
+    <Box sx={outerWizardBox}>
       <LinearProgress
         variant="determinate"
         value={progress}
-        sx={{ marginBottom: 2 }}
+        sx={{ margin: 2, height: "8px", borderRadius: "4px" }}
       />
       {renderStepContent()}
-    </>
+    </Box>
   );
 }
 

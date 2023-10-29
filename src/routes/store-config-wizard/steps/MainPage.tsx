@@ -3,12 +3,20 @@ import {
   Checkbox,
   FormControlLabel,
   FormGroup,
+  IconButton,
   TextField,
   Typography,
 } from "@mui/material";
+import { ArrowBack } from "@mui/icons-material";
 import { useStoreConfig } from "../StoreConfigProvider";
 import { STORE_CONFIG_STEPS, StoreConfigStep } from "../types";
 import ChangePageButtons from "../../../shared-components/ChangePageButtons";
+import {
+  backIcon,
+  descriptionForm,
+  outerFormBox,
+  titleForm,
+} from "./commonStyles";
 
 function MainPage({
   setActiveStep,
@@ -19,28 +27,42 @@ function MainPage({
   const { mainPage } = storeConfig;
 
   return (
-    <>
-      <Typography variant="h4" sx={{ marginBottom: 2 }}>
-        Main Page
+    <Box sx={outerFormBox}>
+      <Typography variant="h4" sx={titleForm}>
+        Main Page Features
       </Typography>
+      <Typography sx={descriptionForm}>
+        Enter welcome texts, and define visibility of features on the main page
+      </Typography>
+      <IconButton
+        sx={backIcon}
+        onClick={() => setActiveStep(STORE_CONFIG_STEPS.CUSTOM_ATTRIBUTES_SPEC)}
+      >
+        <ArrowBack />
+      </IconButton>
 
-      <TextField
-        label="welcomeTextLine1"
-        name="welcomeTextLine1"
-        value={mainPage.welcomeTextLine1}
-        onChange={(e) =>
-          setMainPageAttribute("welcomeTextLine1", e.target.value)
-        }
-      />
+      <Box width="100%" padding="20px">
+        <TextField
+          fullWidth
+          sx={{ marginBottom: "10px" }}
+          label="Welcome text - line 1"
+          name="welcomeTextLine1"
+          value={mainPage.welcomeTextLine1}
+          onChange={(e) =>
+            setMainPageAttribute("welcomeTextLine1", e.target.value)
+          }
+        />
 
-      <TextField
-        label="welcomeTextLine2"
-        name="welcomeTextLine2"
-        value={mainPage.welcomeTextLine2}
-        onChange={(e) =>
-          setMainPageAttribute("welcomeTextLine2", e.target.value)
-        }
-      />
+        <TextField
+          fullWidth
+          label="Welcome text - line 2"
+          name="welcomeTextLine2"
+          value={mainPage.welcomeTextLine2}
+          onChange={(e) =>
+            setMainPageAttribute("welcomeTextLine2", e.target.value)
+          }
+        />
+      </Box>
 
       <FormGroup>
         <FormControlLabel
@@ -52,7 +74,7 @@ function MainPage({
               }}
             />
           }
-          label="enableFiltering"
+          label="Enable filters"
         />
 
         <FormControlLabel
@@ -64,7 +86,7 @@ function MainPage({
               }}
             />
           }
-          label="showItemTitle"
+          label="Display title for item in items list"
         />
 
         <FormControlLabel
@@ -76,7 +98,7 @@ function MainPage({
               }}
             />
           }
-          label="showItemSubtitle"
+          label="Display subtitle for item in items list"
         />
 
         <FormControlLabel
@@ -88,7 +110,7 @@ function MainPage({
               }}
             />
           }
-          label="showItemImg"
+          label="Display item images in items list"
         />
 
         <FormControlLabel
@@ -100,19 +122,14 @@ function MainPage({
               }}
             />
           }
-          label="showRating"
+          label="Display ratings for each items - this option will allow users to rate your items"
         />
       </FormGroup>
 
-      <Box marginTop={2}>
-        <ChangePageButtons
-          onPrev={() =>
-            setActiveStep(STORE_CONFIG_STEPS.CUSTOM_ATTRIBUTES_SPEC)
-          }
-          onNext={() => setActiveStep(STORE_CONFIG_STEPS.DETAILS_PAGE)}
-        />
-      </Box>
-    </>
+      <ChangePageButtons
+        onNext={() => setActiveStep(STORE_CONFIG_STEPS.DETAILS_PAGE)}
+      />
+    </Box>
   );
 }
 
