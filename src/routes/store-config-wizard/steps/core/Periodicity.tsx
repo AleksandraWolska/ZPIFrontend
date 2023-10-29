@@ -44,7 +44,7 @@ function Periodicity({
         <ArrowBack />
       </IconButton>
       <Typography variant="h4" sx={style.titleForm}>
-        Event Cyclicity
+        Event Periodicity
       </Typography>
       <IconButton
         sx={style.infoIcon}
