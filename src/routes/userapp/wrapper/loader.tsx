@@ -10,7 +10,7 @@ const fetchOwner = async (storeId: string): Promise<StoreConfig["owner"]> => {
     `${
       process.env.NODE_ENV === "development"
         ? `/api/stores/${storeId}/owner`
-        : "http://zpibackend.fly.dev/store-configs"
+        : "https://zpibackend.fly.dev/store-configs"
     }`,
     {
       headers: {
