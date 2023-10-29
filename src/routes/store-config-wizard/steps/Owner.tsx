@@ -29,7 +29,7 @@ function Owner({
         Enter information about your company, link to logo, and choose color
         theme
       </Typography>
-      <Box margin="10px">
+      <Box width="90%" marginTop="10px" marginBottom="10px">
         <Grid container spacing={1}>
           <Grid item xs={12} sm={6}>
             <TextField
