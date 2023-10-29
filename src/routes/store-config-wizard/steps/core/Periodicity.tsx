@@ -69,8 +69,9 @@ function Periodicity({
             <Divider orientation="vertical" flexItem />
             <Box sx={style.infoCoreBox}>
               <Typography sx={style.infoCoreText}>
-                Non cyclical events is best for one-time events or items. Each
-                item is treated as a separate entity without any grouping.
+                Non cyclical events are best suited for one-time events or
+                items. Each item is treated as a separate entity without any
+                grouping.
               </Typography>
             </Box>
           </Box>

@@ -127,7 +127,6 @@ function MainPage({
       </FormGroup>
 
       <ChangePageButtons
-        // onPrev={() => setActiveStep(STORE_CONFIG_STEPS.CUSTOM_ATTRIBUTES_SPEC)}
         onNext={() => setActiveStep(STORE_CONFIG_STEPS.DETAILS_PAGE)}
       />
     </Box>

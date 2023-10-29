@@ -60,7 +60,7 @@ function AllowOverNight({
           <Box sx={style.infoCoreOuterContainer}>
             <Box sx={style.infoCoreBox}>
               <Typography sx={style.infoCoreText}>
-                If yes, user can mantain access to an item outside of store pen
+                If yes, user can mantain access to an item outside of store open
                 hours. It's best suited for hotels, and multiday rental (eq.
                 cars)
               </Typography>

@@ -89,7 +89,8 @@ function Owner({
         </Grid>
       </Box>
       <Typography sx={descriptionForm}>
-        [TBD new informational step] -  Next few steps will allow you to specify mechanics of reservation [OK]
+        [TBD new informational step] - Next few steps will allow you to specify
+        mechanics of reservation [OK]
       </Typography>
 
       <ChangePageButtons

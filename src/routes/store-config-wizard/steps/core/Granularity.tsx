@@ -67,7 +67,7 @@ function Granularity({
             <Divider orientation="vertical" flexItem />
             <Box sx={style.infoCoreBox}>
               <Typography sx={style.infoCoreText}>
-                Continuous shoulb be chosen if you want to allow reservations
+                Continuous should be chosen if you want to allow reservations
                 for any length of time. This offers more flexibility for the
                 user.
               </Typography>

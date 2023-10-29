@@ -278,17 +278,6 @@ function CustomAttributesSpec({
         })}
       </Box>
       <ChangePageButtons
-        // onPrev={() => {
-        //   saveCustomAttributesSpec();
-        //   const prevStep =
-        //     storeConfig.core.periodicity !== undefined
-        //       ? STORE_CONFIG_STEPS.PERIODICITY
-        //       : storeConfig.core.specificReservation !== undefined
-        //       ? STORE_CONFIG_STEPS.SPECIFIC_RESERVATION
-        //       : STORE_CONFIG_STEPS.UNIQUENESS;
-        //   withdrawToCoreStep(prevStep);
-        //   setActiveStep(prevStep);
-        // }}
         onNext={() => {
           saveCustomAttributesSpec();
           setActiveStep(STORE_CONFIG_STEPS.MAIN_PAGE);

@@ -10,9 +10,6 @@ function StoreConfigWizard() {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          justifyContent: "center",
-          alignContent: "center",
-          minHeight: "100%",
         }}
       >
         <Stepper />

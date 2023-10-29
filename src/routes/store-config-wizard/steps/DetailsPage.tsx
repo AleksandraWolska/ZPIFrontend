@@ -145,7 +145,6 @@ function DetailsPage({
         />
       </Box>
       <ChangePageButtons
-        // onPrev={() => setActiveStep(STORE_CONFIG_STEPS.MAIN_PAGE)}
         onNext={() => setActiveStep(STORE_CONFIG_STEPS.PRINT_STORE_CONFIG)}
       />
     </Box>

@@ -65,8 +65,8 @@ function Simultaneous({
           <Box sx={style.infoCoreOuterContainer}>
             <Box sx={style.infoCoreBox}>
               <Typography sx={style.infoCoreText}>
-                Shared access should be chosen is want multiple individuals to
-                access the item simultaneously. This is best suited for items
+                Shared access should be chosen if you want multiple individuals
+                to access the item simultaneously. This is best suited for items
                 that can be shared, like a public spaces.
               </Typography>
             </Box>
