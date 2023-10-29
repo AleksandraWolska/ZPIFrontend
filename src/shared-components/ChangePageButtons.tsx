@@ -1,4 +1,4 @@
-import { Box, Button, Stack } from "@mui/material";
+import { Button, Stack } from "@mui/material";
 import {
   changePageButton,
   changePageButtonContainer,
@@ -12,7 +12,7 @@ function ChangePageButtons({
   onNext?: () => void;
 }) {
   return (
-    <Box sx={changePageButtonContainer}>
+    <Stack sx={changePageButtonContainer}>
       {onPrev && (
         <Button sx={changePageButton} onClick={onPrev} variant="outlined">
           Prev
@@ -23,7 +23,7 @@ function ChangePageButtons({
           Next
         </Button>
       )}
-    </Box>
+    </Stack>
   );
 }
 
