@@ -86,7 +86,7 @@ function MainPage({
               }}
             />
           }
-          label="Show title for item"
+          label="Display title for item in items list"
         />
 
         <FormControlLabel
@@ -98,7 +98,7 @@ function MainPage({
               }}
             />
           }
-          label="Show Subtitle for item"
+          label="Display subtitle for item in items list"
         />
 
         <FormControlLabel
@@ -110,7 +110,7 @@ function MainPage({
               }}
             />
           }
-          label="Show item images"
+          label="Display item images in items list"
         />
 
         <FormControlLabel
@@ -122,7 +122,7 @@ function MainPage({
               }}
             />
           }
-          label="Show ratings"
+          label="Display ratings for each items - this option will allow users to rate your items"
         />
       </FormGroup>
 

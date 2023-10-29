@@ -1,6 +1,7 @@
 import {
   Box,
   Checkbox,
+  Divider,
   FormControlLabel,
   FormGroup,
   IconButton,
@@ -34,49 +35,13 @@ function DetailsPage({
         <ArrowBack />
       </IconButton>
       <Typography sx={descriptionForm}>
-        Enter welcome texts, and define visibility of features on the main page
+        Define visibility of features on item details page, decide if you want
+        to have ratings and comments in your store. Also, if you want to
+        override reservation prompts for your system, enter them below.
       </Typography>
+      <Divider sx={{ marginTop: 3 }} />
 
       <FormGroup>
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={detailsPage.showRating}
-              onChange={(e) => {
-                setDetailsPageAttribute("showRating", e.target.checked);
-              }}
-            />
-          }
-          label="showRating"
-        />
-
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={detailsPage.showComments}
-              onChange={(e) => {
-                setDetailsPageAttribute("showComments", e.target.checked);
-              }}
-            />
-          }
-          label="showComments"
-        />
-
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={detailsPage.showItemDescription}
-              onChange={(e) => {
-                setDetailsPageAttribute(
-                  "showItemDescription",
-                  e.target.checked,
-                );
-              }}
-            />
-          }
-          label="showItemDescription"
-        />
-
         <FormControlLabel
           control={
             <Checkbox
@@ -86,7 +51,7 @@ function DetailsPage({
               }}
             />
           }
-          label="showSubItemTitle"
+          label="Display item's title"
         />
 
         <FormControlLabel
@@ -101,7 +66,45 @@ function DetailsPage({
               }}
             />
           }
-          label="showSubItemSubtitle"
+          label="Display item's subtitle"
+        />
+
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={detailsPage.showItemDescription}
+              onChange={(e) => {
+                setDetailsPageAttribute(
+                  "showItemDescription",
+                  e.target.checked,
+                );
+              }}
+            />
+          }
+          label="Display description for items"
+        />
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={detailsPage.showRating}
+              onChange={(e) => {
+                setDetailsPageAttribute("showRating", e.target.checked);
+              }}
+            />
+          }
+          label="Display ratings - this option will allow users to rate your items"
+        />
+
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={detailsPage.showComments}
+              onChange={(e) => {
+                setDetailsPageAttribute("showComments", e.target.checked);
+              }}
+            />
+          }
+          label="Display comments/reviews - this option will allow users to add comments your items"
         />
       </FormGroup>
 
@@ -109,7 +112,18 @@ function DetailsPage({
         <TextField
           sx={{ marginBottom: "10px" }}
           fullWidth
-          label="Reservation confirmation prompt"
+          label="Custom reservation summary prompt"
+          name="reservationSummaryPrompt"
+          value={detailsPage.reservationSummaryPrompt}
+          onChange={(e) =>
+            setDetailsPageAttribute("reservationSummaryPrompt", e.target.value)
+          }
+        />
+
+        <TextField
+          sx={{ marginBottom: "10px" }}
+          fullWidth
+          label="Custom reservation confirmation prompt"
           name="reservationConfirmationPrompt"
           value={detailsPage.reservationConfirmationPrompt}
           onChange={(e) =>
@@ -121,23 +135,12 @@ function DetailsPage({
         />
 
         <TextField
-          sx={{ marginBottom: "10px" }}
           fullWidth
-          label="reservationFailurePrompt"
+          label="Custom reservation failure prompt"
           name="reservationFailurePrompt"
           value={detailsPage.reservationFailurePrompt}
           onChange={(e) =>
             setDetailsPageAttribute("reservationFailurePrompt", e.target.value)
-          }
-        />
-
-        <TextField
-          fullWidth
-          label="reservationSummaryPrompt"
-          name="reservationSummaryPrompt"
-          value={detailsPage.reservationSummaryPrompt}
-          onChange={(e) =>
-            setDetailsPageAttribute("reservationSummaryPrompt", e.target.value)
           }
         />
       </Box>
