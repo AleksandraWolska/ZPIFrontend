@@ -28,18 +28,18 @@ function MainPage({
 
   return (
     <Box sx={outerFormBox}>
-      <Typography variant="h4" sx={titleForm}>
-        Main Page Features
-      </Typography>
-      <Typography sx={descriptionForm}>
-        Enter welcome texts, and define visibility of features on the main page
-      </Typography>
       <IconButton
         sx={backIcon}
         onClick={() => setActiveStep(STORE_CONFIG_STEPS.CUSTOM_ATTRIBUTES_SPEC)}
       >
         <ArrowBack />
       </IconButton>
+      <Typography variant="h4" sx={titleForm}>
+        Main Page Features
+      </Typography>
+      <Typography sx={descriptionForm}>
+        Enter welcome texts, and define visibility of features on the main page
+      </Typography>
 
       <Box width="100%" padding="20px">
         <TextField

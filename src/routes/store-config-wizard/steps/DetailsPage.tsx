@@ -25,22 +25,21 @@ function DetailsPage({
 
   return (
     <Box sx={outerFormBox}>
-      <Typography variant="h4" sx={{ marginBottom: 2 }}>
-        Details Page
-      </Typography>
       <IconButton
         sx={backIcon}
         onClick={() => setActiveStep(STORE_CONFIG_STEPS.MAIN_PAGE)}
       >
         <ArrowBack />
       </IconButton>
+      <Typography variant="h4" sx={{ marginBottom: 2 }}>
+        Details Page
+      </Typography>
       <Typography sx={descriptionForm}>
         Define visibility of features on item details page, decide if you want
         to have ratings and comments in your store. Also, if you want to
         override reservation prompts for your system, enter them below.
       </Typography>
       <Divider sx={{ marginTop: 3 }} />
-
       <FormGroup>
         <FormControlLabel
           control={
@@ -107,7 +106,6 @@ function DetailsPage({
           label="Display comments/reviews - this option will allow users to add comments your items"
         />
       </FormGroup>
-
       <Box sx={{ width: "100%", padding: "20px" }}>
         <TextField
           sx={{ marginBottom: "10px" }}
@@ -145,7 +143,7 @@ function DetailsPage({
         />
       </Box>
       <ChangePageButtons
-        onNext={() => setActiveStep(STORE_CONFIG_STEPS.PRINT_STORE_CONFIG)}
+        onNext={() => setActiveStep(STORE_CONFIG_STEPS.AUTH_CONFIG)}
       />
     </Box>
   );
