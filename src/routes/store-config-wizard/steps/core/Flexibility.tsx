@@ -1,19 +1,16 @@
-/* eslint-disable react/no-unescaped-entities */
-import {
-  Box,
-  Button,
-  Collapse,
-  Divider,
-  IconButton,
-  Typography,
-} from "@mui/material";
 import { useState } from "react";
-import InfoIcon from "@mui/icons-material/Info";
-import ArrowBack from "@mui/icons-material/ArrowBack";
 import { STORE_CONFIG_STEPS, StoreConfigStep } from "../../types";
 import { useStoreConfig } from "../../StoreConfigProvider";
 import { calculateProgress } from "./utils";
-import * as style from "../commonStyles";
+import StepContentWrapper from "../components/StepContentWrapper";
+import WizardStepTitle from "../components/WizardStepTitle";
+import BackButton from "../components/BackButton";
+import InfoButton from "./components/InfoButton";
+import CoreInfo from "./components/CoreInfo";
+import CoreDescriptionWrapper from "./components/CoreDescriptionWrapper";
+import ChoiceButtonsContainer from "./components/ChoiceButtonsContainer";
+import ChoiceButton from "./components/ChoiceButton";
+import CoreDescription from "./components/CoreDescription";
 
 function Flexibility({
   setActiveStep,
@@ -23,57 +20,42 @@ function Flexibility({
   setProgress: (progress: number) => void;
 }) {
   const { appendCoreAttribute } = useStoreConfig();
+
   const [showInfo, setShowInfo] = useState(false);
+
   return (
-    <Box sx={style.outerFormBox}>
-      <IconButton
-        sx={style.backIcon}
+    <StepContentWrapper>
+      <BackButton
         onClick={() => {
           const prevStep = STORE_CONFIG_STEPS.OWNER;
           setActiveStep(prevStep);
         }}
-      >
-        <ArrowBack />
-      </IconButton>
-      <Typography variant="h4" sx={style.titleForm}>
-        Time Frame Flexibility
-      </Typography>
-      <IconButton
-        sx={style.infoIcon}
-        size="small"
-        onClick={() => setShowInfo(!showInfo)}
-      >
-        <InfoIcon />
-      </IconButton>
-      <Box margin="10px">
-        <Typography sx={style.descriptionCoreForm}>
-          Select whether an item's reservation timeframe should be predetermined
+      />
+
+      <WizardStepTitle>Time Frame Flexibility</WizardStepTitle>
+
+      <InfoButton onClick={() => setShowInfo(!showInfo)} />
+
+      <CoreDescriptionWrapper>
+        <CoreDescription>
+          Select whether an item reservation timeframe should be predetermined
           and fixed, or if the user has the flexibility to choose according to
           their preferences.
-        </Typography>
-        <Collapse in={showInfo} timeout="auto" unmountOnExit>
-          <Box sx={style.infoCoreOuterContainer}>
-            <Box sx={style.infoCoreBox}>
-              <Typography sx={style.infoCoreText}>
-                Flexible value means that the item can be reserved for a period
-                chosen by user within specified time frames.
-              </Typography>
-            </Box>
-            <Divider orientation="vertical" flexItem />
-            <Box sx={style.infoCoreBox}>
-              <Typography sx={style.infoCoreText}>
-                Fixed value indicates that the item has fixed start and end
+        </CoreDescription>
+
+        <CoreInfo
+          show={showInfo}
+          left="Flexible value means that the item can be reserved for a period
+                chosen by user within specified time frames."
+          right="Fixed value indicates that the item has fixed start and end
                 times set by an admin, and users can only sign up for the entire
-                duration.
-              </Typography>
-            </Box>
-          </Box>
-        </Collapse>
-      </Box>
-      <Box sx={style.choiceButtonContainer}>
-        <Button
-          sx={style.choiceButton}
-          variant="contained"
+                duration."
+        />
+      </CoreDescriptionWrapper>
+
+      <ChoiceButtonsContainer>
+        <ChoiceButton
+          text="Flexible"
           onClick={() => {
             appendCoreAttribute("flexibility", true);
             const nextStep = STORE_CONFIG_STEPS.GRANULARITY;
@@ -82,13 +64,10 @@ function Flexibility({
               calculateProgress(STORE_CONFIG_STEPS.FLEXIBILITY, nextStep),
             );
           }}
-        >
-          Flexible
-        </Button>
-        <Button
-          sx={style.choiceButton}
-          type="button"
-          variant="contained"
+        />
+
+        <ChoiceButton
+          text="Fixed"
           onClick={() => {
             appendCoreAttribute("flexibility", false);
             const nextStep = STORE_CONFIG_STEPS.SIMULTANEOUS;
@@ -97,11 +76,9 @@ function Flexibility({
               calculateProgress(STORE_CONFIG_STEPS.FLEXIBILITY, nextStep),
             );
           }}
-        >
-          Fixed
-        </Button>
-      </Box>
-    </Box>
+        />
+      </ChoiceButtonsContainer>
+    </StepContentWrapper>
   );
 }
 

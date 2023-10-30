@@ -1,19 +1,17 @@
 import {
   Box,
   Checkbox,
-  Divider,
   FormControlLabel,
   FormGroup,
-  IconButton,
   TextField,
-  Typography,
 } from "@mui/material";
-
-import { ArrowBack } from "@mui/icons-material";
 import { STORE_CONFIG_STEPS, StoreConfigStep } from "../types";
 import { useStoreConfig } from "../StoreConfigProvider";
 import ChangePageButtons from "../../../shared-components/ChangePageButtons";
-import { backIcon, descriptionForm, outerFormBox } from "./commonStyles";
+import StepContentWrapper from "./components/StepContentWrapper";
+import WizardStepTitle from "./components/WizardStepTitle";
+import WizardStepDescription from "./components/WizardStepDescription";
+import BackButton from "./components/BackButton";
 
 function DetailsPage({
   setActiveStep,
@@ -24,23 +22,18 @@ function DetailsPage({
   const { detailsPage } = storeConfig;
 
   return (
-    <Box sx={outerFormBox}>
-      <IconButton
-        sx={backIcon}
-        onClick={() => setActiveStep(STORE_CONFIG_STEPS.MAIN_PAGE)}
-      >
-        <ArrowBack />
-      </IconButton>
-      <Typography variant="h4" sx={{ marginBottom: 2 }}>
-        Details Page
-      </Typography>
-      <Typography sx={descriptionForm}>
+    <StepContentWrapper>
+      <BackButton onClick={() => setActiveStep(STORE_CONFIG_STEPS.MAIN_PAGE)} />
+
+      <WizardStepTitle>Details Page</WizardStepTitle>
+
+      <WizardStepDescription>
         Define visibility of features on item details page, decide if you want
         to have ratings and comments in your store. Also, if you want to
         override reservation prompts for your system, enter them below.
-      </Typography>
-      <Divider sx={{ marginTop: 3 }} />
-      <FormGroup>
+      </WizardStepDescription>
+
+      <FormGroup sx={{ marginTop: 3 }}>
         <FormControlLabel
           control={
             <Checkbox
@@ -82,6 +75,7 @@ function DetailsPage({
           }
           label="Display description for items"
         />
+
         <FormControlLabel
           control={
             <Checkbox
@@ -106,9 +100,10 @@ function DetailsPage({
           label="Display comments/reviews - this option will allow users to add comments your items"
         />
       </FormGroup>
-      <Box sx={{ width: "100%", padding: "20px" }}>
+
+      <Box sx={{ width: "100%", padding: 2.5 }}>
         <TextField
-          sx={{ marginBottom: "10px" }}
+          sx={{ marginBottom: 1.25 }}
           fullWidth
           label="Custom reservation summary prompt"
           name="reservationSummaryPrompt"
@@ -119,7 +114,7 @@ function DetailsPage({
         />
 
         <TextField
-          sx={{ marginBottom: "10px" }}
+          sx={{ marginBottom: 1.25 }}
           fullWidth
           label="Custom reservation confirmation prompt"
           name="reservationConfirmationPrompt"
@@ -142,10 +137,11 @@ function DetailsPage({
           }
         />
       </Box>
+
       <ChangePageButtons
         onNext={() => setActiveStep(STORE_CONFIG_STEPS.AUTH_CONFIG)}
       />
-    </Box>
+    </StepContentWrapper>
   );
 }
 

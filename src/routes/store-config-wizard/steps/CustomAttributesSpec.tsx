@@ -12,20 +12,16 @@ import {
   Select,
   Stack,
   TextField,
-  Typography,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { ArrowBack } from "@mui/icons-material";
 import { STORE_CONFIG_STEPS, StoreConfigStep } from "../types";
 import { useStoreConfig } from "../StoreConfigProvider";
 import ChangePageButtons from "../../../shared-components/ChangePageButtons";
 import { CustomAttributeSpec, StoreConfig } from "../../../types";
-import {
-  backIcon,
-  descriptionForm,
-  outerFormBox,
-  titleForm,
-} from "./commonStyles";
+import StepContentWrapper from "./components/StepContentWrapper";
+import WizardStepTitle from "./components/WizardStepTitle";
+import WizardStepDescription from "./components/WizardStepDescription";
+import BackButton from "./components/BackButton";
 
 const defaultCustomAttributeSpec: Omit<CustomAttributeSpec, "id"> = {
   name: "",
@@ -82,9 +78,8 @@ function CustomAttributesSpec({
   };
 
   return (
-    <Stack sx={outerFormBox} alignItems="center">
-      <IconButton
-        sx={backIcon}
+    <StepContentWrapper>
+      <BackButton
         onClick={() => {
           saveCustomAttributesSpec();
           const prevStep =
@@ -96,26 +91,26 @@ function CustomAttributesSpec({
           withdrawToCoreStep(prevStep);
           setActiveStep(prevStep);
         }}
-      >
-        <ArrowBack />
-      </IconButton>
-      <Typography variant="h4" sx={titleForm}>
-        Add attributes
-      </Typography>
-      <Typography sx={descriptionForm}>
+      />
+
+      <WizardStepTitle>Add attributes</WizardStepTitle>
+
+      <WizardStepDescription>
         Define attributes with which you want to define in your items. Choose if
         they are obligatory, if they should be enabled in filtering, choose the
         visibility on main and item detail pages and if ou want define possible
         values
-      </Typography>
-      <Box width="100%" padding="20px" paddingTop="0px">
+      </WizardStepDescription>
+
+      <Box width="100%" padding={2.5}>
         {localAttributesSpec.map((attr, idx) => {
           const disabled = attr.name === "";
 
           return (
             <Box key={attr.id}>
               <Divider sx={{ marginTop: 4, marginBottom: 4 }} />
-              <Stack direction="row" gap={1} marginBottom="10px">
+
+              <Stack direction="row" gap={1} marginBottom={1.25}>
                 <TextField
                   value={attr.name}
                   sx={{ width: "60%" }}
@@ -165,7 +160,6 @@ function CustomAttributesSpec({
               <FormGroup
                 sx={{
                   display: "flex",
-                  flexDirection: "row",
                   justifyContent: "space-between",
                 }}
               >
@@ -233,7 +227,7 @@ function CustomAttributesSpec({
               {attr.dataType === "string" && (
                 <Stack
                   direction="row"
-                  sx={{ alignItems: "center", marginTop: "10px" }}
+                  sx={{ alignItems: "center", marginTop: 1.25 }}
                 >
                   <FormControlLabel
                     control={
@@ -277,13 +271,14 @@ function CustomAttributesSpec({
           );
         })}
       </Box>
+
       <ChangePageButtons
         onNext={() => {
           saveCustomAttributesSpec();
           setActiveStep(STORE_CONFIG_STEPS.MAIN_PAGE);
         }}
       />
-    </Stack>
+    </StepContentWrapper>
   );
 }
 
