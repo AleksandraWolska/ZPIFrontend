@@ -45,6 +45,7 @@ export const items: Item[] = [
           startDateTime: "2024-02-01T09:00:00.000Z",
           endDateTime: "2024-02-01T10:00:00.000Z",
         },
+        availableAmount: 1,
       },
       {
         id: "2",
@@ -54,6 +55,7 @@ export const items: Item[] = [
           startDateTime: "2024-02-02T09:00:00.000Z",
           endDateTime: "2024-02-02T10:00:00.000Z",
         },
+        availableAmount: 1,
       },
       {
         id: "3",
@@ -63,6 +65,7 @@ export const items: Item[] = [
           startDateTime: "2024-02-03T09:00:00.000Z",
           endDateTime: "2024-02-03T10:00:00.000Z",
         },
+        availableAmount: 1,
       },
       {
         id: "4",
@@ -72,6 +75,7 @@ export const items: Item[] = [
           startDateTime: "2024-02-04T09:00:00.000Z",
           endDateTime: "2024-02-04T10:00:00.000Z",
         },
+        availableAmount: 1,
       },
     ],
     initialSettings: {},
@@ -124,6 +128,7 @@ export const items: Item[] = [
           startDateTime: "2024-02-01T09:00:00.000Z",
           endDateTime: "2024-02-01T10:00:00.000Z",
         },
+        availableAmount: 1,
       },
       {
         id: "2",
@@ -133,6 +138,7 @@ export const items: Item[] = [
           startDateTime: "2024-02-02T09:00:00.000Z",
           endDateTime: "2024-02-02T10:00:00.000Z",
         },
+        availableAmount: 1,
       },
       {
         id: "3",
@@ -142,6 +148,7 @@ export const items: Item[] = [
           startDateTime: "2024-02-03T09:00:00.000Z",
           endDateTime: "2024-02-03T10:00:00.000Z",
         },
+        availableAmount: 1,
       },
       {
         id: "4",
@@ -151,6 +158,7 @@ export const items: Item[] = [
           startDateTime: "2024-02-04T09:00:00.000Z",
           endDateTime: "2024-02-04T10:00:00.000Z",
         },
+        availableAmount: 1,
       },
     ],
     initialSettings: {},
@@ -203,6 +211,7 @@ export const items: Item[] = [
           startDateTime: "2024-02-01T09:00:00.000Z",
           endDateTime: "2024-02-01T10:00:00.000Z",
         },
+        availableAmount: 1,
       },
       {
         id: "2",
@@ -212,6 +221,7 @@ export const items: Item[] = [
           startDateTime: "2024-02-02T09:00:00.000Z",
           endDateTime: "2024-02-02T10:00:00.000Z",
         },
+        availableAmount: 1,
       },
       {
         id: "3",
@@ -221,6 +231,7 @@ export const items: Item[] = [
           startDateTime: "2024-02-03T09:00:00.000Z",
           endDateTime: "2024-02-03T10:00:00.000Z",
         },
+        availableAmount: 1,
       },
       {
         id: "4",
@@ -230,6 +241,7 @@ export const items: Item[] = [
           startDateTime: "2024-02-04T09:00:00.000Z",
           endDateTime: "2024-02-04T10:00:00.000Z",
         },
+        availableAmount: 1,
       },
     ],
     initialSettings: {},
@@ -282,6 +294,7 @@ export const items: Item[] = [
           startDateTime: "2024-02-01T09:00:00.000Z",
           endDateTime: "2024-02-01T10:00:00.000Z",
         },
+        availableAmount: 1,
       },
       {
         id: "2",
@@ -291,6 +304,7 @@ export const items: Item[] = [
           startDateTime: "2024-02-02T09:00:00.000Z",
           endDateTime: "2024-02-02T10:00:00.000Z",
         },
+        availableAmount: 1,
       },
       {
         id: "3",
@@ -300,6 +314,7 @@ export const items: Item[] = [
           startDateTime: "2024-02-03T09:00:00.000Z",
           endDateTime: "2024-02-03T10:00:00.000Z",
         },
+        availableAmount: 1,
       },
       {
         id: "4",
@@ -309,6 +324,7 @@ export const items: Item[] = [
           startDateTime: "2024-02-04T09:00:00.000Z",
           endDateTime: "2024-02-04T10:00:00.000Z",
         },
+        availableAmount: 1,
       },
     ],
     initialSettings: {},
