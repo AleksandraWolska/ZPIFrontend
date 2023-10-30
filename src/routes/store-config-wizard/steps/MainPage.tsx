@@ -3,20 +3,15 @@ import {
   Checkbox,
   FormControlLabel,
   FormGroup,
-  IconButton,
   TextField,
-  Typography,
 } from "@mui/material";
-import { ArrowBack } from "@mui/icons-material";
 import { useStoreConfig } from "../StoreConfigProvider";
 import { STORE_CONFIG_STEPS, StoreConfigStep } from "../types";
 import ChangePageButtons from "../../../shared-components/ChangePageButtons";
-import {
-  backIcon,
-  descriptionForm,
-  outerFormBox,
-  titleForm,
-} from "./commonStyles";
+import StepContentWrapper from "./components/StepContentWrapper";
+import WizardStepTitle from "./components/WizardStepTitle";
+import WizardStepDescription from "./components/WizardStepDescription";
+import BackButton from "./components/BackButton";
 
 function MainPage({
   setActiveStep,
@@ -27,24 +22,20 @@ function MainPage({
   const { mainPage } = storeConfig;
 
   return (
-    <Box sx={outerFormBox}>
-      <IconButton
-        sx={backIcon}
+    <StepContentWrapper>
+      <BackButton
         onClick={() => setActiveStep(STORE_CONFIG_STEPS.CUSTOM_ATTRIBUTES_SPEC)}
-      >
-        <ArrowBack />
-      </IconButton>
-      <Typography variant="h4" sx={titleForm}>
-        Main Page Features
-      </Typography>
-      <Typography sx={descriptionForm}>
-        Enter welcome texts, and define visibility of features on the main page
-      </Typography>
+      />
 
-      <Box width="100%" padding="20px">
+      <WizardStepTitle>Main Page Features</WizardStepTitle>
+
+      <WizardStepDescription>
+        Enter welcome texts, and define visibility of features on the main page
+      </WizardStepDescription>
+
+      <Box width="100%" padding={2.5}>
         <TextField
           fullWidth
-          sx={{ marginBottom: "10px" }}
           label="Welcome text - line 1"
           name="welcomeTextLine1"
           value={mainPage.welcomeTextLine1}
@@ -54,6 +45,7 @@ function MainPage({
         />
 
         <TextField
+          sx={{ marginTop: 1.25 }}
           fullWidth
           label="Welcome text - line 2"
           name="welcomeTextLine2"
@@ -129,7 +121,7 @@ function MainPage({
       <ChangePageButtons
         onNext={() => setActiveStep(STORE_CONFIG_STEPS.DETAILS_PAGE)}
       />
-    </Box>
+    </StepContentWrapper>
   );
 }
 

@@ -1,19 +1,16 @@
-import {
-  Box,
-  Button,
-  Collapse,
-  Divider,
-  IconButton,
-  Typography,
-} from "@mui/material";
-import InfoIcon from "@mui/icons-material/Info";
-import ArrowBack from "@mui/icons-material/ArrowBack";
 import { useState } from "react";
-
 import { STORE_CONFIG_STEPS, StoreConfigStep } from "../../types";
 import { useStoreConfig } from "../../StoreConfigProvider";
 import { calculateProgress } from "./utils";
-import * as style from "../commonStyles";
+import StepContentWrapper from "../components/StepContentWrapper";
+import WizardStepTitle from "../components/WizardStepTitle";
+import BackButton from "../components/BackButton";
+import InfoButton from "./components/InfoButton";
+import CoreInfo from "./components/CoreInfo";
+import CoreDescriptionWrapper from "./components/CoreDescriptionWrapper";
+import ChoiceButtonsContainer from "./components/ChoiceButtonsContainer";
+import ChoiceButton from "./components/ChoiceButton";
+import CoreDescription from "./components/CoreDescription";
 
 function Periodicity({
   setActiveStep,
@@ -26,9 +23,8 @@ function Periodicity({
     useStoreConfig();
   const [showInfo, setShowInfo] = useState(false);
   return (
-    <Box sx={style.outerFormBox}>
-      <IconButton
-        sx={style.backIcon}
+    <StepContentWrapper>
+      <BackButton
         onClick={() => {
           const prevStep =
             storeConfig.core.simultaneous === false
@@ -40,69 +36,47 @@ function Periodicity({
             calculateProgress(STORE_CONFIG_STEPS.PERIODICITY, prevStep),
           );
         }}
-      >
-        <ArrowBack />
-      </IconButton>
-      <Typography variant="h4" sx={style.titleForm}>
-        Event Periodicity
-      </Typography>
-      <IconButton
-        sx={style.infoIcon}
-        size="small"
-        onClick={() => setShowInfo(!showInfo)}
-      >
-        <InfoIcon />
-      </IconButton>
+      />
 
-      <Box margin="10px">
-        <Typography sx={style.descriptionCoreForm}>
+      <WizardStepTitle>Event Periodicity</WizardStepTitle>
+
+      <InfoButton onClick={() => setShowInfo(!showInfo)} />
+
+      <CoreDescriptionWrapper>
+        <CoreDescription>
           This field determines the cyclical nature of events or bookings.
-        </Typography>
-        <Collapse in={showInfo} timeout="auto" unmountOnExit>
-          <Box sx={style.infoCoreOuterContainer}>
-            <Box sx={style.infoCoreBox}>
-              <Typography sx={style.infoCoreText}>
-                Cyclical events are best suited for events that recur over time.
-                User can view and book different instances of the same event.
-              </Typography>
-            </Box>
-            <Divider orientation="vertical" flexItem />
-            <Box sx={style.infoCoreBox}>
-              <Typography sx={style.infoCoreText}>
-                Non cyclical events are best suited for one-time events or
+        </CoreDescription>
+
+        <CoreInfo
+          show={showInfo}
+          left="Cyclical events are best suited for events that recur over time.
+                User can view and book different instances of the same event."
+          right="Non cyclical events are best suited for one-time events or
                 items. Each item is treated as a separate entity without any
-                grouping.
-              </Typography>
-            </Box>
-          </Box>
-        </Collapse>
-      </Box>
-      <Box sx={style.choiceButtonContainer}>
-        <Button
-          sx={style.choiceButton}
-          variant="contained"
+                grouping."
+        />
+      </CoreDescriptionWrapper>
+
+      <ChoiceButtonsContainer>
+        <ChoiceButton
+          text="Cyclic"
           onClick={() => {
             appendCoreAttribute("periodicity", true);
             setActiveStep(STORE_CONFIG_STEPS.CUSTOM_ATTRIBUTES_SPEC);
             setProgress(100);
           }}
-        >
-          Cyclic
-        </Button>
-        <Button
-          sx={style.choiceButton}
-          type="button"
-          variant="contained"
+        />
+
+        <ChoiceButton
+          text="Noncyclic"
           onClick={() => {
             appendCoreAttribute("periodicity", false);
             setActiveStep(STORE_CONFIG_STEPS.CUSTOM_ATTRIBUTES_SPEC);
             setProgress(100);
           }}
-        >
-          Noncyclic
-        </Button>
-      </Box>
-    </Box>
+        />
+      </ChoiceButtonsContainer>
+    </StepContentWrapper>
   );
 }
 

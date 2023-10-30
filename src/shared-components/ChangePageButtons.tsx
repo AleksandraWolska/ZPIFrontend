@@ -1,8 +1,10 @@
 import { Button, Stack } from "@mui/material";
-import {
-  changePageButton,
-  changePageButtonContainer,
-} from "../routes/store-config-wizard/steps/commonStyles";
+import { styled } from "@mui/system";
+
+const ChangePageButton = styled(Button)(({ theme }) => ({
+  flexGrow: 1,
+  margin: theme.spacing(1.125),
+}));
 
 function ChangePageButtons({
   onPrev,
@@ -12,16 +14,16 @@ function ChangePageButtons({
   onNext?: () => void;
 }) {
   return (
-    <Stack sx={changePageButtonContainer}>
+    <Stack direction="row" width="100%">
       {onPrev && (
-        <Button sx={changePageButton} onClick={onPrev} variant="outlined">
+        <ChangePageButton onClick={onPrev} variant="outlined">
           Prev
-        </Button>
+        </ChangePageButton>
       )}
       {onNext && (
-        <Button sx={changePageButton} onClick={onNext} variant="contained">
+        <ChangePageButton onClick={onNext} variant="contained">
           Next
-        </Button>
+        </ChangePageButton>
       )}
     </Stack>
   );

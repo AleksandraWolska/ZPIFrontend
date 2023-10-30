@@ -1,14 +1,14 @@
 import { Box } from "@mui/system";
 import { useStoreConfig } from "../StoreConfigProvider";
-import { outerFormBox } from "./commonStyles";
+import StepContentWrapper from "./components/StepContentWrapper";
 
 function PrintStoreConfig() {
   const { storeConfig } = useStoreConfig();
 
   return (
-    <Box sx={{ ...outerFormBox, wordBreak: "break-all" }}>
+    <StepContentWrapper sx={{ wordBreak: "break-all" }}>
       <Box textOverflow="wrap">{JSON.stringify(storeConfig)}</Box>
-    </Box>
+    </StepContentWrapper>
   );
 }
 

@@ -1,28 +1,22 @@
 import {
-  Box,
   Checkbox,
   Collapse,
   FormControl,
   FormControlLabel,
   FormGroup,
   FormLabel,
-  IconButton,
   Radio,
   RadioGroup,
   Stack,
-  Typography,
 } from "@mui/material";
-import { ArrowBack } from "@mui/icons-material";
 import { STORE_CONFIG_STEPS, StoreConfigStep } from "../types";
 import { useStoreConfig } from "../StoreConfigProvider";
 import ChangePageButtons from "../../../shared-components/ChangePageButtons";
 import { StoreConfig } from "../../../types";
-import {
-  backIcon,
-  descriptionForm,
-  outerFormBox,
-  titleForm,
-} from "./commonStyles";
+import StepContentWrapper from "./components/StepContentWrapper";
+import WizardStepTitle from "./components/WizardStepTitle";
+import WizardStepDescription from "./components/WizardStepDescription";
+import BackButton from "./components/BackButton";
 
 const personalDataOptions: {
   value: StoreConfig["authConfig"]["requiredPersonalData"][number];
@@ -59,28 +53,27 @@ function AuthConfig({
   const { authConfig } = storeConfig;
 
   return (
-    <Box sx={outerFormBox}>
-      <IconButton
-        sx={backIcon}
+    <StepContentWrapper>
+      <BackButton
         onClick={() => setActiveStep(STORE_CONFIG_STEPS.DETAILS_PAGE)}
-      >
-        <ArrowBack />
-      </IconButton>
-      <Typography variant="h4" sx={titleForm}>
-        User Authentication
-      </Typography>
-      <Typography sx={descriptionForm}>
+      />
+
+      <WizardStepTitle>User Authentication</WizardStepTitle>
+
+      <WizardStepDescription>
         Define access permissions for user interactions within your store. For
         actions such as reservation or adding comments, users can either sign in
         to their account or, alternatively, provide specific information that
         you will define as mandatory.
-      </Typography>
-      <Stack gap={3} margin="20px">
+      </WizardStepDescription>
+
+      <Stack gap={3} margin={2.5}>
         <FormControl>
           <FormLabel id="requireAuthForActions">
             Should user be logged in to perform actions (reserving, commenting,
             rating items)?
           </FormLabel>
+
           <RadioGroup
             sx={{ margin: "auto" }}
             row
@@ -100,6 +93,7 @@ function AuthConfig({
         <Collapse in={!authConfig.requireAuthForActions}>
           <FormControl>
             <FormLabel>Choose required personal data</FormLabel>
+
             <FormGroup>
               {personalDataOptions.map(({ value, text }) => {
                 return (
@@ -139,6 +133,7 @@ function AuthConfig({
           <FormLabel id="requireAuthForStoreAccess">
             Should user be logged in to access store and view items?
           </FormLabel>
+
           <RadioGroup
             sx={{ margin: "auto" }}
             row
@@ -159,7 +154,7 @@ function AuthConfig({
       <ChangePageButtons
         onNext={() => setActiveStep(STORE_CONFIG_STEPS.PRINT_STORE_CONFIG)}
       />
-    </Box>
+    </StepContentWrapper>
   );
 }
 

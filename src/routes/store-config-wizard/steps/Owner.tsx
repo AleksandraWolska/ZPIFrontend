@@ -1,16 +1,11 @@
-import {
-  Box,
-  Grid,
-  MenuItem,
-  Select,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Box, Grid, MenuItem, Select, TextField } from "@mui/material";
 import { useStoreConfig } from "../StoreConfigProvider";
 import ChangePageButtons from "../../../shared-components/ChangePageButtons";
 import { STORE_CONFIG_STEPS, StoreConfigStep } from "../types";
 import { OWNER_COLORS } from "../../../types";
-import { descriptionForm, outerFormBox, titleForm } from "./commonStyles";
+import WizardStepTitle from "./components/WizardStepTitle";
+import WizardStepDescription from "./components/WizardStepDescription";
+import StepContentWrapper from "./components/StepContentWrapper";
 
 function Owner({
   setActiveStep,
@@ -21,15 +16,15 @@ function Owner({
   const { owner } = storeConfig;
 
   return (
-    <Box sx={outerFormBox}>
-      <Typography variant="h4" sx={titleForm}>
-        Owner
-      </Typography>
-      <Typography sx={descriptionForm}>
+    <StepContentWrapper>
+      <WizardStepTitle>Owner</WizardStepTitle>
+
+      <WizardStepDescription>
         Enter information about your company, link to logo, and choose color
         theme
-      </Typography>
-      <Box width="90%" marginTop="10px" marginBottom="10px">
+      </WizardStepDescription>
+
+      <Box width="90%" marginTop={1.25} marginBottom={1.25}>
         <Grid container spacing={1}>
           <Grid item xs={12} sm={6}>
             <TextField
@@ -88,15 +83,16 @@ function Owner({
           </Grid>
         </Grid>
       </Box>
-      <Typography sx={descriptionForm}>
+
+      <WizardStepDescription>
         [TBD new informational step] - Next few steps will allow you to specify
         mechanics of reservation [OK]
-      </Typography>
+      </WizardStepDescription>
 
       <ChangePageButtons
         onNext={() => setActiveStep(STORE_CONFIG_STEPS.FLEXIBILITY)}
       />
-    </Box>
+    </StepContentWrapper>
   );
 }
 

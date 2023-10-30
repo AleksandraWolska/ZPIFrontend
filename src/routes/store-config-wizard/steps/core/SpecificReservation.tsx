@@ -1,19 +1,16 @@
-import {
-  Box,
-  Button,
-  Collapse,
-  Divider,
-  IconButton,
-  Typography,
-} from "@mui/material";
-import InfoIcon from "@mui/icons-material/Info";
-import ArrowBack from "@mui/icons-material/ArrowBack";
 import { useState } from "react";
-
 import { STORE_CONFIG_STEPS, StoreConfigStep } from "../../types";
 import { useStoreConfig } from "../../StoreConfigProvider";
 import { calculateProgress } from "./utils";
-import * as style from "../commonStyles";
+import StepContentWrapper from "../components/StepContentWrapper";
+import WizardStepTitle from "../components/WizardStepTitle";
+import BackButton from "../components/BackButton";
+import InfoButton from "./components/InfoButton";
+import CoreInfo from "./components/CoreInfo";
+import CoreDescriptionWrapper from "./components/CoreDescriptionWrapper";
+import ChoiceButtonsContainer from "./components/ChoiceButtonsContainer";
+import ChoiceButton from "./components/ChoiceButton";
+import CoreDescription from "./components/CoreDescription";
 
 function SpecificReservation({
   setActiveStep,
@@ -25,9 +22,8 @@ function SpecificReservation({
   const { appendCoreAttribute, withdrawToCoreStep } = useStoreConfig();
   const [showInfo, setShowInfo] = useState(false);
   return (
-    <Box sx={style.outerFormBox}>
-      <IconButton
-        sx={style.backIcon}
+    <StepContentWrapper>
+      <BackButton
         onClick={() => {
           const prevStep = STORE_CONFIG_STEPS.SIMULTANEOUS;
           withdrawToCoreStep(prevStep);
@@ -39,61 +35,41 @@ function SpecificReservation({
             ),
           );
         }}
-      >
-        <ArrowBack />
-      </IconButton>
-      <Typography variant="h4" sx={style.titleForm}>
-        Specific Reservation
-      </Typography>
-      <IconButton
-        sx={style.infoIcon}
-        size="small"
-        onClick={() => setShowInfo(!showInfo)}
-      >
-        <InfoIcon />
-      </IconButton>
+      />
 
-      <Box margin="10px">
-        <Typography sx={style.descriptionCoreForm}>
+      <WizardStepTitle>Specific Reservation</WizardStepTitle>
+
+      <InfoButton onClick={() => setShowInfo(!showInfo)} />
+
+      <CoreDescriptionWrapper>
+        <CoreDescription>
           This field defines whether users can book specific parts of an item,
           eq. seats for a movie.
-        </Typography>
-        <Collapse in={showInfo} timeout="auto" unmountOnExit>
-          <Box sx={style.infoCoreOuterContainer}>
-            <Box sx={style.infoCoreBox}>
-              <Typography sx={style.infoCoreText}>
-                Select yes if you want users to reserve specific places or parts
+        </CoreDescription>
+
+        <CoreInfo
+          show={showInfo}
+          left="Select yes if you want users to reserve specific places or parts
                 within an item. This is best suited for venues with specific
-                seating.
-              </Typography>
-            </Box>
-            <Divider orientation="vertical" flexItem />
-            <Box sx={style.infoCoreBox}>
-              <Typography sx={style.infoCoreText}>
-                Select no if you want the item or event to be treated as a
-                whole, with no sub-item reservations possible.
-              </Typography>
-            </Box>
-          </Box>
-        </Collapse>
-      </Box>
-      <Box sx={style.choiceButtonContainer}>
-        <Button
-          sx={style.choiceButton}
-          variant="contained"
+                seating."
+          right="Select no if you want the item or event to be treated as a
+                whole, with no sub-item reservations possible."
+        />
+      </CoreDescriptionWrapper>
+
+      <ChoiceButtonsContainer>
+        <ChoiceButton
+          text="Yes"
           onClick={() => {
             appendCoreAttribute("specificReservation", true);
             const nextStep = STORE_CONFIG_STEPS.CUSTOM_ATTRIBUTES_SPEC;
             setActiveStep(nextStep);
             setProgress(100);
           }}
-        >
-          Yes
-        </Button>
-        <Button
-          sx={style.choiceButton}
-          type="button"
-          variant="contained"
+        />
+
+        <ChoiceButton
+          text="No"
           onClick={() => {
             appendCoreAttribute("specificReservation", false);
             const nextStep = STORE_CONFIG_STEPS.PERIODICITY;
@@ -105,11 +81,9 @@ function SpecificReservation({
               ),
             );
           }}
-        >
-          no
-        </Button>
-      </Box>
-    </Box>
+        />
+      </ChoiceButtonsContainer>
+    </StepContentWrapper>
   );
 }
 

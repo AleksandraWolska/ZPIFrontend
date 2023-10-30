@@ -15,15 +15,6 @@ import DetailsPage from "./steps/DetailsPage";
 import AllowOverNight from "./steps/core/AllowOverNight";
 import AuthConfig from "./steps/AuthConfig";
 
-const outerWizardBox = {
-  maxWidth: "1000px",
-  width: "90vw",
-  boxShadow: "1px 1px 5px 2px rgba(0, 0, 0, .2)",
-  borderRadius: "15px",
-  padding: "10px",
-  margin: "10px",
-};
-
 function Stepper() {
   const [activeStep, setActiveStep] = useState<StoreConfigStep>(
     STORE_CONFIG_STEPS.OWNER,
@@ -96,7 +87,16 @@ function Stepper() {
   };
 
   return (
-    <Box sx={outerWizardBox}>
+    <Box
+      sx={{
+        maxWidth: "1000px",
+        width: "90vw",
+        boxShadow: "1px 1px 5px 2px rgba(0, 0, 0, .2)",
+        borderRadius: "15px",
+        padding: 1.25,
+        margin: 1.25,
+      }}
+    >
       <LinearProgress
         variant="determinate"
         value={progress}

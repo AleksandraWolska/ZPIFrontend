@@ -1,19 +1,16 @@
-import {
-  Box,
-  Button,
-  Collapse,
-  Divider,
-  IconButton,
-  Typography,
-} from "@mui/material";
-import InfoIcon from "@mui/icons-material/Info";
-import ArrowBack from "@mui/icons-material/ArrowBack";
 import { useState } from "react";
-
 import { STORE_CONFIG_STEPS, StoreConfigStep } from "../../types";
 import { useStoreConfig } from "../../StoreConfigProvider";
 import { calculateProgress } from "./utils";
-import * as style from "../commonStyles";
+import StepContentWrapper from "../components/StepContentWrapper";
+import WizardStepTitle from "../components/WizardStepTitle";
+import BackButton from "../components/BackButton";
+import InfoButton from "./components/InfoButton";
+import CoreInfo from "./components/CoreInfo";
+import CoreDescriptionWrapper from "./components/CoreDescriptionWrapper";
+import ChoiceButtonsContainer from "./components/ChoiceButtonsContainer";
+import ChoiceButton from "./components/ChoiceButton";
+import CoreDescription from "./components/CoreDescription";
 
 function Simultaneous({
   setActiveStep,
@@ -26,9 +23,8 @@ function Simultaneous({
     useStoreConfig();
   const [showInfo, setShowInfo] = useState(false);
   return (
-    <Box sx={style.outerFormBox}>
-      <IconButton
-        sx={style.backIcon}
+    <StepContentWrapper>
+      <BackButton
         onClick={() => {
           const prevStep =
             storeConfig.core.allowOverNight !== undefined
@@ -42,49 +38,33 @@ function Simultaneous({
             calculateProgress(STORE_CONFIG_STEPS.SIMULTANEOUS, prevStep),
           );
         }}
-      >
-        <ArrowBack />
-      </IconButton>{" "}
-      <Typography variant="h4" sx={style.titleForm}>
-        Simultaneous Access
-      </Typography>
-      <IconButton
-        sx={style.infoIcon}
-        size="small"
-        onClick={() => setShowInfo(!showInfo)}
-      >
-        <InfoIcon />
-      </IconButton>
-      <Box margin="10px">
-        <Typography sx={style.descriptionCoreForm}>
+      />
+
+      <WizardStepTitle>Simultaneous Access</WizardStepTitle>
+
+      <InfoButton onClick={() => setShowInfo(!showInfo)} />
+
+      <CoreDescriptionWrapper>
+        <CoreDescription>
           This field determines whether multiple users can be signed up for an
           item at the same time. It is crucial for managing the accessibility of
           your item.
-        </Typography>
-        <Collapse in={showInfo} timeout="auto" unmountOnExit>
-          <Box sx={style.infoCoreOuterContainer}>
-            <Box sx={style.infoCoreBox}>
-              <Typography sx={style.infoCoreText}>
-                Shared access should be chosen if you want multiple individuals
+        </CoreDescription>
+
+        <CoreInfo
+          show={showInfo}
+          left="Shared access should be chosen if you want multiple individuals
                 to access the item simultaneously. This is best suited for items
-                that can be shared, like a public spaces.
-              </Typography>
-            </Box>
-            <Divider orientation="vertical" flexItem />
-            <Box sx={style.infoCoreBox}>
-              <Typography sx={style.infoCoreText}>
-                Exclusive access should be chosen if you want allow only one
+                that can be shared, like a public spaces."
+          right="Exclusive access should be chosen if you want allow only one
                 user at the time to access the item, ensuring that the user has
-                the item all to themselves.
-              </Typography>
-            </Box>
-          </Box>
-        </Collapse>
-      </Box>
-      <Box sx={style.choiceButtonContainer}>
-        <Button
-          sx={style.choiceButton}
-          variant="contained"
+                the item all to themselves."
+        />
+      </CoreDescriptionWrapper>
+
+      <ChoiceButtonsContainer>
+        <ChoiceButton
+          text="Shared"
           onClick={() => {
             appendCoreAttribute("simultaneous", true);
             const nextStep =
@@ -96,13 +76,10 @@ function Simultaneous({
               calculateProgress(STORE_CONFIG_STEPS.SIMULTANEOUS, nextStep),
             );
           }}
-        >
-          Shared
-        </Button>
-        <Button
-          sx={style.choiceButton}
-          type="button"
-          variant="contained"
+        />
+
+        <ChoiceButton
+          text="Exclusive"
           onClick={() => {
             appendCoreAttribute("simultaneous", false);
             const nextStep =
@@ -114,11 +91,9 @@ function Simultaneous({
               calculateProgress(STORE_CONFIG_STEPS.SIMULTANEOUS, nextStep),
             );
           }}
-        >
-          Exclusive
-        </Button>
-      </Box>
-    </Box>
+        />
+      </ChoiceButtonsContainer>
+    </StepContentWrapper>
   );
 }
 
