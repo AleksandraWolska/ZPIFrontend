@@ -1,48 +1,8 @@
-import { useState } from "react";
-import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  TextField,
-  Button,
-  List,
-  ListItem,
-  Typography,
-  Box,
-} from "@mui/material";
-import {
-  FixedReservationData,
-  FlexibleReservationData,
-  RequiredUserInfo,
-  ReservationRequest,
-  UserData,
-} from "../../types";
+import { Dialog, Box } from "@mui/material";
+import ActionsAuth from "../../user-app-auth/ActionsAuth";
+import useAuthConfig from "../../user-app-auth/useAuthConfig";
 
-type Props = {
-  reservationRequest: ReservationRequest;
-  requiredUserInfo: RequiredUserInfo;
-  makeReservationRequest: (data: ReservationRequest) => void;
-};
-
-export function ReservationDialog({
-  reservationRequest,
-  requiredUserInfo,
-  makeReservationRequest,
-}: Props) {
-  const [filledUserData, setFilledUserData] = useState<UserData>(
-    reservationRequest.userData,
-  );
-
-  const handleInputChange = (key: keyof UserData, value: string) => {
-    setFilledUserData((prev) => ({ ...prev, [key]: value }));
-  };
-
-  const isFlexibleData = (
-    data: FlexibleReservationData | FixedReservationData,
-  ): data is FlexibleReservationData => {
-    return (data as FlexibleReservationData).start !== undefined;
-  };
-
+export function ReservationDialog() {
   return (
     <Dialog
       open
@@ -50,67 +10,30 @@ export function ReservationDialog({
       fullWidth
       PaperProps={{ sx: { borderRadius: "10px" } }}
     >
-      <DialogTitle>Reservation</DialogTitle>
-      <DialogContent>
-        <Box mb={3}>
-          <Typography variant="h6">Podsumowanie:</Typography>
-          {isFlexibleData(reservationRequest.reservationData) ? (
-            <>
-              <Typography>
-                Start: {reservationRequest.reservationData.start}
-              </Typography>
-              <Typography>
-                End: {reservationRequest.reservationData.end}
-              </Typography>
-            </>
-          ) : (
-            <List>
-              {reservationRequest.reservationData.subItemList.map((item) => (
-                <ListItem key={item.id}>
-                  <Typography>
-                    {item.title} - {item.subtitle}
-                  </Typography>
-                </ListItem>
-              ))}
-            </List>
-          )}
-          <Typography>
-            Amount: {reservationRequest.reservationData.amount}
-          </Typography>
-        </Box>
-        <Box mb={3}>
-          <Typography variant="h6">Informacje:</Typography>
-          {requiredUserInfo.map((infoKey) => (
-            <TextField
-              key={infoKey}
-              label={infoKey}
-              fullWidth
-              margin="normal"
-              onChange={(e) =>
-                handleInputChange(infoKey as keyof UserData, e.target.value)
-              }
-            />
-          ))}
-          {Object.entries(filledUserData).map(([key, value]) => (
-            <Typography key={key}>
-              {key}: {value}
-            </Typography>
-          ))}
-        </Box>
-        <Button
-          color="primary"
-          variant="contained"
-          fullWidth
-          onClick={() =>
-            makeReservationRequest({
-              ...reservationRequest,
-              userData: filledUserData,
-            })
-          }
-        >
-          RESERVE
-        </Button>
-      </DialogContent>
+      <ActionsAuth>
+        <ReservationForm />
+      </ActionsAuth>
     </Dialog>
+  );
+}
+
+function ReservationForm() {
+  const authConfig = useAuthConfig();
+
+  return (
+    <Box>
+      {authConfig.requireAuthForActions ? (
+        <Box>
+          Jesli to widzisz, to znaczy ze do wykonania akcji potrzebne jest
+          logowanie i user faktycznie jest zalogowany
+        </Box>
+      ) : (
+        <Box>
+          Jesli to widzisz, to znaczy ze do wykonania akcji NIE JEST potrzebne
+          logowanie i trzeba wyswietlic odpowiednie pola na podstawie
+          requiredPersonalData
+        </Box>
+      )}
+    </Box>
   );
 }

@@ -24,10 +24,8 @@ import {
   FixedReservationData,
   FlexibleReservationData,
   NewComment,
-  RequiredUserInfo,
   ReservationRequest,
 } from "../types";
-import useReserveItem from "./useReserveItem";
 import { ReservationDialog } from "../components/detail-page-specific/ReservationDialog";
 import ItemImage from "../components/shared/ItemImage";
 import CommentsDisplay from "../components/detail-page-specific/CommentsDisplay";
@@ -56,7 +54,7 @@ const initializeAvailabilityChecked = (core: StoreConfig["core"]): boolean => {
 export default function ItemDetailsPage() {
   const storeConfig = useDetailsPageConfig();
   const item = useItemDetails();
-  const reserveItem = useReserveItem();
+  // const reserveItem = useReserveItem();
 
   const params = useParams() as { storeId: string; itemId: string };
 
@@ -79,21 +77,21 @@ export default function ItemDetailsPage() {
   >([]);
   const [commentRefetch, setCommentRefetch] = useState(false);
 
-  const makeReservationRequest = async (request: ReservationRequest) => {
-    setReservationSummary(false);
-
-    setReservationSummary(false);
-    // console.log(request);
-
-    try {
-      await reserveItem.mutateAsync(request); // calling the useReserveItem mutation
-      setShowSuccessDialog(true); // Show success dialog upon successful reservation
-    } catch (error) {
-      console.error("Error during reservation: ", error);
-      // Handle error accordingly, e.g. show an error message to the user
-    }
-    console.log(request);
-  };
+  // const makeReservationRequest = async (request: ReservationRequest) => {
+  //   setReservationSummary(false);
+  //
+  //   setReservationSummary(false);
+  //   // console.log(request);
+  //
+  //   try {
+  //     await reserveItem.mutateAsync(request); // calling the useReserveItem mutation
+  //     setShowSuccessDialog(true); // Show success dialog upon successful reservation
+  //   } catch (error) {
+  //     console.error("Error during reservation: ", error);
+  //     // Handle error accordingly, e.g. show an error message to the user
+  //   }
+  //   console.log(request);
+  // };
 
   const prepareFixedReservationRequest = () => {
     const data: FixedReservationData = {
@@ -317,13 +315,7 @@ export default function ItemDetailsPage() {
   };
   return (
     <Box padding={3}>
-      {reservationSummary && reservationRequest && (
-        <ReservationDialog
-          reservationRequest={reservationRequest}
-          requiredUserInfo={["email", "name", "surname"] as RequiredUserInfo}
-          makeReservationRequest={makeReservationRequest}
-        />
-      )}
+      {reservationSummary && reservationRequest && <ReservationDialog />}
       <Box display="flex">
         <Box
           borderRadius="10%"

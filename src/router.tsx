@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import { queryClient } from "./query";
 import Home from "./routes/home/Home";
-import RequireLogin from "./auth/RequireLogin";
+import RequireLoginRoute from "./auth/RequireLoginRoute";
 import Secret from "./routes/secret/Secret";
 import UserAppMainPage from "./routes/userapp/main-page/UserAppMainPage";
 import { loader as userAppMainPageLoader } from "./routes/userapp/main-page/loader";
@@ -12,6 +12,7 @@ import { loader as detailsPageLoader } from "./routes/userapp/details-page/loade
 import { loader as itemListLoader } from "./routes/admin-app/items/item-list/loader";
 import { loader as newItemLoader } from "./routes/admin-app/items/add-item/loader";
 import { loader as editItemLoader } from "./routes/admin-app/items/edit-item/loader";
+import { loader as userAppAuthLoader } from "./routes/userapp/user-app-auth/loader";
 
 if (process.env.NODE_ENV === "development") {
   const { worker } = await import("./mocks/browser");
@@ -92,25 +93,35 @@ const router = createBrowserRouter([
     },
   },
   {
-    path: "userapp/:storeId",
-    element: <UserAppWrapper />,
-    loader: userAppWrapperLoader(queryClient),
+    loader: userAppAuthLoader(queryClient),
+    lazy: async () => {
+      const StoreAccessAuth = (
+        await import("./routes/userapp/user-app-auth/StoreAccessAuth")
+      ).default;
+      return { Component: StoreAccessAuth };
+    },
     children: [
       {
-        index: true,
-        element: <UserAppMainPage />,
-        loader: userAppMainPageLoader(queryClient),
-      },
-      {
-        path: ":itemId",
-        element: <ItemDetailsPage />,
-        loader: detailsPageLoader(queryClient),
+        path: "userapp/:storeId",
+        element: <UserAppWrapper />,
+        loader: userAppWrapperLoader(queryClient),
+        children: [
+          {
+            index: true,
+            element: <UserAppMainPage />,
+            loader: userAppMainPageLoader(queryClient),
+          },
+          {
+            path: ":itemId",
+            element: <ItemDetailsPage />,
+            loader: detailsPageLoader(queryClient),
+          },
+        ],
       },
     ],
   },
-
   {
-    element: <RequireLogin />,
+    element: <RequireLoginRoute />,
     children: [
       {
         path: "secret",

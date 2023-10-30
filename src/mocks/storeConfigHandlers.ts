@@ -6,6 +6,17 @@ export const importStoreConfig = async (storeId: string) => {
   return (await fetchData(storeId, "storeConfig")) as StoreConfig;
 };
 
+const getAuthConfig = rest.get(
+  "/api/stores/:storeId/auth-config",
+  async (req, res, ctx) => {
+    const { storeId } = req.params;
+
+    const storeConfig = await importStoreConfig(storeId.toString());
+
+    return res(ctx.status(200), ctx.json(storeConfig.authConfig));
+  },
+);
+
 const getOwner = rest.get(
   "/api/stores/:storeId/owner",
   async (req, res, ctx) => {
@@ -70,6 +81,7 @@ const getItemConfig = rest.get(
 );
 
 export const storeConfigHandlers = [
+  getAuthConfig,
   getOwner,
   getMainPageConfig,
   getDetailsPageConfig,
