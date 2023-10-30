@@ -1,8 +1,8 @@
 import { useMutation } from "react-query";
-import { useParams } from "react-router-dom";
 import { queryClient } from "../../../../query";
 import { Item, SubItem } from "../../../../types";
 import { ItemWithoutIds } from "../../types";
+import { getAccessToken } from "../../../../auth/utils";
 
 export const removeIdsFromItem = (item: Item): ItemWithoutIds => {
   const { subItems } = item;
@@ -25,10 +25,13 @@ export const removeIdsFromItem = (item: Item): ItemWithoutIds => {
   };
 };
 
-const addItem = (storeId: string, item: ItemWithoutIds) => {
-  return fetch(`/api/stores/${storeId}/items`, {
+const addItem = (item: ItemWithoutIds) => {
+  const token = getAccessToken();
+
+  return fetch(`/api/admin/items`, {
     method: "POST",
     headers: {
+      Authorization: `Bearer ${token}`,
       Accept: "application/json",
       "Content-Type": "application/json",
     },
@@ -37,14 +40,12 @@ const addItem = (storeId: string, item: ItemWithoutIds) => {
 };
 
 function useAddItem() {
-  const params = useParams() as { storeId: string };
-
   return useMutation({
     mutationFn: (item: ItemWithoutIds) => {
-      return addItem(params.storeId, item);
+      return addItem(item);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(["items", params.storeId]);
+      queryClient.invalidateQueries(["admin-items"]);
     },
   });
 }

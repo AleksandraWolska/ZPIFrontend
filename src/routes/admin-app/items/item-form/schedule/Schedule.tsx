@@ -1,11 +1,11 @@
-import { useItemForm } from "../ItemFormProvider";
 import Fixed from "./Fixed";
 import Slots from "./Slots";
 import Continuous from "./Continuous";
+import useStoreConfig from "../../../useStoreConfig";
 
 function Schedule() {
-  const { itemConfig } = useItemForm();
-  const { flexibility, granularity } = itemConfig.core;
+  const storeConfig = useStoreConfig();
+  const { flexibility, granularity } = storeConfig.core;
 
   return (
     <>

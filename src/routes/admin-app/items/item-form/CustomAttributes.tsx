@@ -8,9 +8,11 @@ import {
 } from "@mui/material";
 import { CustomAttribute, CustomAttributeSpec } from "../../../../types";
 import { useItemForm } from "./ItemFormProvider";
+import useStoreConfig from "../../useStoreConfig";
 
 function CustomAttributes() {
-  const { itemConfig, item, setItemCustomAttribute } = useItemForm();
+  const storeConfig = useStoreConfig();
+  const { item, setItemCustomAttribute } = useItemForm();
 
   return (
     <Grid container spacing={1} width="50%">
@@ -19,7 +21,7 @@ function CustomAttributes() {
           {renderCustomAttributeInput(
             attribute,
             setItemCustomAttribute,
-            itemConfig.customAttributesSpec,
+            storeConfig.customAttributesSpec,
           )}
         </Grid>
       ))}

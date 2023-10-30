@@ -15,12 +15,12 @@ import theme from "../../../../theme";
 import ConfirmDialog from "./ConfirmDialog";
 import useDeleteItem from "./useDeleteItem";
 import useUpdateItemActivity from "./useUpdateItemActivity";
-import useItemConfig from "../common-data/useItemConfig";
 import { Item } from "../../../../types";
+import useStoreConfig from "../../useStoreConfig";
 
 function ItemList() {
   const items = useItems();
-  const itemConfig = useItemConfig();
+  const storeConfig = useStoreConfig();
 
   const [itemToHaveActivityUpdated, setItemToHaveActivityUpdated] = useState<
     string | null
@@ -61,13 +61,13 @@ function ItemList() {
               </CardContent>
 
               <Stack width="20%" spacing={2} padding={2}>
-                {itemConfig.core.flexibility && (
-                  <Link to={`reschedule/${item.id}`}>
+                {storeConfig.core.flexibility && (
+                  <Link to={`${item.id}/reschedule`}>
                     <ActionBtn text="Reschedule" />
                   </Link>
                 )}
 
-                <Link to={`edit/${item.id}`}>
+                <Link to={`${item.id}/edit`}>
                   <ActionBtn text="Edit" />
                 </Link>
 

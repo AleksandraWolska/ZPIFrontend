@@ -1,8 +1,6 @@
-import { Link, Outlet, useParams } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 
 function AdminAppWrapper() {
-  const params = useParams() as { storeId: string };
-
   return (
     <>
       <div
@@ -12,7 +10,7 @@ function AdminAppWrapper() {
           marginBottom: "2rem",
         }}
       >
-        <h1>Admin App ({params.storeId})</h1>
+        <h1>Admin App</h1>
         <div
           style={{
             display: "flex",

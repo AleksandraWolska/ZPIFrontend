@@ -19,15 +19,20 @@ import SubItems from "../item-form/SubItems";
 import Summary from "./Summary";
 import ScheduleComponent from "../item-form/schedule/Schedule";
 import Stepper from "../item-form/Stepper";
-import useItemConfig from "../common-data/useItemConfig";
+import useStoreConfig from "../../useStoreConfig";
 
 function AddItem() {
-  const itemConfig = useItemConfig();
+  const storeConfig = useStoreConfig();
 
-  const steps = getSteps(itemConfig.core);
+  const steps = getSteps(storeConfig.core);
 
   return (
-    <ItemFormProvider initialItem={initializeItem(itemConfig)}>
+    <ItemFormProvider
+      initialItem={initializeItem({
+        core: storeConfig.core,
+        customAttributesSpec: storeConfig.customAttributesSpec,
+      })}
+    >
       <Stepper steps={steps} />
     </ItemFormProvider>
   );

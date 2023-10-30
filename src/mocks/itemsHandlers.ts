@@ -1,13 +1,20 @@
 import { rest } from "msw";
 import { v4 as uuid } from "uuid";
-import { fetchData } from "./utils";
+import { jwtDecode } from "jwt-decode";
+import { incorrectToken, fetchData, getStoreId, getToken } from "./utils";
 import { ItemWithoutIds } from "../routes/admin-app/types";
 import { ContinuousSchedule, Item, SlotsSchedule } from "../types";
-import { importStoreConfig } from "./storeConfigHandlers";
+import { importAdminStoreConfig } from "./storeConfigHandlers";
 import { calculateAvailability } from "./data/common/availability";
 
 const importItems = async (storeId: string) => {
   return (await fetchData(storeId, "items")) as Item[];
+};
+
+const importAdminItems = async (token: string) => {
+  const decoded = jwtDecode(token) as { email: string };
+
+  return (await fetchData(getStoreId(decoded.email), "items")) as Item[];
 };
 
 const getItems = rest.get(
@@ -36,60 +43,99 @@ const getItemById = rest.get(
   },
 );
 
-const addItem = rest.post(
-  "/api/stores/:storeId/items",
+const getItemsAdmin = rest.get("/api/admin/items", async (req, res, ctx) => {
+  const token = getToken(req.headers);
+  if (incorrectToken(token)) {
+    return res(ctx.status(401), ctx.json({ message: "Unauthorized." }));
+  }
+
+  const items = await importAdminItems(token);
+
+  return res(ctx.status(200), ctx.json(items));
+});
+
+const getItemByIdAdmin = rest.get(
+  "/api/admin/items/:itemId",
   async (req, res, ctx) => {
-    const { storeId } = req.params;
-    const body = (await req.json()) as ItemWithoutIds;
-
-    const items = await importItems(storeId.toString());
-    const storeConfig = await importStoreConfig(storeId.toString());
-
-    let item = addIdsToItem(body);
-
-    if (storeConfig.core.flexibility) {
-      item = addAvailabilityToItem(item);
+    const token = getToken(req.headers);
+    if (incorrectToken(token)) {
+      return res(ctx.status(401), ctx.json({ message: "Unauthorized." }));
     }
 
-    items.push(item);
+    const { itemId } = req.params;
 
-    return res(ctx.status(201), ctx.json({ message: "Added new item." }));
+    const items = await importAdminItems(token);
+
+    const item = items.find((i) => i.id === itemId);
+
+    return item
+      ? res(ctx.status(200), ctx.json(item))
+      : res(ctx.status(404), ctx.json({ message: "Item not found." }));
   },
 );
 
-const editItem = rest.put(
-  "/api/stores/:storeId/items/:itemId",
-  async (req, res, ctx) => {
-    const { storeId, itemId } = req.params;
-    const body = (await req.json()) as Item;
+const addItem = rest.post("/api/admin/items", async (req, res, ctx) => {
+  const token = getToken(req.headers);
+  if (incorrectToken(token)) {
+    return res(ctx.status(401), ctx.json({ message: "Unauthorized." }));
+  }
 
-    const items = await importItems(storeId.toString());
+  const body = (await req.json()) as ItemWithoutIds;
 
-    const idx = items.findIndex((i) => i.id === itemId);
+  const items = await importAdminItems(token);
+  const storeConfig = await importAdminStoreConfig(token);
 
-    if (idx === -1) {
-      return res(ctx.status(404), ctx.json({ message: "Item not found." }));
-    }
+  let item = addIdsToItem(body);
 
-    const storeConfig = await importStoreConfig(storeId.toString());
-    if (storeConfig.core.flexibility) {
-      body.status.availability = calculateAvailability(
-        body.initialSettings.schedule as SlotsSchedule | ContinuousSchedule,
-      );
-    }
+  if (storeConfig.core.flexibility) {
+    item = addAvailabilityToItem(item);
+  }
 
-    items[idx] = body;
+  items.push(item);
 
-    return res(ctx.status(200), ctx.json({ message: "Edited item." }));
-  },
-);
+  return res(ctx.status(201), ctx.json({ message: "Added new item." }));
+});
+
+const editItem = rest.put("/api/admin/items/:itemId", async (req, res, ctx) => {
+  const token = getToken(req.headers);
+  if (incorrectToken(token)) {
+    return res(ctx.status(401), ctx.json({ message: "Unauthorized." }));
+  }
+
+  const { itemId } = req.params;
+  const body = (await req.json()) as Item;
+
+  const items = await importAdminItems(token);
+
+  const idx = items.findIndex((i) => i.id === itemId);
+
+  if (idx === -1) {
+    return res(ctx.status(404), ctx.json({ message: "Item not found." }));
+  }
+
+  const storeConfig = await importAdminStoreConfig(token);
+  if (storeConfig.core.flexibility) {
+    body.status.availability = calculateAvailability(
+      body.initialSettings.schedule as SlotsSchedule | ContinuousSchedule,
+    );
+  }
+
+  items[idx] = body;
+
+  return res(ctx.status(200), ctx.json({ message: "Edited item." }));
+});
 
 const deleteItem = rest.delete(
-  "/api/stores/:storeId/items/:itemId",
+  "/api/admin/items/:itemId",
   async (req, res, ctx) => {
-    const { storeId, itemId } = req.params;
+    const token = getToken(req.headers);
+    if (incorrectToken(token)) {
+      return res(ctx.status(401), ctx.json({ message: "Unauthorized." }));
+    }
 
-    const items = await importItems(storeId.toString());
+    const { itemId } = req.params;
+
+    const items = await importAdminItems(token);
 
     const idx = items.findIndex((i) => i.id === itemId);
 
@@ -102,11 +148,16 @@ const deleteItem = rest.delete(
 );
 
 const activateItem = rest.put(
-  "/api/stores/:storeId/items/:itemId/activate",
+  "/api/admin/items/:itemId/activate",
   async (req, res, ctx) => {
-    const { storeId, itemId } = req.params;
+    const token = getToken(req.headers);
+    if (incorrectToken(token)) {
+      return res(ctx.status(401), ctx.json({ message: "Unauthorized." }));
+    }
 
-    const items = await importItems(storeId.toString());
+    const { itemId } = req.params;
+
+    const items = await importAdminItems(token);
 
     const idx = items.findIndex((i) => i.id === itemId);
 
@@ -121,11 +172,16 @@ const activateItem = rest.put(
 );
 
 const deactivateItem = rest.put(
-  "/api/stores/:storeId/items/:itemId/deactivate",
+  "/api/admin/items/:itemId/deactivate",
   async (req, res, ctx) => {
-    const { storeId, itemId } = req.params;
+    const token = getToken(req.headers);
+    if (incorrectToken(token)) {
+      return res(ctx.status(401), ctx.json({ message: "Unauthorized." }));
+    }
 
-    const items = await importItems(storeId.toString());
+    const { itemId } = req.params;
+
+    const items = await importAdminItems(token);
 
     const idx = items.findIndex((i) => i.id === itemId);
 
@@ -165,6 +221,8 @@ const addAvailabilityToItem = (item: Item): Item => {
 export const itemsHandlers = [
   getItems,
   getItemById,
+  getItemsAdmin,
+  getItemByIdAdmin,
   addItem,
   editItem,
   deleteItem,

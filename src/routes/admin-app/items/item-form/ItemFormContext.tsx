@@ -1,9 +1,7 @@
 import { createContext } from "react";
-import { ItemConfig } from "../../types";
 import { CustomAttribute, Item } from "../../../../types";
 
 export type ItemFormContextType = {
-  itemConfig: ItemConfig;
   item: Item;
   setItemAttribute: (attr: Partial<Item["attributes"]>) => void;
   setItemCustomAttribute: (attr: CustomAttribute) => void;

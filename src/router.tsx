@@ -10,8 +10,8 @@ import UserAppWrapper from "./routes/userapp/wrapper/UserAppWrapper";
 import { loader as userAppWrapperLoader } from "./routes/userapp/wrapper/loader";
 import { loader as detailsPageLoader } from "./routes/userapp/details-page/loader";
 import { loader as itemListLoader } from "./routes/admin-app/items/item-list/loader";
-import { loader as newItemLoader } from "./routes/admin-app/items/add-item/loader";
 import { loader as editItemLoader } from "./routes/admin-app/items/edit-item/loader";
+import { loader as adminAppLoader } from "./routes/admin-app/loader";
 
 if (process.env.NODE_ENV === "development") {
   const { worker } = await import("./mocks/browser");
@@ -24,7 +24,8 @@ const router = createBrowserRouter([
     element: <Home />,
   },
   {
-    path: "admin/:storeId",
+    path: "admin",
+    loader: adminAppLoader(queryClient),
     lazy: async () => {
       const AdminAppWrapper = (
         await import("./routes/admin-app/AdminAppWrapper")
@@ -51,7 +52,7 @@ const router = createBrowserRouter([
         },
       },
       {
-        path: "item-list/edit/:itemId",
+        path: "item-list/:itemId/edit",
         loader: editItemLoader(queryClient),
         lazy: async () => {
           const EditItem = (
@@ -61,7 +62,7 @@ const router = createBrowserRouter([
         },
       },
       {
-        path: "item-list/reschedule/:itemId",
+        path: "item-list/:itemId/reschedule",
         loader: editItemLoader(queryClient),
         lazy: async () => {
           const RescheduleItem = (
@@ -72,7 +73,6 @@ const router = createBrowserRouter([
       },
       {
         path: "add-item",
-        loader: newItemLoader(queryClient),
         lazy: async () => {
           const NewItem = (
             await import("./routes/admin-app/items/add-item/AddItem")

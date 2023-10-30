@@ -1,10 +1,11 @@
 import { Grid, TextField } from "@mui/material";
 import { askForItemAmount } from "../utils";
 import { useItemForm } from "./ItemFormProvider";
+import useStoreConfig from "../../useStoreConfig";
 
 function GeneralInfo() {
-  const { itemConfig, item, setItemAttribute, setInitialSetting } =
-    useItemForm();
+  const storeConfig = useStoreConfig();
+  const { item, setItemAttribute, setInitialSetting } = useItemForm();
 
   return (
     <Grid container spacing={1} width="50%">
@@ -50,7 +51,7 @@ function GeneralInfo() {
         />
       </Grid>
 
-      {askForItemAmount(itemConfig.core) && (
+      {askForItemAmount(storeConfig.core) && (
         <Grid item xs={12} sm={6}>
           <TextField
             label="amount"
