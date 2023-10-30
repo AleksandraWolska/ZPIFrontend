@@ -94,6 +94,7 @@ export const items: Item[] = [
       },
     ],
     initialSettings: {
+      amount: 5,
       schedule: {
         startDateTime: "2024-02-02T12:00:00Z",
       },
