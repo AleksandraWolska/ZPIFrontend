@@ -7,9 +7,9 @@ import { askForSubItems, askForSubItemSchedule } from "../utils";
 import SubItems from "../item-form/SubItems";
 import { Core } from "../../../../types";
 import Stepper from "../item-form/Stepper";
-import useItemConfig from "../common-data/useItemConfig";
 import Schedule from "../item-form/schedule/Schedule";
 import useEditItem from "./useEditItem";
+import useStoreConfig from "../../useStoreConfig";
 
 function EditItem() {
   const itemToBeEdited = useItemToBeEdited();
@@ -22,12 +22,12 @@ function EditItem() {
 }
 
 function EditForm() {
-  const itemConfig = useItemConfig();
+  const storeConfig = useStoreConfig();
   const { item } = useItemForm();
   const editItem = useEditItem();
   const navigate = useNavigate();
 
-  const steps = getSteps(itemConfig.core);
+  const steps = getSteps(storeConfig.core);
 
   return (
     <>

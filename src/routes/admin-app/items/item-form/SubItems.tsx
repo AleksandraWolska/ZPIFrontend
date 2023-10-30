@@ -13,17 +13,19 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { useItemForm } from "./ItemFormProvider";
 import { askForSubItemAmount, askForSubItemSchedule } from "../utils";
 import { SubItem } from "../../../../types";
+import useStoreConfig from "../../useStoreConfig";
 
 function SubItems() {
-  const { itemConfig, item, setSubItems } = useItemForm();
+  const storeConfig = useStoreConfig();
+  const { item, setSubItems } = useItemForm();
 
   const defaultSubItem = {
     title: "",
     subtitle: "",
-    ...(askForSubItemAmount(itemConfig.core) && {
+    ...(askForSubItemAmount(storeConfig.core) && {
       amount: 2,
     }),
-    ...(askForSubItemSchedule(itemConfig.core) && {
+    ...(askForSubItemSchedule(storeConfig.core) && {
       schedule: {
         startDateTime: dayjs().toISOString(),
       },
@@ -100,7 +102,7 @@ function SubItems() {
               disabled={disabled}
             />
 
-            {askForSubItemAmount(itemConfig.core) && (
+            {askForSubItemAmount(storeConfig.core) && (
               <TextField
                 label="amount"
                 value={subItem.amount?.toString()}
@@ -114,7 +116,7 @@ function SubItems() {
               />
             )}
 
-            {askForSubItemSchedule(itemConfig.core) && (
+            {askForSubItemSchedule(storeConfig.core) && (
               <>
                 <DateTimePicker
                   label="startDateTime"

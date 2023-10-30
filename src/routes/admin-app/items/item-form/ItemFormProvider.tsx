@@ -1,5 +1,4 @@
 import { ReactNode, useContext, useMemo, useReducer } from "react";
-import useItemConfig from "../common-data/useItemConfig";
 import { ITEM_FORM_ACTION_TYPES, itemFormReducer } from "./itemFormReducer";
 import { CustomAttribute, Item } from "../../../../types";
 import { ItemFormContext, ItemFormContextType } from "./ItemFormContext";
@@ -11,8 +10,6 @@ function ItemFormProvider({
   children: ReactNode;
   initialItem: Item;
 }) {
-  const itemConfig = useItemConfig();
-
   const [item, dispatch] = useReducer(itemFormReducer, initialItem);
 
   const setItemAttribute = (attr: Partial<Item["attributes"]>) => {
@@ -47,14 +44,13 @@ function ItemFormProvider({
 
   const contextValue = useMemo(
     () => ({
-      itemConfig,
       item,
       setItemAttribute,
       setItemCustomAttribute,
       setInitialSetting,
       setSubItems,
     }),
-    [itemConfig, item],
+    [item],
   );
 
   return (

@@ -1,27 +1,31 @@
 import { QueryClient } from "react-query";
 import { defer, LoaderFunctionArgs } from "react-router-dom";
-import { getItemConfigQuery } from "../common-data/itemConfigQuery";
 import { Item } from "../../../../types";
+import { getAccessToken } from "../../../../auth/utils";
 
-const fetchItemToBeEdited = async (
-  storeId: string,
-  itemId: string,
-): Promise<Item> => {
-  const res = await fetch(`/api/stores/${storeId}/items/${itemId}`);
+const fetchItemToBeEdited = async (itemId: string): Promise<Item> => {
+  const token = getAccessToken();
+
+  const res = await fetch(`/api/admin/items/${itemId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
   return res.json();
 };
 
-export const getItemToBeEditedQuery = (storeId: string, itemId: string) => ({
-  queryKey: ["items", storeId, itemId],
-  queryFn: () => fetchItemToBeEdited(storeId, itemId),
+export const getItemToBeEditedQuery = (itemId: string) => ({
+  queryKey: ["admin-items", itemId],
+  queryFn: () => fetchItemToBeEdited(itemId),
 });
 
 export const loader =
   (queryClient: QueryClient) =>
   async ({ params }: LoaderFunctionArgs) => {
-    const { storeId, itemId } = params as { storeId: string; itemId: string };
+    const { itemId } = params as { itemId: string };
 
-    const itemToBeEditedQuery = getItemToBeEditedQuery(storeId, itemId);
+    const itemToBeEditedQuery = getItemToBeEditedQuery(itemId);
     const itemToBeEdited = new Promise((resolve) => {
       resolve(
         queryClient.getQueryData(itemToBeEditedQuery.queryKey) ??
@@ -29,16 +33,7 @@ export const loader =
       );
     });
 
-    const itemConfigQuery = getItemConfigQuery(storeId);
-    const itemConfig = new Promise((resolve) => {
-      resolve(
-        queryClient.getQueryData(itemConfigQuery.queryKey) ??
-          queryClient.fetchQuery(itemConfigQuery),
-      );
-    });
-
     return defer({
       itemToBeEdited: await itemToBeEdited,
-      itemConfig: await itemConfig,
     });
   };

@@ -1,28 +1,25 @@
-import { useParams } from "react-router-dom";
 import { useMutation } from "react-query";
 import { queryClient } from "../../../../query";
+import { getAccessToken } from "../../../../auth/utils";
 
-const deleteItem = (storeId: string, itemId: string) => {
-  return fetch(`/api/stores/${storeId}/items/${itemId}`, {
+const deleteItem = (itemId: string) => {
+  const token = getAccessToken();
+
+  return fetch(`/api/admin/items/${itemId}`, {
     method: "DELETE",
     headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
     },
   });
 };
 
 function useDeleteItem() {
-  const { storeId } = useParams() as {
-    storeId: string;
-  };
-
   return useMutation({
     mutationFn: (itemId: string) => {
-      return deleteItem(storeId, itemId);
+      return deleteItem(itemId);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(["items", storeId]);
+      queryClient.invalidateQueries(["admin-items"]);
     },
   });
 }

@@ -1,9 +1,19 @@
 import { rest } from "msw";
-import { fetchData } from "./utils";
+import { jwtDecode } from "jwt-decode";
+import { incorrectToken, fetchData, getStoreId, getToken } from "./utils";
 import { StoreConfig } from "../types";
 
 export const importStoreConfig = async (storeId: string) => {
   return (await fetchData(storeId, "storeConfig")) as StoreConfig;
+};
+
+export const importAdminStoreConfig = async (token: string) => {
+  const decoded = jwtDecode(token) as { email: string };
+
+  return (await fetchData(
+    getStoreId(decoded.email),
+    "storeConfig",
+  )) as StoreConfig;
 };
 
 const getOwner = rest.get(
@@ -69,9 +79,24 @@ const getItemConfig = rest.get(
   },
 );
 
+const getStoreConfigAdmin = rest.get(
+  "/api/admin/store-config",
+  async (req, res, ctx) => {
+    const token = getToken(req.headers);
+    if (incorrectToken(token)) {
+      return res(ctx.status(401), ctx.json({ message: "Unauthorized." }));
+    }
+
+    const storeConfig = await importAdminStoreConfig(token);
+
+    return res(ctx.status(200), ctx.json(storeConfig));
+  },
+);
+
 export const storeConfigHandlers = [
   getOwner,
   getMainPageConfig,
   getDetailsPageConfig,
   getItemConfig,
+  getStoreConfigAdmin,
 ];
