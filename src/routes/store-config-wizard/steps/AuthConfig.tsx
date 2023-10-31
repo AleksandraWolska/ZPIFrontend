@@ -98,6 +98,7 @@ function AuthConfig({
               {personalDataOptions.map(({ value, text }) => {
                 return (
                   <FormControlLabel
+                    key={value}
                     control={
                       <Checkbox
                         checked={authConfig.requiredPersonalData.includes(
@@ -152,7 +153,7 @@ function AuthConfig({
       </Stack>
 
       <ChangePageButtons
-        onNext={() => setActiveStep(STORE_CONFIG_STEPS.PRINT_STORE_CONFIG)}
+        onNext={() => setActiveStep(STORE_CONFIG_STEPS.SUMMARY)}
       />
     </StepContentWrapper>
   );

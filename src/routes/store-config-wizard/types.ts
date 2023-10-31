@@ -13,7 +13,7 @@ export const STORE_CONFIG_STEPS = {
   MAIN_PAGE: "MAIN_PAGE",
   DETAILS_PAGE: "DETAILS_PAGE",
   AUTH_CONFIG: "AUTH_CONFIG",
-  PRINT_STORE_CONFIG: "PRINT_STORE_CONFIG",
+  SUMMARY: "SUMMARY",
 } as const;
 
 export type StoreConfigStep = ObjectValues<typeof STORE_CONFIG_STEPS>;

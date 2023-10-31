@@ -8,9 +8,6 @@ function Home() {
     <div>
       <h1>{t("home.title")}</h1>
       <br />
-      <Link to="/store-config-wizard">Store config wizard</Link>
-      <br />
-      <br />
       <Link to="/admin">AdminApp</Link>
       <br />
       <br />
@@ -26,6 +23,8 @@ function Home() {
           </div>
         );
       })}
+      <br />
+      <Link to="/userapp/101">Userapp 101 (new store)</Link>
     </div>
   );
 }

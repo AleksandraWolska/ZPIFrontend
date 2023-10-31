@@ -1,7 +1,11 @@
 import { Link, Outlet } from "react-router-dom";
+import useStoreConfig from "./useStoreConfig";
+import StoreConfigWizard from "../store-config-wizard/StoreConfigWizard";
 
 function AdminAppWrapper() {
-  return (
+  const storeConfig = useStoreConfig();
+
+  return storeConfig ? (
     <>
       <div
         style={{
@@ -25,6 +29,8 @@ function AdminAppWrapper() {
 
       <Outlet />
     </>
+  ) : (
+    <StoreConfigWizard />
   );
 }
 

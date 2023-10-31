@@ -1,9 +1,15 @@
 import { Container } from "@mui/system";
+import { Navigate } from "react-router-dom";
 import StoreConfigProvider from "./StoreConfigProvider";
 import Stepper from "./Stepper";
+import useStoreConfig from "../admin-app/useStoreConfig";
 
 function StoreConfigWizard() {
-  return (
+  const storeConfig = useStoreConfig();
+
+  return storeConfig ? (
+    <Navigate to="/admin" />
+  ) : (
     <StoreConfigProvider>
       <Container
         sx={{

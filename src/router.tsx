@@ -24,72 +24,70 @@ const router = createBrowserRouter([
     element: <Home />,
   },
   {
-    path: "admin",
-    loader: adminAppLoader(queryClient),
-    lazy: async () => {
-      const AdminAppWrapper = (
-        await import("./routes/admin-app/AdminAppWrapper")
-      ).default;
-      return { Component: AdminAppWrapper };
-    },
+    element: <RequireLogin />,
     children: [
       {
-        index: true,
+        path: "admin",
+        loader: adminAppLoader(queryClient),
         lazy: async () => {
-          const AdminApp = (await import("./routes/admin-app/AdminApp"))
-            .default;
-          return { Component: AdminApp };
-        },
-      },
-      {
-        path: "item-list",
-        loader: itemListLoader(queryClient),
-        lazy: async () => {
-          const ItemList = (
-            await import("./routes/admin-app/items/item-list/ItemList")
+          const AdminAppWrapper = (
+            await import("./routes/admin-app/AdminAppWrapper")
           ).default;
-          return { Component: ItemList };
+          return { Component: AdminAppWrapper };
         },
-      },
-      {
-        path: "item-list/:itemId/edit",
-        loader: editItemLoader(queryClient),
-        lazy: async () => {
-          const EditItem = (
-            await import("./routes/admin-app/items/edit-item/EditItem")
-          ).default;
-          return { Component: EditItem };
-        },
-      },
-      {
-        path: "item-list/:itemId/reschedule",
-        loader: editItemLoader(queryClient),
-        lazy: async () => {
-          const RescheduleItem = (
-            await import("./routes/admin-app/items/edit-item/RescheduleItem")
-          ).default;
-          return { Component: RescheduleItem };
-        },
-      },
-      {
-        path: "add-item",
-        lazy: async () => {
-          const NewItem = (
-            await import("./routes/admin-app/items/add-item/AddItem")
-          ).default;
-          return { Component: NewItem };
-        },
+        children: [
+          {
+            index: true,
+            lazy: async () => {
+              const AdminApp = (await import("./routes/admin-app/AdminApp"))
+                .default;
+              return { Component: AdminApp };
+            },
+          },
+          {
+            path: "item-list",
+            loader: itemListLoader(queryClient),
+            lazy: async () => {
+              const ItemList = (
+                await import("./routes/admin-app/items/item-list/ItemList")
+              ).default;
+              return { Component: ItemList };
+            },
+          },
+          {
+            path: "item-list/:itemId/edit",
+            loader: editItemLoader(queryClient),
+            lazy: async () => {
+              const EditItem = (
+                await import("./routes/admin-app/items/edit-item/EditItem")
+              ).default;
+              return { Component: EditItem };
+            },
+          },
+          {
+            path: "item-list/:itemId/reschedule",
+            loader: editItemLoader(queryClient),
+            lazy: async () => {
+              const RescheduleItem = (
+                await import(
+                  "./routes/admin-app/items/edit-item/RescheduleItem"
+                )
+              ).default;
+              return { Component: RescheduleItem };
+            },
+          },
+          {
+            path: "add-item",
+            lazy: async () => {
+              const NewItem = (
+                await import("./routes/admin-app/items/add-item/AddItem")
+              ).default;
+              return { Component: NewItem };
+            },
+          },
+        ],
       },
     ],
-  },
-  {
-    path: "store-config-wizard",
-    lazy: async () => {
-      const StoreConfigWizard = (
-        await import("./routes/store-config-wizard/StoreConfigWizard")
-      ).default;
-      return { Component: StoreConfigWizard };
-    },
   },
   {
     path: "userapp/:storeId",
