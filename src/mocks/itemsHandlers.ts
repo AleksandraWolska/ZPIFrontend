@@ -8,13 +8,17 @@ import { importAdminStoreConfig } from "./storeConfigHandlers";
 import { calculateAvailability } from "./data/common/availability";
 
 const importItems = async (storeId: string) => {
-  return (await fetchData(storeId, "items")) as Item[];
+  try {
+    return (await fetchData(storeId, "items")) as Item[];
+  } catch {
+    return null;
+  }
 };
 
 const importAdminItems = async (token: string) => {
   const decoded = jwtDecode(token) as { email: string };
-
-  return (await fetchData(getStoreId(decoded.email), "items")) as Item[];
+  const storeId = getStoreId(decoded.email);
+  return importItems(storeId);
 };
 
 const getItems = rest.get(
@@ -23,6 +27,10 @@ const getItems = rest.get(
     const { storeId } = req.params;
 
     const items = await importItems(storeId.toString());
+
+    if (!items) {
+      return res(ctx.status(404), ctx.json({ message: "Store not found." }));
+    }
 
     return res(ctx.status(200), ctx.json(items));
   },
@@ -34,6 +42,10 @@ const getItemById = rest.get(
     const { storeId, itemId } = req.params;
 
     const items = await importItems(storeId.toString());
+
+    if (!items) {
+      return res(ctx.status(404), ctx.json({ message: "Store not found." }));
+    }
 
     const item = items.find((i) => i.id === itemId);
 
@@ -66,6 +78,10 @@ const getItemByIdAdmin = rest.get(
 
     const items = await importAdminItems(token);
 
+    if (!items) {
+      return res(ctx.status(404), ctx.json({ message: "Store not found." }));
+    }
+
     const item = items.find((i) => i.id === itemId);
 
     return item
@@ -84,6 +100,10 @@ const addItem = rest.post("/api/admin/items", async (req, res, ctx) => {
 
   const items = await importAdminItems(token);
   const storeConfig = await importAdminStoreConfig(token);
+
+  if (!items || !storeConfig) {
+    return res(ctx.status(404), ctx.json({ message: "Store not found." }));
+  }
 
   let item = addIdsToItem(body);
 
@@ -107,13 +127,18 @@ const editItem = rest.put("/api/admin/items/:itemId", async (req, res, ctx) => {
 
   const items = await importAdminItems(token);
 
+  const storeConfig = await importAdminStoreConfig(token);
+
+  if (!items || !storeConfig) {
+    return res(ctx.status(404), ctx.json({ message: "Store not found." }));
+  }
+
   const idx = items.findIndex((i) => i.id === itemId);
 
   if (idx === -1) {
     return res(ctx.status(404), ctx.json({ message: "Item not found." }));
   }
 
-  const storeConfig = await importAdminStoreConfig(token);
   if (storeConfig.core.flexibility) {
     body.status.availability = calculateAvailability(
       body.initialSettings.schedule as SlotsSchedule | ContinuousSchedule,
@@ -137,6 +162,10 @@ const deleteItem = rest.delete(
 
     const items = await importAdminItems(token);
 
+    if (!items) {
+      return res(ctx.status(404), ctx.json({ message: "Store not found." }));
+    }
+
     const idx = items.findIndex((i) => i.id === itemId);
 
     items.splice(idx, 1);
@@ -158,6 +187,10 @@ const activateItem = rest.put(
     const { itemId } = req.params;
 
     const items = await importAdminItems(token);
+
+    if (!items) {
+      return res(ctx.status(404), ctx.json({ message: "Store not found." }));
+    }
 
     const idx = items.findIndex((i) => i.id === itemId);
 
@@ -182,6 +215,10 @@ const deactivateItem = rest.put(
     const { itemId } = req.params;
 
     const items = await importAdminItems(token);
+
+    if (!items) {
+      return res(ctx.status(404), ctx.json({ message: "Store not found." }));
+    }
 
     const idx = items.findIndex((i) => i.id === itemId);
 

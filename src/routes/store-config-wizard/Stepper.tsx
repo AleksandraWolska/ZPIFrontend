@@ -8,7 +8,7 @@ import Uniqueness from "./steps/core/Uniqueness";
 import SpecificReservation from "./steps/core/SpecificReservation";
 import Periodicity from "./steps/core/Periodicity";
 import CustomAttributesSpec from "./steps/CustomAttributesSpec";
-import PrintStoreConfig from "./steps/PrintStoreConfig";
+import Summary from "./steps/Summary";
 import MainPage from "./steps/MainPage";
 import Owner from "./steps/Owner";
 import DetailsPage from "./steps/DetailsPage";
@@ -79,8 +79,8 @@ function Stepper() {
         return <DetailsPage setActiveStep={setActiveStep} />;
       case STORE_CONFIG_STEPS.AUTH_CONFIG:
         return <AuthConfig setActiveStep={setActiveStep} />;
-      case STORE_CONFIG_STEPS.PRINT_STORE_CONFIG:
-        return <PrintStoreConfig />;
+      case STORE_CONFIG_STEPS.SUMMARY:
+        return <Summary />;
       default:
         return <div>Something went wrong...</div>;
     }

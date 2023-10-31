@@ -4,16 +4,25 @@ import { incorrectToken, fetchData, getStoreId, getToken } from "./utils";
 import { StoreConfig } from "../types";
 
 export const importStoreConfig = async (storeId: string) => {
-  return (await fetchData(storeId, "storeConfig")) as StoreConfig;
+  try {
+    const storeConfig = (await fetchData(storeId, "storeConfig")) as
+      | StoreConfig
+      | StoreConfig[];
+
+    if (Array.isArray(storeConfig)) {
+      return storeConfig.length > 0 ? storeConfig[0] : null;
+    }
+
+    return storeConfig;
+  } catch {
+    return null;
+  }
 };
 
 export const importAdminStoreConfig = async (token: string) => {
   const decoded = jwtDecode(token) as { email: string };
-
-  return (await fetchData(
-    getStoreId(decoded.email),
-    "storeConfig",
-  )) as StoreConfig;
+  const storeId = getStoreId(decoded.email);
+  return importStoreConfig(storeId);
 };
 
 const getOwner = rest.get(
@@ -22,6 +31,10 @@ const getOwner = rest.get(
     const { storeId } = req.params;
 
     const storeConfig = await importStoreConfig(storeId.toString());
+
+    if (!storeConfig) {
+      return res(ctx.status(404), ctx.json({ message: "Store not found." }));
+    }
 
     return res(ctx.status(200), ctx.json(storeConfig.owner));
   },
@@ -33,6 +46,10 @@ const getMainPageConfig = rest.get(
     const { storeId } = req.params;
 
     const storeConfig = await importStoreConfig(storeId.toString());
+
+    if (!storeConfig) {
+      return res(ctx.status(404), ctx.json({ message: "Store not found." }));
+    }
 
     return res(
       ctx.status(200),
@@ -51,6 +68,10 @@ const getDetailsPageConfig = rest.get(
 
     const storeConfig = await importStoreConfig(storeId.toString());
 
+    if (!storeConfig) {
+      return res(ctx.status(404), ctx.json({ message: "Store not found." }));
+    }
+
     return res(
       ctx.status(200),
       ctx.json({
@@ -68,6 +89,10 @@ const getItemConfig = rest.get(
     const { storeId } = req.params;
 
     const storeConfig = await importStoreConfig(storeId.toString());
+
+    if (!storeConfig) {
+      return res(ctx.status(404), ctx.json({ message: "Store not found." }));
+    }
 
     return res(
       ctx.status(200),
@@ -89,7 +114,24 @@ const getStoreConfigAdmin = rest.get(
 
     const storeConfig = await importAdminStoreConfig(token);
 
-    return res(ctx.status(200), ctx.json(storeConfig));
+    return res(ctx.status(storeConfig ? 200 : 404), ctx.json(storeConfig));
+  },
+);
+
+const addStoreConfig = rest.post(
+  "/api/admin/store-config",
+  async (req, res, ctx) => {
+    const token = getToken(req.headers);
+    if (incorrectToken(token)) {
+      return res(ctx.status(401), ctx.json({ message: "Unauthorized." }));
+    }
+
+    const body = (await req.json()) as StoreConfig;
+
+    const module = await import("./data/store-101");
+    module.storeConfig.push(body);
+
+    return res(ctx.status(201), ctx.json({ message: "Added store config." }));
   },
 );
 
@@ -99,4 +141,5 @@ export const storeConfigHandlers = [
   getDetailsPageConfig,
   getItemConfig,
   getStoreConfigAdmin,
+  addStoreConfig,
 ];

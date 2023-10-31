@@ -4,6 +4,8 @@ export async function fetchData(storeId: string, type: string) {
 }
 
 export function getStoreId(adminEmail: string) {
+  if (adminEmail.includes("new")) return "101";
+
   const endIdx = adminEmail.indexOf("@");
   return adminEmail.slice(1, endIdx);
 }
