@@ -32,6 +32,7 @@ import { ReservationDialog } from "../components/detail-page-specific/Reservatio
 import ItemImage from "../components/shared/ItemImage";
 import CommentsDisplay from "../components/detail-page-specific/CommentsDisplay";
 import CommentInput from "../components/detail-page-specific/CommentInput";
+import useAddComment from "../components/detail-page-specific/useAddComment";
 
 const userId = "user1";
 const initializeReservationRequestReady = (
@@ -57,6 +58,7 @@ export default function ItemDetailsPage() {
   const storeConfig = useDetailsPageConfig();
   const item = useItemDetails();
   const reserveItem = useReserveItem();
+  const addComment = useAddComment();
 
   const params = useParams() as { storeId: string; itemId: string };
 
@@ -77,7 +79,6 @@ export default function ItemDetailsPage() {
   const [selectedSubItemsInfoList, setSelectedSubItemsInfoList] = useState<
     SubItem[]
   >([]);
-  const [commentRefetch, setCommentRefetch] = useState(false);
 
   const makeReservationRequest = async (request: ReservationRequest) => {
     setReservationSummary(false);
@@ -149,9 +150,13 @@ export default function ItemDetailsPage() {
       datetime: newComment.datetime,
       content: newComment.content,
     };
-    console.log(`Send request with newcomment`);
-    console.log(userComment);
-    setCommentRefetch((prev) => !prev);
+
+    addComment.mutate(userComment, {
+      onSuccess: () => {
+        console.log(`Send request with newcomment`);
+        console.log(userComment);
+      },
+    });
   };
 
   const toggleItemSingleSelection = (subItem: SubItem) => {
@@ -374,9 +379,7 @@ export default function ItemDetailsPage() {
             showComments={storeConfig.detailsPage.showComments}
             handleSendComment={handleSendComment}
           />
-          {storeConfig.detailsPage.showComments && (
-            <CommentsDisplay shouldRefetch={commentRefetch} />
-          )}
+          {storeConfig.detailsPage.showComments && <CommentsDisplay />}
         </Box>
       )}
       <Dialog open={showSuccessDialog} onClose={handleReservationFinished}>
