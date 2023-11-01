@@ -6,23 +6,12 @@ import {
   Typography,
   Box,
 } from "@mui/material";
-import { useEffect } from "react";
 import { Comment } from "../../../../types";
 import useCommentList from "../../details-page/useCommentList";
 import Ratings from "../shared/Ratings";
 
-type CommentsDisplayProps = {
-  shouldRefetch: boolean;
-};
-
-function CommentsDisplay({ shouldRefetch }: CommentsDisplayProps) {
-  const { data: comments, refetch } = useCommentList();
-
-  useEffect(() => {
-    if (shouldRefetch) {
-      refetch();
-    }
-  }, [shouldRefetch, refetch]);
+function CommentsDisplay() {
+  const { data: comments } = useCommentList();
 
   return (
     <List>
