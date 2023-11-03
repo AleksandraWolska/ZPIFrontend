@@ -83,6 +83,11 @@ function AuthConfig({
               setAuthConfigAttribute({
                 requireAuthForActions: e.target.value === "yes",
               });
+              if (e.target.value === "no") {
+                setAuthConfigAttribute({
+                  requireAuthForStoreAccess: false,
+                });
+              }
             }}
           >
             <FormControlLabel value="yes" control={<Radio />} label="Yes" />
@@ -143,6 +148,27 @@ function AuthConfig({
             onChange={(e) => {
               setAuthConfigAttribute({
                 requireAuthForStoreAccess: e.target.value === "yes",
+              });
+            }}
+          >
+            <FormControlLabel value="yes" control={<Radio />} label="Yes" />
+            <FormControlLabel value="no" control={<Radio />} label="No" />
+          </RadioGroup>
+        </FormControl>
+
+        <FormControl>
+          <FormLabel id="confirmationRequired">
+            Is confirmation by an admin required for reservations?
+          </FormLabel>
+
+          <RadioGroup
+            sx={{ margin: "auto" }}
+            row
+            aria-labelledby="confirmationRequired"
+            value={authConfig.confirmationRequired ? "yes" : "no"}
+            onChange={(e) => {
+              setAuthConfigAttribute({
+                confirmationRequired: e.target.value === "yes",
               });
             }}
           >

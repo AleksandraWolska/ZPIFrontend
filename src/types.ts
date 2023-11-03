@@ -80,6 +80,7 @@ export type AuthConfig = {
   requireAuthForActions: boolean;
   requireAuthForStoreAccess: boolean;
   requiredPersonalData: ("name" | "surname" | "email" | "phone" | "age")[];
+  confirmationRequired: boolean;
 };
 
 export type StoreConfig = {

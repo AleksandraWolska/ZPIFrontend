@@ -43,6 +43,7 @@ const initialStoreConfig: StoreConfig = {
     requireAuthForActions: true,
     requireAuthForStoreAccess: false,
     requiredPersonalData: [],
+    confirmationRequired: false,
   },
 };
 
