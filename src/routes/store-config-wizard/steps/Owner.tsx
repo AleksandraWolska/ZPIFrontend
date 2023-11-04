@@ -1,6 +1,6 @@
 import { Box, Grid, MenuItem, Select, TextField } from "@mui/material";
 import { useStoreConfig } from "../StoreConfigProvider";
-import ChangePageButtons from "../../../shared-components/ChangePageButtons";
+import ChangePageButtons from "../../admin-app/components/ChangePageButtons";
 import { STORE_CONFIG_STEPS, StoreConfigStep } from "../types";
 import { OWNER_COLORS } from "../../../types";
 import WizardStepTitle from "./components/WizardStepTitle";

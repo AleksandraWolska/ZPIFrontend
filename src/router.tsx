@@ -12,6 +12,7 @@ import { loader as detailsPageLoader } from "./routes/userapp/details-page/loade
 import { loader as itemListLoader } from "./routes/admin-app/items/item-list/loader";
 import { loader as editItemLoader } from "./routes/admin-app/items/edit-item/loader";
 import { loader as adminAppLoader } from "./routes/admin-app/loader";
+import { loader as reservationsLoader } from "./routes/admin-app/reservations/loader";
 
 if (process.env.NODE_ENV === "development") {
   const { worker } = await import("./mocks/browser");
@@ -83,6 +84,16 @@ const router = createBrowserRouter([
                 await import("./routes/admin-app/items/add-item/AddItem")
               ).default;
               return { Component: NewItem };
+            },
+          },
+          {
+            path: "reservations",
+            loader: reservationsLoader(queryClient),
+            lazy: async () => {
+              const Reservations = (
+                await import("./routes/admin-app/reservations/Reservations")
+              ).default;
+              return { Component: Reservations };
             },
           },
         ],

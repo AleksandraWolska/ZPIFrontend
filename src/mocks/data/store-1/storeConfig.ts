@@ -102,7 +102,7 @@ export const storeConfig: StoreConfig = {
   authConfig: {
     requireAuthForActions: true,
     requireAuthForStoreAccess: false,
-    requiredPersonalData: [],
-    confirmationRequired: false,
+    requiredPersonalData: ["name", "phone", "age"],
+    confirmationRequired: true,
   },
 };

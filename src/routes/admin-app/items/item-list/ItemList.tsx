@@ -7,16 +7,16 @@ import {
   Typography,
 } from "@mui/material";
 import { Link } from "react-router-dom";
-import NoPhotographyIcon from "@mui/icons-material/NoPhotography";
 import { Box } from "@mui/system";
 import { useState } from "react";
 import useItems from "./useItems";
 import theme from "../../../../theme";
-import ConfirmDialog from "./ConfirmDialog";
+import ConfirmDialog from "../../components/ConfirmDialog";
 import useDeleteItem from "./useDeleteItem";
 import useUpdateItemActivity from "./useUpdateItemActivity";
 import { Item } from "../../../../types";
 import useStoreConfig from "../../useStoreConfig";
+import ItemImage from "../../components/ItemImage";
 
 function ItemList() {
   const items = useItems();
@@ -111,22 +111,6 @@ function ItemList() {
         message="Are you sure you want to delete this item? This action cannot be undone."
       />
     </>
-  );
-}
-
-function ItemImage({ image, title }: { image: string; title: string }) {
-  return image ? (
-    <img
-      src={image}
-      alt={title}
-      style={{
-        width: "100%",
-        height: "100%",
-        objectFit: "contain",
-      }}
-    />
-  ) : (
-    <NoPhotographyIcon sx={{ fontSize: "8rem" }} />
   );
 }
 
