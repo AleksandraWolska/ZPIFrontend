@@ -16,7 +16,7 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import { STORE_CONFIG_STEPS, StoreConfigStep } from "../types";
 import { useStoreConfig } from "../StoreConfigProvider";
-import ChangePageButtons from "../../../shared-components/ChangePageButtons";
+import ChangePageButtons from "../../admin-app/components/ChangePageButtons";
 import { CustomAttributeSpec, StoreConfig } from "../../../types";
 import StepContentWrapper from "./components/StepContentWrapper";
 import WizardStepTitle from "./components/WizardStepTitle";

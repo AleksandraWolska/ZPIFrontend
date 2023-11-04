@@ -1,12 +1,76 @@
 import { rest } from "msw";
 import dayjs from "dayjs";
 import { v4 as uuid } from "uuid";
+import { jwtDecode } from "jwt-decode";
 import {
   CheckAvailabilityResponseSuccess,
   CheckAvailabilityResponseSuggestion,
   FetchScheduleResponse,
 } from "../routes/userapp/types";
-import { Availability } from "../types";
+import { Availability, Reservation } from "../types";
+import { fetchData, getStoreId, getToken, incorrectToken } from "./utils";
+
+const importReservations = async (storeId: string) => {
+  try {
+    return (await fetchData(storeId, "reservations")) as Reservation[];
+  } catch {
+    return null;
+  }
+};
+
+const importAdminReservations = async (token: string) => {
+  const decoded = jwtDecode(token) as { email: string };
+  const storeId = getStoreId(decoded.email);
+  return importReservations(storeId);
+};
+
+const getReservationsAdmin = rest.get(
+  "/api/admin/reservations",
+  async (req, res, ctx) => {
+    const token = getToken(req.headers);
+    if (incorrectToken(token)) {
+      return res(ctx.status(401), ctx.json({ message: "Unauthorized." }));
+    }
+
+    const reservations = await importAdminReservations(token);
+
+    return res(ctx.status(200), ctx.json(reservations));
+  },
+);
+
+const confirmReservation = rest.put(
+  "/api/admin/reservations/:reservationId/confirm",
+  async (req, res, ctx) => {
+    const token = getToken(req.headers);
+    if (incorrectToken(token)) {
+      return res(ctx.status(401), ctx.json({ message: "Unauthorized." }));
+    }
+
+    const { reservationId } = req.params;
+
+    const reservations = await importAdminReservations(token);
+
+    if (!reservations) {
+      return res(ctx.status(404), ctx.json({ message: "Store not found." }));
+    }
+
+    const idx = reservations.findIndex((i) => i.id === reservationId);
+
+    if (idx === -1) {
+      return res(
+        ctx.status(404),
+        ctx.json({ message: "Reservation not found." }),
+      );
+    }
+
+    reservations[idx].confirmed = true;
+
+    return res(
+      ctx.status(200),
+      ctx.json({ message: "Reservation confirmed." }),
+    );
+  },
+);
 
 const checkAvailability = rest.post(
   "/api/check-availability",
@@ -141,4 +205,10 @@ const fetchSchedule = rest.post(
   },
 );
 
-export const reservationHandlers = [checkAvailability, reserve, fetchSchedule];
+export const reservationHandlers = [
+  getReservationsAdmin,
+  confirmReservation,
+  checkAvailability,
+  reserve,
+  fetchSchedule,
+];
