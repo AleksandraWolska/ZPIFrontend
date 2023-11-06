@@ -77,10 +77,10 @@ export type DetailsPage = {
 };
 
 export type AuthConfig = {
-  requireAuthForActions: boolean;
-  requireAuthForStoreAccess: boolean;
-  requiredPersonalData: ("name" | "surname" | "email" | "phone" | "age")[];
+  requiredPersonalData: string[];
   confirmationRequired: boolean;
+  isPrivate: boolean;
+  whiteList?: string[];
 };
 
 export type StoreConfig = {
