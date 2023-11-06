@@ -123,7 +123,6 @@ export function CheckAvailabilityCalendar({
     }
   }, [responseData, isError, itemId, setAvailabilityChecked]);
 
-
   const hasContinuousCoverage = useCallback(
     (start: Date, end: Date) => {
       // Find events from the same day.

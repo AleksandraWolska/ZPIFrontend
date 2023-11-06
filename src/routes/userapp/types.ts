@@ -1,10 +1,4 @@
-import {
-  StoreConfig,
-  Comment,
-  // SpecificAvailability,
-  SubItem,
-  Item,
-} from "../../types";
+import { StoreConfig, Comment, Availability, SubItem, Item } from "../../types";
 
 export type FilterValue = {
   attributeKey: string;
@@ -110,7 +104,9 @@ export type FetchScheduleResponse = {
 
 export type UserReservation = {
   reservationId: string;
-  item: Pick<Item, "title" | "subtitle" | "description" | "id">;
+  item: Pick<Item["attributes"], "title" | "subtitle" | "description"> & {
+    id: string;
+  };
   subitem?: SubItem;
   start: string;
   end: string;
