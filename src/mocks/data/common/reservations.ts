@@ -4,8 +4,7 @@ export const reservations: Reservation[] = [
   {
     id: "1",
     itemId: "1",
-    clientEmail: "john.doe@test.pl",
-    clientData: {
+    personalData: {
       name: "John Doe",
       phone: "+48 123 456 789",
       age: "18",
@@ -20,8 +19,7 @@ export const reservations: Reservation[] = [
   {
     id: "2",
     itemId: "2",
-    clientEmail: "jane.doe@test.pl",
-    clientData: {
+    personalData: {
       name: "Jane Doe",
       phone: "+48 123 456 789",
       age: "25",
@@ -35,8 +33,7 @@ export const reservations: Reservation[] = [
   {
     id: "3",
     itemId: "1",
-    clientEmail: "robert.smith@test.pl",
-    clientData: {
+    personalData: {
       name: "Robert Smith",
       phone: "+48 987 654 321",
       age: "60",

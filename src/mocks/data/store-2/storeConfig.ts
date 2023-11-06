@@ -101,9 +101,8 @@ export const storeConfig: StoreConfig = {
       "Review your reservation details before confirming.",
   },
   authConfig: {
-    requireAuthForActions: true,
-    requireAuthForStoreAccess: false,
-    requiredPersonalData: [],
-    confirmationRequired: false,
+    requiredPersonalData: ["name", "phone", "age"],
+    confirmationRequired: true,
+    isPrivate: false,
   },
 };
