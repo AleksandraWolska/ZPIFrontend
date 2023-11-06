@@ -1,48 +1,21 @@
 import {
-  Checkbox,
+  Autocomplete,
   Collapse,
   FormControl,
   FormControlLabel,
-  FormGroup,
   FormLabel,
   Radio,
   RadioGroup,
   Stack,
+  TextField,
 } from "@mui/material";
 import { STORE_CONFIG_STEPS, StoreConfigStep } from "../types";
 import { useStoreConfig } from "../StoreConfigProvider";
 import ChangePageButtons from "../../../shared-components/ChangePageButtons";
-import { StoreConfig } from "../../../types";
 import StepContentWrapper from "./components/StepContentWrapper";
 import WizardStepTitle from "./components/WizardStepTitle";
 import WizardStepDescription from "./components/WizardStepDescription";
 import BackButton from "./components/BackButton";
-
-const personalDataOptions: {
-  value: StoreConfig["authConfig"]["requiredPersonalData"][number];
-  text: string;
-}[] = [
-  {
-    value: "name",
-    text: "Name",
-  },
-  {
-    value: "surname",
-    text: "Surname",
-  },
-  {
-    value: "email",
-    text: "Email",
-  },
-  {
-    value: "phone",
-    text: "Phone",
-  },
-  {
-    value: "age",
-    text: "Age",
-  },
-];
 
 function AuthConfig({
   setActiveStep,
@@ -61,99 +34,93 @@ function AuthConfig({
       <WizardStepTitle>User Authentication</WizardStepTitle>
 
       <WizardStepDescription>
-        Define access permissions for user interactions within your store. For
-        actions such as reservation or adding comments, users can either sign in
-        to their account or, alternatively, provide specific information that
-        you will define as mandatory.
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eveniet,
+        facilis, sit. Ab ad adipisci at blanditiis consectetur facilis impedit,
+        magni minima omnis quam quis voluptatibus? Architecto commodi
+        exercitationem id maxime!
       </WizardStepDescription>
 
       <Stack gap={3} margin={2.5}>
         <FormControl>
-          <FormLabel id="requireAuthForActions">
-            Should user be logged in to perform actions (reserving, commenting,
-            rating items)?
+          <FormLabel id="isPrivate">
+            Should your store be public or private (grant access only to a
+            specific group of users)?
           </FormLabel>
 
           <RadioGroup
             sx={{ margin: "auto" }}
             row
-            aria-labelledby="requireAuthForActions"
-            value={authConfig.requireAuthForActions ? "yes" : "no"}
+            aria-labelledby="isPrivate"
+            value={authConfig.isPrivate ? "private" : "public"}
             onChange={(e) => {
               setAuthConfigAttribute({
-                requireAuthForActions: e.target.value === "yes",
+                isPrivate: e.target.value === "private",
               });
-              if (e.target.value === "no") {
-                setAuthConfigAttribute({
-                  requireAuthForStoreAccess: false,
-                });
-              }
             }}
           >
-            <FormControlLabel value="yes" control={<Radio />} label="Yes" />
-            <FormControlLabel value="no" control={<Radio />} label="No" />
+            <FormControlLabel
+              value="public"
+              control={<Radio />}
+              label="Public"
+            />
+            <FormControlLabel
+              value="private"
+              control={<Radio />}
+              label="Private"
+            />
           </RadioGroup>
         </FormControl>
 
-        <Collapse in={!authConfig.requireAuthForActions}>
-          <FormControl>
-            <FormLabel>Choose required personal data</FormLabel>
+        <Collapse in={authConfig.isPrivate}>
+          <FormControl fullWidth>
+            <FormLabel id="whoCanAccess">Who can access your store?</FormLabel>
 
-            <FormGroup>
-              {personalDataOptions.map(({ value, text }) => {
-                return (
-                  <FormControlLabel
-                    key={value}
-                    control={
-                      <Checkbox
-                        checked={authConfig.requiredPersonalData.includes(
-                          value,
-                        )}
-                        onChange={(e) => {
-                          // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-                          e.target.checked
-                            ? setAuthConfigAttribute({
-                                requiredPersonalData: [
-                                  ...authConfig.requiredPersonalData,
-                                  value,
-                                ],
-                              })
-                            : setAuthConfigAttribute({
-                                requiredPersonalData:
-                                  authConfig.requiredPersonalData.filter(
-                                    (item) => item !== value,
-                                  ),
-                              });
-                        }}
-                      />
-                    }
-                    label={text}
-                  />
-                );
-              })}
-            </FormGroup>
+            <Autocomplete
+              aria-labelledby="whoCanAccess"
+              multiple
+              freeSolo
+              fullWidth
+              onChange={(_e, values) => {
+                setAuthConfigAttribute({ whiteList: values as string[] });
+              }}
+              options={[]}
+              value={authConfig.whiteList || []}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  placeholder="Add a value typing it and pressing enter"
+                  size="medium"
+                />
+              )}
+            />
           </FormControl>
         </Collapse>
 
-        <FormControl disabled={!authConfig.requireAuthForActions}>
-          <FormLabel id="requireAuthForStoreAccess">
-            Should user be logged in to access store and view items?
+        <FormControl>
+          <FormLabel id="whatDataRequired">
+            What data is required when reserving?
           </FormLabel>
 
-          <RadioGroup
-            sx={{ margin: "auto" }}
-            row
-            aria-labelledby="requireAuthForStoreAccess"
-            value={authConfig.requireAuthForStoreAccess ? "yes" : "no"}
-            onChange={(e) => {
+          <Autocomplete
+            aria-labelledby="whatDataRequired"
+            multiple
+            freeSolo
+            fullWidth
+            onChange={(_e, values) => {
               setAuthConfigAttribute({
-                requireAuthForStoreAccess: e.target.value === "yes",
+                requiredPersonalData: values as string[],
               });
             }}
-          >
-            <FormControlLabel value="yes" control={<Radio />} label="Yes" />
-            <FormControlLabel value="no" control={<Radio />} label="No" />
-          </RadioGroup>
+            options={[]}
+            value={authConfig.requiredPersonalData || []}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                placeholder="Add a value typing it and pressing enter"
+                size="medium"
+              />
+            )}
+          />
         </FormControl>
 
         <FormControl>

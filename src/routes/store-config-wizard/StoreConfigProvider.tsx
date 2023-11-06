@@ -40,10 +40,9 @@ const initialStoreConfig: StoreConfig = {
     reservationSummaryPrompt: "",
   },
   authConfig: {
-    requireAuthForActions: true,
-    requireAuthForStoreAccess: false,
     requiredPersonalData: [],
     confirmationRequired: false,
+    isPrivate: false,
   },
 };
 
