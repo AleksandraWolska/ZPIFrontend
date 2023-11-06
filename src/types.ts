@@ -165,3 +165,15 @@ export type Item = {
     mark?: number;
   };
 };
+
+// RESERVATION =================================================================
+export type Reservation = {
+  id: string;
+  itemId: string;
+  personalData: Record<string, string>;
+  confirmed: boolean;
+  startDateTime: string;
+  endDateTime?: string;
+  amount: number;
+  message: string;
+};
