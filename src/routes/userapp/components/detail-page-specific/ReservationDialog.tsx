@@ -93,17 +93,6 @@ export function ReservationDialog({
           variant="contained"
           fullWidth
           onClick={() => {
-            if (auth.isAuthenticated) {
-              const email = auth.user?.profile.email;
-              if (!email) {
-                throw new Error("Auth error");
-              }
-              setReservation({
-                ...reservation,
-                userEmail: email,
-              });
-            }
-
             makeReservation();
           }}
         >

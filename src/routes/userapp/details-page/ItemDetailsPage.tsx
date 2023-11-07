@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
+import { useAuth } from "react-oidc-context";
 import { Comment, NewReservation, StoreConfig, SubItem } from "../../../types";
 import AttributesList from "../components/detail-page-specific/AttributesList";
 import Ratings from "../components/shared/Ratings";
@@ -53,13 +54,15 @@ export default function ItemDetailsPage() {
   const reserveItem = useReserveItem();
   const addComment = useAddComment();
 
+  const auth = useAuth();
+
   const params = useParams() as { storeId: string; itemId: string };
 
   const [showSuccessDialog, setShowSuccessDialog] = useState(false);
   const [reservationSummary, setReservationSummary] = useState(false);
   const [reservation, setReservation] = useState<NewReservation>({
     itemId: params.itemId,
-    userEmail: "",
+    userEmail: auth.user?.profile.email || "",
     personalData: {},
     confirmed: false,
     startDateTime: "",
