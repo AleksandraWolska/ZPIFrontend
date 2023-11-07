@@ -63,34 +63,6 @@ export type FlexibleReservationData = {
   amount: number;
 };
 
-export type FixedReservationData = {
-  subItemList: SubItem[];
-  amount: number;
-  itemId?: string;
-};
-
-export type RequiredUserInfo = (
-  | "login"
-  | "email"
-  | "name"
-  | "surname"
-  | "phone"
-)[];
-
-export type UserData = {
-  id: string;
-  name?: string;
-  surname?: string;
-  email?: string;
-  phone?: string;
-};
-export type ReservationRequest = {
-  storeId: string;
-  itemId: string;
-  userData: UserData;
-  reservationData: FlexibleReservationData | FixedReservationData;
-};
-
 export type FetchScheduleRequest = {
   itemId: string;
   amount: number;
@@ -102,6 +74,7 @@ export type FetchScheduleResponse = {
   schedule: Availability[];
 };
 
+// TO BE DELETED
 export type UserReservation = {
   reservationId: string;
   item: Pick<Item["attributes"], "title" | "subtitle" | "description"> & {
