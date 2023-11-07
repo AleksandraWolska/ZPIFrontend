@@ -1,47 +1,36 @@
-import { useState } from "react";
 import {
   Dialog,
   DialogTitle,
   DialogContent,
   TextField,
   Button,
-  List,
-  ListItem,
   Typography,
   Box,
 } from "@mui/material";
-import {
-  FixedReservationData,
-  FlexibleReservationData,
-  RequiredUserInfo,
-  ReservationRequest,
-  UserData,
-} from "../../types";
+import { useAuth } from "react-oidc-context";
+import { NewReservation } from "../../../../types";
+import useItemDetails from "../../details-page/useItemDetails";
+import useStoreConfig from "../../wrapper/useStoreConfig";
 
 type Props = {
-  reservationRequest: ReservationRequest;
-  requiredUserInfo: RequiredUserInfo;
-  makeReservationRequest: (data: ReservationRequest) => void;
+  reservation: NewReservation;
+  setReservation: (reservation: NewReservation) => void;
+  makeReservation: () => void;
 };
 
 export function ReservationDialog({
-  reservationRequest,
-  requiredUserInfo,
-  makeReservationRequest,
+  reservation,
+  setReservation,
+  makeReservation,
 }: Props) {
-  const [filledUserData, setFilledUserData] = useState<UserData>(
-    reservationRequest.userData,
-  );
+  const item = useItemDetails();
+  const subItem = item.subItems?.find((si) => {
+    return si.id === reservation.subItemId;
+  });
 
-  const handleInputChange = (key: keyof UserData, value: string) => {
-    setFilledUserData((prev) => ({ ...prev, [key]: value }));
-  };
+  const auth = useAuth();
 
-  const isFlexibleData = (
-    data: FlexibleReservationData | FixedReservationData,
-  ): data is FlexibleReservationData => {
-    return (data as FlexibleReservationData).start !== undefined;
-  };
+  const storeConfig = useStoreConfig();
 
   return (
     <Dialog
@@ -54,59 +43,69 @@ export function ReservationDialog({
       <DialogContent>
         <Box mb={3}>
           <Typography variant="h6">Podsumowanie:</Typography>
-          {isFlexibleData(reservationRequest.reservationData) ? (
+          {!subItem ? (
             <>
-              <Typography>
-                Start: {reservationRequest.reservationData.start}
-              </Typography>
-              <Typography>
-                End: {reservationRequest.reservationData.end}
-              </Typography>
+              <Typography>Start: {reservation.startDateTime}</Typography>
+              <Typography>End: {reservation.endDateTime}</Typography>
             </>
           ) : (
-            <List>
-              {reservationRequest.reservationData.subItemList.map((item) => (
-                <ListItem key={item.id}>
-                  <Typography>
-                    {item.title} - {item.subtitle}
-                  </Typography>
-                </ListItem>
-              ))}
-            </List>
+            <Typography>
+              {subItem.title} - {subItem.subtitle}
+            </Typography>
           )}
-          <Typography>
-            Amount: {reservationRequest.reservationData.amount}
-          </Typography>
+          <Typography>Amount: {reservation.amount}</Typography>
         </Box>
         <Box mb={3}>
           <Typography variant="h6">Informacje:</Typography>
-          {requiredUserInfo.map((infoKey) => (
+          {!auth.isAuthenticated && (
+            <TextField
+              label="email"
+              fullWidth
+              margin="normal"
+              onChange={(e) => {
+                setReservation({
+                  ...reservation,
+                  userEmail: e.target.value,
+                });
+              }}
+            />
+          )}
+          {storeConfig.authConfig.requiredPersonalData.map((infoKey) => (
             <TextField
               key={infoKey}
               label={infoKey}
               fullWidth
               margin="normal"
               onChange={(e) =>
-                handleInputChange(infoKey as keyof UserData, e.target.value)
+                setReservation({
+                  ...reservation,
+                  personalData: {
+                    ...reservation.personalData,
+                    [infoKey]: e.target.value,
+                  },
+                })
               }
             />
-          ))}
-          {Object.entries(filledUserData).map(([key, value]) => (
-            <Typography key={key}>
-              {key}: {value}
-            </Typography>
           ))}
         </Box>
         <Button
           color="primary"
           variant="contained"
           fullWidth
-          onClick={() =>
-            makeReservationRequest({
-              ...reservationRequest,
-              userData: filledUserData,
-            })
-          }
+          onClick={() => {
+            if (auth.isAuthenticated) {
+              const email = auth.user?.profile.email;
+              if (!email) {
+                throw new Error("Auth error");
+              }
+              setReservation({
+                ...reservation,
+                userEmail: email,
+              });
+            }
+
+            makeReservation();
+          }}
         >
           RESERVE
         </Button>

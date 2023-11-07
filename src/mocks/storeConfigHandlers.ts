@@ -25,8 +25,8 @@ export const importAdminStoreConfig = async (token: string) => {
   return importStoreConfig(storeId);
 };
 
-const getOwner = rest.get(
-  "/api/stores/:storeId/owner",
+const getStoreConfig = rest.get(
+  "/api/stores/:storeId/store-config",
   async (req, res, ctx) => {
     const { storeId } = req.params;
 
@@ -36,7 +36,7 @@ const getOwner = rest.get(
       return res(ctx.status(404), ctx.json({ message: "Store not found." }));
     }
 
-    return res(ctx.status(200), ctx.json(storeConfig.owner));
+    return res(ctx.status(200), ctx.json(storeConfig));
   },
 );
 
@@ -136,7 +136,7 @@ const addStoreConfig = rest.post(
 );
 
 export const storeConfigHandlers = [
-  getOwner,
+  getStoreConfig,
   getMainPageConfig,
   getDetailsPageConfig,
   getItemConfig,

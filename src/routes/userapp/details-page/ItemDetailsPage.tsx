@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { Comment, StoreConfig, SubItem } from "../../../types";
+import { Comment, NewReservation, StoreConfig, SubItem } from "../../../types";
 import AttributesList from "../components/detail-page-specific/AttributesList";
 import Ratings from "../components/shared/Ratings";
 import QuantityInput from "../components/core/QuantityInput";
@@ -20,13 +20,7 @@ import useItemDetails from "./useItemDetails";
 import useDetailsPageConfig from "./useDetailsPageConfig";
 import { CheckAvailabilityCalendar } from "../components/core/CheckAvailabilityCalendar";
 import { FreeRangesCalendar } from "../components/core/FreeRangesCalendar";
-import {
-  FixedReservationData,
-  FlexibleReservationData,
-  NewComment,
-  RequiredUserInfo,
-  ReservationRequest,
-} from "../types";
+import { FlexibleReservationData, NewComment } from "../types";
 import useReserveItem from "./useReserveItem";
 import { ReservationDialog } from "../components/detail-page-specific/ReservationDialog";
 import ItemImage from "../components/shared/ItemImage";
@@ -34,7 +28,6 @@ import CommentsDisplay from "../components/detail-page-specific/CommentsDisplay"
 import CommentInput from "../components/detail-page-specific/CommentInput";
 import useAddComment from "../components/detail-page-specific/useAddComment";
 
-const userId = "user1";
 const initializeReservationRequestReady = (
   core: StoreConfig["core"],
   availableAmount: number | undefined,
@@ -64,8 +57,16 @@ export default function ItemDetailsPage() {
 
   const [showSuccessDialog, setShowSuccessDialog] = useState(false);
   const [reservationSummary, setReservationSummary] = useState(false);
-  const [reservationRequest, setReservationRequest] =
-    useState<ReservationRequest>();
+  const [reservation, setReservation] = useState<NewReservation>({
+    itemId: params.itemId,
+    userEmail: "",
+    personalData: {},
+    confirmed: false,
+    startDateTime: "",
+    endDateTime: "",
+    amount: 0,
+    message: "",
+  });
   const [reservationRequestReady, setReservationRequestReady] = useState(
     initializeReservationRequestReady(
       storeConfig.core,
@@ -80,43 +81,40 @@ export default function ItemDetailsPage() {
     SubItem[]
   >([]);
 
-  const makeReservationRequest = async (request: ReservationRequest) => {
+  const makeReservation = async () => {
     setReservationSummary(false);
-
-    setReservationSummary(false);
-    // console.log(request);
 
     try {
-      await reserveItem.mutateAsync(request); // calling the useReserveItem mutation
-      setShowSuccessDialog(true); // Show success dialog upon successful reservation
+      reserveItem.mutate(reservation, {
+        onSuccess: () => {
+          setShowSuccessDialog(true); // Show success dialog upon successful reservation
+        },
+      }); // calling the useReserveItem mutation
     } catch (error) {
       console.error("Error during reservation: ", error);
       // Handle error accordingly, e.g. show an error message to the user
     }
-    console.log(request);
   };
 
   const prepareFixedReservationRequest = () => {
-    const data: FixedReservationData = {
-      subItemList: selectedSubItemsInfoList,
+    setReservation((prev) => ({
+      ...prev,
       amount: userCount,
-    };
-    setReservationRequest({
-      storeId: params.storeId,
-      itemId: params.itemId,
-      userData: { id: userId },
-      reservationData: data,
-    });
+      subItemId:
+        selectedSubItemsInfoList.length > 0
+          ? selectedSubItemsInfoList[0].id
+          : undefined,
+    }));
     setReservationSummary(true);
   };
 
   const prepareFlexibleReservation = (data: FlexibleReservationData) => {
-    setReservationRequest({
-      storeId: params.storeId,
-      itemId: params.itemId,
-      userData: { id: userId },
-      reservationData: data,
-    });
+    setReservation((prev) => ({
+      ...prev,
+      startDateTime: data.start,
+      endDateTime: data.end,
+      amount: userCount,
+    }));
     setReservationSummary(true);
   };
 
@@ -318,15 +316,15 @@ export default function ItemDetailsPage() {
     setShowSuccessDialog(false);
     setSelectedSubItemsInfoList([]);
     setUserCount(1);
-    setReservationRequest(undefined);
   };
+
   return (
     <Box padding={3}>
-      {reservationSummary && reservationRequest && (
+      {reservationSummary && reservation && (
         <ReservationDialog
-          reservationRequest={reservationRequest}
-          requiredUserInfo={["email", "name", "surname"] as RequiredUserInfo}
-          makeReservationRequest={makeReservationRequest}
+          reservation={reservation}
+          setReservation={setReservation}
+          makeReservation={makeReservation}
         />
       )}
       <Box display="flex">

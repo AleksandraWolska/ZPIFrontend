@@ -159,11 +159,10 @@ const checkAvailability = rest.post(
 );
 
 const reserve = rest.post("/api/reserve", async (req, res, ctx) => {
-  const { storeId, itemId } = await req.json();
+  const body = await req.json();
 
-  if (typeof itemId !== "string" || typeof storeId !== "string") {
-    return res(ctx.status(400), ctx.text("Invalid input"));
-  }
+  console.log("body", body);
+
   return res(ctx.status(200), ctx.json({ status: "ok" }));
 });
 

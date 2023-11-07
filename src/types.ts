@@ -170,6 +170,8 @@ export type Item = {
 export type Reservation = {
   id: string;
   itemId: string;
+  subItemId?: string;
+  userEmail: string;
   personalData: Record<string, string>;
   confirmed: boolean;
   startDateTime: string;
@@ -177,3 +179,5 @@ export type Reservation = {
   amount: number;
   message: string;
 };
+
+export type NewReservation = Omit<Reservation, "id">;

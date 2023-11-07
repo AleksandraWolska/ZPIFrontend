@@ -14,10 +14,11 @@ import {
   pink,
   lightGreen,
 } from "@mui/material/colors";
-import useOwner from "./useOwner";
+import useStoreConfig from "./useStoreConfig";
 
 function UserAppWrapper() {
-  const owner = useOwner();
+  const storeConfig = useStoreConfig();
+  const { owner } = storeConfig;
   const { storeId } = useParams();
   const navigate = useNavigate();
 

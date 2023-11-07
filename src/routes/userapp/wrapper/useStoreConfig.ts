@@ -1,16 +1,16 @@
 import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
-import { getOwnerQuery } from "./loader";
+import { getStoreConfigQuery } from "./loader";
 import { StoreConfig } from "../../../types";
 
-function useOwner() {
+function useStoreConfig() {
   const params = useParams() as { storeId: string };
 
-  const { data } = useQuery(getOwnerQuery(params.storeId)) as {
-    data: StoreConfig["owner"];
+  const { data } = useQuery(getStoreConfigQuery(params.storeId)) as {
+    data: StoreConfig;
   };
 
   return data;
 }
 
-export default useOwner;
+export default useStoreConfig;

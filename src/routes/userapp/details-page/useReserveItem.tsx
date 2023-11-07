@@ -1,8 +1,8 @@
 import { useMutation } from "react-query";
-import { ReservationRequest } from "../types";
+import { NewReservation } from "../../../types";
 
 function useReserveItem() {
-  const mutation = useMutation((data: ReservationRequest) =>
+  const mutation = useMutation((data: NewReservation) =>
     fetch(`/api/reserve`, {
       method: "POST",
       headers: {
