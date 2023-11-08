@@ -103,7 +103,10 @@ export function CheckAvailabilityCalendar({
   // if response is not an array, and has start date, then it is ok, ready to reserve
   // if response will be an array, then it is suggested dates
   useEffect(() => {
+    console.log("checkAvailability useEffect  in");
+
     if (responseData && !Array.isArray(responseData) && responseData.start) {
+      console.log("enters1");
       setReserveData({
         start: responseData.start,
         end: responseData.end,
@@ -112,16 +115,30 @@ export function CheckAvailabilityCalendar({
       setAvailabilityChecked(true);
       setShowReserveDialog(true);
     }
-    console.log(JSON.stringify(responseData));
 
     if (responseData && Array.isArray(responseData)) {
+      console.log("enters2");
       setShowSuggestedDialog(true);
     }
 
     if (isError) {
       console.error("An error occurred while checking availability.");
     }
+    console.log("checkAvailability useEffect out");
   }, [responseData, isError, itemId, setAvailabilityChecked]);
+
+  // const handleReset = useCallback(() => {
+  const handleReset = () => {
+    setBackgroundEvents(transformToArray(availabilityList));
+    setEvents([]);
+    setIsFromResponse(false);
+    setAvailabilityChecked(false);
+  };
+  // }, [availabilityList, setAvailabilityChecked]);
+
+  // useEffect(() => {
+  //   handleReset();
+  // }, [availabilityList, handleReset]);
 
   const hasContinuousCoverage = useCallback(
     (start: Date, end: Date) => {
@@ -423,16 +440,7 @@ export function CheckAvailabilityCalendar({
 
   const buttonReset = (
     <Box marginTop={2}>
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={() => {
-          setBackgroundEvents(transformToArray(availabilityList));
-          setEvents([]);
-          setIsFromResponse(false);
-          setAvailabilityChecked(false);
-        }}
-      >
+      <Button variant="contained" color="primary" onClick={handleReset}>
         RESET
       </Button>
     </Box>

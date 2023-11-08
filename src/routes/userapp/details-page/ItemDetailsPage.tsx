@@ -10,7 +10,7 @@ import {
   Divider,
 } from "@mui/material";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "react-oidc-context";
 import { Comment, NewReservation, StoreConfig, SubItem } from "../../../types";
 import AttributesList from "../components/detail-page-specific/AttributesList";
@@ -55,6 +55,7 @@ export default function ItemDetailsPage() {
   const addComment = useAddComment();
 
   const auth = useAuth();
+  const navigate = useNavigate();
 
   const params = useParams() as { storeId: string; itemId: string };
 
@@ -319,6 +320,8 @@ export default function ItemDetailsPage() {
     setShowSuccessDialog(false);
     setSelectedSubItemsInfoList([]);
     setUserCount(1);
+    item.status.availability?.pop();
+    navigate(-1);
   };
   return (
     <Box padding={3}>
@@ -384,9 +387,12 @@ export default function ItemDetailsPage() {
         </Box>
       )}
       <Dialog open={showSuccessDialog} onClose={handleReservationFinished}>
-        <DialogTitle>Successful</DialogTitle>
+        <DialogTitle>Success!</DialogTitle>
         <DialogContent>
-          <DialogContentText>Reservation is done!</DialogContentText>
+          <DialogContentText>
+            {storeConfig.detailsPage.reservationConfirmationPrompt ||
+              "reservation is confirmed!"}
+          </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleReservationFinished} color="primary">
