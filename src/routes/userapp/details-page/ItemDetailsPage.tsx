@@ -103,9 +103,9 @@ export default function ItemDetailsPage() {
     setReservation((prev) => ({
       ...prev,
       amount: userCount,
-      subItemId:
+      subItemIds:
         selectedSubItemsInfoList.length > 0
-          ? selectedSubItemsInfoList[0].id
+          ? selectedSubItemsInfoList.map((si) => si.id)
           : undefined,
     }));
     setReservationSummary(true);
@@ -320,11 +320,11 @@ export default function ItemDetailsPage() {
     setSelectedSubItemsInfoList([]);
     setUserCount(1);
   };
-
   return (
     <Box padding={3}>
       {reservationSummary && reservation && (
         <ReservationDialog
+          cancelReservation={() => setReservationSummary(false)}
           reservation={reservation}
           setReservation={setReservation}
           makeReservation={makeReservation}

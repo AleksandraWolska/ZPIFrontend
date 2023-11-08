@@ -170,7 +170,7 @@ export type Item = {
 export type Reservation = {
   id: string;
   itemId: string;
-  subItemId?: string;
+  subItemIds?: string[];
   userEmail: string;
   personalData: Record<string, string>;
   confirmed: boolean;

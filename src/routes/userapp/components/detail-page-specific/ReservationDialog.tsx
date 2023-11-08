@@ -15,18 +15,22 @@ import useStoreConfig from "../../wrapper/useStoreConfig";
 type Props = {
   reservation: NewReservation;
   setReservation: (reservation: NewReservation) => void;
+  cancelReservation: () => void;
   makeReservation: () => void;
 };
 
 export function ReservationDialog({
   reservation,
+  cancelReservation,
   setReservation,
   makeReservation,
 }: Props) {
   const item = useItemDetails();
-  const subItem = item.subItems?.find((si) => {
-    return si.id === reservation.subItemId;
-  });
+  const subItem = reservation.subItemIds && reservation.subItemIds.length > 0;
+
+  const allSubItemIdsMatch = reservation.subItemIds?.every(
+    (subItemId) => item.subItems?.some((si) => si.id === subItemId),
+  );
 
   const auth = useAuth();
 
@@ -39,24 +43,47 @@ export function ReservationDialog({
       fullWidth
       PaperProps={{ sx: { borderRadius: "10px" } }}
     >
-      <DialogTitle>Reservation</DialogTitle>
+      <DialogTitle sx={{ textAlign: "center", fontWeight: "medium" }}>
+        <Typography variant="h4">Summary</Typography>
+      </DialogTitle>
       <DialogContent>
         <Box mb={3}>
-          <Typography variant="h6">Podsumowanie:</Typography>
+          <Typography variant="h6" sx={{ fontWeight: "bold", mb: 1 }}>
+            {storeConfig.detailsPage.reservationSummaryPrompt ||
+              "Review your reservation and fill neccessary data"}
+          </Typography>
           {!subItem ? (
             <>
-              <Typography>Start: {reservation.startDateTime}</Typography>
-              <Typography>End: {reservation.endDateTime}</Typography>
+              <Typography sx={{ mb: 1 }}>
+                Start: {reservation.startDateTime}
+              </Typography>
+              <Typography sx={{ mb: 1 }}>
+                End: {reservation.endDateTime}
+              </Typography>
             </>
+          ) : allSubItemIdsMatch ? (
+            reservation.subItemIds?.map((subItemId: string) => {
+              const subItemElement = item.subItems?.find(
+                (si) => si.id === subItemId,
+              );
+              return (
+                <Typography key={subItemId} sx={{ mb: 1 }}>
+                  {subItemElement?.title} - {subItemElement?.subtitle}
+                </Typography>
+              );
+            })
           ) : (
-            <Typography>
-              {subItem.title} - {subItem.subtitle}
+            <Typography color="error" sx={{ mb: 1 }}>
+              Error: One or more items in the reservation do not match available
+              items.
             </Typography>
           )}
-          <Typography>Amount: {reservation.amount}</Typography>
+          <Typography sx={{ mb: 1 }}>Amount: {reservation.amount}</Typography>
         </Box>
         <Box mb={3}>
-          <Typography variant="h6">Informacje:</Typography>
+          <Typography variant="h6" sx={{ fontWeight: "bold", mb: 2 }}>
+            Informacje:
+          </Typography>
           {!auth.isAuthenticated && (
             <TextField
               label="email"
@@ -97,6 +124,17 @@ export function ReservationDialog({
           }}
         >
           RESERVE
+        </Button>
+
+        <Button
+          color="primary"
+          variant="outlined"
+          fullWidth
+          onClick={() => {
+            cancelReservation();
+          }}
+        >
+          CANCEL
         </Button>
       </DialogContent>
     </Dialog>
