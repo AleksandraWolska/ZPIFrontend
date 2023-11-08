@@ -7,7 +7,7 @@ import { ContinuousSchedule, Item, SlotsSchedule } from "../types";
 import { importAdminStoreConfig } from "./storeConfigHandlers";
 import { calculateAvailability } from "./data/common/availability";
 
-const importItems = async (storeId: string) => {
+export const importItems = async (storeId: string) => {
   try {
     return (await fetchData(storeId, "items")) as Item[];
   } catch {

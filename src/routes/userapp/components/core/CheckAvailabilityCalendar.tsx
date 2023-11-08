@@ -87,9 +87,9 @@ export function CheckAvailabilityCalendar({
   const { mutate, data: responseData, isError } = useAvailabilityCheck();
 
   const [events, setEvents] = useState<Event[]>([]);
-  const [backgroundEvents, setBackgroundEvents] = useState<Event[]>(
-    transformToArray(availabilityList),
-  );
+  const backgroundEvents = transformToArray(availabilityList);
+
+  console.log(backgroundEvents);
 
   const [showSuggestedDialog, setShowSuggestedDialog] = useState(false);
   const [showReserveDialog, setShowReserveDialog] = useState(false);
@@ -129,7 +129,7 @@ export function CheckAvailabilityCalendar({
 
   // const handleReset = useCallback(() => {
   const handleReset = () => {
-    setBackgroundEvents(transformToArray(availabilityList));
+    // setBackgroundEvents(transformToArray(availabilityList));
     setEvents([]);
     setIsFromResponse(false);
     setAvailabilityChecked(false);
@@ -393,7 +393,7 @@ export function CheckAvailabilityCalendar({
       );
       // background events restrict clickable user choice
       // this ensures evary new user chosen date would be available
-      setBackgroundEvents(newAvailabilityList);
+      // setBackgroundEvents(newAvailabilityList);
       setIsFromResponse(true);
       setShowSuggestedDialog(false);
       setAvailabilityChecked(true);

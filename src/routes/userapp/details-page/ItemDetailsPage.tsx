@@ -92,6 +92,7 @@ export default function ItemDetailsPage() {
       reserveItem.mutate(reservation, {
         onSuccess: () => {
           setShowSuccessDialog(true); // Show success dialog upon successful reservation
+          navigate("..", { relative: "path" });
         },
       }); // calling the useReserveItem mutation
     } catch (error) {
@@ -320,8 +321,6 @@ export default function ItemDetailsPage() {
     setShowSuccessDialog(false);
     setSelectedSubItemsInfoList([]);
     setUserCount(1);
-    item.status.availability?.pop();
-    navigate(-1);
   };
   return (
     <Box padding={3}>
