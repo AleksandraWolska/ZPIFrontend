@@ -1,14 +1,4 @@
-import {
-  Box,
-  Typography,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  Divider,
-} from "@mui/material";
+import { Box, Typography, Button, Divider } from "@mui/material";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "react-oidc-context";
@@ -28,6 +18,7 @@ import ItemImage from "../components/shared/ItemImage";
 import CommentsDisplay from "../components/detail-page-specific/CommentsDisplay";
 import CommentInput from "../components/detail-page-specific/CommentInput";
 import useAddComment from "../components/detail-page-specific/useAddComment";
+import { ReservationSuccessDialog } from "../components/detail-page-specific/ReservationSuccessDialog";
 
 const initializeReservationRequestReady = (
   core: StoreConfig["core"],
@@ -385,20 +376,11 @@ export default function ItemDetailsPage() {
           {storeConfig.detailsPage.showComments && <CommentsDisplay />}
         </Box>
       )}
-      <Dialog open={showSuccessDialog} onClose={handleReservationFinished}>
-        <DialogTitle>Success!</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            {storeConfig.detailsPage.reservationConfirmationPrompt ||
-              "reservation is confirmed!"}
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleReservationFinished} color="primary">
-            OK
-          </Button>
-        </DialogActions>
-      </Dialog>
+      {showSuccessDialog && (
+        <ReservationSuccessDialog
+          handleReservationFinished={handleReservationFinished}
+        />
+      )}
     </Box>
   );
 }
