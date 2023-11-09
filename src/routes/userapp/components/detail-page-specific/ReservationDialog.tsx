@@ -140,7 +140,15 @@ export function ReservationDialog({
         </Box>
         <Box mb={3}>
           <Typography variant="h6">Provide neccessary data:</Typography>
-          {!auth.isAuthenticated && (
+          {auth.isAuthenticated ? (
+            <TextField
+              label="email"
+              disabled
+              fullWidth
+              margin="normal"
+              value={auth.user?.profile.email}
+            />
+          ) : (
             <TextField
               label="email"
               fullWidth
