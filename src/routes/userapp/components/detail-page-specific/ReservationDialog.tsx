@@ -6,9 +6,13 @@ import {
   Button,
   Typography,
   Box,
+  List,
+  ListItem,
+  ListItemText,
+  Divider,
 } from "@mui/material";
 import { useAuth } from "react-oidc-context";
-import { NewReservation } from "../../../../types";
+import { FixedSchedule, NewReservation } from "../../../../types";
 import useItemDetails from "../../details-page/useItemDetails";
 import useStoreConfig from "../../wrapper/useStoreConfig";
 
@@ -33,8 +37,76 @@ export function ReservationDialog({
   );
 
   const auth = useAuth();
-
   const storeConfig = useStoreConfig();
+
+  const flexibleSummary = (
+    <>
+      <Typography sx={{ mb: 1 }}>Start: {reservation.startDateTime}</Typography>
+      <Typography sx={{ mb: 1 }}>End: {reservation.endDateTime}</Typography>
+    </>
+  );
+
+  const fixedSummaryWithSubitems = allSubItemIdsMatch ? (
+    <Box
+      sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+    >
+      <List sx={{ width: "100%" }}>
+        {reservation.subItemIds?.map((subItemId: string) => {
+          const subItemElement = item.subItems?.find(
+            (si) => si.id === subItemId,
+          );
+          return (
+            <ListItem
+              key={subItemId}
+              sx={{ justifyContent: "center", display: "flex" }}
+            >
+              <ListItemText
+                primary={`${subItemElement?.title} - ${subItemElement?.subtitle}`}
+                secondary={
+                  subItemElement?.schedule?.startDateTime &&
+                  subItemElement?.schedule?.endDateTime
+                    ? `From ${subItemElement?.schedule?.startDateTime} to ${subItemElement?.schedule?.endDateTime}`
+                    : ""
+                }
+                sx={{ textAlign: "center" }} // Center the text of ListItemText
+              />
+            </ListItem>
+          );
+        })}
+      </List>
+    </Box>
+  ) : (
+    <Typography color="error" sx={{ mb: 1, textAlign: "center" }}>
+      Error: One or more items in the reservation do not match available items.
+    </Typography>
+  );
+
+  const fixedSummary = subItem ? (
+    fixedSummaryWithSubitems
+  ) : (
+    <>
+      <Typography>[no subitems]</Typography>
+      {item.initialSettings.schedule &&
+        "startDateTime" in item.initialSettings.schedule && (
+          <Typography>
+            Start:{" "}
+            {new Date(
+              (item.initialSettings.schedule as FixedSchedule).startDateTime,
+            ).toLocaleString()}
+          </Typography>
+        )}
+      {item.initialSettings.schedule &&
+        "endDateTime" in item.initialSettings.schedule &&
+        (item.initialSettings.schedule as FixedSchedule).endDateTime && (
+          <Typography>
+            End:{" "}
+            {new Date(
+              (item.initialSettings.schedule as FixedSchedule).endDateTime!,
+            ).toLocaleString()}
+          </Typography>
+        )}
+    </>
+  );
 
   return (
     <Dialog
@@ -46,44 +118,28 @@ export function ReservationDialog({
       <DialogTitle sx={{ textAlign: "center", fontWeight: "medium" }}>
         <Typography variant="h4">Summary</Typography>
       </DialogTitle>
-      <DialogContent>
+      <DialogContent sx={{ textAlign: "center" }}>
         <Box mb={3}>
-          <Typography variant="h6" sx={{ fontWeight: "bold", mb: 1 }}>
+          <Typography variant="h6" sx={{ mb: 1 }}>
             {storeConfig.detailsPage.reservationSummaryPrompt ||
               "Review your reservation and fill neccessary data"}
           </Typography>
-          {!subItem ? (
-            <>
-              <Typography sx={{ mb: 1 }}>
-                Start: {reservation.startDateTime}
-              </Typography>
-              <Typography sx={{ mb: 1 }}>
-                End: {reservation.endDateTime}
-              </Typography>
-            </>
-          ) : allSubItemIdsMatch ? (
-            reservation.subItemIds?.map((subItemId: string) => {
-              const subItemElement = item.subItems?.find(
-                (si) => si.id === subItemId,
-              );
-              return (
-                <Typography key={subItemId} sx={{ mb: 1 }}>
-                  {subItemElement?.title} - {subItemElement?.subtitle}
-                </Typography>
-              );
-            })
-          ) : (
-            <Typography color="error" sx={{ mb: 1 }}>
-              Error: One or more items in the reservation do not match available
-              items.
+          <Box>
+            <Divider sx={{ marginTop: 2, marginBottom: 2 }} />
+            <Typography variant="h6" sx={{ mb: 1, fontWeight: "bold" }}>
+              {item.attributes.title}
             </Typography>
-          )}
-          <Typography sx={{ mb: 1 }}>Amount: {reservation.amount}</Typography>
+            {storeConfig.core.flexibility ? flexibleSummary : fixedSummary}
+            {!storeConfig.core.specificReservation && (
+              <Typography sx={{ mb: 1 }}>
+                Amount: {reservation.amount}
+              </Typography>
+            )}
+            <Divider sx={{ marginTop: 2, marginBottom: 2 }} />
+          </Box>
         </Box>
         <Box mb={3}>
-          <Typography variant="h6" sx={{ fontWeight: "bold", mb: 2 }}>
-            Informacje:
-          </Typography>
+          <Typography variant="h6">Provide neccessary data:</Typography>
           {!auth.isAuthenticated && (
             <TextField
               label="email"
@@ -115,27 +171,28 @@ export function ReservationDialog({
             />
           ))}
         </Box>
-        <Button
-          color="primary"
-          variant="contained"
-          fullWidth
-          onClick={() => {
-            makeReservation();
-          }}
-        >
-          RESERVE
-        </Button>
-
-        <Button
-          color="primary"
-          variant="outlined"
-          fullWidth
-          onClick={() => {
-            cancelReservation();
-          }}
-        >
-          CANCEL
-        </Button>
+        <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+          <Button
+            color="primary"
+            variant="outlined"
+            sx={{ flex: 1, mr: 0.5 }}
+            onClick={() => {
+              cancelReservation();
+            }}
+          >
+            CANCEL
+          </Button>
+          <Button
+            color="primary"
+            variant="contained"
+            sx={{ flex: 1, ml: 0.5 }}
+            onClick={() => {
+              makeReservation();
+            }}
+          >
+            RESERVE
+          </Button>
+        </Box>
       </DialogContent>
     </Dialog>
   );
