@@ -10,7 +10,9 @@ import {
   ListItem,
   ListItemText,
   Divider,
+  Collapse,
 } from "@mui/material";
+import { useState } from "react";
 import { useAuth } from "react-oidc-context";
 import { FixedSchedule, NewReservation } from "../../../../types";
 import useItemDetails from "../../details-page/useItemDetails";
@@ -38,6 +40,8 @@ export function ReservationSummaryDialog({
 
   const auth = useAuth();
   const storeConfig = useStoreConfig();
+  const [showOptionalMessageInput, setShowOptionalMessageInput] =
+    useState(false);
 
   const flexibleSummary = (
     <>
@@ -106,6 +110,22 @@ export function ReservationSummaryDialog({
           </Typography>
         )}
     </>
+  );
+
+  const optionalMessage = (
+    <Collapse in={showOptionalMessageInput}>
+      <TextField
+        label="message"
+        fullWidth
+        margin="normal"
+        onChange={(e) => {
+          setReservation({
+            ...reservation,
+            message: e.target.value,
+          });
+        }}
+      />
+    </Collapse>
   );
 
   return (
@@ -178,6 +198,14 @@ export function ReservationSummaryDialog({
               }
             />
           ))}
+          <Box sx={{ mt: 2 }} onClick={() => setShowOptionalMessageInput(true)}>
+            <Typography variant="overline" sx={{ cursor: "pointer" }}>
+              {showOptionalMessageInput
+                ? "YOUR MESSAGE TO STORE OWNER"
+                : "+ Add message to store owner"}
+            </Typography>
+          </Box>
+          {optionalMessage}
         </Box>
         <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
           <Button
