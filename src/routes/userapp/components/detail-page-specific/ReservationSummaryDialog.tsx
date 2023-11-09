@@ -23,7 +23,7 @@ type Props = {
   makeReservation: () => void;
 };
 
-export function ReservationDialog({
+export function ReservationSummaryDialog({
   reservation,
   cancelReservation,
   setReservation,

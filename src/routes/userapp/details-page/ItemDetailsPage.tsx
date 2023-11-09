@@ -13,7 +13,7 @@ import { CheckAvailabilityCalendar } from "../components/core/CheckAvailabilityC
 import { FreeRangesCalendar } from "../components/core/FreeRangesCalendar";
 import { FlexibleReservationData, NewComment } from "../types";
 import useReserveItem from "./useReserveItem";
-import { ReservationDialog } from "../components/detail-page-specific/ReservationDialog";
+import { ReservationSummaryDialog } from "../components/detail-page-specific/ReservationSummaryDialog";
 import ItemImage from "../components/shared/ItemImage";
 import CommentsDisplay from "../components/detail-page-specific/CommentsDisplay";
 import CommentInput from "../components/detail-page-specific/CommentInput";
@@ -326,7 +326,7 @@ export default function ItemDetailsPage() {
   return (
     <Box padding={3}>
       {reservationSummary && reservation && (
-        <ReservationDialog
+        <ReservationSummaryDialog
           cancelReservation={() => setReservationSummary(false)}
           reservation={reservation}
           setReservation={setReservation}
