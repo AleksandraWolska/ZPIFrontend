@@ -9,6 +9,7 @@ import {
 } from "../routes/userapp/types";
 import { Availability, Reservation } from "../types";
 import { fetchData, getStoreId, getToken, incorrectToken } from "./utils";
+import { importItems } from "./itemsHandlers";
 
 const importReservations = async (storeId: string) => {
   try {
@@ -160,6 +161,24 @@ const checkAvailability = rest.post(
 
 const reserve = rest.post("/api/reserve", async (req, res, ctx) => {
   const body = await req.json();
+
+  // const items7 = (await importItems("7")) || [];
+  // const items8 = (await importItems("8")) || [];
+  // const items9 = (await importItems("9")) || [];
+  // const items10 = (await importItems("10")) || [];
+  // const items = [...items7, ...items8, ...items9, ...items10];
+
+  const items = await importItems("7");
+
+  const item = items.find((i) => i.id === body.itemId);
+
+  item!.status.availability = [
+    {
+      startDateTime: "2023-11-06T10:00:00.000Z",
+      endDateTime: "2023-11-06T11:00:00.000Z",
+      type: "continuous",
+    },
+  ];
 
   console.log("body", body);
 

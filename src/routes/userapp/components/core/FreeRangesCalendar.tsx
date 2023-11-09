@@ -12,6 +12,7 @@ import {
   useMemo,
   useEffect,
   CSSProperties,
+  useRef,
 } from "react";
 import { Box, Button, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
@@ -73,7 +74,7 @@ export function FreeRangesCalendar({
   const { mutate, data: responseData, isError } = useSchedule();
 
   const [events, setEvents] = useState<Event[]>([]);
-  const [backgroundEvents, setBackgroundEvents] = useState<Event[]>(
+  const backgroundEventsRef = useRef<Event[]>(
     transformToArray(availabilityList),
   );
   const [within, setWithin] = useState(true);
@@ -91,7 +92,8 @@ export function FreeRangesCalendar({
         }),
       );
       // update background event with new availability array
-      setBackgroundEvents(newAvailabilityList);
+      backgroundEventsRef.current = newAvailabilityList;
+      // setBackgroundEvents(newAvailabilityList);
       setAvailabilityChecked(true);
     }
 
@@ -122,7 +124,7 @@ export function FreeRangesCalendar({
       );
 
       // Filter relevant background events that fall between the earliest start and latest end.
-      const relevantBackgroundEvents = backgroundEvents
+      const relevantBackgroundEvents = backgroundEventsRef.current
         .filter(
           (e) =>
             e.end > new Date(earliestStart) && e.start < new Date(latestEnd),
@@ -151,23 +153,23 @@ export function FreeRangesCalendar({
         }) && coverageEnd >= latestEnd
       );
     },
-    [backgroundEvents, events],
+    [events],
   );
 
   const handleSelectSlot = useCallback(
     ({ start, end }: { start: Date; end: Date }) => {
-      const endInMorning = backgroundEvents.find((e) => {
+      const endInMorning = backgroundEventsRef.current.find((e) => {
         return end >= e.start && end <= e.end && e.type === "morning";
       });
       if (endInMorning) return;
 
-      const startInMorning = backgroundEvents.find((e) => {
+      const startInMorning = backgroundEventsRef.current.find((e) => {
         return start >= e.start && start <= e.end && e.type === "morning";
       });
 
       let newEventStart = startInMorning ? startInMorning.end : start;
 
-      const startTypeSlotEvent = backgroundEvents.find((e) => {
+      const startTypeSlotEvent = backgroundEventsRef.current.find((e) => {
         return (
           newEventStart >= e.start &&
           newEventStart <= e.end &&
@@ -175,7 +177,7 @@ export function FreeRangesCalendar({
         );
       });
 
-      const endTypeSlotEvent = backgroundEvents.find((e) => {
+      const endTypeSlotEvent = backgroundEventsRef.current.find((e) => {
         return (
           end >= e.start &&
           end <= e.end &&
@@ -206,7 +208,7 @@ export function FreeRangesCalendar({
       const newEvents = [...events];
 
       if (endTypeSlotEvent?.type === "overnight") {
-        const potentialMorningEvent = backgroundEvents.find(
+        const potentialMorningEvent = backgroundEventsRef.current.find(
           (e) => e.type === "morning" && e.start > newEventEnd,
         );
 
@@ -253,7 +255,7 @@ export function FreeRangesCalendar({
       setEvents(newEvents);
       setWithin(true);
     },
-    [backgroundEvents, events, hasContinuousCoverage],
+    [events, hasContinuousCoverage],
   );
 
   const handleSelectEvent = useCallback(
@@ -278,7 +280,7 @@ export function FreeRangesCalendar({
   const handleSelecting = useCallback(
     ({ start, end }: { start: Date; end: Date }) => {
       // this shows dimmed selection
-      const withinBackgroundEvent = backgroundEvents
+      const withinBackgroundEvent = backgroundEventsRef.current
         .filter((e) => e.type !== "morning")
         .some((e) => {
           return start >= e.start && end <= e.end;
@@ -286,7 +288,7 @@ export function FreeRangesCalendar({
 
       if (withinBackgroundEvent) return true;
 
-      const withinAdjacentEvent = backgroundEvents.some((e) => {
+      const withinAdjacentEvent = backgroundEventsRef.current.some((e) => {
         return end >= e.start && end <= e.end;
       });
 
@@ -302,7 +304,7 @@ export function FreeRangesCalendar({
       // If there are events, the selection should be adjacent and have continuous coverage
       return hasContinuousCoverage(start, end);
     },
-    [backgroundEvents, events.length, hasContinuousCoverage, within],
+    [events.length, hasContinuousCoverage, within],
   );
 
   // sends request to check availability for new user count
@@ -320,7 +322,7 @@ export function FreeRangesCalendar({
         <Button
           variant="contained"
           color="primary"
-          disabled={!events[0]?.start || !events[0]?.end}
+          disabled={!events[0] || !events[0]?.start || !events[0]?.end}
           onClick={() => handleCheckAvailability()}
         >
           Check Availability
@@ -366,7 +368,7 @@ export function FreeRangesCalendar({
             toolbar: CustomCalendarToolbar,
           }}
           localizer={dayjsLoc}
-          backgroundEvents={backgroundEvents}
+          backgroundEvents={backgroundEventsRef.current}
           defaultDate={defaultDate}
           view={Views.WEEK}
           formats={baseFormats}

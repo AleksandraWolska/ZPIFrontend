@@ -12,6 +12,7 @@ import {
   useMemo,
   useEffect,
   CSSProperties,
+  useRef,
 } from "react";
 import {
   Box,
@@ -87,7 +88,7 @@ export function CheckAvailabilityCalendar({
   const { mutate, data: responseData, isError } = useAvailabilityCheck();
 
   const [events, setEvents] = useState<Event[]>([]);
-  const [backgroundEvents, setBackgroundEvents] = useState<Event[]>(
+  const backgroundEventsRef = useRef<Event[]>(
     transformToArray(availabilityList),
   );
 
@@ -129,16 +130,12 @@ export function CheckAvailabilityCalendar({
 
   // const handleReset = useCallback(() => {
   const handleReset = () => {
-    setBackgroundEvents(transformToArray(availabilityList));
+    // back to original availability (from item details)
+    backgroundEventsRef.current = transformToArray(availabilityList);
     setEvents([]);
     setIsFromResponse(false);
     setAvailabilityChecked(false);
   };
-  // }, [availabilityList, setAvailabilityChecked]);
-
-  // useEffect(() => {
-  //   handleReset();
-  // }, [availabilityList, handleReset]);
 
   const hasContinuousCoverage = useCallback(
     (start: Date, end: Date) => {
@@ -162,7 +159,7 @@ export function CheckAvailabilityCalendar({
       );
 
       // Filter relevant background events that fall between the earliest start and latest end.
-      const relevantBackgroundEvents = backgroundEvents
+      const relevantBackgroundEvents = backgroundEventsRef.current
         .filter(
           (e) =>
             e.end > new Date(earliestStart) && e.start < new Date(latestEnd),
@@ -191,23 +188,23 @@ export function CheckAvailabilityCalendar({
         }) && coverageEnd >= latestEnd
       );
     },
-    [backgroundEvents, events],
+    [events],
   );
 
   const handleSelectSlot = useCallback(
     ({ start, end }: { start: Date; end: Date }) => {
-      const endInMorning = backgroundEvents.find((e) => {
+      const endInMorning = backgroundEventsRef.current.find((e) => {
         return end >= e.start && end <= e.end && e.type === "morning";
       });
       if (endInMorning) return;
 
-      const startInMorning = backgroundEvents.find((e) => {
+      const startInMorning = backgroundEventsRef.current.find((e) => {
         return start >= e.start && start <= e.end && e.type === "morning";
       });
 
       let newEventStart = startInMorning ? startInMorning.end : start;
 
-      const startTypeSlotEvent = backgroundEvents.find((e) => {
+      const startTypeSlotEvent = backgroundEventsRef.current.find((e) => {
         return (
           newEventStart >= e.start &&
           newEventStart <= e.end &&
@@ -215,7 +212,7 @@ export function CheckAvailabilityCalendar({
         );
       });
 
-      const endTypeSlotEvent = backgroundEvents.find((e) => {
+      const endTypeSlotEvent = backgroundEventsRef.current.find((e) => {
         return (
           end >= e.start &&
           end <= e.end &&
@@ -246,7 +243,7 @@ export function CheckAvailabilityCalendar({
       const newEvents = [...events];
 
       if (endTypeSlotEvent?.type === "overnight") {
-        const potentialMorningEvent = backgroundEvents.find(
+        const potentialMorningEvent = backgroundEventsRef.current.find(
           (e) => e.type === "morning" && e.start > newEventEnd,
         );
 
@@ -294,13 +291,7 @@ export function CheckAvailabilityCalendar({
       setEvents(newEvents);
       setWithin(true);
     },
-    [
-      backgroundEvents,
-      events,
-      hasContinuousCoverage,
-      isFromResponse,
-      setAvailabilityChecked,
-    ],
+    [events, hasContinuousCoverage, isFromResponse, setAvailabilityChecked],
   );
 
   const earliestStartTime = events.reduce(
@@ -316,13 +307,13 @@ export function CheckAvailabilityCalendar({
   const handleSelecting = useCallback(
     ({ start, end }: { start: Date; end: Date }) => {
       // this shows dimmed selection
-      const withinBackgroundEvent = backgroundEvents.some((e) => {
+      const withinBackgroundEvent = backgroundEventsRef.current.some((e) => {
         return start >= e.start && end <= e.end;
       });
 
       if (withinBackgroundEvent) return true;
 
-      const withinAdjacentEvent = backgroundEvents.some((e) => {
+      const withinAdjacentEvent = backgroundEventsRef.current.some((e) => {
         return end >= e.start && end <= e.end;
       });
 
@@ -338,7 +329,7 @@ export function CheckAvailabilityCalendar({
       // If there are events, the selection should be adjacent and have continuous coverage
       return hasContinuousCoverage(start, end);
     },
-    [backgroundEvents, events.length, hasContinuousCoverage, within],
+    [events.length, hasContinuousCoverage, within],
   );
 
   const handleSelectEvent = useCallback(
@@ -391,9 +382,12 @@ export function CheckAvailabilityCalendar({
           type: "available",
         }),
       );
+      console.log("newAvailabilityList");
+      console.log(newAvailabilityList);
       // background events restrict clickable user choice
       // this ensures evary new user chosen date would be available
-      setBackgroundEvents(newAvailabilityList);
+      // use availability from suggested date (now for only 1 instance of item, so user can freely reserve
+      backgroundEventsRef.current = newAvailabilityList;
       setIsFromResponse(true);
       setShowSuggestedDialog(false);
       setAvailabilityChecked(true);
@@ -418,11 +412,11 @@ export function CheckAvailabilityCalendar({
 
   const buttonReserve = (
     <Box marginTop={2}>
-      {shouldEnableReserve && events[0] && events[0].start && events[0].end && (
+      {shouldEnableReserve && (
         <Button
           variant="contained"
           color="primary"
-          disabled={!events[0].start || !events[0].end}
+          disabled={!events[0] || !events[0].start || !events[0].end}
           onClick={() => {
             setShowReserveDialog(false);
             prepareFlexibleReservation({
@@ -462,7 +456,7 @@ export function CheckAvailabilityCalendar({
             toolbar: CustomCalendarToolbar,
           }}
           localizer={dayjsLoc}
-          backgroundEvents={backgroundEvents}
+          backgroundEvents={backgroundEventsRef.current}
           defaultDate={defaultDate}
           view={Views.WEEK}
           formats={baseFormats}

@@ -317,11 +317,10 @@ export default function ItemDetailsPage() {
   );
 
   const handleReservationFinished = () => {
+    navigate("..", { relative: "path" });
     setShowSuccessDialog(false);
     setSelectedSubItemsInfoList([]);
     setUserCount(1);
-    item.status.availability?.pop();
-    navigate(-1);
   };
   return (
     <Box padding={3}>
