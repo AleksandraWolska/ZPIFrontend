@@ -19,6 +19,7 @@ import CommentsDisplay from "../components/detail-page-specific/CommentsDisplay"
 import CommentInput from "../components/detail-page-specific/CommentInput";
 import useAddComment from "../components/detail-page-specific/useAddComment";
 import { ReservationSuccessDialog } from "../components/detail-page-specific/ReservationSuccessDialog";
+import { ReservationFailureDialog } from "../components/detail-page-specific/ReservationFailureDialog";
 
 const initializeReservationRequestReady = (
   core: StoreConfig["core"],
@@ -51,6 +52,7 @@ export default function ItemDetailsPage() {
   const params = useParams() as { storeId: string; itemId: string };
 
   const [showSuccessDialog, setShowSuccessDialog] = useState(false);
+  const [showFailureDialog, setShowFailureDialog] = useState(false);
   const [reservationSummary, setReservationSummary] = useState(false);
   const [reservation, setReservation] = useState<NewReservation>({
     itemId: params.itemId,
@@ -313,6 +315,14 @@ export default function ItemDetailsPage() {
     setSelectedSubItemsInfoList([]);
     setUserCount(1);
   };
+
+  const handleReservationFailure = () => {
+    navigate("..", { relative: "path" });
+    setShowFailureDialog(false);
+    setSelectedSubItemsInfoList([]);
+    setUserCount(1);
+  };
+
   return (
     <Box padding={3}>
       {reservationSummary && reservation && (
@@ -379,6 +389,11 @@ export default function ItemDetailsPage() {
       {showSuccessDialog && (
         <ReservationSuccessDialog
           handleReservationFinished={handleReservationFinished}
+        />
+      )}
+      {showFailureDialog && (
+        <ReservationFailureDialog
+          handleReservationFailure={handleReservationFailure}
         />
       )}
     </Box>
