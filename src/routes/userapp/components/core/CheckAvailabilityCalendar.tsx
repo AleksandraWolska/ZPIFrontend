@@ -137,60 +137,6 @@ export function CheckAvailabilityCalendar({
     setAvailabilityChecked(false);
   };
 
-  // for buttons Reserve/CheckAvailability display
-  const shouldEnableReserve =
-    (isFromResponse && availabilityChecked) || availabilityChecked;
-
-  // sends request to check chosen availability for amount of users
-  const handleCheckAvailability = () => {
-    mutate({
-      startDate: new Date(earliestStartTime).toISOString(),
-      endDate: new Date(latestEndTime).toISOString(),
-      amount: userCount,
-      itemId,
-    });
-  };
-
-  const handleSuggestedDateClick = useCallback(
-    (idx: string) => {
-      const suggestedDate = responseData.find(
-        (suggestion: CheckAvailabilityResponseSuggestion) =>
-          suggestion.id === idx,
-      );
-
-      if (!suggestedDate) return;
-      // set event to suggestedd start and end date
-      setEvents(() => [
-        {
-          id: uuid(),
-          start: new Date(suggestedDate.suggestedStart),
-          end: new Date(suggestedDate.suggestedEnd),
-          type: "userchoice",
-        },
-      ]);
-
-      // Update the availabilityList with the new schedule from corresponding suggested date
-      const newAvailabilityList = suggestedDate.schedule.map(
-        (item: Availability) => ({
-          id: uuid(),
-          start: new Date(item.startDateTime),
-          end: new Date(item.endDateTime),
-          type: "available",
-        }),
-      );
-      console.log("newAvailabilityList");
-      console.log(newAvailabilityList);
-      // background events restrict clickable user choice
-      // this ensures evary new user chosen date would be available
-      // use availability from suggested date (now for only 1 instance of item, so user can freely reserve
-      backgroundEventsRef.current = newAvailabilityList;
-      setIsFromResponse(true);
-      setShowSuggestedDialog(false);
-      setAvailabilityChecked(true);
-    },
-    [responseData, setAvailabilityChecked],
-  );
-
   const hasContinuousCoverage = useCallback(
     (start: Date, end: Date) => {
       // Find events from the same day.
@@ -393,6 +339,60 @@ export function CheckAvailabilityCalendar({
       }
     },
     [events],
+  );
+
+  // for buttons Reserve/CheckAvailability display
+  const shouldEnableReserve =
+    (isFromResponse && availabilityChecked) || availabilityChecked;
+
+  // sends request to check chosen availability for amount of users
+  const handleCheckAvailability = () => {
+    mutate({
+      startDate: new Date(earliestStartTime).toISOString(),
+      endDate: new Date(latestEndTime).toISOString(),
+      amount: userCount,
+      itemId,
+    });
+  };
+
+  const handleSuggestedDateClick = useCallback(
+    (idx: string) => {
+      const suggestedDate = responseData.find(
+        (suggestion: CheckAvailabilityResponseSuggestion) =>
+          suggestion.id === idx,
+      );
+
+      if (!suggestedDate) return;
+      // set event to suggestedd start and end date
+      setEvents(() => [
+        {
+          id: uuid(),
+          start: new Date(suggestedDate.suggestedStart),
+          end: new Date(suggestedDate.suggestedEnd),
+          type: "userchoice",
+        },
+      ]);
+
+      // Update the availabilityList with the new schedule from corresponding suggested date
+      const newAvailabilityList = suggestedDate.schedule.map(
+        (item: Availability) => ({
+          id: uuid(),
+          start: new Date(item.startDateTime),
+          end: new Date(item.endDateTime),
+          type: "available",
+        }),
+      );
+      console.log("newAvailabilityList");
+      console.log(newAvailabilityList);
+      // background events restrict clickable user choice
+      // this ensures evary new user chosen date would be available
+      // use availability from suggested date (now for only 1 instance of item, so user can freely reserve
+      backgroundEventsRef.current = newAvailabilityList;
+      setIsFromResponse(true);
+      setShowSuggestedDialog(false);
+      setAvailabilityChecked(true);
+    },
+    [responseData, setAvailabilityChecked],
   );
 
   const buttonCheck = (
