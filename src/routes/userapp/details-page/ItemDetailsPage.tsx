@@ -92,7 +92,6 @@ export default function ItemDetailsPage() {
       reserveItem.mutate(reservation, {
         onSuccess: () => {
           setShowSuccessDialog(true); // Show success dialog upon successful reservation
-          navigate("..", { relative: "path" });
         },
       }); // calling the useReserveItem mutation
     } catch (error) {
@@ -318,6 +317,7 @@ export default function ItemDetailsPage() {
   );
 
   const handleReservationFinished = () => {
+    navigate("..", { relative: "path" });
     setShowSuccessDialog(false);
     setSelectedSubItemsInfoList([]);
     setUserCount(1);
