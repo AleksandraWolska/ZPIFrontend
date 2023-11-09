@@ -182,8 +182,8 @@ export function CheckAvailabilityCalendar({
       console.log(newAvailabilityList);
       // background events restrict clickable user choice
       // this ensures evary new user chosen date would be available
+      // use availability from suggested date (now for only 1 instance of item, so user can freely reserve
       backgroundEventsRef.current = newAvailabilityList;
-      // setCalendarKey((prevKey) => prevKey + 1); // Update the key to force remount
       setIsFromResponse(true);
       setShowSuggestedDialog(false);
       setAvailabilityChecked(true);
