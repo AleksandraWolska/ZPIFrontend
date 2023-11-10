@@ -104,10 +104,7 @@ export function CheckAvailabilityCalendar({
   // if response is not an array, and has start date, then it is ok, ready to reserve
   // if response will be an array, then it is suggested dates
   useEffect(() => {
-    console.log("checkAvailability useEffect  in");
-
     if (responseData && !Array.isArray(responseData) && responseData.start) {
-      console.log("enters1");
       setReserveData({
         start: responseData.start,
         end: responseData.end,
@@ -118,17 +115,14 @@ export function CheckAvailabilityCalendar({
     }
 
     if (responseData && Array.isArray(responseData)) {
-      console.log("enters2");
       setShowSuggestedDialog(true);
     }
 
     if (isError) {
       console.error("An error occurred while checking availability.");
     }
-    console.log("checkAvailability useEffect out");
   }, [responseData, isError, itemId, setAvailabilityChecked]);
 
-  // const handleReset = useCallback(() => {
   const handleReset = () => {
     // back to original availability (from item details)
     backgroundEventsRef.current = transformToArray(availabilityList);
@@ -382,8 +376,10 @@ export function CheckAvailabilityCalendar({
           type: "available",
         }),
       );
-      console.log("newAvailabilityList");
-      console.log(newAvailabilityList);
+      console.log(
+        `newAvailabilityList: ${JSON.stringify(newAvailabilityList)}`,
+      );
+
       // background events restrict clickable user choice
       // this ensures evary new user chosen date would be available
       // use availability from suggested date (now for only 1 instance of item, so user can freely reserve

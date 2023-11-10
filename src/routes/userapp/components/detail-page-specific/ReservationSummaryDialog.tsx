@@ -72,7 +72,7 @@ export function ReservationSummaryDialog({
                     ? `From ${subItemElement?.schedule?.startDateTime} to ${subItemElement?.schedule?.endDateTime}`
                     : ""
                 }
-                sx={{ textAlign: "center" }} // Center the text of ListItemText
+                sx={{ textAlign: "center" }}
               />
             </ListItem>
           );
