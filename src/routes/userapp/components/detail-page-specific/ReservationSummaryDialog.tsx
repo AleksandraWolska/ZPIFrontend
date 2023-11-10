@@ -45,8 +45,12 @@ export function ReservationSummaryDialog({
 
   const flexibleSummary = (
     <>
-      <Typography sx={{ mb: 1 }}>Start: {reservation.startDateTime}</Typography>
-      <Typography sx={{ mb: 1 }}>End: {reservation.endDateTime}</Typography>
+      <Typography sx={{ mb: 1 }}>
+        Start: {new Date(reservation.startDateTime).toLocaleString()}
+      </Typography>
+      <Typography sx={{ mb: 1 }}>
+        End: {new Date(reservation.endDateTime!).toLocaleString()}
+      </Typography>
     </>
   );
 
@@ -69,7 +73,11 @@ export function ReservationSummaryDialog({
                 secondary={
                   subItemElement?.schedule?.startDateTime &&
                   subItemElement?.schedule?.endDateTime
-                    ? `From ${subItemElement?.schedule?.startDateTime} to ${subItemElement?.schedule?.endDateTime}`
+                    ? `From ${new Date(
+                        subItemElement?.schedule?.startDateTime,
+                      ).toLocaleString()} to ${new Date(
+                        subItemElement?.schedule?.endDateTime,
+                      ).toLocaleString()}`
                     : ""
                 }
                 sx={{ textAlign: "center" }}
