@@ -10,6 +10,7 @@ import {
 import { Availability, Reservation } from "../types";
 import { fetchData, getStoreId, getToken, incorrectToken } from "./utils";
 import { importItems } from "./itemsHandlers";
+import userReservationsList from "./data/common/userReservationsList";
 
 const importReservations = async (storeId: string) => {
   try {
@@ -185,6 +186,16 @@ const reserve = rest.post("/api/reserve", async (req, res, ctx) => {
   return res(ctx.status(200), ctx.json({ status: "ok" }));
 });
 
+const fetchUserReservationList = rest.get(
+  "/api/store/:storeId/user/:userId/reservations",
+  async (req, res, ctx) => {
+    return res(
+      ctx.status(200), // Respond with a 200 status code
+      ctx.json(userReservationsList), // Respond with the JSON of user reservations
+    );
+  },
+);
+
 const fetchSchedule = rest.post(
   "/api/fetch-schedule",
   async (req, res, ctx) => {
@@ -229,4 +240,5 @@ export const reservationHandlers = [
   checkAvailability,
   reserve,
   fetchSchedule,
+  fetchUserReservationList,
 ];
