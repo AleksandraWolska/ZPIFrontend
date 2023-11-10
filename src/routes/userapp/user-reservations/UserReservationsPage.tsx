@@ -3,17 +3,15 @@ import {
   List,
   Paper,
   ListItem,
-  ListItemText,
   Typography,
   Box,
   Button,
   Collapse,
   IconButton,
   Dialog,
-  DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
+  Divider,
 } from "@mui/material";
 import { ExpandMore, Delete } from "@mui/icons-material";
 import { Link, useParams } from "react-router-dom";
@@ -31,6 +29,10 @@ function UserReservationsPage() {
   const handleExpand = (reservationId: string) => {
     setExpandedId((prev) => (prev === reservationId ? null : reservationId));
   };
+
+  const sortedReservations = reservations.sort(
+    (a, b) => new Date(a.start).getTime() - new Date(b.start).getTime(),
+  );
 
   const handleDeleteClick = (reservation: UserReservation) => {
     setReservationToDelete(reservation);
@@ -53,14 +55,6 @@ function UserReservationsPage() {
     setReservationToDelete(null);
   };
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString(undefined, {
-      day: "numeric",
-      month: "short",
-      year: "numeric",
-    });
-  };
-
   return (
     <Box
       display="flex"
@@ -70,121 +64,176 @@ function UserReservationsPage() {
       padding="30px"
     >
       <Typography variant="h3">Your reservations</Typography>
-      <Box maxWidth="1000px" width="100%">
-        <List>
-          {reservations.map((reservation: UserReservation) => (
-            <Paper
-              key={reservation.reservationId}
-              style={{ marginBottom: 15, overflow: "hidden" }}
-            >
-              <ListItem alignItems="flex-start">
-                <ListItemText
-                  primary={
-                    <Box display="flex" alignItems="center">
-                      <Typography
-                        sx={{ marginRight: 1 }}
-                        component="span"
-                        variant="body1"
-                        color="textPrimary"
-                      >
-                        {reservation.item.title}
-                        {reservation.subitem && (
-                          <span> - {reservation.subitem.title}</span>
-                        )}
-                      </Typography>
-                      <Typography
-                        component="span"
-                        variant="caption"
-                        color="textSecondary"
-                      >
-                        {` — ${formatDate(reservation.start)}`}
-                      </Typography>
+      {["active", "cancelled", "past"].map((type) => (
+        <Box maxWidth="1000px" width="100%">
+          <Typography variant="overline">{type} reservations</Typography>
+          <List>
+            {sortedReservations
+              .filter((reservation) => type === reservation.status)
+              .map((reservation) => (
+                <Paper
+                  sx={{}}
+                  key={reservation.reservationId}
+                  style={{ marginBottom: 15, overflow: "hidden" }}
+                >
+                  <ListItem>
+                    <Box
+                      sx={{
+                        textDecoration: `${
+                          reservation.status === "cancelled" && "line-through"
+                        }`,
+                      }}
+                      display="flex"
+                      alignItems="center"
+                      flexDirection="row"
+                      justifyContent="space-between"
+                      width="100%"
+                    >
+                      <Box>
+                        <Typography sx={{ marginRight: 1 }} color="textPrimary">
+                          {reservation.item.title}
+                        </Typography>
+                        <Typography color="textSecondary">
+                          {`${new Date(
+                            reservation.start,
+                          ).toLocaleString()} - ${new Date(
+                            reservation.end!,
+                          ).toLocaleString()}`}
+                        </Typography>
+                      </Box>
+                      <Box>
+                        <IconButton
+                          onClick={() =>
+                            handleExpand(reservation.reservationId)
+                          }
+                          aria-label="expand"
+                          style={{
+                            transform:
+                              expandedId === reservation.reservationId
+                                ? "rotate(180deg)"
+                                : "rotate(0deg)",
+                            transition: "transform 150ms",
+                          }}
+                        >
+                          <ExpandMore />
+                        </IconButton>
+                        <IconButton
+                          onClick={() => handleDeleteClick(reservation)}
+                          disabled={!(reservation.status === "active")}
+                          sx={{
+                            opacity: `${
+                              reservation.status === "active" ? "100%" : "0%"
+                            }`,
+                          }}
+                          aria-label="delete"
+                        >
+                          <Delete />
+                        </IconButton>
+                        <Link
+                          to={`/userapp/${storeId}/${reservation.item.id}`}
+                          style={{ textDecoration: "none" }}
+                        >
+                          <Button variant="outlined" color="primary">
+                            Item page
+                          </Button>
+                        </Link>
+                      </Box>
                     </Box>
-                  }
-                  secondary={formatDate(reservation.end)}
-                />
-                <Box>
-                  <IconButton
-                    onClick={() => handleExpand(reservation.reservationId)}
-                    aria-label="expand"
-                    style={{
-                      transform:
-                        expandedId === reservation.reservationId
-                          ? "rotate(180deg)"
-                          : "rotate(0deg)",
-                      transition: "transform 150ms",
-                    }}
+                  </ListItem>
+                  <Collapse
+                    in={expandedId === reservation.reservationId}
+                    timeout="auto"
+                    unmountOnExit
                   >
-                    <ExpandMore />
-                  </IconButton>
-                  <IconButton
-                    onClick={() => handleDeleteClick(reservation)}
-                    aria-label="delete"
-                  >
-                    <Delete />
-                  </IconButton>
-                  <Link
-                    to={`/userapp/${storeId}/${reservation.item.id}`}
-                    style={{ textDecoration: "none" }}
-                  >
-                    <Button variant="outlined" color="primary">
-                      Item page
-                    </Button>
-                  </Link>
-                </Box>
-              </ListItem>
-              <Collapse
-                in={expandedId === reservation.reservationId}
-                timeout="auto"
-                unmountOnExit
-              >
-                <Box style={{ padding: 15 }}>
-                  <Typography variant="body2" color="textPrimary" gutterBottom>
-                    Details:
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    color="textSecondary"
-                    gutterBottom
-                  >
-                    Reservation ID: {reservation.reservationId}
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    color="textSecondary"
-                    gutterBottom
-                  >
-                    Item ID: {reservation.item.id}
-                  </Typography>
-                  {/* Add more details here as needed */}
-                </Box>
-              </Collapse>
-            </Paper>
-          ))}
-        </List>
-      </Box>
-      <Dialog
-        open={deleteDialogOpen}
-        onClose={handleDeleteCancel}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">Delete Reservation?</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            {`Are you sure you want to delete reservation for "${reservationToDelete
-              ?.item.title}" starting on ${formatDate(
-              reservationToDelete?.start || "",
-            )}, ending on ${formatDate(reservationToDelete?.end || "")}?`}
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleDeleteCancel}>Cancel</Button>
-          <Button onClick={handleDeleteConfirm} autoFocus>
-            Delete
-          </Button>
-        </DialogActions>
-      </Dialog>
+                    <Box style={{ padding: 15 }}>
+                      <Divider sx={{ mb: 1 }} />
+                      <Typography
+                        variant="body2"
+                        color="textPrimary"
+                        gutterBottom
+                      >
+                        Details:
+                      </Typography>
+                      {reservation.subItems && (
+                        <List>
+                          {reservation.subItems.map((si) => (
+                            <ListItem key={si.id}>
+                              <Typography>{si.title}</Typography>
+                            </ListItem>
+                          ))}
+                        </List>
+                      )}
+                      {reservation.message && (
+                        <Typography>Message: {reservation.message}</Typography>
+                      )}
+                    </Box>
+                  </Collapse>
+                </Paper>
+              ))}
+          </List>
+        </Box>
+      ))}
+
+      {reservationToDelete && (
+        <Dialog
+          open={deleteDialogOpen}
+          onClose={handleDeleteCancel}
+          maxWidth="sm"
+          fullWidth
+          PaperProps={{ sx: { borderRadius: "10px" } }}
+        >
+          <DialogTitle sx={{ textAlign: "center", fontWeight: "medium" }}>
+            <Typography variant="h4">Delete reservation?</Typography>
+          </DialogTitle>
+          <DialogContent sx={{ textAlign: "center" }}>
+            <Divider sx={{ marginTop: 2, marginBottom: 2 }} />
+            <Typography variant="h6" sx={{ mb: 1, fontWeight: "bold" }}>
+              {reservationToDelete.item.title}
+            </Typography>
+            <Typography>
+              {`Starts on:  ${new Date(
+                reservationToDelete.start,
+              ).toLocaleString()}`}
+            </Typography>
+            {reservationToDelete.end && (
+              <Typography>
+                {`Ends on ${new Date(
+                  reservationToDelete.end,
+                ).toLocaleString()}`}
+              </Typography>
+            )}
+            <Divider sx={{ marginTop: 2, marginBottom: 2 }} />
+            <Typography>
+              {`Are you sure you want to delete reservation for ${reservationToDelete?.item.title}? This action is irreversible.`}
+            </Typography>
+          </DialogContent>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              pt: 2,
+              padding: "15px",
+            }}
+          >
+            <Button
+              color="error"
+              variant="outlined"
+              sx={{ flex: 1, mr: 0.5 }}
+              onClick={handleDeleteCancel}
+            >
+              CANCEL
+            </Button>
+            <Button
+              color="error"
+              variant="contained"
+              sx={{ flex: 1, ml: 0.5 }}
+              onClick={handleDeleteConfirm}
+            >
+              DELETE
+            </Button>
+          </Box>
+        </Dialog>
+      )}
     </Box>
   );
 }

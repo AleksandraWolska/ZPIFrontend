@@ -74,13 +74,16 @@ export type FetchScheduleResponse = {
   schedule: Availability[];
 };
 
-// TO BE DELETED
 export type UserReservation = {
   reservationId: string;
-  item: Pick<Item["attributes"], "title" | "subtitle" | "description"> & {
+  item: Pick<Item["attributes"], "title" | "subtitle"> & {
     id: string;
   };
-  subitem?: SubItem;
+  subItems?: Pick<SubItem, "title" | "subtitle" | "id">[];
+  message?: string;
+  confirmed: boolean;
   start: string;
-  end: string;
+  end?: string;
+  amount?: number;
+  status: string;
 };
