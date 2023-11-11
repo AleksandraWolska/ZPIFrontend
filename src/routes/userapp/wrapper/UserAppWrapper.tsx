@@ -1,5 +1,6 @@
 import { AppBar, Toolbar, Typography, Button, Box } from "@mui/material";
-import { Outlet, useNavigate, useParams } from "react-router-dom";
+import { Outlet, useLocation, useNavigate, useParams } from "react-router-dom";
+import { useAuth } from "react-oidc-context";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import {
   blue,
@@ -21,6 +22,9 @@ function UserAppWrapper() {
   const { owner } = storeConfig;
   const { storeId } = useParams();
   const navigate = useNavigate();
+
+  const auth = useAuth();
+  const location = useLocation();
 
   const colorMap: { [key: string]: unknown } = {
     lime,
@@ -69,7 +73,29 @@ function UserAppWrapper() {
                 My reservations
               </Button>
               <Button color="inherit">About</Button>
-              <Button color="inherit">Log in</Button>
+              {auth.isAuthenticated ? (
+                <Button
+                  onClick={() => {
+                    auth.signoutSilent();
+                  }}
+                  color="inherit"
+                >
+                  Log out
+                </Button>
+              ) : (
+                <Button
+                  onClick={() => {
+                    const currentPath = location.pathname + location.search;
+                    // to corectly redirect, in keycloack, valid redirectURL should be set to http://localhost:5173/*
+                    auth.signinRedirect({
+                      redirect_uri: `${window.location.origin}${currentPath}`,
+                    });
+                  }}
+                  color="inherit"
+                >
+                  Log in
+                </Button>
+              )}
             </Toolbar>
           </AppBar>
         </Box>
