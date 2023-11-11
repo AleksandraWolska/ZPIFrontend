@@ -69,6 +69,8 @@ const transformToArray = (specificAvailabilities: Availability[]): Event[] => {
 
 type CheckAvailabilityCalendarProps = {
   itemId: string;
+  earliestCalendarStart: string;
+  latestCalendarEnd: string;
   userCount: number;
   availabilityList: Availability[]; // schedule that comes with itemStatus
   prepareFlexibleReservation: (data: FlexibleReservationData) => void; // function called on reserve button click, after ensuring availability
@@ -79,6 +81,8 @@ type CheckAvailabilityCalendarProps = {
 export function CheckAvailabilityCalendar({
   itemId,
   userCount,
+  earliestCalendarStart,
+  latestCalendarEnd,
   prepareFlexibleReservation,
   availabilityList,
   availabilityChecked,
@@ -436,13 +440,6 @@ export function CheckAvailabilityCalendar({
     </Box>
   );
 
-  const min = new Date("2023-10-05T04:00:00Z");
-  const max = new Date("2023-10-05T21:00:00Z");
-
-  const slots = Math.floor(
-    (max.getTime() - min.getTime()) / (1000 * 60 * 60 * 2),
-  );
-
   return (
     <>
       <Box style={{ width: "600px" }}>
@@ -456,17 +453,16 @@ export function CheckAvailabilityCalendar({
           defaultDate={defaultDate}
           view={Views.WEEK}
           formats={baseFormats}
-          min={min}
-          max={max}
+          min={new Date(earliestCalendarStart)}
+          max={new Date(latestCalendarEnd)}
           selectable
           getNow={() => new Date()}
           events={events}
-          step={15}
+          step={5}
           onSelectSlot={handleSelectSlot}
           onSelectEvent={handleSelectEvent}
           onSelecting={handleSelecting}
-          style={{ height: "100%" }}
-          timeslots={slots}
+          timeslots={12}
           eventPropGetter={(event) => {
             const styles: CSSProperties = {};
             switch (event.type) {

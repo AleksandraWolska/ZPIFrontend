@@ -215,6 +215,15 @@ export default function ItemDetailsPage() {
 
   const freeRangesUserInput = (
     <FreeRangesCalendar
+      // maybe change for store open hours as default
+      earliestCalendarStart={
+        item.status.earliestStart
+          ? item.status.earliestStart
+          : "2023-10-05T06:00:00Z"
+      }
+      latestCalendarEnd={
+        item.status.latestEnd ? item.status.latestEnd : "2023-10-05T20:00:00Z"
+      }
       itemId={item.id}
       availabilityList={item.status.availability || []}
       userCount={userCount}
@@ -226,6 +235,15 @@ export default function ItemDetailsPage() {
 
   const checkAvailabilityUserInput = (
     <CheckAvailabilityCalendar
+      // maybe change for store open hours as default
+      earliestCalendarStart={
+        item.status.earliestStart
+          ? item.status.earliestStart
+          : "2023-10-05T06:00:00Z"
+      }
+      latestCalendarEnd={
+        item.status.latestEnd ? item.status.latestEnd : "2023-10-05T20:00:00Z"
+      }
       itemId={item.id}
       availabilityList={item.status.availability || []}
       userCount={userCount}

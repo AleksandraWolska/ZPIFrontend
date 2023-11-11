@@ -64,10 +64,12 @@ function UserAppWrapper() {
               <Box
                 sx={{
                   width: "100%",
+                  maxWidth: "1200px",
                   display: "flex",
                   flexDirection: "row",
                   justifyContent: "space-between",
                   alignItems: "center",
+                  margin: "auto",
                 }}
               >
                 <Box onClick={() => navigate(`/userapp/${storeId}`)}>
@@ -115,7 +117,9 @@ function UserAppWrapper() {
             </Toolbar>
           </AppBar>
         </Box>
-        <Outlet />
+        <Box maxWidth="1200px" margin="auto">
+          <Outlet />
+        </Box>
       </>
     </ThemeProvider>
   );

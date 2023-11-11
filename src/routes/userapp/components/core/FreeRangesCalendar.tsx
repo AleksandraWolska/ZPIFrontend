@@ -55,6 +55,8 @@ const transformToArray = (specificAvailabilities: Availability[]): Event[] => {
 
 type FreeRangesCalendarProps = {
   itemId: string;
+  earliestCalendarStart: string;
+  latestCalendarEnd: string;
   userCount: number;
   availabilityList: Availability[];
   prepareFlexibleReservation: (data: FlexibleReservationData) => void;
@@ -65,6 +67,8 @@ type FreeRangesCalendarProps = {
 export function FreeRangesCalendar({
   itemId,
   userCount,
+  earliestCalendarStart,
+  latestCalendarEnd,
   prepareFlexibleReservation,
   availabilityList,
   availabilityChecked,
@@ -352,13 +356,6 @@ export function FreeRangesCalendar({
     </Box>
   );
 
-  const min = new Date("2023-10-05T04:00:00Z");
-  const max = new Date("2023-10-05T21:00:00Z");
-
-  const slots = Math.floor(
-    (max.getTime() - min.getTime()) / (1000 * 60 * 60 * 2),
-  );
-
   return (
     <>
       <Box style={{ width: "600px" }}>
@@ -373,15 +370,15 @@ export function FreeRangesCalendar({
           view={Views.WEEK}
           formats={baseFormats}
           selectable
-          min={min}
-          max={max}
+          min={new Date(earliestCalendarStart)}
+          max={new Date(latestCalendarEnd)}
           getNow={() => new Date()}
           events={events}
-          step={15}
+          step={5}
           onSelectSlot={handleSelectSlot}
           onSelectEvent={handleSelectEvent}
           onSelecting={handleSelecting}
-          timeslots={slots}
+          timeslots={12}
           eventPropGetter={(event) => {
             const styles: CSSProperties = {};
             switch (event.type) {
