@@ -1,4 +1,4 @@
-import { AppBar, Toolbar, Typography, Button, Box } from "@mui/material";
+import { AppBar, Toolbar, Button, Box, Typography } from "@mui/material";
 import { Outlet, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "react-oidc-context";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -61,41 +61,57 @@ function UserAppWrapper() {
         <Box sx={{ flexGrow: 1 }}>
           <AppBar position="static">
             <Toolbar>
-              <Typography
-                variant="h6"
-                onClick={() => navigate(`/userapp/${storeId}`)}
-                component="div"
-                sx={{ flexGrow: 1 }}
+              <Box
+                sx={{
+                  width: "100%",
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
               >
-                {owner.name}
-              </Typography>
-              <Button color="inherit" onClick={handleMyReservationsClick}>
-                My reservations
-              </Button>
-              <Button color="inherit">About</Button>
-              {auth.isAuthenticated ? (
-                <Button
-                  onClick={() => {
-                    auth.signoutSilent();
-                  }}
-                  color="inherit"
-                >
-                  Log out
-                </Button>
-              ) : (
-                <Button
-                  onClick={() => {
-                    const currentPath = location.pathname + location.search;
-                    // to corectly redirect, in keycloack, valid redirectURL should be set to http://localhost:5173/*
-                    auth.signinRedirect({
-                      redirect_uri: `${window.location.origin}${currentPath}`,
-                    });
-                  }}
-                  color="inherit"
-                >
-                  Log in
-                </Button>
-              )}
+                <Box onClick={() => navigate(`/userapp/${storeId}`)}>
+                  {owner.logoSrc ? (
+                    <img
+                      style={{ cursor: "pointer" }}
+                      height="40"
+                      src={owner.logoSrc}
+                      alt="logo"
+                    />
+                  ) : (
+                    <Typography variant="h6">{owner.name}</Typography>
+                  )}
+                </Box>
+                <Box>
+                  <Button color="inherit" onClick={handleMyReservationsClick}>
+                    My reservations
+                  </Button>
+                  <Button color="inherit">About</Button>
+
+                  {auth.isAuthenticated ? (
+                    <Button
+                      onClick={() => {
+                        auth.signoutSilent();
+                      }}
+                      color="inherit"
+                    >
+                      Log out
+                    </Button>
+                  ) : (
+                    <Button
+                      onClick={() => {
+                        const currentPath = location.pathname + location.search;
+                        auth.signinRedirect({
+                          redirect_uri: `${window.location.origin}${currentPath}`,
+                        });
+                      }}
+                      color="inherit"
+                    >
+                      Log in
+                    </Button>
+                  )}
+                </Box>
+              </Box>
             </Toolbar>
           </AppBar>
         </Box>

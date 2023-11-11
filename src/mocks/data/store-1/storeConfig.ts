@@ -3,7 +3,7 @@ import { StoreConfig } from "../../../types";
 export const storeConfig: StoreConfig = {
   owner: {
     name: "C1",
-    logoSrc: "https://example.com/techrental-logo.png",
+    logoSrc: "https://img.icons8.com/ios-glyphs/60/sun--v1.png",
     phone: "+1 (123) 456-7890",
     email: "info@techrental.com",
   },
