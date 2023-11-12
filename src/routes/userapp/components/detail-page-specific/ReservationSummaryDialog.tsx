@@ -147,7 +147,7 @@ export function ReservationSummaryDialog({
         <Typography variant="h4">Summary</Typography>
       </DialogTitle>
       <DialogContent sx={{ textAlign: "center" }}>
-        <Box mb={3}>
+        <Box mb={2}>
           <Typography variant="h6" sx={{ mb: 1 }}>
             {storeConfig.detailsPage.reservationSummaryPrompt ||
               "Review your reservation and fill neccessary data"}
@@ -166,7 +166,7 @@ export function ReservationSummaryDialog({
             <Divider sx={{ marginTop: 2, marginBottom: 2 }} />
           </Box>
         </Box>
-        <Box mb={3}>
+        <Box mb={2}>
           <Typography variant="h6">Provide neccessary data:</Typography>
           {auth.isAuthenticated ? (
             <TextField
@@ -219,7 +219,7 @@ export function ReservationSummaryDialog({
           <Button
             color="primary"
             variant="outlined"
-            sx={{ flex: 1, mr: 0.5 }}
+            sx={{ flex: 1, m: 1 }}
             onClick={() => {
               cancelReservation();
             }}
@@ -229,7 +229,7 @@ export function ReservationSummaryDialog({
           <Button
             color="primary"
             variant="contained"
-            sx={{ flex: 1, ml: 0.5 }}
+            sx={{ flex: 1, m: 1 }}
             onClick={() => {
               makeReservation();
             }}
