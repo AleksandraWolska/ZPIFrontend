@@ -115,7 +115,7 @@ export default function ItemDetailsPage() {
     setReservationSummary(true);
   };
 
-  const handleUserCountInputChange = (newValue: number) => {
+  const handleUserCountItemInputChange = (newValue: number) => {
     setReservationRequestReady(
       item.status.availableAmount
         ? item.status.availableAmount >= newValue
@@ -125,7 +125,7 @@ export default function ItemDetailsPage() {
     setAvailabilityChecked(false);
   };
 
-  const handleUserCountInputChangeRestricted = (newValue: number) => {
+  const handleUserCountSubitemInputChange = (newValue: number) => {
     setReservationRequestReady(
       selectedSubItemsInfoList.length > 0 &&
         (selectedSubItemsInfoList[0].availableAmount
@@ -191,24 +191,26 @@ export default function ItemDetailsPage() {
     setReservationRequestReady(updatedSubItemsList.length > 0);
   };
 
-  const userCountChoiceRestricted = (
+  const userCountChoiceSubitem = (
     <Box>
       <QuantityInput
         disabled={selectedSubItemsInfoList.length === 0}
         value={userCount}
         onUserCountChange={(value: number) =>
-          handleUserCountInputChangeRestricted(value)
+          handleUserCountSubitemInputChange(value)
         }
       />
     </Box>
   );
 
-  const userCountChoice = (
+  const userCountChoiceItem = (
     <Box>
       <QuantityInput
         disabled={false}
         value={userCount}
-        onUserCountChange={(value: number) => handleUserCountInputChange(value)}
+        onUserCountChange={(value: number) =>
+          handleUserCountItemInputChange(value)
+        }
       />
     </Box>
   );
@@ -290,15 +292,14 @@ export default function ItemDetailsPage() {
       {storeConfig.core.simultaneous &&
         storeConfig.core.periodicity &&
         !storeConfig.core.specificReservation &&
-        userCountChoiceRestricted}
+        userCountChoiceSubitem}
 
       {/* V3 & V9 & V10 */}
       {((storeConfig.core.simultaneous &&
         !storeConfig.core.specificReservation &&
         !storeConfig.core.periodicity) ||
         (storeConfig.core.flexibility && storeConfig.core.simultaneous)) &&
-        userCountChoice}
-
+        userCountChoiceItem}
       {/* V7 & V9 */}
       {storeConfig.core.flexibility &&
         !storeConfig.core.uniqueness &&
@@ -382,10 +383,19 @@ export default function ItemDetailsPage() {
           )}
         </Box>
       </Box>
+      <Typography sx={{ mt: 2 }} variant="h5">
+        Details
+      </Typography>
+      <Divider sx={{ mb: 2 }} />
       <AttributesList
         attributesConfig={storeConfig.customAttributesSpec}
         itemAttributes={item.customAttributeList}
       />
+      <Typography sx={{ mt: 4 }} variant="h5">
+        Reservation
+      </Typography>
+      <Divider sx={{ mb: 2 }} />
+
       {core}
       {(storeConfig.detailsPage.showComments ||
         storeConfig.detailsPage.showRating) && (
@@ -394,8 +404,8 @@ export default function ItemDetailsPage() {
           <Typography variant="h5">
             {storeConfig.detailsPage.showComments ? "Reviews" : "Your rating"}
           </Typography>
-          <Divider />
-          <Box sx={{ m: 2 }} />
+          <Divider sx={{ mb: 2 }} />
+
           <CommentInput
             showRatings={storeConfig.detailsPage.showRating}
             showComments={storeConfig.detailsPage.showComments}

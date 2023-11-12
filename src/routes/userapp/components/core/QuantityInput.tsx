@@ -3,9 +3,10 @@ import {
   Unstable_NumberInput as NumberInput,
   NumberInputProps as BaseNumberInputProps,
 } from "@mui/base/Unstable_NumberInput";
-import { styled } from "@mui/system";
+
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
+import { Box, Typography, alpha, styled } from "@mui/material";
 
 interface NumberInputProps extends BaseNumberInputProps {
   disabled: boolean;
@@ -52,32 +53,27 @@ export default function QuantityInput({
   disabled = false,
 }: QuantityInputProps) {
   return (
-    <CustomNumberInput
-      aria-label="Quantity Input"
-      min={1}
-      max={99}
-      value={value}
-      disabled={disabled}
-      onChange={(_event, val) => {
-        if (typeof onUserCountChange === "function") {
-          onUserCountChange(val === undefined ? 1 : val);
-        } else {
-          console.error("onUserCountChange is not a function!");
-        }
-      }}
-    />
+    <Box>
+      <Typography variant="overline" sx={{ margin: 0 }}>
+        Count
+      </Typography>
+      <CustomNumberInput
+        aria-label="Quantity Input"
+        min={1}
+        max={99}
+        value={value}
+        disabled={disabled}
+        onChange={(_event, val) => {
+          if (typeof onUserCountChange === "function") {
+            onUserCountChange(val === undefined ? 1 : val);
+          } else {
+            console.error("onUserCountChange is not a function!");
+          }
+        }}
+      />{" "}
+    </Box>
   );
 }
-
-const blue = {
-  100: "#daecff",
-  200: "#b6daff",
-  300: "#66b2ff",
-  400: "#3399ff",
-  500: "#007fff",
-  600: "#0072e5",
-  800: "#004c99",
-};
 
 const grey = {
   50: "#f6f8fa",
@@ -93,28 +89,28 @@ const grey = {
 };
 
 const StyledInputRoot = styled("div")(
-  ({ theme }) => `
-  font-family: IBM Plex Sans, sans-serif;
+  () => `
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
-  color: ${theme.palette.mode === "dark" ? grey[300] : grey[500]};
+  width: min-content;
+  color: ${grey[500]};
   display: flex;
   flex-flow: row nowrap;
   justify-content: center;
-  align-items: center;
+  // align-items: center;
 `,
 );
 
 const StyledInput = styled("input")(
   ({ theme, disabled }) => `
-  font-size: 0.875rem;
+  // font-size: 0.875rem;
   font-family: inherit;
   font-weight: 400;
-  line-height: 1.375;
-  color: ${theme.palette.mode === "dark" ? grey[300] : grey[900]};
-  background: ${theme.palette.mode === "dark" ? grey[900] : "#fff"};
-  border: 1px solid ${theme.palette.mode === "dark" ? grey[700] : grey[200]};
-  border-radius: 4px;
-  margin: 0 4px;
+  line-height: 2;
+  height: 40px;
+  color: ${grey[900]};
+  background: ${"#fff"};
+  border: 1px solid ${grey[300]};
   padding: 10px 12px;
   outline: 0;
   min-width: 0;
@@ -122,25 +118,25 @@ const StyledInput = styled("input")(
   text-align: center;
 
   &:hover {
-    border-color: ${blue[400]};
+    border-color: ${theme.palette.primary.main};
   }
 
-  &:focus {
-    border-color: ${blue[400]};
-    box-shadow: 0 0 0 3px ${
-      theme.palette.mode === "dark" ? blue[500] : blue[200]
-    };
-  }
+  // &:focus {
+  //   border-color: ${theme.palette.primary.main};
+  // }
 
   &:focus-visible {
+
     outline: 0;
   }
+
+
   opacity: ${disabled ? "0.5" : "1"};
   cursor: ${disabled ? "not-allowed" : "initial"};
   pointer-events: ${disabled ? "none" : "auto"};
 
   &:hover {
-    border-color: ${disabled ? "initial" : blue[400]};
+    border-color: ${disabled ? "initial" : theme.palette.primary.main};
   }
 `,
 );
@@ -148,12 +144,8 @@ const StyledInput = styled("input")(
 const StyledButton = styled("button")(
   ({ theme, disabled }) => `
   font-family: IBM Plex Sans, sans-serif;
-  font-size: 0.875rem;
-  box-sizing: border-box;
-  line-height: 1.5;
-  border: 0;
-  border-radius: 999px;
-  color: ${theme.palette.mode === "dark" ? blue[300] : blue[600]};
+  border: 1px solid ${grey[300]};
+  color: ${grey[700]};
   background: transparent;
   width: 40px;
   height: 40px;
@@ -164,9 +156,10 @@ const StyledButton = styled("button")(
   transition-property: all;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 120ms;
-
+  border-radius: 4px 0 0 4px; // This applies the border-radius only to the left side
   &:hover {
-    background: ${theme.palette.mode === "dark" ? blue[800] : blue[100]};
+    background: ${alpha(theme.palette.primary.main, 0.1)};
+    border: 1px solid ${theme.palette.primary.main};
     cursor: pointer;
   }
 
@@ -176,17 +169,14 @@ const StyledButton = styled("button")(
 
   &.increment {
     order: 1;
+    border-radius: 0 4px 4px 0; // This applies the border-radius only to the right side
   }
   opacity: ${disabled ? "0.5" : "1"};
   cursor: ${disabled ? "not-allowed" : "pointer"};
   pointer-events: ${disabled ? "none" : "auto"};
 
   &:hover {
-    background: ${
-      disabled
-        ? "initial"
-        : (theme.palette.mode === "dark" && blue[800]) || blue[100]
-    };
+
   }
 `,
 );
