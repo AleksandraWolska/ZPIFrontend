@@ -33,8 +33,8 @@ import {
   FlexibleReservationData,
 } from "../../types";
 import "../../css/react-big-calendar.css";
-import CustomCalendarToolbar from "./CustomCalendarToolbar";
-import { SuggestedDatesDialog } from "./SuggestedDatesDialog";
+import CustomCalendarToolbar from "../detail-page-specific/CustomCalendarToolbar";
+import { SuggestedDatesDialog } from "../detail-page-specific/SuggestedDatesDialog";
 
 dayjs.locale("en-gb");
 const dayjsLoc = dayjsLocalizer(dayjs);

@@ -46,10 +46,14 @@ const renderParameter = (
       }}
       key={attributeConfig.name}
     >
-      <TableCell component="th" scope="row" style={{ borderBottom: "none" }}>
+      <TableCell
+        component="th"
+        scope="row"
+        sx={{ borderBottom: "none", padding: "10px" }}
+      >
         <Typography>{attributeConfig.name}</Typography>
       </TableCell>
-      <TableCell style={{ borderBottom: "none" }}>
+      <TableCell sx={{ borderBottom: "none", padding: "10px" }}>
         <Typography fontWeight="bold">{displayValue}</Typography>
       </TableCell>
     </TableRow>

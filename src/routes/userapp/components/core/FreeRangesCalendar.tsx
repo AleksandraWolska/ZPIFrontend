@@ -20,7 +20,7 @@ import { Availability } from "../../../../types";
 import { FlexibleReservationData } from "../../types";
 import useSchedule from "../../details-page/useSchedule";
 import "../../css/react-big-calendar.css";
-import CustomCalendarToolbar from "./CustomCalendarToolbar";
+import CustomCalendarToolbar from "../detail-page-specific/CustomCalendarToolbar";
 
 const dayjsLoc = dayjsLocalizer(dayjs);
 
