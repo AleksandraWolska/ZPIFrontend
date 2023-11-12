@@ -358,7 +358,14 @@ export function FreeRangesCalendar({
 
   return (
     <>
-      <Box style={{ width: "600px" }}>
+      <Box style={{ width: "90%" }}>
+        <Box sx={{ marginTop: 3 }}>
+          <Typography variant="overline">
+            {events && events[0] && events[0].start && events[0].end
+              ? `Chosen: ${events[0].start.toLocaleString()}  -  ${events[0].end.toLocaleString()} `
+              : "Choose desired reservation time"}
+          </Typography>
+        </Box>
         <BigCalendar
           className="reserveCalendar"
           components={{
@@ -409,11 +416,6 @@ export function FreeRangesCalendar({
         />
       </Box>
 
-      <Typography>
-        {events && events[0] && events[0].start && events[0].end
-          ? `Wybrano termin: ${events[0].start.toLocaleDateString()} ${events[0].start.toLocaleTimeString()} -  ${events[0].end.toLocaleDateString()} ${events[0].end.toLocaleTimeString()}`
-          : "Wybierz termin"}
-      </Typography>
       {buttonCheck}
       {buttonReserve}
     </>

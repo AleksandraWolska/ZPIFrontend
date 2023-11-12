@@ -383,6 +383,10 @@ export default function ItemDetailsPage() {
           )}
         </Box>
       </Box>
+      <Typography sx={{ mt: 2 }} variant="h5">
+        Details
+      </Typography>
+      <Divider sx={{ mb: 2 }} />
       <AttributesList
         attributesConfig={storeConfig.customAttributesSpec}
         itemAttributes={item.customAttributeList}
@@ -390,8 +394,8 @@ export default function ItemDetailsPage() {
       <Typography sx={{ mt: 4 }} variant="h5">
         Reservation
       </Typography>
-      <Divider />
-      <Box sx={{ m: 2 }} />
+      <Divider sx={{ mb: 2 }} />
+
       {core}
       {(storeConfig.detailsPage.showComments ||
         storeConfig.detailsPage.showRating) && (
@@ -400,8 +404,8 @@ export default function ItemDetailsPage() {
           <Typography variant="h5">
             {storeConfig.detailsPage.showComments ? "Reviews" : "Your rating"}
           </Typography>
-          <Divider />
-          <Box sx={{ m: 2 }} />
+          <Divider sx={{ mb: 2 }} />
+
           <CommentInput
             showRatings={storeConfig.detailsPage.showRating}
             showComments={storeConfig.detailsPage.showComments}

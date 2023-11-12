@@ -22,7 +22,6 @@ const CustomCalendarToolbar: React.FC<CustomToolbarProps> = ({
       display="flex"
       justifyContent="space-between"
       alignItems="flex-end"
-      height="100px"
     >
       <Box className="rbc-toolbar-label" alignItems="center">
         <Typography variant="h4">{label}</Typography>
