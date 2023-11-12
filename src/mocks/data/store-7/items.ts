@@ -188,7 +188,7 @@ export const items: Item[] = [
       mark: 4,
       availability: calculateAvailability(schedule),
       earliestStart: "2023-10-05T06:00:00Z",
-      latestEnd: "2023-10-05T22:00:00Z",
+      latestEnd: "2023-10-05T21:00:00Z",
     },
   },
   {

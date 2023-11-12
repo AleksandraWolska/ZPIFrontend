@@ -57,9 +57,9 @@ function UserAppWrapper() {
 
   return (
     <ThemeProvider theme={theme}>
-      <>
+      <Box sx={{ backgroundColor: "#eee", minHeight: "100vh" }}>
         <Box sx={{ flexGrow: 1 }}>
-          <AppBar position="static">
+          <AppBar position="sticky">
             <Toolbar>
               <Box
                 sx={{
@@ -117,10 +117,14 @@ function UserAppWrapper() {
             </Toolbar>
           </AppBar>
         </Box>
-        <Box maxWidth="1200px" margin="auto">
+        <Box
+          maxWidth="1200px"
+          margin="auto"
+          sx={{ backgroundColor: "#ffffff" }}
+        >
           <Outlet />
         </Box>
-      </>
+      </Box>
     </ThemeProvider>
   );
 }
