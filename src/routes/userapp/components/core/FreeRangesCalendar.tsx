@@ -55,6 +55,8 @@ const transformToArray = (specificAvailabilities: Availability[]): Event[] => {
 
 type FreeRangesCalendarProps = {
   itemId: string;
+  earliestCalendarStart: string;
+  latestCalendarEnd: string;
   userCount: number;
   availabilityList: Availability[];
   prepareFlexibleReservation: (data: FlexibleReservationData) => void;
@@ -65,6 +67,8 @@ type FreeRangesCalendarProps = {
 export function FreeRangesCalendar({
   itemId,
   userCount,
+  earliestCalendarStart,
+  latestCalendarEnd,
   prepareFlexibleReservation,
   availabilityList,
   availabilityChecked,
@@ -352,16 +356,16 @@ export function FreeRangesCalendar({
     </Box>
   );
 
-  const min = new Date("2023-10-05T04:00:00Z");
-  const max = new Date("2023-10-05T21:00:00Z");
-
-  const slots = Math.floor(
-    (max.getTime() - min.getTime()) / (1000 * 60 * 60 * 2),
-  );
-
   return (
     <>
-      <Box style={{ width: "600px" }}>
+      <Box style={{ width: "90%" }}>
+        <Box sx={{ marginTop: 3 }}>
+          <Typography variant="overline">
+            {events && events[0] && events[0].start && events[0].end
+              ? `Chosen: ${events[0].start.toLocaleString()}  -  ${events[0].end.toLocaleString()} `
+              : "Choose desired reservation time"}
+          </Typography>
+        </Box>
         <BigCalendar
           className="reserveCalendar"
           components={{
@@ -373,15 +377,15 @@ export function FreeRangesCalendar({
           view={Views.WEEK}
           formats={baseFormats}
           selectable
-          min={min}
-          max={max}
+          min={new Date(earliestCalendarStart)}
+          max={new Date(latestCalendarEnd)}
           getNow={() => new Date()}
           events={events}
-          step={15}
+          step={5}
           onSelectSlot={handleSelectSlot}
           onSelectEvent={handleSelectEvent}
           onSelecting={handleSelecting}
-          timeslots={slots}
+          timeslots={12}
           eventPropGetter={(event) => {
             const styles: CSSProperties = {};
             switch (event.type) {
@@ -412,11 +416,6 @@ export function FreeRangesCalendar({
         />
       </Box>
 
-      <Typography>
-        {events && events[0] && events[0].start && events[0].end
-          ? `Wybrano termin: ${events[0].start.toLocaleDateString()} ${events[0].start.toLocaleTimeString()} -  ${events[0].end.toLocaleDateString()} ${events[0].end.toLocaleTimeString()}`
-          : "Wybierz termin"}
-      </Typography>
       {buttonCheck}
       {buttonReserve}
     </>

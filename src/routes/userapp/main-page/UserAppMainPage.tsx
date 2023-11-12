@@ -11,6 +11,7 @@ import {
   Select,
   FormControl,
   InputLabel,
+  Collapse,
 } from "@mui/material";
 
 import { FilterAlt, FilterAltOff, Close, SwapVert } from "@mui/icons-material";
@@ -52,6 +53,16 @@ export default function UserAppMainPage() {
   };
 
   const resetFilters = () => setActiveFilters([]);
+
+  const filters = (
+    <Filters
+      handleAppendFilter={handleAppendFilter}
+      handleRemoveFilter={handleRemoveFilter}
+      resetFilters={resetFilters}
+      activeFilters={activeFilters}
+      customAttrubutesSpec={storeConfig.customAttributesSpec}
+    />
+  );
 
   const activeFiltersList = (
     <Box display="flex" margin={1} marginLeft={2} gap={1}>
@@ -119,28 +130,24 @@ export default function UserAppMainPage() {
     <Box padding={3}>
       <Box display="flex" justifyContent="space-between">
         <Box
-          // width={showFilterForm ? "25%" : "0"}
-          // display={showFilterForm ? "inline-block" : "none"}
           sx={{
             transition: "width 0.3s ease-in-out",
             width: showFilterForm ? "25%" : "0",
+            "@media (max-width: 800px)": {
+              display: "none",
+            },
           }}
         >
-          {showFilterForm && (
-            <Filters
-              handleAppendFilter={handleAppendFilter}
-              handleRemoveFilter={handleRemoveFilter}
-              resetFilters={resetFilters}
-              activeFilters={activeFilters}
-              customAttrubutesSpec={storeConfig.customAttributesSpec}
-            />
-          )}
+          {showFilterForm && filters}
         </Box>
         <Box
           sx={{
             transition: "width 0.3s ease-in-out",
+            width: showFilterForm ? "75%" : "100%",
+            "@media (max-width: 800px)": {
+              width: "100%",
+            },
           }}
-          width={showFilterForm ? "75%" : "100%"}
           padding={3}
         >
           <WelcomeTexts config={storeConfig.mainPage} />
@@ -175,6 +182,17 @@ export default function UserAppMainPage() {
             </Box>
           </Box>
           {activeFiltersList}
+          <Box
+            sx={{
+              transition: "width 0.3s ease-in-out",
+              width: "100%",
+              "@media (min-width: 800px)": {
+                display: "none",
+              },
+            }}
+          >
+            <Collapse in={showFilterForm}>{showFilterForm && filters}</Collapse>
+          </Box>
           <List>
             {sortedItemInfos.map((item) => {
               const isAvailable = item.status.availableAmount !== 0;

@@ -1,7 +1,15 @@
-import { Box, Typography, Button, Divider } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Button,
+  Divider,
+  Collapse,
+  IconButton,
+} from "@mui/material";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "react-oidc-context";
+import { ExpandMore } from "@mui/icons-material";
 import { Comment, NewReservation, StoreConfig, SubItem } from "../../../types";
 import AttributesList from "../components/detail-page-specific/AttributesList";
 import Ratings from "../components/shared/Ratings";
@@ -54,6 +62,9 @@ export default function ItemDetailsPage() {
   const [showSuccessDialog, setShowSuccessDialog] = useState(false);
   const [showFailureDialog, setShowFailureDialog] = useState(false);
   const [reservationSummary, setReservationSummary] = useState(false);
+  const [hideDetails, setHideDetails] = useState(false);
+  const [hideReservation, setHideReservation] = useState(false);
+  const [hideComments, setHideComments] = useState(false);
   const [reservation, setReservation] = useState<NewReservation>({
     itemId: params.itemId,
     userEmail: auth.user?.profile.email || "",
@@ -115,7 +126,7 @@ export default function ItemDetailsPage() {
     setReservationSummary(true);
   };
 
-  const handleUserCountInputChange = (newValue: number) => {
+  const handleUserCountItemInputChange = (newValue: number) => {
     setReservationRequestReady(
       item.status.availableAmount
         ? item.status.availableAmount >= newValue
@@ -125,7 +136,7 @@ export default function ItemDetailsPage() {
     setAvailabilityChecked(false);
   };
 
-  const handleUserCountInputChangeRestricted = (newValue: number) => {
+  const handleUserCountSubitemInputChange = (newValue: number) => {
     setReservationRequestReady(
       selectedSubItemsInfoList.length > 0 &&
         (selectedSubItemsInfoList[0].availableAmount
@@ -191,30 +202,41 @@ export default function ItemDetailsPage() {
     setReservationRequestReady(updatedSubItemsList.length > 0);
   };
 
-  const userCountChoiceRestricted = (
+  const userCountChoiceSubitem = (
     <Box>
       <QuantityInput
         disabled={selectedSubItemsInfoList.length === 0}
         value={userCount}
         onUserCountChange={(value: number) =>
-          handleUserCountInputChangeRestricted(value)
+          handleUserCountSubitemInputChange(value)
         }
       />
     </Box>
   );
 
-  const userCountChoice = (
+  const userCountChoiceItem = (
     <Box>
       <QuantityInput
         disabled={false}
         value={userCount}
-        onUserCountChange={(value: number) => handleUserCountInputChange(value)}
+        onUserCountChange={(value: number) =>
+          handleUserCountItemInputChange(value)
+        }
       />
     </Box>
   );
 
   const freeRangesUserInput = (
     <FreeRangesCalendar
+      // maybe change for store open hours as default
+      earliestCalendarStart={
+        item.status.earliestStart
+          ? item.status.earliestStart
+          : "2023-10-05T06:00:00Z"
+      }
+      latestCalendarEnd={
+        item.status.latestEnd ? item.status.latestEnd : "2023-10-05T20:00:00Z"
+      }
       itemId={item.id}
       availabilityList={item.status.availability || []}
       userCount={userCount}
@@ -226,6 +248,15 @@ export default function ItemDetailsPage() {
 
   const checkAvailabilityUserInput = (
     <CheckAvailabilityCalendar
+      // maybe change for store open hours as default
+      earliestCalendarStart={
+        item.status.earliestStart
+          ? item.status.earliestStart
+          : "2023-10-05T06:00:00Z"
+      }
+      latestCalendarEnd={
+        item.status.latestEnd ? item.status.latestEnd : "2023-10-05T20:00:00Z"
+      }
       itemId={item.id}
       availabilityList={item.status.availability || []}
       userCount={userCount}
@@ -267,20 +298,19 @@ export default function ItemDetailsPage() {
   );
 
   const core = (
-    <Box>
+    <Box sx={{ mb: 2 }}>
       {/*  V5  */}
       {storeConfig.core.simultaneous &&
         storeConfig.core.periodicity &&
         !storeConfig.core.specificReservation &&
-        userCountChoiceRestricted}
+        userCountChoiceSubitem}
 
       {/* V3 & V9 & V10 */}
       {((storeConfig.core.simultaneous &&
         !storeConfig.core.specificReservation &&
         !storeConfig.core.periodicity) ||
         (storeConfig.core.flexibility && storeConfig.core.simultaneous)) &&
-        userCountChoice}
-
+        userCountChoiceItem}
       {/* V7 & V9 */}
       {storeConfig.core.flexibility &&
         !storeConfig.core.uniqueness &&
@@ -364,26 +394,94 @@ export default function ItemDetailsPage() {
           )}
         </Box>
       </Box>
-      <AttributesList
-        attributesConfig={storeConfig.customAttributesSpec}
-        itemAttributes={item.customAttributeList}
-      />
-      {core}
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+        }}
+      >
+        <Typography sx={{ mt: 2 }} variant="h5">
+          Details
+        </Typography>
+        <IconButton
+          onClick={() => setHideDetails(!hideDetails)}
+          aria-label="expand"
+          style={{
+            transform: hideDetails ? "rotate(90deg)" : "rotate(0deg)",
+            transition: "transform 150ms",
+          }}
+        >
+          <ExpandMore />
+        </IconButton>
+      </Box>
+
+      <Divider sx={{ mb: 2 }} />
+      <Collapse in={!hideDetails} timeout="auto" unmountOnExit>
+        <AttributesList
+          attributesConfig={storeConfig.customAttributesSpec}
+          itemAttributes={item.customAttributeList}
+        />
+      </Collapse>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+        }}
+      >
+        <Typography sx={{ mt: 2 }} variant="h5">
+          Reservation
+        </Typography>
+        <IconButton
+          onClick={() => setHideReservation(!hideReservation)}
+          aria-label="expand"
+          style={{
+            transform: hideReservation ? "rotate(90deg)" : "rotate(0deg)",
+            transition: "transform 150ms",
+          }}
+        >
+          <ExpandMore />
+        </IconButton>
+      </Box>
+      <Divider sx={{ mb: 2 }} />
+      <Collapse in={!hideReservation} timeout="auto" unmountOnExit>
+        {core}
+      </Collapse>
       {(storeConfig.detailsPage.showComments ||
         storeConfig.detailsPage.showRating) && (
-        <Box marginTop="30px">
-          <Box sx={{ m: 7 }} />
-          <Typography variant="h5">
-            {storeConfig.detailsPage.showComments ? "Reviews" : "Your rating"}
-          </Typography>
-          <Divider />
-          <Box sx={{ m: 2 }} />
-          <CommentInput
-            showRatings={storeConfig.detailsPage.showRating}
-            showComments={storeConfig.detailsPage.showComments}
-            handleSendComment={handleSendComment}
-          />
-          {storeConfig.detailsPage.showComments && <CommentsDisplay />}
+        <Box>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+            }}
+          >
+            <Typography sx={{ mt: 2 }} variant="h5">
+              Reviews
+            </Typography>
+            <IconButton
+              onClick={() => setHideComments(!hideComments)}
+              aria-label="expand"
+              style={{
+                transform: hideComments ? "rotate(90deg)" : "rotate(0deg)",
+                transition: "transform 150ms",
+              }}
+            >
+              <ExpandMore />
+            </IconButton>
+          </Box>
+
+          <Divider sx={{ mb: 2 }} />
+          <Collapse in={!hideComments} timeout="auto" unmountOnExit>
+            <CommentInput
+              showRatings={storeConfig.detailsPage.showRating}
+              showComments={storeConfig.detailsPage.showComments}
+              handleSendComment={handleSendComment}
+            />
+            {storeConfig.detailsPage.showComments && <CommentsDisplay />}
+          </Collapse>
         </Box>
       )}
       {showSuccessDialog && (

@@ -1,4 +1,5 @@
 import dayjs from "dayjs";
+import "dayjs/locale/en-gb";
 import {
   Calendar as BigCalendar,
   Views,
@@ -21,9 +22,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  List,
-  ListItem,
-  ListItemText,
+  Divider,
   Typography,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
@@ -35,7 +34,9 @@ import {
 } from "../../types";
 import "../../css/react-big-calendar.css";
 import CustomCalendarToolbar from "./CustomCalendarToolbar";
+import { SuggestedDatesDialog } from "./SuggestedDatesDialog";
 
+dayjs.locale("en-gb");
 const dayjsLoc = dayjsLocalizer(dayjs);
 
 type Event = {
@@ -69,6 +70,8 @@ const transformToArray = (specificAvailabilities: Availability[]): Event[] => {
 
 type CheckAvailabilityCalendarProps = {
   itemId: string;
+  earliestCalendarStart: string;
+  latestCalendarEnd: string;
   userCount: number;
   availabilityList: Availability[]; // schedule that comes with itemStatus
   prepareFlexibleReservation: (data: FlexibleReservationData) => void; // function called on reserve button click, after ensuring availability
@@ -79,6 +82,8 @@ type CheckAvailabilityCalendarProps = {
 export function CheckAvailabilityCalendar({
   itemId,
   userCount,
+  earliestCalendarStart,
+  latestCalendarEnd,
   prepareFlexibleReservation,
   availabilityList,
   availabilityChecked,
@@ -430,22 +435,22 @@ export function CheckAvailabilityCalendar({
 
   const buttonReset = (
     <Box marginTop={2}>
-      <Button variant="contained" color="primary" onClick={handleReset}>
+      <Button variant="outlined" color="primary" onClick={handleReset}>
         RESET
       </Button>
     </Box>
   );
 
-  const min = new Date("2023-10-05T04:00:00Z");
-  const max = new Date("2023-10-05T21:00:00Z");
-
-  const slots = Math.floor(
-    (max.getTime() - min.getTime()) / (1000 * 60 * 60 * 2),
-  );
-
   return (
     <>
-      <Box style={{ width: "600px" }}>
+      <Box style={{ width: "90%" }}>
+        <Box sx={{ marginTop: 3 }}>
+          <Typography variant="overline">
+            {events && events[0] && events[0].start && events[0].end
+              ? `Chosen: ${events[0].start.toLocaleString()}  -  ${events[0].end.toLocaleString()} `
+              : "Choose desired reservation time"}
+          </Typography>
+        </Box>
         <BigCalendar
           className="reserveCalendar"
           components={{
@@ -456,17 +461,16 @@ export function CheckAvailabilityCalendar({
           defaultDate={defaultDate}
           view={Views.WEEK}
           formats={baseFormats}
-          min={min}
-          max={max}
+          min={new Date(earliestCalendarStart)}
+          max={new Date(latestCalendarEnd)}
           selectable
           getNow={() => new Date()}
           events={events}
-          step={15}
+          step={5}
           onSelectSlot={handleSelectSlot}
           onSelectEvent={handleSelectEvent}
           onSelecting={handleSelecting}
-          style={{ height: "100%" }}
-          timeslots={slots}
+          timeslots={12}
           eventPropGetter={(event) => {
             const styles: CSSProperties = {};
             switch (event.type) {
@@ -495,81 +499,83 @@ export function CheckAvailabilityCalendar({
           }}
         />
       </Box>
-      <Typography>
-        {events && events[0] && events[0].start && events[0].end
-          ? `Wybrano termin: ${events[0].start.toLocaleDateString()} ${events[0].start.toLocaleTimeString()} -  ${events[0].end.toLocaleDateString()} ${events[0].end.toLocaleTimeString()}`
-          : "Wybierz termin"}
-      </Typography>
+
       {buttonCheck}
       {buttonReserve}
       {buttonReset}
-      {Array.isArray(responseData) && (
+      {Array.isArray(responseData) && showSuggestedDialog && (
+        <SuggestedDatesDialog
+          setShowSuggestedDialog={() => setShowSuggestedDialog(false)}
+          responseSuggestions={responseData}
+          handleSuggestedDateClick={handleSuggestedDateClick}
+        />
+      )}
+      {reserveData && (
         <Dialog
-          open={showSuggestedDialog}
-          onClose={() => setShowSuggestedDialog(false)}
+          open={showReserveDialog}
+          onClose={() => setShowReserveDialog(false)}
+          maxWidth="sm"
+          fullWidth
+          PaperProps={{ sx: { borderRadius: "10px" } }}
         >
-          <DialogTitle>
-            Niestety, ten termin nie jest dostępny, może któryś z poniższych Cię
-            zainteresuje?
+          <DialogTitle sx={{ textAlign: "center", fontWeight: "medium" }}>
+            <Typography variant="h4">Available</Typography>
           </DialogTitle>
-          <DialogContent>
-            <List>
-              {responseData?.map(
-                (suggestion: CheckAvailabilityResponseSuggestion) => (
-                  <ListItem
-                    button
-                    key={suggestion.id}
-                    onClick={() => handleSuggestedDateClick(suggestion.id)}
-                  >
-                    <ListItemText
-                      primary={`Start: ${dayjs(
-                        suggestion.suggestedStart,
-                      ).format("YYYY-MM-DD HH:mm")}, End: ${dayjs(
-                        suggestion.suggestedEnd,
-                      ).format("YYYY-MM-DD HH:mm")}`}
-                    />
-                  </ListItem>
-                ),
-              )}
-            </List>
+          <DialogContent sx={{ textAlign: "center" }}>
+            <Box>
+              <Typography variant="h6" sx={{ mb: 1 }}>
+                Item is available in chosen time ranges
+              </Typography>
+
+              <Divider sx={{ marginTop: 2, marginBottom: 2 }} />
+
+              <Typography margin="auto">
+                {`Start: ${new Date(reserveData.start).toLocaleString()}`}
+              </Typography>
+              <Typography margin="auto">
+                {`End: ${new Date(reserveData.end).toLocaleString()}`}
+              </Typography>
+
+              <Divider sx={{ marginTop: 2 }} />
+            </Box>
           </DialogContent>
           <DialogActions>
-            <Button
-              onClick={() => setShowSuggestedDialog(false)}
-              color="primary"
+            <Box
+              sx={{
+                width: " 100%",
+                display: "flex",
+                flexDirection: "row",
+                pt: 2,
+              }}
             >
-              Cancel
-            </Button>
+              <Button
+                color="primary"
+                variant="outlined"
+                sx={{ flex: 1, m: 1 }}
+                onClick={() => setShowReserveDialog(false)}
+              >
+                Cancel
+              </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                sx={{ flex: 1, m: 1 }}
+                disabled={!events[0] || !events[0].start || !events[0].end}
+                onClick={() => {
+                  setShowReserveDialog(false);
+                  prepareFlexibleReservation({
+                    start: new Date(earliestStartTime).toISOString(),
+                    end: new Date(latestEndTime).toISOString(),
+                    amount: userCount,
+                  });
+                }}
+              >
+                Reserve
+              </Button>
+            </Box>
           </DialogActions>
         </Dialog>
       )}
-      <Dialog
-        open={showReserveDialog}
-        onClose={() => setShowReserveDialog(false)}
-      >
-        <DialogTitle>Chosen item is available for reservation!</DialogTitle>
-        <DialogContent>
-          <Typography>
-            Start:{" "}
-            {reserveData
-              ? dayjs(reserveData.start).format("YYYY-MM-DD HH:mm")
-              : ""}
-          </Typography>
-          <Typography>
-            End:{" "}
-            {reserveData
-              ? dayjs(reserveData.end).format("YYYY-MM-DD HH:mm")
-              : ""}
-            Wybrany termin jest dostępny do rezerwacji
-          </Typography>
-        </DialogContent>
-        <DialogActions>
-          {buttonReserve}
-          <Button onClick={() => setShowReserveDialog(false)} color="secondary">
-            Cancel
-          </Button>
-        </DialogActions>
-      </Dialog>
     </>
   );
 }
