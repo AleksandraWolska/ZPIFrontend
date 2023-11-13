@@ -171,7 +171,7 @@ const reserve = rest.post("/api/reserve", async (req, res, ctx) => {
 
   const items = await importItems("7");
 
-  const item = items.find((i) => i.id === body.itemId);
+  const item = items?.find((i) => i.id === body.itemId);
 
   item!.status.availability = [
     {
@@ -188,18 +188,15 @@ const reserve = rest.post("/api/reserve", async (req, res, ctx) => {
 
 const fetchUserReservationList = rest.get(
   "/api/store/:storeId/user/:userId/reservations",
-  async (req, res, ctx) => {
-    return res(
-      ctx.status(200), // Respond with a 200 status code
-      ctx.json(userReservationsList), // Respond with the JSON of user reservations
-    );
+  async (_, res, ctx) => {
+    return res(ctx.status(200), ctx.json(userReservationsList));
   },
 );
 
 const fetchSchedule = rest.post(
   "/api/fetch-schedule",
   async (req, res, ctx) => {
-    const { itemId, amount } = await req.json(); // Modified here
+    const { itemId, amount } = await req.json();
 
     if (typeof itemId !== "string") {
       return res(ctx.status(400), ctx.text("Invalid input"));
