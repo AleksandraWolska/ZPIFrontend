@@ -12,6 +12,7 @@ import {
   useMemo,
   useEffect,
   CSSProperties,
+  useRef,
 } from "react";
 import { Box, Button, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
@@ -19,7 +20,7 @@ import { Availability } from "../../../../types";
 import { FlexibleReservationData } from "../../types";
 import useSchedule from "../../details-page/useSchedule";
 import "../../css/react-big-calendar.css";
-import CustomCalendarToolbar from "./CustomCalendarToolbar";
+import CustomCalendarToolbar from "../detail-page-specific/CustomCalendarToolbar";
 
 const dayjsLoc = dayjsLocalizer(dayjs);
 
@@ -54,6 +55,8 @@ const transformToArray = (specificAvailabilities: Availability[]): Event[] => {
 
 type FreeRangesCalendarProps = {
   itemId: string;
+  earliestCalendarStart: string;
+  latestCalendarEnd: string;
   userCount: number;
   availabilityList: Availability[];
   prepareFlexibleReservation: (data: FlexibleReservationData) => void;
@@ -64,6 +67,8 @@ type FreeRangesCalendarProps = {
 export function FreeRangesCalendar({
   itemId,
   userCount,
+  earliestCalendarStart,
+  latestCalendarEnd,
   prepareFlexibleReservation,
   availabilityList,
   availabilityChecked,
@@ -73,7 +78,7 @@ export function FreeRangesCalendar({
   const { mutate, data: responseData, isError } = useSchedule();
 
   const [events, setEvents] = useState<Event[]>([]);
-  const [backgroundEvents, setBackgroundEvents] = useState<Event[]>(
+  const backgroundEventsRef = useRef<Event[]>(
     transformToArray(availabilityList),
   );
   const [within, setWithin] = useState(true);
@@ -91,7 +96,8 @@ export function FreeRangesCalendar({
         }),
       );
       // update background event with new availability array
-      setBackgroundEvents(newAvailabilityList);
+      backgroundEventsRef.current = newAvailabilityList;
+      // setBackgroundEvents(newAvailabilityList);
       setAvailabilityChecked(true);
     }
 
@@ -122,7 +128,7 @@ export function FreeRangesCalendar({
       );
 
       // Filter relevant background events that fall between the earliest start and latest end.
-      const relevantBackgroundEvents = backgroundEvents
+      const relevantBackgroundEvents = backgroundEventsRef.current
         .filter(
           (e) =>
             e.end > new Date(earliestStart) && e.start < new Date(latestEnd),
@@ -151,23 +157,23 @@ export function FreeRangesCalendar({
         }) && coverageEnd >= latestEnd
       );
     },
-    [backgroundEvents, events],
+    [events],
   );
 
   const handleSelectSlot = useCallback(
     ({ start, end }: { start: Date; end: Date }) => {
-      const endInMorning = backgroundEvents.find((e) => {
+      const endInMorning = backgroundEventsRef.current.find((e) => {
         return end >= e.start && end <= e.end && e.type === "morning";
       });
       if (endInMorning) return;
 
-      const startInMorning = backgroundEvents.find((e) => {
+      const startInMorning = backgroundEventsRef.current.find((e) => {
         return start >= e.start && start <= e.end && e.type === "morning";
       });
 
       let newEventStart = startInMorning ? startInMorning.end : start;
 
-      const startTypeSlotEvent = backgroundEvents.find((e) => {
+      const startTypeSlotEvent = backgroundEventsRef.current.find((e) => {
         return (
           newEventStart >= e.start &&
           newEventStart <= e.end &&
@@ -175,7 +181,7 @@ export function FreeRangesCalendar({
         );
       });
 
-      const endTypeSlotEvent = backgroundEvents.find((e) => {
+      const endTypeSlotEvent = backgroundEventsRef.current.find((e) => {
         return (
           end >= e.start &&
           end <= e.end &&
@@ -206,7 +212,7 @@ export function FreeRangesCalendar({
       const newEvents = [...events];
 
       if (endTypeSlotEvent?.type === "overnight") {
-        const potentialMorningEvent = backgroundEvents.find(
+        const potentialMorningEvent = backgroundEventsRef.current.find(
           (e) => e.type === "morning" && e.start > newEventEnd,
         );
 
@@ -253,7 +259,7 @@ export function FreeRangesCalendar({
       setEvents(newEvents);
       setWithin(true);
     },
-    [backgroundEvents, events, hasContinuousCoverage],
+    [events, hasContinuousCoverage],
   );
 
   const handleSelectEvent = useCallback(
@@ -278,7 +284,7 @@ export function FreeRangesCalendar({
   const handleSelecting = useCallback(
     ({ start, end }: { start: Date; end: Date }) => {
       // this shows dimmed selection
-      const withinBackgroundEvent = backgroundEvents
+      const withinBackgroundEvent = backgroundEventsRef.current
         .filter((e) => e.type !== "morning")
         .some((e) => {
           return start >= e.start && end <= e.end;
@@ -286,7 +292,7 @@ export function FreeRangesCalendar({
 
       if (withinBackgroundEvent) return true;
 
-      const withinAdjacentEvent = backgroundEvents.some((e) => {
+      const withinAdjacentEvent = backgroundEventsRef.current.some((e) => {
         return end >= e.start && end <= e.end;
       });
 
@@ -302,7 +308,7 @@ export function FreeRangesCalendar({
       // If there are events, the selection should be adjacent and have continuous coverage
       return hasContinuousCoverage(start, end);
     },
-    [backgroundEvents, events.length, hasContinuousCoverage, within],
+    [events.length, hasContinuousCoverage, within],
   );
 
   // sends request to check availability for new user count
@@ -320,7 +326,7 @@ export function FreeRangesCalendar({
         <Button
           variant="contained"
           color="primary"
-          disabled={!events[0]?.start || !events[0]?.end}
+          disabled={!events[0] || !events[0]?.start || !events[0]?.end}
           onClick={() => handleCheckAvailability()}
         >
           Check Availability
@@ -350,36 +356,36 @@ export function FreeRangesCalendar({
     </Box>
   );
 
-  const min = new Date("2023-10-05T04:00:00Z");
-  const max = new Date("2023-10-05T21:00:00Z");
-
-  const slots = Math.floor(
-    (max.getTime() - min.getTime()) / (1000 * 60 * 60 * 2),
-  );
-
   return (
     <>
-      <Box style={{ width: "600px" }}>
+      <Box style={{ width: "90%" }}>
+        <Box sx={{ marginTop: 3 }}>
+          <Typography variant="overline">
+            {events && events[0] && events[0].start && events[0].end
+              ? `Chosen: ${events[0].start.toLocaleString()}  -  ${events[0].end.toLocaleString()} `
+              : "Choose desired reservation time"}
+          </Typography>
+        </Box>
         <BigCalendar
           className="reserveCalendar"
           components={{
             toolbar: CustomCalendarToolbar,
           }}
           localizer={dayjsLoc}
-          backgroundEvents={backgroundEvents}
+          backgroundEvents={backgroundEventsRef.current}
           defaultDate={defaultDate}
           view={Views.WEEK}
           formats={baseFormats}
           selectable
-          min={min}
-          max={max}
+          min={new Date(earliestCalendarStart)}
+          max={new Date(latestCalendarEnd)}
           getNow={() => new Date()}
           events={events}
-          step={15}
+          step={5}
           onSelectSlot={handleSelectSlot}
           onSelectEvent={handleSelectEvent}
           onSelecting={handleSelecting}
-          timeslots={slots}
+          timeslots={12}
           eventPropGetter={(event) => {
             const styles: CSSProperties = {};
             switch (event.type) {
@@ -410,11 +416,6 @@ export function FreeRangesCalendar({
         />
       </Box>
 
-      <Typography>
-        {events && events[0] && events[0].start && events[0].end
-          ? `Wybrano termin: ${events[0].start.toLocaleDateString()} ${events[0].start.toLocaleTimeString()} -  ${events[0].end.toLocaleDateString()} ${events[0].end.toLocaleTimeString()}`
-          : "Wybierz termin"}
-      </Typography>
       {buttonCheck}
       {buttonReserve}
     </>

@@ -2,16 +2,15 @@ import {
   Box,
   Typography,
   Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
   Divider,
+  Collapse,
+  IconButton,
 } from "@mui/material";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
-import { Comment, StoreConfig, SubItem } from "../../../types";
+import { useNavigate, useParams } from "react-router-dom";
+import { useAuth } from "react-oidc-context";
+import { ExpandMore } from "@mui/icons-material";
+import { Comment, NewReservation, StoreConfig, SubItem } from "../../../types";
 import AttributesList from "../components/detail-page-specific/AttributesList";
 import Ratings from "../components/shared/Ratings";
 import QuantityInput from "../components/core/QuantityInput";
@@ -20,21 +19,16 @@ import useItemDetails from "./useItemDetails";
 import useDetailsPageConfig from "./useDetailsPageConfig";
 import { CheckAvailabilityCalendar } from "../components/core/CheckAvailabilityCalendar";
 import { FreeRangesCalendar } from "../components/core/FreeRangesCalendar";
-import {
-  FixedReservationData,
-  FlexibleReservationData,
-  NewComment,
-  RequiredUserInfo,
-  ReservationRequest,
-} from "../types";
+import { FlexibleReservationData, NewComment } from "../types";
 import useReserveItem from "./useReserveItem";
-import { ReservationDialog } from "../components/detail-page-specific/ReservationDialog";
+import { ReservationSummaryDialog } from "../components/detail-page-specific/ReservationSummaryDialog";
 import ItemImage from "../components/shared/ItemImage";
 import CommentsDisplay from "../components/detail-page-specific/CommentsDisplay";
 import CommentInput from "../components/detail-page-specific/CommentInput";
 import useAddComment from "../components/detail-page-specific/useAddComment";
+import { ReservationSuccessDialog } from "../components/detail-page-specific/ReservationSuccessDialog";
+import { ReservationFailureDialog } from "../components/detail-page-specific/ReservationFailureDialog";
 
-const userId = "user1";
 const initializeReservationRequestReady = (
   core: StoreConfig["core"],
   availableAmount: number | undefined,
@@ -60,12 +54,27 @@ export default function ItemDetailsPage() {
   const reserveItem = useReserveItem();
   const addComment = useAddComment();
 
+  const auth = useAuth();
+  const navigate = useNavigate();
+
   const params = useParams() as { storeId: string; itemId: string };
 
   const [showSuccessDialog, setShowSuccessDialog] = useState(false);
+  const [showFailureDialog, setShowFailureDialog] = useState(false);
   const [reservationSummary, setReservationSummary] = useState(false);
-  const [reservationRequest, setReservationRequest] =
-    useState<ReservationRequest>();
+  const [hideDetails, setHideDetails] = useState(false);
+  const [hideReservation, setHideReservation] = useState(false);
+  const [hideComments, setHideComments] = useState(false);
+  const [reservation, setReservation] = useState<NewReservation>({
+    itemId: params.itemId,
+    userEmail: auth.user?.profile.email || "",
+    personalData: {},
+    confirmed: false,
+    startDateTime: "",
+    endDateTime: "",
+    amount: 0,
+    message: "",
+  });
   const [reservationRequestReady, setReservationRequestReady] = useState(
     initializeReservationRequestReady(
       storeConfig.core,
@@ -80,47 +89,44 @@ export default function ItemDetailsPage() {
     SubItem[]
   >([]);
 
-  const makeReservationRequest = async (request: ReservationRequest) => {
+  const makeReservation = async () => {
     setReservationSummary(false);
-
-    setReservationSummary(false);
-    // console.log(request);
 
     try {
-      await reserveItem.mutateAsync(request); // calling the useReserveItem mutation
-      setShowSuccessDialog(true); // Show success dialog upon successful reservation
+      reserveItem.mutate(reservation, {
+        onSuccess: () => {
+          setShowSuccessDialog(true); // Show success dialog upon successful reservation
+        },
+      }); // calling the useReserveItem mutation
     } catch (error) {
       console.error("Error during reservation: ", error);
       // Handle error accordingly, e.g. show an error message to the user
     }
-    console.log(request);
   };
 
   const prepareFixedReservationRequest = () => {
-    const data: FixedReservationData = {
-      subItemList: selectedSubItemsInfoList,
+    setReservation((prev) => ({
+      ...prev,
       amount: userCount,
-    };
-    setReservationRequest({
-      storeId: params.storeId,
-      itemId: params.itemId,
-      userData: { id: userId },
-      reservationData: data,
-    });
+      subItemIds:
+        selectedSubItemsInfoList.length > 0
+          ? selectedSubItemsInfoList.map((si) => si.id)
+          : undefined,
+    }));
     setReservationSummary(true);
   };
 
   const prepareFlexibleReservation = (data: FlexibleReservationData) => {
-    setReservationRequest({
-      storeId: params.storeId,
-      itemId: params.itemId,
-      userData: { id: userId },
-      reservationData: data,
-    });
+    setReservation((prev) => ({
+      ...prev,
+      startDateTime: data.start,
+      endDateTime: data.end,
+      amount: userCount,
+    }));
     setReservationSummary(true);
   };
 
-  const handleUserCountInputChange = (newValue: number) => {
+  const handleUserCountItemInputChange = (newValue: number) => {
     setReservationRequestReady(
       item.status.availableAmount
         ? item.status.availableAmount >= newValue
@@ -130,7 +136,7 @@ export default function ItemDetailsPage() {
     setAvailabilityChecked(false);
   };
 
-  const handleUserCountInputChangeRestricted = (newValue: number) => {
+  const handleUserCountSubitemInputChange = (newValue: number) => {
     setReservationRequestReady(
       selectedSubItemsInfoList.length > 0 &&
         (selectedSubItemsInfoList[0].availableAmount
@@ -196,30 +202,41 @@ export default function ItemDetailsPage() {
     setReservationRequestReady(updatedSubItemsList.length > 0);
   };
 
-  const userCountChoiceRestricted = (
+  const userCountChoiceSubitem = (
     <Box>
       <QuantityInput
         disabled={selectedSubItemsInfoList.length === 0}
         value={userCount}
         onUserCountChange={(value: number) =>
-          handleUserCountInputChangeRestricted(value)
+          handleUserCountSubitemInputChange(value)
         }
       />
     </Box>
   );
 
-  const userCountChoice = (
+  const userCountChoiceItem = (
     <Box>
       <QuantityInput
         disabled={false}
         value={userCount}
-        onUserCountChange={(value: number) => handleUserCountInputChange(value)}
+        onUserCountChange={(value: number) =>
+          handleUserCountItemInputChange(value)
+        }
       />
     </Box>
   );
 
   const freeRangesUserInput = (
     <FreeRangesCalendar
+      // maybe change for store open hours as default
+      earliestCalendarStart={
+        item.status.earliestStart
+          ? item.status.earliestStart
+          : "2023-10-05T06:00:00Z"
+      }
+      latestCalendarEnd={
+        item.status.latestEnd ? item.status.latestEnd : "2023-10-05T20:00:00Z"
+      }
       itemId={item.id}
       availabilityList={item.status.availability || []}
       userCount={userCount}
@@ -231,6 +248,15 @@ export default function ItemDetailsPage() {
 
   const checkAvailabilityUserInput = (
     <CheckAvailabilityCalendar
+      // maybe change for store open hours as default
+      earliestCalendarStart={
+        item.status.earliestStart
+          ? item.status.earliestStart
+          : "2023-10-05T06:00:00Z"
+      }
+      latestCalendarEnd={
+        item.status.latestEnd ? item.status.latestEnd : "2023-10-05T20:00:00Z"
+      }
       itemId={item.id}
       availabilityList={item.status.availability || []}
       userCount={userCount}
@@ -272,20 +298,19 @@ export default function ItemDetailsPage() {
   );
 
   const core = (
-    <Box>
+    <Box sx={{ mb: 2 }}>
       {/*  V5  */}
       {storeConfig.core.simultaneous &&
         storeConfig.core.periodicity &&
         !storeConfig.core.specificReservation &&
-        userCountChoiceRestricted}
+        userCountChoiceSubitem}
 
       {/* V3 & V9 & V10 */}
       {((storeConfig.core.simultaneous &&
         !storeConfig.core.specificReservation &&
         !storeConfig.core.periodicity) ||
         (storeConfig.core.flexibility && storeConfig.core.simultaneous)) &&
-        userCountChoice}
-
+        userCountChoiceItem}
       {/* V7 & V9 */}
       {storeConfig.core.flexibility &&
         !storeConfig.core.uniqueness &&
@@ -315,18 +340,27 @@ export default function ItemDetailsPage() {
   );
 
   const handleReservationFinished = () => {
+    navigate("..", { relative: "path" });
     setShowSuccessDialog(false);
     setSelectedSubItemsInfoList([]);
     setUserCount(1);
-    setReservationRequest(undefined);
   };
+
+  const handleReservationFailure = () => {
+    navigate("..", { relative: "path" });
+    setShowFailureDialog(false);
+    setSelectedSubItemsInfoList([]);
+    setUserCount(1);
+  };
+
   return (
     <Box padding={3}>
-      {reservationSummary && reservationRequest && (
-        <ReservationDialog
-          reservationRequest={reservationRequest}
-          requiredUserInfo={["email", "name", "surname"] as RequiredUserInfo}
-          makeReservationRequest={makeReservationRequest}
+      {reservationSummary && reservation && (
+        <ReservationSummaryDialog
+          cancelReservation={() => setReservationSummary(false)}
+          reservation={reservation}
+          setReservation={setReservation}
+          makeReservation={makeReservation}
         />
       )}
       <Box display="flex">
@@ -360,39 +394,106 @@ export default function ItemDetailsPage() {
           )}
         </Box>
       </Box>
-      <AttributesList
-        attributesConfig={storeConfig.customAttributesSpec}
-        itemAttributes={item.customAttributeList}
-      />
-      {core}
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+        }}
+      >
+        <Typography sx={{ mt: 2 }} variant="h5">
+          Details
+        </Typography>
+        <IconButton
+          onClick={() => setHideDetails(!hideDetails)}
+          aria-label="expand"
+          style={{
+            transform: hideDetails ? "rotate(90deg)" : "rotate(0deg)",
+            transition: "transform 150ms",
+          }}
+        >
+          <ExpandMore />
+        </IconButton>
+      </Box>
+
+      <Divider sx={{ mb: 2 }} />
+      <Collapse in={!hideDetails} timeout="auto" unmountOnExit>
+        <AttributesList
+          attributesConfig={storeConfig.customAttributesSpec}
+          itemAttributes={item.customAttributeList}
+        />
+      </Collapse>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+        }}
+      >
+        <Typography sx={{ mt: 2 }} variant="h5">
+          Reservation
+        </Typography>
+        <IconButton
+          onClick={() => setHideReservation(!hideReservation)}
+          aria-label="expand"
+          style={{
+            transform: hideReservation ? "rotate(90deg)" : "rotate(0deg)",
+            transition: "transform 150ms",
+          }}
+        >
+          <ExpandMore />
+        </IconButton>
+      </Box>
+      <Divider sx={{ mb: 2 }} />
+      <Collapse in={!hideReservation} timeout="auto" unmountOnExit>
+        {core}
+      </Collapse>
       {(storeConfig.detailsPage.showComments ||
         storeConfig.detailsPage.showRating) && (
-        <Box marginTop="30px">
-          <Box sx={{ m: 7 }} />
-          <Typography variant="h5">
-            {storeConfig.detailsPage.showComments ? "Reviews" : "Your rating"}
-          </Typography>
-          <Divider />
-          <Box sx={{ m: 2 }} />
-          <CommentInput
-            showRatings={storeConfig.detailsPage.showRating}
-            showComments={storeConfig.detailsPage.showComments}
-            handleSendComment={handleSendComment}
-          />
-          {storeConfig.detailsPage.showComments && <CommentsDisplay />}
+        <Box>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+            }}
+          >
+            <Typography sx={{ mt: 2 }} variant="h5">
+              Reviews
+            </Typography>
+            <IconButton
+              onClick={() => setHideComments(!hideComments)}
+              aria-label="expand"
+              style={{
+                transform: hideComments ? "rotate(90deg)" : "rotate(0deg)",
+                transition: "transform 150ms",
+              }}
+            >
+              <ExpandMore />
+            </IconButton>
+          </Box>
+
+          <Divider sx={{ mb: 2 }} />
+          <Collapse in={!hideComments} timeout="auto" unmountOnExit>
+            <CommentInput
+              showRatings={storeConfig.detailsPage.showRating}
+              showComments={storeConfig.detailsPage.showComments}
+              handleSendComment={handleSendComment}
+            />
+            {storeConfig.detailsPage.showComments && <CommentsDisplay />}
+          </Collapse>
         </Box>
       )}
-      <Dialog open={showSuccessDialog} onClose={handleReservationFinished}>
-        <DialogTitle>Successful</DialogTitle>
-        <DialogContent>
-          <DialogContentText>Reservation is done!</DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleReservationFinished} color="primary">
-            OK
-          </Button>
-        </DialogActions>
-      </Dialog>
+      {showSuccessDialog && (
+        <ReservationSuccessDialog
+          handleReservationFinished={handleReservationFinished}
+        />
+      )}
+      {showFailureDialog && (
+        <ReservationFailureDialog
+          handleReservationFailure={handleReservationFailure}
+        />
+      )}
     </Box>
   );
 }

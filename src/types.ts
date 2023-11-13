@@ -162,6 +162,8 @@ export type Item = {
     active: boolean;
     availableAmount?: number;
     availability?: Availability[];
+    earliestStart?: string;
+    latestEnd?: string;
     mark?: number;
   };
 };
@@ -170,6 +172,8 @@ export type Item = {
 export type Reservation = {
   id: string;
   itemId: string;
+  subItemIds?: string[];
+  userEmail: string;
   personalData: Record<string, string>;
   confirmed: boolean;
   startDateTime: string;
@@ -177,3 +181,5 @@ export type Reservation = {
   amount: number;
   message: string;
 };
+
+export type NewReservation = Omit<Reservation, "id">;

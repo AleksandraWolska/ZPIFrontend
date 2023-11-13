@@ -1,4 +1,4 @@
-import { Box, ListItemText } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { Item } from "../../../../types";
 
 import Ratings from "../shared/Ratings";
@@ -14,48 +14,80 @@ type ItemListElementProps = {
 function ItemListElement({ item, config }: ItemListElementProps) {
   return (
     <Box
-      padding={2}
-      bgcolor="white"
-      boxShadow={3}
-      borderRadius="10px"
-      display="flex"
-      width="100%"
-      justifyContent="space-between"
-      alignItems="center"
+      sx={{
+        padding: 2,
+        bgcolor: "white",
+        boxShadow: 3,
+        borderRadius: "10px",
+        display: "flex",
+        width: "100%",
+        alignItems: "center",
+        "@media (max-width: 800px)": {
+          flexDirection: "column",
+        },
+      }}
       style={{
         opacity: item.status.availableAmount !== 0 ? 1 : 0.4,
       }}
     >
       {/* Image Box */}
       <Box
-        borderRadius="10%"
-        marginRight={2}
-        maxWidth="20%"
-        overflow="hidden"
-        display="flex"
-        alignItems="center"
+        sx={{
+          borderRadius: "10%",
+          marginRight: 2,
+          maxWidth: "20%",
+          overflow: "hidden",
+          display: "flex",
+          alignItems: "center",
+          "@media (max-width: 800px)": {
+            maxWidth: "100%",
+            marginRight: 0,
+            marginBottom: 2,
+          },
+        }}
       >
         {item.attributes.image && <ItemImage url={item.attributes.image} />}
       </Box>
 
       {/* Text Information */}
-      <Box flexGrow={1} marginRight={2}>
-        <ListItemText
-          primary={item.attributes.title}
-          secondary={item.attributes.subtitle}
-        />
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+          width: "100%",
+          "@media (max-width: 800px)": {
+            flexDirection: "column",
+          },
+        }}
+      >
+        <Box flexGrow={1} marginRight={2}>
+          <Typography variant="h5">{item.attributes.title}</Typography>
+          <Typography>{item.attributes.subtitle}</Typography>
 
-        {config.mainPage && config.mainPage.showRating && item.status.mark && (
-          <Ratings mark={item.status.mark} />
-        )}
-      </Box>
+          {config.mainPage &&
+            config.mainPage.showRating &&
+            item.status.mark && <Ratings mark={item.status.mark} />}
+        </Box>
 
-      {/* Attributes List */}
-      <Box>
-        <AttributesList
-          attributesConfig={config.customAttributesSpec}
-          itemAttributes={item.customAttributeList}
-        />
+        {/* Attributes List */}
+        <Box
+          sx={{
+            width: "30%",
+            "@media (max-width: 1100px)": {
+              width: "40%",
+            },
+            "@media (max-width: 800px)": {
+              width: "100%",
+            },
+          }}
+        >
+          <AttributesList
+            attributesConfig={config.customAttributesSpec}
+            itemAttributes={item.customAttributeList}
+          />
+        </Box>
       </Box>
     </Box>
   );

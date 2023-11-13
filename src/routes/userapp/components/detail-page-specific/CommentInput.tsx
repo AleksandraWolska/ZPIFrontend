@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useAuth } from "react-oidc-context";
+import { useLocation } from "react-router-dom";
 import { TextField, Button, Dialog, Typography, Box } from "@mui/material";
 import RatingsInteractive from "./RatingsInteractive";
 import { NewComment } from "../../types";
@@ -15,6 +17,9 @@ function CommentInput({
   showRatings,
 }: CommentInputProps) {
   const [isCommentInputVisible, setIsCommentInputVisible] = useState(false);
+
+  const auth = useAuth();
+  const location = useLocation();
 
   const initialState: NewComment = {
     nickname: "",
@@ -87,15 +92,11 @@ function CommentInput({
           marginTop: 10,
         }}
       >
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleVerifyComment}
-        >
-          Send
-        </Button>
         <Button variant="outlined" onClick={handleCancel}>
           Cancel
+        </Button>
+        <Button variant="contained" onClick={handleVerifyComment}>
+          Send
         </Button>
       </Box>
     </Box>
@@ -103,19 +104,33 @@ function CommentInput({
 
   return (
     <Box>
-      {isCommentInputVisible ? (
+      {isCommentInputVisible && (
         //   <Paper style={{ padding: 15, marginBottom: 15 }}>{content}</Paper>
         <Dialog onClose={handleCancel} fullWidth open>
           <Box padding="20px">{content}</Box>
         </Dialog>
-      ) : (
+      )}
+      {auth.isAuthenticated ? (
         <Button
-          variant="contained"
+          variant="outlined"
           color="secondary"
           style={{ marginBottom: 15 }}
           onClick={() => setIsCommentInputVisible(true)}
         >
           {showComments ? "Add comment" : "Rate"}
+        </Button>
+      ) : (
+        <Button
+          variant="outlined"
+          style={{ marginBottom: 15 }}
+          onClick={() => {
+            const currentPath = location.pathname + location.search;
+            auth.signinRedirect({
+              redirect_uri: `${window.location.origin}${currentPath}`,
+            });
+          }}
+        >
+          Log in to {showComments ? "add comment" : "rate"}
         </Button>
       )}
     </Box>

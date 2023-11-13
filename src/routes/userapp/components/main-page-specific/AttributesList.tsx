@@ -1,4 +1,12 @@
-import { Box, Typography } from "@mui/material";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableRow,
+  Typography,
+} from "@mui/material";
+import CheckIcon from "@mui/icons-material/Check";
+import ClearIcon from "@mui/icons-material/Clear";
 import { CustomAttribute, CustomAttributeSpec } from "../../../../types";
 
 type AttributesListProps = {
@@ -11,47 +19,36 @@ const renderParameter = (
   itemAttribute: CustomAttribute,
 ) => {
   let displayValue;
-  let style = {};
 
   switch (attributeConfig.dataType) {
     case "string":
       displayValue = itemAttribute.value;
-      style = {
-        // backgroundColor: "yellow",
-        padding: "5px",
-        borderRadius: "4px",
-        display: "flex",
-      };
       break;
     case "boolean":
-      displayValue = itemAttribute.value ? "+" : "-";
-      style = {
-        // backgroundColor: "lightGreen",
-        color: "black",
-        padding: "5px",
-        borderRadius: "4px",
-        display: "flex",
-      };
+      displayValue = itemAttribute.value ? <CheckIcon /> : <ClearIcon />;
       break;
     case "number":
       displayValue = `${itemAttribute.value} ${attributeConfig.units || ""}`;
-      style = {
-        // backgroundColor: "lightBlue",
-        color: "black",
-        padding: "5px",
-        borderRadius: "4px",
-        display: "flex",
-      };
       break;
     default:
       displayValue = itemAttribute.value;
   }
 
   return (
-    <Box key={attributeConfig.name} style={style}>
-      <Typography paddingRight="3px">{attributeConfig.name}:</Typography>
-      <Typography fontWeight="bold">{displayValue}</Typography>
-    </Box>
+    <TableRow key={attributeConfig.name}>
+      <TableCell
+        component="th"
+        scope="row"
+        sx={{ borderBottom: "none", p: "5px", pr: "10px" }}
+      >
+        <Typography fontSize="1em">{attributeConfig.name}</Typography>
+      </TableCell>
+      <TableCell sx={{ borderBottom: "none", p: "5px" }}>
+        <Typography fontSize="1em" fontWeight="bold">
+          {displayValue}
+        </Typography>
+      </TableCell>
+    </TableRow>
   );
 };
 
@@ -60,16 +57,19 @@ function AttributesList({
   attributesConfig,
 }: AttributesListProps) {
   return (
-    <Box width="fit-content">
-      {itemAttributes.map((itemAttribute) => {
-        const currentAttrConfig = attributesConfig.find(
-          (p) => p.name === itemAttribute.name,
-        );
-        if (!currentAttrConfig || !currentAttrConfig.showMainPage) return null;
+    <Table>
+      <TableBody>
+        {itemAttributes.map((itemAttribute) => {
+          const currentAttrConfig = attributesConfig.find(
+            (p) => p.name === itemAttribute.name,
+          );
+          if (!currentAttrConfig || !currentAttrConfig.showMainPage)
+            return null;
 
-        return renderParameter(currentAttrConfig, itemAttribute);
-      })}
-    </Box>
+          return renderParameter(currentAttrConfig, itemAttribute);
+        })}
+      </TableBody>
+    </Table>
   );
 }
 

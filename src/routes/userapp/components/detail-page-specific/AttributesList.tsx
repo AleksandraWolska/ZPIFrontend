@@ -1,4 +1,14 @@
-import { Box, Typography } from "@mui/material";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableRow,
+  Typography,
+  alpha,
+  useTheme,
+} from "@mui/material";
+import CheckIcon from "@mui/icons-material/Check";
+import ClearIcon from "@mui/icons-material/Clear";
 import { CustomAttribute, CustomAttributeSpec } from "../../../../types";
 
 type AttributesListProps = {
@@ -9,49 +19,44 @@ type AttributesListProps = {
 const renderParameter = (
   attributeConfig: CustomAttributeSpec,
   itemAttribute: CustomAttribute,
+  themeColor: string,
 ) => {
   let displayValue;
-  let style = {};
 
   switch (attributeConfig.dataType) {
     case "string":
       displayValue = itemAttribute.value;
-      style = {
-        // backgroundColor: "yellow",
-        padding: "5px",
-        borderRadius: "4px",
-        display: "flex",
-      };
       break;
     case "boolean":
-      displayValue = itemAttribute.value ? "+" : "-";
-      style = {
-        // backgroundColor: "lightGreen",
-        color: "black",
-        padding: "5px",
-        borderRadius: "4px",
-        display: "flex",
-      };
+      displayValue = itemAttribute.value ? <CheckIcon /> : <ClearIcon />;
       break;
     case "number":
       displayValue = `${itemAttribute.value} ${attributeConfig.units || ""}`;
-      style = {
-        // backgroundColor: "lightBlue",
-        color: "black",
-        padding: "5px",
-        borderRadius: "4px",
-        display: "flex",
-      };
       break;
     default:
       displayValue = itemAttribute.value;
   }
 
   return (
-    <Box key={attributeConfig.name} style={style}>
-      <Typography paddingRight="3px">{attributeConfig.name}:</Typography>
-      <Typography fontWeight="bold">{displayValue}</Typography>
-    </Box>
+    <TableRow
+      sx={{
+        "&:nth-of-type(odd)": {
+          backgroundColor: `${themeColor}`,
+        },
+      }}
+      key={attributeConfig.name}
+    >
+      <TableCell
+        component="th"
+        scope="row"
+        sx={{ borderBottom: "none", padding: "10px" }}
+      >
+        <Typography>{attributeConfig.name}</Typography>
+      </TableCell>
+      <TableCell sx={{ borderBottom: "none", padding: "10px" }}>
+        <Typography fontWeight="bold">{displayValue}</Typography>
+      </TableCell>
+    </TableRow>
   );
 };
 
@@ -59,18 +64,25 @@ function AttributesList({
   itemAttributes,
   attributesConfig,
 }: AttributesListProps) {
+  const theme = useTheme();
   return (
-    <Box width="fit-content">
-      {itemAttributes.map((itemAttribute) => {
-        const currentAttrConfig = attributesConfig.find(
-          (p) => p.name === itemAttribute.name,
-        );
-        if (!currentAttrConfig || !currentAttrConfig.showDetailsPage)
-          return null;
+    <Table>
+      <TableBody>
+        {itemAttributes.map((itemAttribute) => {
+          const currentAttrConfig = attributesConfig.find(
+            (p) => p.name === itemAttribute.name,
+          );
+          if (!currentAttrConfig || !currentAttrConfig.showDetailsPage)
+            return null;
 
-        return renderParameter(currentAttrConfig, itemAttribute);
-      })}
-    </Box>
+          return renderParameter(
+            currentAttrConfig,
+            itemAttribute,
+            alpha(theme.palette.primary.main, 0.2),
+          );
+        })}
+      </TableBody>
+    </Table>
   );
 }
 

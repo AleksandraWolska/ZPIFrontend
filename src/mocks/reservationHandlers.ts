@@ -9,6 +9,8 @@ import {
 } from "../routes/userapp/types";
 import { Availability, Reservation } from "../types";
 import { fetchData, getStoreId, getToken, incorrectToken } from "./utils";
+import { importItems } from "./itemsHandlers";
+import userReservationsList from "./data/common/userReservationsList";
 
 const importReservations = async (storeId: string) => {
   try {
@@ -159,13 +161,40 @@ const checkAvailability = rest.post(
 );
 
 const reserve = rest.post("/api/reserve", async (req, res, ctx) => {
-  const { storeId, itemId } = await req.json();
+  const body = await req.json();
 
-  if (typeof itemId !== "string" || typeof storeId !== "string") {
-    return res(ctx.status(400), ctx.text("Invalid input"));
-  }
+  // const items7 = (await importItems("7")) || [];
+  // const items8 = (await importItems("8")) || [];
+  // const items9 = (await importItems("9")) || [];
+  // const items10 = (await importItems("10")) || [];
+  // const items = [...items7, ...items8, ...items9, ...items10];
+
+  const items = await importItems("7");
+
+  const item = items.find((i) => i.id === body.itemId);
+
+  item!.status.availability = [
+    {
+      startDateTime: "2023-11-06T10:00:00.000Z",
+      endDateTime: "2023-11-06T11:00:00.000Z",
+      type: "continuous",
+    },
+  ];
+
+  console.log("body", body);
+
   return res(ctx.status(200), ctx.json({ status: "ok" }));
 });
+
+const fetchUserReservationList = rest.get(
+  "/api/store/:storeId/user/:userId/reservations",
+  async (req, res, ctx) => {
+    return res(
+      ctx.status(200), // Respond with a 200 status code
+      ctx.json(userReservationsList), // Respond with the JSON of user reservations
+    );
+  },
+);
 
 const fetchSchedule = rest.post(
   "/api/fetch-schedule",
@@ -211,4 +240,5 @@ export const reservationHandlers = [
   checkAvailability,
   reserve,
   fetchSchedule,
+  fetchUserReservationList,
 ];

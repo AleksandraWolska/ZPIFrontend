@@ -1,5 +1,6 @@
-import { AppBar, Toolbar, Typography, Button, Box } from "@mui/material";
-import { Outlet, useNavigate, useParams } from "react-router-dom";
+import { AppBar, Toolbar, Button, Box, Typography } from "@mui/material";
+import { Outlet, useLocation, useNavigate, useParams } from "react-router-dom";
+import { useAuth } from "react-oidc-context";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import {
   blue,
@@ -14,12 +15,16 @@ import {
   pink,
   lightGreen,
 } from "@mui/material/colors";
-import useOwner from "./useOwner";
+import useStoreConfig from "./useStoreConfig";
 
 function UserAppWrapper() {
-  const owner = useOwner();
+  const storeConfig = useStoreConfig();
+  const { owner } = storeConfig;
   const { storeId } = useParams();
   const navigate = useNavigate();
+
+  const auth = useAuth();
+  const location = useLocation();
 
   const colorMap: { [key: string]: unknown } = {
     lime,
@@ -52,28 +57,74 @@ function UserAppWrapper() {
 
   return (
     <ThemeProvider theme={theme}>
-      <>
+      <Box sx={{ backgroundColor: "#eee", minHeight: "100vh" }}>
         <Box sx={{ flexGrow: 1 }}>
-          <AppBar position="static">
+          <AppBar position="sticky">
             <Toolbar>
-              <Typography
-                variant="h6"
-                onClick={() => navigate(`/userapp/${storeId}`)}
-                component="div"
-                sx={{ flexGrow: 1 }}
+              <Box
+                sx={{
+                  width: "100%",
+                  maxWidth: "1200px",
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  margin: "auto",
+                }}
               >
-                {owner.name}
-              </Typography>
-              <Button color="inherit" onClick={handleMyReservationsClick}>
-                My reservations
-              </Button>
-              <Button color="inherit">About</Button>
-              <Button color="inherit">Log in</Button>
+                <Box onClick={() => navigate(`/userapp/${storeId}`)}>
+                  {owner.logoSrc ? (
+                    <img
+                      style={{ cursor: "pointer" }}
+                      height="40"
+                      src={owner.logoSrc}
+                      alt="logo"
+                    />
+                  ) : (
+                    <Typography variant="h6">{owner.name}</Typography>
+                  )}
+                </Box>
+                <Box>
+                  <Button color="inherit" onClick={handleMyReservationsClick}>
+                    My reservations
+                  </Button>
+                  <Button color="inherit">About</Button>
+
+                  {auth.isAuthenticated ? (
+                    <Button
+                      onClick={() => {
+                        auth.signoutSilent();
+                      }}
+                      color="inherit"
+                    >
+                      Log out
+                    </Button>
+                  ) : (
+                    <Button
+                      onClick={() => {
+                        const currentPath = location.pathname + location.search;
+                        auth.signinRedirect({
+                          redirect_uri: `${window.location.origin}${currentPath}`,
+                        });
+                      }}
+                      color="inherit"
+                    >
+                      Log in
+                    </Button>
+                  )}
+                </Box>
+              </Box>
             </Toolbar>
           </AppBar>
         </Box>
-        <Outlet />
-      </>
+        <Box
+          maxWidth="1200px"
+          margin="auto"
+          sx={{ backgroundColor: "#ffffff" }}
+        >
+          <Outlet />
+        </Box>
+      </Box>
     </ThemeProvider>
   );
 }
