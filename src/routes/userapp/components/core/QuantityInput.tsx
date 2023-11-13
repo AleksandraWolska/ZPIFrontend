@@ -64,11 +64,7 @@ export default function QuantityInput({
         value={value}
         disabled={disabled}
         onChange={(_event, val) => {
-          if (typeof onUserCountChange === "function") {
-            onUserCountChange(val === undefined ? 1 : val);
-          } else {
-            console.error("onUserCountChange is not a function!");
-          }
+          onUserCountChange(val === undefined ? 1 : val);
         }}
       />{" "}
     </Box>
