@@ -1,5 +1,5 @@
 import { QueryClient } from "react-query";
-import { LoaderFunctionArgs, useParams } from "react-router-dom";
+import { LoaderFunctionArgs } from "react-router-dom";
 import { getAccessToken } from "../../../auth/utils";
 import { Reservation } from "../../../types";
 import { BACKEND_URL } from "../../../query";
