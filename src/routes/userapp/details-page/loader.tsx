@@ -10,7 +10,7 @@ const fetchDetailsConfig = async (
     `${
       process.env.NODE_ENV === "development"
         ? `/api/stores/${storeId}/details-page-config`
-        : `https://zpibackend.fly.dev/details-page-configs/${storeId}`
+        : `/store-configs/${storeId}/detailsPageConfig`
     }`,
   );
   return res.json();
@@ -29,7 +29,7 @@ const fetchItemDetails = async (
     `${
       process.env.NODE_ENV === "development"
         ? `/api/stores/${storeId}/items/${itemId}`
-        : `https://zpibackend.fly.dev/store/${storeId}/items/${itemId}`
+        : `/stores/${storeId}/items/${itemId}`
     }`,
   );
   return res.json();
@@ -53,7 +53,7 @@ const fetchCommentsList = async (
     `${
       process.env.NODE_ENV === "development"
         ? `/api/stores/${storeId}/items/${itemId}/comments`
-        : `https://zpibackend.fly.dev/store/${storeId}/items/${itemId}/comments`
+        : `/items/${itemId}/comments`
     }`,
   );
   return res.json();

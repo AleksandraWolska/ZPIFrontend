@@ -18,7 +18,7 @@ const fetchUserReservationList = async (
     `${
       process.env.NODE_ENV === "development"
         ? `/api/store/${storeId}/user/${userId}/reservations`
-        : `https://zpibackend.fly.dev/store/${storeId}/user/${userId}/reservations`
+        : `/store/${storeId}/user/${userId}/reservations` // TBD
     }`,
   );
   return res.json();

@@ -7,7 +7,7 @@ function useSchedule() {
       `${
         process.env.NODE_ENV === "development"
           ? `/api/fetch-schedule`
-          : `https://zpibackend.fly.dev/fetch-schedule`
+          : `/fetch-schedule`
       }`,
       {
         method: "POST",

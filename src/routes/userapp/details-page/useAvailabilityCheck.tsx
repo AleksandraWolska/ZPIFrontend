@@ -7,7 +7,7 @@ function useAvailabilityCheck() {
       `${
         process.env.NODE_ENV === "development"
           ? `/api/check-availability`
-          : `https://zpibackend.fly.dev/check-availability`
+          : `/check-availability`
       }`,
       {
         method: "POST",

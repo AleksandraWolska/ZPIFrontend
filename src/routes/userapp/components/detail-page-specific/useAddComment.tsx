@@ -9,7 +9,7 @@ const addComment = (storeId: string, newComment: Comment) => {
     `${
       process.env.NODE_ENV === "development"
         ? `/api/addcomment/${storeId}`
-        : `https://zpibackend.fly.dev/addcomment/${storeId}`
+        : `/addcomment/${storeId}`
     }`,
     {
       method: "POST",

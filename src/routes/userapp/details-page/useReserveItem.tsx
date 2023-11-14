@@ -10,9 +10,7 @@ function useReserveItem() {
     (data: NewReservation) =>
       fetch(
         `${
-          process.env.NODE_ENV === "development"
-            ? `/api/reserve`
-            : `https://zpibackend.fly.dev/reserve`
+          process.env.NODE_ENV === "development" ? `/api/reserve` : `/reserve`
         }`,
         {
           method: "POST",

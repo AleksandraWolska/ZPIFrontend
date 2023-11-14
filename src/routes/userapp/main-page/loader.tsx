@@ -11,7 +11,7 @@ const fetchConfig = async (storeId: string): Promise<MainPageConfig> => {
     `${
       process.env.NODE_ENV === "development"
         ? `/api/stores/${storeId}/main-page-config`
-        : `https://zpibackend.fly.dev/main-page-configs/${storeId}`
+        : `/store-configs/${storeId}/mainPageConfig`
     }`,
     {
       headers: {
@@ -33,7 +33,7 @@ const fetchItems = async (storeId: string): Promise<Item[]> => {
     `${
       process.env.NODE_ENV === "development"
         ? `/api/stores/${storeId}/items`
-        : `https://zpibackend.fly.dev/store/${storeId}/items`
+        : `/stores/${storeId}/items`
     }`,
   );
   return res.json();
