@@ -1,4 +1,5 @@
 import { QueryClient } from "react-query";
+import { useParams } from "react-router-dom";
 import { getAccessToken } from "../../../auth/utils";
 import { Reservation } from "../../../types";
 import { BACKEND_URL } from "../../../query";
@@ -29,7 +30,8 @@ export const loader = (queryClient: QueryClient) => async () => {
     (await queryClient.fetchQuery(reservationsQuery));
 
   const itemsQueries = reservations.map((reservation) => {
-    const query = getItemQuery(reservation.itemId);
+    const params = useParams() as { storeId: string };
+    const query = getItemQuery(reservation.itemId, params.storeId);
     return new Promise((resolve) => {
       resolve(
         queryClient.getQueryData(query.queryKey) ??

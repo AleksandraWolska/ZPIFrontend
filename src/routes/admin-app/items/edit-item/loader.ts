@@ -5,9 +5,9 @@ import { getItemQuery } from "../../queries/item";
 export const loader =
   (queryClient: QueryClient) =>
   async ({ params }: LoaderFunctionArgs) => {
-    const { itemId } = params as { itemId: string };
+    const { itemId, storeId } = params as { itemId: string; storeId: string };
 
-    const query = getItemQuery(itemId);
+    const query = getItemQuery(itemId, storeId);
 
     return (
       queryClient.getQueryData(query.queryKey) ??

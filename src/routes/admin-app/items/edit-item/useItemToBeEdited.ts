@@ -4,11 +4,9 @@ import { Item } from "../../../../types";
 import { getItemQuery } from "../../queries/item";
 
 function useItemToBeEdited() {
-  const { itemId } = useParams() as {
-    itemId: string;
-  };
+  const params = useParams() as { storeId: string; itemId: string };
 
-  const { data } = useQuery(getItemQuery(itemId)) as {
+  const { data } = useQuery(getItemQuery(params.itemId, params.storeId)) as {
     data: Item;
   };
 
