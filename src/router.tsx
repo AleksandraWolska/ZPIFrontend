@@ -30,7 +30,9 @@ const router = createBrowserRouter([
     element: <RequireLogin />,
     children: [
       {
-        path: "admin",
+        path: `${
+          process.env.NODE_ENV === "development" ? `admin` : `admin/:storeId`
+        }`,
         loader: adminAppLoader(queryClient),
         lazy: async () => {
           const AdminAppWrapper = (
