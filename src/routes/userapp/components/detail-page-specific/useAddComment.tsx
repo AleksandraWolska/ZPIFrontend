@@ -5,14 +5,21 @@ import { Comment } from "../../../../types";
 
 const addComment = (storeId: string, newComment: Comment) => {
   // no such path in mock
-  return fetch(`/api/stores/${storeId}/commentadd`, {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
+  return fetch(
+    `${
+      process.env.NODE_ENV === "development"
+        ? `/api/addcomment/${storeId}`
+        : `/addcomment/${storeId}`
+    }`,
+    {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newComment),
     },
-    body: JSON.stringify(newComment),
-  });
+  );
 };
 
 function useAddComment() {
