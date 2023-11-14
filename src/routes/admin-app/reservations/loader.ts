@@ -1,4 +1,5 @@
 import { QueryClient } from "react-query";
+import { LoaderFunctionArgs } from "react-router-dom";
 import { getAccessToken } from "../../../auth/utils";
 import { Reservation } from "../../../types";
 import { BACKEND_URL } from "../../../query";
@@ -22,26 +23,29 @@ export const getReservationsQuery = () => ({
   queryFn: () => fetchReservations(),
 });
 
-export const loader = (queryClient: QueryClient) => async () => {
-  const reservationsQuery = getReservationsQuery();
-  const reservations: Reservation[] =
-    queryClient.getQueryData(reservationsQuery.queryKey) ??
-    (await queryClient.fetchQuery(reservationsQuery));
+export const loader =
+  (queryClient: QueryClient) =>
+  async ({ params }: LoaderFunctionArgs) => {
+    const reservationsQuery = getReservationsQuery();
+    const reservations: Reservation[] =
+      queryClient.getQueryData(reservationsQuery.queryKey) ??
+      (await queryClient.fetchQuery(reservationsQuery));
 
-  const itemsQueries = reservations.map((reservation) => {
-    const query = getItemQuery(reservation.itemId);
-    return new Promise((resolve) => {
-      resolve(
-        queryClient.getQueryData(query.queryKey) ??
-          queryClient.fetchQuery(query),
-      );
+    const itemsQueries = reservations.map((reservation) => {
+      const { storeId } = params as { storeId: string };
+      const query = getItemQuery(reservation.itemId, storeId);
+      return new Promise((resolve) => {
+        resolve(
+          queryClient.getQueryData(query.queryKey) ??
+            queryClient.fetchQuery(query),
+        );
+      });
     });
-  });
 
-  const items = await Promise.all(itemsQueries);
+    const items = await Promise.all(itemsQueries);
 
-  return {
-    reservations,
-    items,
+    return {
+      reservations,
+      items,
+    };
   };
-};
