@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { LoaderFunctionArgs } from "react-router-dom";
 import { QueryClient } from "react-query";
 import { getAccessToken } from "../../../../auth/utils";
 import { BACKEND_URL } from "../../../../query";
@@ -21,12 +21,14 @@ export const getItemsQuery = (storeId: string) => ({
   queryFn: () => fetchItems(storeId),
 });
 
-export const loader = (queryClient: QueryClient) => async () => {
-  const params = useParams() as { storeId: string };
-  const query = getItemsQuery(params.storeId);
+export const loader =
+  (queryClient: QueryClient) =>
+  async ({ params }: LoaderFunctionArgs) => {
+    const { storeId } = params as { storeId: string };
+    const query = getItemsQuery(storeId);
 
-  return (
-    queryClient.getQueryData(query.queryKey) ??
-    (await queryClient.fetchQuery(query))
-  );
-};
+    return (
+      queryClient.getQueryData(query.queryKey) ??
+      (await queryClient.fetchQuery(query))
+    );
+  };
