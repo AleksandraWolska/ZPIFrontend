@@ -3,6 +3,7 @@ import { defer, LoaderFunctionArgs } from "react-router-dom";
 import { MainPageConfig } from "../types";
 import { Item } from "../../../types";
 import { getAccessToken } from "../../../auth/utils";
+import { BACKEND_URL } from "../../../query";
 
 const fetchConfig = async (storeId: string): Promise<MainPageConfig> => {
   const token = getAccessToken();
@@ -11,7 +12,7 @@ const fetchConfig = async (storeId: string): Promise<MainPageConfig> => {
     `${
       process.env.NODE_ENV === "development"
         ? `/api/stores/${storeId}/main-page-config`
-        : `/store-configs/${storeId}/mainPageConfig`
+        : `${BACKEND_URL}/store-configs/${storeId}/mainPageConfig`
     }`,
     {
       headers: {
@@ -33,7 +34,7 @@ const fetchItems = async (storeId: string): Promise<Item[]> => {
     `${
       process.env.NODE_ENV === "development"
         ? `/api/stores/${storeId}/items`
-        : `/stores/${storeId}/items`
+        : `${BACKEND_URL}/stores/${storeId}/items`
     }`,
   );
   return res.json();

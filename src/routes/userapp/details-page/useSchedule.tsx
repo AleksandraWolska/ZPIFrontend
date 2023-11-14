@@ -1,5 +1,6 @@
 import { useMutation } from "react-query";
 import { FetchScheduleRequest } from "../types";
+import { BACKEND_URL } from "../../../query";
 
 function useSchedule() {
   const mutation = useMutation((data: FetchScheduleRequest) =>
@@ -7,7 +8,7 @@ function useSchedule() {
       `${
         process.env.NODE_ENV === "development"
           ? `/api/fetch-schedule`
-          : `/fetch-schedule`
+          : `${BACKEND_URL}/fetch-schedule`
       }`,
       {
         method: "POST",

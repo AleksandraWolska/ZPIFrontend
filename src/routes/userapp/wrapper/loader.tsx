@@ -2,6 +2,7 @@ import { QueryClient } from "react-query";
 import { LoaderFunctionArgs } from "react-router-dom";
 import { StoreConfig } from "../../../types";
 import { getAccessToken } from "../../../auth/utils";
+import { BACKEND_URL } from "../../../query";
 
 const fetchStoreConfig = async (storeId: string): Promise<StoreConfig> => {
   const token = getAccessToken();
@@ -10,7 +11,7 @@ const fetchStoreConfig = async (storeId: string): Promise<StoreConfig> => {
     `${
       process.env.NODE_ENV === "development"
         ? `/api/stores/${storeId}/store-config`
-        : `/store-configs/${storeId}/owner` // i guess this might be outdated
+        : `${BACKEND_URL}/store-configs/${storeId}/owner` // i guess this might be outdated
     }`,
     {
       headers: {

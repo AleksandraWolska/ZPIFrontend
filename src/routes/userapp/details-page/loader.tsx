@@ -2,6 +2,7 @@ import { QueryClient } from "react-query";
 import { defer, LoaderFunctionArgs } from "react-router-dom";
 import { Item } from "../../../types";
 import { CommentList, DetailsPageConfig } from "../types";
+import { BACKEND_URL } from "../../../query";
 
 const fetchDetailsConfig = async (
   storeId: string,
@@ -10,7 +11,7 @@ const fetchDetailsConfig = async (
     `${
       process.env.NODE_ENV === "development"
         ? `/api/stores/${storeId}/details-page-config`
-        : `/store-configs/${storeId}/detailsPageConfig`
+        : `${BACKEND_URL}/store-configs/${storeId}/detailsPageConfig`
     }`,
   );
   return res.json();
@@ -29,7 +30,7 @@ const fetchItemDetails = async (
     `${
       process.env.NODE_ENV === "development"
         ? `/api/stores/${storeId}/items/${itemId}`
-        : `/stores/${storeId}/items/${itemId}`
+        : `${BACKEND_URL}/stores/${storeId}/items/${itemId}`
     }`,
   );
   return res.json();
@@ -53,7 +54,7 @@ const fetchCommentsList = async (
     `${
       process.env.NODE_ENV === "development"
         ? `/api/stores/${storeId}/items/${itemId}/comments`
-        : `/items/${itemId}/comments`
+        : `${BACKEND_URL}/items/${itemId}/comments`
     }`,
   );
   return res.json();

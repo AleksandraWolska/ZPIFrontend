@@ -1,6 +1,6 @@
 import { useMutation } from "react-query";
 import { useParams } from "react-router-dom";
-import { queryClient } from "../../../../query";
+import { BACKEND_URL, queryClient } from "../../../../query";
 import { Comment } from "../../../../types";
 
 const addComment = (storeId: string, newComment: Comment) => {
@@ -9,7 +9,7 @@ const addComment = (storeId: string, newComment: Comment) => {
     `${
       process.env.NODE_ENV === "development"
         ? `/api/addcomment/${storeId}`
-        : `/addcomment/${storeId}`
+        : `${BACKEND_URL}/addcomment/${storeId}`
     }`,
     {
       method: "POST",

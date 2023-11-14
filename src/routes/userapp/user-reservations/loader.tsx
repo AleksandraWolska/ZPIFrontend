@@ -1,6 +1,7 @@
 import { QueryClient } from "react-query";
 import { defer, LoaderFunctionArgs } from "react-router-dom";
 import { UserReservation } from "../types";
+import { BACKEND_URL } from "../../../query";
 
 export const getUserReservationListQuery = (
   storeId: string,
@@ -18,7 +19,7 @@ const fetchUserReservationList = async (
     `${
       process.env.NODE_ENV === "development"
         ? `/api/store/${storeId}/user/${userId}/reservations`
-        : `/store/${storeId}/user/${userId}/reservations` // TBD
+        : `${BACKEND_URL}/store/${storeId}/user/${userId}/reservations` // TBD
     }`,
   );
   return res.json();

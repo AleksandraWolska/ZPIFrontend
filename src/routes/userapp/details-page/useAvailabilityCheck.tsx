@@ -1,5 +1,6 @@
 import { useMutation } from "react-query";
 import { CheckAvailabilityRequest } from "../types";
+import { BACKEND_URL } from "../../../query";
 
 function useAvailabilityCheck() {
   const mutation = useMutation((data: CheckAvailabilityRequest) =>
@@ -7,7 +8,7 @@ function useAvailabilityCheck() {
       `${
         process.env.NODE_ENV === "development"
           ? `/api/check-availability`
-          : `/check-availability`
+          : `${BACKEND_URL}/check-availability`
       }`,
       {
         method: "POST",

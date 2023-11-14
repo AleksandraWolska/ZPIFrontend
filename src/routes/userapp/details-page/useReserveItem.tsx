@@ -2,7 +2,7 @@ import { useMutation } from "react-query";
 
 // import { useNavigate } from "react-router-dom";
 import { NewReservation } from "../../../types";
-import { queryClient } from "../../../query";
+import { BACKEND_URL, queryClient } from "../../../query";
 
 function useReserveItem() {
   // const navigate = useNavigate();
@@ -10,7 +10,9 @@ function useReserveItem() {
     (data: NewReservation) =>
       fetch(
         `${
-          process.env.NODE_ENV === "development" ? `/api/reserve` : `/reserve`
+          process.env.NODE_ENV === "development"
+            ? `/api/reserve`
+            : `${BACKEND_URL}/reserve`
         }`,
         {
           method: "POST",
