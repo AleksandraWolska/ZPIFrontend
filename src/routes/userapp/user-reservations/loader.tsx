@@ -14,7 +14,13 @@ const fetchUserReservationList = async (
   storeId: string,
   userId: string,
 ): Promise<UserReservation[]> => {
-  const res = await fetch(`/api/store/${storeId}/user/${userId}/reservations`);
+  const res = await fetch(
+    `${
+      process.env.NODE_ENV === "development"
+        ? `/api/store/${storeId}/user/${userId}/reservations`
+        : `https://zpibackend.fly.dev/store/${storeId}/user/${userId}/reservations`
+    }`,
+  );
   return res.json();
 };
 

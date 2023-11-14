@@ -10,7 +10,7 @@ const fetchStoreConfig = async (storeId: string): Promise<StoreConfig> => {
     `${
       process.env.NODE_ENV === "development"
         ? `/api/stores/${storeId}/store-config`
-        : "https://zpibackend.fly.dev/store-configs"
+        : `https://zpibackend.fly.dev/store-configs/${storeId}`
     }`,
     {
       headers: {

@@ -6,7 +6,13 @@ import { CommentList, DetailsPageConfig } from "../types";
 const fetchDetailsConfig = async (
   storeId: string,
 ): Promise<DetailsPageConfig> => {
-  const res = await fetch(`/api/stores/${storeId}/details-page-config`);
+  const res = await fetch(
+    `${
+      process.env.NODE_ENV === "development"
+        ? `/api/stores/${storeId}/details-page-config`
+        : `https://zpibackend.fly.dev/details-page-configs/${storeId}`
+    }`,
+  );
   return res.json();
 };
 
@@ -19,7 +25,13 @@ const fetchItemDetails = async (
   storeId: string,
   itemId: string,
 ): Promise<Item> => {
-  const res = await fetch(`/api/stores/${storeId}/items/${itemId}`);
+  const res = await fetch(
+    `${
+      process.env.NODE_ENV === "development"
+        ? `/api/stores/${storeId}/items/${itemId}`
+        : `https://zpibackend.fly.dev/store/${storeId}/items/${itemId}`
+    }`,
+  );
   return res.json();
 };
 
@@ -37,7 +49,13 @@ const fetchCommentsList = async (
   storeId: string,
   itemId: string,
 ): Promise<CommentList> => {
-  const res = await fetch(`/api/stores/${storeId}/items/${itemId}/comments`);
+  const res = await fetch(
+    `${
+      process.env.NODE_ENV === "development"
+        ? `/api/stores/${storeId}/items/${itemId}/comments`
+        : `https://zpibackend.fly.dev/store/${storeId}/items/${itemId}/comments`
+    }`,
+  );
   return res.json();
 };
 

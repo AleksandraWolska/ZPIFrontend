@@ -3,13 +3,20 @@ import { FetchScheduleRequest } from "../types";
 
 function useSchedule() {
   const mutation = useMutation((data: FetchScheduleRequest) =>
-    fetch(`/api/fetch-schedule`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+    fetch(
+      `${
+        process.env.NODE_ENV === "development"
+          ? `/api/fetch-schedule`
+          : `https://zpibackend.fly.dev/fetch-schedule`
+      }`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
       },
-      body: JSON.stringify(data),
-    }).then((res) => {
+    ).then((res) => {
       if (!res.ok) throw new Error("Schedule fetch failed");
       return res.json();
     }),
