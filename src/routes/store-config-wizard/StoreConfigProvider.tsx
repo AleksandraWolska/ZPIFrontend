@@ -14,6 +14,7 @@ import { OWNER_COLORS, StoreConfig } from "../../types";
 const initialStoreConfig: StoreConfig = {
   storeConfigId: uuid(),
   owner: {
+    ownerId: uuid(),
     name: "",
     logoSrc: "",
     phone: "",
