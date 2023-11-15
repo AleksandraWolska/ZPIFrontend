@@ -1,4 +1,5 @@
 import { ReactNode, useContext, useEffect, useMemo, useReducer } from "react";
+import { v4 as uuid } from "uuid";
 import { StoreConfigStep } from "./types";
 import {
   STORE_CONFIG_ACTION_TYPES,
@@ -11,6 +12,7 @@ import {
 import { OWNER_COLORS, StoreConfig } from "../../types";
 
 const initialStoreConfig: StoreConfig = {
+  storeConfigId: uuid(),
   owner: {
     name: "",
     logoSrc: "",

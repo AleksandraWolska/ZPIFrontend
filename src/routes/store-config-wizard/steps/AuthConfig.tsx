@@ -15,7 +15,7 @@ import StepContentWrapper from "./components/StepContentWrapper";
 import WizardStepTitle from "./components/WizardStepTitle";
 import WizardStepDescription from "./components/WizardStepDescription";
 import BackButton from "./components/BackButton";
-import ChangePageButtons from "../../admin-app/components/ChangePageButtons";
+import ChangePageButtons from "../../admin/components/ChangePageButtons";
 
 function AuthConfig({
   setActiveStep,

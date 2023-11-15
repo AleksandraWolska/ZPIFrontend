@@ -9,11 +9,7 @@ const fetchConfig = async (storeId: string): Promise<MainPageConfig> => {
   const token = getAccessToken();
 
   const res = await fetch(
-    `${
-      process.env.NODE_ENV === "development"
-        ? `/api/stores/${storeId}/main-page-config`
-        : `${BACKEND_URL}/store-configs/${storeId}/mainPageConfig`
-    }`,
+    `${BACKEND_URL}/store-configs/${storeId}/mainPageConfig`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -30,13 +26,7 @@ export const getConfigQuery = (storeId: string) => ({
 });
 
 const fetchItems = async (storeId: string): Promise<Item[]> => {
-  const res = await fetch(
-    `${
-      process.env.NODE_ENV === "development"
-        ? `/api/stores/${storeId}/items`
-        : `${BACKEND_URL}/stores/${storeId}/items`
-    }`,
-  );
+  const res = await fetch(`${BACKEND_URL}/stores/${storeId}/items`);
   return res.json();
 };
 

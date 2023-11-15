@@ -1,36 +1,45 @@
 import { useMutation } from "react-query";
-import { StoreConfig } from "../../types";
 import { getAccessToken } from "../../auth/utils";
 import { BACKEND_URL, queryClient } from "../../query";
+import { StoreConfigWithoutIds } from "../admin/types";
+import { StoreConfig } from "../../types";
 
-const addStoreConfig = (storeConfig: StoreConfig) => {
+export const removeIdsFromStoreConfig = (
+  storeConfig: StoreConfig,
+): StoreConfigWithoutIds => {
+  const { storeConfigId, ...rest } = storeConfig;
+
+  const { ownerId, ...restOwner } = rest.owner;
+
+  return {
+    ...rest,
+    owner: {
+      ...restOwner,
+    },
+  };
+};
+
+const addStoreConfig = (storeConfig: StoreConfigWithoutIds) => {
   const token = getAccessToken();
 
-  return fetch(
-    `${
-      process.env.NODE_ENV === "development"
-        ? `/api/admin/store-config`
-        : `${BACKEND_URL}/store-configs`
-    }`,
-    {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(storeConfig),
+  return fetch(`${BACKEND_URL}/store-configs`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: "application/json",
+      "Content-Type": "application/json",
     },
-  );
+    body: JSON.stringify(storeConfig),
+  });
 };
 
 function useAddStoreConfig() {
   return useMutation({
-    mutationFn: (storeConfig: StoreConfig) => {
+    mutationFn: (storeConfig: StoreConfigWithoutIds) => {
       return addStoreConfig(storeConfig);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(["admin-store-config"]);
+      queryClient.invalidateQueries(["admin-stores"]);
     },
   });
 }
