@@ -2,6 +2,7 @@ export type ObjectValues<T> = T[keyof T];
 
 // STORE CONFIG ================================================================
 export type Owner = {
+  ownerId: string;
   name: string;
   logoSrc: string;
   phone: string;
@@ -84,6 +85,7 @@ export type AuthConfig = {
 };
 
 export type StoreConfig = {
+  storeConfigId: string;
   owner: Owner;
   core: Core;
   customAttributesSpec: CustomAttributeSpec[];

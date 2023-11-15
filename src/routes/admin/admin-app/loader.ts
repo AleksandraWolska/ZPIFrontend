@@ -1,5 +1,5 @@
-import { QueryClient } from "react-query";
 import { LoaderFunctionArgs } from "react-router-dom";
+import { QueryClient } from "react-query";
 import { StoreConfig } from "../../../types";
 import { getAccessToken } from "../../../auth/utils";
 import { BACKEND_URL } from "../../../query";
@@ -17,8 +17,8 @@ const fetchStoreConfig = async (storeId: string): Promise<StoreConfig> => {
 };
 
 export const getStoreConfigQuery = (storeId: string) => ({
-  queryKey: ["store-config", storeId],
-  queryFn: async () => fetchStoreConfig(storeId),
+  queryKey: ["store-configs", storeId],
+  queryFn: () => fetchStoreConfig(storeId),
 });
 
 export const loader =

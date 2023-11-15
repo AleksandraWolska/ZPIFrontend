@@ -1,7 +1,9 @@
 import { StoreConfig } from "../../../types";
 
 export const storeConfig: StoreConfig = {
+  storeConfigId: "7",
   owner: {
+    ownerId: "t7@test.com",
     name: "C7 TBD",
     logoSrc: "https://example.com/techrental-logo.png",
     phone: "+1 (123) 456-7890",

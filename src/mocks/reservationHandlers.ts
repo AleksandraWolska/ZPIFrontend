@@ -1,14 +1,13 @@
 import { rest } from "msw";
 import dayjs from "dayjs";
 import { v4 as uuid } from "uuid";
-import { jwtDecode } from "jwt-decode";
 import {
   CheckAvailabilityResponseSuccess,
   CheckAvailabilityResponseSuggestion,
   FetchScheduleResponse,
 } from "../routes/userapp/types";
 import { Availability, Reservation } from "../types";
-import { fetchData, getStoreId, getToken, incorrectToken } from "./utils";
+import { fetchData, getToken, incorrectToken } from "./utils";
 import { importItems } from "./itemsHandlers";
 import userReservationsList from "./data/common/userReservationsList";
 
@@ -20,37 +19,33 @@ const importReservations = async (storeId: string) => {
   }
 };
 
-const importAdminReservations = async (token: string) => {
-  const decoded = jwtDecode(token) as { email: string };
-  const storeId = getStoreId(decoded.email);
-  return importReservations(storeId);
-};
-
-const getReservationsAdmin = rest.get(
-  "/api/admin/reservations",
+const getReservations = rest.get(
+  "/api/stores/:storeId/reservations",
   async (req, res, ctx) => {
     const token = getToken(req.headers);
     if (incorrectToken(token)) {
       return res(ctx.status(401), ctx.json({ message: "Unauthorized." }));
     }
 
-    const reservations = await importAdminReservations(token);
+    const { storeId } = req.params;
+
+    const reservations = await importReservations(storeId.toString());
 
     return res(ctx.status(200), ctx.json(reservations));
   },
 );
 
 const confirmReservation = rest.put(
-  "/api/admin/reservations/:reservationId/confirm",
+  "/api/stores/:storeId/reservations/:reservationId/confirm",
   async (req, res, ctx) => {
     const token = getToken(req.headers);
     if (incorrectToken(token)) {
       return res(ctx.status(401), ctx.json({ message: "Unauthorized." }));
     }
 
-    const { reservationId } = req.params;
+    const { storeId, reservationId } = req.params;
 
-    const reservations = await importAdminReservations(token);
+    const reservations = await importReservations(storeId.toString());
 
     if (!reservations) {
       return res(ctx.status(404), ctx.json({ message: "Store not found." }));
@@ -232,7 +227,7 @@ const fetchSchedule = rest.post(
 );
 
 export const reservationHandlers = [
-  getReservationsAdmin,
+  getReservations,
   confirmReservation,
   checkAvailability,
   reserve,

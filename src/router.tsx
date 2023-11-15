@@ -9,11 +9,12 @@ import ItemDetailsPage from "./routes/userapp/details-page/ItemDetailsPage";
 import UserAppWrapper from "./routes/userapp/wrapper/UserAppWrapper";
 import { loader as userAppWrapperLoader } from "./routes/userapp/wrapper/loader";
 import { loader as detailsPageLoader } from "./routes/userapp/details-page/loader";
-import { loader as itemListLoader } from "./routes/admin-app/items/item-list/loader";
-import { loader as editItemLoader } from "./routes/admin-app/items/edit-item/loader";
-import { loader as adminAppLoader } from "./routes/admin-app/loader";
-import { loader as reservationsLoader } from "./routes/admin-app/reservations/loader";
+import { loader as itemListLoader } from "./routes/admin/items/item-list/loader";
+import { loader as editItemLoader } from "./routes/admin/items/edit-item/loader";
+import { loader as adminAppLoader } from "./routes/admin/admin-app/loader";
+import { loader as reservationsLoader } from "./routes/admin/reservations/loader";
 import { loader as userReservationsPageLoader } from "./routes/userapp/user-reservations/loader";
+import { loader as adminMenuLoader } from "./routes/admin/admin-menu/loader";
 import UserReservationsPage from "./routes/userapp/user-reservations/UserReservationsPage";
 
 if (process.env.NODE_ENV === "development") {
@@ -30,13 +31,30 @@ const router = createBrowserRouter([
     element: <RequireLogin />,
     children: [
       {
-        path: `${
-          process.env.NODE_ENV === "development" ? `admin` : `admin/:storeId`
-        }`,
+        path: "admin",
+        loader: adminMenuLoader(queryClient),
+        lazy: async () => {
+          const AdminMenu = (
+            await import("./routes/admin/admin-menu/AdminMenu")
+          ).default;
+          return { Component: AdminMenu };
+        },
+      },
+      {
+        path: "admin/new",
+        lazy: async () => {
+          const StoreConfigWizard = (
+            await import("./routes/store-config-wizard/StoreConfigWizard")
+          ).default;
+          return { Component: StoreConfigWizard };
+        },
+      },
+      {
+        path: "admin/:storeId",
         loader: adminAppLoader(queryClient),
         lazy: async () => {
           const AdminAppWrapper = (
-            await import("./routes/admin-app/AdminAppWrapper")
+            await import("./routes/admin/admin-app/AdminAppWrapper")
           ).default;
           return { Component: AdminAppWrapper };
         },
@@ -44,8 +62,9 @@ const router = createBrowserRouter([
           {
             index: true,
             lazy: async () => {
-              const AdminApp = (await import("./routes/admin-app/AdminApp"))
-                .default;
+              const AdminApp = (
+                await import("./routes/admin/admin-app/AdminApp")
+              ).default;
               return { Component: AdminApp };
             },
           },
@@ -54,7 +73,7 @@ const router = createBrowserRouter([
             loader: itemListLoader(queryClient),
             lazy: async () => {
               const ItemList = (
-                await import("./routes/admin-app/items/item-list/ItemList")
+                await import("./routes/admin/items/item-list/ItemList")
               ).default;
               return { Component: ItemList };
             },
@@ -64,7 +83,7 @@ const router = createBrowserRouter([
             loader: editItemLoader(queryClient),
             lazy: async () => {
               const EditItem = (
-                await import("./routes/admin-app/items/edit-item/EditItem")
+                await import("./routes/admin/items/edit-item/EditItem")
               ).default;
               return { Component: EditItem };
             },
@@ -74,9 +93,7 @@ const router = createBrowserRouter([
             loader: editItemLoader(queryClient),
             lazy: async () => {
               const RescheduleItem = (
-                await import(
-                  "./routes/admin-app/items/edit-item/RescheduleItem"
-                )
+                await import("./routes/admin/items/edit-item/RescheduleItem")
               ).default;
               return { Component: RescheduleItem };
             },
@@ -85,7 +102,7 @@ const router = createBrowserRouter([
             path: "add-item",
             lazy: async () => {
               const NewItem = (
-                await import("./routes/admin-app/items/add-item/AddItem")
+                await import("./routes/admin/items/add-item/AddItem")
               ).default;
               return { Component: NewItem };
             },
@@ -95,7 +112,7 @@ const router = createBrowserRouter([
             loader: reservationsLoader(queryClient),
             lazy: async () => {
               const Reservations = (
-                await import("./routes/admin-app/reservations/Reservations")
+                await import("./routes/admin/reservations/Reservations")
               ).default;
               return { Component: Reservations };
             },

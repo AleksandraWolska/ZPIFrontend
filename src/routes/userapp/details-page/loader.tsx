@@ -8,11 +8,7 @@ const fetchDetailsConfig = async (
   storeId: string,
 ): Promise<DetailsPageConfig> => {
   const res = await fetch(
-    `${
-      process.env.NODE_ENV === "development"
-        ? `/api/stores/${storeId}/details-page-config`
-        : `${BACKEND_URL}/store-configs/${storeId}/detailsPageConfig`
-    }`,
+    `${BACKEND_URL}/store-configs/${storeId}/detailsPageConfig`,
   );
   return res.json();
 };
@@ -26,13 +22,7 @@ const fetchItemDetails = async (
   storeId: string,
   itemId: string,
 ): Promise<Item> => {
-  const res = await fetch(
-    `${
-      process.env.NODE_ENV === "development"
-        ? `/api/stores/${storeId}/items/${itemId}`
-        : `${BACKEND_URL}/stores/${storeId}/items/${itemId}`
-    }`,
-  );
+  const res = await fetch(`${BACKEND_URL}/stores/${storeId}/items/${itemId}`);
   return res.json();
 };
 
@@ -51,11 +41,7 @@ const fetchCommentsList = async (
   itemId: string,
 ): Promise<CommentList> => {
   const res = await fetch(
-    `${
-      process.env.NODE_ENV === "development"
-        ? `/api/stores/${storeId}/items/${itemId}/comments`
-        : `${BACKEND_URL}/items/${itemId}/comments`
-    }`,
+    `${BACKEND_URL}/stores/${storeId}/items/${itemId}/comments`,
   );
   return res.json();
 };

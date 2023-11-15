@@ -2,7 +2,9 @@ import { Box, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useStoreConfig } from "../StoreConfigProvider";
 import StepContentWrapper from "./components/StepContentWrapper";
-import useAddStoreConfig from "../useAddStoreConfig";
+import useAddStoreConfig, {
+  removeIdsFromStoreConfig,
+} from "../useAddStoreConfig";
 
 function Summary() {
   const { storeConfig } = useStoreConfig();
@@ -15,7 +17,7 @@ function Summary() {
       <Button
         size="large"
         onClick={() => {
-          addStoreConfig.mutate(storeConfig, {
+          addStoreConfig.mutate(removeIdsFromStoreConfig(storeConfig), {
             onSuccess: () => {
               navigate("/admin");
             },

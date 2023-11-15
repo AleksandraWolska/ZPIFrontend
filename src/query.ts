@@ -1,7 +1,9 @@
 import { QueryClient } from "react-query";
 
 export const BACKEND_URL =
-  process.env.NODE_ENV === "development" ? "" : "https://zpibackend.fly.dev";
+  process.env.NODE_ENV === "development"
+    ? "/api"
+    : "https://zpibackend.fly.dev";
 
 export const queryClient = new QueryClient({
   defaultOptions: {

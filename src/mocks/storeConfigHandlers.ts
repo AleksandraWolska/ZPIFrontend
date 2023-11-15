@@ -1,6 +1,6 @@
 import { rest } from "msw";
 import { jwtDecode } from "jwt-decode";
-import { incorrectToken, fetchData, getStoreId, getToken } from "./utils";
+import { fetchData, getToken, incorrectToken } from "./utils";
 import { StoreConfig } from "../types";
 
 export const importStoreConfig = async (storeId: string) => {
@@ -19,14 +19,8 @@ export const importStoreConfig = async (storeId: string) => {
   }
 };
 
-export const importAdminStoreConfig = async (token: string) => {
-  const decoded = jwtDecode(token) as { email: string };
-  const storeId = getStoreId(decoded.email);
-  return importStoreConfig(storeId);
-};
-
 const getStoreConfig = rest.get(
-  "/api/stores/:storeId/store-config",
+  "/api/store-configs/:storeId",
   async (req, res, ctx) => {
     const { storeId } = req.params;
 
@@ -41,7 +35,7 @@ const getStoreConfig = rest.get(
 );
 
 const getMainPageConfig = rest.get(
-  "/api/stores/:storeId/main-page-config",
+  "/api/store-configs/:storeId/mainPageConfig",
   async (req, res, ctx) => {
     const { storeId } = req.params;
 
@@ -62,7 +56,7 @@ const getMainPageConfig = rest.get(
 );
 
 const getDetailsPageConfig = rest.get(
-  "/api/stores/:storeId/details-page-config",
+  "/api/store-configs/:storeId/detailsPageConfig",
   async (req, res, ctx) => {
     const { storeId } = req.params;
 
@@ -83,43 +77,23 @@ const getDetailsPageConfig = rest.get(
   },
 );
 
-const getItemConfig = rest.get(
-  "/api/stores/:storeId/item-config",
-  async (req, res, ctx) => {
-    const { storeId } = req.params;
+const getAdminStores = rest.get("/api/store-configs", async (req, res, ctx) => {
+  const token = getToken(req.headers);
+  if (incorrectToken(token)) {
+    return res(ctx.status(401), ctx.json({ message: "Unauthorized." }));
+  }
 
-    const storeConfig = await importStoreConfig(storeId.toString());
+  const module = await import(/* @vite-ignore */ `./data/common/adminStores`);
+  const { adminStores } = module;
 
-    if (!storeConfig) {
-      return res(ctx.status(404), ctx.json({ message: "Store not found." }));
-    }
+  const decoded = jwtDecode(token) as { email: string };
+  const { email } = decoded as { email: keyof typeof adminStores };
 
-    return res(
-      ctx.status(200),
-      ctx.json({
-        core: storeConfig.core,
-        customAttributesSpec: storeConfig.customAttributesSpec,
-      }),
-    );
-  },
-);
-
-const getStoreConfigAdmin = rest.get(
-  "/api/admin/store-config",
-  async (req, res, ctx) => {
-    const token = getToken(req.headers);
-    if (incorrectToken(token)) {
-      return res(ctx.status(401), ctx.json({ message: "Unauthorized." }));
-    }
-
-    const storeConfig = await importAdminStoreConfig(token);
-
-    return res(ctx.status(storeConfig ? 200 : 404), ctx.json(storeConfig));
-  },
-);
+  return res(ctx.status(200), ctx.json(adminStores[email]));
+});
 
 const addStoreConfig = rest.post(
-  "/api/admin/store-config",
+  "/api/store-configs",
   async (req, res, ctx) => {
     const token = getToken(req.headers);
     if (incorrectToken(token)) {
@@ -128,8 +102,21 @@ const addStoreConfig = rest.post(
 
     const body = (await req.json()) as StoreConfig;
 
-    const module = await import("./data/store-101");
-    module.storeConfig.push(body);
+    const adminStoresModule = await import(
+      /* @vite-ignore */ `./data/common/adminStores`
+    );
+    const { adminStores } = adminStoresModule;
+
+    const decoded = jwtDecode(token) as { email: keyof typeof adminStores };
+    body.owner.ownerId = decoded.email;
+
+    adminStores[decoded.email].push({
+      storeConfigId: "101",
+      name: body.owner.name,
+    });
+
+    const storeConfigModule = await import("./data/store-101");
+    storeConfigModule.storeConfig.push(body);
 
     return res(ctx.status(201), ctx.json({ message: "Added store config." }));
   },
@@ -139,7 +126,6 @@ export const storeConfigHandlers = [
   getStoreConfig,
   getMainPageConfig,
   getDetailsPageConfig,
-  getItemConfig,
-  getStoreConfigAdmin,
+  getAdminStores,
   addStoreConfig,
 ];
