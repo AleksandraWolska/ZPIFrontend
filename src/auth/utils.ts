@@ -11,7 +11,7 @@ const {
       redirect_uri: "http://localhost:5173/secret",
     }
   : {
-      authority: "https://keycloak-docker.fly.dev",
+      authority: "https://keycloak-docker.fly.dev/realms/zpi",
       client_id: "zpi_client",
       redirect_uri: "https://genervation.azurewebsites.net/secret",
     };
