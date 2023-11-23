@@ -76,10 +76,7 @@ export default function ItemDetailsPage() {
     message: "",
   });
   const [reservationRequestReady, setReservationRequestReady] = useState(
-    initializeReservationRequestReady(
-      storeConfig.core,
-      item.status.availableAmount,
-    ),
+    initializeReservationRequestReady(storeConfig.core, item.availableAmount),
   );
   const [userCount, setUserCount] = useState(1);
   const [availabilityChecked, setAvailabilityChecked] = useState(
@@ -128,9 +125,7 @@ export default function ItemDetailsPage() {
 
   const handleUserCountItemInputChange = (newValue: number) => {
     setReservationRequestReady(
-      item.status.availableAmount
-        ? item.status.availableAmount >= newValue
-        : true,
+      item.availableAmount ? item.availableAmount >= newValue : true,
     );
     setUserCount(newValue || 1);
     setAvailabilityChecked(false);
@@ -230,15 +225,13 @@ export default function ItemDetailsPage() {
     <FreeRangesCalendar
       // maybe change for store open hours as default
       earliestCalendarStart={
-        item.status.earliestStart
-          ? item.status.earliestStart
-          : "2023-10-05T06:00:00Z"
+        item.earliestStart ? item.earliestStart : "2023-10-05T06:00:00Z"
       }
       latestCalendarEnd={
-        item.status.latestEnd ? item.status.latestEnd : "2023-10-05T20:00:00Z"
+        item.latestEnd ? item.latestEnd : "2023-10-05T20:00:00Z"
       }
       itemId={item.id}
-      availabilityList={item.status.availability || []}
+      availabilityList={item.availability || []}
       userCount={userCount}
       availabilityChecked={availabilityChecked}
       setAvailabilityChecked={setAvailabilityChecked}
@@ -250,15 +243,13 @@ export default function ItemDetailsPage() {
     <CheckAvailabilityCalendar
       // maybe change for store open hours as default
       earliestCalendarStart={
-        item.status.earliestStart
-          ? item.status.earliestStart
-          : "2023-10-05T06:00:00Z"
+        item.earliestStart ? item.earliestStart : "2023-10-05T06:00:00Z"
       }
       latestCalendarEnd={
-        item.status.latestEnd ? item.status.latestEnd : "2023-10-05T20:00:00Z"
+        item.latestEnd ? item.latestEnd : "2023-10-05T20:00:00Z"
       }
       itemId={item.id}
-      availabilityList={item.status.availability || []}
+      availabilityList={item.availability || []}
       userCount={userCount}
       prepareFlexibleReservation={prepareFlexibleReservation}
       availabilityChecked={availabilityChecked}
@@ -384,8 +375,8 @@ export default function ItemDetailsPage() {
               {item.attributes.subtitle}
             </Typography>
           )}
-          {storeConfig.detailsPage.showRating && item.status.mark && (
-            <Ratings mark={item.status.mark} />
+          {storeConfig.detailsPage.showRating && item.mark && (
+            <Ratings mark={item.mark} />
           )}
           {item.attributes.description && (
             <Typography variant="body2">

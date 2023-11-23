@@ -27,7 +27,7 @@ function ItemListElement({ item, config }: ItemListElementProps) {
         },
       }}
       style={{
-        opacity: item.status.availableAmount !== 0 ? 1 : 0.4,
+        opacity: item.availableAmount !== 0 ? 1 : 0.4,
       }}
     >
       {/* Image Box */}
@@ -66,9 +66,9 @@ function ItemListElement({ item, config }: ItemListElementProps) {
           <Typography variant="h5">{item.attributes.title}</Typography>
           <Typography>{item.attributes.subtitle}</Typography>
 
-          {config.mainPage &&
-            config.mainPage.showRating &&
-            item.status.mark && <Ratings mark={item.status.mark} />}
+          {config.mainPage && config.mainPage.showRating && item.mark && (
+            <Ratings mark={item.mark} />
+          )}
         </Box>
 
         {/* Attributes List */}

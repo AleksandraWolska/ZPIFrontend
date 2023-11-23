@@ -12,6 +12,13 @@ function ItemFormProvider({
 }) {
   const [item, dispatch] = useReducer(itemFormReducer, initialItem);
 
+  const setItem = (attr: Partial<Item>) => {
+    dispatch({
+      type: ITEM_FORM_ACTION_TYPES.SET_ITEM,
+      payload: attr,
+    });
+  };
+
   const setItemAttribute = (attr: Partial<Item["attributes"]>) => {
     dispatch({
       type: ITEM_FORM_ACTION_TYPES.SET_ITEM_ATTRIBUTE,
@@ -26,15 +33,6 @@ function ItemFormProvider({
     });
   };
 
-  const setInitialSetting = (
-    initialStatus: Partial<Item["initialSettings"]>,
-  ) => {
-    dispatch({
-      type: ITEM_FORM_ACTION_TYPES.SET_INITIAL_SETTING,
-      payload: initialStatus,
-    });
-  };
-
   const setSubItems = (subItems: Item["subItems"]) => {
     dispatch({
       type: ITEM_FORM_ACTION_TYPES.SET_SUB_ITEMS,
@@ -45,9 +43,9 @@ function ItemFormProvider({
   const contextValue = useMemo(
     () => ({
       item,
+      setItem,
       setItemAttribute,
       setItemCustomAttribute,
-      setInitialSetting,
       setSubItems,
     }),
     [item],

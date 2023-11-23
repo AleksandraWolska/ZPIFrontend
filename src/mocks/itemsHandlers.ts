@@ -105,8 +105,8 @@ const editItem = rest.put(
     }
 
     if (storeConfig.core.flexibility) {
-      body.status.availability = calculateAvailability(
-        body.initialSettings.schedule as SlotsSchedule | ContinuousSchedule,
+      body.availability = calculateAvailability(
+        body.schedule as SlotsSchedule | ContinuousSchedule,
       );
     }
 
@@ -164,7 +164,7 @@ const activateItem = rest.put(
       return res(ctx.status(404), ctx.json({ message: "Item not found." }));
     }
 
-    items[idx].status.active = true;
+    items[idx].active = true;
 
     return res(ctx.status(200), ctx.json({ message: "Item activated." }));
   },
@@ -192,7 +192,7 @@ const deactivateItem = rest.put(
       return res(ctx.status(404), ctx.json({ message: "Item not found." }));
     }
 
-    items[idx].status.active = false;
+    items[idx].active = false;
 
     return res(ctx.status(200), ctx.json({ message: "Item deactivated." }));
   },
@@ -212,12 +212,9 @@ const addIdsToItem = (item: ItemWithoutIds): Item => {
 const addAvailabilityToItem = (item: Item): Item => {
   return {
     ...item,
-    status: {
-      ...item.status,
-      availability: calculateAvailability(
-        item.initialSettings.schedule as SlotsSchedule | ContinuousSchedule,
-      ),
-    },
+    availability: calculateAvailability(
+      item.schedule as SlotsSchedule | ContinuousSchedule,
+    ),
   };
 };
 

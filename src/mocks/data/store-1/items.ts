@@ -36,16 +36,12 @@ export const items: Item[] = [
         value: "Anna Majewska",
       },
     ],
-    initialSettings: {
-      schedule: {
-        startDateTime: "2023-11-30T10:00:00.000Z",
-      },
+    schedule: {
+      startDateTime: "2023-11-30T10:00:00.000Z",
     },
-    status: {
-      availableAmount: 1,
-      active: true,
-      mark: 4.5,
-    },
+    availableAmount: 1,
+    active: true,
+    mark: 4.5,
   },
   {
     id: "2",
@@ -82,16 +78,12 @@ export const items: Item[] = [
         value: "Kamil Kruk",
       },
     ],
-    initialSettings: {
-      schedule: {
-        startDateTime: "2023-11-30T10:00:00.000Z",
-      },
+    schedule: {
+      startDateTime: "2023-11-30T10:00:00.000Z",
     },
-    status: {
-      availableAmount: 1,
-      active: true,
-      mark: 4.8,
-    },
+    availableAmount: 1,
+    active: true,
+    mark: 4.8,
   },
   {
     id: "3",
@@ -128,16 +120,12 @@ export const items: Item[] = [
         value: "Michał Michalski",
       },
     ],
-    initialSettings: {
-      schedule: {
-        startDateTime: "2023-11-30T10:00:00.000Z",
-      },
+    schedule: {
+      startDateTime: "2023-11-30T10:00:00.000Z",
     },
-    status: {
-      availableAmount: 1,
-      active: true,
-      mark: 4.6,
-    },
+    availableAmount: 1,
+    active: true,
+    mark: 4.6,
   },
   {
     id: "4",
@@ -174,15 +162,11 @@ export const items: Item[] = [
         value: "Kamil Kruk",
       },
     ],
-    initialSettings: {
-      schedule: {
-        startDateTime: "2023-12-01T10:00:00.000Z",
-      },
+    schedule: {
+      startDateTime: "2023-12-01T10:00:00.000Z",
     },
-    status: {
-      availableAmount: 1,
-      active: true,
-      mark: 4,
-    },
+    availableAmount: 1,
+    active: true,
+    mark: 4,
   },
 ];

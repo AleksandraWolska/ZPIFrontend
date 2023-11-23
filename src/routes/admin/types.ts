@@ -23,27 +23,27 @@ export type ContinuousSchedule = {
 
 export type Schedule = FixedSchedule | SlotsSchedule | ContinuousSchedule;
 
-export type SubItemInitialStatus = {
-  amount?: number;
-  schedule?: FixedSchedule;
-};
+// export type SubItemInitialStatus = {
+//   amount?: number;
+//   schedule?: FixedSchedule;
+// };
 
-export type EnhancedSubItem = {
-  subItem: SubItem;
-  initialStatus: SubItemInitialStatus;
-};
+// export type EnhancedSubItem = {
+//   subItem: SubItem;
+//   initialStatus: SubItemInitialStatus;
+// };
+//
+// export type ItemInitialStatus = {
+//   amount?: number;
+//   schedule: Schedule;
+// };
 
-export type ItemInitialStatus = {
-  amount?: number;
-  schedule: Schedule;
-};
-
-export type EnhancedItem = {
-  item: Omit<Item, "subItemList"> & {
-    subItemList?: EnhancedSubItem[];
-  };
-  initialStatus: ItemInitialStatus;
-};
+// export type EnhancedItem = {
+//   item: Omit<Item, "subItemList"> & {
+//     subItemList?: EnhancedSubItem[];
+//   };
+//   initialStatus: ItemInitialStatus;
+// };
 
 export type ItemWithoutIds = Omit<Item, "id" | "subItems"> & {
   subItems?: Omit<SubItem, "id">[];

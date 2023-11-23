@@ -195,7 +195,7 @@ export default function UserAppMainPage() {
           </Box>
           <List>
             {sortedItemInfos.map((item) => {
-              const isAvailable = item.status.availableAmount !== 0;
+              const isAvailable = item.availableAmount !== 0;
               return (
                 <ListItem
                   key={item.id}
