@@ -7,7 +7,7 @@ name: Genervation on Azure
 on:
   push:
     branches:
-      - "dev"
+      - "flatten-item"
   workflow_dispatch:
 
 # Optional: environment variables can be injected here

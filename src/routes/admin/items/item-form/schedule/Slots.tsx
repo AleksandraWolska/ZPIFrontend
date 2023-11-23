@@ -9,9 +9,9 @@ import ScheduleCalendar, {
 import { useItemForm } from "../ItemFormProvider";
 
 function Slots() {
-  const { item, setInitialSetting } = useItemForm();
+  const { item, setItem } = useItemForm();
 
-  const { schedule } = item.initialSettings as {
+  const { schedule } = item as {
     schedule: SlotsSchedule;
   };
 
@@ -43,7 +43,7 @@ function Slots() {
           <ScheduleCalendar
             events={parseSlotsScheduleToEvents(schedule)}
             onEventsChange={(events: BigCalendarEvent[]) =>
-              setInitialSetting({
+              setItem({
                 schedule: parseEventsToSlotsSchedule(events),
               })
             }

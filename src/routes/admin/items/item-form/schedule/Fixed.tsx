@@ -5,9 +5,9 @@ import { FixedSchedule } from "../../../types";
 import { useItemForm } from "../ItemFormProvider";
 
 function Fixed() {
-  const { item, setInitialSetting } = useItemForm();
+  const { item, setItem } = useItemForm();
 
-  const { schedule } = item.initialSettings as {
+  const { schedule } = item as {
     schedule: FixedSchedule;
   };
 
@@ -26,7 +26,7 @@ function Fixed() {
           value={dayjs(schedule.startDateTime)}
           onChange={(newValue) => {
             if (newValue) {
-              setInitialSetting({
+              setItem({
                 schedule: {
                   ...schedule,
                   startDateTime: newValue.toISOString(),
@@ -43,7 +43,7 @@ function Fixed() {
             <Checkbox
               checked={!!schedule.endDateTime}
               onChange={(e) => {
-                setInitialSetting({
+                setItem({
                   schedule: {
                     ...schedule,
                     endDateTime: e.target.checked
@@ -63,7 +63,7 @@ function Fixed() {
             value={dayjs(schedule.endDateTime)}
             onChange={(newValue) => {
               if (newValue) {
-                setInitialSetting({
+                setItem({
                   schedule: {
                     ...schedule,
                     endDateTime: newValue.toISOString(),

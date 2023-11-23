@@ -155,19 +155,15 @@ export type Item = {
     image: string;
   };
   customAttributeList: CustomAttribute[];
-  initialSettings: {
-    amount?: number;
-    schedule?: Schedule;
-  };
+  amount?: number;
+  schedule?: Schedule;
   subItems?: SubItem[];
-  status: {
-    active: boolean;
-    availableAmount?: number;
-    availability?: Availability[];
-    earliestStart?: string;
-    latestEnd?: string;
-    mark?: number;
-  };
+  active: boolean;
+  availableAmount?: number;
+  availability?: Availability[];
+  earliestStart?: string;
+  latestEnd?: string;
+  mark?: number;
 };
 
 // RESERVATION =================================================================

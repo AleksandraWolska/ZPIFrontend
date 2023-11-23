@@ -26,7 +26,7 @@ function ItemList() {
     string | null
   >(null);
   const currentActivity = items.find((i) => i.id === itemToHaveActivityUpdated)
-    ?.status.active;
+    ?.active;
   const updateItemActivity = useUpdateItemActivity();
 
   const [itemToBeDeleted, setItemToBeDeleted] = useState<string | null>(null);
@@ -72,7 +72,7 @@ function ItemList() {
                 </Link>
 
                 <ActionBtn
-                  text={item.status.active ? "Deactivate" : "Activate"}
+                  text={item.active ? "Deactivate" : "Activate"}
                   onClick={() => setItemToHaveActivityUpdated(item.id)}
                 />
 
@@ -119,7 +119,7 @@ function ItemDescription({ item }: { item: Item }) {
     <>
       <Stack direction="row" spacing={1}>
         <Typography variant="h4">{item.attributes.title}</Typography>
-        {item.status.active ? (
+        {item.active ? (
           <Chip label="active" color="success" />
         ) : (
           <Chip label="inactive" color="error" />
