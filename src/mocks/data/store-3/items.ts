@@ -41,17 +41,13 @@ export const items: Item[] = [
         value: "2024-02-01T12:00:00Z",
       },
     ],
-    initialSettings: {
-      amount: 10,
-      schedule: {
-        startDateTime: "2024-02-01T12:00:00Z",
-      },
+    amount: 10,
+    schedule: {
+      startDateTime: "2024-02-01T12:00:00Z",
     },
-    status: {
-      active: true,
-      mark: 4.5,
-      availableAmount: 10,
-    },
+    active: true,
+    mark: 4.5,
+    availableAmount: 10,
   },
   {
     id: "2",
@@ -93,17 +89,13 @@ export const items: Item[] = [
         value: "2024-02-02T12:00:00Z",
       },
     ],
-    initialSettings: {
-      amount: 5,
-      schedule: {
-        startDateTime: "2024-02-02T12:00:00Z",
-      },
+    amount: 5,
+    schedule: {
+      startDateTime: "2024-02-02T12:00:00Z",
     },
-    status: {
-      active: true,
-      mark: 4.8,
-      availableAmount: 5,
-    },
+    active: true,
+    mark: 4.8,
+    availableAmount: 5,
   },
   {
     id: "3",
@@ -145,17 +137,13 @@ export const items: Item[] = [
         value: "2024-02-03T12:00:00Z",
       },
     ],
-    initialSettings: {
-      amount: 20,
-      schedule: {
-        startDateTime: "2024-02-03T12:00:00Z",
-      },
+    amount: 20,
+    schedule: {
+      startDateTime: "2024-02-03T12:00:00Z",
     },
-    status: {
-      active: true,
-      mark: 4.6,
-      availableAmount: 20,
-    },
+    active: true,
+    mark: 4.6,
+    availableAmount: 20,
   },
   {
     id: "4",
@@ -197,16 +185,12 @@ export const items: Item[] = [
         value: "2024-02-04T12:00:00Z",
       },
     ],
-    initialSettings: {
-      amount: 20,
-      schedule: {
-        startDateTime: "2024-02-04T12:00:00Z",
-      },
+    amount: 20,
+    schedule: {
+      startDateTime: "2024-02-04T12:00:00Z",
     },
-    status: {
-      active: true,
-      mark: 4,
-      availableAmount: 20,
-    },
+    active: true,
+    mark: 4,
+    availableAmount: 20,
   },
 ];

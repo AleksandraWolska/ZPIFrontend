@@ -5,7 +5,7 @@ import useStoreConfig from "../../admin-app/useStoreConfig";
 
 function GeneralInfo() {
   const storeConfig = useStoreConfig();
-  const { item, setItemAttribute, setInitialSetting } = useItemForm();
+  const { item, setItemAttribute, setItem } = useItemForm();
 
   return (
     <Grid container spacing={1} width="50%">
@@ -56,10 +56,8 @@ function GeneralInfo() {
           <TextField
             label="amount"
             name="amount"
-            value={item.initialSettings.amount?.toString()}
-            onChange={(e) =>
-              setInitialSetting({ amount: parseInt(e.target.value, 10) })
-            }
+            value={item.amount?.toString()}
+            onChange={(e) => setItem({ amount: parseInt(e.target.value, 10) })}
             fullWidth
             type="number"
           />
