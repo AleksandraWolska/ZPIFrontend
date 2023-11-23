@@ -98,22 +98,22 @@ export function ReservationSummaryDialog({
   ) : (
     <>
       <Typography>[no subitems]</Typography>
-      {item.initialSettings.schedule &&
-        "startDateTime" in item.initialSettings.schedule && (
+      {item.schedule &&
+        "startDateTime" in item.schedule && (
           <Typography>
             Start:{" "}
             {new Date(
-              (item.initialSettings.schedule as FixedSchedule).startDateTime,
+              (item.schedule as FixedSchedule).startDateTime,
             ).toLocaleString()}
           </Typography>
         )}
-      {item.initialSettings.schedule &&
-        "endDateTime" in item.initialSettings.schedule &&
-        (item.initialSettings.schedule as FixedSchedule).endDateTime && (
+      {item.schedule &&
+        "endDateTime" in item.schedule &&
+        (item.schedule as FixedSchedule).endDateTime && (
           <Typography>
             End:{" "}
             {new Date(
-              (item.initialSettings.schedule as FixedSchedule).endDateTime!,
+              (item.schedule as FixedSchedule).endDateTime!,
             ).toLocaleString()}
           </Typography>
         )}

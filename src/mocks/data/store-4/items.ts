@@ -103,15 +103,11 @@ export const items: Item[] = [
         availableAmount: 1,
       },
     ],
-    initialSettings: {
-      schedule: {
-        startDateTime: "2024-02-01T12:00:00Z",
-      },
+    schedule: {
+      startDateTime: "2024-02-01T12:00:00Z",
     },
-    status: {
-      active: true,
-      mark: 4.5,
-    },
+    active: true,
+    mark: 4.5,
   },
   {
     id: "2",
@@ -215,15 +211,11 @@ export const items: Item[] = [
         availableAmount: 1,
       },
     ],
-    initialSettings: {
-      schedule: {
-        startDateTime: "2024-02-02T12:00:00Z",
-      },
+    schedule: {
+      startDateTime: "2024-02-02T12:00:00Z",
     },
-    status: {
-      active: true,
-      mark: 4.5,
-    },
+    active: true,
+    mark: 4.5,
   },
   {
     id: "3",
@@ -315,15 +307,11 @@ export const items: Item[] = [
         availableAmount: 1,
       },
     ],
-    initialSettings: {
-      schedule: {
-        startDateTime: "2024-02-03T12:00:00Z",
-      },
+    schedule: {
+      startDateTime: "2024-02-03T12:00:00Z",
     },
-    status: {
-      active: true,
-      mark: 4.6,
-    },
+    active: true,
+    mark: 4.6,
   },
   {
     id: "4",
@@ -415,14 +403,10 @@ export const items: Item[] = [
         availableAmount: 1,
       },
     ],
-    initialSettings: {
-      schedule: {
-        startDateTime: "2024-02-03T12:00:00Z",
-      },
+    schedule: {
+      startDateTime: "2024-02-03T12:00:00Z",
     },
-    status: {
-      active: true,
-      mark: 4,
-    },
+    active: true,
+    mark: 4,
   },
 ];

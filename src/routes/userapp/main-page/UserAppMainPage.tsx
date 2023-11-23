@@ -113,8 +113,8 @@ export default function UserAppMainPage() {
       valueA = a.attributes[sortCriteria];
       valueB = b.attributes[sortCriteria];
     } else if (sortCriteria === "mark" || sortCriteria === "availableAmount") {
-      valueA = a.status[sortCriteria] || 0;
-      valueB = b.status[sortCriteria] || 0;
+      valueA = a[sortCriteria] || 0;
+      valueB = b[sortCriteria] || 0;
     } else {
       valueA = a.attributes.title;
       valueB = b.attributes.title;

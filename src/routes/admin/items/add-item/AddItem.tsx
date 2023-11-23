@@ -79,16 +79,12 @@ function initializeItem(config: ItemConfig): Item {
       image: "",
     },
     customAttributeList: initializeCustomAttributes(customAttributesSpec),
-    initialSettings: {
-      schedule: initializeSchedule(core),
-    },
-    status: {
-      active: true,
-    },
+    schedule: initializeSchedule(core),
+    active: true,
   };
 
   if (askForItemAmount(core)) {
-    item.initialSettings.amount = 0;
+    item.amount = 0;
   }
 
   if (askForSubItems(core)) {

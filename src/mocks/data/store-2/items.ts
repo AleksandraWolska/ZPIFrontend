@@ -78,11 +78,8 @@ export const items: Item[] = [
         availableAmount: 1,
       },
     ],
-    initialSettings: {},
-    status: {
-      active: true,
-      mark: 4.5,
-    },
+    active: true,
+    mark: 4.5,
   },
   {
     id: "2",
@@ -161,11 +158,8 @@ export const items: Item[] = [
         availableAmount: 1,
       },
     ],
-    initialSettings: {},
-    status: {
-      active: true,
-      mark: 4.8,
-    },
+    active: true,
+    mark: 4.8,
   },
   {
     id: "3",
@@ -244,11 +238,8 @@ export const items: Item[] = [
         availableAmount: 1,
       },
     ],
-    initialSettings: {},
-    status: {
-      active: true,
-      mark: 4.6,
-    },
+    active: true,
+    mark: 4.6,
   },
   {
     id: "4",
@@ -327,10 +318,7 @@ export const items: Item[] = [
         availableAmount: 1,
       },
     ],
-    initialSettings: {},
-    status: {
-      active: true,
-      mark: 4,
-    },
+    active: true,
+    mark: 4,
   },
 ];
