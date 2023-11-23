@@ -1,4 +1,4 @@
-import { Item, StoreConfig, SubItem } from "../../types";
+import { CustomAttributeSpec, Item, StoreConfig, SubItem } from "../../types";
 
 export type ItemConfig = Pick<StoreConfig, "core" | "customAttributesSpec">;
 
@@ -54,4 +54,14 @@ export type StoreConfigWithoutIds = Omit<
   "storeConfigId" | "owner"
 > & {
   owner: Omit<StoreConfig["owner"], "ownerId">;
+};
+
+export type CustomAttributeSpecWithoutId = Omit<CustomAttributeSpec, "id">;
+
+export type StoreConfigWithoutAnyIds = Omit<
+  StoreConfig,
+  "storeConfigId" | "owner" | "customAttributesSpec"
+> & {
+  owner: Omit<StoreConfig["owner"], "ownerId">;
+  customAttributesSpec: CustomAttributeSpecWithoutId[];
 };
