@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useStoreConfig } from "../StoreConfigProvider";
 import StepContentWrapper from "./components/StepContentWrapper";
 import useAddStoreConfig, {
+  removeAllIdsFromStoreConfig,
   removeIdsFromStoreConfig,
 } from "../useAddStoreConfig";
 
@@ -17,11 +18,16 @@ function Summary() {
       <Button
         size="large"
         onClick={() => {
-          addStoreConfig.mutate(removeIdsFromStoreConfig(storeConfig), {
-            onSuccess: () => {
-              navigate("/admin");
+          addStoreConfig.mutate(
+            process.env.NODE_ENV === "development"
+              ? removeIdsFromStoreConfig(storeConfig)
+              : removeAllIdsFromStoreConfig(storeConfig),
+            {
+              onSuccess: () => {
+                navigate("/admin");
+              },
             },
-          });
+          );
         }}
       >
         Submit
