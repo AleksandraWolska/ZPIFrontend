@@ -49,16 +49,9 @@ export type ItemWithoutIds = Omit<Item, "id" | "subItems"> & {
   subItems?: Omit<SubItem, "id">[];
 };
 
-export type StoreConfigWithoutIds = Omit<
-  StoreConfig,
-  "storeConfigId" | "owner"
-> & {
-  owner: Omit<StoreConfig["owner"], "ownerId">;
-};
-
 export type CustomAttributeSpecWithoutId = Omit<CustomAttributeSpec, "id">;
 
-export type StoreConfigWithoutAnyIds = Omit<
+export type StoreConfigWithoutIds = Omit<
   StoreConfig,
   "storeConfigId" | "owner" | "customAttributesSpec"
 > & {
