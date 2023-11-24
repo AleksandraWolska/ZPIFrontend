@@ -1,11 +1,13 @@
 import { Box, Grid, MenuItem, Select, TextField } from "@mui/material";
-import { useStoreConfig } from "../StoreConfigProvider";
-import ChangePageButtons from "../../admin/components/ChangePageButtons";
-import { STORE_CONFIG_STEPS, StoreConfigStep } from "../types";
-import { OWNER_COLORS } from "../../../types";
-import WizardStepTitle from "./components/WizardStepTitle";
-import WizardStepDescription from "./components/WizardStepDescription";
-import StepContentWrapper from "./components/StepContentWrapper";
+import { useStoreConfig } from "../../StoreConfigProvider";
+import ChangePageButtons from "../../../admin/components/ChangePageButtons";
+import { STORE_CONFIG_STEPS, StoreConfigStep } from "../../types";
+import { OWNER_COLORS } from "../../../../types";
+import WizardStepTitle from "../components/WizardStepTitle";
+import WizardStepDescription from "../components/WizardStepDescription";
+import StepContentWrapper from "../components/StepContentWrapper";
+import useDebounce from "./useDebounce";
+import useCheckName from "./useCheckName";
 
 function Owner({
   setActiveStep,
@@ -14,6 +16,9 @@ function Owner({
 }) {
   const { storeConfig, setOwnerAttribute } = useStoreConfig();
   const { owner } = storeConfig;
+
+  const debouncedName = useDebounce(owner.name, 500);
+  const isNameAvailable = useCheckName(debouncedName);
 
   return (
     <StepContentWrapper>
@@ -33,6 +38,7 @@ function Owner({
               value={owner.name}
               onChange={(e) => setOwnerAttribute("name", e.target.value)}
               fullWidth
+              error={!isNameAvailable}
             />
           </Grid>
 
