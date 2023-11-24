@@ -10,7 +10,7 @@ import Periodicity from "./steps/core/Periodicity";
 import CustomAttributesSpec from "./steps/CustomAttributesSpec";
 import Summary from "./steps/Summary";
 import MainPage from "./steps/MainPage";
-import Owner from "./steps/Owner";
+import Owner from "./steps/owner/Owner";
 import DetailsPage from "./steps/DetailsPage";
 import AllowOverNight from "./steps/core/AllowOverNight";
 import AuthConfig from "./steps/AuthConfig";

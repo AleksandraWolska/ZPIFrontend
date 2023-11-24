@@ -83,7 +83,7 @@ const getAdminStores = rest.get("/api/store-configs", async (req, res, ctx) => {
     return res(ctx.status(401), ctx.json({ message: "Unauthorized." }));
   }
 
-  const module = await import(/* @vite-ignore */ `./data/common/adminStores`);
+  const module = await import(`./data/common/adminStores`);
   const { adminStores } = module;
 
   const decoded = jwtDecode(token) as { email: string };
@@ -102,9 +102,7 @@ const addStoreConfig = rest.post(
 
     const body = (await req.json()) as StoreConfig;
 
-    const adminStoresModule = await import(
-      /* @vite-ignore */ `./data/common/adminStores`
-    );
+    const adminStoresModule = await import(`./data/common/adminStores`);
     const { adminStores } = adminStoresModule;
 
     const decoded = jwtDecode(token) as { email: keyof typeof adminStores };
@@ -122,7 +120,27 @@ const addStoreConfig = rest.post(
   },
 );
 
+const nameCheck = rest.get(
+  "/api/store-configs/nameCheck",
+  async (req, res, ctx) => {
+    const url = new URL(req.url);
+
+    const name = url.searchParams.get("name");
+    console.log("name", name);
+
+    const adminStoresModule = await import(`./data/common/adminStores`);
+    const { adminStores } = adminStoresModule;
+
+    const nameTaken = Object.values(adminStores).some((stores) =>
+      stores.some((s) => s.name.toLowerCase() === name?.toLowerCase()),
+    );
+
+    return res(ctx.status(200), ctx.json(!nameTaken));
+  },
+);
+
 export const storeConfigHandlers = [
+  nameCheck,
   getStoreConfig,
   getMainPageConfig,
   getDetailsPageConfig,
