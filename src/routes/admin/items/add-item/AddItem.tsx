@@ -102,7 +102,7 @@ function initializeCustomAttributes(
       spec.dataType === "string" ? "" : spec.dataType === "number" ? 0 : false;
 
     return {
-      id: uuid(),
+      id: spec.id,
       name: spec.name,
       value,
     };

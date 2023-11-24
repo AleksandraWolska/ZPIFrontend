@@ -98,15 +98,14 @@ export function ReservationSummaryDialog({
   ) : (
     <>
       <Typography>[no subitems]</Typography>
-      {item.schedule &&
-        "startDateTime" in item.schedule && (
-          <Typography>
-            Start:{" "}
-            {new Date(
-              (item.schedule as FixedSchedule).startDateTime,
-            ).toLocaleString()}
-          </Typography>
-        )}
+      {item.schedule && "startDateTime" in item.schedule && (
+        <Typography>
+          Start:{" "}
+          {new Date(
+            (item.schedule as FixedSchedule).startDateTime,
+          ).toLocaleString()}
+        </Typography>
+      )}
       {item.schedule &&
         "endDateTime" in item.schedule &&
         (item.schedule as FixedSchedule).endDateTime && (
