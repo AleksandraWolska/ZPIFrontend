@@ -22,6 +22,7 @@ export const oidcConfig = {
   redirect_uri: redirectUri,
   onSigninCallback: () => {
     window.history.replaceState({}, document.title, window.location.pathname);
+    window.location.reload();
   },
 };
 

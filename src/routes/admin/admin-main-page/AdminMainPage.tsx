@@ -4,7 +4,6 @@ import { StoreSummary } from "../../../types";
 
 function AdminMainPage() {
   const adminStores = useAdminStores() as StoreSummary[];
-
   return (
     <div>
       <Link to="new">New store</Link>

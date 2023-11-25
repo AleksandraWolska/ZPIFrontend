@@ -12,7 +12,7 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import { useAuth } from "react-oidc-context";
 import { styled } from "@mui/system";
-import { NavLink, useParams } from "react-router-dom";
+import { NavLink, useLocation, useParams } from "react-router-dom";
 import HomeIcon from "@mui/icons-material/Home";
 import useAdminStores from "../admin-main-page/useAdminStores";
 
@@ -52,6 +52,7 @@ function AdminAppTopBar() {
 function TopBarMenu() {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const auth = useAuth();
+  const location = useLocation();
 
   const handleOpenNavMenu = (event: MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -83,7 +84,10 @@ function TopBarMenu() {
         ) : (
           <MenuText
             onClick={() => {
-              auth.signinRedirect();
+              const currentPath = location.pathname + location.search;
+              auth.signinRedirect({
+                redirect_uri: `${window.location.origin}${currentPath}`,
+              });
             }}
           >
             Login
@@ -142,7 +146,10 @@ function TopBarMenu() {
             ) : (
               <MobileMenuItemText
                 onClick={() => {
-                  auth.signinRedirect();
+                  const currentPath = location.pathname + location.search;
+                  auth.signinRedirect({
+                    redirect_uri: `${window.location.origin}${currentPath}`,
+                  });
                 }}
               >
                 Login
