@@ -76,7 +76,9 @@ function TopBarMenu() {
         {auth.isAuthenticated ? (
           <MenuText
             onClick={() => {
-              auth.signoutSilent();
+              auth.signoutRedirect({
+                post_logout_redirect_uri: `${window.location.origin}/admin`,
+              });
             }}
           >
             Logout
@@ -138,7 +140,9 @@ function TopBarMenu() {
             {auth.isAuthenticated ? (
               <MobileMenuItemText
                 onClick={() => {
-                  auth.signoutSilent();
+                  auth.signoutRedirect({
+                    post_logout_redirect_uri: `${window.location.origin}/admin`,
+                  });
                 }}
               >
                 Logout
