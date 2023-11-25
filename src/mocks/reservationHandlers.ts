@@ -45,10 +45,10 @@ const getReservations = rest.get(
 const getUserReservations = rest.get(
   "/api/stores/:storeName/reservations/user",
   async (req, res, ctx) => {
-    // const token = getToken(req.headers);
-    // if (incorrectToken(token)) {
-    //   return res(ctx.status(401), ctx.json({ message: "Unauthorized." }));
-    // }
+    const token = getToken(req.headers);
+    if (incorrectToken(token)) {
+      return res(ctx.status(401), ctx.json({ message: "Unauthorized." }));
+    }
 
     const reservations = userReservationsList;
 
