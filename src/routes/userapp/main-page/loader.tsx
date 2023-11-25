@@ -9,7 +9,9 @@ const fetchConfig = async (storeId: string): Promise<MainPageConfig> => {
   const token = getAccessToken();
 
   const res = await fetch(
-    `${BACKEND_URL}/store-configs/${storeId}/mainPageConfig`,
+    // toggled, as backend do not send attributes in mainPageCongig, as expected
+    // `${BACKEND_URL}/store-configs/${storeId}/mainPageConfig`,
+    `${BACKEND_URL}/store-configs/${storeId}`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
