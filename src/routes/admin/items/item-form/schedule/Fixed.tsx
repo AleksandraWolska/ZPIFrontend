@@ -3,7 +3,7 @@ import { DateTimePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 import { FixedSchedule } from "../../../types";
 import { useItemForm } from "../ItemFormProvider";
-import StepContentWrapper from "../../../../store-config-wizard/steps/components/StepContentWrapper";
+import StepWrapper from "../../../components/StepWrapper";
 
 function Fixed() {
   const { item, setItem } = useItemForm();
@@ -13,7 +13,7 @@ function Fixed() {
   };
 
   return (
-    <StepContentWrapper>
+    <StepWrapper>
       <Typography variant="h4" sx={{ mt: 1, mb: 2 }}>
         Fixed schedule
       </Typography>
@@ -77,7 +77,7 @@ function Fixed() {
           />
         )}
       </Stack>
-    </StepContentWrapper>
+    </StepWrapper>
   );
 }
 

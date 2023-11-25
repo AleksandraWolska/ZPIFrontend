@@ -11,14 +11,14 @@ import {
 import { CustomAttribute, CustomAttributeSpec } from "../../../../types";
 import { useItemForm } from "./ItemFormProvider";
 import useStoreConfig from "../../admin-app/useStoreConfig";
-import StepContentWrapper from "../../../store-config-wizard/steps/components/StepContentWrapper";
+import StepWrapper from "../../components/StepWrapper";
 
 function CustomAttributes() {
   const storeConfig = useStoreConfig();
   const { item, setItemCustomAttribute } = useItemForm();
 
   return (
-    <StepContentWrapper>
+    <StepWrapper>
       <Typography variant="h4" sx={{ mt: 1, mb: 2 }}>
         Custom attributes
       </Typography>
@@ -36,7 +36,7 @@ function CustomAttributes() {
           ))}
         </Grid>
       </Box>
-    </StepContentWrapper>
+    </StepWrapper>
   );
 }
 

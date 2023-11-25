@@ -7,7 +7,7 @@ import ScheduleCalendar, {
   BigCalendarEvent,
 } from "./schedule-calendar/ScheduleCalendar";
 import { useItemForm } from "../ItemFormProvider";
-import StepContentWrapper from "../../../../store-config-wizard/steps/components/StepContentWrapper";
+import StepWrapper from "../../../components/StepWrapper";
 
 function Continuous() {
   const { item, setItem } = useItemForm();
@@ -19,7 +19,7 @@ function Continuous() {
   const [step, setStep] = useState(30);
 
   return (
-    <StepContentWrapper>
+    <StepWrapper>
       <Typography variant="h4" sx={{ mt: 1, mb: 2 }}>
         Continuous
       </Typography>
@@ -56,7 +56,7 @@ function Continuous() {
           />
         </Box>
       </Stack>
-    </StepContentWrapper>
+    </StepWrapper>
   );
 }
 

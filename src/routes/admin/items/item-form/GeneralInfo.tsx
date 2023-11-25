@@ -2,14 +2,14 @@ import { Box, Grid, TextField, Typography } from "@mui/material";
 import { askForItemAmount } from "../utils";
 import { useItemForm } from "./ItemFormProvider";
 import useStoreConfig from "../../admin-app/useStoreConfig";
-import StepContentWrapper from "../../../store-config-wizard/steps/components/StepContentWrapper";
+import StepWrapper from "../../components/StepWrapper";
 
 function GeneralInfo() {
   const storeConfig = useStoreConfig();
   const { item, setItemAttribute, setItem } = useItemForm();
 
   return (
-    <StepContentWrapper>
+    <StepWrapper>
       <Typography variant="h4" sx={{ mt: 1, mb: 2 }}>
         General Information
       </Typography>
@@ -76,7 +76,7 @@ function GeneralInfo() {
           )}
         </Grid>
       </Box>
-    </StepContentWrapper>
+    </StepWrapper>
   );
 }
 
