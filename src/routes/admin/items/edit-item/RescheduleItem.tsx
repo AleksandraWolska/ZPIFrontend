@@ -3,6 +3,8 @@ import useItemToBeEdited from "./useItemToBeEdited";
 import ItemFormProvider, { useItemForm } from "../item-form/ItemFormProvider";
 import Schedule from "../item-form/schedule/Schedule";
 import useEditItem from "./useEditItem";
+import { Box, Container } from "@mui/system";
+import { Button } from "@mui/material";
 
 function RescheduleItem() {
   const itemToBeEdited = useItemToBeEdited();
@@ -20,21 +22,36 @@ function ScheduleForm() {
   const navigate = useNavigate();
 
   return (
-    <>
-      <Schedule />
-      <button
-        type="button"
-        onClick={() => {
-          editItem.mutate(item, {
-            onSuccess: () => {
-              navigate("../..", { relative: "path" });
-            },
-          });
+    <Container>
+      <Box
+        sx={{
+          maxWidth: "1000px",
+          width: "90vw",
+          boxShadow: "1px 1px 5px 2px rgba(0, 0, 0, .2)",
+          borderRadius: "15px",
+          padding: 1.25,
+          margin: 1.25,
         }}
       >
-        RESCHEDULE
-      </button>
-    </>
+        <Schedule />
+
+        <Box sx={{ p: 3, mt: 4 }}>
+          <Button
+            variant="contained"
+            fullWidth
+            onClick={() => {
+              editItem.mutate(item, {
+                onSuccess: () => {
+                  navigate("../..", { relative: "path" });
+                },
+              });
+            }}
+          >
+            Reschedule
+          </Button>
+        </Box>
+      </Box>
+    </Container>
   );
 }
 
