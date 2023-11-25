@@ -8,6 +8,7 @@ on:
   push:
     branches:
       - "dev"
+      - "homepage-draft"
   workflow_dispatch:
 
 # Optional: environment variables can be injected here
