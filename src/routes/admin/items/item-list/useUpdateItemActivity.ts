@@ -7,7 +7,7 @@ const activateItem = (storeId: string, itemId: string) => {
   const token = getAccessToken();
 
   return fetch(`${BACKEND_URL}/stores/${storeId}/items/${itemId}/activate`, {
-    method: "PUT",
+    method: "POST",
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -18,7 +18,7 @@ const deactivateItem = (storeId: string, itemId: string) => {
   const token = getAccessToken();
 
   return fetch(`${BACKEND_URL}/stores/${storeId}/items/${itemId}/deactivate`, {
-    method: "PUT",
+    method: "POST",
     headers: {
       Authorization: `Bearer ${token}`,
     },

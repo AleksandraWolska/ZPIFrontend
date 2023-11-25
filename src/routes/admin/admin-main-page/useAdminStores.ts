@@ -4,7 +4,7 @@ import { StoreSummary } from "../../../types";
 
 function useAdminStores() {
   const { data } = useQuery(getAdminStoresQuery()) as {
-    data: StoreSummary[];
+    data: StoreSummary[] | null;
   };
 
   return data;

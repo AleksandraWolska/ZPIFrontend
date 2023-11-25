@@ -120,7 +120,8 @@ const addStoreConfig = rest.post(
     }
 
     adminStores[decoded.email].push({
-      storeConfigId: "101",
+      mockId: "101",
+      storeConfigId: body.owner.name.toLowerCase().trim().replace(/\s+/g, "_"),
       name: body.owner.name,
     });
 

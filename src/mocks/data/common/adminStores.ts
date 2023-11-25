@@ -1,56 +1,65 @@
 export const adminStores = {
   "t1@test.com": [
     {
-      storeConfigId: "1",
-      name: "C1",
+      mockId: "1",
+      storeConfigId: "c1",
+      name: "c1",
     },
   ],
   "t2@test.com": [
     {
-      storeConfigId: "2",
-      name: "C2",
+      mockId: "2",
+      storeConfigId: "c2",
+      name: "c2",
     },
   ],
   "t3@test.com": [
     {
-      storeConfigId: "3",
-      name: "C3",
+      mockId: "3",
+      storeConfigId: "c3",
+      name: "c3",
     },
   ],
   "t4@test.com": [
     {
-      storeConfigId: "4",
-      name: "C4",
+      mockId: "4",
+      storeConfigId: "c4",
+      name: "c4",
     },
   ],
   "t5@test.com": [
     {
-      storeConfigId: "5",
-      name: "C5",
+      mockId: "5",
+      storeConfigId: "c5",
+      name: "c5",
     },
   ],
   "t7@test.com": [
     {
-      storeConfigId: "7",
-      name: "C7",
+      mockId: "7",
+      storeConfigId: "c7",
+      name: "c7",
     },
   ],
   "t8@test.com": [
     {
-      storeConfigId: "8",
-      name: "C8",
+      mockId: "8",
+      storeConfigId: "c8",
+      name: "c8",
     },
   ],
   "t9@test.com": [
     {
-      storeConfigId: "9",
-      name: "C9",
+      mockId: "9",
+      storeConfigId: "c9",
+      name: "c9",
     },
   ],
   "t10@test.com": [
     {
-      storeConfigId: "10",
-      name: "C10",
+      mockId: "10",
+      storeConfigId: "c10",
+      name: "c10",
     },
   ],
 };
