@@ -25,8 +25,8 @@ export async function getStoreMockIdByStoreName(storeName: string) {
   let storeId = "";
   Object.values(adminStores).forEach((stores) => {
     stores.forEach((s) => {
-      if (s.name.toLowerCase() === storeName.toLowerCase()) {
-        storeId = s.storeConfigId;
+      if (s.storeConfigId.toLowerCase() === storeName.toLowerCase()) {
+        storeId = s.mockId;
       }
     });
   });

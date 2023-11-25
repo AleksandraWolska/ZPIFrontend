@@ -14,15 +14,12 @@ import { useAuth } from "react-oidc-context";
 import { styled } from "@mui/system";
 import { NavLink, useParams } from "react-router-dom";
 import HomeIcon from "@mui/icons-material/Home";
-import { StoreConfig } from "../../../types";
-import { queryClient } from "../../../query";
-import { getStoreConfigQuery } from "../store/loader";
+import useAdminStores from "../admin-main-page/useAdminStores";
 
 function AdminAppTopBar() {
   const params = useParams() as { storeId: string };
-  const storeConfig = queryClient.getQueryData(
-    getStoreConfigQuery(params.storeId).queryKey,
-  ) as StoreConfig | undefined;
+  const adminStores = useAdminStores();
+  const store = adminStores?.find((s) => s.storeConfigId === params.storeId);
 
   return (
     <AppBar position="static">
@@ -36,14 +33,9 @@ function AdminAppTopBar() {
           }}
         >
           <Typography sx={{ typography: { xs: "h5", md: "h4" } }}>
-            {storeConfig ? (
-              <ToolbarNavLink
-                to={`/admin/${storeConfig.owner.name
-                  .toLowerCase()
-                  .trim()
-                  .replace(/\s+/g, "_")}`}
-              >
-                {storeConfig.owner.name}
+            {store ? (
+              <ToolbarNavLink to={`/admin/${store.storeConfigId}`}>
+                {store.name}
               </ToolbarNavLink>
             ) : (
               <ToolbarNavLink to="/admin">Genervation</ToolbarNavLink>

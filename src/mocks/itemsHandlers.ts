@@ -149,7 +149,7 @@ const deleteItem = rest.delete(
   },
 );
 
-const activateItem = rest.put(
+const activateItem = rest.post(
   "/api/stores/:storeName/items/:itemId/activate",
   async (req, res, ctx) => {
     const token = getToken(req.headers);
@@ -177,7 +177,7 @@ const activateItem = rest.put(
   },
 );
 
-const deactivateItem = rest.put(
+const deactivateItem = rest.post(
   "/api/stores/:storeName/items/:itemId/deactivate",
   async (req, res, ctx) => {
     const token = getToken(req.headers);

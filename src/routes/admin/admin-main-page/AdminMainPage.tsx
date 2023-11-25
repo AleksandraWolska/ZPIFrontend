@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
 import useAdminStores from "./useAdminStores";
+import { StoreSummary } from "../../../types";
 
 function AdminMainPage() {
-  const adminStores = useAdminStores();
+  const adminStores = useAdminStores() as StoreSummary[];
 
   return (
     <div>
@@ -13,7 +14,7 @@ function AdminMainPage() {
       {adminStores.map((adminStore) => {
         return (
           <div key={adminStore.storeConfigId}>
-            <Link to={adminStore.name.toLowerCase()}>{adminStore.name}</Link>
+            <Link to={adminStore.storeConfigId}>{adminStore.name}</Link>
             <br />
           </div>
         );
