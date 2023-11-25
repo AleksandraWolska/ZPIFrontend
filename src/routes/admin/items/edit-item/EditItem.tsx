@@ -1,4 +1,6 @@
 import { useNavigate } from "react-router-dom";
+import { Box, Container } from "@mui/system";
+import { Button } from "@mui/material";
 import ItemFormProvider, { useItemForm } from "../item-form/ItemFormProvider";
 import useItemToBeEdited from "./useItemToBeEdited";
 import GeneralInfo from "../item-form/GeneralInfo";
@@ -30,21 +32,36 @@ function EditForm() {
   const steps = getSteps(storeConfig.core);
 
   return (
-    <>
-      <Stepper steps={steps} />
-      <button
-        type="button"
-        onClick={() => {
-          editItem.mutate(item, {
-            onSuccess: () => {
-              navigate("../..", { relative: "path" });
-            },
-          });
+    <Container>
+      <Box
+        sx={{
+          maxWidth: "1000px",
+          width: "90vw",
+          boxShadow: "1px 1px 5px 2px rgba(0, 0, 0, .2)",
+          borderRadius: "15px",
+          padding: 1.25,
+          margin: 1.25,
         }}
       >
-        EDIT ITEM
-      </button>
-    </>
+        <Stepper steps={steps} />
+
+        <Box sx={{ pl: 4, pr: 4 }}>
+          <Button
+            sx={{ padding: 2 }}
+            fullWidth
+            onClick={() => {
+              editItem.mutate(item, {
+                onSuccess: () => {
+                  navigate("../..", { relative: "path" });
+                },
+              });
+            }}
+          >
+            Save edited item
+          </Button>
+        </Box>
+      </Box>
+    </Container>
   );
 }
 
