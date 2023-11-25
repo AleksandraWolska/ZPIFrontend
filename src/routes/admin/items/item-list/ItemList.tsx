@@ -149,11 +149,11 @@ function ItemList() {
           });
           setItemToHaveActivityUpdated(null);
         }}
-        title={currentActivity ? "Activate Item" : "Deactivate Item"}
+        title={!currentActivity ? "Activate Item" : "Deactivate Item"}
         message={
-          currentActivity ? "Activate this item?" : "Deactivate this item?"
+          !currentActivity ? "Activate this item?" : "Deactivate this item?"
         }
-        confirmText={currentActivity ? "Activate" : "Deactivate"}
+        confirmText={!currentActivity ? "Activate" : "Deactivate"}
       />
       <ConfirmDialog
         isOpen={!!itemToBeDeleted}
