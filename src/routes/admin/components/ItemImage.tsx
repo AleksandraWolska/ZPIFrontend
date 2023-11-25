@@ -7,8 +7,8 @@ function ItemImage({ image, title }: { image: string; title: string }) {
       alt={title}
       style={{
         width: "100%",
-        height: "100%",
-        objectFit: "contain",
+
+        objectFit: "cover",
       }}
     />
   ) : (

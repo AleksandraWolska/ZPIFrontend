@@ -4,10 +4,19 @@ import {
   CardContent,
   Chip,
   Stack,
+  Table,
+  TableBody,
+  TableCell,
+  TableRow,
   Typography,
 } from "@mui/material";
-import { Link } from "react-router-dom";
-import { Box } from "@mui/system";
+import { useNavigate } from "react-router-dom";
+import { Box, Container } from "@mui/system";
+import BlockIcon from "@mui/icons-material/Block";
+import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditCalendarIcon from "@mui/icons-material/EditCalendar";
 import { useState } from "react";
 import useItems from "./useItems";
 import theme from "../../../../theme";
@@ -33,22 +42,43 @@ function ItemList() {
   const deleteItem = useDeleteItem();
 
   return (
-    <>
-      <Stack spacing={4} width="80%">
+    <Container>
+      <Stack spacing={4}>
         {items.map((item) => {
           return (
-            <Card key={item.id} sx={{ display: "flex", padding: 1 }} raised>
+            <Card
+              key={item.id}
+              sx={{
+                padding: 3,
+                bgcolor: "white",
+                boxShadow: 3,
+                borderRadius: "10px",
+                display: "flex",
+                width: "100%",
+                alignItems: "center",
+                justifyContent: "space-between",
+                opacity: item.availableAmount !== 0 ? 1 : 0.4,
+                "@media (max-width: 800px)": {
+                  flexDirection: "column",
+                },
+              }}
+              raised
+            >
               <Box
                 sx={{
-                  width: "300px",
-                  height: "300px",
-                  padding: 0.5,
+                  borderRadius: "10%",
+                  marginRight: 2,
+                  maxWidth: "30%",
+
+                  overflow: "hidden",
                   display: "flex",
                   alignItems: "center",
-                  justifyContent: "center",
-                  flexShrink: 0,
+                  "@media (max-width: 800px)": {
+                    maxWidth: "100%",
+                    marginRight: 0,
+                    marginBottom: 2,
+                  },
                 }}
-                style={{ border: "2px solid black" }}
               >
                 <ItemImage
                   image={item.attributes.image}
@@ -56,29 +86,52 @@ function ItemList() {
                 />
               </Box>
 
-              <CardContent sx={{ width: "80%", paddingLeft: 4 }}>
+              <CardContent
+                sx={{
+                  width: "80%",
+                  paddingLeft: 4,
+                  "@media (max-width: 800px)": {
+                    width: "100%",
+                    padding: 0,
+                  },
+                }}
+              >
                 <ItemDescription item={item} />
               </CardContent>
-
-              <Stack width="20%" spacing={2} padding={2}>
+              <Stack
+                sx={{
+                  flexDirection: "column",
+                  justifyContent: "space-between",
+                  "@media (max-width: 800px)": {
+                    flexDirection: "row",
+                    width: "100%",
+                  },
+                }}
+              >
                 {storeConfig.core.flexibility && (
-                  <Link to={`${item.id}/reschedule`}>
-                    <ActionBtn text="Reschedule" />
-                  </Link>
+                  <LinkBtn
+                    text="Reschedule"
+                    to={`${item.id}/reschedule`}
+                    icon={<EditCalendarIcon />}
+                  />
                 )}
 
-                <Link to={`${item.id}/edit`}>
-                  <ActionBtn text="Edit" />
-                </Link>
+                <LinkBtn
+                  text="Edit"
+                  to={`${item.id}/edit`}
+                  icon={<EditIcon />}
+                />
 
                 <ActionBtn
                   text={item.active ? "Deactivate" : "Activate"}
                   onClick={() => setItemToHaveActivityUpdated(item.id)}
+                  icon={item.active ? <BlockIcon /> : <PowerSettingsNewIcon />}
                 />
 
                 <ActionBtn
                   text="Delete"
                   onClick={() => setItemToBeDeleted(item.id)}
+                  icon={<DeleteIcon />}
                 />
               </Stack>
             </Card>
@@ -110,7 +163,7 @@ function ItemList() {
         title="Delete Item"
         message="Are you sure you want to delete this item? This action cannot be undone."
       />
-    </>
+    </Container>
   );
 }
 
@@ -129,31 +182,92 @@ function ItemDescription({ item }: { item: Item }) {
         {item.id}
       </Typography>
       <Box marginTop={2}>
-        {item.customAttributeList.map((customAttribute) => {
-          return (
-            <Typography
-              key={customAttribute.id}
-              variant="h6"
-            >{`${customAttribute.name}: ${customAttribute.value}`}</Typography>
-          );
-        })}
+        <Table size="small">
+          <TableBody>
+            {item.customAttributeList.map((customAttribute) => (
+              <TableRow
+                sx={{
+                  "&:nth-of-type(even)": {
+                    backgroundColor: "rgba(0, 0, 0, 0.05)",
+                  },
+                }}
+                key={customAttribute.id}
+              >
+                <TableCell
+                  component="th"
+                  scope="row"
+                  sx={{ borderBottom: "none", p: "5px", pr: "10px" }}
+                >
+                  <Typography fontSize="1em">{customAttribute.name}</Typography>
+                </TableCell>
+                <TableCell sx={{ borderBottom: "none", p: "5px" }}>
+                  <Typography fontSize="1em" fontWeight="bold">
+                    {customAttribute.value}
+                  </Typography>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
       </Box>
     </>
   );
 }
 
-// eslint-disable-next-line react/require-default-props
-function ActionBtn({ text, onClick }: { text: string; onClick?: () => void }) {
+function ActionBtn({
+  text,
+  onClick,
+  icon,
+}: {
+  text: string;
+  // eslint-disable-next-line react/require-default-props
+  onClick?: () => void;
+  // eslint-disable-next-line react/require-default-props
+  icon?: React.ReactNode;
+}) {
   return (
     <Button
       onClick={onClick}
       variant="outlined"
       fullWidth
-      sx={{ fontSize: "1.2rem" }}
+      sx={{
+        display: "flex",
+        margin: 1,
+        flexDirection: "column",
+      }}
     >
+      {icon}
       {text}
     </Button>
   );
 }
 
+function LinkBtn({
+  text,
+  to,
+  icon,
+}: {
+  text: string;
+  to: string;
+  // eslint-disable-next-line react/require-default-props
+  icon?: React.ReactNode;
+}) {
+  const navigate = useNavigate();
+
+  return (
+    <Button
+      variant="outlined"
+      fullWidth
+      onClick={() => navigate(to)}
+      sx={{
+        display: "flex",
+        margin: 1,
+        flexDirection: "column",
+      }}
+    >
+      {icon}
+      {text}
+    </Button>
+  );
+}
 export default ItemList;
