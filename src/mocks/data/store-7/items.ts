@@ -43,8 +43,8 @@ export const items: Item[] = [
     active: true,
     mark: 4.5,
     availability: calculateAvailability(schedule),
-    earliestStart: "2023-10-05T06:00:00Z",
-    latestEnd: "2023-10-05T20:00:00Z",
+    earliestStartHour: "2023-10-05T06:00:00Z",
+    latestEndHour: "2023-10-05T20:00:00Z",
   },
   {
     id: "2",
@@ -86,8 +86,8 @@ export const items: Item[] = [
     active: true,
     mark: 4.8,
     availability: calculateAvailability(schedule),
-    earliestStart: "2023-10-05T04:00:00Z",
-    latestEnd: "2023-10-05T21:00:00Z",
+    earliestStartHour: "2023-10-05T04:00:00Z",
+    latestEndHour: "2023-10-05T21:00:00Z",
   },
   {
     id: "3",
@@ -129,8 +129,8 @@ export const items: Item[] = [
     active: true,
     mark: 4.6,
     availability: calculateAvailability(schedule),
-    earliestStart: "2023-10-05T04:00:00Z",
-    latestEnd: "2023-10-05T21:00:00Z",
+    earliestStartHour: "2023-10-05T04:00:00Z",
+    latestEndHour: "2023-10-05T21:00:00Z",
   },
   {
     id: "4",
@@ -172,8 +172,8 @@ export const items: Item[] = [
     active: true,
     mark: 4,
     availability: calculateAvailability(schedule),
-    earliestStart: "2023-10-05T06:00:00Z",
-    latestEnd: "2023-10-05T21:00:00Z",
+    earliestStartHour: "2023-10-05T06:00:00Z",
+    latestEndHour: "2023-10-05T21:00:00Z",
   },
   {
     id: "5",
@@ -215,7 +215,7 @@ export const items: Item[] = [
     active: true,
     mark: 4.7,
     availability: calculateAvailability(schedule),
-    earliestStart: "2023-10-05T04:00:00Z",
-    latestEnd: "2023-10-05T21:00:00Z",
+    earliestStartHour: "2023-10-05T04:00:00Z",
+    latestEndHour: "2023-10-05T21:00:00Z",
   },
 ];

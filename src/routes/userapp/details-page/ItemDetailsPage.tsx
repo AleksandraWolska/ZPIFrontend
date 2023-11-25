@@ -225,10 +225,10 @@ export default function ItemDetailsPage() {
     <FreeRangesCalendar
       // maybe change for store open hours as default
       earliestCalendarStart={
-        item.earliestStart ? item.earliestStart : "2023-10-05T06:00:00Z"
+        item.earliestStartHour ? item.earliestStartHour : "2023-10-05T06:00:00Z"
       }
       latestCalendarEnd={
-        item.latestEnd ? item.latestEnd : "2023-10-05T20:00:00Z"
+        item.latestEndHour ? item.latestEndHour : "2023-10-05T20:00:00Z"
       }
       itemId={item.id}
       availabilityList={item.availability || []}
@@ -243,10 +243,10 @@ export default function ItemDetailsPage() {
     <CheckAvailabilityCalendar
       // maybe change for store open hours as default
       earliestCalendarStart={
-        item.earliestStart ? item.earliestStart : "2023-10-05T06:00:00Z"
+        item.earliestStartHour ? item.earliestStartHour : "2023-10-05T06:00:00Z"
       }
       latestCalendarEnd={
-        item.latestEnd ? item.latestEnd : "2023-10-05T20:00:00Z"
+        item.latestEndHour ? item.latestEndHour : "2023-10-05T20:00:00Z"
       }
       itemId={item.id}
       availabilityList={item.availability || []}

@@ -161,8 +161,8 @@ export type Item = {
   active: boolean;
   availableAmount?: number;
   availability?: Availability[];
-  earliestStart?: string;
-  latestEnd?: string;
+  earliestStartHour?: string;
+  latestEndHour?: string;
   mark?: number;
 };
 
