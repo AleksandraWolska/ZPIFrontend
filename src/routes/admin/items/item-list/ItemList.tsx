@@ -101,6 +101,7 @@ function ItemList() {
               <Stack
                 sx={{
                   flexDirection: "column",
+                  width: "20%",
                   justifyContent: "space-between",
                   "@media (max-width: 800px)": {
                     flexDirection: "row",
@@ -152,6 +153,7 @@ function ItemList() {
         message={
           currentActivity ? "Activate this item?" : "Deactivate this item?"
         }
+        confirmText={currentActivity ? "Activate" : "Deactivate"}
       />
       <ConfirmDialog
         isOpen={!!itemToBeDeleted}
@@ -162,6 +164,8 @@ function ItemList() {
         }}
         title="Delete Item"
         message="Are you sure you want to delete this item? This action cannot be undone."
+        confirmText="Delete"
+        dialogColor="error"
       />
     </Container>
   );
