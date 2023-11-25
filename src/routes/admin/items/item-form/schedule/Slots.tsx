@@ -7,6 +7,7 @@ import ScheduleCalendar, {
   BigCalendarEvent,
 } from "./schedule-calendar/ScheduleCalendar";
 import { useItemForm } from "../ItemFormProvider";
+import StepContentWrapper from "../../../../store-config-wizard/steps/components/StepContentWrapper";
 
 function Slots() {
   const { item, setItem } = useItemForm();
@@ -18,8 +19,8 @@ function Slots() {
   const [step, setStep] = useState(30);
 
   return (
-    <>
-      <Typography variant="h4" sx={{ marginBottom: 2 }}>
+    <StepContentWrapper>
+      <Typography variant="h4" sx={{ mt: 1, mb: 2 }}>
         Short slots
       </Typography>
       <Typography sx={{ marginBottom: 2 }}>
@@ -51,7 +52,7 @@ function Slots() {
           />
         </Box>
       </Stack>
-    </>
+    </StepContentWrapper>
   );
 }
 

@@ -12,12 +12,17 @@ function Stepper({
   const goPrev = () => setActiveStep((prev) => prev - 1);
 
   return (
-    <>
-      <MUIStepper
-        activeStep={activeStep}
-        alternativeLabel
-        sx={{ marginTop: 1 }}
-      >
+    <Box
+      sx={{
+        maxWidth: "1000px",
+        width: "90vw",
+        boxShadow: "1px 1px 5px 2px rgba(0, 0, 0, .2)",
+        borderRadius: "15px",
+        padding: 1.25,
+        margin: 1.25,
+      }}
+    >
+      <MUIStepper activeStep={activeStep} alternativeLabel sx={{ margin: 1 }}>
         {steps.map(({ label }) => (
           <Step key={label}>
             <StepLabel>{label}</StepLabel>
@@ -33,7 +38,7 @@ function Stepper({
           onPrev={activeStep !== 0 ? goPrev : undefined}
         />
       </Box>
-    </>
+    </Box>
   );
 }
 

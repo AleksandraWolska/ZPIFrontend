@@ -1,31 +1,42 @@
 import {
+  Box,
   Checkbox,
   FormControlLabel,
   Grid,
   MenuItem,
   Select,
   TextField,
+  Typography,
 } from "@mui/material";
 import { CustomAttribute, CustomAttributeSpec } from "../../../../types";
 import { useItemForm } from "./ItemFormProvider";
 import useStoreConfig from "../../admin-app/useStoreConfig";
+import StepContentWrapper from "../../../store-config-wizard/steps/components/StepContentWrapper";
 
 function CustomAttributes() {
   const storeConfig = useStoreConfig();
   const { item, setItemCustomAttribute } = useItemForm();
 
   return (
-    <Grid container spacing={1} width="50%">
-      {item.customAttributeList.map((attribute) => (
-        <Grid key={attribute.name} item xs={12} sm={6}>
-          {renderCustomAttributeInput(
-            attribute,
-            setItemCustomAttribute,
-            storeConfig.customAttributesSpec,
-          )}
+    <StepContentWrapper>
+      <Typography variant="h4" sx={{ mt: 1, mb: 2 }}>
+        Custom attributes
+      </Typography>
+
+      <Box width="90%" marginTop={1.25} marginBottom={1.25}>
+        <Grid container spacing={1}>
+          {item.customAttributeList.map((attribute) => (
+            <Grid key={attribute.name} item xs={12} sm={6}>
+              {renderCustomAttributeInput(
+                attribute,
+                setItemCustomAttribute,
+                storeConfig.customAttributesSpec,
+              )}
+            </Grid>
+          ))}
         </Grid>
-      ))}
-    </Grid>
+      </Box>
+    </StepContentWrapper>
   );
 }
 
