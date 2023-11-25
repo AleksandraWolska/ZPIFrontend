@@ -6,9 +6,10 @@ function ItemImage({ image, title }: { image: string; title: string }) {
       src={image}
       alt={title}
       style={{
-        width: "100%",
-        height: "100%",
-        objectFit: "contain",
+        minWidth: "100%",
+        minHeight: "100%",
+        margin: "auto",
+        objectFit: "cover",
       }}
     />
   ) : (

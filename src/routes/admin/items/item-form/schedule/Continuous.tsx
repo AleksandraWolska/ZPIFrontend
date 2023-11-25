@@ -7,6 +7,7 @@ import ScheduleCalendar, {
   BigCalendarEvent,
 } from "./schedule-calendar/ScheduleCalendar";
 import { useItemForm } from "../ItemFormProvider";
+import StepWrapper from "../../../components/StepWrapper";
 
 function Continuous() {
   const { item, setItem } = useItemForm();
@@ -18,8 +19,8 @@ function Continuous() {
   const [step, setStep] = useState(30);
 
   return (
-    <>
-      <Typography variant="h4" sx={{ marginBottom: 2 }}>
+    <StepWrapper>
+      <Typography variant="h4" sx={{ mt: 1, mb: 2 }}>
         Continuous
       </Typography>
       <Typography sx={{ marginBottom: 2 }}>Apartments, cars</Typography>
@@ -37,7 +38,13 @@ function Continuous() {
           }}
         />
 
-        <Box width="100%">
+        <Box
+          sx={{
+            width: "100%",
+            maxHeight: "50vh",
+            overflow: "auto",
+          }}
+        >
           <ScheduleCalendar
             events={parseContinuousScheduleToEvents(schedule)}
             onEventsChange={(events: BigCalendarEvent[]) =>
@@ -49,7 +56,7 @@ function Continuous() {
           />
         </Box>
       </Stack>
-    </>
+    </StepWrapper>
   );
 }
 

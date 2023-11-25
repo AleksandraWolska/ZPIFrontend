@@ -7,6 +7,7 @@ import ScheduleCalendar, {
   BigCalendarEvent,
 } from "./schedule-calendar/ScheduleCalendar";
 import { useItemForm } from "../ItemFormProvider";
+import StepWrapper from "../../../components/StepWrapper";
 
 function Slots() {
   const { item, setItem } = useItemForm();
@@ -18,8 +19,8 @@ function Slots() {
   const [step, setStep] = useState(30);
 
   return (
-    <>
-      <Typography variant="h4" sx={{ marginBottom: 2 }}>
+    <StepWrapper>
+      <Typography variant="h4" sx={{ mt: 1, mb: 2 }}>
         Short slots
       </Typography>
       <Typography sx={{ marginBottom: 2 }}>
@@ -39,7 +40,13 @@ function Slots() {
           }}
         />
 
-        <Box width="100%">
+        <Box
+          sx={{
+            width: "100%",
+            maxHeight: "50vh",
+            overflow: "auto",
+          }}
+        >
           <ScheduleCalendar
             events={parseSlotsScheduleToEvents(schedule)}
             onEventsChange={(events: BigCalendarEvent[]) =>
@@ -51,7 +58,7 @@ function Slots() {
           />
         </Box>
       </Stack>
-    </>
+    </StepWrapper>
   );
 }
 

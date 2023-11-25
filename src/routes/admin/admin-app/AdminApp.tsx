@@ -1,66 +1,78 @@
 import { useNavigate } from "react-router-dom";
 import FormatListBulletedSharpIcon from "@mui/icons-material/FormatListBulletedSharp";
-import CreateSharpIcon from "@mui/icons-material/CreateSharp";
+import AddIcon from "@mui/icons-material/Add";
 import EventSeatIcon from "@mui/icons-material/EventSeat";
-import { Box, Container, Grid, Paper, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Container,
+  List,
+  ListItem,
+  ListItemText,
+  Typography,
+  useTheme,
+} from "@mui/material";
 
 const options = [
   {
     label: "Reservations",
     value: "reservations",
-    icon: <EventSeatIcon sx={{ fontSize: "5rem" }} />,
+    description: "View reservations made by users",
+    icon: <EventSeatIcon sx={{ fontSize: "5rem", color: "grey" }} />,
   },
   {
     label: "Item list",
     value: "item-list",
-    icon: <FormatListBulletedSharpIcon sx={{ fontSize: "5rem" }} />,
+    description: "View items available in your store",
+    icon: (
+      <FormatListBulletedSharpIcon sx={{ fontSize: "5rem", color: "grey" }} />
+    ),
   },
   {
-    label: "New item",
+    label: "Add new item",
     value: "add-item",
-    icon: <CreateSharpIcon sx={{ fontSize: "5rem" }} />,
+    description: "Add new item for reserving",
+    icon: <AddIcon sx={{ fontSize: "5rem", color: "grey" }} />,
   },
 ];
 
 function AdminApp() {
   const navigate = useNavigate();
+  const theme = useTheme();
 
   return (
     <Container maxWidth="lg">
-      <Grid container spacing={2} marginTop={4}>
-        {options.map((option) => {
-          return (
-            <Grid
-              key={option.value}
-              item
-              xs={6}
-              md={3}
-              sx={{ cursor: "pointer" }}
+      <List>
+        {options.map((option) => (
+          <ListItem key={option.value} onClick={() => navigate(option.value)}>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                width: "100%",
+                boxShadow: 3,
+                borderRadius: "10px",
+                padding: 2,
+                bgcolor: "white",
+                cursor: "pointer",
+                "&:hover": {
+                  bgcolor: theme.palette.action.hover,
+                },
+              }}
             >
-              <Paper
-                onClick={() => navigate(option.value)}
-                sx={{ paddingY: 1 }}
-              >
-                <Stack
-                  height="100%"
-                  alignItems="center"
-                  justifyContent="center"
-                  gap={3}
-                >
-                  <Box>{option.icon}</Box>
-                  <Typography
-                    fontSize="1.75rem"
-                    letterSpacing="1px"
-                    textTransform="uppercase"
-                  >
-                    {option.label}
+              <Box sx={{ margin: 1, marginRight: 3 }}>{option.icon}</Box>
+              <ListItemText
+                primary={<Typography variant="h4">{option.label}</Typography>}
+                secondary={
+                  <Typography variant="body1" color="grey">
+                    {option.description}
                   </Typography>
-                </Stack>
-              </Paper>
-            </Grid>
-          );
-        })}
-      </Grid>
+                }
+              />
+            </Box>
+          </ListItem>
+        ))}
+      </List>
     </Container>
   );
 }
