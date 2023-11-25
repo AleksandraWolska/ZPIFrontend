@@ -19,6 +19,7 @@ const fetchStoreConfig = async (storeId: string): Promise<StoreConfig> => {
 export const getStoreConfigQuery = (storeId: string) => ({
   queryKey: ["store-configs", storeId],
   queryFn: () => fetchStoreConfig(storeId),
+  retry: 1,
 });
 
 export const loader =

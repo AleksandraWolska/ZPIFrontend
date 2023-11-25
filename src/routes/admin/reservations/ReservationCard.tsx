@@ -13,7 +13,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import dayjs from "dayjs";
 import { styled } from "@mui/system";
 import { Reservation } from "../../../types";
-import useStoreConfig from "../admin-app/useStoreConfig";
+import useStoreConfig from "../store/useStoreConfig";
 import useItemById from "./useItemById";
 import theme from "../../../theme";
 import ItemImage from "../components/ItemImage";

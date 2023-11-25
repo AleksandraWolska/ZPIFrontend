@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { CustomAttribute, CustomAttributeSpec } from "../../../../types";
 import { useItemForm } from "./ItemFormProvider";
-import useStoreConfig from "../../admin-app/useStoreConfig";
+import useStoreConfig from "../../store/useStoreConfig";
 import StepWrapper from "../../components/StepWrapper";
 
 function CustomAttributes() {

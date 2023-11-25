@@ -1,10 +1,10 @@
 import { Outlet } from "react-router-dom";
-import TopBar from "./TopBar";
+import AdminAppTopBar from "./AdminAppTopBar";
 
 function AdminAppWrapper() {
   return (
     <>
-      <TopBar />
+      <AdminAppTopBar />
       <Outlet />
     </>
   );

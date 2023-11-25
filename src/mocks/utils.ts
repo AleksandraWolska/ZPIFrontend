@@ -17,3 +17,19 @@ export function getToken(headers: Headers) {
 export function incorrectToken(token: string) {
   return !token || token === "null";
 }
+
+export async function getStoreMockIdByStoreName(storeName: string) {
+  const adminStoresModule = await import(`./data/common/adminStores`);
+  const { adminStores } = adminStoresModule;
+
+  let storeId = "";
+  Object.values(adminStores).forEach((stores) => {
+    stores.forEach((s) => {
+      if (s.name.toLowerCase() === storeName.toLowerCase()) {
+        storeId = s.storeConfigId;
+      }
+    });
+  });
+
+  return storeId;
+}

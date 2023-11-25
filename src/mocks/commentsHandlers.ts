@@ -1,16 +1,18 @@
 import { rest } from "msw";
-import { fetchData } from "./utils";
+import { fetchData, getStoreMockIdByStoreName } from "./utils";
 
-const importComments = async (storeId: string) => {
-  return (await fetchData(storeId, "comments")) as Comment[];
+const importComments = async (storeName: string) => {
+  const mockId = await getStoreMockIdByStoreName(storeName);
+
+  return (await fetchData(mockId, "comments")) as Comment[];
 };
 
 const getCommentsList = rest.get(
-  "/api/stores/:storeId/items/:itemId/comments",
+  "/api/stores/:storeName/items/:itemId/comments",
   async (req, res, ctx) => {
-    const { storeId } = req.params;
+    const { storeName } = req.params;
 
-    const comments = await importComments(storeId.toString());
+    const comments = await importComments(storeName.toString());
 
     return res(ctx.status(200), ctx.json(comments));
   },

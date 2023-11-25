@@ -24,7 +24,7 @@ import ConfirmDialog from "../../components/ConfirmDialog";
 import useDeleteItem from "./useDeleteItem";
 import useUpdateItemActivity from "./useUpdateItemActivity";
 import { Item } from "../../../../types";
-import useStoreConfig from "../../admin-app/useStoreConfig";
+import useStoreConfig from "../../store/useStoreConfig";
 import ItemImage from "../../components/ItemImage";
 
 function ItemList() {

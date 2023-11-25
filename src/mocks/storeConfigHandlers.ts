@@ -1,11 +1,18 @@
 import { rest } from "msw";
 import { jwtDecode } from "jwt-decode";
-import { fetchData, getToken, incorrectToken } from "./utils";
+import {
+  fetchData,
+  getStoreMockIdByStoreName,
+  getToken,
+  incorrectToken,
+} from "./utils";
 import { StoreConfig } from "../types";
 
-export const importStoreConfig = async (storeId: string) => {
+export const importStoreConfig = async (storeName: string) => {
+  const mockId = await getStoreMockIdByStoreName(storeName);
+
   try {
-    const storeConfig = (await fetchData(storeId, "storeConfig")) as
+    const storeConfig = (await fetchData(mockId, "storeConfig")) as
       | StoreConfig
       | StoreConfig[];
 
@@ -20,11 +27,11 @@ export const importStoreConfig = async (storeId: string) => {
 };
 
 const getStoreConfig = rest.get(
-  "/api/store-configs/:storeId",
+  "/api/store-configs/:storeName",
   async (req, res, ctx) => {
-    const { storeId } = req.params;
+    const { storeName } = req.params;
 
-    const storeConfig = await importStoreConfig(storeId.toString());
+    const storeConfig = await importStoreConfig(storeName.toString());
 
     if (!storeConfig) {
       return res(ctx.status(404), ctx.json({ message: "Store not found." }));
@@ -35,11 +42,11 @@ const getStoreConfig = rest.get(
 );
 
 const getMainPageConfig = rest.get(
-  "/api/store-configs/:storeId/mainPageConfig",
+  "/api/store-configs/:storeName/mainPageConfig",
   async (req, res, ctx) => {
-    const { storeId } = req.params;
+    const { storeName } = req.params;
 
-    const storeConfig = await importStoreConfig(storeId.toString());
+    const storeConfig = await importStoreConfig(storeName.toString());
 
     if (!storeConfig) {
       return res(ctx.status(404), ctx.json({ message: "Store not found." }));
@@ -56,11 +63,11 @@ const getMainPageConfig = rest.get(
 );
 
 const getDetailsPageConfig = rest.get(
-  "/api/store-configs/:storeId/detailsPageConfig",
+  "/api/store-configs/:storeName/detailsPageConfig",
   async (req, res, ctx) => {
-    const { storeId } = req.params;
+    const { storeName } = req.params;
 
-    const storeConfig = await importStoreConfig(storeId.toString());
+    const storeConfig = await importStoreConfig(storeName.toString());
 
     if (!storeConfig) {
       return res(ctx.status(404), ctx.json({ message: "Store not found." }));
@@ -107,6 +114,10 @@ const addStoreConfig = rest.post(
 
     const decoded = jwtDecode(token) as { email: keyof typeof adminStores };
     body.owner.ownerId = decoded.email;
+
+    if (!adminStores[decoded.email]) {
+      adminStores[decoded.email] = [];
+    }
 
     adminStores[decoded.email].push({
       storeConfigId: "101",

@@ -1,8 +1,8 @@
 import { Box, Grid, MenuItem, Select, TextField } from "@mui/material";
 import { useStoreConfig } from "../../StoreConfigProvider";
-import ChangePageButtons from "../../../admin/components/ChangePageButtons";
+import ChangePageButtons from "../../../components/ChangePageButtons";
 import { STORE_CONFIG_STEPS, StoreConfigStep } from "../../types";
-import { OWNER_COLORS } from "../../../../types";
+import { OWNER_COLORS } from "../../../../../types";
 import WizardStepTitle from "../components/WizardStepTitle";
 import WizardStepDescription from "../components/WizardStepDescription";
 import StepContentWrapper from "../components/StepContentWrapper";

@@ -1,25 +1,32 @@
 import { rest } from "msw";
 import { v4 as uuid } from "uuid";
-import { incorrectToken, fetchData, getToken } from "./utils";
+import {
+  incorrectToken,
+  fetchData,
+  getToken,
+  getStoreMockIdByStoreName,
+} from "./utils";
 import { ItemWithoutIds } from "../routes/admin/types";
 import { ContinuousSchedule, Item, SlotsSchedule } from "../types";
 import { calculateAvailability } from "./data/common/availability";
 import { importStoreConfig } from "./storeConfigHandlers";
 
-export const importItems = async (storeId: string) => {
+export const importItems = async (storeName: string) => {
+  const mockId = await getStoreMockIdByStoreName(storeName);
+
   try {
-    return (await fetchData(storeId, "items")) as Item[];
+    return (await fetchData(mockId, "items")) as Item[];
   } catch {
     return null;
   }
 };
 
 const getItems = rest.get(
-  "/api/stores/:storeId/items",
+  "/api/stores/:storeName/items",
   async (req, res, ctx) => {
-    const { storeId } = req.params;
+    const { storeName } = req.params;
 
-    const items = await importItems(storeId.toString());
+    const items = await importItems(storeName.toString());
 
     if (!items) {
       return res(ctx.status(404), ctx.json({ message: "Store not found." }));
@@ -30,11 +37,11 @@ const getItems = rest.get(
 );
 
 const getItemById = rest.get(
-  "/api/stores/:storeId/items/:itemId",
+  "/api/stores/:storeName/items/:itemId",
   async (req, res, ctx) => {
-    const { storeId, itemId } = req.params;
+    const { storeName, itemId } = req.params;
 
-    const items = await importItems(storeId.toString());
+    const items = await importItems(storeName.toString());
 
     if (!items) {
       return res(ctx.status(404), ctx.json({ message: "Store not found." }));
@@ -49,19 +56,19 @@ const getItemById = rest.get(
 );
 
 const addItem = rest.post(
-  "/api/stores/:storeId/items",
+  "/api/stores/:storeName/items",
   async (req, res, ctx) => {
     const token = getToken(req.headers);
     if (incorrectToken(token)) {
       return res(ctx.status(401), ctx.json({ message: "Unauthorized." }));
     }
 
-    const { storeId } = req.params;
+    const { storeName } = req.params;
 
     const body = (await req.json()) as ItemWithoutIds;
 
-    const items = await importItems(storeId.toString());
-    const storeConfig = await importStoreConfig(storeId.toString());
+    const items = await importItems(storeName.toString());
+    const storeConfig = await importStoreConfig(storeName.toString());
 
     if (!items || !storeConfig) {
       return res(ctx.status(404), ctx.json({ message: "Store not found." }));
@@ -80,19 +87,19 @@ const addItem = rest.post(
 );
 
 const editItem = rest.put(
-  "/api/stores/:storeId/items/:itemId",
+  "/api/stores/:storeName/items/:itemId",
   async (req, res, ctx) => {
     const token = getToken(req.headers);
     if (incorrectToken(token)) {
       return res(ctx.status(401), ctx.json({ message: "Unauthorized." }));
     }
 
-    const { storeId, itemId } = req.params;
+    const { storeName, itemId } = req.params;
     const body = (await req.json()) as Item;
 
-    const items = await importItems(storeId.toString());
+    const items = await importItems(storeName.toString());
 
-    const storeConfig = await importStoreConfig(storeId.toString());
+    const storeConfig = await importStoreConfig(storeName.toString());
 
     if (!items || !storeConfig) {
       return res(ctx.status(404), ctx.json({ message: "Store not found." }));
@@ -117,16 +124,16 @@ const editItem = rest.put(
 );
 
 const deleteItem = rest.delete(
-  "/api/stores/:storeId/items/:itemId",
+  "/api/stores/:storeName/items/:itemId",
   async (req, res, ctx) => {
     const token = getToken(req.headers);
     if (incorrectToken(token)) {
       return res(ctx.status(401), ctx.json({ message: "Unauthorized." }));
     }
 
-    const { storeId, itemId } = req.params;
+    const { storeName, itemId } = req.params;
 
-    const items = await importItems(storeId.toString());
+    const items = await importItems(storeName.toString());
 
     if (!items) {
       return res(ctx.status(404), ctx.json({ message: "Store not found." }));
@@ -143,16 +150,16 @@ const deleteItem = rest.delete(
 );
 
 const activateItem = rest.put(
-  "/api/stores/:storeId/items/:itemId/activate",
+  "/api/stores/:storeName/items/:itemId/activate",
   async (req, res, ctx) => {
     const token = getToken(req.headers);
     if (incorrectToken(token)) {
       return res(ctx.status(401), ctx.json({ message: "Unauthorized." }));
     }
 
-    const { storeId, itemId } = req.params;
+    const { storeName, itemId } = req.params;
 
-    const items = await importItems(storeId.toString());
+    const items = await importItems(storeName.toString());
 
     if (!items) {
       return res(ctx.status(404), ctx.json({ message: "Store not found." }));
@@ -171,16 +178,16 @@ const activateItem = rest.put(
 );
 
 const deactivateItem = rest.put(
-  "/api/stores/:storeId/items/:itemId/deactivate",
+  "/api/stores/:storeName/items/:itemId/deactivate",
   async (req, res, ctx) => {
     const token = getToken(req.headers);
     if (incorrectToken(token)) {
       return res(ctx.status(401), ctx.json({ message: "Unauthorized." }));
     }
 
-    const { storeId, itemId } = req.params;
+    const { storeName, itemId } = req.params;
 
-    const items = await importItems(storeId.toString());
+    const items = await importItems(storeName.toString());
 
     if (!items) {
       return res(ctx.status(404), ctx.json({ message: "Store not found." }));

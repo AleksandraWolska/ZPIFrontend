@@ -181,3 +181,8 @@ export type Reservation = {
 };
 
 export type NewReservation = Omit<Reservation, "id">;
+
+export type StoreSummary = {
+  storeConfigId: string;
+  name: string;
+};

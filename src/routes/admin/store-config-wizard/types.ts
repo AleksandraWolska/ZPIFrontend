@@ -1,4 +1,4 @@
-import { ObjectValues } from "../../types";
+import { ObjectValues } from "../../../types";
 
 export const STORE_CONFIG_STEPS = {
   OWNER: "OWNER",

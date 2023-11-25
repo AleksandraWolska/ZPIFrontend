@@ -13,18 +13,6 @@ function Home() {
       <br />
       <Link to="/secret">Secret page</Link>
       <br />
-      <br />
-      {Array.from({ length: 10 }).map((_, i) => {
-        return (
-          // eslint-disable-next-line react/no-array-index-key
-          <div key={i}>
-            <Link to={`/userapp/${i + 1}`}>Userapp {i + 1}</Link>
-            <br />
-          </div>
-        );
-      })}
-      <br />
-      <Link to="/userapp/101">Userapp 101 (new store)</Link>
     </div>
   );
 }

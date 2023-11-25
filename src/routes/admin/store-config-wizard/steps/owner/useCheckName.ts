@@ -1,6 +1,6 @@
 import { useQuery } from "react-query";
-import { getAccessToken } from "../../../../auth/utils";
-import { BACKEND_URL } from "../../../../query";
+import { getAccessToken } from "../../../../../auth/utils";
+import { BACKEND_URL } from "../../../../../query";
 
 const checkName = async (name: string): Promise<boolean> => {
   const token = getAccessToken();
@@ -20,6 +20,7 @@ const checkName = async (name: string): Promise<boolean> => {
 const getCheckNameQuery = (name: string) => ({
   queryKey: ["nameCheck", name],
   queryFn: () => checkName(name),
+  staleTime: 5,
 });
 
 function useCheckName(name: string) {

@@ -1,5 +1,6 @@
 import { useQuery } from "react-query";
-import { getAdminStoresQuery, StoreSummary } from "./loader";
+import { getAdminStoresQuery } from "./loader";
+import { StoreSummary } from "../../../types";
 
 function useAdminStores() {
   const { data } = useQuery(getAdminStoresQuery()) as {

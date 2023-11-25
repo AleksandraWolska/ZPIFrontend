@@ -9,7 +9,7 @@ import {
   StoreConfigContext,
   StoreConfigContextType,
 } from "./StoreConfigContext";
-import { OWNER_COLORS, StoreConfig } from "../../types";
+import { OWNER_COLORS, StoreConfig } from "../../../types";
 
 const initialStoreConfig: StoreConfig = {
   storeConfigId: uuid(),

@@ -35,7 +35,7 @@ const options = [
   },
 ];
 
-function AdminApp() {
+function Store() {
   const navigate = useNavigate();
   const theme = useTheme();
 
@@ -77,4 +77,4 @@ function AdminApp() {
   );
 }
 
-export default AdminApp;
+export default Store;

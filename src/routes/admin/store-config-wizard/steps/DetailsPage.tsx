@@ -7,7 +7,7 @@ import {
 } from "@mui/material";
 import { STORE_CONFIG_STEPS, StoreConfigStep } from "../types";
 import { useStoreConfig } from "../StoreConfigProvider";
-import ChangePageButtons from "../../admin/components/ChangePageButtons";
+import ChangePageButtons from "../../components/ChangePageButtons";
 import StepContentWrapper from "./components/StepContentWrapper";
 import WizardStepTitle from "./components/WizardStepTitle";
 import WizardStepDescription from "./components/WizardStepDescription";
