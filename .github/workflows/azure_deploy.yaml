@@ -7,7 +7,7 @@ name: Genervation on Azure
 on:
   push:
     branches:
-      - "dev"
+      - "admin-app-wrapper"
   workflow_dispatch:
 
 # Optional: environment variables can be injected here

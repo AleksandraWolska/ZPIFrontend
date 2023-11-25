@@ -1,13 +1,9 @@
 import { QueryClient } from "react-query";
 import { getAccessToken } from "../../../auth/utils";
 import { BACKEND_URL } from "../../../query";
+import { StoreSummary } from "../../../types";
 
-export type StoreSummary = {
-  storeConfigId: string;
-  name: string;
-};
-
-const fetchAdminStores = async (): Promise<StoreSummary[]> => {
+const fetchAdminStores = async (): Promise<StoreSummary[] | null> => {
   const token = getAccessToken();
 
   const res = await fetch(`${BACKEND_URL}/store-configs`, {
@@ -15,6 +11,10 @@ const fetchAdminStores = async (): Promise<StoreSummary[]> => {
       Authorization: `Bearer ${token}`,
     },
   });
+
+  if (!res.ok) {
+    return null;
+  }
 
   return res.json();
 };

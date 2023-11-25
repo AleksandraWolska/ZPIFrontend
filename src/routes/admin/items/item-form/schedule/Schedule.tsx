@@ -1,7 +1,7 @@
 import Fixed from "./Fixed";
 import Slots from "./Slots";
 import Continuous from "./Continuous";
-import useStoreConfig from "../../../admin-app/useStoreConfig";
+import useStoreConfig from "../../../store/useStoreConfig";
 
 function Schedule() {
   const storeConfig = useStoreConfig();

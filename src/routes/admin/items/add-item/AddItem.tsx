@@ -20,7 +20,7 @@ import SubItems from "../item-form/SubItems";
 import Summary from "./Summary";
 import ScheduleComponent from "../item-form/schedule/Schedule";
 import Stepper from "../item-form/Stepper";
-import useStoreConfig from "../../admin-app/useStoreConfig";
+import useStoreConfig from "../../store/useStoreConfig";
 
 function AddItem() {
   const storeConfig = useStoreConfig();

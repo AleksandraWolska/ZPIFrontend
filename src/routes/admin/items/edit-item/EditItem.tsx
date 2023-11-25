@@ -11,7 +11,7 @@ import { Core } from "../../../../types";
 import Stepper from "../item-form/Stepper";
 import Schedule from "../item-form/schedule/Schedule";
 import useEditItem from "./useEditItem";
-import useStoreConfig from "../../admin-app/useStoreConfig";
+import useStoreConfig from "../../store/useStoreConfig";
 
 function EditItem() {
   const itemToBeEdited = useItemToBeEdited();

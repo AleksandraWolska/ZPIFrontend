@@ -1,6 +1,6 @@
 import { createContext } from "react";
 import { StoreConfigStep } from "./types";
-import { StoreConfig } from "../../types";
+import { StoreConfig } from "../../../types";
 
 export type StoreConfigContextType = {
   storeConfig: StoreConfig;

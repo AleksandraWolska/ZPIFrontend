@@ -7,45 +7,52 @@ import {
   FetchScheduleResponse,
 } from "../routes/userapp/types";
 import { Availability, Reservation } from "../types";
-import { fetchData, getToken, incorrectToken } from "./utils";
+import {
+  fetchData,
+  getStoreMockIdByStoreName,
+  getToken,
+  incorrectToken,
+} from "./utils";
 import { importItems } from "./itemsHandlers";
 import userReservationsList from "./data/common/userReservationsList";
 
-const importReservations = async (storeId: string) => {
+const importReservations = async (storeName: string) => {
+  const mockId = await getStoreMockIdByStoreName(storeName);
+
   try {
-    return (await fetchData(storeId, "reservations")) as Reservation[];
+    return (await fetchData(mockId, "reservations")) as Reservation[];
   } catch {
     return null;
   }
 };
 
 const getReservations = rest.get(
-  "/api/stores/:storeId/reservations",
+  "/api/stores/:storeName/reservations",
   async (req, res, ctx) => {
     const token = getToken(req.headers);
     if (incorrectToken(token)) {
       return res(ctx.status(401), ctx.json({ message: "Unauthorized." }));
     }
 
-    const { storeId } = req.params;
+    const { storeName } = req.params;
 
-    const reservations = await importReservations(storeId.toString());
+    const reservations = await importReservations(storeName.toString());
 
-    return res(ctx.status(200), ctx.json(reservations));
+    return res(ctx.status(200), ctx.json(reservations || []));
   },
 );
 
 const confirmReservation = rest.put(
-  "/api/stores/:storeId/reservations/:reservationId/confirm",
+  "/api/stores/:storeName/reservations/:reservationId/confirm",
   async (req, res, ctx) => {
     const token = getToken(req.headers);
     if (incorrectToken(token)) {
       return res(ctx.status(401), ctx.json({ message: "Unauthorized." }));
     }
 
-    const { storeId, reservationId } = req.params;
+    const { storeName, reservationId } = req.params;
 
-    const reservations = await importReservations(storeId.toString());
+    const reservations = await importReservations(storeName.toString());
 
     if (!reservations) {
       return res(ctx.status(404), ctx.json({ message: "Store not found." }));
@@ -164,14 +171,14 @@ const reserve = rest.post("/api/reserve", async (req, res, ctx) => {
   // const items10 = (await importItems("10")) || [];
   // const items = [...items7, ...items8, ...items9, ...items10];
 
-  const items = await importItems("7");
+  const items = await importItems("c7");
 
   const item = items?.find((i) => i.id === body.itemId);
 
   item!.availability = [
     {
-      startDateTime: "2023-11-06T10:00:00.000Z",
-      endDateTime: "2023-11-06T11:00:00.000Z",
+      startDateTime: "2023-11-25T10:00:00.000Z",
+      endDateTime: "2023-11-25T11:00:00.000Z",
       type: "continuous",
     },
   ];
@@ -182,7 +189,7 @@ const reserve = rest.post("/api/reserve", async (req, res, ctx) => {
 });
 
 const fetchUserReservationList = rest.get(
-  "/api/store/:storeId/user/:userId/reservations",
+  "/api/store/:storeName/user/:userId/reservations",
   async (_, res, ctx) => {
     return res(ctx.status(200), ctx.json(userReservationsList));
   },

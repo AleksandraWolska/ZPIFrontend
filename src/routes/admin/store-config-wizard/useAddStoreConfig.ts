@@ -1,8 +1,8 @@
 import { useMutation } from "react-query";
-import { getAccessToken } from "../../auth/utils";
-import { BACKEND_URL, queryClient } from "../../query";
-import { StoreConfigWithoutIds } from "../admin/types";
-import { StoreConfig } from "../../types";
+import { getAccessToken } from "../../../auth/utils";
+import { BACKEND_URL, queryClient } from "../../../query";
+import { StoreConfigWithoutIds } from "../types";
+import { StoreConfig } from "../../../types";
 
 export const removeIdsFromStoreConfig = (
   storeConfig: StoreConfig,

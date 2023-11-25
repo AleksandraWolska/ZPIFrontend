@@ -1,9 +1,8 @@
 import { Link } from "react-router-dom";
 import useAdminStores from "./useAdminStores";
 
-function AdminMenu() {
+function AdminMainPage() {
   const adminStores = useAdminStores();
-  console.log(adminStores);
 
   return (
     <div>
@@ -13,16 +12,14 @@ function AdminMenu() {
 
       {adminStores.map((adminStore) => {
         return (
-          <>
-            <Link key={adminStore.storeConfigId} to={adminStore.storeConfigId}>
-              {adminStore.name}
-            </Link>
+          <div key={adminStore.storeConfigId}>
+            <Link to={adminStore.name.toLowerCase()}>{adminStore.name}</Link>
             <br />
-          </>
+          </div>
         );
       })}
     </div>
   );
 }
 
-export default AdminMenu;
+export default AdminMainPage;

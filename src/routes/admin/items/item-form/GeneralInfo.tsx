@@ -1,7 +1,7 @@
 import { Box, Grid, TextField, Typography } from "@mui/material";
 import { askForItemAmount } from "../utils";
 import { useItemForm } from "./ItemFormProvider";
-import useStoreConfig from "../../admin-app/useStoreConfig";
+import useStoreConfig from "../../store/useStoreConfig";
 import StepWrapper from "../../components/StepWrapper";
 
 function GeneralInfo() {

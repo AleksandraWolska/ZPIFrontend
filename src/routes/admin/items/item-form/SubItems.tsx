@@ -13,7 +13,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { useItemForm } from "./ItemFormProvider";
 import { askForSubItemAmount, askForSubItemSchedule } from "../utils";
 import { SubItem } from "../../../../types";
-import useStoreConfig from "../../admin-app/useStoreConfig";
+import useStoreConfig from "../../store/useStoreConfig";
 
 function SubItems() {
   const storeConfig = useStoreConfig();
