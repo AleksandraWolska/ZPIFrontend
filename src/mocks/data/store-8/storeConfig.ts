@@ -4,7 +4,7 @@ export const storeConfig: StoreConfig = {
   storeConfigId: "8",
   owner: {
     ownerId: "t8@test.com",
-    name: "C8 TBD",
+    name: "C8",
     logoSrc: "https://example.com/techrental-logo.png",
     phone: "+1 (123) 456-7890",
     email: "info@techrental.com",
