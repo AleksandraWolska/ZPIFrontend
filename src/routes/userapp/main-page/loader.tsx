@@ -26,7 +26,12 @@ export const getConfigQuery = (storeId: string) => ({
 });
 
 const fetchItems = async (storeId: string): Promise<Item[]> => {
-  const res = await fetch(`${BACKEND_URL}/stores/${storeId}/items`);
+  const token = getAccessToken();
+  const res = await fetch(`${BACKEND_URL}/stores/${storeId}/items`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
   return res.json();
 };
 

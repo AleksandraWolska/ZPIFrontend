@@ -49,7 +49,7 @@ function UserAppWrapper() {
 
   const handleMyReservationsClick = () => {
     if (storeId) {
-      navigate(`/userapp/${storeId}/reservations/1`);
+      navigate(`/userapp/${storeId}/reservations`);
     } else {
       console.error("Missing storeId");
     }

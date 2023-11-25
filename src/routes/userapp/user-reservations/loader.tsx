@@ -2,25 +2,28 @@ import { QueryClient } from "react-query";
 import { defer, LoaderFunctionArgs } from "react-router-dom";
 import { UserReservation } from "../types";
 import { BACKEND_URL } from "../../../query";
+import { getAccessToken } from "../../../auth/utils";
 
-export const getUserReservationListQuery = (
-  storeId: string,
-  userId: string,
-) => ({
-  queryKey: ["userReservationList", storeId, userId],
-  queryFn: async () => fetchUserReservationList(storeId, userId),
+export const getUserReservationListQuery = (storeId: string) => ({
+  queryKey: ["userReservationList", storeId],
+  queryFn: async () => fetchUserReservationList(storeId),
 });
 
 const fetchUserReservationList = async (
   storeId: string,
-  userId: string,
 ): Promise<UserReservation[]> => {
+  const token = getAccessToken();
   const res = await fetch(
     `${
       process.env.NODE_ENV === "development"
-        ? `/api/store/${storeId}/user/${userId}/reservations`
-        : `${BACKEND_URL}/store/${storeId}/user/${userId}/reservations` // TBD
+        ? `/api/stores/${storeId}/reservations/user`
+        : `${BACKEND_URL}/stores/${storeId}/reservations/user`
     }`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
   );
   return res.json();
 };
@@ -28,12 +31,9 @@ const fetchUserReservationList = async (
 export const loader =
   (queryClient: QueryClient) =>
   async ({ params }: LoaderFunctionArgs) => {
-    const { storeId, itemId } = params as { storeId: string; itemId: string };
+    const { storeId } = params as { storeId: string };
 
-    const userReservationListQuery = getUserReservationListQuery(
-      storeId,
-      itemId,
-    );
+    const userReservationListQuery = getUserReservationListQuery(storeId);
     const userReservationList = new Promise((resolve) => {
       resolve(
         queryClient.getQueryData(userReservationListQuery.queryKey) ??

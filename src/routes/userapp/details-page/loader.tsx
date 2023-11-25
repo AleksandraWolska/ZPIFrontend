@@ -3,12 +3,19 @@ import { defer, LoaderFunctionArgs } from "react-router-dom";
 import { Item } from "../../../types";
 import { CommentList, DetailsPageConfig } from "../types";
 import { BACKEND_URL } from "../../../query";
+import { getAccessToken } from "../../../auth/utils";
 
 const fetchDetailsConfig = async (
   storeId: string,
 ): Promise<DetailsPageConfig> => {
+  const token = getAccessToken();
   const res = await fetch(
     `${BACKEND_URL}/store-configs/${storeId}/detailsPageConfig`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
   );
   return res.json();
 };
@@ -22,7 +29,12 @@ const fetchItemDetails = async (
   storeId: string,
   itemId: string,
 ): Promise<Item> => {
-  const res = await fetch(`${BACKEND_URL}/stores/${storeId}/items/${itemId}`);
+  const token = getAccessToken();
+  const res = await fetch(`${BACKEND_URL}/stores/${storeId}/items/${itemId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
   return res.json();
 };
 
@@ -40,8 +52,14 @@ const fetchCommentsList = async (
   storeId: string,
   itemId: string,
 ): Promise<CommentList> => {
+  const token = getAccessToken();
   const res = await fetch(
     `${BACKEND_URL}/stores/${storeId}/items/${itemId}/comments`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
   );
   return res.json();
 };

@@ -145,9 +145,15 @@ const router = createBrowserRouter([
         loader: detailsPageLoader(queryClient),
       },
       {
-        path: "reservations/:userId",
-        element: <UserReservationsPage />,
-        loader: userReservationsPageLoader(queryClient),
+        path: "reservations",
+        element: <RequireLogin />,
+        children: [
+          {
+            path: "",
+            element: <UserReservationsPage />,
+            loader: userReservationsPageLoader(queryClient),
+          },
+        ],
       },
     ],
   },

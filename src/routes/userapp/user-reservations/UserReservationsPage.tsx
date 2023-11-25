@@ -1,4 +1,3 @@
-import { useAuth } from "react-oidc-context";
 import { useState } from "react";
 import {
   List,
@@ -15,47 +14,45 @@ import {
   Divider,
 } from "@mui/material";
 import { ExpandMore, Delete } from "@mui/icons-material";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import useUserReservedItems from "./useUserReservedItems";
 import { UserReservation } from "../types";
 
 function UserReservationsPage() {
-  const auth = useAuth();
   const { data: reservations } = useUserReservedItems();
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [reservationToDelete, setReservationToDelete] =
     useState<UserReservation | null>(null);
   const { storeId } = useParams();
-  const location = useLocation();
 
-  const login = (
-    <Box
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
-      flexDirection="column"
-      padding="30px"
-    >
-      <Typography variant="h6">
-        Please log in to view your reservations
-      </Typography>
-      <Button
-        variant="contained"
-        sx={{}}
-        onClick={() => {
-          const currentPath = location.pathname + location.search;
-          auth.signinRedirect({
-            redirect_uri: `${window.location.origin}${currentPath}`,
-          });
-        }}
-      >
-        Login{" "}
-      </Button>
-    </Box>
-  );
+  // const login = (
+  //   <Box
+  //     display="flex"
+  //     justifyContent="center"
+  //     alignItems="center"
+  //     flexDirection="column"
+  //     padding="30px"
+  //   >
+  //     <Typography variant="h6">
+  //       Please log in to view your reservations
+  //     </Typography>
+  //     <Button
+  //       variant="contained"
+  //       sx={{}}
+  //       onClick={() => {
+  //         const currentPath = location.pathname + location.search;
+  //         auth.signinRedirect({
+  //           redirect_uri: `${window.location.origin}${currentPath}`,
+  //         });
+  //       }}
+  //     >
+  //       Login{" "}
+  //     </Button>
+  //   </Box>
+  // );
 
-  if (!auth.isAuthenticated) return login;
+  // if (!auth.isAuthenticated) return login;
 
   const handleExpand = (reservationId: string) => {
     setExpandedId((prev) => (prev === reservationId ? null : reservationId));

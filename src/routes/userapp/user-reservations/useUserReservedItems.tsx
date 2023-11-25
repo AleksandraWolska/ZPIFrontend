@@ -5,10 +5,10 @@ import { UserReservation } from "../types";
 import { getUserReservationListQuery } from "./loader";
 
 function useUserReservedItems() {
-  const params = useParams() as { storeId: string; itemId: string };
+  const params = useParams() as { storeId: string };
 
   const { data, refetch } = useQuery(
-    getUserReservationListQuery(params.storeId, params.itemId),
+    getUserReservationListQuery(params.storeId),
   ) as {
     data: UserReservation[];
     refetch: () => void;
