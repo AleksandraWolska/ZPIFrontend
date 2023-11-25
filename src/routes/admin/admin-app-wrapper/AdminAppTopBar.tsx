@@ -38,7 +38,10 @@ function AdminAppTopBar() {
           <Typography sx={{ typography: { xs: "h5", md: "h4" } }}>
             {storeConfig ? (
               <ToolbarNavLink
-                to={`/admin/${storeConfig.owner.name.toLowerCase()}`}
+                to={`/admin/${storeConfig.owner.name
+                  .toLowerCase()
+                  .trim()
+                  .replace(/\s+/g, "_")}`}
               >
                 {storeConfig.owner.name}
               </ToolbarNavLink>
