@@ -1,5 +1,5 @@
 import { v4 as uuid } from "uuid";
-import { Box } from "@mui/system";
+import { Box, Container } from "@mui/system";
 import dayjs from "dayjs";
 import ItemFormProvider from "../item-form/ItemFormProvider";
 import { ItemConfig, Schedule } from "../../types";
@@ -34,18 +34,20 @@ function AddItem() {
         customAttributesSpec: storeConfig.customAttributesSpec,
       })}
     >
-      <Box
-        sx={{
-          maxWidth: "1000px",
-          width: "90vw",
-          boxShadow: "1px 1px 5px 2px rgba(0, 0, 0, .2)",
-          borderRadius: "15px",
-          padding: 1.25,
-          margin: 1.25,
-        }}
-      >
-        <Stepper steps={steps} />
-      </Box>
+      <Container>
+        <Box
+          sx={{
+            maxWidth: "1000px",
+            width: "90vw",
+            boxShadow: "1px 1px 5px 2px rgba(0, 0, 0, .2)",
+            borderRadius: "15px",
+            padding: 1.25,
+            margin: 1.25,
+          }}
+        >
+          <Stepper steps={steps} />
+        </Box>
+      </Container>
     </ItemFormProvider>
   );
 }
