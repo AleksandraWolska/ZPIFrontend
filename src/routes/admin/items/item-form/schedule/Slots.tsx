@@ -40,7 +40,13 @@ function Slots() {
           }}
         />
 
-        <Box width="100%">
+        <Box
+          sx={{
+            width: "100%",
+            maxHeight: "50vh",
+            overflow: "auto",
+          }}
+        >
           <ScheduleCalendar
             events={parseSlotsScheduleToEvents(schedule)}
             onEventsChange={(events: BigCalendarEvent[]) =>

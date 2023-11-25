@@ -68,13 +68,13 @@ function ItemList() {
                 sx={{
                   borderRadius: "10%",
                   marginRight: 2,
-                  maxWidth: "30%",
-
+                  width: "30%",
                   overflow: "hidden",
                   display: "flex",
+                  justifyContent: "center",
                   alignItems: "center",
                   "@media (max-width: 800px)": {
-                    maxWidth: "100%",
+                    width: "100%",
                     marginRight: 0,
                     marginBottom: 2,
                   },
@@ -200,11 +200,18 @@ function ItemDescription({ item }: { item: Item }) {
                 <TableCell
                   component="th"
                   scope="row"
-                  sx={{ borderBottom: "none", p: "5px", pr: "10px" }}
+                  sx={{
+                    borderBottom: "none",
+                    p: "5px",
+
+                    width: "50%",
+                  }}
                 >
                   <Typography fontSize="1em">{customAttribute.name}</Typography>
                 </TableCell>
-                <TableCell sx={{ borderBottom: "none", p: "5px" }}>
+                <TableCell
+                  sx={{ borderBottom: "none", p: "5px", width: "50%" }}
+                >
                   <Typography fontSize="1em" fontWeight="bold">
                     {customAttribute.value}
                   </Typography>

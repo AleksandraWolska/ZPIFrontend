@@ -38,7 +38,13 @@ function Continuous() {
           }}
         />
 
-        <Box width="100%">
+        <Box
+          sx={{
+            width: "100%",
+            maxHeight: "50vh",
+            overflow: "auto",
+          }}
+        >
           <ScheduleCalendar
             events={parseContinuousScheduleToEvents(schedule)}
             onEventsChange={(events: BigCalendarEvent[]) =>
