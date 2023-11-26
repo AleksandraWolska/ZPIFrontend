@@ -3,18 +3,12 @@ import { defer, LoaderFunctionArgs } from "react-router-dom";
 import { Item } from "../../../types";
 import { CommentList } from "../types";
 import { BACKEND_URL } from "../../../query";
-import { getAccessToken } from "../../../auth/utils";
 
 const fetchItemDetails = async (
   storeId: string,
   itemId: string,
 ): Promise<Item> => {
-  const token = getAccessToken();
-  const res = await fetch(`${BACKEND_URL}/stores/${storeId}/items/${itemId}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  const res = await fetch(`${BACKEND_URL}/stores/${storeId}/items/${itemId}`);
   return res.json();
 };
 
@@ -29,12 +23,7 @@ export const getCommentsListQuery = (storeId: string, itemId: string) => ({
 });
 
 const fetchCommentsList = async (itemId: string): Promise<CommentList> => {
-  const token = getAccessToken();
-  const res = await fetch(`${BACKEND_URL}/items/${itemId}/comments`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  const res = await fetch(`${BACKEND_URL}/items/${itemId}/comments`);
   return res.json();
 };
 

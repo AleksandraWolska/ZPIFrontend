@@ -1,16 +1,11 @@
 import { QueryClient } from "react-query";
 import { defer, LoaderFunctionArgs } from "react-router-dom";
 import { Item } from "../../../types";
-import { getAccessToken } from "../../../auth/utils";
+
 import { BACKEND_URL } from "../../../query";
 
 const fetchItems = async (storeId: string): Promise<Item[]> => {
-  const token = getAccessToken();
-  const res = await fetch(`${BACKEND_URL}/stores/${storeId}/items`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  const res = await fetch(`${BACKEND_URL}/stores/${storeId}/items`);
   return res.json();
 };
 
