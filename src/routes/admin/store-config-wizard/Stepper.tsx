@@ -10,7 +10,7 @@ import Periodicity from "./steps/core/Periodicity";
 import CustomAttributesSpec from "./steps/CustomAttributesSpec";
 import Summary from "./steps/Summary";
 import MainPage from "./steps/MainPage";
-import Owner from "./steps/owner/Owner";
+import GeneralStoreInfo from "./steps/owner/GeneralStoreInfo";
 import DetailsPage from "./steps/DetailsPage";
 import AllowOverNight from "./steps/core/AllowOverNight";
 import AuthConfig from "./steps/AuthConfig";
@@ -24,7 +24,7 @@ function Stepper() {
   const renderStepContent = () => {
     switch (activeStep) {
       case STORE_CONFIG_STEPS.OWNER:
-        return <Owner setActiveStep={setActiveStep} />;
+        return <GeneralStoreInfo setActiveStep={setActiveStep} />;
       case STORE_CONFIG_STEPS.FLEXIBILITY:
         return (
           <Flexibility
