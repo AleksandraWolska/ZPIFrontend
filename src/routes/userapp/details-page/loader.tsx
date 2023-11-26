@@ -25,26 +25,16 @@ export const getItemDetailsQuery = (storeId: string, itemId: string) => ({
 
 export const getCommentsListQuery = (storeId: string, itemId: string) => ({
   queryKey: ["commentsList", storeId, itemId],
-  queryFn: async () => fetchCommentsList(storeId, itemId),
+  queryFn: async () => fetchCommentsList(itemId),
 });
 
-const fetchCommentsList = async (
-  storeId: string,
-  itemId: string,
-): Promise<CommentList> => {
+const fetchCommentsList = async (itemId: string): Promise<CommentList> => {
   const token = getAccessToken();
-  const res = await fetch(
-    `${
-      process.env.NODE_ENV === "development"
-        ? `${BACKEND_URL}/stores/${storeId}/items/${itemId}/comments`
-        : `${BACKEND_URL}/items/${itemId}/comments`
-    }`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+  const res = await fetch(`${BACKEND_URL}/items/${itemId}/comments`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
     },
-  );
+  });
   return res.json();
 };
 
