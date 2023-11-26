@@ -3,6 +3,8 @@ import {
   Card,
   CardContent,
   Chip,
+  ListItem,
+  ListItemText,
   Stack,
   Table,
   TableBody,
@@ -17,6 +19,7 @@ import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditCalendarIcon from "@mui/icons-material/EditCalendar";
+import AddIcon from "@mui/icons-material/Add";
 import { useState } from "react";
 import useItems from "./useItems";
 import theme from "../../../../theme";
@@ -30,6 +33,7 @@ import ItemImage from "../../components/ItemImage";
 function ItemList() {
   const items = useItems();
   const storeConfig = useStoreConfig();
+  const navigate = useNavigate();
 
   const [itemToHaveActivityUpdated, setItemToHaveActivityUpdated] = useState<
     string | null
@@ -41,6 +45,45 @@ function ItemList() {
   const [itemToBeDeleted, setItemToBeDeleted] = useState<string | null>(null);
   const deleteItem = useDeleteItem();
 
+  if (!items.length)
+    return (
+      <Box display="flex" m={3} alignItems="center" flexDirection="column">
+        <Typography variant="h4" mb={2}>
+          It seems there is no items defined in this store yet...
+        </Typography>
+
+        <ListItem key="new" onClick={() => navigate("../add-item")}>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              width: "100%",
+              boxShadow: 3,
+              borderRadius: "10px",
+              padding: 2,
+              bgcolor: "white",
+              cursor: "pointer",
+              "&:hover": {
+                bgcolor: theme.palette.action.hover,
+              },
+            }}
+          >
+            <Box sx={{ margin: 1, marginRight: 3 }}>
+              <AddIcon sx={{ fontSize: "5rem", color: "grey" }} />
+            </Box>
+            <ListItemText
+              primary={<Typography variant="h4">Add item</Typography>}
+              secondary={
+                <Typography variant="body1" color="grey">
+                  Add new item users can reserve
+                </Typography>
+              }
+            />
+          </Box>
+        </ListItem>
+      </Box>
+    );
   return (
     <Container>
       <Stack spacing={4}>
