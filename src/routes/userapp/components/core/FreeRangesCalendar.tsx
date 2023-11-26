@@ -55,8 +55,8 @@ const transformToArray = (specificAvailabilities: Availability[]): Event[] => {
 
 type FreeRangesCalendarProps = {
   itemId: string;
-  earliestCalendarStart: string;
-  latestCalendarEnd: string;
+  earliestCalendarStart: number;
+  latestCalendarEnd: number;
   userCount: number;
   availabilityList: Availability[];
   prepareFlexibleReservation: (data: FlexibleReservationData) => void;
@@ -377,8 +377,8 @@ export function FreeRangesCalendar({
           view={Views.WEEK}
           formats={baseFormats}
           selectable
-          min={new Date(earliestCalendarStart)}
-          max={new Date(latestCalendarEnd)}
+          min={new Date(new Date(0).setHours(earliestCalendarStart))}
+          max={new Date(new Date(0).setHours(latestCalendarEnd))}
           getNow={() => new Date()}
           events={events}
           step={5}

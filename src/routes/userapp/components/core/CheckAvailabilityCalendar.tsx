@@ -70,8 +70,8 @@ const transformToArray = (specificAvailabilities: Availability[]): Event[] => {
 
 type CheckAvailabilityCalendarProps = {
   itemId: string;
-  earliestCalendarStart: string;
-  latestCalendarEnd: string;
+  earliestCalendarStart: number;
+  latestCalendarEnd: number;
   userCount: number;
   availabilityList: Availability[]; // schedule that comes with itemStatus
   prepareFlexibleReservation: (data: FlexibleReservationData) => void; // function called on reserve button click, after ensuring availability
@@ -461,8 +461,8 @@ export function CheckAvailabilityCalendar({
           defaultDate={defaultDate}
           view={Views.WEEK}
           formats={baseFormats}
-          min={new Date(earliestCalendarStart)}
-          max={new Date(latestCalendarEnd)}
+          min={new Date(new Date(0).setHours(earliestCalendarStart))}
+          max={new Date(new Date(0).setHours(latestCalendarEnd))}
           selectable
           getNow={() => new Date()}
           events={events}
