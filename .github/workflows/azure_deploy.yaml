@@ -8,6 +8,7 @@ on:
   push:
     branches:
       - "dev"
+      - "userapp-further-fixes"
   workflow_dispatch:
 
 # Optional: environment variables can be injected here
