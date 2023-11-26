@@ -24,7 +24,7 @@ function AdminAppTopBar() {
   const store = adminStores?.find((s) => s.storeConfigId === params.storeId);
 
   return (
-    <AppBar position="static">
+    <AppBar position="sticky">
       <Container maxWidth="lg">
         <Toolbar
           disableGutters

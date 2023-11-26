@@ -127,7 +127,7 @@ export default function UserAppMainPage() {
   });
 
   return (
-    <Box padding={3}>
+    <Box padding={1}>
       <Box display="flex" justifyContent="space-between">
         <Box
           sx={{
