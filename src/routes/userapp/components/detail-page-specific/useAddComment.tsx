@@ -6,22 +6,15 @@ import { getAccessToken } from "../../../../auth/utils";
 
 const addComment = (itemId: string, newComment: NewComment) => {
   const token = getAccessToken();
-  return fetch(
-    `${
-      process.env.NODE_ENV === "development"
-        ? `/api/items/${itemId}/comments` // nonexisting path
-        : `${BACKEND_URL}/items/${itemId}/comments`
-    }`,
-    {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newComment),
+  return fetch(`${BACKEND_URL}/items/${itemId}/comments`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: "application/json",
+      "Content-Type": "application/json",
     },
-  );
+    body: JSON.stringify(newComment),
+  });
 };
 
 function useAddComment() {

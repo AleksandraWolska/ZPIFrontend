@@ -16,7 +16,6 @@ import Ratings from "../components/shared/Ratings";
 import QuantityInput from "../components/core/QuantityInput";
 import SubItemsList from "../components/core/SubItemsList";
 import useItemDetails from "./useItemDetails";
-import useDetailsPageConfig from "./useDetailsPageConfig";
 import { CheckAvailabilityCalendar } from "../components/core/CheckAvailabilityCalendar";
 import { FreeRangesCalendar } from "../components/core/FreeRangesCalendar";
 import { FlexibleReservationData, NewComment } from "../types";
@@ -28,6 +27,7 @@ import CommentInput from "../components/detail-page-specific/CommentInput";
 import useAddComment from "../components/detail-page-specific/useAddComment";
 import { ReservationSuccessDialog } from "../components/detail-page-specific/ReservationSuccessDialog";
 import { ReservationFailureDialog } from "../components/detail-page-specific/ReservationFailureDialog";
+import useStoreConfig from "../wrapper/useStoreConfig";
 
 const initializeReservationRequestReady = (
   core: StoreConfig["core"],
@@ -49,7 +49,7 @@ const initializeAvailabilityChecked = (core: StoreConfig["core"]): boolean => {
 };
 
 export default function ItemDetailsPage() {
-  const storeConfig = useDetailsPageConfig();
+  const storeConfig = useStoreConfig();
   const item = useItemDetails();
   const reserveItem = useReserveItem();
   const addComment = useAddComment();
