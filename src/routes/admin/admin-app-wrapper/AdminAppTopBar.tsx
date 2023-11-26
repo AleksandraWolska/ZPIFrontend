@@ -9,11 +9,13 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
+import LogoutIcon from "@mui/icons-material/Logout";
+import LoginIcon from "@mui/icons-material/Login";
+import PersonIcon from "@mui/icons-material/Person";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useAuth } from "react-oidc-context";
 import { styled } from "@mui/system";
-import { NavLink, useLocation, useParams } from "react-router-dom";
-import HomeIcon from "@mui/icons-material/Home";
+import { NavLink, useLocation, useNavigate, useParams } from "react-router-dom";
 import useAdminStores from "../admin-main-page/useAdminStores";
 
 function AdminAppTopBar() {
@@ -32,15 +34,22 @@ function AdminAppTopBar() {
             alignItems: "center",
           }}
         >
-          <Typography sx={{ typography: { xs: "h5", md: "h4" } }}>
-            {store ? (
-              <ToolbarNavLink to={`/admin/${store.storeConfigId}`}>
-                {store.name}
-              </ToolbarNavLink>
-            ) : (
-              <ToolbarNavLink to="/admin">Genervation</ToolbarNavLink>
-            )}
-          </Typography>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <Typography sx={{ typography: { xs: "h5", md: "h4" } }}>
+              {store ? (
+                <ToolbarNavLink to={`/admin/${store.storeConfigId}`}>
+                  {store.name} (admin)
+                </ToolbarNavLink>
+              ) : (
+                <ToolbarNavLink to="/admin">Genervation</ToolbarNavLink>
+              )}
+            </Typography>
+          </Box>
 
           <TopBarMenu />
         </Toolbar>
@@ -53,6 +62,7 @@ function TopBarMenu() {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const auth = useAuth();
   const location = useLocation();
+  const navigate = useNavigate();
 
   const handleOpenNavMenu = (event: MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -64,13 +74,18 @@ function TopBarMenu() {
 
   return (
     <>
-      <Box sx={{ display: { xs: "none", md: "flex" }, alignItems: "center" }}>
+      <Box
+        sx={{
+          display: { xs: "none", md: "flex" },
+          alignItems: "center",
+          flexDirection: "row",
+        }}
+      >
         {auth.isAuthenticated && (
-          <NavLink to="/admin">
-            <IconButton>
-              <HomeIcon sx={{ color: "#fff" }} />
-            </IconButton>
-          </NavLink>
+          <MenuText onClick={() => navigate("/admin")}>
+            <PersonIcon sx={{ color: "#fff" }} />
+            <Typography ml={1}> {auth.user?.profile.email} </Typography>
+          </MenuText>
         )}
 
         {auth.isAuthenticated ? (
@@ -81,7 +96,8 @@ function TopBarMenu() {
               });
             }}
           >
-            Logout
+            <LogoutIcon sx={{ color: "#fff" }} />
+            <Typography ml={1}> logout </Typography>
           </MenuText>
         ) : (
           <MenuText
@@ -92,7 +108,8 @@ function TopBarMenu() {
               });
             }}
           >
-            Login
+            <LoginIcon sx={{ color: "#fff" }} />
+            <Typography ml={1}> login </Typography>
           </MenuText>
         )}
       </Box>
@@ -122,18 +139,14 @@ function TopBarMenu() {
           onClose={handleCloseNavMenu}
           sx={{
             display: { xs: "block", md: "none" },
+            marginTop: "10px",
           }}
         >
           {auth.isAuthenticated && (
-            <MenuItem
-              sx={{ display: "flex", justifyContent: "center", width: "100%" }}
-            >
-              <NavLink to="/admin">
-                <IconButton>
-                  <HomeIcon sx={{ color: "#000" }} />
-                </IconButton>
-              </NavLink>
-            </MenuItem>
+            <MenuText onClick={() => navigate("/admin")}>
+              <PersonIcon />
+              <Typography ml={1.5}>admin</Typography>
+            </MenuText>
           )}
 
           <MenuItem>
@@ -145,7 +158,8 @@ function TopBarMenu() {
                   });
                 }}
               >
-                Logout
+                <LogoutIcon />
+                <Typography ml={1}> logout </Typography>
               </MobileMenuItemText>
             ) : (
               <MobileMenuItemText
@@ -156,7 +170,8 @@ function TopBarMenu() {
                   });
                 }}
               >
-                Login
+                <LoginIcon />
+                <Typography ml={1}> login </Typography>
               </MobileMenuItemText>
             )}
           </MenuItem>
@@ -175,6 +190,9 @@ const MenuText = styled(Typography)({
   marginLeft: "1rem",
   textTransform: "uppercase",
   cursor: "pointer",
+  display: "flex",
+  alignItems: "center",
+  flexDirection: "row",
 });
 
 const MobileMenuItemText = styled(Typography)({
@@ -182,6 +200,9 @@ const MobileMenuItemText = styled(Typography)({
   textAlign: "center",
   textTransform: "uppercase",
   cursor: "pointer",
+  display: "flex",
+  alignItems: "center",
+  flexDirection: "row",
 });
 
 export default AdminAppTopBar;
