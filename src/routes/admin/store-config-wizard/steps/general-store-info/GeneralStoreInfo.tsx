@@ -20,7 +20,8 @@ function GeneralStoreInfo({
   const debouncedName = useDebounce(owner.name, 500);
   const isNameAvailable = useCheckName(debouncedName);
   const debouncedLogoSrc = useDebounce(owner.logoSrc, 500);
-  const isLogoPNG = debouncedLogoSrc.endsWith(".png");
+  const isLogoPNG =
+    debouncedLogoSrc.endsWith(".png") || debouncedLogoSrc === "";
 
   return (
     <StepContentWrapper>
