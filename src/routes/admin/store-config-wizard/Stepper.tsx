@@ -94,7 +94,7 @@ function Stepper() {
         boxShadow: "1px 1px 5px 2px rgba(0, 0, 0, .2)",
         borderRadius: "15px",
         padding: 1.25,
-        margin: 1.25,
+        margin: "auto",
       }}
     >
       <LinearProgress
