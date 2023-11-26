@@ -10,7 +10,7 @@ import Periodicity from "./steps/core/Periodicity";
 import CustomAttributesSpec from "./steps/CustomAttributesSpec";
 import Summary from "./steps/Summary";
 import MainPage from "./steps/MainPage";
-import GeneralStoreInfo from "./steps/owner/GeneralStoreInfo";
+import GeneralStoreInfo from "./steps/general-store-info/GeneralStoreInfo";
 import DetailsPage from "./steps/DetailsPage";
 import AllowOverNight from "./steps/core/AllowOverNight";
 import AuthConfig from "./steps/AuthConfig";

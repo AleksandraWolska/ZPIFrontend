@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - "dev"
-      # - "userapp-further-fixes"
   workflow_dispatch:
 
 jobs:
