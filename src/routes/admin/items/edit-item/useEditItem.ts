@@ -8,7 +8,7 @@ const editItem = (item: Item, storeId: string) => {
   const token = getAccessToken();
 
   return fetch(`${BACKEND_URL}/stores/${storeId}/items/${item.id}`, {
-    method: `${process.env.NODE_ENV === "development" ? `PUT` : `POST`}`,
+    method: `${process.env.NODE_ENV === "development" ? `PUT` : `PUT`}`,
     headers: {
       Authorization: `Bearer ${token}`,
       Accept: "application/json",
