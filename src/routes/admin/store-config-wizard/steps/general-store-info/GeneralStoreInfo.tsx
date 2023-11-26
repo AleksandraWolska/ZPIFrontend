@@ -9,7 +9,7 @@ import StepContentWrapper from "../components/StepContentWrapper";
 import useDebounce from "./useDebounce";
 import useCheckName from "./useCheckName";
 
-function Owner({
+function GeneralStoreInfo({
   setActiveStep,
 }: {
   setActiveStep: (step: StoreConfigStep) => void;
@@ -19,10 +19,12 @@ function Owner({
 
   const debouncedName = useDebounce(owner.name, 500);
   const isNameAvailable = useCheckName(debouncedName);
+  const debouncedLogoSrc = useDebounce(owner.logoSrc, 500);
+  const isLogoPNG = debouncedLogoSrc.endsWith(".png");
 
   return (
     <StepContentWrapper>
-      <WizardStepTitle>Owner</WizardStepTitle>
+      <WizardStepTitle>General Info</WizardStepTitle>
 
       <WizardStepDescription>
         Enter information about your company, link to logo, and choose color
@@ -33,7 +35,7 @@ function Owner({
         <Grid container spacing={1}>
           <Grid item xs={12} sm={6}>
             <TextField
-              label="name"
+              label="Store Name"
               name="name"
               value={owner.name}
               onChange={(e) => setOwnerAttribute("name", e.target.value)}
@@ -44,17 +46,18 @@ function Owner({
 
           <Grid item xs={12} sm={6}>
             <TextField
-              label="logoSrc"
+              label="Logo Source in PNG format"
               name="logoSrc"
               value={owner.logoSrc}
               onChange={(e) => setOwnerAttribute("logoSrc", e.target.value)}
               fullWidth
+              error={!isLogoPNG}
             />
           </Grid>
 
           <Grid item xs={12} sm={6}>
             <TextField
-              label="phone"
+              label="Company Phone"
               name="phone"
               value={owner.phone}
               onChange={(e) => setOwnerAttribute("phone", e.target.value)}
@@ -64,7 +67,7 @@ function Owner({
 
           <Grid item xs={12} sm={6}>
             <TextField
-              label="email"
+              label="Company Email"
               name="email"
               value={owner.email}
               onChange={(e) => setOwnerAttribute("email", e.target.value)}
@@ -74,6 +77,7 @@ function Owner({
 
           <Grid item xs={12} sm={12}>
             <Select
+              label="Main App Color"
               value={owner.color}
               onChange={(e) => setOwnerAttribute("color", e.target.value)}
               fullWidth
@@ -81,7 +85,7 @@ function Owner({
               {Object.values(OWNER_COLORS).map((color) => {
                 return (
                   <MenuItem key={color} value={color}>
-                    {color}
+                    {color.toLocaleLowerCase()}
                   </MenuItem>
                 );
               })}
@@ -102,4 +106,4 @@ function Owner({
   );
 }
 
-export default Owner;
+export default GeneralStoreInfo;

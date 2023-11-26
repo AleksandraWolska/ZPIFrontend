@@ -356,6 +356,9 @@ export function FreeRangesCalendar({
     </Box>
   );
 
+  if (!availabilityList.length)
+    return <Typography>No available time slots</Typography>;
+
   return (
     <>
       <Box style={{ width: "90%" }}>
@@ -377,8 +380,8 @@ export function FreeRangesCalendar({
           view={Views.WEEK}
           formats={baseFormats}
           selectable
-          min={new Date(new Date(0).setHours(earliestCalendarStart))}
-          max={new Date(new Date(0).setHours(latestCalendarEnd))}
+          min={new Date(new Date(0).setHours(earliestCalendarStart - 1))}
+          max={new Date(new Date(0).setHours(latestCalendarEnd + 1))}
           getNow={() => new Date()}
           events={events}
           step={5}

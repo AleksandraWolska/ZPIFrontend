@@ -17,6 +17,7 @@ import { loader as userReservationsPageLoader } from "./routes/userapp/user-rese
 import { loader as adminMainPageLoader } from "./routes/admin/admin-main-page/loader";
 import UserReservationsPage from "./routes/userapp/user-reservations/UserReservationsPage";
 import AuthErrorBoundary from "./auth/AuthErrorBoundary";
+import NotFoundPage from "./routes/home/NotFoundPage";
 
 if (process.env.NODE_ENV === "development") {
   const { worker } = await import("./mocks/browser");
@@ -168,6 +169,10 @@ const router = createBrowserRouter([
         element: <Secret />,
       },
     ],
+  },
+  {
+    path: "*",
+    element: <NotFoundPage />,
   },
 ]);
 

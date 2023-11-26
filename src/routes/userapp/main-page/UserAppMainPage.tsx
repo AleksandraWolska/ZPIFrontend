@@ -127,7 +127,7 @@ export default function UserAppMainPage() {
   });
 
   return (
-    <Box padding={3}>
+    <Box padding={1}>
       <Box display="flex" justifyContent="space-between">
         <Box
           sx={{
@@ -193,6 +193,11 @@ export default function UserAppMainPage() {
           >
             <Collapse in={showFilterForm}>{showFilterForm && filters}</Collapse>
           </Box>
+          {sortedItemInfos.length === 0 && (
+            <Typography m={2} variant="overline">
+              There is no available items right now, sorry
+            </Typography>
+          )}
           <List>
             {sortedItemInfos.map((item) => {
               const isAvailable = item.availableAmount !== 0;

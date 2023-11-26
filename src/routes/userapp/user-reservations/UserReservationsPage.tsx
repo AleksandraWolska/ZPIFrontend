@@ -26,34 +26,6 @@ function UserReservationsPage() {
     useState<UserReservation | null>(null);
   const { storeId } = useParams();
 
-  // const login = (
-  //   <Box
-  //     display="flex"
-  //     justifyContent="center"
-  //     alignItems="center"
-  //     flexDirection="column"
-  //     padding="30px"
-  //   >
-  //     <Typography variant="h6">
-  //       Please log in to view your reservations
-  //     </Typography>
-  //     <Button
-  //       variant="contained"
-  //       sx={{}}
-  //       onClick={() => {
-  //         const currentPath = location.pathname + location.search;
-  //         auth.signinRedirect({
-  //           redirect_uri: `${window.location.origin}${currentPath}`,
-  //         });
-  //       }}
-  //     >
-  //       Login{" "}
-  //     </Button>
-  //   </Box>
-  // );
-
-  // if (!auth.isAuthenticated) return login;
-
   const handleExpand = (reservationId: string) => {
     setExpandedId((prev) => (prev === reservationId ? null : reservationId));
   };
