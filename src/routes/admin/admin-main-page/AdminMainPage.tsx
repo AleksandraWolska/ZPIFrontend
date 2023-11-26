@@ -12,6 +12,7 @@ import StoreIcon from "@mui/icons-material/Store";
 import AddBusinessIcon from "@mui/icons-material/AddBusiness";
 import useAdminStores from "./useAdminStores";
 import { StoreSummary } from "../../../types";
+import AdminActionBox from "../components/AdminActionBox";
 
 function AdminMainPage() {
   const adminStores = useAdminStores() as StoreSummary[];
@@ -32,22 +33,7 @@ function AdminMainPage() {
               key={adminStore.storeConfigId}
               onClick={() => navigate(adminStore.storeConfigId)}
             >
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  width: "100%",
-                  boxShadow: 3,
-                  borderRadius: "10px",
-                  padding: 2,
-                  bgcolor: "white",
-                  cursor: "pointer",
-                  "&:hover": {
-                    bgcolor: theme.palette.action.hover,
-                  },
-                }}
-              >
+              <AdminActionBox theme={theme}>
                 <Box sx={{ margin: 1, marginRight: 3 }}>
                   <StoreIcon sx={{ fontSize: "5rem", color: "grey" }} />
                 </Box>
@@ -61,7 +47,7 @@ function AdminMainPage() {
                     </Typography>
                   }
                 />
-              </Box>
+              </AdminActionBox>
             </ListItem>
           );
         })}
@@ -73,22 +59,7 @@ function AdminMainPage() {
       </Typography>
 
       <ListItem key="new" onClick={() => navigate("new")}>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            width: "100%",
-            boxShadow: 3,
-            borderRadius: "10px",
-            padding: 2,
-            bgcolor: "white",
-            cursor: "pointer",
-            "&:hover": {
-              bgcolor: theme.palette.action.hover,
-            },
-          }}
-        >
+        <AdminActionBox theme={theme}>
           <Box sx={{ margin: 1, marginRight: 3 }}>
             <AddBusinessIcon sx={{ fontSize: "5rem", color: "grey" }} />
           </Box>
@@ -100,7 +71,7 @@ function AdminMainPage() {
               </Typography>
             }
           />
-        </Box>
+        </AdminActionBox>
       </ListItem>
     </Container>
   );

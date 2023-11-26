@@ -29,6 +29,7 @@ import useUpdateItemActivity from "./useUpdateItemActivity";
 import { Item } from "../../../../types";
 import useStoreConfig from "../../store/useStoreConfig";
 import ItemImage from "../../components/ItemImage";
+import AdminActionBox from "../../components/AdminActionBox";
 
 function ItemList() {
   const items = useItems();
@@ -53,22 +54,7 @@ function ItemList() {
         </Typography>
 
         <ListItem key="new" onClick={() => navigate("../add-item")}>
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              width: "100%",
-              boxShadow: 3,
-              borderRadius: "10px",
-              padding: 2,
-              bgcolor: "white",
-              cursor: "pointer",
-              "&:hover": {
-                bgcolor: theme.palette.action.hover,
-              },
-            }}
-          >
+          <AdminActionBox theme={theme}>
             <Box sx={{ margin: 1, marginRight: 3 }}>
               <AddIcon sx={{ fontSize: "5rem", color: "grey" }} />
             </Box>
@@ -80,7 +66,7 @@ function ItemList() {
                 </Typography>
               }
             />
-          </Box>
+          </AdminActionBox>
         </ListItem>
       </Box>
     );

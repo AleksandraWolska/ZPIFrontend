@@ -8,12 +8,14 @@ import {
   Divider,
   ListItem,
   ListItemText,
+  useTheme,
 } from "@mui/material";
 // import { useTranslation } from "react-i18next";
 import PersonIcon from "@mui/icons-material/Person";
 import KeyIcon from "@mui/icons-material/Key";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useNavigate } from "react-router-dom";
+import AdminActionBox from "../admin/components/AdminActionBox";
 
 function Home() {
   // const { t } = useTranslation();
@@ -21,6 +23,7 @@ function Home() {
   const [openUsage, setOpenUsage] = useState(true);
   const [openAbout, setOpenAbout] = useState(true);
   const [openAuthors, setOpenAuthors] = useState(true);
+  const theme = useTheme();
 
   const options = [
     {
@@ -163,19 +166,9 @@ function Home() {
             onClick={() => navigate(option.value)}
             sx={{ cursor: "pointer" }}
           >
-            <Box
+            <AdminActionBox
+              theme={theme}
               sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                width: "100%",
-                boxShadow: 3,
-                borderRadius: "10px",
-                padding: 2,
-                bgcolor: "white",
-                "&:hover": {
-                  bgcolor: "grey.100",
-                },
                 marginBottom: 2,
               }}
             >
@@ -188,7 +181,7 @@ function Home() {
                   </Typography>
                 }
               />
-            </Box>
+            </AdminActionBox>
           </ListItem>
         ))}
         <Typography variant="h3" mb={2} mt={2}>
