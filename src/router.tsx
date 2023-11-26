@@ -1,9 +1,4 @@
-import {
-  createBrowserRouter,
-  useNavigate,
-  useRouteError,
-} from "react-router-dom";
-import { useAuth } from "react-oidc-context";
+import { createBrowserRouter } from "react-router-dom";
 import { queryClient } from "./query";
 import Home from "./routes/home/Home";
 import RequireLogin from "./auth/RequireLogin";
@@ -21,29 +16,11 @@ import { loader as reservationsLoader } from "./routes/admin/reservations/loader
 import { loader as userReservationsPageLoader } from "./routes/userapp/user-reservations/loader";
 import { loader as adminMainPageLoader } from "./routes/admin/admin-main-page/loader";
 import UserReservationsPage from "./routes/userapp/user-reservations/UserReservationsPage";
-import AdminAppTopBar from "./routes/admin/admin-app-wrapper/AdminAppTopBar";
+import AuthErrorBoundary from "./auth/AuthErrorBoundary";
 
 if (process.env.NODE_ENV === "development") {
   const { worker } = await import("./mocks/browser");
   await worker.start({ onUnhandledRequest: "bypass" });
-}
-
-function ErrorBoundry() {
-  const error = useRouteError() as { status: number } | undefined;
-  const auth = useAuth();
-  const navigate = useNavigate();
-
-  if (error?.status === 401 && auth.isAuthenticated) {
-    navigate(0);
-    return null;
-  }
-
-  return (
-    <div>
-      <AdminAppTopBar />
-      {JSON.stringify(error)}
-    </div>
-  );
 }
 
 const router = createBrowserRouter([
@@ -53,7 +30,6 @@ const router = createBrowserRouter([
   },
   {
     path: "admin",
-    errorElement: <ErrorBoundry />,
     lazy: async () => {
       const AdminAppWrapper = (
         await import("./routes/admin/admin-app-wrapper/AdminAppWrapper")
@@ -63,6 +39,7 @@ const router = createBrowserRouter([
     children: [
       {
         element: <RequireLogin />,
+        errorElement: <AuthErrorBoundary />,
         children: [
           {
             index: true,
