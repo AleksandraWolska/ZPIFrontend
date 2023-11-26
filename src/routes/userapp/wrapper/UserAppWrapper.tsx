@@ -81,14 +81,12 @@ function UserAppWrapper() {
                 margin: "auto",
               }}
             >
-              <Box onClick={() => navigate(`/userapp/${storeId}`)}>
+              <Box
+                style={{ cursor: "pointer" }}
+                onClick={() => navigate(`/userapp/${storeId}`)}
+              >
                 {owner.logoSrc ? (
-                  <img
-                    style={{ cursor: "pointer" }}
-                    height="40"
-                    src={owner.logoSrc}
-                    alt="logo"
-                  />
+                  <img height="40" src={owner.logoSrc} alt="logo" />
                 ) : (
                   <Typography variant="h6">{owner.name}</Typography>
                 )}

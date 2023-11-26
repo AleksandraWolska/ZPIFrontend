@@ -19,7 +19,7 @@ function AdminMainPage() {
   const theme = useTheme();
   return (
     <Container>
-      {adminStores.length && (
+      {adminStores.length > 0 && (
         <Typography m={2} variant="h4">
           Your stores
         </Typography>
