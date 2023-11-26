@@ -14,11 +14,7 @@ const fetchUserReservationList = async (
 ): Promise<UserReservation[]> => {
   const token = getAccessToken();
   const res = await fetch(
-    `${
-      process.env.NODE_ENV === "development"
-        ? `/api/stores/${storeId}/reservations/user`
-        : `${BACKEND_URL}/stores/${storeId}/reservations/user`
-    }`,
+    `${BACKEND_URL}/stores/${storeId}/reservations/user`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
