@@ -26,7 +26,6 @@ export const oidcConfig = {
   post_logout_redirect_uri: postLogoutRedirectUri,
   onSigninCallback: () => {
     window.history.replaceState({}, document.title, window.location.pathname);
-    window.location.reload();
   },
   onSignoutCallback: () => {
     window.history.replaceState({}, document.title, window.location.pathname);

@@ -13,7 +13,7 @@ const fetchAdminStores = async (): Promise<StoreSummary[] | null> => {
   });
 
   if (!res.ok) {
-    return null;
+    throw new Response(res.body, { status: res.status });
   }
 
   return res.json();
