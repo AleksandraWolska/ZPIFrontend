@@ -434,7 +434,8 @@ export default function ItemDetailsPage() {
         {core}
       </Collapse>
       {(storeConfig.detailsPage.showComments ||
-        storeConfig.detailsPage.showRating) && (
+        storeConfig.detailsPage.showRating ||
+        storeConfig.mainPage.showRating) && (
         <Box>
           <Box
             sx={{
@@ -461,7 +462,10 @@ export default function ItemDetailsPage() {
           <Divider sx={{ mb: 2 }} />
           <Collapse in={!hideComments} timeout="auto" unmountOnExit>
             <CommentInput
-              showRatings={storeConfig.detailsPage.showRating}
+              showRatings={
+                storeConfig.detailsPage.showRating ||
+                storeConfig.mainPage.showRating
+              }
               showComments={storeConfig.detailsPage.showComments}
               handleSendComment={handleSendComment}
             />

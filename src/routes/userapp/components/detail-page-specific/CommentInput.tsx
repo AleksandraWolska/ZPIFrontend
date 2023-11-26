@@ -105,7 +105,6 @@ function CommentInput({
   return (
     <Box>
       {isCommentInputVisible && (
-        //   <Paper style={{ padding: 15, marginBottom: 15 }}>{content}</Paper>
         <Dialog onClose={handleCancel} fullWidth open>
           <Box padding="20px">{content}</Box>
         </Dialog>
@@ -113,11 +112,11 @@ function CommentInput({
       {auth.isAuthenticated ? (
         <Button
           variant="outlined"
-          color="secondary"
+          color="primary"
           style={{ marginBottom: 15 }}
           onClick={() => setIsCommentInputVisible(true)}
         >
-          {showComments ? "Add comment" : "Rate"}
+          {showComments ? "Add review" : "Rate"}
         </Button>
       ) : (
         <Button
@@ -130,7 +129,7 @@ function CommentInput({
             });
           }}
         >
-          Log in to {showComments ? "add comment" : "rate"}
+          Log in to {showComments ? "add review" : "rate"}
         </Button>
       )}
     </Box>
