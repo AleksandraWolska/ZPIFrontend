@@ -1,7 +1,8 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import FormatListBulletedSharpIcon from "@mui/icons-material/FormatListBulletedSharp";
 import AddIcon from "@mui/icons-material/Add";
 import EventSeatIcon from "@mui/icons-material/EventSeat";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 import {
   Box,
   Container,
@@ -12,32 +13,39 @@ import {
   useTheme,
 } from "@mui/material";
 
-const options = [
-  {
-    label: "Reservations",
-    value: "reservations",
-    description: "View reservations made by users",
-    icon: <EventSeatIcon sx={{ fontSize: "5rem", color: "grey" }} />,
-  },
-  {
-    label: "Item list",
-    value: "item-list",
-    description: "View items available in your store",
-    icon: (
-      <FormatListBulletedSharpIcon sx={{ fontSize: "5rem", color: "grey" }} />
-    ),
-  },
-  {
-    label: "Add new item",
-    value: "add-item",
-    description: "Add new item for reserving",
-    icon: <AddIcon sx={{ fontSize: "5rem", color: "grey" }} />,
-  },
-];
-
 function Store() {
   const navigate = useNavigate();
   const theme = useTheme();
+  const params = useParams() as { storeId: string };
+
+  const options = [
+    {
+      label: "Reservations",
+      value: "reservations",
+      description: "View reservations made by users",
+      icon: <EventSeatIcon sx={{ fontSize: "5rem", color: "grey" }} />,
+    },
+    {
+      label: "Item list",
+      value: "item-list",
+      description: "View items available in your store",
+      icon: (
+        <FormatListBulletedSharpIcon sx={{ fontSize: "5rem", color: "grey" }} />
+      ),
+    },
+    {
+      label: "Add new item",
+      value: "add-item",
+      description: "Add new item for reserving",
+      icon: <AddIcon sx={{ fontSize: "5rem", color: "grey" }} />,
+    },
+    {
+      label: "View user website",
+      value: `/userapp/${params.storeId}`,
+      description: "View generated user application for the store",
+      icon: <VisibilityIcon sx={{ fontSize: "5rem", color: "grey" }} />,
+    },
+  ];
 
   return (
     <Container maxWidth="lg">
