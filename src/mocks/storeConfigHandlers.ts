@@ -85,8 +85,7 @@ const getDetailsPageConfig = rest.get(
   },
 );
 
-const getAllStores = rest.get("/api/stores/all", async (req, res, ctx) => {
-
+const getAllStores = rest.get("/api/stores/all", async (_, res, ctx) => {
   return res(ctx.status(200), ctx.json(allStores));
 });
 
