@@ -189,7 +189,7 @@ const reserve = rest.post("/api/reserve", async (req, res, ctx) => {
 
   const item = items?.find((i) => i.id === body.itemId);
 
-  item!.availability = [
+  item!.availabilities = [
     {
       startDateTime: "2023-11-25T10:00:00.000Z",
       endDateTime: "2023-11-25T11:00:00.000Z",

@@ -160,7 +160,7 @@ export type Item = {
   subItems?: SubItem[];
   active: boolean;
   availableAmount?: number;
-  availability?: Availability[];
+  availabilities?: Availability[];
   earliestStartHour?: number;
   latestEndHour?: number;
   mark?: number;

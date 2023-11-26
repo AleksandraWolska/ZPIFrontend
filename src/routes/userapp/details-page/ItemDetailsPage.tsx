@@ -227,7 +227,7 @@ export default function ItemDetailsPage() {
       }
       latestCalendarEnd={item.latestEndHour ? item.latestEndHour : 22}
       itemId={item.id}
-      availabilityList={item.availability || []}
+      availabilityList={item.availabilities || []}
       userCount={userCount}
       availabilityChecked={availabilityChecked}
       setAvailabilityChecked={setAvailabilityChecked}
@@ -243,7 +243,7 @@ export default function ItemDetailsPage() {
       }
       latestCalendarEnd={item.latestEndHour ? item.latestEndHour : 22}
       itemId={item.id}
-      availabilityList={item.availability || []}
+      availabilityList={item.availabilities || []}
       userCount={userCount}
       prepareFlexibleReservation={prepareFlexibleReservation}
       availabilityChecked={availabilityChecked}

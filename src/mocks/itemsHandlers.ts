@@ -112,7 +112,7 @@ const editItem = rest.put(
     }
 
     if (storeConfig.core.flexibility) {
-      body.availability = calculateAvailability(
+      body.availabilities = calculateAvailability(
         body.schedule as SlotsSchedule | ContinuousSchedule,
       );
     }
@@ -219,7 +219,7 @@ const addIdsToItem = (item: ItemWithoutIds): Item => {
 const addAvailabilityToItem = (item: Item): Item => {
   return {
     ...item,
-    availability: calculateAvailability(
+    availabilities: calculateAvailability(
       item.schedule as SlotsSchedule | ContinuousSchedule,
     ),
   };
