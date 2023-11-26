@@ -10,12 +10,14 @@ import {
   ListItem,
   ListItemText,
   Typography,
+  useTheme,
 } from "@mui/material";
 import AdminActionBox from "../components/AdminActionBox";
 
 function Store() {
   const navigate = useNavigate();
   const params = useParams() as { storeId: string };
+  const theme = useTheme();
 
   const options = [
     {
@@ -51,7 +53,7 @@ function Store() {
       <List>
         {options.map((option) => (
           <ListItem key={option.value} onClick={() => navigate(option.value)}>
-            <AdminActionBox>
+            <AdminActionBox theme={theme}>
               <Box sx={{ margin: 1, marginRight: 3 }}>{option.icon}</Box>
               <ListItemText
                 primary={<Typography variant="h4">{option.label}</Typography>}
