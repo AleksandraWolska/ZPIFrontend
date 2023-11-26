@@ -56,7 +56,11 @@ const fetchCommentsList = async (
 ): Promise<CommentList> => {
   const token = getAccessToken();
   const res = await fetch(
-    `${BACKEND_URL}/stores/${storeId}/items/${itemId}/comments`,
+    `${
+      process.env.NODE_ENV === "development"
+        ? `${BACKEND_URL}/stores/${storeId}/items/${itemId}/comments`
+        : `${BACKEND_URL}/items/${itemId}/comments`
+    }`,
     {
       headers: {
         Authorization: `Bearer ${token}`,

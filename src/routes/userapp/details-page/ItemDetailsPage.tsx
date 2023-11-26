@@ -10,7 +10,7 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "react-oidc-context";
 import { ExpandMore } from "@mui/icons-material";
-import { Comment, NewReservation, StoreConfig, SubItem } from "../../../types";
+import { NewReservation, StoreConfig, SubItem } from "../../../types";
 import AttributesList from "../components/detail-page-specific/AttributesList";
 import Ratings from "../components/shared/Ratings";
 import QuantityInput from "../components/core/QuantityInput";
@@ -143,9 +143,7 @@ export default function ItemDetailsPage() {
   };
 
   const handleSendComment = (newComment: NewComment) => {
-    const userComment: Comment = {
-      id: "new",
-      userId: "new",
+    const userComment: NewComment = {
       rating: newComment.rating,
       nickname: newComment.nickname,
       datetime: newComment.datetime,
