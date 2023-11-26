@@ -10,13 +10,12 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "react-oidc-context";
 import { ExpandMore } from "@mui/icons-material";
-import { Comment, NewReservation, StoreConfig, SubItem } from "../../../types";
+import { NewReservation, StoreConfig, SubItem } from "../../../types";
 import AttributesList from "../components/detail-page-specific/AttributesList";
 import Ratings from "../components/shared/Ratings";
 import QuantityInput from "../components/core/QuantityInput";
 import SubItemsList from "../components/core/SubItemsList";
 import useItemDetails from "./useItemDetails";
-import useDetailsPageConfig from "./useDetailsPageConfig";
 import { CheckAvailabilityCalendar } from "../components/core/CheckAvailabilityCalendar";
 import { FreeRangesCalendar } from "../components/core/FreeRangesCalendar";
 import { FlexibleReservationData, NewComment } from "../types";
@@ -28,6 +27,7 @@ import CommentInput from "../components/detail-page-specific/CommentInput";
 import useAddComment from "../components/detail-page-specific/useAddComment";
 import { ReservationSuccessDialog } from "../components/detail-page-specific/ReservationSuccessDialog";
 import { ReservationFailureDialog } from "../components/detail-page-specific/ReservationFailureDialog";
+import useStoreConfig from "../wrapper/useStoreConfig";
 
 const initializeReservationRequestReady = (
   core: StoreConfig["core"],
@@ -49,7 +49,7 @@ const initializeAvailabilityChecked = (core: StoreConfig["core"]): boolean => {
 };
 
 export default function ItemDetailsPage() {
-  const storeConfig = useDetailsPageConfig();
+  const storeConfig = useStoreConfig();
   const item = useItemDetails();
   const reserveItem = useReserveItem();
   const addComment = useAddComment();
@@ -143,9 +143,7 @@ export default function ItemDetailsPage() {
   };
 
   const handleSendComment = (newComment: NewComment) => {
-    const userComment: Comment = {
-      id: "new",
-      userId: "new",
+    const userComment: NewComment = {
       rating: newComment.rating,
       nickname: newComment.nickname,
       datetime: newComment.datetime,
@@ -225,11 +223,9 @@ export default function ItemDetailsPage() {
     <FreeRangesCalendar
       // maybe change for store open hours as default
       earliestCalendarStart={
-        item.earliestStart ? item.earliestStart : "2023-10-05T06:00:00Z"
+        item.earliestStartHour ? item.earliestStartHour : 5
       }
-      latestCalendarEnd={
-        item.latestEnd ? item.latestEnd : "2023-10-05T20:00:00Z"
-      }
+      latestCalendarEnd={item.latestEndHour ? item.latestEndHour : 22}
       itemId={item.id}
       availabilityList={item.availability || []}
       userCount={userCount}
@@ -243,11 +239,9 @@ export default function ItemDetailsPage() {
     <CheckAvailabilityCalendar
       // maybe change for store open hours as default
       earliestCalendarStart={
-        item.earliestStart ? item.earliestStart : "2023-10-05T06:00:00Z"
+        item.earliestStartHour ? item.earliestStartHour : 5
       }
-      latestCalendarEnd={
-        item.latestEnd ? item.latestEnd : "2023-10-05T20:00:00Z"
-      }
+      latestCalendarEnd={item.latestEndHour ? item.latestEndHour : 22}
       itemId={item.id}
       availabilityList={item.availability || []}
       userCount={userCount}

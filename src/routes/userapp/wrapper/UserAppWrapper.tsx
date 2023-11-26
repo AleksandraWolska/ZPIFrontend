@@ -49,7 +49,7 @@ function UserAppWrapper() {
 
   const handleMyReservationsClick = () => {
     if (storeId) {
-      navigate(`/userapp/${storeId}/reservations/1`);
+      navigate(`/userapp/${storeId}/reservations`);
     } else {
       console.error("Missing storeId");
     }
@@ -93,7 +93,10 @@ function UserAppWrapper() {
                   {auth.isAuthenticated ? (
                     <Button
                       onClick={() => {
-                        auth.signoutSilent();
+                        const currentPath = location.pathname + location.search;
+                        auth.signoutSilent({
+                          post_logout_redirect_uri: `${window.location.origin}${currentPath}`,
+                        });
                       }}
                       color="inherit"
                     >

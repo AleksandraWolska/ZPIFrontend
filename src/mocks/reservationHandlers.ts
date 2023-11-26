@@ -42,6 +42,20 @@ const getReservations = rest.get(
   },
 );
 
+const getUserReservations = rest.get(
+  "/api/stores/:storeName/reservations/user",
+  async (req, res, ctx) => {
+    const token = getToken(req.headers);
+    if (incorrectToken(token)) {
+      return res(ctx.status(401), ctx.json({ message: "Unauthorized." }));
+    }
+
+    const reservations = userReservationsList;
+
+    return res(ctx.status(200), ctx.json(reservations || []));
+  },
+);
+
 const confirmReservation = rest.put(
   "/api/stores/:storeName/reservations/:reservationId/confirm",
   async (req, res, ctx) => {
@@ -240,4 +254,5 @@ export const reservationHandlers = [
   reserve,
   fetchSchedule,
   fetchUserReservationList,
+  getUserReservations,
 ];

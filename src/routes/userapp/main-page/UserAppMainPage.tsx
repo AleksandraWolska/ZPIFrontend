@@ -17,16 +17,16 @@ import {
 import { FilterAlt, FilterAltOff, Close, SwapVert } from "@mui/icons-material";
 import { CustomAttributeSpec, CustomAttribute, Item } from "../../../types";
 import { FilterValue } from "../types";
-import useMainPageConfig from "./useMainPageConfig";
 import useItems from "./useItems";
 import Filters from "../components/main-page-specific/Filters";
 import WelcomeTexts from "../components/main-page-specific/WelcomeTexts";
 import ItemListElement from "../components/main-page-specific/ItemListElement";
+import useStoreConfig from "../wrapper/useStoreConfig";
 
 export default function UserAppMainPage() {
   const navigate = useNavigate();
 
-  const storeConfig = useMainPageConfig();
+  const storeConfig = useStoreConfig();
   const items = useItems();
 
   const [showFilterForm, setShowFilterForm] = useState(false);

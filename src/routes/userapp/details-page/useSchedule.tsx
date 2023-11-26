@@ -1,8 +1,10 @@
 import { useMutation } from "react-query";
 import { FetchScheduleRequest } from "../types";
 import { BACKEND_URL } from "../../../query";
+import { getAccessToken } from "../../../auth/utils";
 
 function useSchedule() {
+  const token = getAccessToken();
   const mutation = useMutation((data: FetchScheduleRequest) =>
     fetch(
       `${
@@ -14,6 +16,7 @@ function useSchedule() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(data),
       },
