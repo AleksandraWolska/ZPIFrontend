@@ -7,6 +7,7 @@ import {
   incorrectToken,
 } from "./utils";
 import { StoreConfig } from "../types";
+import { allStores } from "./data/common/allStores";
 
 export const importStoreConfig = async (storeName: string) => {
   const mockId = await getStoreMockIdByStoreName(storeName);
@@ -84,6 +85,11 @@ const getDetailsPageConfig = rest.get(
   },
 );
 
+const getAllStores = rest.get("/api/stores/all", async (req, res, ctx) => {
+
+  return res(ctx.status(200), ctx.json(allStores));
+});
+
 const getAdminStores = rest.get("/api/store-configs", async (req, res, ctx) => {
   const token = getToken(req.headers);
   if (incorrectToken(token)) {
@@ -157,5 +163,6 @@ export const storeConfigHandlers = [
   getMainPageConfig,
   getDetailsPageConfig,
   getAdminStores,
+  getAllStores,
   addStoreConfig,
 ];

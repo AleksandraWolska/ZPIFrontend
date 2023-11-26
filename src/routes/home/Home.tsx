@@ -9,13 +9,17 @@ import {
   ListItem,
   ListItemText,
   useTheme,
+  List,
 } from "@mui/material";
 // import { useTranslation } from "react-i18next";
 import PersonIcon from "@mui/icons-material/Person";
+import StoreIcon from "@mui/icons-material/Store";
 import KeyIcon from "@mui/icons-material/Key";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useNavigate } from "react-router-dom";
 import AdminActionBox from "../admin/components/AdminActionBox";
+import useAllStores from "./useAllStores";
+import { StoreSummary } from "../../types";
 
 function Home() {
   // const { t } = useTranslation();
@@ -24,6 +28,7 @@ function Home() {
   const [openAbout, setOpenAbout] = useState(true);
   const [openAuthors, setOpenAuthors] = useState(true);
   const theme = useTheme();
+  const userApps = useAllStores() as StoreSummary[];
 
   const options = [
     {
@@ -187,7 +192,39 @@ function Home() {
         <Typography variant="h3" mb={2} mt={2}>
           Apps created using this system
         </Typography>
-        <Typography>placeholder for all stores</Typography>
+
+        {userApps.length === 0 && (
+          <Typography m={2} variant="body1">
+            There is no stores yet
+          </Typography>
+        )}
+
+        <List>
+          {userApps.map((userApp) => {
+            return (
+              <ListItem
+                key={userApp.storeConfigId}
+                onClick={() => navigate(`/userapp/${userApp.storeConfigId}`)}
+              >
+                <AdminActionBox theme={theme}>
+                  <Box sx={{ margin: 1, marginRight: 3 }}>
+                    <StoreIcon sx={{ fontSize: "5rem", color: "grey" }} />
+                  </Box>
+                  <ListItemText
+                    primary={
+                      <Typography variant="h4">{userApp.name}</Typography>
+                    }
+                    secondary={
+                      <Typography variant="body1" color="grey">
+                        Manage your items, reservation in already existing store
+                      </Typography>
+                    }
+                  />
+                </AdminActionBox>
+              </ListItem>
+            );
+          })}
+        </List>
       </Grid>
     </Grid>
   );

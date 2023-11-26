@@ -1,6 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
 import { queryClient } from "./query";
-import Home from "./routes/home/Home";
 import RequireLogin from "./auth/RequireLogin";
 import Secret from "./routes/secret/Secret";
 import UserAppMainPage from "./routes/userapp/main-page/UserAppMainPage";
@@ -15,6 +14,7 @@ import { loader as storeLoader } from "./routes/admin/store/loader";
 import { loader as reservationsLoader } from "./routes/admin/reservations/loader";
 import { loader as userReservationsPageLoader } from "./routes/userapp/user-reservations/loader";
 import { loader as adminMainPageLoader } from "./routes/admin/admin-main-page/loader";
+import { loader as homePageLoader } from "./routes/home/loader";
 import UserReservationsPage from "./routes/userapp/user-reservations/UserReservationsPage";
 import AuthErrorBoundary from "./auth/AuthErrorBoundary";
 import NotFoundPage from "./routes/home/NotFoundPage";
@@ -27,7 +27,11 @@ if (process.env.NODE_ENV === "development") {
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Home />,
+    loader: homePageLoader(queryClient),
+    lazy: async () => {
+      const Reservations = (await import("./routes/home/Home")).default;
+      return { Component: Reservations };
+    },
   },
   {
     path: "admin",
