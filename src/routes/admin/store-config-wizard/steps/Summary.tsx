@@ -1,15 +1,18 @@
 import { Box, Button } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useStoreConfig } from "../StoreConfigProvider";
 import StepContentWrapper from "./components/StepContentWrapper";
 import useAddStoreConfig, {
   removeIdsFromStoreConfig,
-} from "../useAddStoreConfig";
+} from "../../new-store/useAddStoreConfig";
+import useEditStoreConfig from "../../store-settings/useEditStoreConfig";
 
 function Summary() {
   const { storeConfig } = useStoreConfig();
   const addStoreConfig = useAddStoreConfig();
+  const editStoreConfig = useEditStoreConfig();
   const navigate = useNavigate();
+  const location = useLocation();
 
   return (
     <StepContentWrapper sx={{ wordBreak: "break-all" }}>
@@ -17,11 +20,20 @@ function Summary() {
       <Button
         size="large"
         onClick={() => {
-          addStoreConfig.mutate(removeIdsFromStoreConfig(storeConfig), {
-            onSuccess: () => {
-              navigate("/admin");
-            },
-          });
+          if (location.pathname.includes("new")) {
+            addStoreConfig.mutate(removeIdsFromStoreConfig(storeConfig), {
+              onSuccess: () => {
+                navigate("/admin");
+              },
+            });
+          } else {
+            const { core, ...rest } = storeConfig;
+            editStoreConfig.mutate(rest, {
+              onSuccess: () => {
+                navigate("/admin");
+              },
+            });
+          }
         }}
       >
         Submit

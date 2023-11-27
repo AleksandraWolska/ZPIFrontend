@@ -3,6 +3,7 @@ import FormatListBulletedSharpIcon from "@mui/icons-material/FormatListBulletedS
 import AddIcon from "@mui/icons-material/Add";
 import EventSeatIcon from "@mui/icons-material/EventSeat";
 import VisibilityIcon from "@mui/icons-material/Visibility";
+import SettingsIcon from "@mui/icons-material/Settings";
 import {
   Box,
   Container,
@@ -39,6 +40,12 @@ function Store() {
       value: "add-item",
       description: "Add new item for reserving",
       icon: <AddIcon sx={{ fontSize: "5rem", color: "grey" }} />,
+    },
+    {
+      label: "Store settings",
+      value: "settings",
+      description: "Edit features of your store",
+      icon: <SettingsIcon sx={{ fontSize: "5rem", color: "grey" }} />,
     },
     {
       label: "View user website",

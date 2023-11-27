@@ -1,8 +1,8 @@
 import { Container } from "@mui/system";
-import StoreConfigProvider from "./StoreConfigProvider";
-import Stepper from "./Stepper";
+import Stepper from "../store-config-wizard/Stepper";
+import StoreConfigProvider from "../store-config-wizard/StoreConfigProvider";
 
-function StoreConfigWizard() {
+function NewStore() {
   return (
     <StoreConfigProvider>
       <Container
@@ -18,4 +18,4 @@ function StoreConfigWizard() {
   );
 }
 
-export default StoreConfigWizard;
+export default NewStore;

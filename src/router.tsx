@@ -57,12 +57,10 @@ const router = createBrowserRouter([
           {
             path: "new",
             lazy: async () => {
-              const StoreConfigWizard = (
-                await import(
-                  "./routes/admin/store-config-wizard/StoreConfigWizard"
-                )
+              const NewStore = (
+                await import("./routes/admin/new-store/NewStore")
               ).default;
-              return { Component: StoreConfigWizard };
+              return { Component: NewStore };
             },
           },
           {
@@ -126,6 +124,15 @@ const router = createBrowserRouter([
                     await import("./routes/admin/reservations/Reservations")
                   ).default;
                   return { Component: Reservations };
+                },
+              },
+              {
+                path: "settings",
+                lazy: async () => {
+                  const StoreSettings = (
+                    await import("./routes/admin/store-settings/StoreSettings")
+                  ).default;
+                  return { Component: StoreSettings };
                 },
               },
             ],

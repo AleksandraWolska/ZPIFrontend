@@ -14,6 +14,7 @@ import {
   TextField,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { useLocation } from "react-router-dom";
 import { STORE_CONFIG_STEPS, StoreConfigStep } from "../types";
 import { useStoreConfig } from "../StoreConfigProvider";
 import ChangePageButtons from "../../components/ChangePageButtons";
@@ -49,6 +50,7 @@ function CustomAttributesSpec({
 }) {
   const { storeConfig, withdrawToCoreStep, setCustomAttributesSpec } =
     useStoreConfig();
+  const location = useLocation();
 
   const initialLocalAttributesSpec = getInitialLocalAttributesSpec(
     storeConfig.customAttributesSpec,
@@ -82,14 +84,18 @@ function CustomAttributesSpec({
       <BackButton
         onClick={() => {
           saveCustomAttributesSpec();
-          const prevStep =
-            storeConfig.core.periodicity !== undefined
-              ? STORE_CONFIG_STEPS.PERIODICITY
-              : storeConfig.core.specificReservation !== undefined
-              ? STORE_CONFIG_STEPS.SPECIFIC_RESERVATION
-              : STORE_CONFIG_STEPS.UNIQUENESS;
-          withdrawToCoreStep(prevStep);
-          setActiveStep(prevStep);
+          if (location.pathname.includes("new")) {
+            const prevStep =
+              storeConfig.core.periodicity !== undefined
+                ? STORE_CONFIG_STEPS.PERIODICITY
+                : storeConfig.core.specificReservation !== undefined
+                ? STORE_CONFIG_STEPS.SPECIFIC_RESERVATION
+                : STORE_CONFIG_STEPS.UNIQUENESS;
+            withdrawToCoreStep(prevStep);
+            setActiveStep(prevStep);
+          } else {
+            setActiveStep(STORE_CONFIG_STEPS.GENERAL_STORE_INFO);
+          }
         }}
       />
 
