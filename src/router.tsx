@@ -5,6 +5,7 @@ import Secret from "./routes/secret/Secret";
 import UserAppMainPage from "./routes/userapp/main-page/UserAppMainPage";
 import { loader as userAppMainPageLoader } from "./routes/userapp/main-page/loader";
 import ItemDetailsPage from "./routes/userapp/details-page/ItemDetailsPage";
+import Home from "./routes/home/Home";
 import UserAppWrapper from "./routes/userapp/wrapper/UserAppWrapper";
 import { loader as userAppWrapperLoader } from "./routes/userapp/wrapper/loader";
 import { loader as detailsPageLoader } from "./routes/userapp/details-page/loader";
@@ -26,11 +27,12 @@ if (process.env.NODE_ENV === "development") {
 const router = createBrowserRouter([
   {
     path: "/",
-    loader: allStoresLoader(queryClient),
-    lazy: async () => {
-      const Reservations = (await import("./routes/home/Home")).default;
-      return { Component: Reservations };
-    },
+    element: <Home />,
+    // loader: allStoresLoader(queryClient),
+    // lazy: async () => {
+    //   const Reservations = (await import("./routes/home/Home")).default;
+    //   return { Component: Reservations };
+    // },
   },
   {
     path: "admin",
