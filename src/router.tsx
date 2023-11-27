@@ -1,11 +1,11 @@
 import { createBrowserRouter } from "react-router-dom";
 import { queryClient } from "./query";
-import Home from "./routes/home/Home";
 import RequireLogin from "./auth/RequireLogin";
 import Secret from "./routes/secret/Secret";
 import UserAppMainPage from "./routes/userapp/main-page/UserAppMainPage";
 import { loader as userAppMainPageLoader } from "./routes/userapp/main-page/loader";
 import ItemDetailsPage from "./routes/userapp/details-page/ItemDetailsPage";
+import Home from "./routes/home/Home";
 import UserAppWrapper from "./routes/userapp/wrapper/UserAppWrapper";
 import { loader as userAppWrapperLoader } from "./routes/userapp/wrapper/loader";
 import { loader as detailsPageLoader } from "./routes/userapp/details-page/loader";
@@ -15,6 +15,7 @@ import { loader as storeLoader } from "./routes/admin/store/loader";
 import { loader as reservationsLoader } from "./routes/admin/reservations/loader";
 import { loader as userReservationsPageLoader } from "./routes/userapp/user-reservations/loader";
 import { loader as adminMainPageLoader } from "./routes/admin/admin-main-page/loader";
+import { loader as allStoresLoader } from "./routes/home/loader";
 import UserReservationsPage from "./routes/userapp/user-reservations/UserReservationsPage";
 import AuthErrorBoundary from "./auth/AuthErrorBoundary";
 import NotFoundPage from "./routes/home/NotFoundPage";
@@ -28,6 +29,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Home />,
+    loader: allStoresLoader(queryClient),
   },
   {
     path: "admin",
@@ -150,6 +152,7 @@ const router = createBrowserRouter([
       {
         path: "reservations",
         element: <RequireLogin />,
+        errorElement: <AuthErrorBoundary />,
         children: [
           {
             path: "",
@@ -173,6 +176,7 @@ const router = createBrowserRouter([
   {
     path: "*",
     element: <NotFoundPage />,
+    loader: allStoresLoader(queryClient),
   },
 ]);
 

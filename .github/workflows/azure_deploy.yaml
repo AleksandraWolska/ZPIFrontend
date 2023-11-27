@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - "dev"
+      - "display-all-userapps"
   workflow_dispatch:
 
 jobs:

@@ -16,6 +16,7 @@ import KeyIcon from "@mui/icons-material/Key";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useNavigate } from "react-router-dom";
 import AdminActionBox from "../admin/components/AdminActionBox";
+import AllStores from "./AllStores";
 
 function Home() {
   // const { t } = useTranslation();
@@ -187,7 +188,8 @@ function Home() {
         <Typography variant="h3" mb={2} mt={2}>
           Apps created using this system
         </Typography>
-        <Typography>placeholder for all stores</Typography>
+
+        <AllStores />
       </Grid>
     </Grid>
   );

@@ -1,18 +1,25 @@
+import { useState } from "react";
 import {
   Typography,
   Box,
   ListItem,
   ListItemText,
   Container,
+
+  IconButton,
+  Divider,
+  Collapse,
 } from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import PersonIcon from "@mui/icons-material/Person";
 import HomeIcon from "@mui/icons-material/Home";
-
 import { useNavigate } from "react-router-dom";
+import AllStores from "./AllStores";
 
 function NotFoundPage() {
   const navigate = useNavigate();
 
+  const [openUserAppList, setOpenUserAppList] = useState(false);
   const options = [
     {
       label: "Project Homepage",
@@ -77,10 +84,40 @@ function NotFoundPage() {
             </Box>
           </ListItem>
         ))}
-        <Typography variant="h5" mb={2} mt={2}>
-          Apps created using this system
-        </Typography>
-        <Typography>placeholder for all stores</Typography>
+        <Box
+          sx={{
+            width: "100%",
+          }}
+        >
+          <Box
+            onClick={() => setOpenUserAppList(!openUserAppList)}
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              cursor: "pointer",
+              m: 2,
+              mb: 1,
+            }}
+          >
+            <Typography variant="h5">
+              Expand to view apps created using this system
+            </Typography>
+            <IconButton aria-label="expand">
+              <ExpandMoreIcon
+                style={{
+                  transform: openUserAppList
+                    ? "rotate(0deg)"
+                    : "rotate(180deg)",
+                }}
+              />
+            </IconButton>
+          </Box>
+          <Divider sx={{ mb: 2 }} />
+          <Collapse in={openUserAppList}>
+            <AllStores />
+          </Collapse>
+        </Box>
       </Box>
     </Container>
   );
