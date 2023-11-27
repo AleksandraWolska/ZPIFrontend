@@ -1,4 +1,11 @@
-import { Checkbox, Container, FormControlLabel, Stack } from "@mui/material";
+import {
+  Box,
+  Checkbox,
+  Container,
+  FormControlLabel,
+  Stack,
+  Typography,
+} from "@mui/material";
 import { useState } from "react";
 import useReservations from "./useReservations";
 import ReservationCard from "./ReservationCard";
@@ -15,6 +22,14 @@ function Reservations() {
   >(null);
   const confirmReservation = useConfirmReservation();
 
+  if (!reservations.length)
+    return (
+      <Box display="flex" m={3} alignItems="center" flexDirection="column">
+        <Typography variant="overline">
+          It looks like there is no bookings in this store yet
+        </Typography>
+      </Box>
+    );
   return (
     <>
       <Container maxWidth="lg">
