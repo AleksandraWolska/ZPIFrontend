@@ -29,7 +29,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Home />,
-    loader: allStoresLoader,
+    loader: allStoresLoader(queryClient),
   },
   {
     path: "admin",
@@ -176,7 +176,7 @@ const router = createBrowserRouter([
   {
     path: "*",
     element: <NotFoundPage />,
-    loader: allStoresLoader,
+    loader: allStoresLoader(queryClient),
   },
 ]);
 

@@ -1,12 +1,11 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Typography,
   Box,
   ListItem,
   ListItemText,
   Container,
-  List,
-  useTheme,
+
   IconButton,
   Divider,
   Collapse,
@@ -14,15 +13,11 @@ import {
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import PersonIcon from "@mui/icons-material/Person";
 import HomeIcon from "@mui/icons-material/Home";
-import StoreIcon from "@mui/icons-material/Store";
-import { Await, useLoaderData, useNavigate } from "react-router-dom";
-import AdminActionBox from "../admin/components/AdminActionBox";
-import { StoreSummary } from "../../types";
+import { useNavigate } from "react-router-dom";
+import AllStores from "./AllStores";
 
 function NotFoundPage() {
   const navigate = useNavigate();
-  const theme = useTheme();
-  const data = useLoaderData() as { allStores: StoreSummary[] };
 
   const [openUserAppList, setOpenUserAppList] = useState(false);
   const options = [
@@ -120,56 +115,7 @@ function NotFoundPage() {
           </Box>
           <Divider sx={{ mb: 2 }} />
           <Collapse in={openUserAppList}>
-            <React.Suspense fallback={<p>Loading stores list...</p>}>
-              <Await
-                resolve={data.allStores}
-                errorElement={<p>Error loading stores</p>}
-              >
-                {(userApps) => (
-                  <>
-                    {userApps.length === 0 && (
-                      <Typography m={2} variant="body1">
-                        There is no stores yet
-                      </Typography>
-                    )}
-
-                    <List>
-                      {userApps.map((userApp: StoreSummary) => {
-                        return (
-                          <ListItem
-                            key={userApp.storeConfigId}
-                            onClick={() =>
-                              navigate(`/userapp/${userApp.storeConfigId}`)
-                            }
-                          >
-                            <AdminActionBox theme={theme}>
-                              <Box sx={{ margin: 1, marginRight: 3 }}>
-                                <StoreIcon
-                                  sx={{ fontSize: "5rem", color: "grey" }}
-                                />
-                              </Box>
-                              <ListItemText
-                                primary={
-                                  <Typography variant="h4">
-                                    {userApp.name}
-                                  </Typography>
-                                }
-                                secondary={
-                                  <Typography variant="body1" color="grey">
-                                    Manage your items, reservation in already
-                                    existing store
-                                  </Typography>
-                                }
-                              />
-                            </AdminActionBox>
-                          </ListItem>
-                        );
-                      })}
-                    </List>
-                  </>
-                )}
-              </Await>
-            </React.Suspense>
+            <AllStores />
           </Collapse>
         </Box>
       </Box>
