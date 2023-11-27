@@ -1,14 +1,12 @@
-import { useQuery } from "react-query";
-
-import { StoreSummary } from "../../types";
+import { defer } from "react-router-dom";
 import { getAllStoresQuery } from "./loader";
 
-function useAllStores() {
-  const { data } = useQuery(getAllStoresQuery()) as {
-    data: StoreSummary[] | null;
-  };
+async function useAllStores() {
+  const allStoresPromise = getAllStoresQuery();
 
-  return data;
+  return defer({
+    userApps: await allStoresPromise,
+  });
 }
 
 export default useAllStores;

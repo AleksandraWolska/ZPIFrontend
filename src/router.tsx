@@ -14,7 +14,7 @@ import { loader as storeLoader } from "./routes/admin/store/loader";
 import { loader as reservationsLoader } from "./routes/admin/reservations/loader";
 import { loader as userReservationsPageLoader } from "./routes/userapp/user-reservations/loader";
 import { loader as adminMainPageLoader } from "./routes/admin/admin-main-page/loader";
-import { loader as homePageLoader } from "./routes/home/loader";
+import { loader as allStoresLoader } from "./routes/home/loader";
 import UserReservationsPage from "./routes/userapp/user-reservations/UserReservationsPage";
 import AuthErrorBoundary from "./auth/AuthErrorBoundary";
 
@@ -26,7 +26,7 @@ if (process.env.NODE_ENV === "development") {
 const router = createBrowserRouter([
   {
     path: "/",
-    loader: homePageLoader(queryClient),
+    loader: allStoresLoader(queryClient),
     lazy: async () => {
       const Reservations = (await import("./routes/home/Home")).default;
       return { Component: Reservations };
@@ -176,7 +176,7 @@ const router = createBrowserRouter([
   },
   {
     path: "*",
-    loader: homePageLoader(queryClient),
+    loader: allStoresLoader(queryClient),
     lazy: async () => {
       const Reservations = (await import("./routes/home/NotFoundPage")).default;
       return { Component: Reservations };
