@@ -5,7 +5,6 @@ import {
   Typography,
   List,
   ListItem,
-  Divider,
   IconButton,
   MenuItem,
   Select,
@@ -216,8 +215,6 @@ export default function UserAppMainPage() {
               );
             })}
           </List>
-
-          <Divider style={{ margin: "20px 0" }} />
         </Box>
       </Box>
     </Box>
