@@ -13,6 +13,8 @@ import {
   Typography,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import CheckIcon from "@mui/icons-material/Check";
+import ClearIcon from "@mui/icons-material/Clear";
 import { Box, Container } from "@mui/system";
 import BlockIcon from "@mui/icons-material/Block";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
@@ -232,19 +234,28 @@ function ItemDescription({ item }: { item: Item }) {
                   sx={{
                     borderBottom: "none",
                     p: "5px",
-
                     width: "50%",
                   }}
                 >
                   <Typography fontSize="1em">{customAttribute.name}</Typography>
                 </TableCell>
-                <TableCell
-                  sx={{ borderBottom: "none", p: "5px", width: "50%" }}
-                >
-                  <Typography fontSize="1em" fontWeight="bold">
-                    {customAttribute.value}
-                  </Typography>
-                </TableCell>
+                {typeof customAttribute.value === "boolean" ? (
+                  <TableCell
+                    sx={{ borderBottom: "none", p: "2px", width: "50%" }}
+                  >
+                    <Typography fontSize="1em" fontWeight="bold">
+                      {customAttribute.value ? <CheckIcon /> : <ClearIcon />}
+                    </Typography>
+                  </TableCell>
+                ) : (
+                  <TableCell
+                    sx={{ borderBottom: "none", p: "5px", width: "50%" }}
+                  >
+                    <Typography fontSize="1em" fontWeight="bold">
+                      {customAttribute.value}
+                    </Typography>
+                  </TableCell>
+                )}
               </TableRow>
             ))}
           </TableBody>

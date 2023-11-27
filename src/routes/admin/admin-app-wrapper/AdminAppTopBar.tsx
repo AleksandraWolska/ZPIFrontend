@@ -40,15 +40,22 @@ function AdminAppTopBar() {
               alignItems: "center",
             }}
           >
-            <Typography sx={{ typography: { xs: "h5", md: "h4" } }}>
+            <Box sx={{ typography: { xs: "h5", md: "h4" } }}>
               {store ? (
                 <ToolbarNavLink to={`/admin/${store.storeConfigId}`}>
-                  {store.name} (admin)
+                  <Typography sx={{ typography: { xs: "h5", md: "h4" } }}>
+                    {store.name} (admin)
+                  </Typography>
                 </ToolbarNavLink>
               ) : (
-                <ToolbarNavLink to="/admin">Genervation</ToolbarNavLink>
+                <ToolbarNavLink to="/admin">
+                  {" "}
+                  <Typography sx={{ typography: { xs: "h5", md: "h4" } }}>
+                    Genervation
+                  </Typography>
+                </ToolbarNavLink>
               )}
-            </Typography>
+            </Box>
           </Box>
 
           <TopBarMenu />
@@ -82,36 +89,40 @@ function TopBarMenu() {
         }}
       >
         {auth.isAuthenticated && (
-          <MenuText onClick={() => navigate("/admin")}>
-            <PersonIcon sx={{ color: "#fff" }} />
-            <Typography ml={1}> {auth.user?.profile.email} </Typography>
-          </MenuText>
+          <MenuItem>
+            <MenuText onClick={() => navigate("/admin")}>
+              <PersonIcon sx={{ color: "#fff" }} />
+              <Typography ml={1}> {auth.user?.profile.email} </Typography>
+            </MenuText>
+          </MenuItem>
         )}
 
-        {auth.isAuthenticated ? (
-          <MenuText
-            onClick={() => {
-              auth.signoutRedirect({
-                post_logout_redirect_uri: `${window.location.origin}/admin`,
-              });
-            }}
-          >
-            <LogoutIcon sx={{ color: "#fff" }} />
-            <Typography ml={1}> logout </Typography>
-          </MenuText>
-        ) : (
-          <MenuText
-            onClick={() => {
-              const currentPath = location.pathname + location.search;
-              auth.signinRedirect({
-                redirect_uri: `${window.location.origin}${currentPath}`,
-              });
-            }}
-          >
-            <LoginIcon sx={{ color: "#fff" }} />
-            <Typography ml={1}> login </Typography>
-          </MenuText>
-        )}
+        <MenuItem>
+          {auth.isAuthenticated ? (
+            <MenuText
+              onClick={() => {
+                auth.signoutRedirect({
+                  post_logout_redirect_uri: `${window.location.origin}/admin`,
+                });
+              }}
+            >
+              <LogoutIcon sx={{ color: "#fff" }} />
+              <Typography ml={1}> logout </Typography>
+            </MenuText>
+          ) : (
+            <MenuText
+              onClick={() => {
+                const currentPath = location.pathname + location.search;
+                auth.signinRedirect({
+                  redirect_uri: `${window.location.origin}${currentPath}`,
+                });
+              }}
+            >
+              <LoginIcon sx={{ color: "#fff" }} />
+              <Typography ml={1}> login </Typography>
+            </MenuText>
+          )}
+        </MenuItem>
       </Box>
 
       <Box sx={{ display: { xs: "flex", md: "none" } }}>
@@ -143,10 +154,12 @@ function TopBarMenu() {
           }}
         >
           {auth.isAuthenticated && (
-            <MenuText onClick={() => navigate("/admin")}>
-              <PersonIcon />
-              <Typography ml={1.5}>admin</Typography>
-            </MenuText>
+            <MenuItem onClick={() => navigate("/admin")}>
+              <MobileMenuItemText>
+                <PersonIcon />
+                <Typography ml={1.5}>admin</Typography>
+              </MobileMenuItemText>
+            </MenuItem>
           )}
 
           <MenuItem>
@@ -184,13 +197,18 @@ function TopBarMenu() {
 const ToolbarNavLink = styled(NavLink)({
   textDecoration: "none",
   color: "#fff",
+  display: "flex",
+  flexDirection: "row",
+  justifyContent: "center",
+  alignItems: "center",
 });
 
-const MenuText = styled(Typography)({
-  marginLeft: "1rem",
+const MenuText = styled(Box)({
   textTransform: "uppercase",
   cursor: "pointer",
   display: "flex",
+  padding: "1rem",
+  height: "100%",
   alignItems: "center",
   flexDirection: "row",
 });
