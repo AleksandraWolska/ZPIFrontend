@@ -19,6 +19,7 @@ function GeneralStoreInfo({
   const { owner } = storeConfig;
 
   const location = useLocation();
+  const isNew = location.pathname.includes("new");
 
   const debouncedName = useDebounce(owner.name, 500);
   const isNameAvailable = useCheckName(debouncedName);
@@ -44,7 +45,8 @@ function GeneralStoreInfo({
               value={owner.name}
               onChange={(e) => setOwnerAttribute("name", e.target.value)}
               fullWidth
-              error={!isNameAvailable}
+              disabled={!isNew}
+              error={isNew && !isNameAvailable}
             />
           </Grid>
 
@@ -105,7 +107,7 @@ function GeneralStoreInfo({
 
       <ChangePageButtons
         onNext={() =>
-          location.pathname.includes("new")
+          isNew
             ? setActiveStep(STORE_CONFIG_STEPS.FLEXIBILITY)
             : setActiveStep(STORE_CONFIG_STEPS.CUSTOM_ATTRIBUTES_SPEC)
         }
