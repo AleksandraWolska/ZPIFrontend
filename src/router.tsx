@@ -31,12 +31,13 @@ function GlobalLoadingIndicator() {
 
   return navigation.state === "loading" ? (
     <CircularProgress
-      size={150}
+      size={40}
       sx={{
         position: "absolute",
         top: "50%",
         left: "50%",
         transform: "translate(-50%, -50%)",
+        color: "grey",
       }}
     />
   ) : (

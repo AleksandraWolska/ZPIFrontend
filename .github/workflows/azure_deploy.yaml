@@ -3,7 +3,7 @@ name: Genervation on Azure
 on:
   push:
     branches:
-      - "loading-spinner"
+      - "dev"
   workflow_dispatch:
 
 jobs:
