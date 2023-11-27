@@ -11,7 +11,7 @@ import {
 } from "./StoreConfigContext";
 import { OWNER_COLORS, StoreConfig } from "../../../types";
 
-const initialStoreConfig: StoreConfig = {
+const defaultStoreConfig: StoreConfig = {
   storeConfigId: uuid(),
   owner: {
     ownerId: uuid(),
@@ -49,7 +49,13 @@ const initialStoreConfig: StoreConfig = {
   },
 };
 
-function StoreConfigProvider({ children }: { children: ReactNode }) {
+function StoreConfigProvider({
+  children,
+  initialStoreConfig = defaultStoreConfig,
+}: {
+  children: ReactNode;
+  initialStoreConfig?: StoreConfig;
+}) {
   const [storeConfig, dispatch] = useReducer(
     storeConfigReducer,
     initialStoreConfig,

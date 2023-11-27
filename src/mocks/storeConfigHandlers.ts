@@ -132,6 +132,27 @@ const addStoreConfig = rest.post(
   },
 );
 
+const editStoreConfig = rest.put(
+  "/api/store-configs/:storeName",
+  async (req, res, ctx) => {
+    const { storeName } = req.params;
+
+    const storeConfig = await importStoreConfig(storeName.toString());
+
+    if (!storeConfig) {
+      return res(ctx.status(404), ctx.json({ message: "Store not found." }));
+    }
+
+    const body = (await req.json()) as Omit<StoreConfig, "core">;
+
+    Object.assign(storeConfig, { ...storeConfig, ...body });
+
+    console.log("storeConfig", storeConfig, body);
+
+    return res(ctx.status(200), ctx.json({ message: "Edited store config." }));
+  },
+);
+
 const nameCheck = rest.get(
   "/api/store-configs/nameCheck",
   async (req, res, ctx) => {
@@ -158,4 +179,5 @@ export const storeConfigHandlers = [
   getDetailsPageConfig,
   getAdminStores,
   addStoreConfig,
+  editStoreConfig,
 ];
