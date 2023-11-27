@@ -91,44 +91,41 @@ function TopBarMenu() {
         {auth.isAuthenticated && (
           <MenuItem>
             <MenuText onClick={() => navigate("/admin")}>
-              <PersonIcon sx={{ color: "#fff" }} />
-              <Typography ml={1} component="span">
-                {auth.user?.profile.email}
-              </Typography>
-            </MenuText>
-          </MenuItem>
+            <PersonIcon sx={{ color: "#fff" }} />
+            <Typography ml={1} component="span">
+              {auth.user?.profile.email}
+            </Typography>
+          </MenuText></MenuItem>
         )}
 
-        <MenuItem>
-          {auth.isAuthenticated ? (
-            <MenuText
-              onClick={() => {
-                auth.signoutRedirect({
-                  post_logout_redirect_uri: `${window.location.origin}/admin`,
-                });
-              }}
-            >
-              <LogoutIcon sx={{ color: "#fff" }} />
-              <Typography ml={1} component="span">
-                logout
-              </Typography>
-            </MenuText>
-          ) : (
-            <MenuText
-              onClick={() => {
-                const currentPath = location.pathname + location.search;
-                auth.signinRedirect({
-                  redirect_uri: `${window.location.origin}${currentPath}`,
-                });
-              }}
-            >
-              <LoginIcon sx={{ color: "#fff" }} />
-              <Typography ml={1} component="span">
-                login
-              </Typography>
-            </MenuText>
-          )}
-        </MenuItem>
+        <MenuItem>{auth.isAuthenticated ? (
+          <MenuText
+            onClick={() => {
+              auth.signoutRedirect({
+                post_logout_redirect_uri: `${window.location.origin}/admin`,
+              });
+            }}
+          >
+            <LogoutIcon sx={{ color: "#fff" }} />
+            <Typography ml={1} component="span">
+              logout
+            </Typography>
+          </MenuText>
+        ) : (
+          <MenuText
+            onClick={() => {
+              const currentPath = location.pathname + location.search;
+              auth.signinRedirect({
+                redirect_uri: `${window.location.origin}${currentPath}`,
+              });
+            }}
+          >
+            <LoginIcon sx={{ color: "#fff" }} />
+            <Typography ml={1} component="span">
+              login
+            </Typography>
+          </MenuText>
+        )}</MenuItem>
       </Box>
 
       <Box sx={{ display: { xs: "flex", md: "none" } }}>
