@@ -10,7 +10,7 @@ function useAvailabilityCheck() {
       `${
         process.env.NODE_ENV === "development"
           ? `/api/check-availability`
-          : `${BACKEND_URL}/stores/${params.storeId}/check`
+          : `${BACKEND_URL}/stores/${params.storeId}/reservations/check`
       }`,
       {
         method: "POST",
