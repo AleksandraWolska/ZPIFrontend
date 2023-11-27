@@ -28,11 +28,6 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Home />,
-    // loader: allStoresLoader(queryClient),
-    // lazy: async () => {
-    //   const Reservations = (await import("./routes/home/Home")).default;
-    //   return { Component: Reservations };
-    // },
   },
   {
     path: "admin",

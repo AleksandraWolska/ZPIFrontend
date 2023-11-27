@@ -193,10 +193,10 @@ function Home() {
           Apps created using this system
         </Typography>
 
-        <React.Suspense fallback={<p>Loading package location...</p>}>
+        <React.Suspense fallback={<p>Loading stores list...</p>}>
           <Await
             resolve={allStoresData}
-            errorElement={<p>Error loading package location!</p>}
+            errorElement={<p>Error loading stores</p>}
           >
             {(userApps) => (
               <>

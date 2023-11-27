@@ -3,7 +3,7 @@ import { BACKEND_URL } from "../../query";
 import { StoreSummary } from "../../types";
 
 const fetchAllStores = async (): Promise<StoreSummary[] | null> => {
-  const res = await fetch(`${BACKEND_URL}/stores/all`, {});
+  const res = await fetch(`${BACKEND_URL}/stores/all`);
 
   if (!res.ok) {
     throw new Response(res.body, { status: res.status });
