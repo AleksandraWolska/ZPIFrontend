@@ -1,4 +1,5 @@
 import { Box, Grid, MenuItem, Select, TextField } from "@mui/material";
+import { useLocation } from "react-router-dom";
 import { useStoreConfig } from "../../StoreConfigProvider";
 import ChangePageButtons from "../../../components/ChangePageButtons";
 import { STORE_CONFIG_STEPS, StoreConfigStep } from "../../types";
@@ -16,6 +17,8 @@ function GeneralStoreInfo({
 }) {
   const { storeConfig, setOwnerAttribute } = useStoreConfig();
   const { owner } = storeConfig;
+
+  const location = useLocation();
 
   const debouncedName = useDebounce(owner.name, 500);
   const isNameAvailable = useCheckName(debouncedName);
@@ -101,7 +104,11 @@ function GeneralStoreInfo({
       </WizardStepDescription>
 
       <ChangePageButtons
-        onNext={() => setActiveStep(STORE_CONFIG_STEPS.FLEXIBILITY)}
+        onNext={() =>
+          location.pathname.includes("new")
+            ? setActiveStep(STORE_CONFIG_STEPS.FLEXIBILITY)
+            : setActiveStep(STORE_CONFIG_STEPS.CUSTOM_ATTRIBUTES_SPEC)
+        }
       />
     </StepContentWrapper>
   );

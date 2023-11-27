@@ -92,7 +92,9 @@ function TopBarMenu() {
           <MenuItem>
             <MenuText onClick={() => navigate("/admin")}>
               <PersonIcon sx={{ color: "#fff" }} />
-              <Typography ml={1}> {auth.user?.profile.email} </Typography>
+              <Typography ml={1} component="span">
+                {auth.user?.profile.email}
+              </Typography>
             </MenuText>
           </MenuItem>
         )}
@@ -107,7 +109,9 @@ function TopBarMenu() {
               }}
             >
               <LogoutIcon sx={{ color: "#fff" }} />
-              <Typography ml={1}> logout </Typography>
+              <Typography ml={1} component="span">
+                logout
+              </Typography>
             </MenuText>
           ) : (
             <MenuText
@@ -119,7 +123,9 @@ function TopBarMenu() {
               }}
             >
               <LoginIcon sx={{ color: "#fff" }} />
-              <Typography ml={1}> login </Typography>
+              <Typography ml={1} component="span">
+                login
+              </Typography>
             </MenuText>
           )}
         </MenuItem>

@@ -17,13 +17,13 @@ import AuthConfig from "./steps/AuthConfig";
 
 function Stepper() {
   const [activeStep, setActiveStep] = useState<StoreConfigStep>(
-    STORE_CONFIG_STEPS.OWNER,
+    STORE_CONFIG_STEPS.GENERAL_STORE_INFO,
   );
   const [progress, setProgress] = useState(0);
 
   const renderStepContent = () => {
     switch (activeStep) {
-      case STORE_CONFIG_STEPS.OWNER:
+      case STORE_CONFIG_STEPS.GENERAL_STORE_INFO:
         return <GeneralStoreInfo setActiveStep={setActiveStep} />;
       case STORE_CONFIG_STEPS.FLEXIBILITY:
         return (

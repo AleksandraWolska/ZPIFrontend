@@ -28,6 +28,7 @@ module.exports = {
     "import/prefer-default-export": 0,
     "import/no-extraneous-dependencies": 0,
     "react/jsx-props-no-spreading": 0,
+    "react/require-default-props": 0,
     "@typescript-eslint/no-use-before-define": 0,
     "@typescript-eslint/no-throw-literal": 0,
     "no-nested-ternary": 0,

@@ -27,7 +27,7 @@ function Flexibility({
     <StepContentWrapper>
       <BackButton
         onClick={() => {
-          const prevStep = STORE_CONFIG_STEPS.OWNER;
+          const prevStep = STORE_CONFIG_STEPS.GENERAL_STORE_INFO;
           setActiveStep(prevStep);
         }}
       />
