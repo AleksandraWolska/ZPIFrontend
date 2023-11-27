@@ -55,6 +55,15 @@ function UserReservationsPage() {
     setReservationToDelete(null);
   };
 
+  if (!sortedReservations.length)
+    return (
+      <Box display="flex" m={3} alignItems="center" flexDirection="column">
+        <Typography variant="overline">
+          It looks like you dont have any bookings yet
+        </Typography>
+      </Box>
+    );
+
   return (
     <Box
       display="flex"
