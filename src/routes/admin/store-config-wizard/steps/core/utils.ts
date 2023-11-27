@@ -5,7 +5,7 @@ export function calculateProgress(
   to: StoreConfigStep,
 ): number {
   if (from === STORE_CONFIG_STEPS.FLEXIBILITY) {
-    if (to === STORE_CONFIG_STEPS.SIMULTANEOUS) return 45;
+    if (to === STORE_CONFIG_STEPS.SIMULTANEOUS) return 46;
     if (to === STORE_CONFIG_STEPS.GRANULARITY) return 36.5;
   } else if (from === STORE_CONFIG_STEPS.GRANULARITY) {
     if (to === STORE_CONFIG_STEPS.FLEXIBILITY) return 0;
