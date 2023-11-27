@@ -1,13 +1,29 @@
+import { useState, MouseEvent } from "react";
 import {
   AppBar,
   Toolbar,
-  Button,
   Box,
   Typography,
   useMediaQuery,
+  Container,
+  IconButton,
+  Menu,
+  MenuItem,
 } from "@mui/material";
-import { Outlet, useLocation, useNavigate, useParams } from "react-router-dom";
+import LogoutIcon from "@mui/icons-material/Logout";
+import LoginIcon from "@mui/icons-material/Login";
+import PersonIcon from "@mui/icons-material/Person";
+import EventIcon from "@mui/icons-material/Event";
+import MenuIcon from "@mui/icons-material/Menu";
+import {
+  Outlet,
+  NavLink,
+  useLocation,
+  useNavigate,
+  useParams,
+} from "react-router-dom";
 import { useAuth } from "react-oidc-context";
+import { styled } from "@mui/system";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import {
   blue,
@@ -28,10 +44,6 @@ function UserAppWrapper() {
   const storeConfig = useStoreConfig();
   const { owner } = storeConfig;
   const { storeId } = useParams();
-  const navigate = useNavigate();
-
-  const auth = useAuth();
-  const location = useLocation();
 
   const colorMap: { [key: string]: unknown } = {
     lime,
@@ -57,74 +69,50 @@ function UserAppWrapper() {
   const matches = useMediaQuery(theme.breakpoints.up("md"));
   const minHeight = `calc(100vh - ${matches ? "64px" : "56px"})`;
 
-  const handleMyReservationsClick = () => {
-    if (storeId) {
-      navigate(`/userapp/${storeId}/reservations`);
-    } else {
-      console.error("Missing storeId");
-    }
-  };
-
   return (
     <ThemeProvider theme={theme}>
       <Box sx={{ backgroundColor: "#f6f6f6", minHeight: "100vh" }}>
         <AppBar position="sticky">
-          <Toolbar>
-            <Box
+          <Container maxWidth="lg">
+            <Toolbar
+              disableGutters
               sx={{
-                width: "100%",
-                maxWidth: "1200px",
                 display: "flex",
-                flexDirection: "row",
                 justifyContent: "space-between",
                 alignItems: "center",
-                margin: "auto",
               }}
             >
               <Box
-                style={{ cursor: "pointer" }}
-                onClick={() => navigate(`/userapp/${storeId}`)}
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                }}
               >
-                {owner.logoSrc ? (
-                  <img height="40" src={owner.logoSrc} alt="logo" />
-                ) : (
-                  <Typography variant="h6">{owner.name}</Typography>
-                )}
+                <Box sx={{ typography: { xs: "h5", md: "h4" } }}>
+                  <ToolbarNavLink to={`/userapp/${storeId}`}>
+                    {owner.logoSrc && (
+                      <Box
+                        sx={{
+                          display: "flex",
+                          justifyContent: "center",
+                          margin: "auto",
+                          marginRight: 1.5,
+                          alignItems: "center",
+                        }}
+                      >
+                        <img height="40" src={owner.logoSrc} alt="logo" />
+                      </Box>
+                    )}
+                    <Typography sx={{ typography: { xs: "h5", md: "h4" } }}>
+                      {owner.name}
+                    </Typography>
+                  </ToolbarNavLink>
+                </Box>
               </Box>
-              <Box>
-                <Button color="inherit" onClick={handleMyReservationsClick}>
-                  My reservations
-                </Button>
-                <Button color="inherit">About</Button>
 
-                {auth.isAuthenticated ? (
-                  <Button
-                    onClick={() => {
-                      const currentPath = location.pathname + location.search;
-                      auth.signoutSilent({
-                        post_logout_redirect_uri: `${window.location.origin}${currentPath}`,
-                      });
-                    }}
-                    color="inherit"
-                  >
-                    Log out
-                  </Button>
-                ) : (
-                  <Button
-                    onClick={() => {
-                      const currentPath = location.pathname + location.search;
-                      auth.signinRedirect({
-                        redirect_uri: `${window.location.origin}${currentPath}`,
-                      });
-                    }}
-                    color="inherit"
-                  >
-                    Log in
-                  </Button>
-                )}
-              </Box>
-            </Box>
-          </Toolbar>
+              <TopBarMenu />
+            </Toolbar>
+          </Container>
         </AppBar>
 
         <Box
@@ -142,5 +130,183 @@ function UserAppWrapper() {
     </ThemeProvider>
   );
 }
+
+function TopBarMenu() {
+  const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
+  const auth = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleOpenNavMenu = (event: MouseEvent<HTMLElement>) => {
+    setAnchorElNav(event.currentTarget);
+  };
+
+  const handleCloseNavMenu = () => {
+    setAnchorElNav(null);
+  };
+
+  return (
+    <>
+      <Box
+        sx={{
+          display: { xs: "none", md: "flex" },
+          alignItems: "center",
+          flexDirection: "row",
+        }}
+      >
+        {auth.isAuthenticated && (
+          <MenuInfo>
+            <PersonIcon sx={{ color: "#fff" }} />
+            <Typography ml={1}> {auth.user?.profile.email} </Typography>
+          </MenuInfo>
+        )}
+        <MenuItem>
+          <MenuText onClick={() => navigate(`reservations`)}>
+            <EventIcon sx={{ color: "#fff" }} />
+            <Typography ml={1}> your bookings</Typography>
+          </MenuText>
+        </MenuItem>
+        <MenuItem>
+          {auth.isAuthenticated ? (
+            <MenuText
+              onClick={() => {
+                const currentPath = location.pathname + location.search;
+                auth.signoutRedirect({
+                  post_logout_redirect_uri: `${window.location.origin}${currentPath}`,
+                });
+              }}
+            >
+              <LogoutIcon sx={{ color: "#fff" }} />
+              <Typography ml={1}> logout </Typography>
+            </MenuText>
+          ) : (
+            <MenuText
+              onClick={() => {
+                const currentPath = location.pathname + location.search;
+                auth.signinRedirect({
+                  redirect_uri: `${window.location.origin}${currentPath}`,
+                });
+              }}
+            >
+              <LoginIcon sx={{ color: "#fff" }} />
+              <Typography ml={1}> login </Typography>
+            </MenuText>
+          )}
+        </MenuItem>
+      </Box>
+
+      <Box sx={{ display: { xs: "flex", md: "none" } }}>
+        <IconButton
+          aria-label="menu options"
+          aria-controls="menu-appbar"
+          aria-haspopup="true"
+          onClick={handleOpenNavMenu}
+          color="inherit"
+        >
+          <MenuIcon sx={{ scale: "1.2" }} />
+        </IconButton>
+        <Menu
+          id="menu-appbar"
+          anchorEl={anchorElNav}
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "right",
+          }}
+          transformOrigin={{
+            vertical: "top",
+            horizontal: "right",
+          }}
+          open={Boolean(anchorElNav)}
+          onClose={handleCloseNavMenu}
+          sx={{
+            display: { xs: "block", md: "none" },
+            marginTop: "10px",
+          }}
+        >
+          {auth.isAuthenticated && (
+            <MenuItem>
+              <MobileMenuItemText>
+                <PersonIcon />
+                <Typography ml={1}>{auth.user?.profile.email}</Typography>
+              </MobileMenuItemText>
+            </MenuItem>
+          )}
+          <MenuItem onClick={() => navigate(`reservations`)}>
+            <MobileMenuItemText>
+              <EventIcon />
+              <Typography ml={1}> your bookings</Typography>
+            </MobileMenuItemText>
+          </MenuItem>
+          <MenuItem>
+            {auth.isAuthenticated ? (
+              <MobileMenuItemText
+                onClick={() => {
+                  auth.signoutRedirect({
+                    post_logout_redirect_uri: `${window.location.origin}/admin`,
+                  });
+                }}
+              >
+                <LogoutIcon />
+                <Typography ml={1}> logout </Typography>
+              </MobileMenuItemText>
+            ) : (
+              <MobileMenuItemText
+                onClick={() => {
+                  const currentPath = location.pathname + location.search;
+                  auth.signinRedirect({
+                    redirect_uri: `${window.location.origin}${currentPath}`,
+                  });
+                }}
+              >
+                <LoginIcon />
+                <Typography ml={1}> login </Typography>
+              </MobileMenuItemText>
+            )}
+          </MenuItem>
+        </Menu>
+      </Box>
+    </>
+  );
+}
+
+const ToolbarNavLink = styled(NavLink)({
+  textDecoration: "none",
+  color: "#fff",
+  display: "flex",
+  flexDirection: "row",
+  justifyContent: "center",
+  alignItems: "center",
+});
+
+const MenuText = styled(Typography)({
+  textTransform: "uppercase",
+  cursor: "pointer",
+  display: "flex",
+  padding: "1rem",
+  height: "100%",
+  alignItems: "center",
+  flexDirection: "row",
+});
+
+const MenuInfo = styled(Box)({
+  marginLeft: "1rem",
+  textTransform: "uppercase",
+
+  display: "flex",
+  padding: "1rem",
+  height: "100%",
+  alignItems: "center",
+  flexDirection: "row",
+});
+
+const MobileMenuItemText = styled(Typography)({
+  width: "100%",
+  textAlign: "center",
+  textTransform: "uppercase",
+  cursor: "pointer",
+  display: "flex",
+  alignItems: "center",
+  flexDirection: "row",
+});
 
 export default UserAppWrapper;
