@@ -16,10 +16,9 @@ import PersonIcon from "@mui/icons-material/Person";
 import StoreIcon from "@mui/icons-material/Store";
 import KeyIcon from "@mui/icons-material/Key";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { Await, useNavigate } from "react-router-dom";
+import { Await, useLoaderData, useNavigate } from "react-router-dom";
 import AdminActionBox from "../admin/components/AdminActionBox";
 import { StoreSummary } from "../../types";
-import useAllStores from "./useAllStores";
 
 function Home() {
   // const { t } = useTranslation();
@@ -28,7 +27,8 @@ function Home() {
   const [openAbout, setOpenAbout] = useState(true);
   const [openAuthors, setOpenAuthors] = useState(true);
   const theme = useTheme();
-  const allStoresData = useAllStores();
+
+  const data = useLoaderData() as { allStores: StoreSummary[] };
 
   const options = [
     {
@@ -195,7 +195,7 @@ function Home() {
 
         <React.Suspense fallback={<p>Loading stores list...</p>}>
           <Await
-            resolve={allStoresData}
+            resolve={data.allStores}
             errorElement={<p>Error loading stores</p>}
           >
             {(userApps) => (

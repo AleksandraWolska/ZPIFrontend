@@ -15,15 +15,15 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import PersonIcon from "@mui/icons-material/Person";
 import HomeIcon from "@mui/icons-material/Home";
 import StoreIcon from "@mui/icons-material/Store";
-import { Await, useNavigate } from "react-router-dom";
+import { Await, useLoaderData, useNavigate } from "react-router-dom";
 import AdminActionBox from "../admin/components/AdminActionBox";
-import useAllStores from "./useAllStores";
 import { StoreSummary } from "../../types";
 
 function NotFoundPage() {
   const navigate = useNavigate();
   const theme = useTheme();
-  const allStoresData = useAllStores();
+  const data = useLoaderData() as { allStores: StoreSummary[] };
+
   const [openUserAppList, setOpenUserAppList] = useState(false);
   const options = [
     {
@@ -120,10 +120,10 @@ function NotFoundPage() {
           </Box>
           <Divider sx={{ mb: 2 }} />
           <Collapse in={openUserAppList}>
-            <React.Suspense fallback={<p>Loading package location...</p>}>
+            <React.Suspense fallback={<p>Loading stores list...</p>}>
               <Await
-                resolve={allStoresData}
-                errorElement={<p>Error loading package location!</p>}
+                resolve={data.allStores}
+                errorElement={<p>Error loading stores</p>}
               >
                 {(userApps) => (
                   <>

@@ -18,6 +18,7 @@ import { loader as adminMainPageLoader } from "./routes/admin/admin-main-page/lo
 import { loader as allStoresLoader } from "./routes/home/loader";
 import UserReservationsPage from "./routes/userapp/user-reservations/UserReservationsPage";
 import AuthErrorBoundary from "./auth/AuthErrorBoundary";
+import NotFoundPage from "./routes/home/NotFoundPage";
 
 if (process.env.NODE_ENV === "development") {
   const { worker } = await import("./mocks/browser");
@@ -28,6 +29,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Home />,
+    loader: allStoresLoader,
   },
   {
     path: "admin",
@@ -173,11 +175,8 @@ const router = createBrowserRouter([
   },
   {
     path: "*",
-    loader: allStoresLoader(queryClient),
-    lazy: async () => {
-      const Reservations = (await import("./routes/home/NotFoundPage")).default;
-      return { Component: Reservations };
-    },
+    element: <NotFoundPage />,
+    loader: allStoresLoader,
   },
 ]);
 
