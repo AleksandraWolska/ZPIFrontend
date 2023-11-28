@@ -116,23 +116,25 @@ export function CheckAvailabilityCalendar({
       responseData[0].responseCode === 200
     ) {
       setReserveData({
-        start: responseData[0].start,
-        end: responseData[0].end,
+        start: responseData[0].startDate,
+        end: responseData[0].endDate,
         amount: responseData[0].amount,
       });
       setAvailabilityChecked(true);
       setShowReserveDialog(true);
     }
 
+    // not found any
     if (
       responseData &&
       Array.isArray(responseData) &&
-      responseData[0].responseCode === 203
+      responseData[0].responseCode === 204
     ) {
       console.log("unavailable");
       // setShowUnavailableDialog(true);
     }
 
+    // suggestions
     if (
       responseData &&
       Array.isArray(responseData) &&
