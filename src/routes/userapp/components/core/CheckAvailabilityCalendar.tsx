@@ -109,17 +109,35 @@ export function CheckAvailabilityCalendar({
   // if response is not an array, and has start date, then it is ok, ready to reserve
   // if response will be an array, then it is suggested dates
   useEffect(() => {
-    if (responseData && !Array.isArray(responseData) && responseData.start) {
+    // code 200, ok for reserving
+    if (
+      responseData &&
+      Array.isArray(responseData) &&
+      responseData[0].responseCode === 200
+    ) {
       setReserveData({
-        start: responseData.start,
-        end: responseData.end,
-        amount: responseData.amount,
+        start: responseData[0].start,
+        end: responseData[0].end,
+        amount: responseData[0].amount,
       });
       setAvailabilityChecked(true);
       setShowReserveDialog(true);
     }
 
-    if (responseData && Array.isArray(responseData)) {
+    if (
+      responseData &&
+      Array.isArray(responseData) &&
+      responseData[0].responseCode === 203
+    ) {
+      console.log("unavailable");
+      // setShowUnavailableDialog(true);
+    }
+
+    if (
+      responseData &&
+      Array.isArray(responseData) &&
+      responseData[0].responseCode === 203
+    ) {
       setShowSuggestedDialog(true);
     }
 

@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - "dev"
+      - "userapp-alter-check-availability"
   workflow_dispatch:
 
 jobs:
