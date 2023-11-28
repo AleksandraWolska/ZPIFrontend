@@ -10,10 +10,10 @@ import {
   ListItem,
 } from "@mui/material";
 
-import { CheckAvailabilityResponseSuggestion } from "../../types";
+import { CheckAvailabilityResponse } from "../../types";
 
 type Props = {
-  responseSuggestions: CheckAvailabilityResponseSuggestion[];
+  responseSuggestions: CheckAvailabilityResponse[];
   handleSuggestedDateClick: (suggestionId: string) => void;
   setShowSuggestedDialog: () => void;
 };
@@ -42,7 +42,7 @@ export function SuggestedDatesDialog({
           <Box margin="auto">
             <List>
               {responseSuggestions?.map(
-                (suggestion: CheckAvailabilityResponseSuggestion) => (
+                (suggestion: CheckAvailabilityResponse) => (
                   <ListItem
                     button
                     key={suggestion.id}
@@ -50,9 +50,9 @@ export function SuggestedDatesDialog({
                   >
                     <Typography margin="auto">
                       {`Start: ${new Date(
-                        suggestion.suggestedStart,
+                        suggestion.suggestedStart!,
                       ).toLocaleString()}, End: ${new Date(
-                        suggestion.suggestedEnd,
+                        suggestion.suggestedEnd!,
                       ).toLocaleString()}`}
                     </Typography>
                   </ListItem>

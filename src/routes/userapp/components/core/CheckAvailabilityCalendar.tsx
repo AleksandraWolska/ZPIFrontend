@@ -29,7 +29,7 @@ import { useTheme } from "@mui/material/styles";
 import { Availability } from "../../../../types";
 import useAvailabilityCheck from "../../details-page/useAvailabilityCheck";
 import {
-  CheckAvailabilityResponseSuggestion,
+  CheckAvailabilityResponse,
   FlexibleReservationData,
 } from "../../types";
 import "../../css/react-big-calendar.css";
@@ -377,8 +377,7 @@ export function CheckAvailabilityCalendar({
   const handleSuggestedDateClick = useCallback(
     (idx: string) => {
       const suggestedDate = responseData.find(
-        (suggestion: CheckAvailabilityResponseSuggestion) =>
-          suggestion.id === idx,
+        (suggestion: CheckAvailabilityResponse) => suggestion.id === idx,
       );
 
       if (!suggestedDate) return;

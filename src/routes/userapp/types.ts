@@ -30,32 +30,17 @@ export type CheckAvailabilityRequest = {
   itemId: string;
 };
 
-export type CheckAvailabilityResponseSuggestion = {
+export type CheckAvailabilityResponse = {
   id: string;
-  itemId: string;
-  amount: number;
-  schedule: Availability[];
-  suggestedStart: string;
-  suggestedEnd: string;
+  itemId?: string;
+  amount?: number;
+  startDate?: string;
+  endDate?: string;
+  schedule?: Availability[];
+  suggestedStart?: string;
+  suggestedEnd?: string;
+  responseCode: number;
 };
-
-export type CheckAvailabilityResponseSuccess = {
-  id: string;
-  itemId: string;
-  amount: number;
-  start: string;
-  end: string;
-};
-
-export type CheckAvailabilityResponseFailure = {
-  id: string;
-  itemId: string;
-};
-
-export type CheckAvailabilityResponse =
-  | CheckAvailabilityResponseSuggestion
-  | CheckAvailabilityResponseSuccess
-  | CheckAvailabilityResponseFailure;
 
 export type FlexibleReservationData = {
   start: string;
