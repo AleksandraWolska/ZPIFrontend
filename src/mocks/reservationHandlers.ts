@@ -157,7 +157,7 @@ const checkAvailability = rest.post(
     }
 
     // If user chose start at 13PM
-    if (startHour === 13) {
+    if (startHour > 13 && startHour < 16) {
       const responseNotAvailable: CheckAvailabilityResponse[] = [
         {
           id: uuid(),
@@ -166,11 +166,11 @@ const checkAvailability = rest.post(
           responseCode: 204,
         },
       ];
-      return res(ctx.status(204), ctx.json(responseNotAvailable));
+      return res(ctx.status(200), ctx.json(responseNotAvailable));
     }
 
     // If user chose start after 13PM
-    if (startHour > 13) {
+    if (startHour > 16) {
       const responseSuccess: CheckAvailabilityResponse[] = [
         {
           id: uuid(),

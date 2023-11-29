@@ -35,6 +35,7 @@ import {
 import "../../css/react-big-calendar.css";
 import CustomCalendarToolbar from "../detail-page-specific/CustomCalendarToolbar";
 import { SuggestedDatesDialog } from "../detail-page-specific/SuggestedDatesDialog";
+import { NoAvailableDatesDialog } from "../detail-page-specific/NoAvailableDatesDialog copy";
 
 dayjs.locale("en-gb");
 const dayjsLoc = dayjsLocalizer(dayjs);
@@ -99,6 +100,8 @@ export function CheckAvailabilityCalendar({
 
   const [showSuggestedDialog, setShowSuggestedDialog] = useState(false);
   const [showReserveDialog, setShowReserveDialog] = useState(false);
+  const [showNoAvailableDatesDialog, setShowNoAvailableDatesDialog] =
+    useState(false);
 
   const [isFromResponse, setIsFromResponse] = useState<boolean>(false);
   const defaultDate = useMemo(() => new Date(), []);
@@ -130,8 +133,7 @@ export function CheckAvailabilityCalendar({
       Array.isArray(responseData) &&
       responseData[0].responseCode === 204
     ) {
-      console.log("unavailable");
-      // setShowUnavailableDialog(true);
+      setShowNoAvailableDatesDialog(true);
     }
 
     // suggestions
@@ -530,6 +532,14 @@ export function CheckAvailabilityCalendar({
           setShowSuggestedDialog={() => setShowSuggestedDialog(false)}
           responseSuggestions={responseData}
           handleSuggestedDateClick={handleSuggestedDateClick}
+        />
+      )}
+      {Array.isArray(responseData) && showNoAvailableDatesDialog && (
+        <NoAvailableDatesDialog
+          setShowNoAvailableDatesDialog={() =>
+            setShowNoAvailableDatesDialog(false)
+          }
+          userCount={userCount}
         />
       )}
       {reserveData && (

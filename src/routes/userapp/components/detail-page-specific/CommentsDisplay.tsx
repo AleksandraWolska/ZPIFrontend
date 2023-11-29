@@ -23,17 +23,12 @@ function CommentsDisplay() {
                 <Box display="flex" alignItems="center">
                   <Typography
                     sx={{ marginRight: 1 }}
-                    component="span"
                     variant="body1"
                     color="textPrimary"
                   >
                     {comment.nickname ? comment.nickname : "anonymous"}
                   </Typography>
-                  <Typography
-                    component="span"
-                    variant="caption"
-                    color="textSecondary"
-                  >
+                  <Typography variant="caption" color="textSecondary">
                     {` — ${new Date(comment.datetime).toLocaleDateString(
                       undefined,
                       {
