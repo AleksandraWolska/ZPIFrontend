@@ -70,7 +70,7 @@ function Simultaneous({
             const nextStep =
               storeConfig.core.flexibility === false
                 ? STORE_CONFIG_STEPS.SPECIFIC_RESERVATION
-                : STORE_CONFIG_STEPS.UNIQUENESS;
+                : STORE_CONFIG_STEPS.CUSTOM_ATTRIBUTES_SPEC;
             setActiveStep(nextStep);
             setProgress(
               calculateProgress(STORE_CONFIG_STEPS.SIMULTANEOUS, nextStep),
