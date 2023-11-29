@@ -30,10 +30,16 @@ function UserReservationsPage() {
     setExpandedId((prev) => (prev === reservationId ? null : reservationId));
   };
 
-  const sortedReservations = reservations.sort(
-    (a, b) =>
-      new Date(a.startDateTime).getTime() - new Date(b.startDateTime).getTime(),
-  );
+  const sortedReservations = reservations.sort((a, b) => {
+    if (a.startDateTime === undefined && b.startDateTime === undefined)
+      return 0;
+    if (a.startDateTime === undefined) return -1;
+    if (b.startDateTime === undefined) return 1;
+
+    return (
+      new Date(a.startDateTime).getTime() - new Date(b.startDateTime).getTime()
+    );
+  });
 
   const handleDeleteClick = (reservation: UserReservation) => {
     setReservationToDelete(reservation);
@@ -250,11 +256,13 @@ function UserReservationsPage() {
             <Typography variant="h6" sx={{ mb: 1, fontWeight: "bold" }}>
               {reservationToDelete.item.title}
             </Typography>
-            <Typography>
-              {`Starts on:  ${new Date(
-                reservationToDelete.startDateTime,
-              ).toLocaleString()}`}
-            </Typography>
+            {reservationToDelete.startDateTime && (
+              <Typography>
+                {`Starts on:  ${new Date(
+                  reservationToDelete.startDateTime,
+                ).toLocaleString()}`}
+              </Typography>
+            )}
             {reservationToDelete.endDateTime && (
               <Typography>
                 {`Ends on ${new Date(

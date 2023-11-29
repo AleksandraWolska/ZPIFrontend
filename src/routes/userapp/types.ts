@@ -70,7 +70,7 @@ export type UserReservation = {
   })[];
   message?: string;
   confirmed: boolean;
-  startDateTime: string;
+  startDateTime?: string;
   endDateTime?: string;
   amount?: number;
   status: string;
