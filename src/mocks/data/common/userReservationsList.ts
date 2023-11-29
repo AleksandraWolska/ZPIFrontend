@@ -9,7 +9,13 @@ const userReservationsList: UserReservation[] = [
       subtitle: "Subtitle 1",
     },
     subItems: [
-      { id: "1", title: "Subitem 1", subtitle: "Subitem Subtitle 1" },
+      {
+        id: "1",
+        title: "Subitem 1",
+        subtitle: "Subitem Subtitle 1",
+        startDateTime: "2024-02-02T14:00:00",
+        endDateTime: "2024-02-02T16:00:00",
+      },
       { id: "1", title: "Subitem 2", subtitle: "Subitem Subtitle 2" },
     ],
 
@@ -27,7 +33,6 @@ const userReservationsList: UserReservation[] = [
       subtitle: "Subtitle 2",
     },
     startDateTime: "2023-10-26T09:00:00Z",
-    endDateTime: "2023-10-26T11:00:00Z",
     confirmed: true,
     status: "cancelled_by_user",
   },

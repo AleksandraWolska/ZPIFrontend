@@ -64,7 +64,10 @@ export type UserReservation = {
   item: Pick<Item["attributes"], "title" | "subtitle"> & {
     id: string;
   };
-  subItems?: Pick<SubItem, "title" | "subtitle" | "id">[];
+  subItems?: (Pick<SubItem, "id" | "title" | "subtitle"> & {
+    startDateTime?: string;
+    endDateTime?: string;
+  })[];
   message?: string;
   confirmed: boolean;
   startDateTime: string;
