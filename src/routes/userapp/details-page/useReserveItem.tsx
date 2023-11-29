@@ -1,10 +1,12 @@
 import { useMutation } from "react-query";
 
 // import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { NewReservation } from "../../../types";
 import { BACKEND_URL, queryClient } from "../../../query";
 
 function useReserveItem() {
+  const params = useParams() as { storeId: string };
   // const navigate = useNavigate();
   const mutation = useMutation(
     (data: NewReservation) =>
@@ -12,7 +14,7 @@ function useReserveItem() {
         `${
           process.env.NODE_ENV === "development"
             ? `/api/reserve`
-            : `${BACKEND_URL}/reserve`
+            : `${BACKEND_URL}/stores/${params.storeId}/reservations/reserve`
         }`,
         {
           method: "POST",
@@ -28,7 +30,7 @@ function useReserveItem() {
     {
       onSuccess: () => {
         queryClient.invalidateQueries("itemDetails");
-        // navigate(-1);
+        // navigate("../");
       },
     },
   );

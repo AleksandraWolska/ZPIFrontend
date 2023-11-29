@@ -2,8 +2,7 @@ import { rest } from "msw";
 import dayjs from "dayjs";
 import { v4 as uuid } from "uuid";
 import {
-  CheckAvailabilityResponseSuccess,
-  CheckAvailabilityResponseSuggestion,
+  CheckAvailabilityResponse,
   FetchScheduleResponse,
 } from "../routes/userapp/types";
 import { Availability, Reservation } from "../types";
@@ -110,11 +109,12 @@ const checkAvailability = rest.post(
     // If before noon
     if (startHour <= 12) {
       const suggestedHours = [1, 2, 3];
-      const suggestions: CheckAvailabilityResponseSuggestion[] =
-        suggestedHours.map((hourOffset) => ({
+      const suggestions: CheckAvailabilityResponse[] = suggestedHours.map(
+        (hourOffset) => ({
           id: itemId + hourOffset,
           itemId,
           amount,
+          responseCode: 203,
           schedule: Array.from({
             length: 7,
           }).flatMap((_, i) => {
@@ -151,24 +151,36 @@ const checkAvailability = rest.post(
           suggestedEnd: new Date(
             new Date(endDate).setHours(startHour + hourOffset + 3),
           ).toISOString(),
-        }));
+        }),
+      );
       return res(ctx.status(203), ctx.json(suggestions));
     }
 
     // If user chose start at 13PM
-    if (startHour === 13) {
-      return res(ctx.status(400), ctx.text("Could not find any"));
+    if (startHour > 13 && startHour < 16) {
+      const responseNotAvailable: CheckAvailabilityResponse[] = [
+        {
+          id: uuid(),
+          itemId,
+          amount,
+          responseCode: 204,
+        },
+      ];
+      return res(ctx.status(200), ctx.json(responseNotAvailable));
     }
 
     // If user chose start after 13PM
-    if (startHour > 13) {
-      const responseSuccess: CheckAvailabilityResponseSuccess = {
-        id: uuid(),
-        itemId,
-        amount,
-        start: startDate,
-        end: endDate,
-      };
+    if (startHour > 16) {
+      const responseSuccess: CheckAvailabilityResponse[] = [
+        {
+          id: uuid(),
+          itemId,
+          amount,
+          startDate,
+          endDate,
+          responseCode: 200,
+        },
+      ];
       return res(ctx.status(200), ctx.json(responseSuccess));
     }
 

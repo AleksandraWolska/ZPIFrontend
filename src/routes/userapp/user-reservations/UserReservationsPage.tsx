@@ -30,9 +30,16 @@ function UserReservationsPage() {
     setExpandedId((prev) => (prev === reservationId ? null : reservationId));
   };
 
-  const sortedReservations = reservations.sort(
-    (a, b) => new Date(a.start).getTime() - new Date(b.start).getTime(),
-  );
+  const sortedReservations = reservations.sort((a, b) => {
+    if (a.startDateTime === undefined && b.startDateTime === undefined)
+      return 0;
+    if (a.startDateTime === undefined) return -1;
+    if (b.startDateTime === undefined) return 1;
+
+    return (
+      new Date(a.startDateTime).getTime() - new Date(b.startDateTime).getTime()
+    );
+  });
 
   const handleDeleteClick = (reservation: UserReservation) => {
     setReservationToDelete(reservation);
@@ -73,115 +80,165 @@ function UserReservationsPage() {
       padding="30px"
     >
       <Typography variant="h3">Your reservations</Typography>
-      {["active", "cancelled", "past"].map((type) => (
-        <Box maxWidth="1000px" width="100%">
-          <Typography variant="overline">{type} reservations</Typography>
-          <List>
-            {sortedReservations
-              .filter((reservation) => type === reservation.status)
-              .map((reservation) => (
-                <Paper
-                  sx={{}}
-                  key={reservation.reservationId}
-                  style={{ marginBottom: 15, overflow: "hidden" }}
-                >
-                  <ListItem>
-                    <Box
-                      sx={{
-                        textDecoration: `${
-                          reservation.status === "cancelled" && "line-through"
-                        }`,
-                      }}
-                      display="flex"
-                      alignItems="center"
-                      flexDirection="row"
-                      justifyContent="space-between"
-                      width="100%"
-                    >
-                      <Box>
-                        <Typography sx={{ marginRight: 1 }} color="textPrimary">
-                          {reservation.item.title}
-                        </Typography>
-                        <Typography color="textSecondary">
-                          {`${new Date(
-                            reservation.start,
-                          ).toLocaleString()} - ${new Date(
-                            reservation.end!,
-                          ).toLocaleString()}`}
-                        </Typography>
-                      </Box>
-                      <Box>
-                        <IconButton
-                          onClick={() =>
-                            handleExpand(reservation.reservationId)
-                          }
-                          aria-label="expand"
-                          style={{
-                            transform:
-                              expandedId === reservation.reservationId
-                                ? "rotate(180deg)"
-                                : "rotate(0deg)",
-                            transition: "transform 150ms",
-                          }}
-                        >
-                          <ExpandMore />
-                        </IconButton>
-                        <IconButton
-                          onClick={() => handleDeleteClick(reservation)}
-                          disabled={!(reservation.status === "active")}
-                          sx={{
-                            opacity: `${
-                              reservation.status === "active" ? "100%" : "0%"
-                            }`,
-                          }}
-                          aria-label="delete"
-                        >
-                          <Delete />
-                        </IconButton>
-                        <Link
-                          to={`/userapp/${storeId}/${reservation.item.id}`}
-                          style={{ textDecoration: "none" }}
-                        >
-                          <Button variant="outlined" color="primary">
-                            Item page
-                          </Button>
-                        </Link>
-                      </Box>
-                    </Box>
-                  </ListItem>
-                  <Collapse
-                    in={expandedId === reservation.reservationId}
-                    timeout="auto"
-                    unmountOnExit
+      {["active", "cancelled", "past", "unknown"].map((type) => {
+        const reservationsOfStatus = sortedReservations.filter((reservation) =>
+          reservation.status.startsWith(type),
+        );
+
+        return (
+          reservationsOfStatus.length > 0 && (
+            <Box maxWidth="1000px" width="100%">
+              <Typography variant="overline">{type} reservations</Typography>
+              <List>
+                {reservationsOfStatus.map((reservation) => (
+                  <Paper
+                    sx={{}}
+                    key={reservation.reservationId}
+                    style={{ marginBottom: 15, overflow: "hidden" }}
                   >
-                    <Box style={{ padding: 15 }}>
-                      <Divider sx={{ mb: 1 }} />
-                      <Typography
-                        variant="body2"
-                        color="textPrimary"
-                        gutterBottom
+                    <ListItem>
+                      <Box
+                        sx={{
+                          textDecoration: `${
+                            reservation.status.startsWith("cancelled") &&
+                            "line-through"
+                          }`,
+                        }}
+                        display="flex"
+                        alignItems="center"
+                        flexDirection="row"
+                        justifyContent="space-between"
+                        width="100%"
                       >
-                        Details:
-                      </Typography>
-                      {reservation.subItems && (
-                        <List>
-                          {reservation.subItems.map((si) => (
-                            <ListItem key={si.id}>
-                              <Typography>{si.title}</Typography>
-                            </ListItem>
-                          ))}
-                        </List>
-                      )}
-                      {reservation.message && (
-                        <Typography>Message: {reservation.message}</Typography>
-                      )}
-                    </Box>
-                  </Collapse>
-                </Paper>
-              ))}
-          </List>
-        </Box>
-      ))}
+                        <Box>
+                          <Typography
+                            sx={{ marginRight: 1 }}
+                            color="textPrimary"
+                          >
+                            {reservation.item.title}
+                          </Typography>
+                          {reservation.startDateTime && (
+                            <Typography color="textSecondary">
+                              {`${new Date(
+                                reservation.startDateTime,
+                              ).toLocaleString()}${
+                                reservation.endDateTime
+                                  ? ` - ${new Date(
+                                      reservation.endDateTime,
+                                    ).toLocaleString()}`
+                                  : ""
+                              }`}
+                            </Typography>
+                          )}
+                        </Box>
+                        <Box>
+                          <IconButton
+                            onClick={() =>
+                              handleExpand(reservation.reservationId)
+                            }
+                            aria-label="expand"
+                            style={{
+                              transform:
+                                expandedId === reservation.reservationId
+                                  ? "rotate(180deg)"
+                                  : "rotate(0deg)",
+                              transition: "transform 150ms",
+                            }}
+                          >
+                            <ExpandMore />
+                          </IconButton>
+                          <IconButton
+                            onClick={() => handleDeleteClick(reservation)}
+                            disabled={!(reservation.status === "active")}
+                            sx={{
+                              opacity: `${
+                                reservation.status === "active" ? "100%" : "0%"
+                              }`,
+                            }}
+                            aria-label="delete"
+                          >
+                            <Delete />
+                          </IconButton>
+                          <Link
+                            to={`/userapp/${storeId}/${reservation.item.id}`}
+                            style={{ textDecoration: "none" }}
+                          >
+                            <Button variant="outlined" color="primary">
+                              Item page
+                            </Button>
+                          </Link>
+                        </Box>
+                      </Box>
+                    </ListItem>
+                    <Collapse
+                      in={expandedId === reservation.reservationId}
+                      timeout="auto"
+                      unmountOnExit
+                    >
+                      <Box style={{ padding: 15 }}>
+                        <Divider sx={{ mb: 1 }} />
+                        <Typography
+                          variant="body2"
+                          color="textPrimary"
+                          gutterBottom
+                        >
+                          Details:
+                        </Typography>
+                        {reservation.status.startsWith("cancelled") && (
+                          <Typography>
+                            Reason:{" "}
+                            {reservation.status === "cancelled_by_user"
+                              ? "Cancelled by user"
+                              : "Cancelled by admin"}
+                          </Typography>
+                        )}
+                        {reservation.subItems && (
+                          <List>
+                            {reservation.subItems.map((si) => (
+                              <ListItem key={si.id}>
+                                <Typography>{si.title}</Typography>
+                                {si.startDateTime && (
+                                  <>
+                                    <Typography ml={1} color="grey">
+                                      {` | `}
+                                    </Typography>
+                                    <Typography ml={1} color="grey">
+                                      {new Date(
+                                        si.startDateTime,
+                                      ).toLocaleString()}
+                                    </Typography>
+                                  </>
+                                )}
+                                {si.endDateTime && (
+                                  <>
+                                    <Typography ml={1} color="grey">
+                                      {` - `}
+                                    </Typography>
+                                    <Typography ml={1} color="grey">
+                                      {new Date(
+                                        si.endDateTime,
+                                      ).toLocaleString()}
+                                    </Typography>
+                                  </>
+                                )}
+                              </ListItem>
+                            ))}
+                          </List>
+                        )}
+                        {reservation.message && (
+                          <Typography>
+                            Message: {reservation.message}
+                          </Typography>
+                        )}
+                      </Box>
+                    </Collapse>
+                  </Paper>
+                ))}
+              </List>
+            </Box>
+          )
+        );
+      })}
 
       {reservationToDelete && (
         <Dialog
@@ -199,15 +256,17 @@ function UserReservationsPage() {
             <Typography variant="h6" sx={{ mb: 1, fontWeight: "bold" }}>
               {reservationToDelete.item.title}
             </Typography>
-            <Typography>
-              {`Starts on:  ${new Date(
-                reservationToDelete.start,
-              ).toLocaleString()}`}
-            </Typography>
-            {reservationToDelete.end && (
+            {reservationToDelete.startDateTime && (
+              <Typography>
+                {`Starts on:  ${new Date(
+                  reservationToDelete.startDateTime,
+                ).toLocaleString()}`}
+              </Typography>
+            )}
+            {reservationToDelete.endDateTime && (
               <Typography>
                 {`Ends on ${new Date(
-                  reservationToDelete.end,
+                  reservationToDelete.endDateTime,
                 ).toLocaleString()}`}
               </Typography>
             )}
@@ -246,5 +305,4 @@ function UserReservationsPage() {
     </Box>
   );
 }
-
 export default UserReservationsPage;

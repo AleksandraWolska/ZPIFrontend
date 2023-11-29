@@ -156,13 +156,13 @@ function TopBarMenu() {
       >
         {auth.isAuthenticated && (
           <MenuInfo>
-            <PersonIcon sx={{ color: "#fff" }} />
+            <PersonIcon />
             <Typography ml={1}> {auth.user?.profile.email} </Typography>
           </MenuInfo>
         )}
         <MenuItem>
           <MenuText onClick={() => navigate(`reservations`)}>
-            <EventIcon sx={{ color: "#fff" }} />
+            <EventIcon />
             <Typography ml={1}> your bookings</Typography>
           </MenuText>
         </MenuItem>
@@ -176,7 +176,7 @@ function TopBarMenu() {
                 });
               }}
             >
-              <LogoutIcon sx={{ color: "#fff" }} />
+              <LogoutIcon />
               <Typography ml={1}> logout </Typography>
             </MenuText>
           ) : (
@@ -188,7 +188,7 @@ function TopBarMenu() {
                 });
               }}
             >
-              <LoginIcon sx={{ color: "#fff" }} />
+              <LoginIcon />
               <Typography ml={1}> login </Typography>
             </MenuText>
           )}

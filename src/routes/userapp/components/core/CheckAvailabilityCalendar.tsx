@@ -29,12 +29,13 @@ import { useTheme } from "@mui/material/styles";
 import { Availability } from "../../../../types";
 import useAvailabilityCheck from "../../details-page/useAvailabilityCheck";
 import {
-  CheckAvailabilityResponseSuggestion,
+  CheckAvailabilityResponse,
   FlexibleReservationData,
 } from "../../types";
 import "../../css/react-big-calendar.css";
 import CustomCalendarToolbar from "../detail-page-specific/CustomCalendarToolbar";
 import { SuggestedDatesDialog } from "../detail-page-specific/SuggestedDatesDialog";
+import { NoAvailableDatesDialog } from "../detail-page-specific/NoAvailableDatesDialog copy";
 
 dayjs.locale("en-gb");
 const dayjsLoc = dayjsLocalizer(dayjs);
@@ -99,6 +100,8 @@ export function CheckAvailabilityCalendar({
 
   const [showSuggestedDialog, setShowSuggestedDialog] = useState(false);
   const [showReserveDialog, setShowReserveDialog] = useState(false);
+  const [showNoAvailableDatesDialog, setShowNoAvailableDatesDialog] =
+    useState(false);
 
   const [isFromResponse, setIsFromResponse] = useState<boolean>(false);
   const defaultDate = useMemo(() => new Date(), []);
@@ -109,17 +112,36 @@ export function CheckAvailabilityCalendar({
   // if response is not an array, and has start date, then it is ok, ready to reserve
   // if response will be an array, then it is suggested dates
   useEffect(() => {
-    if (responseData && !Array.isArray(responseData) && responseData.start) {
+    // code 200, ok for reserving
+    if (
+      responseData &&
+      Array.isArray(responseData) &&
+      responseData[0].responseCode === 200
+    ) {
       setReserveData({
-        start: responseData.start,
-        end: responseData.end,
-        amount: responseData.amount,
+        start: responseData[0].startDate,
+        end: responseData[0].endDate,
+        amount: responseData[0].amount,
       });
       setAvailabilityChecked(true);
       setShowReserveDialog(true);
     }
 
-    if (responseData && Array.isArray(responseData)) {
+    // not found any
+    if (
+      responseData &&
+      Array.isArray(responseData) &&
+      responseData[0].responseCode === 204
+    ) {
+      setShowNoAvailableDatesDialog(true);
+    }
+
+    // suggestions
+    if (
+      responseData &&
+      Array.isArray(responseData) &&
+      responseData[0].responseCode === 203
+    ) {
       setShowSuggestedDialog(true);
     }
 
@@ -357,8 +379,7 @@ export function CheckAvailabilityCalendar({
   const handleSuggestedDateClick = useCallback(
     (idx: string) => {
       const suggestedDate = responseData.find(
-        (suggestion: CheckAvailabilityResponseSuggestion) =>
-          suggestion.id === idx,
+        (suggestion: CheckAvailabilityResponse) => suggestion.id === idx,
       );
 
       if (!suggestedDate) return;
@@ -511,6 +532,14 @@ export function CheckAvailabilityCalendar({
           setShowSuggestedDialog={() => setShowSuggestedDialog(false)}
           responseSuggestions={responseData}
           handleSuggestedDateClick={handleSuggestedDateClick}
+        />
+      )}
+      {Array.isArray(responseData) && showNoAvailableDatesDialog && (
+        <NoAvailableDatesDialog
+          setShowNoAvailableDatesDialog={() =>
+            setShowNoAvailableDatesDialog(false)
+          }
+          userCount={userCount}
         />
       )}
       {reserveData && (

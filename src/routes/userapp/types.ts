@@ -30,32 +30,17 @@ export type CheckAvailabilityRequest = {
   itemId: string;
 };
 
-export type CheckAvailabilityResponseSuggestion = {
+export type CheckAvailabilityResponse = {
   id: string;
-  itemId: string;
-  amount: number;
-  schedule: Availability[];
-  suggestedStart: string;
-  suggestedEnd: string;
+  itemId?: string;
+  amount?: number;
+  startDate?: string;
+  endDate?: string;
+  schedule?: Availability[];
+  suggestedStart?: string;
+  suggestedEnd?: string;
+  responseCode: number;
 };
-
-export type CheckAvailabilityResponseSuccess = {
-  id: string;
-  itemId: string;
-  amount: number;
-  start: string;
-  end: string;
-};
-
-export type CheckAvailabilityResponseFailure = {
-  id: string;
-  itemId: string;
-};
-
-export type CheckAvailabilityResponse =
-  | CheckAvailabilityResponseSuggestion
-  | CheckAvailabilityResponseSuccess
-  | CheckAvailabilityResponseFailure;
 
 export type FlexibleReservationData = {
   start: string;
@@ -79,11 +64,14 @@ export type UserReservation = {
   item: Pick<Item["attributes"], "title" | "subtitle"> & {
     id: string;
   };
-  subItems?: Pick<SubItem, "title" | "subtitle" | "id">[];
+  subItems?: (Pick<SubItem, "id" | "title" | "subtitle"> & {
+    startDateTime?: string;
+    endDateTime?: string;
+  })[];
   message?: string;
   confirmed: boolean;
-  start: string;
-  end?: string;
+  startDateTime?: string;
+  endDateTime?: string;
   amount?: number;
   status: string;
 };
