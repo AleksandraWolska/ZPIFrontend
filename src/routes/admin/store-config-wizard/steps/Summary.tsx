@@ -27,8 +27,7 @@ function Summary() {
               },
             });
           } else {
-            const { core, ...rest } = storeConfig;
-            editStoreConfig.mutate(rest, {
+            editStoreConfig.mutate(storeConfig, {
               onSuccess: () => {
                 navigate("/admin");
               },

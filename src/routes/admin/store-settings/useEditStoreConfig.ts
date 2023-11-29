@@ -4,10 +4,7 @@ import { getAccessToken } from "../../../auth/utils";
 import { BACKEND_URL, queryClient } from "../../../query";
 import { StoreConfig } from "../../../types";
 
-const editStoreConfig = (
-  storeConfig: Omit<StoreConfig, "core">,
-  storeId: string,
-) => {
+const editStoreConfig = (storeConfig: StoreConfig, storeId: string) => {
   const token = getAccessToken();
 
   return fetch(`${BACKEND_URL}/store-configs/${storeId}`, {
@@ -25,7 +22,7 @@ function useEditStoreConfig() {
   const { storeId } = useParams() as { storeId: string };
 
   return useMutation({
-    mutationFn: (storeConfig: Omit<StoreConfig, "core">) => {
+    mutationFn: (storeConfig: StoreConfig) => {
       return editStoreConfig(storeConfig, storeId);
     },
     onSuccess: () => {
