@@ -67,8 +67,8 @@ export type UserReservation = {
   subItems?: Pick<SubItem, "title" | "subtitle" | "id">[];
   message?: string;
   confirmed: boolean;
-  start: string;
-  end?: string;
+  startDateTime: string;
+  endDateTime?: string;
   amount?: number;
   status: string;
 };

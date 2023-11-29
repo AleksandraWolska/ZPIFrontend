@@ -31,7 +31,8 @@ function UserReservationsPage() {
   };
 
   const sortedReservations = reservations.sort(
-    (a, b) => new Date(a.start).getTime() - new Date(b.start).getTime(),
+    (a, b) =>
+      new Date(a.startDateTime).getTime() - new Date(b.startDateTime).getTime(),
   );
 
   const handleDeleteClick = (reservation: UserReservation) => {
@@ -73,7 +74,7 @@ function UserReservationsPage() {
       padding="30px"
     >
       <Typography variant="h3">Your reservations</Typography>
-      {["active", "cancelled", "past"].map((type) => (
+      {["active", "cancelled", "past", "unknown"].map((type) => (
         <Box maxWidth="1000px" width="100%">
           <Typography variant="overline">{type} reservations</Typography>
           <List>
@@ -89,7 +90,8 @@ function UserReservationsPage() {
                     <Box
                       sx={{
                         textDecoration: `${
-                          reservation.status === "cancelled" && "line-through"
+                          reservation.status.startsWith("cancelled") &&
+                          "line-through"
                         }`,
                       }}
                       display="flex"
@@ -104,9 +106,9 @@ function UserReservationsPage() {
                         </Typography>
                         <Typography color="textSecondary">
                           {`${new Date(
-                            reservation.start,
+                            reservation.startDateTime,
                           ).toLocaleString()} - ${new Date(
-                            reservation.end!,
+                            reservation.endDateTime!,
                           ).toLocaleString()}`}
                         </Typography>
                       </Box>
@@ -163,6 +165,14 @@ function UserReservationsPage() {
                       >
                         Details:
                       </Typography>
+                      {reservation.status.startsWith("cancelled") && (
+                        <Typography>
+                          Reason:{" "}
+                          {reservation.status === "cancelled_by_user"
+                            ? "Cancelled by user"
+                            : "Cancelled by admin"}
+                        </Typography>
+                      )}
                       {reservation.subItems && (
                         <List>
                           {reservation.subItems.map((si) => (
@@ -201,13 +211,13 @@ function UserReservationsPage() {
             </Typography>
             <Typography>
               {`Starts on:  ${new Date(
-                reservationToDelete.start,
+                reservationToDelete.startDateTime,
               ).toLocaleString()}`}
             </Typography>
-            {reservationToDelete.end && (
+            {reservationToDelete.endDateTime && (
               <Typography>
                 {`Ends on ${new Date(
-                  reservationToDelete.end,
+                  reservationToDelete.endDateTime,
                 ).toLocaleString()}`}
               </Typography>
             )}
