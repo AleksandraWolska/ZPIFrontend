@@ -39,7 +39,7 @@ export const items: Item[] = [
     schedule: {
       startDateTime: "2023-11-30T10:00:00.000Z",
     },
-    availableAmount: 1,
+    availableAmount: 0,
     active: true,
     mark: 4.5,
   },

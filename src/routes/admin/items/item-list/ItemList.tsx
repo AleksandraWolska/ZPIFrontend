@@ -101,7 +101,6 @@ function ItemList() {
                   width: "100%",
                   alignItems: "center",
                   justifyContent: "space-between",
-                  opacity: item.availableAmount !== 0 ? 1 : 0.4,
                   "@media (max-width: 800px)": {
                     flexDirection: "column",
                   },
@@ -228,7 +227,7 @@ function ItemList() {
                               </Typography>
                             </>
                           )}
-                          {si.amount !== null && (
+                          {si.amount !== (null || undefined) && (
                             <>
                               <Typography ml={1} color="grey">
                                 {` - `}
@@ -244,6 +243,28 @@ function ItemList() {
                               ) : (
                                 <Typography ml={1} color="grey">
                                   Amount: {si.amount}
+                                </Typography>
+                              )}
+                            </>
+                          )}
+                          {si.availableAmount !== (null || undefined) && (
+                            <>
+                              <Typography ml={1} color="grey">
+                                {` - `}
+                              </Typography>
+                              {/* periodic events fr one person, specific seats are taken/available (core 2, 4) */}
+                              {/* periodic events for many people should show amount (core 5) */}
+                              {storeConfig.core.specificReservation ||
+                              storeConfig.core.periodicity !==
+                                storeConfig.core.simultaneous ? (
+                                <Typography ml={1} color="grey">
+                                  {si.availableAmount === 0
+                                    ? "taken"
+                                    : "available"}
+                                </Typography>
+                              ) : (
+                                <Typography ml={1} color="grey">
+                                  Remaining Amount: {si.availableAmount}
                                 </Typography>
                               )}
                             </>
@@ -310,7 +331,7 @@ function ItemDescription({ item }: { item: Item }) {
           Id: {item.id}
         </Typography>
 
-        {item.amount && (
+        {item.amount !== (null || undefined) && (
           <>
             <Divider orientation="vertical" sx={{ m: 2 }} flexItem />
 
@@ -319,12 +340,12 @@ function ItemDescription({ item }: { item: Item }) {
             </Typography>
           </>
         )}
-        {item.availableAmount && (
+        {item.availableAmount !== (null || undefined) && (
           <>
             <Divider orientation="vertical" sx={{ m: 2 }} flexItem />
             {storeConfig.core.simultaneous ? (
               <Typography variant="h6" color={theme.palette.text.secondary}>
-                Current Amount: {item.availableAmount}
+                Remaining Amount: {item.availableAmount}
               </Typography>
             ) : (
               <Typography variant="h6" color={theme.palette.text.secondary}>

@@ -45,7 +45,7 @@ export const items: Item[] = [
           startDateTime: "2024-02-01T09:00:00.000Z",
           endDateTime: "2024-02-01T10:00:00.000Z",
         },
-        availableAmount: 1,
+        availableAmount: 0,
       },
       {
         id: "2",
