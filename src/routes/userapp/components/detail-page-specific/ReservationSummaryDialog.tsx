@@ -97,7 +97,6 @@ export function ReservationSummaryDialog({
     fixedSummaryWithSubitems
   ) : (
     <>
-      <Typography>[no subitems]</Typography>
       {item.schedule && "startDateTime" in item.schedule && (
         <Typography>
           Start:{" "}
