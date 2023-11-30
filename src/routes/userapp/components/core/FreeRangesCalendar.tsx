@@ -380,8 +380,20 @@ export function FreeRangesCalendar({
           view={Views.WEEK}
           formats={baseFormats}
           selectable
-          min={new Date(new Date(0).setHours(earliestCalendarStart - 1))}
-          max={new Date(new Date(0).setHours(latestCalendarEnd + 1))}
+          min={
+            new Date(
+              new Date(0).setHours(
+                earliestCalendarStart <= 1 ? 1 : earliestCalendarStart - 1,
+              ),
+            )
+          }
+          max={
+            new Date(
+              new Date(0).setHours(
+                latestCalendarEnd >= 22 ? 24 : latestCalendarEnd + 2,
+              ),
+            )
+          }
           getNow={() => new Date()}
           events={events}
           step={5}

@@ -485,8 +485,20 @@ export function CheckAvailabilityCalendar({
           defaultDate={defaultDate}
           view={Views.WEEK}
           formats={baseFormats}
-          min={new Date(new Date(0).setHours(earliestCalendarStart - 1))}
-          max={new Date(new Date(0).setHours(latestCalendarEnd + 1))}
+          min={
+            new Date(
+              new Date(0).setHours(
+                earliestCalendarStart <= 1 ? 1 : earliestCalendarStart - 1,
+              ),
+            )
+          }
+          max={
+            new Date(
+              new Date(0).setHours(
+                latestCalendarEnd >= 22 ? 24 : latestCalendarEnd + 2,
+              ),
+            )
+          }
           selectable
           getNow={() => new Date()}
           events={events}
