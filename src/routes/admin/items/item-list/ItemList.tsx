@@ -38,7 +38,21 @@ import ItemImage from "../../components/ItemImage";
 import AdminActionBox from "../../components/AdminActionBox";
 
 function ItemList() {
-  const items = useItems();
+  const fetchedItems = useItems();
+
+  const items = fetchedItems.sort((a, b) => {
+    const titleA = a.attributes.title.toLowerCase();
+    const titleB = b.attributes.title.toLowerCase();
+
+    if (titleA < titleB) {
+      return -1;
+    }
+    if (titleA > titleB) {
+      return 1;
+    }
+    return 0;
+  });
+
   const storeConfig = useStoreConfig();
   const navigate = useNavigate();
 
