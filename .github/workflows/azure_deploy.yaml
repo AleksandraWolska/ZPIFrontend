@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - "dev"
+      - "further-fixes-part-3"
   workflow_dispatch:
 
 jobs:
