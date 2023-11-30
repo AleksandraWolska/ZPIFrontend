@@ -22,7 +22,7 @@ function Summary() {
     <StepContentWrapper>
       <BackButton
         onClick={() => console.log()}
-        //  TODO back to authentication onClick={() => setActiveStep(STORE_CONFIG_STEPS.DETAILS_PAGE)}
+        //  TODOFRIM23 back to authentication onClick={() => setActiveStep(STORE_CONFIG_STEPS.DETAILS_PAGE)}
       />
 
       <WizardStepTitle>All done!</WizardStepTitle>
