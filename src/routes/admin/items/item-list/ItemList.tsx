@@ -228,6 +228,26 @@ function ItemList() {
                               </Typography>
                             </>
                           )}
+                          {si.amount !== null && (
+                            <>
+                              <Typography ml={1} color="grey">
+                                {` - `}
+                              </Typography>
+                              {/* periodic events fr one person, specific seats are taken/available (core 2, 4) */}
+                              {/* periodic events for many people should show amount (core 5) */}
+                              {storeConfig.core.specificReservation ||
+                              storeConfig.core.periodicity !==
+                                storeConfig.core.simultaneous ? (
+                                <Typography ml={1} color="grey">
+                                  {si.amount === 0 ? "taken" : "available"}
+                                </Typography>
+                              ) : (
+                                <Typography ml={1} color="grey">
+                                  Amount: {si.amount}
+                                </Typography>
+                              )}
+                            </>
+                          )}
                         </ListItem>
                       ))}
                     </List>
@@ -274,6 +294,7 @@ function ItemList() {
 }
 
 function ItemDescription({ item }: { item: Item }) {
+  const storeConfig = useStoreConfig();
   return (
     <>
       <Stack direction="row" spacing={1}>
@@ -284,9 +305,36 @@ function ItemDescription({ item }: { item: Item }) {
           <Chip label="inactive" color="error" />
         )}
       </Stack>
-      <Typography variant="h5" color={theme.palette.text.secondary}>
-        {item.id}
-      </Typography>
+      <Box sx={{ border: "1px solid red ", display: "flex" }}>
+        <Typography sx={{}} variant="h6" color={theme.palette.text.secondary}>
+          Id: {item.id}
+        </Typography>
+
+        {item.amount && (
+          <>
+            <Divider orientation="vertical" sx={{ m: 2 }} flexItem />
+
+            <Typography variant="h6" color={theme.palette.text.secondary}>
+              Initial Amount: {item.amount}
+            </Typography>
+          </>
+        )}
+        {item.availableAmount && (
+          <>
+            <Divider orientation="vertical" sx={{ m: 2 }} flexItem />
+            {storeConfig.core.simultaneous ? (
+              <Typography variant="h6" color={theme.palette.text.secondary}>
+                Current Amount: {item.availableAmount}
+              </Typography>
+            ) : (
+              <Typography variant="h6" color={theme.palette.text.secondary}>
+                {item.availableAmount === 0 ? "taken" : "available"}
+              </Typography>
+            )}
+          </>
+        )}
+      </Box>
+
       <Box marginTop={2}>
         <Table size="small">
           <TableBody>
