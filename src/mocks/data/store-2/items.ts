@@ -62,8 +62,8 @@ export const items: Item[] = [
         title: "Wizyta Anna Majewska",
         subtitle: "03.02.2024",
         schedule: {
-          startDateTime: "2024-02-03T09:00:00.000Z",
-          endDateTime: "2024-02-03T10:00:00.000Z",
+          startDateTime: "2022-02-03T09:00:00.000Z",
+          endDateTime: "2022-02-03T10:00:00.000Z",
         },
         availableAmount: 1,
       },
