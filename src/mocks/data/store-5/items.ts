@@ -64,7 +64,7 @@ export const items: Item[] = [
         amount: 10,
         availableAmount: 10,
         schedule: {
-          startDateTime: "2024-02-015T09:00:00.000Z",
+          startDateTime: "2024-02-15T09:00:00.000Z",
         },
       },
       {
@@ -144,7 +144,7 @@ export const items: Item[] = [
         amount: 10,
         availableAmount: 10,
         schedule: {
-          startDateTime: "2024-02-015T09:00:00.000Z",
+          startDateTime: "2024-02-15T09:00:00.000Z",
         },
       },
       {
@@ -224,7 +224,7 @@ export const items: Item[] = [
         amount: 10,
         availableAmount: 10,
         schedule: {
-          startDateTime: "2024-02-015T09:00:00.000Z",
+          startDateTime: "2024-02-15T09:00:00.000Z",
         },
       },
       {
@@ -304,7 +304,7 @@ export const items: Item[] = [
         amount: 10,
         availableAmount: 10,
         schedule: {
-          startDateTime: "2024-02-015T09:00:00.000Z",
+          startDateTime: "2024-02-15T09:00:00.000Z",
         },
       },
       {
