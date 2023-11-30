@@ -2,9 +2,11 @@ import {
   Button,
   Card,
   CardContent,
+  Checkbox,
   Chip,
   Collapse,
   Divider,
+  FormControlLabel,
   List,
   ListItem,
   ListItemText,
@@ -32,29 +34,60 @@ import theme from "../../../../theme";
 import ConfirmDialog from "../../components/ConfirmDialog";
 import useDeleteItem from "./useDeleteItem";
 import useUpdateItemActivity from "./useUpdateItemActivity";
-import { Item } from "../../../../types";
+import { FixedSchedule, Item } from "../../../../types";
 import useStoreConfig from "../../store/useStoreConfig";
 import ItemImage from "../../components/ItemImage";
 import AdminActionBox from "../../components/AdminActionBox";
 
 function ItemList() {
-  const fetchedItems = useItems();
-
-  const items = fetchedItems.sort((a, b) => {
-    const titleA = a.attributes.title.toLowerCase();
-    const titleB = b.attributes.title.toLowerCase();
-
-    if (titleA < titleB) {
-      return -1;
-    }
-    if (titleA > titleB) {
-      return 1;
-    }
-    return 0;
-  });
-
   const storeConfig = useStoreConfig();
   const navigate = useNavigate();
+  // const fetchedItems = useItems();
+  // const [futureOnly, setFutureOnly] = useState(false);
+
+  // const items = fetchedItems.sort((a, b) => {
+  //   const titleA = a.attributes.title.toLowerCase();
+  //   const titleB = b.attributes.title.toLowerCase();
+
+  //   if (titleA < titleB) {
+  //     return -1;
+  //   }
+  //   if (titleA > titleB) {
+  //     return 1;
+  //   }
+  //   return 0;
+  // });
+
+  const fetchedItems = useItems();
+  const [futureOnly, setFutureOnly] = useState(false);
+
+  let items;
+
+  if (!storeConfig.core.flexibility && !storeConfig.core.periodicity) {
+    items = fetchedItems
+      .filter((item) => {
+        const itemFixedSchedule = item.schedule as FixedSchedule;
+
+        if (!itemFixedSchedule || !itemFixedSchedule.startDateTime) return true;
+        if (futureOnly) {
+          const now = new Date();
+          const startDateTime = new Date(itemFixedSchedule.startDateTime);
+          return startDateTime > now;
+        }
+        return true;
+      })
+      .sort(
+        (a, b) =>
+          new Date((a.schedule as FixedSchedule).startDateTime).getTime() -
+          new Date((b.schedule as FixedSchedule).startDateTime).getTime(),
+      );
+  } else {
+    items = fetchedItems.sort((a, b) => {
+      const titleA = a.attributes.title.toLowerCase();
+      const titleB = b.attributes.title.toLowerCase();
+      return titleA.localeCompare(titleB);
+    });
+  }
 
   const [expandedId, setExpandedId] = useState<string | null>(null);
 
@@ -75,7 +108,8 @@ function ItemList() {
   if (!items.length)
     return (
       <Box display="flex" m={3} alignItems="center" flexDirection="column">
-        <Typography variant="h4" mb={2}>
+        <Typography variant="h4">Items list</Typography>
+        <Typography variant="overline" mb={2}>
           It seems there is no items defined in this store yet...
         </Typography>
 
@@ -99,6 +133,23 @@ function ItemList() {
   return (
     <Container>
       <Stack spacing={4}>
+        <Typography sx={{ m: 2 }} variant="h3">
+          Items list
+        </Typography>
+        {!storeConfig.core.flexibility && !storeConfig.core.periodicity && (
+          <FormControlLabel
+            sx={{ marginTop: 4 }}
+            control={
+              <Checkbox
+                checked={futureOnly}
+                onChange={(e) => {
+                  setFutureOnly(e.target.checked);
+                }}
+              />
+            }
+            label="Show future reservations only"
+          />
+        )}
         {items.map((item) => {
           return (
             <Card
@@ -287,9 +338,6 @@ function ItemList() {
                       ))}
                     </List>
                   )}
-                  {/* {reservation.message && (
-                    <Typography>Message: {reservation.message}</Typography>
-                  )} */}
                 </Box>
               </Collapse>
             </Card>
@@ -340,6 +388,21 @@ function ItemDescription({ item }: { item: Item }) {
           <Chip label="inactive" color="error" />
         )}
       </Stack>
+      {!storeConfig.core.flexibility &&
+        item.schedule &&
+        (item.schedule as FixedSchedule).startDateTime && (
+          <Typography color="textSecondary">
+            {`${new Date(
+              (item.schedule as FixedSchedule).startDateTime,
+            ).toLocaleString()}${
+              (item.schedule as FixedSchedule).endDateTime
+                ? ` - ${new Date(
+                    (item.schedule as FixedSchedule).endDateTime!,
+                  ).toLocaleString()}`
+                : ""
+            }`}
+          </Typography>
+        )}
       <Box sx={{ display: "flex" }}>
         <Typography sx={{}} variant="h6" color={theme.palette.text.secondary}>
           Id: {item.id}
@@ -369,7 +432,6 @@ function ItemDescription({ item }: { item: Item }) {
           </>
         )}
       </Box>
-
       <Box marginTop={2}>
         <Table size="small">
           <TableBody>
