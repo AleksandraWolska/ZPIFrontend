@@ -390,7 +390,7 @@ export function FreeRangesCalendar({
           max={
             new Date(
               new Date(0).setHours(
-                latestCalendarEnd >= 22 ? 24 : latestCalendarEnd + 2,
+                latestCalendarEnd >= 22 ? 23 : latestCalendarEnd + 2,
               ),
             )
           }
