@@ -71,13 +71,16 @@ export function ReservationSummaryDialog({
               <ListItemText
                 primary={`${subItemElement?.title} - ${subItemElement?.subtitle}`}
                 secondary={
-                  subItemElement?.schedule?.startDateTime &&
-                  subItemElement?.schedule?.endDateTime
-                    ? `From ${new Date(
+                  subItemElement?.schedule?.startDateTime
+                    ? `${new Date(
                         subItemElement?.schedule?.startDateTime,
-                      ).toLocaleString()} to ${new Date(
-                        subItemElement?.schedule?.endDateTime,
-                      ).toLocaleString()}`
+                      ).toLocaleString()} ${
+                        subItemElement?.schedule?.endDateTime
+                          ? `to ${new Date(
+                              subItemElement?.schedule?.endDateTime,
+                            ).toLocaleString()}`
+                          : ""
+                      }`
                     : ""
                 }
                 sx={{ textAlign: "center" }}
