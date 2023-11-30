@@ -34,10 +34,7 @@ function AuthConfig({
       <WizardStepTitle>User Authentication</WizardStepTitle>
 
       <WizardStepDescription>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eveniet,
-        facilis, sit. Ab ad adipisci at blanditiis consectetur facilis impedit,
-        magni minima omnis quam quis voluptatibus? Architecto commodi
-        exercitationem id maxime!
+        Choose what data is required from users when reserving items
       </WizardStepDescription>
 
       <Stack gap={3} margin={2.5}>
