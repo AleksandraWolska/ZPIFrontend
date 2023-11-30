@@ -18,7 +18,7 @@ function Fixed() {
         Fixed schedule
       </Typography>
       <Typography sx={{ marginBottom: 2 }}>
-        Cinemas, shared transportation
+        Define time range for your item
       </Typography>
 
       <Stack alignItems="flex-start" gap={1}>

@@ -36,7 +36,7 @@ function Summary() {
       </Typography>
       <Typography sx={{ textAlign: "center", margin: 2 }}>
         {`If you're ready to proceed, simply save your store settings and start
-        enjoying your personalized shopping experience!`}
+        enjoying your personalized applications!`}
       </Typography>
       <Box textOverflow="wrap" sx={{ wordBreak: "break-all" }}>
         {JSON.stringify(storeConfig)}
