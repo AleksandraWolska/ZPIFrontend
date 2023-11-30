@@ -101,6 +101,10 @@ const getAdminStores = rest.get("/api/store-configs", async (req, res, ctx) => {
   const decoded = jwtDecode(token) as { email: string };
   const { email } = decoded as { email: keyof typeof adminStores };
 
+  if (!adminStores[email]) {
+    return res(ctx.status(200), ctx.json([]));
+  }
+
   return res(ctx.status(200), ctx.json(adminStores[email]));
 });
 
