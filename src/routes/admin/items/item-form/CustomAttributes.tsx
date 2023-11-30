@@ -1,8 +1,10 @@
 import {
   Box,
   Checkbox,
+  FormControl,
   FormControlLabel,
   Grid,
+  InputLabel,
   MenuItem,
   Select,
   TextField,
@@ -54,25 +56,29 @@ function renderCustomAttributeInput(
   switch (attributeSpec.dataType) {
     case "string":
       return attributeSpec.limitValues && attributeSpec.possibleValues ? (
-        <Select
-          label={attribute.name}
-          value={attribute.value}
-          onChange={(e) => {
-            setCustomAttribute({
-              ...attribute,
-              value: e.target.value as string,
-            });
-          }}
-          fullWidth
-        >
-          {attributeSpec.possibleValues.map((value) => {
-            return (
-              <MenuItem key={value} value={value}>
-                {value}
-              </MenuItem>
-            );
-          })}
-        </Select>
+        <FormControl size="small" variant="outlined" fullWidth>
+          <InputLabel id={attribute.name}>{attribute.name}</InputLabel>
+          <Select
+            variant="outlined"
+            label={attribute.name}
+            value={attribute.value}
+            onChange={(e) => {
+              setCustomAttribute({
+                ...attribute,
+                value: e.target.value as string,
+              });
+            }}
+            fullWidth
+          >
+            {attributeSpec.possibleValues.map((value) => {
+              return (
+                <MenuItem key={value} value={value}>
+                  {value}
+                </MenuItem>
+              );
+            })}
+          </Select>
+        </FormControl>
       ) : (
         <TextField
           label={attribute.name}
