@@ -305,7 +305,7 @@ function ItemDescription({ item }: { item: Item }) {
           <Chip label="inactive" color="error" />
         )}
       </Stack>
-      <Box sx={{ border: "1px solid red ", display: "flex" }}>
+      <Box sx={{ display: "flex" }}>
         <Typography sx={{}} variant="h6" color={theme.palette.text.secondary}>
           Id: {item.id}
         </Typography>
