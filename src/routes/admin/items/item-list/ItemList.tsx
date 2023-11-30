@@ -3,6 +3,9 @@ import {
   Card,
   CardContent,
   Chip,
+  Collapse,
+  Divider,
+  List,
   ListItem,
   ListItemText,
   Stack,
@@ -15,6 +18,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
+import { ExpandMore } from "@mui/icons-material";
 import { Box, Container } from "@mui/system";
 import BlockIcon from "@mui/icons-material/Block";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
@@ -37,6 +41,12 @@ function ItemList() {
   const items = useItems();
   const storeConfig = useStoreConfig();
   const navigate = useNavigate();
+
+  const [expandedId, setExpandedId] = useState<string | null>(null);
+
+  const handleExpand = (reservationId: string) => {
+    setExpandedId((prev) => (prev === reservationId ? null : reservationId));
+  };
 
   const [itemToHaveActivityUpdated, setItemToHaveActivityUpdated] = useState<
     string | null
@@ -78,94 +88,155 @@ function ItemList() {
         {items.map((item) => {
           return (
             <Card
+              sx={{ boxShadow: 3, borderRadius: "10px" }}
               key={item.id}
-              sx={{
-                padding: 3,
-                bgcolor: "white",
-                boxShadow: 3,
-                borderRadius: "10px",
-                display: "flex",
-                width: "100%",
-                alignItems: "center",
-                justifyContent: "space-between",
-                opacity: item.availableAmount !== 0 ? 1 : 0.4,
-                "@media (max-width: 800px)": {
-                  flexDirection: "column",
-                },
-              }}
               raised
             >
               <Box
                 sx={{
-                  borderRadius: "10%",
-                  marginRight: 2,
-                  width: "30%",
-                  overflow: "hidden",
+                  padding: 3,
+                  bgcolor: "white",
+
                   display: "flex",
-                  justifyContent: "center",
+                  width: "100%",
                   alignItems: "center",
-                  "@media (max-width: 800px)": {
-                    width: "100%",
-                    marginRight: 0,
-                    marginBottom: 2,
-                  },
-                }}
-              >
-                <ItemImage
-                  image={item.attributes.image}
-                  title={item.attributes.title}
-                />
-              </Box>
-
-              <CardContent
-                sx={{
-                  width: "80%",
-                  paddingLeft: 4,
-                  "@media (max-width: 800px)": {
-                    width: "100%",
-                    padding: 0,
-                  },
-                }}
-              >
-                <ItemDescription item={item} />
-              </CardContent>
-              <Stack
-                sx={{
-                  flexDirection: "column",
-                  width: "20%",
                   justifyContent: "space-between",
+                  opacity: item.availableAmount !== 0 ? 1 : 0.4,
                   "@media (max-width: 800px)": {
-                    flexDirection: "row",
-                    width: "100%",
+                    flexDirection: "column",
                   },
                 }}
               >
-                {storeConfig.core.flexibility && (
-                  <LinkBtn
-                    text="Reschedule"
-                    to={`${item.id}/reschedule`}
-                    icon={<EditCalendarIcon />}
+                <Box
+                  sx={{
+                    borderRadius: "10%",
+                    marginRight: 2,
+                    width: "30%",
+                    overflow: "hidden",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    "@media (max-width: 800px)": {
+                      width: "100%",
+                      marginRight: 0,
+                      marginBottom: 2,
+                    },
+                  }}
+                >
+                  <ItemImage
+                    image={item.attributes.image}
+                    title={item.attributes.title}
                   />
-                )}
+                </Box>
 
-                <LinkBtn
-                  text="Edit"
-                  to={`${item.id}/edit`}
-                  icon={<EditIcon />}
-                />
+                <CardContent
+                  sx={{
+                    width: "80%",
+                    paddingLeft: 4,
+                    "@media (max-width: 800px)": {
+                      width: "100%",
+                      padding: 0,
+                    },
+                  }}
+                >
+                  <ItemDescription item={item} />
+                </CardContent>
+                <Stack
+                  sx={{
+                    flexDirection: "column",
+                    width: "20%",
+                    justifyContent: "space-between",
+                    "@media (max-width: 800px)": {
+                      flexDirection: "row",
+                      width: "100%",
+                    },
+                  }}
+                >
+                  {storeConfig.core.flexibility && (
+                    <LinkBtn
+                      text="Reschedule"
+                      to={`${item.id}/reschedule`}
+                      icon={<EditCalendarIcon />}
+                    />
+                  )}
 
-                <ActionBtn
-                  text={item.active ? "Deactivate" : "Activate"}
-                  onClick={() => setItemToHaveActivityUpdated(item.id)}
-                  icon={item.active ? <BlockIcon /> : <PowerSettingsNewIcon />}
-                />
+                  <LinkBtn
+                    text="Edit"
+                    to={`${item.id}/edit`}
+                    icon={<EditIcon />}
+                  />
 
-                <ActionBtn
-                  text="Delete"
-                  onClick={() => setItemToBeDeleted(item.id)}
-                  icon={<DeleteIcon />}
-                />
-              </Stack>
+                  <ActionBtnOutlined
+                    text={item.active ? "Deactivate" : "Activate"}
+                    onClick={() => setItemToHaveActivityUpdated(item.id)}
+                    icon={
+                      item.active ? <BlockIcon /> : <PowerSettingsNewIcon />
+                    }
+                  />
+
+                  <ActionBtnOutlined
+                    text="Delete"
+                    onClick={() => setItemToBeDeleted(item.id)}
+                    icon={<DeleteIcon />}
+                  />
+
+                  {item.subItems && (
+                    <ActionBtnBasic
+                      text="Details"
+                      onClick={() => handleExpand(item.id)}
+                      icon={<ExpandMore sx={{ fontSize: "1.5rem" }} />}
+                    />
+                  )}
+                </Stack>
+              </Box>
+              <Collapse
+                in={expandedId === item.id}
+                timeout="auto"
+                unmountOnExit
+              >
+                <Box style={{ padding: 15 }}>
+                  <Divider sx={{ mb: 1 }} />
+                  <Typography variant="body2" color="textPrimary" gutterBottom>
+                    Subitems:
+                  </Typography>
+                  {item.subItems && (
+                    <List>
+                      {item.subItems.map((si) => (
+                        <ListItem key={si.id}>
+                          <Typography>{si.title}</Typography>
+                          {si.schedule && si.schedule.startDateTime && (
+                            <>
+                              <Typography ml={1} color="grey">
+                                {` | `}
+                              </Typography>
+                              <Typography ml={1} color="grey">
+                                {new Date(
+                                  si.schedule.startDateTime,
+                                ).toLocaleString()}
+                              </Typography>
+                            </>
+                          )}
+                          {si.schedule && si.schedule.endDateTime && (
+                            <>
+                              <Typography ml={1} color="grey">
+                                {` - `}
+                              </Typography>
+                              <Typography ml={1} color="grey">
+                                {new Date(
+                                  si.schedule.endDateTime,
+                                ).toLocaleString()}
+                              </Typography>
+                            </>
+                          )}
+                        </ListItem>
+                      ))}
+                    </List>
+                  )}
+                  {/* {reservation.message && (
+                    <Typography>Message: {reservation.message}</Typography>
+                  )} */}
+                </Box>
+              </Collapse>
             </Card>
           );
         })}
@@ -265,7 +336,7 @@ function ItemDescription({ item }: { item: Item }) {
   );
 }
 
-function ActionBtn({
+function ActionBtnOutlined({
   text,
   onClick,
   icon,
@@ -287,6 +358,33 @@ function ActionBtn({
     >
       {icon}
       {text}
+    </Button>
+  );
+}
+
+function ActionBtnBasic({
+  text,
+  onClick,
+  icon,
+}: {
+  text: string;
+  // eslint-disable-next-line react/require-default-props
+  onClick?: () => void;
+  // eslint-disable-next-line react/require-default-props
+  icon?: React.ReactNode;
+}) {
+  return (
+    <Button
+      onClick={onClick}
+      fullWidth
+      sx={{
+        display: "flex",
+        margin: 1,
+        flexDirection: "row",
+      }}
+    >
+      {text}
+      {icon}
     </Button>
   );
 }
