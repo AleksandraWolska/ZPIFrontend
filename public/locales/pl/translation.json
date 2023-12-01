@@ -1,0 +1,20 @@
+{
+  "auth": {
+    "unauthorized": "Nie masz uprawnień do wykonania tej akcji.",
+    "pleaseLogIn": "Zaloguj się aby kontynuować",
+    "login": "Zaloguj",
+    "logout": "Wyloguj"
+  },
+  "admin": {
+    "headings": {
+      "yourStores": "Twoje systemy",
+      "createNew": "Lub utwórz nowy?",
+      "noStores": "Nie masz żadnego systemu rezerwacji. Zacznij od stworzenia nowego systemu.",
+      "newStore": "Nowy system"
+    },
+    "desc": {
+      "existingStore": "Zarządaj swoimi obiektami i rezerwacjami w istniejącym systemie.",
+      "newStore": "Utwórz nowy system rezerwacji dla swojego biznesu."
+    }
+  }
+}

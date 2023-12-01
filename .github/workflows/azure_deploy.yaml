@@ -3,8 +3,7 @@ name: Genervation on Azure
 on:
   push:
     branches:
-      - "dev"
-      - "further-fixes-part-3"
+      - "intl"
   workflow_dispatch:
 
 jobs:

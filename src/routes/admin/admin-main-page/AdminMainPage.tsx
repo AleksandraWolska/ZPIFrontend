@@ -10,11 +10,14 @@ import {
 } from "@mui/material";
 import StoreIcon from "@mui/icons-material/Store";
 import AddBusinessIcon from "@mui/icons-material/AddBusiness";
+import { useTranslation } from "react-i18next";
 import useAdminStores from "./useAdminStores";
 import { StoreSummary } from "../../../types";
 import AdminActionBox from "../components/AdminActionBox";
 
 function AdminMainPage() {
+  const { t } = useTranslation();
+
   const adminStores = useAdminStores() as StoreSummary[];
   const navigate = useNavigate();
   const theme = useTheme();
@@ -22,7 +25,7 @@ function AdminMainPage() {
     <Container>
       {adminStores.length > 0 && (
         <Typography m={2} variant="h4">
-          Your stores
+          {t("admin.headings.yourStores")}
         </Typography>
       )}
 
@@ -43,7 +46,7 @@ function AdminMainPage() {
                   }
                   secondary={
                     <Typography variant="body1" color="grey">
-                      Manage your items, reservation in already existing store
+                      {t("admin.desc.existingStore")}
                     </Typography>
                   }
                 />
@@ -54,8 +57,8 @@ function AdminMainPage() {
       </List>
       <Typography m={2} mt={4} mb={3} variant="h4">
         {adminStores.length
-          ? "Or create new store?"
-          : "You have no stores yet, start with creating one"}
+          ? t("admin.headings.createNew")
+          : t("admin.headings.noStores")}
       </Typography>
 
       <ListItem key="new" onClick={() => navigate("new")}>
@@ -64,10 +67,10 @@ function AdminMainPage() {
             <AddBusinessIcon sx={{ fontSize: "5rem", color: "grey" }} />
           </Box>
           <ListItemText
-            primary={<Typography variant="h4">New store</Typography>}
+            primary={<Typography variant="h4">{t("admin.headings.newStore")}</Typography>}
             secondary={
               <Typography variant="body1" color="grey">
-                Create new store for your business
+                {t("admin.desc.newStore")}
               </Typography>
             }
           />
