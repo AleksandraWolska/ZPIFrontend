@@ -2,7 +2,7 @@ describe("reservations", () => {
   beforeEach(() => {
     cy.login("cypress@test.com", "test", "admin");
 
-    cy.visit("/admin/cypress-test-store/reservations");
+    cy.visit("/admin/cypress-test-store-2/reservations");
   });
 
   it("hide passed reservations", () => {
