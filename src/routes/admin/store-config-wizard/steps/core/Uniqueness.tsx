@@ -11,6 +11,7 @@ import CoreDescriptionWrapper from "./components/CoreDescriptionWrapper";
 import ChoiceButtonsContainer from "./components/ChoiceButtonsContainer";
 import ChoiceButton from "./components/ChoiceButton";
 import CoreDescription from "./components/CoreDescription";
+import { useTranslation } from "react-i18next";
 
 function Uniqueness({
   setActiveStep,
@@ -19,6 +20,8 @@ function Uniqueness({
   setActiveStep: (step: StoreConfigStep) => void;
   setProgress: (progress: number) => void;
 }) {
+  const { t } = useTranslation();
+
   const { appendCoreAttribute, withdrawToCoreStep } = useStoreConfig();
   const [showInfo, setShowInfo] = useState(false);
   return (
@@ -34,28 +37,23 @@ function Uniqueness({
         }}
       />
 
-      <WizardStepTitle>Item Uniqueness</WizardStepTitle>
+      <WizardStepTitle>{t("admin.wizard.uniqueness.title")}</WizardStepTitle>
 
       <InfoButton onClick={() => setShowInfo(!showInfo)} />
 
       <CoreDescriptionWrapper>
-        <CoreDescription>
-          This option defines whether the item is a unique entity or if there
-          are multiple indistinguishable items available for users.
-        </CoreDescription>
+        <CoreDescription>{t("admin.wizard.uniqueness.desc")}</CoreDescription>
 
         <CoreInfo
           show={showInfo}
-          left="You have one specific item of a type. This is best suited for
-                unique items or services."
-          right="There are multiple, identical items available. This is best
-                suited for items like chairs in a rental place."
+          left={t("admin.wizard.uniqueness.yesDesc")}
+          right={t("admin.wizard.uniqueness.noDesc")}
         />
       </CoreDescriptionWrapper>
 
       <ChoiceButtonsContainer>
         <ChoiceButton
-          text="Yes"
+          text={t("common.yes")}
           onClick={() => {
             appendCoreAttribute("uniqueness", true);
             setActiveStep(STORE_CONFIG_STEPS.CUSTOM_ATTRIBUTES_SPEC);
@@ -64,7 +62,7 @@ function Uniqueness({
         />
 
         <ChoiceButton
-          text="No"
+          text={t("common.no")}
           onClick={() => {
             appendCoreAttribute("uniqueness", false);
             setActiveStep(STORE_CONFIG_STEPS.CUSTOM_ATTRIBUTES_SPEC);

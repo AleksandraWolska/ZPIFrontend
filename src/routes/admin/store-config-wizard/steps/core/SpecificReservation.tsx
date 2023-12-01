@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { STORE_CONFIG_STEPS, StoreConfigStep } from "../../types";
 import { useStoreConfig } from "../../StoreConfigProvider";
 import { calculateProgress } from "./utils";
@@ -19,6 +20,8 @@ function SpecificReservation({
   setActiveStep: (step: StoreConfigStep) => void;
   setProgress: (progress: number) => void;
 }) {
+  const { t } = useTranslation();
+
   const { appendCoreAttribute, withdrawToCoreStep } = useStoreConfig();
   const [showInfo, setShowInfo] = useState(false);
   return (
@@ -37,29 +40,27 @@ function SpecificReservation({
         }}
       />
 
-      <WizardStepTitle>Specific Reservation</WizardStepTitle>
+      <WizardStepTitle>
+        {t("admin.wizard.specificReservation.title")}
+      </WizardStepTitle>
 
       <InfoButton onClick={() => setShowInfo(!showInfo)} />
 
       <CoreDescriptionWrapper>
         <CoreDescription>
-          This field defines whether users can book specific parts of an item,
-          eq. seats for a movie.
+          {t("admin.wizard.specificReservation.desc")}
         </CoreDescription>
 
         <CoreInfo
           show={showInfo}
-          left="Select yes if you want users to reserve specific places or parts
-                within an item. This is best suited for venues with specific
-                seating."
-          right="Select no if you want the item or event to be treated as a
-                whole, with no sub-item reservations possible."
+          left={t("admin.wizard.specificReservation.yesDesc")}
+          right={t("admin.wizard.specificReservation.noDesc")}
         />
       </CoreDescriptionWrapper>
 
       <ChoiceButtonsContainer>
         <ChoiceButton
-          text="Yes"
+          text={t("common.yes")}
           onClick={() => {
             appendCoreAttribute("specificReservation", true);
             const nextStep = STORE_CONFIG_STEPS.CUSTOM_ATTRIBUTES_SPEC;
@@ -69,7 +70,7 @@ function SpecificReservation({
         />
 
         <ChoiceButton
-          text="No"
+          text={t("common.no")}
           onClick={() => {
             appendCoreAttribute("specificReservation", false);
             const nextStep = STORE_CONFIG_STEPS.PERIODICITY;

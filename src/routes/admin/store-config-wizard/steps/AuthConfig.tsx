@@ -9,6 +9,7 @@ import {
   Stack,
   TextField,
 } from "@mui/material";
+import { useTranslation } from "react-i18next";
 import { STORE_CONFIG_STEPS, StoreConfigStep } from "../types";
 import { useStoreConfig } from "../StoreConfigProvider";
 import StepContentWrapper from "./components/StepContentWrapper";
@@ -22,6 +23,8 @@ function AuthConfig({
 }: {
   setActiveStep: (step: StoreConfigStep) => void;
 }) {
+  const { t } = useTranslation();
+
   const { storeConfig, setAuthConfigAttribute } = useStoreConfig();
   const { authConfig } = storeConfig;
 
@@ -31,10 +34,10 @@ function AuthConfig({
         onClick={() => setActiveStep(STORE_CONFIG_STEPS.DETAILS_PAGE)}
       />
 
-      <WizardStepTitle>User Authentication</WizardStepTitle>
+      <WizardStepTitle>{t("admin.wizard.authConfig.title")}</WizardStepTitle>
 
       <WizardStepDescription>
-        Choose what data is required from users when reserving items
+        {t("admin.wizard.authConfig.desc")}
       </WizardStepDescription>
 
       <Stack gap={3} margin={2.5}>
@@ -95,7 +98,7 @@ function AuthConfig({
 
         <FormControl>
           <FormLabel id="whatDataRequired">
-            What data is required when reserving?
+            {t("admin.wizard.authConfig.requiredDataLabel")}
           </FormLabel>
 
           <Autocomplete
@@ -113,7 +116,9 @@ function AuthConfig({
             renderInput={(params) => (
               <TextField
                 {...params}
-                placeholder="Add a value typing it and pressing enter"
+                placeholder={t(
+                  "admin.wizard.authConfig.requiredDataPlaceholder",
+                )}
                 size="medium"
               />
             )}
@@ -122,7 +127,7 @@ function AuthConfig({
 
         <FormControl>
           <FormLabel id="confirmationRequired">
-            Is confirmation by an admin required for reservations?
+            {t("admin.wizard.authConfig.confirmation")}
           </FormLabel>
 
           <RadioGroup

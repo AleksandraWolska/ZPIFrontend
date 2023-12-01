@@ -17,6 +17,7 @@ import {
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { STORE_CONFIG_STEPS, StoreConfigStep } from "../types";
 import { useStoreConfig } from "../StoreConfigProvider";
 import ChangePageButtons from "../../components/ChangePageButtons";
@@ -50,6 +51,8 @@ function CustomAttributesSpec({
 }: {
   setActiveStep: (step: StoreConfigStep) => void;
 }) {
+  const { t } = useTranslation();
+
   const { storeConfig, withdrawToCoreStep, setCustomAttributesSpec } =
     useStoreConfig();
   const location = useLocation();
@@ -87,12 +90,15 @@ function CustomAttributesSpec({
         onClick={() => {
           saveCustomAttributesSpec();
           if (location.pathname.includes("new")) {
-            const prevStep =
-              storeConfig.core.periodicity !== undefined
-                ? STORE_CONFIG_STEPS.PERIODICITY
-                : storeConfig.core.specificReservation !== undefined
-                ? STORE_CONFIG_STEPS.SPECIFIC_RESERVATION
-                : STORE_CONFIG_STEPS.UNIQUENESS;
+            let prevStep;
+            if (storeConfig.core.periodicity !== undefined)
+              prevStep = STORE_CONFIG_STEPS.PERIODICITY;
+            else if (storeConfig.core.specificReservation !== undefined)
+              prevStep = STORE_CONFIG_STEPS.SPECIFIC_RESERVATION;
+            else if (storeConfig.core.uniqueness !== undefined)
+              prevStep = STORE_CONFIG_STEPS.UNIQUENESS;
+            else prevStep = STORE_CONFIG_STEPS.SIMULTANEOUS;
+
             withdrawToCoreStep(prevStep);
             setActiveStep(prevStep);
           } else {
@@ -101,13 +107,12 @@ function CustomAttributesSpec({
         }}
       />
 
-      <WizardStepTitle>Add attributes</WizardStepTitle>
+      <WizardStepTitle>
+        {t("admin.wizard.customAttributes.title")}
+      </WizardStepTitle>
 
       <WizardStepDescription>
-        Define attributes with which you want to define in your items. Choose if
-        they are obligatory, if they should be enabled in filtering, choose the
-        visibility on main and item detail pages and if ou want define possible
-        values
+        {t("admin.wizard.customAttributes.desc")}
       </WizardStepDescription>
 
       <Box width="100%" padding={2.5}>
@@ -122,7 +127,7 @@ function CustomAttributesSpec({
                 <TextField
                   value={attr.name}
                   sx={{ width: "60%" }}
-                  label="Attribute Name"
+                  label={t("admin.wizard.customAttributes.name")}
                   onChange={(e) => {
                     updateLocalAttributeSpec(attr.id, { name: e.target.value });
                     if (idx === lastIdx) {
@@ -137,7 +142,7 @@ function CustomAttributesSpec({
                   <InputLabel id="Attribute Type">Attribute Type</InputLabel>
                   <Select
                     value={attr.dataType}
-                    label="Attribute Type"
+                    label={t("admin.wizard.customAttributes.type")}
                     sx={{ width: "35%" }}
                     onChange={(e) => {
                       const val = e.target
@@ -146,9 +151,15 @@ function CustomAttributesSpec({
                     }}
                     disabled={disabled}
                   >
-                    <MenuItem value="string">string</MenuItem>
-                    <MenuItem value="number">number</MenuItem>
-                    <MenuItem value="boolean">boolean</MenuItem>
+                    <MenuItem value="string">
+                      {t("admin.wizard.customAttributes.string")}
+                    </MenuItem>
+                    <MenuItem value="number">
+                      {t("admin.wizard.customAttributes.number")}
+                    </MenuItem>
+                    <MenuItem value="boolean">
+                      {t("admin.wizard.customAttributes.boolean")}
+                    </MenuItem>
                   </Select>
                 </FormControl>
                 <IconButton
@@ -183,7 +194,7 @@ function CustomAttributesSpec({
                       }}
                     />
                   }
-                  label="Required"
+                  label={t("admin.wizard.customAttributes.required")}
                   disabled={disabled}
                 />
 
@@ -198,7 +209,7 @@ function CustomAttributesSpec({
                       }}
                     />
                   }
-                  label="Filterable"
+                  label={t("admin.wizard.customAttributes.filterable")}
                   disabled={disabled}
                 />
 
@@ -213,7 +224,7 @@ function CustomAttributesSpec({
                       }}
                     />
                   }
-                  label="Visible on main page"
+                  label={t("admin.wizard.customAttributes.mainPage")}
                   disabled={disabled}
                 />
 
@@ -228,7 +239,7 @@ function CustomAttributesSpec({
                       }}
                     />
                   }
-                  label="Visible on details page"
+                  label={t("admin.wizard.customAttributes.detailsPage")}
                   disabled={disabled}
                 />
               </FormGroup>
@@ -249,7 +260,7 @@ function CustomAttributesSpec({
                         }}
                       />
                     }
-                    label="Predefine values"
+                    label={t("admin.wizard.customAttributes.predefinedValues")}
                     disabled={disabled}
                   />
 
@@ -267,8 +278,12 @@ function CustomAttributesSpec({
                     renderInput={(params) => (
                       <TextField
                         {...params}
-                        label="Possible values"
-                        placeholder="Add a value typing it and pressing enter"
+                        label={t(
+                          "admin.wizard.customAttributes.predefinedValuesLabel",
+                        )}
+                        placeholder={t(
+                          "admin.wizard.customAttributes.predefinedValuePlaceholder",
+                        )}
                         size="medium"
                       />
                     )}

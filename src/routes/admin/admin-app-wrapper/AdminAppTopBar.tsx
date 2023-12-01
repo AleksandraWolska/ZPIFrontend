@@ -112,7 +112,6 @@ function TopBarMenu() {
             label="Język"
             onChange={(e) => changeLanguage(e.target.value)}
             sx={{
-              width: "65px",
               color: "#fff",
               "& .MuiSelect-icon": {
                 color: "#fff",

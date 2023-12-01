@@ -5,6 +5,7 @@ import {
   FormGroup,
   TextField,
 } from "@mui/material";
+import { useTranslation } from "react-i18next";
 import { useStoreConfig } from "../StoreConfigProvider";
 import { STORE_CONFIG_STEPS, StoreConfigStep } from "../types";
 import ChangePageButtons from "../../components/ChangePageButtons";
@@ -18,6 +19,8 @@ function MainPage({
 }: {
   setActiveStep: (step: StoreConfigStep) => void;
 }) {
+  const { t } = useTranslation();
+
   const { storeConfig, setMainPageAttribute } = useStoreConfig();
   const { mainPage } = storeConfig;
 
@@ -27,16 +30,16 @@ function MainPage({
         onClick={() => setActiveStep(STORE_CONFIG_STEPS.CUSTOM_ATTRIBUTES_SPEC)}
       />
 
-      <WizardStepTitle>Main Page Features</WizardStepTitle>
+      <WizardStepTitle>{t("admin.wizard.mainPage.title")}</WizardStepTitle>
 
       <WizardStepDescription>
-        Enter welcome texts, and define visibility of features on the main page
+        {t("admin.wizard.mainPage.desc")}
       </WizardStepDescription>
 
       <Box width="100%" padding={2.5}>
         <TextField
           fullWidth
-          label="Welcome text - line 1"
+          label={t("admin.wizard.mainPage.welcomeTextLine1")}
           name="welcomeTextLine1"
           value={mainPage.welcomeTextLine1}
           onChange={(e) =>
@@ -47,7 +50,7 @@ function MainPage({
         <TextField
           sx={{ marginTop: 1.25 }}
           fullWidth
-          label="Welcome text - line 2"
+          label={t("admin.wizard.mainPage.welcomeTextLine2")}
           name="welcomeTextLine2"
           value={mainPage.welcomeTextLine2}
           onChange={(e) =>
@@ -66,7 +69,7 @@ function MainPage({
               }}
             />
           }
-          label="Enable filters"
+          label={t("admin.wizard.mainPage.filters")}
         />
 
         <FormControlLabel
@@ -78,7 +81,7 @@ function MainPage({
               }}
             />
           }
-          label="Display title for item in items list"
+          label={t("admin.wizard.mainPage.showTitle")}
         />
 
         <FormControlLabel
@@ -90,7 +93,7 @@ function MainPage({
               }}
             />
           }
-          label="Display subtitle for item in items list"
+          label={t("admin.wizard.mainPage.subtitle")}
         />
 
         <FormControlLabel
@@ -102,7 +105,7 @@ function MainPage({
               }}
             />
           }
-          label="Display item images in items list"
+          label={t("admin.wizard.mainPage.image")}
         />
 
         <FormControlLabel
@@ -114,7 +117,7 @@ function MainPage({
               }}
             />
           }
-          label="Display ratings for each items - this option will allow users to rate your items"
+          label={t("admin.wizard.mainPage.rating")}
         />
       </FormGroup>
 
