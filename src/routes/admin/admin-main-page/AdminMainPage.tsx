@@ -30,8 +30,11 @@ function AdminMainPage() {
       <List>
         {adminStores.map((adminStore) => {
           return (
-            <ClearNavLink to={adminStore.storeConfigId}>
-              <ListItem key={adminStore.storeConfigId}>
+            <ClearNavLink
+              to={adminStore.storeConfigId}
+              key={adminStore.storeConfigId}
+            >
+              <ListItem>
                 <ActionBox theme={theme}>
                   <Box sx={{ margin: 1, marginRight: 3 }}>
                     <StoreIcon sx={{ fontSize: "5rem", color: "grey" }} />

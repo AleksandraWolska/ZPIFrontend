@@ -31,8 +31,11 @@ function AllStores() {
             <List>
               {userApps.map((userApp: StoreSummary) => {
                 return (
-                  <ClearNavLink to={`/userapp/${userApp.storeConfigId}`}>
-                    <ListItem key={userApp.storeConfigId}>
+                  <ClearNavLink
+                    key={userApp.storeConfigId}
+                    to={`/userapp/${userApp.storeConfigId}`}
+                  >
+                    <ListItem>
                       <ActionBox theme={theme}>
                         <Box sx={{ margin: 1, marginRight: 3 }}>
                           <StoreIcon sx={{ fontSize: "5rem", color: "grey" }} />

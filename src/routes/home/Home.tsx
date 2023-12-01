@@ -29,6 +29,7 @@ function Home() {
   const auth = useAuth();
   const location = useLocation();
 
+  // TODO leave for now, maybe more links would be needed
   const options = [
     {
       label: "Admin application",
@@ -159,8 +160,8 @@ function Home() {
           Quick links
         </Typography>
         {options.map((option) => (
-          <ClearNavLink to={option.value}>
-            <ListItem key={option.value} sx={{ cursor: "pointer" }}>
+          <ClearNavLink to={option.value} key={option.value}>
+            <ListItem sx={{ cursor: "pointer" }}>
               <ActionBox
                 theme={theme}
                 sx={{

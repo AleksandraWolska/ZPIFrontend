@@ -58,8 +58,8 @@ function Store() {
     <Container maxWidth="lg">
       <List>
         {options.map((option) => (
-          <ClearNavLink to={option.value}>
-            <ListItem key={option.value}>
+          <ClearNavLink key={option.value} to={option.value}>
+            <ListItem>
               <ActionBox theme={theme}>
                 <Box sx={{ margin: 1, marginRight: 3 }}>{option.icon}</Box>
                 <ListItemText
