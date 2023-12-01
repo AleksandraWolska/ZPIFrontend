@@ -128,19 +128,9 @@ function initializeSchedule(core: Core): Schedule {
     };
   }
 
-  if (core.granularity === true) {
-    return {
-      scheduledSlots: [],
-    };
-  }
-
-  if (core.granularity === false) {
-    return {
-      scheduledRanges: [],
-    };
-  }
-
-  throw Error("Invalid core configuration!");
+  return {
+    scheduledRanges: [],
+  };
 }
 
 export default AddItem;

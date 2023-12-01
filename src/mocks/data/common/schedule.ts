@@ -1,9 +1,9 @@
 import dayjs from "dayjs";
-import { ContinuousSchedule } from "../../../types";
+import { FlexibleSchedule } from "../../../types";
 
 const startOfWeek = dayjs().startOf("week").add(1, "day");
 
-export const schedule: ContinuousSchedule = {
+export const schedule: FlexibleSchedule = {
   scheduledRanges: Array.from({
     length: 7,
   }).flatMap((_, i) => {

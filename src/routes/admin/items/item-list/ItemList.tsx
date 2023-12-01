@@ -271,9 +271,7 @@ function ActionBtn({
   icon,
 }: {
   text: string;
-  // eslint-disable-next-line react/require-default-props
   onClick?: () => void;
-  // eslint-disable-next-line react/require-default-props
   icon?: React.ReactNode;
 }) {
   return (
@@ -300,7 +298,6 @@ function LinkBtn({
 }: {
   text: string;
   to: string;
-  // eslint-disable-next-line react/require-default-props
   icon?: React.ReactNode;
 }) {
   const navigate = useNavigate();
@@ -321,4 +318,5 @@ function LinkBtn({
     </Button>
   );
 }
+
 export default ItemList;

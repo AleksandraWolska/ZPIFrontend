@@ -115,21 +115,14 @@ export type FixedSchedule = {
   endDateTime?: string;
 };
 
-export type SlotsSchedule = {
-  scheduledSlots: {
-    startDateTime: string;
-    endDateTime: string;
-  }[];
-};
-
-export type ContinuousSchedule = {
+export type FlexibleSchedule = {
   scheduledRanges: {
     startDateTime: string;
     endDateTime: string;
   }[];
 };
 
-export type Schedule = FixedSchedule | SlotsSchedule | ContinuousSchedule;
+export type Schedule = FixedSchedule | FlexibleSchedule;
 
 export type Availability = {
   startDateTime: string;

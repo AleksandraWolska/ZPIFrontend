@@ -7,7 +7,7 @@ import {
   getStoreMockIdByStoreName,
 } from "./utils";
 import { ItemWithoutIds } from "../routes/admin/types";
-import { ContinuousSchedule, Item, SlotsSchedule } from "../types";
+import { FlexibleSchedule, Item } from "../types";
 import { calculateAvailability } from "./data/common/availability";
 import { importStoreConfig } from "./storeConfigHandlers";
 
@@ -113,7 +113,7 @@ const editItem = rest.put(
 
     if (storeConfig.core.flexibility) {
       body.availabilities = calculateAvailability(
-        body.schedule as SlotsSchedule | ContinuousSchedule,
+        body.schedule as FlexibleSchedule,
       );
     }
 
@@ -219,9 +219,7 @@ const addIdsToItem = (item: ItemWithoutIds): Item => {
 const addAvailabilityToItem = (item: Item): Item => {
   return {
     ...item,
-    availabilities: calculateAvailability(
-      item.schedule as SlotsSchedule | ContinuousSchedule,
-    ),
+    availabilities: calculateAvailability(item.schedule as FlexibleSchedule),
   };
 };
 

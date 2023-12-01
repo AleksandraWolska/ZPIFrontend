@@ -1,19 +1,21 @@
 import { useState } from "react";
 import { Box, Stack, TextField, Typography } from "@mui/material";
-import { v4 as uuid } from "uuid";
-import dayjs from "dayjs";
-import { SlotsSchedule } from "../../../types";
 import ScheduleCalendar, {
   BigCalendarEvent,
 } from "./schedule-calendar/ScheduleCalendar";
 import { useItemForm } from "../ItemFormProvider";
 import StepWrapper from "../../../components/StepWrapper";
+import { FlexibleSchedule } from "../../../../../types";
+import {
+  parseEventsToFlexibleSchedule,
+  parseFlexibleScheduleToEvents,
+} from "./schedule-calendar/utils";
 
 function Slots() {
   const { item, setItem } = useItemForm();
 
   const { schedule } = item as {
-    schedule: SlotsSchedule;
+    schedule: FlexibleSchedule;
   };
 
   const [step, setStep] = useState(30);
@@ -48,10 +50,10 @@ function Slots() {
           }}
         >
           <ScheduleCalendar
-            events={parseSlotsScheduleToEvents(schedule)}
+            events={parseFlexibleScheduleToEvents(schedule)}
             onEventsChange={(events: BigCalendarEvent[]) =>
               setItem({
-                schedule: parseEventsToSlotsSchedule(events),
+                schedule: parseEventsToFlexibleSchedule(events),
               })
             }
             step={step > 0 ? step : 30}
@@ -60,29 +62,6 @@ function Slots() {
       </Stack>
     </StepWrapper>
   );
-}
-
-function parseSlotsScheduleToEvents(
-  schedule: SlotsSchedule,
-): BigCalendarEvent[] {
-  return schedule.scheduledSlots.map((s) => {
-    return {
-      id: uuid(),
-      start: dayjs(s.startDateTime).toDate(),
-      end: dayjs(s.endDateTime).toDate(),
-    };
-  });
-}
-
-function parseEventsToSlotsSchedule(events: BigCalendarEvent[]): SlotsSchedule {
-  return {
-    scheduledSlots: events.map((e) => {
-      return {
-        startDateTime: e.start.toISOString(),
-        endDateTime: e.end.toISOString(),
-      };
-    }),
-  };
 }
 
 export default Slots;

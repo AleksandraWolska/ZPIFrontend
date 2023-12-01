@@ -1,19 +1,21 @@
 import { useState } from "react";
 import { Box, Stack, TextField, Typography } from "@mui/material";
-import { v4 as uuid } from "uuid";
-import dayjs from "dayjs";
-import { ContinuousSchedule } from "../../../types";
+import { FlexibleSchedule } from "../../../types";
 import ScheduleCalendar, {
   BigCalendarEvent,
 } from "./schedule-calendar/ScheduleCalendar";
 import { useItemForm } from "../ItemFormProvider";
 import StepWrapper from "../../../components/StepWrapper";
+import {
+  parseFlexibleScheduleToEvents,
+  parseEventsToFlexibleSchedule,
+} from "./schedule-calendar/utils";
 
 function Continuous() {
   const { item, setItem } = useItemForm();
 
   const { schedule } = item as {
-    schedule: ContinuousSchedule;
+    schedule: FlexibleSchedule;
   };
 
   const [step, setStep] = useState(30);
@@ -46,10 +48,10 @@ function Continuous() {
           }}
         >
           <ScheduleCalendar
-            events={parseContinuousScheduleToEvents(schedule)}
+            events={parseFlexibleScheduleToEvents(schedule)}
             onEventsChange={(events: BigCalendarEvent[]) =>
               setItem({
-                schedule: parseEventsToContinuousSchedule(events),
+                schedule: parseEventsToFlexibleSchedule(events),
               })
             }
             step={step > 0 ? step : 30}
@@ -58,31 +60,6 @@ function Continuous() {
       </Stack>
     </StepWrapper>
   );
-}
-
-function parseContinuousScheduleToEvents(
-  schedule: ContinuousSchedule,
-): BigCalendarEvent[] {
-  return schedule.scheduledRanges.map((r) => {
-    return {
-      id: uuid(),
-      start: dayjs(r.startDateTime).toDate(),
-      end: dayjs(r.endDateTime).toDate(),
-    };
-  });
-}
-
-function parseEventsToContinuousSchedule(
-  events: BigCalendarEvent[],
-): ContinuousSchedule {
-  return {
-    scheduledRanges: events.map((e) => {
-      return {
-        startDateTime: e.start.toISOString(),
-        endDateTime: e.end.toISOString(),
-      };
-    }),
-  };
 }
 
 export default Continuous;
