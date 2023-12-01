@@ -133,6 +133,12 @@ function ReservationCard({
             <DetailsBoxTitle>Client</DetailsBoxTitle>
 
             <Box marginTop={2}>
+              <Box marginTop={1}>
+                <Typography color={theme.palette.text.secondary} fontSize={14}>
+                  EMAIL
+                </Typography>
+                <Typography>{reservation.userEmail}</Typography>
+              </Box>
               {Object.entries(reservation.personalData).map(([key, value]) => {
                 return (
                   <Box key={key} marginTop={1}>
