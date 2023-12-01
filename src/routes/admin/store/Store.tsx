@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import FormatListBulletedSharpIcon from "@mui/icons-material/FormatListBulletedSharp";
 import AddIcon from "@mui/icons-material/Add";
 import EventSeatIcon from "@mui/icons-material/EventSeat";
@@ -13,10 +13,9 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import AdminActionBox from "../components/AdminActionBox";
+import { ActionBox, ClearNavLink } from "../../common/styledComponents";
 
 function Store() {
-  const navigate = useNavigate();
   const params = useParams() as { storeId: string };
   const theme = useTheme();
 
@@ -59,19 +58,21 @@ function Store() {
     <Container maxWidth="lg">
       <List>
         {options.map((option) => (
-          <ListItem key={option.value} onClick={() => navigate(option.value)}>
-            <AdminActionBox theme={theme}>
-              <Box sx={{ margin: 1, marginRight: 3 }}>{option.icon}</Box>
-              <ListItemText
-                primary={<Typography variant="h4">{option.label}</Typography>}
-                secondary={
-                  <Typography variant="body1" color="grey">
-                    {option.description}
-                  </Typography>
-                }
-              />
-            </AdminActionBox>
-          </ListItem>
+          <ClearNavLink to={option.value}>
+            <ListItem key={option.value}>
+              <ActionBox theme={theme}>
+                <Box sx={{ margin: 1, marginRight: 3 }}>{option.icon}</Box>
+                <ListItemText
+                  primary={<Typography variant="h4">{option.label}</Typography>}
+                  secondary={
+                    <Typography variant="body1" color="grey">
+                      {option.description}
+                    </Typography>
+                  }
+                />
+              </ActionBox>
+            </ListItem>
+          </ClearNavLink>
         ))}
       </List>
     </Container>

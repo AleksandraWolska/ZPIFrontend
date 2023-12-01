@@ -1,7 +1,8 @@
 import { Box, styled } from "@mui/system";
 import { Theme } from "@mui/material/styles";
+import { NavLink as RouterNavLink } from "react-router-dom";
 
-const AdminActionBox = styled(Box)(({ theme }: { theme: Theme }) => ({
+export const ActionBox = styled(Box)(({ theme }: { theme: Theme }) => ({
   display: "flex",
   justifyContent: "space-between",
   alignItems: "center",
@@ -16,4 +17,7 @@ const AdminActionBox = styled(Box)(({ theme }: { theme: Theme }) => ({
   },
 }));
 
-export default AdminActionBox;
+export const ClearNavLink = styled(RouterNavLink)({
+  textDecoration: "none",
+  color: "inherit",
+});

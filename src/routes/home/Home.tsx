@@ -14,13 +14,11 @@ import {
 import PersonIcon from "@mui/icons-material/Person";
 import KeyIcon from "@mui/icons-material/Key";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { useNavigate } from "react-router-dom";
-import AdminActionBox from "../admin/components/AdminActionBox";
+import { ActionBox, ClearNavLink } from "../common/styledComponents";
 import AllStores from "./AllStores";
 
 function Home() {
   // const { t } = useTranslation();
-  const navigate = useNavigate();
   const [openUsage, setOpenUsage] = useState(true);
   const [openAbout, setOpenAbout] = useState(true);
   const [openAuthors, setOpenAuthors] = useState(true);
@@ -162,28 +160,26 @@ function Home() {
           Quick links
         </Typography>
         {options.map((option) => (
-          <ListItem
-            key={option.value}
-            onClick={() => navigate(option.value)}
-            sx={{ cursor: "pointer" }}
-          >
-            <AdminActionBox
-              theme={theme}
-              sx={{
-                marginBottom: 2,
-              }}
-            >
-              <Box sx={{ margin: 1, marginRight: 3 }}>{option.icon}</Box>
-              <ListItemText
-                primary={<Typography variant="h5">{option.label}</Typography>}
-                secondary={
-                  <Typography variant="body1" color="grey">
-                    {option.description}
-                  </Typography>
-                }
-              />
-            </AdminActionBox>
-          </ListItem>
+          <ClearNavLink to={option.value}>
+            <ListItem key={option.value} sx={{ cursor: "pointer" }}>
+              <ActionBox
+                theme={theme}
+                sx={{
+                  marginBottom: 2,
+                }}
+              >
+                <Box sx={{ margin: 1, marginRight: 3 }}>{option.icon}</Box>
+                <ListItemText
+                  primary={<Typography variant="h5">{option.label}</Typography>}
+                  secondary={
+                    <Typography variant="body1" color="grey">
+                      {option.description}
+                    </Typography>
+                  }
+                />
+              </ActionBox>
+            </ListItem>
+          </ClearNavLink>
         ))}
         <Typography variant="h3" mb={2} mt={2}>
           Apps created using this system

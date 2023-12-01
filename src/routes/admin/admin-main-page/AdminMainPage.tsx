@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import {
   Box,
   Container,
@@ -13,13 +12,12 @@ import AddBusinessIcon from "@mui/icons-material/AddBusiness";
 import { useTranslation } from "react-i18next";
 import useAdminStores from "./useAdminStores";
 import { StoreSummary } from "../../../types";
-import AdminActionBox from "../components/AdminActionBox";
+import { ActionBox, ClearNavLink } from "../../common/styledComponents";
 
 function AdminMainPage() {
   const { t } = useTranslation();
 
   const adminStores = useAdminStores() as StoreSummary[];
-  const navigate = useNavigate();
   const theme = useTheme();
   return (
     <Container>
@@ -32,26 +30,25 @@ function AdminMainPage() {
       <List>
         {adminStores.map((adminStore) => {
           return (
-            <ListItem
-              key={adminStore.storeConfigId}
-              onClick={() => navigate(adminStore.storeConfigId)}
-            >
-              <AdminActionBox theme={theme}>
-                <Box sx={{ margin: 1, marginRight: 3 }}>
-                  <StoreIcon sx={{ fontSize: "5rem", color: "grey" }} />
-                </Box>
-                <ListItemText
-                  primary={
-                    <Typography variant="h4">{adminStore.name}</Typography>
-                  }
-                  secondary={
-                    <Typography variant="body1" color="grey">
-                      {t("admin.desc.existingStore")}
-                    </Typography>
-                  }
-                />
-              </AdminActionBox>
-            </ListItem>
+            <ClearNavLink to={adminStore.storeConfigId}>
+              <ListItem key={adminStore.storeConfigId}>
+                <ActionBox theme={theme}>
+                  <Box sx={{ margin: 1, marginRight: 3 }}>
+                    <StoreIcon sx={{ fontSize: "5rem", color: "grey" }} />
+                  </Box>
+                  <ListItemText
+                    primary={
+                      <Typography variant="h4">{adminStore.name}</Typography>
+                    }
+                    secondary={
+                      <Typography variant="body1" color="grey">
+                        {t("admin.desc.existingStore")}
+                      </Typography>
+                    }
+                  />
+                </ActionBox>
+              </ListItem>
+            </ClearNavLink>
           );
         })}
       </List>
@@ -61,21 +58,27 @@ function AdminMainPage() {
           : t("admin.headings.noStores")}
       </Typography>
 
-      <ListItem key="new" onClick={() => navigate("new")}>
-        <AdminActionBox theme={theme}>
-          <Box sx={{ margin: 1, marginRight: 3 }}>
-            <AddBusinessIcon sx={{ fontSize: "5rem", color: "grey" }} />
-          </Box>
-          <ListItemText
-            primary={<Typography variant="h4">{t("admin.headings.newStore")}</Typography>}
-            secondary={
-              <Typography variant="body1" color="grey">
-                {t("admin.desc.newStore")}
-              </Typography>
-            }
-          />
-        </AdminActionBox>
-      </ListItem>
+      <ClearNavLink to="new">
+        <ListItem key="new">
+          <ActionBox theme={theme}>
+            <Box sx={{ margin: 1, marginRight: 3 }}>
+              <AddBusinessIcon sx={{ fontSize: "5rem", color: "grey" }} />
+            </Box>
+            <ListItemText
+              primary={
+                <Typography variant="h4">
+                  {t("admin.headings.newStore")}
+                </Typography>
+              }
+              secondary={
+                <Typography variant="body1" color="grey">
+                  {t("admin.desc.newStore")}
+                </Typography>
+              }
+            />
+          </ActionBox>
+        </ListItem>
+      </ClearNavLink>
     </Container>
   );
 }
