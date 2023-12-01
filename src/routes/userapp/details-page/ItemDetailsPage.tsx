@@ -366,7 +366,7 @@ export default function ItemDetailsPage() {
           <Typography variant="h3" marginBottom={1}>
             {item.attributes.title}
           </Typography>
-          {item.attributes.subtitle !== (undefined || null || "") && (
+          {item.attributes.subtitle && (
             <Typography variant="h5" marginBottom={1}>
               {item.attributes.subtitle}
             </Typography>
@@ -374,7 +374,7 @@ export default function ItemDetailsPage() {
           {storeConfig.detailsPage.showRating && item.mark && (
             <Ratings mark={item.mark} />
           )}
-          {item.attributes.description !== (undefined || null || "") && (
+          {item.attributes.description && (
             <Typography variant="body2">
               {item.attributes.description}
             </Typography>
