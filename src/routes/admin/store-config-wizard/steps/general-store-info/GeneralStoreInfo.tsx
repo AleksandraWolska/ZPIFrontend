@@ -57,6 +57,7 @@ function GeneralStoreInfo({
               fullWidth
               disabled={!isNew}
               error={isNew && !isNameAvailable}
+              required
             />
           </Grid>
 
@@ -124,6 +125,7 @@ function GeneralStoreInfo({
             ? setActiveStep(STORE_CONFIG_STEPS.FLEXIBILITY)
             : setActiveStep(STORE_CONFIG_STEPS.CUSTOM_ATTRIBUTES_SPEC)
         }
+        disabled={!owner.name ? "next" : false}
       />
     </StepContentWrapper>
   );

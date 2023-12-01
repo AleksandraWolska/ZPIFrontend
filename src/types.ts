@@ -80,8 +80,6 @@ export type DetailsPage = {
 export type AuthConfig = {
   requiredPersonalData: string[];
   confirmationRequired: boolean;
-  isPrivate: boolean;
-  whiteList?: string[];
 };
 
 export type StoreConfig = {

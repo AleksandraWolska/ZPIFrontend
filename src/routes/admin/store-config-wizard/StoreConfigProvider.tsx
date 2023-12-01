@@ -45,7 +45,6 @@ const defaultStoreConfig: StoreConfig = {
   authConfig: {
     requiredPersonalData: [],
     confirmationRequired: false,
-    isPrivate: false,
   },
 };
 
