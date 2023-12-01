@@ -148,7 +148,7 @@ export default function ItemDetailsPage() {
       nickname: newComment.nickname,
       datetime: newComment.datetime,
       content: newComment.content,
-      itemId: item.id,
+      itemId: newComment.itemId,
     };
 
     addComment.mutate(userComment, {
