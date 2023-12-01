@@ -180,7 +180,6 @@ function Home() {
             </ListItem>
           </ClearNavLink>
         ))}
-        {/* TODO masz pomysł czemu to nie działa? */}
         {auth.isAuthenticated ? (
           <ListItem key="logout" sx={{ cursor: "pointer" }}>
             <ActionBox
