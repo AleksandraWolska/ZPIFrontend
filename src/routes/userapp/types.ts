@@ -20,7 +20,7 @@ export type CommentList = Comment[];
 
 export type NewComment = Pick<
   Comment,
-  "nickname" | "content" | "rating" | "datetime"
+  "nickname" | "content" | "rating" | "datetime" | "itemId"
 >;
 
 export type CheckAvailabilityRequest = {

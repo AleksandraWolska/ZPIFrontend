@@ -60,7 +60,7 @@ function SubItemsList({
                       primary={`${
                         isPast ? "[PAST] " : !isAvailable ? "[FULL] " : ""
                       }${subItem.title}`}
-                      secondary={subItem.subtitle}
+                      secondary={subItem.subtitle ? subItem.subtitle : ""}
                       style={{
                         color: "black",
                       }}

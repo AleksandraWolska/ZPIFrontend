@@ -148,6 +148,7 @@ export default function ItemDetailsPage() {
       nickname: newComment.nickname,
       datetime: newComment.datetime,
       content: newComment.content,
+      itemId: item.id,
     };
 
     addComment.mutate(userComment, {
@@ -364,7 +365,7 @@ export default function ItemDetailsPage() {
           <Typography variant="h3" marginBottom={1}>
             {item.attributes.title}
           </Typography>
-          {item.attributes.subtitle && (
+          {item.attributes.subtitle !== (undefined || null || "") && (
             <Typography variant="h5" marginBottom={1}>
               {item.attributes.subtitle}
             </Typography>
@@ -372,7 +373,7 @@ export default function ItemDetailsPage() {
           {storeConfig.detailsPage.showRating && item.mark && (
             <Ratings mark={item.mark} />
           )}
-          {item.attributes.description && (
+          {item.attributes.description !== (undefined || null || "") && (
             <Typography variant="body2">
               {item.attributes.description}
             </Typography>
