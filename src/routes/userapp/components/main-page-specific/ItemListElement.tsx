@@ -21,13 +21,11 @@ function ItemListElement({ item, config }: ItemListElementProps) {
         borderRadius: "10px",
         display: "flex",
         width: "100%",
+        cursor: "pointer",
         alignItems: "center",
         "@media (max-width: 800px)": {
           flexDirection: "column",
         },
-      }}
-      style={{
-        opacity: item.availableAmount !== 0 ? 1 : 0.4,
       }}
     >
       {/* Image Box */}

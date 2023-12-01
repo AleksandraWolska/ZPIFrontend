@@ -17,6 +17,7 @@ import useStoreConfig from "../store/useStoreConfig";
 import useItemById from "./useItemById";
 import theme from "../../../theme";
 import ItemImage from "../components/ItemImage";
+import { shouldShowEnd } from "../../common/utils";
 
 function ReservationCard({
   reservation,
@@ -47,9 +48,12 @@ function ReservationCard({
 
             <Stack direction="row" sx={{ width: "33%", flexShrink: 0 }}>
               <ReservationDate date={reservation.startDateTime} />
-              {reservation.endDateTime && (
+              {shouldShowEnd(
+                reservation.startDateTime,
+                reservation.endDateTime,
+              ) && (
                 <Stack direction="row" marginLeft={1} gap={1}>
-                  - <ReservationDate date={reservation.endDateTime} />
+                  - <ReservationDate date={reservation.endDateTime!} />
                 </Stack>
               )}
             </Stack>
@@ -133,6 +137,12 @@ function ReservationCard({
             <DetailsBoxTitle>Client</DetailsBoxTitle>
 
             <Box marginTop={2}>
+              <Box marginTop={1}>
+                <Typography color={theme.palette.text.secondary} fontSize={14}>
+                  EMAIL
+                </Typography>
+                <Typography>{reservation.userEmail}</Typography>
+              </Box>
               {Object.entries(reservation.personalData).map(([key, value]) => {
                 return (
                   <Box key={key} marginTop={1}>

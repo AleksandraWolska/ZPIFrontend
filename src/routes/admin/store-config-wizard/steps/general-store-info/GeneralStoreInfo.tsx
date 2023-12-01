@@ -1,4 +1,12 @@
-import { Box, Grid, MenuItem, Select, TextField } from "@mui/material";
+import {
+  Box,
+  FormControl,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from "@mui/material";
 import { useLocation } from "react-router-dom";
 import { useStoreConfig } from "../../StoreConfigProvider";
 import ChangePageButtons from "../../../components/ChangePageButtons";
@@ -82,20 +90,23 @@ function GeneralStoreInfo({
           </Grid>
 
           <Grid item xs={12} sm={12}>
-            <Select
-              label="Main App Color"
-              value={owner.color}
-              onChange={(e) => setOwnerAttribute("color", e.target.value)}
-              fullWidth
-            >
-              {Object.values(OWNER_COLORS).map((color) => {
-                return (
-                  <MenuItem key={color} value={color}>
-                    {color.toLocaleLowerCase()}
-                  </MenuItem>
-                );
-              })}
-            </Select>
+            <FormControl size="small" variant="outlined" fullWidth>
+              <InputLabel id="Main App Color">Main App Color</InputLabel>
+              <Select
+                label="Main App Color"
+                value={owner.color}
+                onChange={(e) => setOwnerAttribute("color", e.target.value)}
+                fullWidth
+              >
+                {Object.values(OWNER_COLORS).map((color) => {
+                  return (
+                    <MenuItem key={color} value={color}>
+                      {color.toLocaleLowerCase()}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </FormControl>
           </Grid>
         </Grid>
       </Box>

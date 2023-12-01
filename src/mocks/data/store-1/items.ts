@@ -38,6 +38,7 @@ export const items: Item[] = [
     ],
     schedule: {
       startDateTime: "2023-11-30T10:00:00.000Z",
+      endDateTime: "2023-11-30T10:00:00.000Z",
     },
     availableAmount: 1,
     active: true,
@@ -80,6 +81,7 @@ export const items: Item[] = [
     ],
     schedule: {
       startDateTime: "2023-11-30T10:00:00.000Z",
+      endDateTime: "2023-11-30T12:00:00.000Z",
     },
     availableAmount: 1,
     active: true,

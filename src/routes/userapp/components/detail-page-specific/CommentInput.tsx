@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "react-oidc-context";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { TextField, Button, Dialog, Typography, Box } from "@mui/material";
 import RatingsInteractive from "./RatingsInteractive";
 import { NewComment } from "../../types";
@@ -17,6 +17,7 @@ function CommentInput({
   showRatings,
 }: CommentInputProps) {
   const [isCommentInputVisible, setIsCommentInputVisible] = useState(false);
+  const params = useParams() as { itemId: string };
 
   const auth = useAuth();
   const location = useLocation();
@@ -26,6 +27,7 @@ function CommentInput({
     content: "",
     rating: undefined,
     datetime: "", // This will be set just before sending
+    itemId: "",
   };
 
   const [newComment, setNewComment] = useState<NewComment>(initialState);
@@ -37,7 +39,8 @@ function CommentInput({
   const handleVerifyComment = () => {
     if (newComment.content?.trim() !== "" || newComment.rating !== undefined) {
       const datetime = new Date().toISOString();
-      handleSendComment({ ...newComment, datetime });
+      const { itemId } = params;
+      handleSendComment({ ...newComment, datetime, itemId });
       setNewComment(initialState);
       setIsCommentInputVisible(false); // Hide comment input after sending.
     }

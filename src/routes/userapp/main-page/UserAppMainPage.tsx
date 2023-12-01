@@ -26,7 +26,15 @@ export default function UserAppMainPage() {
   const navigate = useNavigate();
 
   const storeConfig = useStoreConfig();
-  const items = useItems();
+  const fetchedItems = useItems();
+
+  // if there is no field amount/available amount, then pass, but if any of them is equal to 0, then filterout
+  const items = fetchedItems.filter(
+    (item) =>
+      (!("availableAmount" in item) && !("amount" in item)) ||
+      (item.availableAmount && item.availableAmount !== 0) ||
+      (item.amount && item.amount !== 0),
+  );
 
   const [showFilterForm, setShowFilterForm] = useState(false);
   const [activeFilters, setActiveFilters] = useState<FilterValue[]>([]);
@@ -166,9 +174,11 @@ export default function UserAppMainPage() {
                 >
                   <MenuItem value="title">Title</MenuItem>
                   <MenuItem value="availableAmount">Available Amount</MenuItem>
-                  {storeConfig.mainPage.showRating && (
-                    <MenuItem value="mark">Rating</MenuItem>
-                  )}
+                  {storeConfig.mainPage.showRating &&
+                    !(
+                      !storeConfig.core.flexibility &&
+                      !storeConfig.core.periodicity
+                    ) && <MenuItem value="mark">Rating</MenuItem>}
                 </Select>
               </FormControl>
               <IconButton
@@ -199,15 +209,12 @@ export default function UserAppMainPage() {
           )}
           <List>
             {sortedItemInfos.map((item) => {
-              const isAvailable = item.availableAmount !== 0;
               return (
                 <ListItem
                   key={item.id}
-                  onClick={
-                    isAvailable ? () => navigate(`${item.id}`) : undefined
-                  }
+                  onClick={() => navigate(`${item.id}`)}
                   style={{
-                    cursor: isAvailable ? "pointer" : "default",
+                    cursor: "pointer",
                   }}
                 >
                   <ItemListElement config={storeConfig} item={item} />

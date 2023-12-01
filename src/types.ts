@@ -104,6 +104,7 @@ export type CustomAttribute = {
 export type Comment = {
   id: string;
   userId?: string;
+  itemId: string;
   nickname?: string;
   content?: string;
   rating?: number;

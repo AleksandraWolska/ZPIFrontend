@@ -7,6 +7,7 @@ export const comments: Comment[] = [
     nickname: "TechGeek",
     content: "Great computer, very fast!",
     datetime: "2023-09-20T10:30:00",
+    itemId: "1",
   },
   {
     id: "2",
@@ -14,6 +15,7 @@ export const comments: Comment[] = [
     nickname: "ComputerWhiz",
     content: "Impressive performance.",
     datetime: "2023-09-19T15:45:00",
+    itemId: "1",
   },
   {
     id: "3",
@@ -21,6 +23,7 @@ export const comments: Comment[] = [
     nickname: "TechSavvy",
     content: "Excellent build quality.",
     datetime: "2023-09-18T09:20:00",
+    itemId: "1",
   },
   {
     id: "4",
@@ -28,6 +31,7 @@ export const comments: Comment[] = [
     nickname: "GadgetGuru",
     content: "Good value for money.",
     datetime: "2023-09-17T14:10:00",
+    itemId: "1",
   },
   {
     id: "5",
@@ -35,5 +39,6 @@ export const comments: Comment[] = [
     nickname: "ComputerNerd",
     content: "Very satisfied with my purchase.",
     datetime: "2023-09-16T17:55:00",
+    itemId: "1",
   },
 ];

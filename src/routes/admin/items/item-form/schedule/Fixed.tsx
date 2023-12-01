@@ -18,12 +18,12 @@ function Fixed() {
         Fixed schedule
       </Typography>
       <Typography sx={{ marginBottom: 2 }}>
-        Cinemas, shared transportation
+        Define time range for your item
       </Typography>
 
       <Stack alignItems="flex-start" gap={1}>
         <DateTimePicker
-          label="startDateTime"
+          label="Start Time"
           value={dayjs(schedule.startDateTime)}
           onChange={(newValue) => {
             if (newValue) {
@@ -55,12 +55,12 @@ function Fixed() {
               }}
             />
           }
-          label="endDateTime"
+          label="Add end time"
         />
 
         {!!schedule.endDateTime && (
           <DateTimePicker
-            label="endDateTime"
+            label="End Time"
             value={dayjs(schedule.endDateTime)}
             onChange={(newValue) => {
               if (newValue) {

@@ -23,9 +23,12 @@ function Continuous() {
   return (
     <StepWrapper>
       <Typography variant="h4" sx={{ mt: 1, mb: 2 }}>
-        Continuous
+        Continuous availability
       </Typography>
-      <Typography sx={{ marginBottom: 2 }}>Apartments, cars</Typography>
+      <Typography sx={{ marginBottom: 2 }}>
+        Define time ranges from which users can freely choose their preferred
+        reservation time.
+      </Typography>
 
       <Stack width="80%" gap={2} alignItems="flex-end">
         <TextField

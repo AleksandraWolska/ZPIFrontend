@@ -23,10 +23,10 @@ function Slots() {
   return (
     <StepWrapper>
       <Typography variant="h4" sx={{ mt: 1, mb: 2 }}>
-        Short slots
+        Slots availability
       </Typography>
       <Typography sx={{ marginBottom: 2 }}>
-        Office hours, appointments
+        Define time slots users can reserve.
       </Typography>
 
       <Stack width="80%" gap={2} alignItems="flex-end">

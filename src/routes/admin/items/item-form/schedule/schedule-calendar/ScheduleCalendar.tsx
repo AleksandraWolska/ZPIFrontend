@@ -115,7 +115,14 @@ function ScheduleCalendar({
       onSelectSlot={handleSelectSlot}
       onSelectEvent={handleSelectEvent}
       onSelecting={handleSelecting}
-      timeslots={step ? 60 / step : 1}
+      timeslots={
+        step
+          ? 60 /
+            Array.from({ length: 60 }, (_, i) => i + 1).reduce((a, b) =>
+              60 % b === 0 && b <= step ? b : a,
+            )
+          : 1
+      }
       step={step}
       onEventResize={handleEventResize}
       className="scheduleCalendar"

@@ -5,9 +5,11 @@ import {
   Box,
   Checkbox,
   Divider,
+  FormControl,
   FormControlLabel,
   FormGroup,
   IconButton,
+  InputLabel,
   MenuItem,
   Select,
   Stack,
@@ -131,23 +133,24 @@ function CustomAttributesSpec({
                     }
                   }}
                 />
-
-                <Select
-                  value={attr.dataType}
-                  label="Attribute Type"
-                  sx={{ width: "35%" }}
-                  onChange={(e) => {
-                    const val = e.target
-                      .value as CustomAttributeSpec["dataType"];
-                    updateLocalAttributeSpec(attr.id, { dataType: val });
-                  }}
-                  disabled={disabled}
-                >
-                  <MenuItem value="string">string</MenuItem>
-                  <MenuItem value="number">number</MenuItem>
-                  <MenuItem value="boolean">boolean</MenuItem>
-                </Select>
-
+                <FormControl size="small" variant="outlined" fullWidth>
+                  <InputLabel id="Attribute Type">Attribute Type</InputLabel>
+                  <Select
+                    value={attr.dataType}
+                    label="Attribute Type"
+                    sx={{ width: "35%" }}
+                    onChange={(e) => {
+                      const val = e.target
+                        .value as CustomAttributeSpec["dataType"];
+                      updateLocalAttributeSpec(attr.id, { dataType: val });
+                    }}
+                    disabled={disabled}
+                  >
+                    <MenuItem value="string">string</MenuItem>
+                    <MenuItem value="number">number</MenuItem>
+                    <MenuItem value="boolean">boolean</MenuItem>
+                  </Select>
+                </FormControl>
                 <IconButton
                   sx={{
                     width: "5%",

@@ -20,6 +20,9 @@ function SubItemsList({
         <List>
           {selectedItem.subItems?.map((subItem) => {
             const isAvailable = subItem.availableAmount !== 0;
+            const isPast =
+              subItem.schedule?.startDateTime &&
+              new Date(subItem.schedule.startDateTime) < new Date();
 
             const isSelected = selectedSubItemsList.some(
               (i) => i.id === subItem.id,
@@ -29,10 +32,12 @@ function SubItemsList({
               <ListItem
                 key={subItem.id}
                 onClick={
-                  isAvailable ? () => toggleItemSelection(subItem) : undefined
+                  isAvailable && !isPast
+                    ? () => toggleItemSelection(subItem)
+                    : undefined
                 }
                 style={{
-                  cursor: isAvailable ? "pointer" : "default",
+                  cursor: isAvailable && !isPast ? "pointer" : "default",
                 }}
               >
                 <Box
@@ -45,15 +50,17 @@ function SubItemsList({
                   justifyContent="space-between"
                   alignItems="center"
                   style={{
-                    opacity: isAvailable ? 1 : 0.4,
+                    opacity: isAvailable && !isPast ? 1 : 0.4,
                     transition: "background-color 0.3s ease",
                   }}
                 >
                   {/* Text Information */}
                   <Box flexGrow={1} marginRight={2}>
                     <ListItemText
-                      primary={subItem.title}
-                      secondary={subItem.subtitle}
+                      primary={`${
+                        isPast ? "[PAST] " : !isAvailable ? "[FULL] " : ""
+                      }${subItem.title}`}
+                      secondary={subItem.subtitle ? subItem.subtitle : ""}
                       style={{
                         color: "black",
                       }}

@@ -485,8 +485,23 @@ export function CheckAvailabilityCalendar({
           defaultDate={defaultDate}
           view={Views.WEEK}
           formats={baseFormats}
-          min={new Date(new Date(0).setHours(earliestCalendarStart - 1))}
-          max={new Date(new Date(0).setHours(latestCalendarEnd + 1))}
+          min={
+            new Date(
+              new Date(0).setHours(
+                earliestCalendarStart <= 1 ? 0 : earliestCalendarStart - 1,
+              ),
+            )
+          }
+          max={
+            new Date(
+              new Date(0).setHours(
+                latestCalendarEnd >= 22 ? 23 : latestCalendarEnd + 2,
+                30,
+                0,
+                0,
+              ),
+            )
+          }
           selectable
           getNow={() => new Date()}
           events={events}
@@ -508,9 +523,11 @@ export function CheckAvailabilityCalendar({
                 styles.backgroundColor = theme.palette.primary.main;
                 break;
               case "morning":
-                styles.display = "none";
+                // styles.display = "none"; TODO
+                styles.backgroundColor = "red";
                 break;
               case "overnight":
+                styles.backgroundColor = "blue";
                 break;
               default:
                 break;

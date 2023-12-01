@@ -105,6 +105,7 @@ export const items: Item[] = [
     ],
     schedule: {
       startDateTime: "2024-02-01T12:00:00Z",
+      endDateTime: "2024-02-01T15:00:00Z",
     },
     active: true,
     mark: 4.5,
@@ -184,7 +185,7 @@ export const items: Item[] = [
         id: "6",
         title: "Rząd 2 Miejsce 1",
         subtitle: "subtitle",
-        availableAmount: 1,
+        availableAmount: 0,
       },
       {
         id: "7",
@@ -196,7 +197,7 @@ export const items: Item[] = [
         id: "8",
         title: "Rząd 2 Miejsce 3",
         subtitle: "subtitle",
-        availableAmount: 1,
+        availableAmount: 0,
       },
       {
         id: "9",
@@ -212,7 +213,7 @@ export const items: Item[] = [
       },
     ],
     schedule: {
-      startDateTime: "2024-02-02T12:00:00Z",
+      startDateTime: "2022-02-02T12:00:00Z",
     },
     active: true,
     mark: 4.5,
@@ -268,7 +269,7 @@ export const items: Item[] = [
         id: "2",
         title: "Rząd 1 Miejsce 2",
         subtitle: "subtitle",
-        availableAmount: 1,
+        availableAmount: 0,
       },
       {
         id: "3",

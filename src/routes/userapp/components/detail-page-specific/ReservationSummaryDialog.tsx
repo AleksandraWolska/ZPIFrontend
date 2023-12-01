@@ -17,6 +17,7 @@ import { useAuth } from "react-oidc-context";
 import { FixedSchedule, NewReservation } from "../../../../types";
 import useItemDetails from "../../details-page/useItemDetails";
 import useStoreConfig from "../../wrapper/useStoreConfig";
+import { shouldShowEnd } from "../../../common/utils";
 
 type Props = {
   reservation: NewReservation;
@@ -39,6 +40,7 @@ export function ReservationSummaryDialog({
   );
 
   const auth = useAuth();
+
   const storeConfig = useStoreConfig();
   const [showOptionalMessageInput, setShowOptionalMessageInput] =
     useState(false);
@@ -71,13 +73,16 @@ export function ReservationSummaryDialog({
               <ListItemText
                 primary={`${subItemElement?.title} - ${subItemElement?.subtitle}`}
                 secondary={
-                  subItemElement?.schedule?.startDateTime &&
-                  subItemElement?.schedule?.endDateTime
-                    ? `From ${new Date(
+                  subItemElement?.schedule?.startDateTime
+                    ? `${new Date(
                         subItemElement?.schedule?.startDateTime,
-                      ).toLocaleString()} to ${new Date(
-                        subItemElement?.schedule?.endDateTime,
-                      ).toLocaleString()}`
+                      ).toLocaleString()} ${
+                        subItemElement?.schedule?.endDateTime
+                          ? `to ${new Date(
+                              subItemElement?.schedule?.endDateTime,
+                            ).toLocaleString()}`
+                          : ""
+                      }`
                     : ""
                 }
                 sx={{ textAlign: "center" }}
@@ -93,31 +98,30 @@ export function ReservationSummaryDialog({
     </Typography>
   );
 
-  const fixedSummary = subItem ? (
-    fixedSummaryWithSubitems
-  ) : (
-    <>
-      <Typography>[no subitems]</Typography>
-      {item.schedule && "startDateTime" in item.schedule && (
-        <Typography>
-          Start:{" "}
-          {new Date(
-            (item.schedule as FixedSchedule).startDateTime,
-          ).toLocaleString()}
-        </Typography>
-      )}
-      {item.schedule &&
-        "endDateTime" in item.schedule &&
-        (item.schedule as FixedSchedule).endDateTime && (
+  const fixedSummary = subItem
+    ? fixedSummaryWithSubitems
+    : item.schedule &&
+      "startDateTime" in item.schedule && (
+        <>
           <Typography>
-            End:{" "}
+            Start:{" "}
             {new Date(
-              (item.schedule as FixedSchedule).endDateTime!,
+              (item.schedule as FixedSchedule).startDateTime,
             ).toLocaleString()}
-          </Typography>
-        )}
-    </>
-  );
+          </Typography>{" "}
+          {shouldShowEnd(
+            (item.schedule as FixedSchedule).startDateTime,
+            (item.schedule as FixedSchedule).endDateTime,
+          ) && (
+            <Typography>
+              End:{" "}
+              {new Date(
+                (item.schedule as FixedSchedule).endDateTime!,
+              ).toLocaleString()}
+            </Typography>
+          )}
+        </>
+      );
 
   const optionalMessage = (
     <Collapse in={showOptionalMessageInput}>
