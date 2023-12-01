@@ -1,0 +1,21 @@
+@import "../../../../../../../node_modules/react-big-calendar/lib/css/react-big-calendar.css";
+
+.scheduleCalendar .rbc-allday-cell {
+    display: none;
+}
+
+.scheduleCalendar .rbc-header {
+    border-bottom: none;
+}
+
+.scheduleCalendar .rbc-current-time-indicator {
+    display: none;
+}
+
+.scheduleCalendar .rbc-today {
+    background-color: #fff;
+}
+
+.scheduleCalendar .rbc-day-slot .rbc-events-container {
+    margin-right: 0;
+}
