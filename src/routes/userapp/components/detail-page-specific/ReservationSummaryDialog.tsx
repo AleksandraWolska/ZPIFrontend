@@ -39,6 +39,7 @@ export function ReservationSummaryDialog({
   );
 
   const auth = useAuth();
+
   const storeConfig = useStoreConfig();
   const [showOptionalMessageInput, setShowOptionalMessageInput] =
     useState(false);

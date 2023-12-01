@@ -149,6 +149,7 @@ export default function ItemDetailsPage() {
       datetime: newComment.datetime,
       content: newComment.content,
       itemId: newComment.itemId,
+      userId: auth.user?.profile.sub,
     };
 
     addComment.mutate(userComment, {
