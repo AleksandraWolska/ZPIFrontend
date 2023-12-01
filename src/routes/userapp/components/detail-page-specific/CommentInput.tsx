@@ -65,6 +65,7 @@ function CommentInput({
             margin="dense"
             fullWidth
             label="Your Comment"
+            name="comment-input"
             variant="outlined"
             multiline
             rows={2}
@@ -78,6 +79,7 @@ function CommentInput({
             margin="dense"
             fullWidth
             label="Optional nick"
+            name="nick-input"
             variant="outlined"
             placeholder="Enter optional nickname..."
             value={newComment.nickname}

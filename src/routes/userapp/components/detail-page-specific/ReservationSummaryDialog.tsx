@@ -174,6 +174,7 @@ export function ReservationSummaryDialog({
           {auth.isAuthenticated ? (
             <TextField
               label="email"
+              name="email"
               disabled
               fullWidth
               margin="normal"
@@ -182,6 +183,7 @@ export function ReservationSummaryDialog({
           ) : (
             <TextField
               label="email"
+              name="email"
               fullWidth
               margin="normal"
               onChange={(e) => {
@@ -196,6 +198,7 @@ export function ReservationSummaryDialog({
             <TextField
               key={infoKey}
               label={infoKey}
+              name={infoKey}
               fullWidth
               margin="normal"
               onChange={(e) =>
