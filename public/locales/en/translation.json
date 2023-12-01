@@ -1,8 +1,20 @@
 {
-  "home": {
-    "title": "Hello World!"
+  "auth": {
+    "unauthorized": "You're unauthorized to proceed with this action",
+    "pleaseLogIn": "Please log in to continue",
+    "login": "Login",
+    "logout": "Logout"
   },
-  "todos": {
-    "title": "Todos"
+  "admin": {
+    "headings": {
+      "yourStores": "Your stores",
+      "createNew": "Or create new?",
+      "noStores": "You have no stores yet, start with creating one",
+      "newStore": "New store"
+    },
+    "desc": {
+      "existingStore": "Manage your items, reservation in already existing store",
+      "newStore": "Create new store for your business"
+    }
   }
 }

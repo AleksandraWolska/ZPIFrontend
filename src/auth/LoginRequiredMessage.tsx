@@ -3,8 +3,11 @@ import { Box } from "@mui/system";
 import { useAuth } from "react-oidc-context";
 import { useLocation } from "react-router-dom";
 import LoginIcon from "@mui/icons-material/Login";
+import { useTranslation } from "react-i18next";
 
 function LoginRequiredMessage() {
+  const { t } = useTranslation();
+
   const auth = useAuth();
   const location = useLocation();
 
@@ -16,8 +19,8 @@ function LoginRequiredMessage() {
       flexDirection="column"
       padding="30px"
     >
-      <Typography variant="body1">{`You're unauthorized to proceed with this action`}</Typography>
-      <Typography variant="h4">Please log in to continue</Typography>
+      <Typography variant="body1">{t("auth.unauthorized")}</Typography>
+      <Typography variant="h4">{t("auth.pleaseLogIn")}</Typography>
       <Button
         variant="contained"
         sx={{ m: 1, p: 1 }}
@@ -29,7 +32,7 @@ function LoginRequiredMessage() {
         }}
       >
         <LoginIcon sx={{ color: "#fff" }} />
-        <Typography ml={1}> login </Typography>
+        <Typography ml={1}>{t("auth.login")}</Typography>
       </Button>
     </Box>
   );
