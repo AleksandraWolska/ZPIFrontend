@@ -1,4 +1,7 @@
 import { useState } from "react";
+import { useAuth } from "react-oidc-context";
+import { useLocation } from "react-router-dom";
+
 import {
   Typography,
   Grid,
@@ -23,6 +26,8 @@ function Home() {
   const [openAbout, setOpenAbout] = useState(true);
   const [openAuthors, setOpenAuthors] = useState(true);
   const theme = useTheme();
+  const auth = useAuth();
+  const location = useLocation();
 
   const options = [
     {
@@ -30,12 +35,6 @@ function Home() {
       description: "Manage your stores or create new",
       value: "/admin",
       icon: <PersonIcon sx={{ fontSize: "5rem", color: "grey" }} />,
-    },
-    {
-      label: "Login/Register",
-      description: "Resister or login to system",
-      value: "/secret",
-      icon: <KeyIcon sx={{ fontSize: "5rem", color: "grey" }} />,
     },
   ];
 
@@ -181,6 +180,63 @@ function Home() {
             </ListItem>
           </ClearNavLink>
         ))}
+        {/* TODO masz pomysł czemu to nie działa? */}
+        {auth.isAuthenticated ? (
+          <ListItem key="logout" sx={{ cursor: "pointer" }}>
+            <ActionBox
+              theme={theme}
+              onClick={() => {
+                const currentPath = location.pathname + location.search;
+                auth.signoutRedirect({
+                  post_logout_redirect_uri: `${window.location.origin}${currentPath}`,
+                });
+              }}
+              sx={{
+                marginBottom: 2,
+              }}
+            >
+              <Box sx={{ margin: 1, marginRight: 3 }}>
+                <KeyIcon sx={{ fontSize: "5rem", color: "grey" }} />
+              </Box>
+              <ListItemText
+                primary={<Typography variant="h5">Logout</Typography>}
+                secondary={
+                  <Typography variant="body1" color="grey">
+                    Logout from the system
+                  </Typography>
+                }
+              />
+            </ActionBox>
+          </ListItem>
+        ) : (
+          <ListItem key="login" sx={{ cursor: "pointer" }}>
+            <ActionBox
+              theme={theme}
+              onClick={() => {
+                const currentPath = location.pathname + location.search;
+                auth.signinRedirect({
+                  redirect_uri: `${window.location.origin}${currentPath}`,
+                });
+              }}
+              sx={{
+                marginBottom: 2,
+              }}
+            >
+              <Box sx={{ margin: 1, marginRight: 3 }}>
+                <KeyIcon sx={{ fontSize: "5rem", color: "grey" }} />
+              </Box>
+              <ListItemText
+                primary={<Typography variant="h5">Login/Register</Typography>}
+                secondary={
+                  <Typography variant="body1" color="grey">
+                    Resister or login to system
+                  </Typography>
+                }
+              />
+            </ActionBox>
+          </ListItem>
+        )}
+
         <Typography variant="h3" mb={2} mt={2}>
           Apps created using this system
         </Typography>
