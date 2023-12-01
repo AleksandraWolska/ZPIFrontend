@@ -38,6 +38,7 @@ import { FixedSchedule, Item, Schedule } from "../../../../types";
 import useStoreConfig from "../../store/useStoreConfig";
 import ItemImage from "../../components/ItemImage";
 import AdminActionBox from "../../components/AdminActionBox";
+import { shouldShowEnd } from "../../../common/utils";
 
 function isFixedSchedule(schedule: Schedule): schedule is FixedSchedule {
   return (schedule as FixedSchedule).startDateTime !== undefined;
@@ -262,20 +263,24 @@ function ItemList() {
                                   si.schedule.startDateTime,
                                 ).toLocaleString()}
                               </Typography>
+                              {shouldShowEnd(
+                                si.schedule.startDateTime,
+                                si.schedule.endDateTime,
+                              ) && (
+                                <>
+                                  <Typography ml={1} color="grey">
+                                    {` - `}
+                                  </Typography>
+                                  <Typography ml={1} color="grey">
+                                    {new Date(
+                                      si.schedule.endDateTime!,
+                                    ).toLocaleString()}
+                                  </Typography>
+                                </>
+                              )}
                             </>
                           )}
-                          {si.schedule && si.schedule.endDateTime && (
-                            <>
-                              <Typography ml={1} color="grey">
-                                {` - `}
-                              </Typography>
-                              <Typography ml={1} color="grey">
-                                {new Date(
-                                  si.schedule.endDateTime,
-                                ).toLocaleString()}
-                              </Typography>
-                            </>
-                          )}
+
                           {si.amount !== (null || undefined) && (
                             <>
                               <Typography ml={1} color="grey">
@@ -379,7 +384,10 @@ function ItemDescription({ item }: { item: Item }) {
             {`${new Date(
               (item.schedule as FixedSchedule).startDateTime,
             ).toLocaleString()}${
-              (item.schedule as FixedSchedule).endDateTime
+              shouldShowEnd(
+                (item.schedule as FixedSchedule).startDateTime,
+                (item.schedule as FixedSchedule).endDateTime,
+              )
                 ? ` - ${new Date(
                     (item.schedule as FixedSchedule).endDateTime!,
                   ).toLocaleString()}`

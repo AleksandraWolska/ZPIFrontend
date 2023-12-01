@@ -17,6 +17,7 @@ import { ExpandMore, Delete } from "@mui/icons-material";
 import { Link, useParams } from "react-router-dom";
 import useUserReservedItems from "./useUserReservedItems";
 import { UserReservation } from "../types";
+import { shouldShowEnd } from "../../common/utils";
 
 function UserReservationsPage() {
   const { data: reservations } = useUserReservedItems();
@@ -122,9 +123,12 @@ function UserReservationsPage() {
                               {`${new Date(
                                 reservation.startDateTime,
                               ).toLocaleString()}${
-                                reservation.endDateTime
+                                shouldShowEnd(
+                                  reservation.startDateTime,
+                                  reservation.endDateTime,
+                                )
                                   ? ` - ${new Date(
-                                      reservation.endDateTime,
+                                      reservation.endDateTime!,
                                     ).toLocaleString()}`
                                   : ""
                               }`}
@@ -206,19 +210,22 @@ function UserReservationsPage() {
                                       {new Date(
                                         si.startDateTime,
                                       ).toLocaleString()}
-                                    </Typography>
-                                  </>
-                                )}
-                                {si.endDateTime && (
-                                  <>
-                                    <Typography ml={1} color="grey">
-                                      {` - `}
-                                    </Typography>
-                                    <Typography ml={1} color="grey">
-                                      {new Date(
-                                        si.endDateTime,
-                                      ).toLocaleString()}
-                                    </Typography>
+                                    </Typography>{" "}
+                                    {shouldShowEnd(
+                                      si.startDateTime,
+                                      si.endDateTime,
+                                    ) && (
+                                      <>
+                                        <Typography ml={1} color="grey">
+                                          {` - `}
+                                        </Typography>
+                                        <Typography ml={1} color="grey">
+                                          {new Date(
+                                            si.endDateTime!,
+                                          ).toLocaleString()}
+                                        </Typography>
+                                      </>
+                                    )}
                                   </>
                                 )}
                               </ListItem>
@@ -257,19 +264,25 @@ function UserReservationsPage() {
               {reservationToDelete.item.title}
             </Typography>
             {reservationToDelete.startDateTime && (
-              <Typography>
-                {`Starts on:  ${new Date(
+              <>
+                <Typography>
+                  {`Starts on:  ${new Date(
+                    reservationToDelete.startDateTime,
+                  ).toLocaleString()}`}
+                </Typography>
+                {shouldShowEnd(
                   reservationToDelete.startDateTime,
-                ).toLocaleString()}`}
-              </Typography>
-            )}
-            {reservationToDelete.endDateTime && (
-              <Typography>
-                {`Ends on ${new Date(
                   reservationToDelete.endDateTime,
-                ).toLocaleString()}`}
-              </Typography>
+                ) && (
+                  <Typography>
+                    {`Ends on ${new Date(
+                      reservationToDelete.endDateTime!,
+                    ).toLocaleString()}`}
+                  </Typography>
+                )}
+              </>
             )}
+
             <Divider sx={{ marginTop: 2, marginBottom: 2 }} />
             <Typography>
               {`Are you sure you want to delete reservation for ${reservationToDelete?.item.title}? This action is irreversible.`}

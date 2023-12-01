@@ -17,6 +17,7 @@ import { useAuth } from "react-oidc-context";
 import { FixedSchedule, NewReservation } from "../../../../types";
 import useItemDetails from "../../details-page/useItemDetails";
 import useStoreConfig from "../../wrapper/useStoreConfig";
+import { shouldShowEnd } from "../../../common/utils";
 
 type Props = {
   reservation: NewReservation;
@@ -97,30 +98,30 @@ export function ReservationSummaryDialog({
     </Typography>
   );
 
-  const fixedSummary = subItem ? (
-    fixedSummaryWithSubitems
-  ) : (
-    <>
-      {item.schedule && "startDateTime" in item.schedule && (
-        <Typography>
-          Start:{" "}
-          {new Date(
-            (item.schedule as FixedSchedule).startDateTime,
-          ).toLocaleString()}
-        </Typography>
-      )}
-      {item.schedule &&
-        "endDateTime" in item.schedule &&
-        (item.schedule as FixedSchedule).endDateTime && (
+  const fixedSummary = subItem
+    ? fixedSummaryWithSubitems
+    : item.schedule &&
+      "startDateTime" in item.schedule && (
+        <>
           <Typography>
-            End:{" "}
+            Start:{" "}
             {new Date(
-              (item.schedule as FixedSchedule).endDateTime!,
+              (item.schedule as FixedSchedule).startDateTime,
             ).toLocaleString()}
-          </Typography>
-        )}
-    </>
-  );
+          </Typography>{" "}
+          {shouldShowEnd(
+            (item.schedule as FixedSchedule).startDateTime,
+            (item.schedule as FixedSchedule).endDateTime,
+          ) && (
+            <Typography>
+              End:{" "}
+              {new Date(
+                (item.schedule as FixedSchedule).endDateTime!,
+              ).toLocaleString()}
+            </Typography>
+          )}
+        </>
+      );
 
   const optionalMessage = (
     <Collapse in={showOptionalMessageInput}>
