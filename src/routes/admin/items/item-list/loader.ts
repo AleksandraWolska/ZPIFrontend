@@ -7,11 +7,18 @@ import { Item } from "../../../../types";
 const fetchItems = async (storeId: string): Promise<Item[]> => {
   const token = getAccessToken();
 
-  const res = await fetch(`${BACKEND_URL}/stores/${storeId}/items`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
+  const res = await fetch(
+    `${
+      process.env.NODE_ENV === "development"
+        ? `${BACKEND_URL}/stores/${storeId}/items`
+        : `${BACKEND_URL}/stores/${storeId}/items/admin`
+    }`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     },
-  });
+  );
 
   return res.json();
 };
