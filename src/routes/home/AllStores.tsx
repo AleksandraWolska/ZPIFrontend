@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { Await, useNavigate } from "react-router-dom";
+import { Await } from "react-router-dom";
 import {
   Box,
   List,
@@ -10,12 +10,11 @@ import {
 } from "@mui/material";
 import StoreIcon from "@mui/icons-material/Store";
 import { StoreSummary } from "../../types";
-import AdminActionBox from "../admin/components/AdminActionBox";
+import { ActionBox, ClearNavLink } from "../common/styledComponents";
 import useAllStores from "./useAllStores";
 
 function AllStores() {
   const allStores = useAllStores();
-  const navigate = useNavigate();
   const theme = useTheme();
 
   return (
@@ -32,29 +31,29 @@ function AllStores() {
             <List>
               {userApps.map((userApp: StoreSummary) => {
                 return (
-                  <ListItem
+                  <ClearNavLink
                     key={userApp.storeConfigId}
-                    onClick={() =>
-                      navigate(`/userapp/${userApp.storeConfigId}`)
-                    }
+                    to={`/userapp/${userApp.storeConfigId}`}
                   >
-                    <AdminActionBox theme={theme}>
-                      <Box sx={{ margin: 1, marginRight: 3 }}>
-                        <StoreIcon sx={{ fontSize: "5rem", color: "grey" }} />
-                      </Box>
-                      <ListItemText
-                        primary={
-                          <Typography variant="h4">{userApp.name}</Typography>
-                        }
-                        secondary={
-                          <Typography variant="body1" color="grey">
-                            Manage your items, reservation in already existing
-                            store
-                          </Typography>
-                        }
-                      />
-                    </AdminActionBox>
-                  </ListItem>
+                    <ListItem>
+                      <ActionBox theme={theme}>
+                        <Box sx={{ margin: 1, marginRight: 3 }}>
+                          <StoreIcon sx={{ fontSize: "5rem", color: "grey" }} />
+                        </Box>
+                        <ListItemText
+                          primary={
+                            <Typography variant="h4">{userApp.name}</Typography>
+                          }
+                          secondary={
+                            <Typography variant="body1" color="grey">
+                              Manage your items, reservation in already existing
+                              store
+                            </Typography>
+                          }
+                        />
+                      </ActionBox>
+                    </ListItem>
+                  </ClearNavLink>
                 );
               })}
             </List>

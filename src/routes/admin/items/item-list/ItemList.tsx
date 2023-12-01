@@ -37,7 +37,7 @@ import useUpdateItemActivity from "./useUpdateItemActivity";
 import { FixedSchedule, Item, Schedule } from "../../../../types";
 import useStoreConfig from "../../store/useStoreConfig";
 import ItemImage from "../../components/ItemImage";
-import AdminActionBox from "../../components/AdminActionBox";
+import { ActionBox, ClearNavLink } from "../../../common/styledComponents";
 import { shouldShowEnd } from "../../../common/utils";
 
 function isFixedSchedule(schedule: Schedule): schedule is FixedSchedule {
@@ -46,7 +46,6 @@ function isFixedSchedule(schedule: Schedule): schedule is FixedSchedule {
 
 function ItemList() {
   const storeConfig = useStoreConfig();
-  const navigate = useNavigate();
 
   const items = useItems();
   const [futureOnly, setFutureOnly] = useState(false);
@@ -99,22 +98,23 @@ function ItemList() {
         <Typography variant="overline" mb={2}>
           It seems there is no items defined in this store yet...
         </Typography>
-
-        <ListItem key="new" onClick={() => navigate("../add-item")}>
-          <AdminActionBox theme={theme}>
-            <Box sx={{ margin: 1, marginRight: 3 }}>
-              <AddIcon sx={{ fontSize: "5rem", color: "grey" }} />
-            </Box>
-            <ListItemText
-              primary={<Typography variant="h4">Add item</Typography>}
-              secondary={
-                <Typography variant="body1" color="grey">
-                  Add new item users can reserve
-                </Typography>
-              }
-            />
-          </AdminActionBox>
-        </ListItem>
+        <ClearNavLink to="new">
+          <ListItem key="new">
+            <ActionBox theme={theme}>
+              <Box sx={{ margin: 1, marginRight: 3 }}>
+                <AddIcon sx={{ fontSize: "5rem", color: "grey" }} />
+              </Box>
+              <ListItemText
+                primary={<Typography variant="h4">Add item</Typography>}
+                secondary={
+                  <Typography variant="body1" color="grey">
+                    Add new item users can reserve
+                  </Typography>
+                }
+              />
+            </ActionBox>
+          </ListItem>
+        </ClearNavLink>
       </Box>
     );
   return (

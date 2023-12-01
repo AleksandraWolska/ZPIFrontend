@@ -11,6 +11,7 @@ import {
   Typography,
 } from "@mui/material";
 import LogoutIcon from "@mui/icons-material/Logout";
+import LanguageIcon from "@mui/icons-material/Language";
 import LoginIcon from "@mui/icons-material/Login";
 import PersonIcon from "@mui/icons-material/Person";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -107,21 +108,23 @@ function TopBarMenu() {
         )}
 
         <MenuItem>
-          <Select
-            value={i18n.language}
-            label="Język"
-            onChange={(e) => changeLanguage(e.target.value)}
-            sx={{
-              color: "#fff",
-              "& .MuiSelect-icon": {
+          <MenuText>
+            <LanguageIcon />
+            <Select
+              value={i18n.language}
+              onChange={(e) => changeLanguage(e.target.value)}
+              sx={{
                 color: "#fff",
-              },
-              ".MuiOutlinedInput-notchedOutline": { border: 0 },
-            }}
-          >
-            <MenuItem value="en">EN</MenuItem>
-            <MenuItem value="pl">PL</MenuItem>
-          </Select>
+                "& .MuiSelect-icon": {
+                  color: "#fff",
+                },
+                ".MuiOutlinedInput-notchedOutline": { border: 0 },
+              }}
+            >
+              <MenuItem value="en">EN</MenuItem>
+              <MenuItem value="pl">PL</MenuItem>
+            </Select>
+          </MenuText>
         </MenuItem>
 
         <MenuItem>
@@ -220,33 +223,39 @@ function TopBarMenu() {
             )}
           </MenuItem>
 
-          <Box
-            padding={1}
-            sx={{
-              display: "flex",
-              justifyContent: "space-around",
-            }}
-          >
-            <Typography
-              style={{ cursor: "pointer" }}
-              onClick={() => {
-                i18n.changeLanguage("en");
-                handleCloseNavMenu();
+          <MenuItem>
+            <Box
+              padding={0.5}
+              sx={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "space-between",
               }}
             >
-              EN
-            </Typography>
-            {" | "}
-            <Typography
-              style={{ cursor: "pointer" }}
-              onClick={() => {
-                i18n.changeLanguage("pl");
-                handleCloseNavMenu();
-              }}
-            >
-              PL
-            </Typography>
-          </Box>
+              <LanguageIcon />
+              <Typography
+                ml={1}
+                style={{ cursor: "pointer" }}
+                onClick={() => {
+                  i18n.changeLanguage("en");
+                  handleCloseNavMenu();
+                }}
+              >
+                EN
+              </Typography>
+              <Typography ml={1}>|</Typography>
+              <Typography
+                ml={1}
+                style={{ cursor: "pointer" }}
+                onClick={() => {
+                  i18n.changeLanguage("pl");
+                  handleCloseNavMenu();
+                }}
+              >
+                PL
+              </Typography>{" "}
+            </Box>
+          </MenuItem>
         </Menu>
       </Box>
     </>

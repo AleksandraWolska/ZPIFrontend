@@ -1,4 +1,7 @@
 import { useState } from "react";
+import { useAuth } from "react-oidc-context";
+import { useLocation } from "react-router-dom";
+
 import {
   Typography,
   Grid,
@@ -14,30 +17,25 @@ import {
 import PersonIcon from "@mui/icons-material/Person";
 import KeyIcon from "@mui/icons-material/Key";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { useNavigate } from "react-router-dom";
-import AdminActionBox from "../admin/components/AdminActionBox";
+import { ActionBox, ClearNavLink } from "../common/styledComponents";
 import AllStores from "./AllStores";
 
 function Home() {
   // const { t } = useTranslation();
-  const navigate = useNavigate();
   const [openUsage, setOpenUsage] = useState(true);
   const [openAbout, setOpenAbout] = useState(true);
   const [openAuthors, setOpenAuthors] = useState(true);
   const theme = useTheme();
+  const auth = useAuth();
+  const location = useLocation();
 
+  // TODO leave for now, maybe more links would be needed
   const options = [
     {
       label: "Admin application",
       description: "Manage your stores or create new",
       value: "/admin",
       icon: <PersonIcon sx={{ fontSize: "5rem", color: "grey" }} />,
-    },
-    {
-      label: "Login/Register",
-      description: "Resister or login to system",
-      value: "/secret",
-      icon: <KeyIcon sx={{ fontSize: "5rem", color: "grey" }} />,
     },
   ];
 
@@ -162,29 +160,83 @@ function Home() {
           Quick links
         </Typography>
         {options.map((option) => (
-          <ListItem
-            key={option.value}
-            onClick={() => navigate(option.value)}
-            sx={{ cursor: "pointer" }}
-          >
-            <AdminActionBox
+          <ClearNavLink to={option.value} key={option.value}>
+            <ListItem sx={{ cursor: "pointer" }}>
+              <ActionBox
+                theme={theme}
+                sx={{
+                  marginBottom: 2,
+                }}
+              >
+                <Box sx={{ margin: 1, marginRight: 3 }}>{option.icon}</Box>
+                <ListItemText
+                  primary={<Typography variant="h5">{option.label}</Typography>}
+                  secondary={
+                    <Typography variant="body1" color="grey">
+                      {option.description}
+                    </Typography>
+                  }
+                />
+              </ActionBox>
+            </ListItem>
+          </ClearNavLink>
+        ))}
+        {auth.isAuthenticated ? (
+          <ListItem key="logout" sx={{ cursor: "pointer" }}>
+            <ActionBox
               theme={theme}
+              onClick={() => {
+                const currentPath = location.pathname + location.search;
+                auth.signoutRedirect({
+                  post_logout_redirect_uri: `${window.location.origin}${currentPath}`,
+                });
+              }}
               sx={{
                 marginBottom: 2,
               }}
             >
-              <Box sx={{ margin: 1, marginRight: 3 }}>{option.icon}</Box>
+              <Box sx={{ margin: 1, marginRight: 3 }}>
+                <KeyIcon sx={{ fontSize: "5rem", color: "grey" }} />
+              </Box>
               <ListItemText
-                primary={<Typography variant="h5">{option.label}</Typography>}
+                primary={<Typography variant="h5">Logout</Typography>}
                 secondary={
                   <Typography variant="body1" color="grey">
-                    {option.description}
+                    Logout from the system
                   </Typography>
                 }
               />
-            </AdminActionBox>
+            </ActionBox>
           </ListItem>
-        ))}
+        ) : (
+          <ListItem key="login" sx={{ cursor: "pointer" }}>
+            <ActionBox
+              theme={theme}
+              onClick={() => {
+                const currentPath = location.pathname + location.search;
+                auth.signinRedirect({
+                  redirect_uri: `${window.location.origin}${currentPath}`,
+                });
+              }}
+              sx={{
+                marginBottom: 2,
+              }}
+            >
+              <Box sx={{ margin: 1, marginRight: 3 }}>
+                <KeyIcon sx={{ fontSize: "5rem", color: "grey" }} />
+              </Box>
+              <ListItemText
+                primary={<Typography variant="h5">Login/Register</Typography>}
+                secondary={
+                  <Typography variant="body1" color="grey">
+                    Resister or login to system
+                  </Typography>
+                }
+              />
+            </ActionBox>
+          </ListItem>
+        )}
+
         <Typography variant="h3" mb={2} mt={2}>
           Apps created using this system
         </Typography>
