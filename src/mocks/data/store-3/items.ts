@@ -91,7 +91,7 @@ export const items: Item[] = [
     ],
     amount: 5,
     schedule: {
-      startDateTime: "2024-02-02T12:00:00Z",
+      startDateTime: "2022-02-02T12:00:00Z",
     },
     active: true,
     mark: 4.8,

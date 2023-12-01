@@ -34,60 +34,45 @@ import theme from "../../../../theme";
 import ConfirmDialog from "../../components/ConfirmDialog";
 import useDeleteItem from "./useDeleteItem";
 import useUpdateItemActivity from "./useUpdateItemActivity";
-import { FixedSchedule, Item } from "../../../../types";
+import { FixedSchedule, Item, Schedule } from "../../../../types";
 import useStoreConfig from "../../store/useStoreConfig";
 import ItemImage from "../../components/ItemImage";
 import AdminActionBox from "../../components/AdminActionBox";
 
+function isFixedSchedule(schedule: Schedule): schedule is FixedSchedule {
+  return (schedule as FixedSchedule).startDateTime !== undefined;
+}
+
 function ItemList() {
   const storeConfig = useStoreConfig();
   const navigate = useNavigate();
-  // const fetchedItems = useItems();
-  // const [futureOnly, setFutureOnly] = useState(false);
 
-  // const items = fetchedItems.sort((a, b) => {
-  //   const titleA = a.attributes.title.toLowerCase();
-  //   const titleB = b.attributes.title.toLowerCase();
-
-  //   if (titleA < titleB) {
-  //     return -1;
-  //   }
-  //   if (titleA > titleB) {
-  //     return 1;
-  //   }
-  //   return 0;
-  // });
-
-  const fetchedItems = useItems();
+  const items = useItems();
   const [futureOnly, setFutureOnly] = useState(false);
 
-  let items;
+  const filteredItems = items
+    .filter(
+      (item) =>
+        !futureOnly ||
+        !item.schedule ||
+        !isFixedSchedule(item.schedule) ||
+        new Date(item.schedule.startDateTime) > new Date(),
+    )
+    .sort((a, b) => {
+      if (
+        a.schedule &&
+        b.schedule &&
+        isFixedSchedule(a.schedule) &&
+        isFixedSchedule(b.schedule)
+      ) {
+        return (
+          new Date(a.schedule.startDateTime).getTime() -
+          new Date(b.schedule.startDateTime).getTime()
+        );
+      }
 
-  if (!storeConfig.core.flexibility && !storeConfig.core.periodicity) {
-    items = fetchedItems
-      .filter((item) => {
-        const itemFixedSchedule = item.schedule as FixedSchedule;
-
-        if (!itemFixedSchedule || !itemFixedSchedule.startDateTime) return true;
-        if (futureOnly) {
-          const now = new Date();
-          const startDateTime = new Date(itemFixedSchedule.startDateTime);
-          return startDateTime > now;
-        }
-        return true;
-      })
-      .sort(
-        (a, b) =>
-          new Date((a.schedule as FixedSchedule).startDateTime).getTime() -
-          new Date((b.schedule as FixedSchedule).startDateTime).getTime(),
-      );
-  } else {
-    items = fetchedItems.sort((a, b) => {
-      const titleA = a.attributes.title.toLowerCase();
-      const titleB = b.attributes.title.toLowerCase();
-      return titleA.localeCompare(titleB);
+      return a.attributes.title.localeCompare(b.attributes.title);
     });
-  }
 
   const [expandedId, setExpandedId] = useState<string | null>(null);
 
@@ -98,8 +83,9 @@ function ItemList() {
   const [itemToHaveActivityUpdated, setItemToHaveActivityUpdated] = useState<
     string | null
   >(null);
-  const currentActivity = items.find((i) => i.id === itemToHaveActivityUpdated)
-    ?.active;
+  const currentActivity = filteredItems.find(
+    (i) => i.id === itemToHaveActivityUpdated,
+  )?.active;
   const updateItemActivity = useUpdateItemActivity();
 
   const [itemToBeDeleted, setItemToBeDeleted] = useState<string | null>(null);
@@ -147,10 +133,10 @@ function ItemList() {
                 }}
               />
             }
-            label="Show future reservations only"
+            label="Show future events only"
           />
         )}
-        {items.map((item) => {
+        {filteredItems.map((item) => {
           return (
             <Card
               sx={{ boxShadow: 3, borderRadius: "10px" }}
@@ -160,8 +146,6 @@ function ItemList() {
               <Box
                 sx={{
                   padding: 3,
-                  bgcolor: "white",
-
                   display: "flex",
                   width: "100%",
                   alignItems: "center",
