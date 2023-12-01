@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { STORE_CONFIG_STEPS, StoreConfigStep } from "../../types";
 import { useStoreConfig } from "../../StoreConfigProvider";
 import { calculateProgress } from "./utils";
@@ -19,6 +20,8 @@ function Periodicity({
   setActiveStep: (step: StoreConfigStep) => void;
   setProgress: (progress: number) => void;
 }) {
+  const { t } = useTranslation();
+
   const { storeConfig, appendCoreAttribute, withdrawToCoreStep } =
     useStoreConfig();
   const [showInfo, setShowInfo] = useState(false);
@@ -38,28 +41,23 @@ function Periodicity({
         }}
       />
 
-      <WizardStepTitle>Event Periodicity</WizardStepTitle>
+      <WizardStepTitle>{t("admin.wizard.periodicity.title")}</WizardStepTitle>
 
       <InfoButton onClick={() => setShowInfo(!showInfo)} />
 
       <CoreDescriptionWrapper>
-        <CoreDescription>
-          This field determines the cyclical nature of events or bookings.
-        </CoreDescription>
+        <CoreDescription>{t("admin.wizard.periodicity.desc")}</CoreDescription>
 
         <CoreInfo
           show={showInfo}
-          left="Cyclical events are best suited for events that recur over time.
-                User can view and book different instances of the same event."
-          right="Non cyclical events are best suited for one-time events or
-                items. Each item is treated as a separate entity without any
-                grouping."
+          left={t("admin.wizard.periodicity.cyclicDesc")}
+          right={t("admin.wizard.periodicity.noncyclicDesc")}
         />
       </CoreDescriptionWrapper>
 
       <ChoiceButtonsContainer>
         <ChoiceButton
-          text="Cyclic"
+          text={t("admin.wizard.periodicity.cyclic")}
           onClick={() => {
             appendCoreAttribute("periodicity", true);
             setActiveStep(STORE_CONFIG_STEPS.CUSTOM_ATTRIBUTES_SPEC);
@@ -68,7 +66,7 @@ function Periodicity({
         />
 
         <ChoiceButton
-          text="Noncyclic"
+          text={t("admin.wizard.periodicity.noncyclic")}
           onClick={() => {
             appendCoreAttribute("periodicity", false);
             setActiveStep(STORE_CONFIG_STEPS.CUSTOM_ATTRIBUTES_SPEC);

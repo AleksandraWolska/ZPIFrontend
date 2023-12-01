@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { STORE_CONFIG_STEPS, StoreConfigStep } from "../../types";
 import { useStoreConfig } from "../../StoreConfigProvider";
 import { calculateProgress } from "./utils";
@@ -19,6 +20,8 @@ function Granularity({
   setActiveStep: (step: StoreConfigStep) => void;
   setProgress: (progress: number) => void;
 }) {
+  const { t } = useTranslation();
+
   const { appendCoreAttribute, withdrawToCoreStep } = useStoreConfig();
   const [showInfo, setShowInfo] = useState(false);
   return (
@@ -34,30 +37,23 @@ function Granularity({
         }}
       />
 
-      <WizardStepTitle>Time Interval Restriction</WizardStepTitle>
+      <WizardStepTitle>{t("admin.wizard.granularity.title")}</WizardStepTitle>
 
       <InfoButton onClick={() => setShowInfo(!showInfo)} />
 
       <CoreDescriptionWrapper>
-        <CoreDescription>
-          This setting decides the flexibility in the length of time an item can
-          be reserved. Item can be booked for granular time intervals or allow
-          user to freely choose reservation time ranges
-        </CoreDescription>
+        <CoreDescription>{t("admin.wizard.granularity.desc")}</CoreDescription>
 
         <CoreInfo
           show={showInfo}
-          left="Granular should be chosen if you want the item to be booked for
-                multiplication of specific time intervals, like an hour."
-          right="Continuous should be chosen if you want to allow reservations
-                for any length of time. This offers more flexibility for the
-                user."
+          left={t("admin.wizard.granularity.granularDesc")}
+          right={t("admin.wizard.granularity.continuousDesc")}
         />
       </CoreDescriptionWrapper>
 
       <ChoiceButtonsContainer>
         <ChoiceButton
-          text="Granular"
+          text={t("admin.wizard.granularity.granular")}
           onClick={() => {
             appendCoreAttribute("granularity", true);
             const nextStep = STORE_CONFIG_STEPS.SIMULTANEOUS;
@@ -69,7 +65,7 @@ function Granularity({
         />
 
         <ChoiceButton
-          text="Continuous"
+          text={t("admin.wizard.granularity.continuous")}
           onClick={() => {
             appendCoreAttribute("granularity", false);
             const nextStep = STORE_CONFIG_STEPS.ALLOW_OVER_NIGHT;

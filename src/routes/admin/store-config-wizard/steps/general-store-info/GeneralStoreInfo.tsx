@@ -8,6 +8,7 @@ import {
   TextField,
 } from "@mui/material";
 import { useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { useStoreConfig } from "../../StoreConfigProvider";
 import ChangePageButtons from "../../../components/ChangePageButtons";
 import { STORE_CONFIG_STEPS, StoreConfigStep } from "../../types";
@@ -23,6 +24,8 @@ function GeneralStoreInfo({
 }: {
   setActiveStep: (step: StoreConfigStep) => void;
 }) {
+  const { t } = useTranslation();
+
   const { storeConfig, setOwnerAttribute } = useStoreConfig();
   const { owner } = storeConfig;
 
@@ -37,18 +40,17 @@ function GeneralStoreInfo({
 
   return (
     <StepContentWrapper>
-      <WizardStepTitle>General Info</WizardStepTitle>
+      <WizardStepTitle>{t("admin.wizard.generalInfo.title")}</WizardStepTitle>
 
       <WizardStepDescription>
-        Enter information about your company, link to logo, and choose color
-        theme
+        {t("admin.wizard.generalInfo.desc")}
       </WizardStepDescription>
 
       <Box width="90%" marginTop={1.25} marginBottom={1.25}>
         <Grid container spacing={1}>
           <Grid item xs={12} sm={6}>
             <TextField
-              label="Store Name"
+              label={t("admin.wizard.generalInfo.storeName")}
               name="name"
               value={owner.name}
               onChange={(e) => setOwnerAttribute("name", e.target.value)}
@@ -60,7 +62,7 @@ function GeneralStoreInfo({
 
           <Grid item xs={12} sm={6}>
             <TextField
-              label="Logo Source in PNG format"
+              label={t("admin.wizard.generalInfo.logoSrc")}
               name="logoSrc"
               value={owner.logoSrc}
               onChange={(e) => setOwnerAttribute("logoSrc", e.target.value)}
@@ -71,7 +73,7 @@ function GeneralStoreInfo({
 
           <Grid item xs={12} sm={6}>
             <TextField
-              label="Company Phone"
+              label={t("admin.wizard.generalInfo.phone")}
               name="phone"
               value={owner.phone}
               onChange={(e) => setOwnerAttribute("phone", e.target.value)}
@@ -81,7 +83,7 @@ function GeneralStoreInfo({
 
           <Grid item xs={12} sm={6}>
             <TextField
-              label="Company Email"
+              label={t("admin.wizard.generalInfo.email")}
               name="email"
               value={owner.email}
               onChange={(e) => setOwnerAttribute("email", e.target.value)}

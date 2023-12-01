@@ -1,5 +1,6 @@
 import { Button, Stack } from "@mui/material";
 import { styled } from "@mui/system";
+import { useTranslation } from "react-i18next";
 
 const ChangePageButton = styled(Button)(({ theme }) => ({
   flexGrow: 1,
@@ -13,16 +14,18 @@ function ChangePageButtons({
   onPrev?: () => void;
   onNext?: () => void;
 }) {
+  const { t } = useTranslation();
+
   return (
     <Stack direction="row" width="100%">
       {onPrev && (
         <ChangePageButton onClick={onPrev} variant="outlined">
-          Prev
+          {t("admin.wizard.prev")}
         </ChangePageButton>
       )}
       {onNext && (
         <ChangePageButton onClick={onNext} variant="contained">
-          Next
+          {t("admin.wizard.next")}
         </ChangePageButton>
       )}
     </Stack>

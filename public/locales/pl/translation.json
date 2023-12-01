@@ -1,4 +1,9 @@
 {
+  "common": {
+    "yes": "Tak",
+    "no": "Nie",
+    "save": "Zapisz"
+  },
   "auth": {
     "unauthorized": "Nie masz uprawnień do wykonania tej akcji.",
     "pleaseLogIn": "Zaloguj się aby kontynuować",
@@ -10,11 +15,120 @@
       "yourStores": "Twoje systemy",
       "createNew": "Lub utwórz nowy?",
       "noStores": "Nie masz żadnego systemu rezerwacji. Zacznij od stworzenia nowego systemu.",
-      "newStore": "Nowy system"
+      "newStore": "Nowy system rezerwacji"
     },
     "desc": {
       "existingStore": "Zarządaj swoimi obiektami i rezerwacjami w istniejącym systemie.",
       "newStore": "Utwórz nowy system rezerwacji dla swojego biznesu."
+    },
+    "wizard": {
+      "next": "Dalej",
+      "prev": "Wstecz",
+      "save": "Utwórz",
+      "generalInfo": {
+        "title": "Ogólne informacje",
+        "desc": "Podaj informacje na temat swojej firmy, link do logo i wybierz kolorystykę systemu.",
+        "storeName": "Nazwa systemu",
+        "logoSrc": "Link do logo w formacie PNG",
+        "phone": "Telefon",
+        "email": "Email"
+      },
+      "flexibility": {
+        "title": "Elastyczność ramy czasowej",
+        "desc": "Wybierz, czy ramy czasowe rezerwacji przedmiotu powinny być wcześniej określone i stałe, czy użytkownik ma elastyczność wyboru zgodnie z własnymi preferencjami.",
+        "flexibleDesc": "Wartość elastyczna oznacza, że przedmiot może być zarezerwowany na okres wybrany przez użytkownika w określonych ramach czasowych.",
+        "fixedDesc": "Wartość stała oznacza, że przedmiot ma ustalone czasy rozpoczęcia i zakończenia ustalone przez administratora, a użytkownicy mogą zapisywać się tylko na cały okres.",
+        "flexible": "Elastyczna",
+        "fixed": "Stała"
+      },
+      "granularity": {
+        "title": "Ograniczenie interwałów czasowych",
+        "desc": "To ustawienie decyduje o elastyczności długości czasu, na jaki można zarezerwować przedmiot. Przedmiot można rezerwować na interwały czasowe lub pozwolić użytkownikowi swobodnie wybierać zakresy czasu rezerwacji.",
+        "granularDesc": "Wybierz opcję granularną, jeśli chcesz, aby przedmiot był rezerwowany w wielokrotnościach określonych interwałów czasowych, na przykład godzina.",
+        "continuousDesc": "Wybierz opcję ciągłą, jeśli chcesz umożliwić rezerwacje na dowolny czas. Oferuje to większą elastyczność dla użytkownika.",
+        "granular": "Granularne",
+        "continuous": "Ciągłe"
+      },
+      "allowOverNight": {
+        "title": "Dostęp nocny",
+        "desc": "Wybierz, czy użytkownik może mieć dostęp do przedmiotu poza godzinami otwarcia.",
+        "yesDesc": "Jeśli tak, użytkownik może utrzymywać dostęp do przedmiotu poza godzinami otwarcia sklepu. Najlepiej sprawdza się to w przypadku hoteli i wynajmu na więcej niż jeden dzień (np. samochody).",
+        "noDesc": "Jeśli nie, użytkownik może wynajmować przedmioty tylko na okresy czasu w godzinach otwarcia miejsca wynajmu."
+      },
+      "simultaneous": {
+        "title": "Równoczesny dostęp",
+        "desc": "To pole określa, czy kilku użytkowników może zarejestrować się na przedmiot jednocześnie. Jest to kluczowe dla zarządzania dostępnością przedmiotu.",
+        "sharedDesc": "Dostęp wspólny powinien być wybrany, jeśli chcesz, aby kilka osób miało jednoczesny dostęp do przedmiotu. Najlepiej sprawdza się to w przypadku przedmiotów, które mogą być udostępniane, takich jak przestrzenie publiczne.",
+        "exclusiveDesc": "Dostęp wyłączny powinien być wybrany, jeśli chcesz zezwolić tylko jednemu użytkownikowi na dostęp do przedmiotu w danym momencie, zapewniając, że użytkownik ma przedmiot tylko dla siebie.",
+        "shared": "Wspólny",
+        "exclusive": "Wyłączny"
+      },
+      "uniqueness": {
+        "title": "Unikalność przedmiotu",
+        "desc": "Ta opcja określa, czy przedmiot jest unikalnym bytem, czy też dostępnych jest dla użytkowników wiele nierozróżnialnych sztuk.",
+        "yesDesc": "Posiadasz jeden konkretny przedmiot danego typu. Najlepiej sprawdza się to dla unikalnych przedmiotów lub usług.",
+        "noDesc": "Dostępnych jest wiele identycznych przedmiotów. Najlepiej sprawdza się to w przypadku przedmiotów takich jak krzesła w miejscu wynajmu."
+      },
+      "specificReservation": {
+        "title": "Konkretna Rezerwacja",
+        "desc": "To pole określa, czy użytkownicy mogą rezerwować konkretne części przedmiotu, np. miejsca na seansie filmowym.",
+        "yesDesc": "Wybierz tak, jeśli chcesz, aby użytkownicy rezerwowali konkretne miejsca lub części w ramach przedmiotu. Najlepiej sprawdza się to w miejscach z określonymi miejscami siedzącymi.",
+        "noDesc": "Wybierz nie, jeśli chcesz, aby przedmiot lub wydarzenie było traktowane jako całość, bez możliwości rezerwacji subitemów."
+      },
+      "periodicity": {
+        "title": "Cykliczność Wydarzenia",
+        "desc": "To pole określa cykliczny charakter wydarzeń lub rezerwacji.",
+        "cyclicDesc": "Wydarzenia cykliczne są najlepiej odpowiednie dla wydarzeń powtarzających się w czasie. Użytkownik może przeglądać i rezerwować różne instancje tego samego wydarzenia.",
+        "noncyclicDesc": "Wydarzenia niecykliczne są najlepiej odpowiednie dla jednorazowych wydarzeń lub przedmiotów. Każdy przedmiot traktowany jest jako odrębna jednostka bez żadnego grupowania.",
+        "cyclic": "Cykliczne",
+        "noncyclic": "Niecykliczne"
+      },
+      "customAttributes": {
+        "title": "Dodaj atrybuty",
+        "desc": "Zdefiniuj atrybuty, które chcesz przypisać do swoich przedmiotów. Wybierz, czy są one obowiązkowe, czy powinny być dostępne do filtrowania, określ widoczność na stronach głównej i szczegółów przedmiotu oraz zdefiniuj możliwe wartości.",
+        "name": "Nazwa atrybutu",
+        "type": "Typ atrybutu",
+        "string": "Tekstowy",
+        "number": "Liczbowy",
+        "boolean": "Logiczny (prawda/fałsz)",
+        "required": "Wymagany",
+        "filterable": "Możliwość filtrowania",
+        "mainPage": "Widoczny na stronie głównej",
+        "detailsPage": "Widoczny na stronie ze szczegółami",
+        "predefinedValues": "Wartości predefiniowane",
+        "predefinedValuesLabel": "Wartości predefiniowane",
+        "predefinedValuesPlaceholder": "Wprowadź wartości predefiniowane, wpisując je i naciskając enter"
+      },
+      "mainPage": {
+        "title": "Strona Główna",
+        "desc": "Wprowadź teksty powitalne i określ widoczność funkcji na stronie głównej",
+        "welcomeTextLine1": "Tekst powitalny - linia 1",
+        "welcomeTextLine2": "Tekst powitalny - linia 2",
+        "filters": "Włącz filtry",
+        "showTitle": "Wyświetl tytuł przedmiotu na liście przedmiotów",
+        "subtitle": "Wyświetl podtytuł przedmiotu na liście przedmiotów",
+        "image": "Wyświetl obrazki przedmiotów na liście przedmiotów",
+        "rating": "Wyświetl oceny dla każdego przedmiotu - ta opcja pozwoli użytkownikom oceniać Twoje przedmioty"
+      },
+      "detailsPage": {
+        "title": "Strona Szczegółów",
+        "desc": "Określ widoczność funkcji na stronie szczegółów przedmiotu, zdecyduj, czy chcesz mieć oceny i komentarze w swoim sklepie. Ponadto, jeśli chcesz zastąpić komunikaty rezerwacyjne w swoim systemie, wprowadź je poniżej.",
+        "showTitle": "Wyświetl tytuł przedmiotu",
+        "subtitle": "Wyświetl podtytuł przedmiotu",
+        "showDesc": "Wyświetl opis przedmiotu",
+        "rating": "Wyświetl oceny - ta opcja pozwoli użytkownikom oceniać Twoje przedmioty",
+        "comments": "Wyświetl komentarze/recenzje - ta opcja pozwoli użytkownikom dodawać komentarze do Twoich przedmiotów",
+        "summaryPrompt": "Własny komunikat podsumowania rezerwacji",
+        "confirmationPrompt": "Własny komunikat potwierdzenia rezerwacji",
+        "failurePrompt": "Własny komunikat niepowodzenia rezerwacji"
+      },
+      "authConfig": {
+        "title": "Autoryzacja Użytkownika",
+        "desc": "Wybierz informacje wymagane od użytkowników podczas rezerwacji.",
+        "requiredDataLabel": "Jakie dane są wymagane podczas rezerwacji?",
+        "requiredDataPlaceholder": "Wprowadź predefiniowane wartości, wpisując je i naciskając enter",
+        "confirmation": "Czy wymagane jest potwierdzenie rezerwacji przez administratora?"
+      }
     }
   }
 }

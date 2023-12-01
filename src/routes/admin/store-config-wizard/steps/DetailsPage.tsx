@@ -5,6 +5,7 @@ import {
   FormGroup,
   TextField,
 } from "@mui/material";
+import { useTranslation } from "react-i18next";
 import { STORE_CONFIG_STEPS, StoreConfigStep } from "../types";
 import { useStoreConfig } from "../StoreConfigProvider";
 import ChangePageButtons from "../../components/ChangePageButtons";
@@ -18,6 +19,8 @@ function DetailsPage({
 }: {
   setActiveStep: (step: StoreConfigStep) => void;
 }) {
+  const { t } = useTranslation();
+
   const { storeConfig, setDetailsPageAttribute } = useStoreConfig();
   const { detailsPage } = storeConfig;
 
@@ -25,12 +28,10 @@ function DetailsPage({
     <StepContentWrapper>
       <BackButton onClick={() => setActiveStep(STORE_CONFIG_STEPS.MAIN_PAGE)} />
 
-      <WizardStepTitle>Details Page</WizardStepTitle>
+      <WizardStepTitle>{t("admin.wizard.detailsPage.title")}</WizardStepTitle>
 
       <WizardStepDescription>
-        Define visibility of features on item details page, decide if you want
-        to have ratings and comments in your store. Also, if you want to
-        override reservation prompts for your system, enter them below.
+        {t("admin.wizard.detailsPage.desc")}
       </WizardStepDescription>
 
       <FormGroup sx={{ marginTop: 3 }}>
@@ -43,7 +44,7 @@ function DetailsPage({
               }}
             />
           }
-          label="Display item's title"
+          label={t("admin.wizard.detailsPage.showTitle")}
         />
 
         <FormControlLabel
@@ -58,7 +59,7 @@ function DetailsPage({
               }}
             />
           }
-          label="Display item's subtitle"
+          label={t("admin.wizard.detailsPage.subtitle")}
         />
 
         <FormControlLabel
@@ -73,7 +74,7 @@ function DetailsPage({
               }}
             />
           }
-          label="Display description for items"
+          label={t("admin.wizard.detailsPage.showDesc")}
         />
 
         <FormControlLabel
@@ -85,7 +86,7 @@ function DetailsPage({
               }}
             />
           }
-          label="Display ratings - this option will allow users to rate your items"
+          label={t("admin.wizard.detailsPage.rating")}
         />
 
         <FormControlLabel
@@ -97,7 +98,7 @@ function DetailsPage({
               }}
             />
           }
-          label="Display comments/reviews - this option will allow users to add comments your items"
+          label={t("admin.wizard.detailsPage.comments")}
         />
       </FormGroup>
 
@@ -105,7 +106,7 @@ function DetailsPage({
         <TextField
           sx={{ marginBottom: 1.25 }}
           fullWidth
-          label="Custom reservation summary prompt"
+          label={t("admin.wizard.detailsPage.summaryPrompt")}
           name="reservationSummaryPrompt"
           value={detailsPage.reservationSummaryPrompt}
           onChange={(e) =>
@@ -116,7 +117,7 @@ function DetailsPage({
         <TextField
           sx={{ marginBottom: 1.25 }}
           fullWidth
-          label="Custom reservation confirmation prompt"
+          label={t("admin.wizard.detailsPage.confirmationPrompt")}
           name="reservationConfirmationPrompt"
           value={detailsPage.reservationConfirmationPrompt}
           onChange={(e) =>
@@ -129,7 +130,7 @@ function DetailsPage({
 
         <TextField
           fullWidth
-          label="Custom reservation failure prompt"
+          label={t("admin.wizard.detailsPage.failurePrompt")}
           name="reservationFailurePrompt"
           value={detailsPage.reservationFailurePrompt}
           onChange={(e) =>

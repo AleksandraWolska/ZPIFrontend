@@ -1,5 +1,6 @@
 import { Box, Button, Typography } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import DownloadDoneIcon from "@mui/icons-material/DownloadDone";
 // import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import { useStoreConfig } from "../StoreConfigProvider";
@@ -12,6 +13,8 @@ import WizardStepTitle from "./components/WizardStepTitle";
 import BackButton from "./components/BackButton";
 
 function Summary() {
+  const { t } = useTranslation();
+
   const { storeConfig } = useStoreConfig();
   const addStoreConfig = useAddStoreConfig();
   const editStoreConfig = useEditStoreConfig();
@@ -59,7 +62,7 @@ function Summary() {
           }
         }}
       >
-        Save your store
+        {t("admin.wizard.save")}
       </Button>
     </StepContentWrapper>
   );
