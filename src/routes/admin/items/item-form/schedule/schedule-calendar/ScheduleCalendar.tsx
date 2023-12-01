@@ -108,8 +108,8 @@ function ScheduleCalendar({
       views={[Views.WEEK]}
       onView={() => {}}
       formats={formats}
-      min={new Date(new Date(0).setHours(2))}
-      max={new Date(new Date(0).setHours(22))}
+      min={new Date(new Date(0).setHours(1))}
+      max={new Date(new Date(0).setHours(23))}
       selectable
       events={events}
       onSelectSlot={handleSelectSlot}

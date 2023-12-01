@@ -383,7 +383,7 @@ export function FreeRangesCalendar({
           min={
             new Date(
               new Date(0).setHours(
-                earliestCalendarStart <= 1 ? 1 : earliestCalendarStart - 1,
+                earliestCalendarStart <= 1 ? 0 : earliestCalendarStart - 1,
               ),
             )
           }
@@ -391,6 +391,9 @@ export function FreeRangesCalendar({
             new Date(
               new Date(0).setHours(
                 latestCalendarEnd >= 22 ? 23 : latestCalendarEnd + 2,
+                30,
+                0,
+                0,
               ),
             )
           }
