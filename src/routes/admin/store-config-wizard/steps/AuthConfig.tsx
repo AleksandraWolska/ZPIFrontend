@@ -1,6 +1,5 @@
 import {
   Autocomplete,
-  Collapse,
   FormControl,
   FormControlLabel,
   FormLabel,
@@ -41,61 +40,6 @@ function AuthConfig({
       </WizardStepDescription>
 
       <Stack gap={3} margin={2.5}>
-        <FormControl>
-          <FormLabel id="isPrivate">
-            Should your store be public or private (grant access only to a
-            specific group of users)?
-          </FormLabel>
-
-          <RadioGroup
-            sx={{ margin: "auto" }}
-            row
-            aria-labelledby="isPrivate"
-            value={authConfig.isPrivate ? "private" : "public"}
-            onChange={(e) => {
-              setAuthConfigAttribute({
-                isPrivate: e.target.value === "private",
-              });
-            }}
-          >
-            <FormControlLabel
-              value="public"
-              control={<Radio />}
-              label="Public"
-            />
-            <FormControlLabel
-              value="private"
-              control={<Radio />}
-              label="Private"
-            />
-          </RadioGroup>
-        </FormControl>
-
-        <Collapse in={authConfig.isPrivate}>
-          <FormControl fullWidth>
-            <FormLabel id="whoCanAccess">Who can access your store?</FormLabel>
-
-            <Autocomplete
-              aria-labelledby="whoCanAccess"
-              multiple
-              freeSolo
-              fullWidth
-              onChange={(_e, values) => {
-                setAuthConfigAttribute({ whiteList: values as string[] });
-              }}
-              options={[]}
-              value={authConfig.whiteList || []}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  placeholder="Add a value typing it and pressing enter"
-                  size="medium"
-                />
-              )}
-            />
-          </FormControl>
-        </Collapse>
-
         <FormControl>
           <FormLabel id="whatDataRequired">
             {t("admin.wizard.authConfig.requiredDataLabel")}

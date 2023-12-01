@@ -80,6 +80,5 @@ export const storeConfig: StoreConfig = {
   authConfig: {
     requiredPersonalData: ["Name", "Phone"],
     confirmationRequired: true,
-    isPrivate: false,
   },
 };
