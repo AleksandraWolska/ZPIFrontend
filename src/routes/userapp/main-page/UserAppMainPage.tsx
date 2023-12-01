@@ -174,9 +174,11 @@ export default function UserAppMainPage() {
                 >
                   <MenuItem value="title">Title</MenuItem>
                   <MenuItem value="availableAmount">Available Amount</MenuItem>
-                  {storeConfig.mainPage.showRating && (
-                    <MenuItem value="mark">Rating</MenuItem>
-                  )}
+                  {storeConfig.mainPage.showRating &&
+                    !(
+                      !storeConfig.core.flexibility &&
+                      !storeConfig.core.periodicity
+                    ) && <MenuItem value="mark">Rating</MenuItem>}
                 </Select>
               </FormControl>
               <IconButton
