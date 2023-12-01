@@ -112,7 +112,6 @@ function TopBarMenu() {
             <LanguageIcon />
             <Select
               value={i18n.language}
-              label="Język"
               onChange={(e) => changeLanguage(e.target.value)}
               sx={{
                 color: "#fff",
