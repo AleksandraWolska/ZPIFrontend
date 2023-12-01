@@ -153,12 +153,12 @@ function SubItems() {
                       }}
                     />
                   }
-                  label="endDateTime"
+                  label="End Time"
                 />
 
                 {!!subItem.schedule?.endDateTime && (
                   <DateTimePicker
-                    label="endDateTime"
+                    label="End Time"
                     value={dayjs(subItem.schedule.endDateTime)}
                     onChange={(date) => {
                       if (date)

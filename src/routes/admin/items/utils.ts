@@ -9,7 +9,12 @@ export const askForItemAmount = (core: Core) => {
     specificReservation: r,
   } = core;
 
-  return ((!f && s && !p && !r) || (f && !s && !u) || (f && s && !u)) === true;
+  return (
+    ((!f && s && !p && !r) ||
+      (f && !s && !u) ||
+      (f && s && !u) ||
+      (f && s && u)) === true
+  );
 };
 
 export const askForSubItemAmount = (core: Core) => {
@@ -31,7 +36,7 @@ export const askForSubItemSchedule = (core: Core) => {
     specificReservation: r,
   } = core;
 
-  return (!f && s && p && !r) === true;
+  return (!f && s && p && !r) === true || (!f && !s && p) === true;
 };
 
 export const askForSubItems = (core: Core) => {
