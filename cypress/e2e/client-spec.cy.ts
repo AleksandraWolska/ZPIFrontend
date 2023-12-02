@@ -6,7 +6,7 @@ describe("main page", () => {
   it("filter items", () => {
     cy.get('[data-testid="FilterAltIcon"]').click();
 
-    cy.get(".MuiSelect-select").eq(0).click();
+    cy.get(".MuiSelect-select").eq(1).click();
     cy.get("li.MuiMenuItem-root").contains(/pop/i).click();
 
     cy.contains(/Rock Festival 2024/i).should("not.exist");
@@ -65,7 +65,7 @@ describe("details page", () => {
     cy.get('[name="Name"]').type("test");
     cy.get('[name="Phone"]').type("123456789");
 
-    cy.get('button:contains("RESERVE")').click();
+    cy.get('button:contains("Reserve")').eq(1).click();
 
     cy.contains(/success/i);
   });
@@ -89,7 +89,7 @@ describe("reserve", () => {
     cy.get('[name="Name"]').type("test");
     cy.get('[name="Phone"]').type("123456789");
 
-    cy.get('button:contains("RESERVE")').click();
+    cy.get('button:contains("Reserve")').eq(1).click();
 
     cy.contains(/success/i);
   });

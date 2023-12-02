@@ -2,7 +2,13 @@
   "common": {
     "yes": "Yes",
     "no": "No",
-    "save": "Save"
+    "save": "Save",
+    "reset": "Reset",
+    "reserve": "Reserve",
+    "cancel": "Cancel",
+    "send": "Send",
+    "ok": "OK",
+    "delete": "Delete"
   },
   "auth": {
     "unauthorized": "You're unauthorized to proceed with this action",
@@ -129,6 +135,82 @@
         "requiredDataPlaceholder": "Enter predefined values by typing them and pressing enter",
         "confirmation": "Is confirmation by an admin required for reservations?"
       }
+    }
+  },
+  "user": {
+    "components": {
+      "core": {
+        "checkAvailability": "Check availability",
+        "reserve": "Reserve item",
+        "noTimeSlotsAvailable": "No time slots available",
+        "available": "Available",
+        "itemAvailable": "Item is available in chosen time ranges"
+      },
+      "details": {
+        "ratingTitle": "Tell us how did you like it",
+        "commentLabel": "Your comment",
+        "commentPlaceholder": "Enter your comment here...",
+        "nickLabel": "Optional nick",
+        "nickPlaceholder": "Enter optional nickname...",
+        "addReview": "Add review",
+        "rate": "Rate",
+        "logInToAddReview": "Log in to add review",
+        "logInToRate": "Log in to rate",
+        "prev": "Prev",
+        "today": "Today",
+        "next": "Next",
+        "failure": "Failure",
+        "reservationFailurePrompt": "We're sorry, reservation did not succeed",
+        "success": "Success",
+        "reservationSuccessPrompt": "Your reservation has been successfully created",
+        "start": "Start",
+        "end": "End",
+        "to": "to",
+        "reservationError": "Error: One or more items in the reservation do not match available items.",
+        "message": "Message",
+        "summary": "Summary",
+        "summaryPrompt": "Review your reservation and fill necessary data",
+        "amount": "Amount",
+        "provideNecessaryData": "Provide necessary data",
+        "yourMessage": "Your message to store owner",
+        "addMessage": "+ Add message to store owner",
+        "unavailable": "Unavailable, sorry",
+        "unavailableMessage": "Maybe one of below would interest you?"
+      }
+    },
+    "details": {
+      "reserve": "Reserve",
+      "details": "Details",
+      "reservation": "Reservation",
+      "reviews": "Reviews"
+    },
+    "main": {
+      "title": "Title",
+      "availableAmount": "Available amount",
+      "rating": "Rating",
+      "noItemsAvailable": "There is no available items right now, sorry",
+      "sortBy": "Sort By"
+    },
+    "reservations": {
+      "noReservations": "It looks like you dont have any bookings yet",
+      "active": "Active",
+      "cancelled": "Cancelled",
+      "past": "Past",
+      "unknown": "Unknown",
+      "reservations": "reservations",
+      "itemPage": "Item page",
+      "details": "Details",
+      "reason": "Reason",
+      "message": "Message",
+      "deleteQuestion": "Delete reservation?",
+      "start": "Start",
+      "end": "End",
+      "deleteConfirm": "Are you sure you want to delete reservation for {{title}}? This action is irreversible.",
+      "cancelledByUser": "Cancelled by user",
+      "cancelledByAdmin": "Cancelled by admin"
+    },
+    "wrapper": {
+      "yourReservations": "Your bookings"
     }
   }
 }

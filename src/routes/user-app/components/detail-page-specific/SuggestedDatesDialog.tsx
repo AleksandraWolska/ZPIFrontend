@@ -10,6 +10,7 @@ import {
   ListItem,
 } from "@mui/material";
 
+import { useTranslation } from "react-i18next";
 import { CheckAvailabilityResponse } from "../../types";
 
 type Props = {
@@ -17,11 +18,14 @@ type Props = {
   handleSuggestedDateClick: (suggestionId: string) => void;
   setShowSuggestedDialog: () => void;
 };
+
 export function SuggestedDatesDialog({
   responseSuggestions,
   handleSuggestedDateClick,
   setShowSuggestedDialog,
 }: Props) {
+  const { t } = useTranslation();
+
   return (
     <Dialog
       open
@@ -30,12 +34,14 @@ export function SuggestedDatesDialog({
       PaperProps={{ sx: { borderRadius: "10px" } }}
     >
       <DialogTitle sx={{ textAlign: "center", fontWeight: "medium" }}>
-        <Typography variant="h4">Unavailable, sorry</Typography>
+        <Typography variant="h4">
+          {t("user.components.details.unavailable")}
+        </Typography>
       </DialogTitle>
       <DialogContent sx={{ textAlign: "center" }}>
         <Box mb={3}>
           <Typography variant="h6" sx={{ mb: 1 }}>
-            Maybe one of below would interest you?
+            {t("user.components.details.unavailableMessage")}
           </Typography>
 
           <Divider sx={{ marginTop: 2, marginBottom: 2 }} />
@@ -49,9 +55,11 @@ export function SuggestedDatesDialog({
                     onClick={() => handleSuggestedDateClick(suggestion.id)}
                   >
                     <Typography margin="auto">
-                      {`Start: ${new Date(
+                      {`${t("user.components.details.start")}: ${new Date(
                         suggestion.suggestedStart!,
-                      ).toLocaleString()}, End: ${new Date(
+                      ).toLocaleString()}, ${t(
+                        "user.components.details.end",
+                      )}: ${new Date(
                         suggestion.suggestedEnd!,
                       ).toLocaleString()}`}
                     </Typography>
@@ -70,7 +78,7 @@ export function SuggestedDatesDialog({
           variant="contained"
           onClick={setShowSuggestedDialog}
         >
-          CANCEL
+          {t("common.cancel")}
         </Button>
       </DialogContent>
     </Dialog>

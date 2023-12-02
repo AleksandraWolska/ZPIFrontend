@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useAuth } from "react-oidc-context";
 import { useLocation, useParams } from "react-router-dom";
 import { TextField, Button, Dialog, Typography, Box } from "@mui/material";
+import { useTranslation } from "react-i18next";
 import RatingsInteractive from "./RatingsInteractive";
 import { NewComment } from "../../types";
 
@@ -16,6 +17,8 @@ function CommentInput({
   showComments,
   showRatings,
 }: CommentInputProps) {
+  const { t } = useTranslation();
+
   const [isCommentInputVisible, setIsCommentInputVisible] = useState(false);
   const params = useParams() as { itemId: string };
 
@@ -53,7 +56,9 @@ function CommentInput({
 
   const content = (
     <Box>
-      <Typography variant="h6">Tell us how did you like it </Typography>
+      <Typography variant="h6">
+        {t("user.components.details.ratingTitle")}
+      </Typography>
       {showRatings && (
         <Box display="flex" marginTop="5px" marginBottom="5px">
           <RatingsInteractive handleSetRating={handleRatingAdd} />
@@ -64,12 +69,12 @@ function CommentInput({
           <TextField
             margin="dense"
             fullWidth
-            label="Your Comment"
+            label={t("user.components.details.commentLabel")}
             name="comment-input"
             variant="outlined"
             multiline
             rows={2}
-            placeholder="Enter your comment here..."
+            placeholder={t("user.components.details.commentPlaceholder")}
             value={newComment.content}
             onChange={(e) =>
               setNewComment((prev) => ({ ...prev, content: e.target.value }))
@@ -78,10 +83,10 @@ function CommentInput({
           <TextField
             margin="dense"
             fullWidth
-            label="Optional nick"
+            label={t("user.components.details.nickLabel")}
             name="nick-input"
             variant="outlined"
-            placeholder="Enter optional nickname..."
+            placeholder={t("user.components.details.nickPlaceholder")}
             value={newComment.nickname}
             onChange={(e) =>
               setNewComment((prev) => ({ ...prev, nickname: e.target.value }))
@@ -98,10 +103,10 @@ function CommentInput({
         }}
       >
         <Button variant="outlined" onClick={handleCancel}>
-          Cancel
+          {t("common.cancel")}
         </Button>
         <Button variant="contained" onClick={handleVerifyComment}>
-          Send
+          {t("common.send")}
         </Button>
       </Box>
     </Box>
@@ -121,7 +126,9 @@ function CommentInput({
           style={{ marginBottom: 15 }}
           onClick={() => setIsCommentInputVisible(true)}
         >
-          {showComments ? "Add review" : "Rate"}
+          {showComments
+            ? t("user.components.details.addReview")
+            : t("user.components.details.rate")}
         </Button>
       ) : (
         <Button
@@ -134,7 +141,9 @@ function CommentInput({
             });
           }}
         >
-          Log in to {showComments ? "add review" : "rate"}
+          {showComments
+            ? t("user.components.details.logInToAddReview")
+            : t("user.components.details.logInToRate")}
         </Button>
       )}
     </Box>

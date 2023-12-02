@@ -1,6 +1,7 @@
 import React from "react";
 import { NavigateAction, ToolbarProps } from "react-big-calendar";
 import { Box, Button, Typography } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
 interface CustomToolbarProps extends ToolbarProps {
   onNavigate: (action: NavigateAction) => void;
@@ -11,6 +12,8 @@ const CustomCalendarToolbar: React.FC<CustomToolbarProps> = ({
   onNavigate,
   label,
 }) => {
+  const { t } = useTranslation();
+
   const navigate = (action: NavigateAction) => {
     onNavigate(action);
   };
@@ -28,13 +31,13 @@ const CustomCalendarToolbar: React.FC<CustomToolbarProps> = ({
       </Box>
       <Box className="rbc-btn-group" display="flex">
         <Button variant="outlined" onClick={() => navigate("PREV")}>
-          Prev
+          {t("user.components.details.prev")}
         </Button>
         <Button variant="outlined" onClick={() => navigate("TODAY")}>
-          Today
+          {t("user.components.details.today")}
         </Button>
         <Button variant="outlined" onClick={() => navigate("NEXT")}>
-          Next
+          {t("user.components.details.next")}
         </Button>
       </Box>
     </Box>
