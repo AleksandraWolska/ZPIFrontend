@@ -56,7 +56,7 @@ function GeneralStoreInfo({
               onChange={(e) => setOwnerAttribute("name", e.target.value)}
               fullWidth
               disabled={!isNew}
-              error={isNew && !isNameAvailable}
+              error={!owner.name || (isNew && !isNameAvailable)}
               required
             />
           </Grid>
@@ -125,7 +125,6 @@ function GeneralStoreInfo({
             ? setActiveStep(STORE_CONFIG_STEPS.FLEXIBILITY)
             : setActiveStep(STORE_CONFIG_STEPS.CUSTOM_ATTRIBUTES_SPEC)
         }
-        disabled={!owner.name ? "next" : false}
       />
     </StepContentWrapper>
   );

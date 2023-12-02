@@ -69,6 +69,7 @@ function renderCustomAttributeInput(
               });
             }}
             fullWidth
+            error={attributeSpec.isRequired && !attribute.value}
           >
             {attributeSpec.possibleValues.map((value) => {
               return (
@@ -91,6 +92,7 @@ function renderCustomAttributeInput(
           }
           fullWidth
           required={attributeSpec.isRequired}
+          error={attributeSpec.isRequired && !attribute.value}
         />
       );
     case "number":
@@ -106,7 +108,7 @@ function renderCustomAttributeInput(
           }
           fullWidth
           type="number"
-          required={attributeSpec.isRequired}
+          required={attributeSpec.isRequired && Number.isNaN(attribute.value)}
         />
       );
     case "boolean":

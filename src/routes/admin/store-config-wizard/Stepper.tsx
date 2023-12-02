@@ -80,7 +80,7 @@ function Stepper() {
       case STORE_CONFIG_STEPS.AUTH_CONFIG:
         return <AuthConfig setActiveStep={setActiveStep} />;
       case STORE_CONFIG_STEPS.SUMMARY:
-        return <Summary />;
+        return <Summary setActiveStep={setActiveStep} />;
       default:
         return <div>Something went wrong...</div>;
     }
