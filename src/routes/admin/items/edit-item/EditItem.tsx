@@ -5,7 +5,7 @@ import ItemFormProvider, { useItemForm } from "../item-form/ItemFormProvider";
 import useItemToBeEdited from "./useItemToBeEdited";
 import GeneralInfo from "../item-form/GeneralInfo";
 import CustomAttributes from "../item-form/CustomAttributes";
-import { askForSubItems, askForSubItemSchedule } from "../utils";
+import { askForSubItems, askForSubItemSchedule, validateItem } from "../utils";
 import SubItems from "../item-form/SubItems";
 import { Core } from "../../../../types";
 import Stepper from "../item-form/Stepper";
@@ -31,6 +31,8 @@ function EditForm() {
 
   const steps = getSteps(storeConfig.core);
 
+  const isValid = validateItem(item, storeConfig);
+
   return (
     <Container>
       <Box
@@ -49,6 +51,7 @@ function EditForm() {
           <Button
             sx={{ padding: 2 }}
             fullWidth
+            disabled={!isValid}
             onClick={() => {
               editItem.mutate(item, {
                 onSuccess: () => {

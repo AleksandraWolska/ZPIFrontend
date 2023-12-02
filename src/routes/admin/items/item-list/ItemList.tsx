@@ -119,10 +119,8 @@ function ItemList() {
     );
   return (
     <Container>
-      <Stack spacing={4}>
-        <Typography sx={{ m: 2 }} variant="h3">
-          Items list
-        </Typography>
+      <Stack sx={{ marginTop: 2 }} spacing={4}>
+        <Typography variant="h3">Items list</Typography>
         {!storeConfig.core.flexibility && !storeConfig.core.periodicity && (
           <FormControlLabel
             sx={{ marginTop: 4 }}

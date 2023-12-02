@@ -24,6 +24,7 @@ function GeneralInfo() {
               onChange={(e) => setItemAttribute({ title: e.target.value })}
               fullWidth
               required
+              error={!item.attributes.title}
             />
           </Grid>
 
