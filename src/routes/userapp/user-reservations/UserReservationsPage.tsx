@@ -18,9 +18,11 @@ import { Link, useParams } from "react-router-dom";
 import useUserReservedItems from "./useUserReservedItems";
 import { UserReservation } from "../types";
 import { shouldShowEnd } from "../../common/utils";
+import useDeleteReservation from "./useDeleteReservation";
 
 function UserReservationsPage() {
   const { data: reservations } = useUserReservedItems();
+  const deleteReservation = useDeleteReservation();
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [reservationToDelete, setReservationToDelete] =
@@ -49,10 +51,7 @@ function UserReservationsPage() {
 
   const handleDeleteConfirm = () => {
     if (reservationToDelete) {
-      console.log(
-        `Deleted reservation with ID: ${reservationToDelete.reservationId}`,
-      );
-      // Add your delete logic here
+      deleteReservation.mutate(reservationToDelete.reservationId!);
     }
     setDeleteDialogOpen(false);
     setReservationToDelete(null);
@@ -118,6 +117,20 @@ function UserReservationsPage() {
                           >
                             {reservation.item.title}
                           </Typography>
+
+                          {type === "active" && (
+                            <Typography
+                              sx={{
+                                marginRight: 1,
+                                color: reservation.confirmed ? "green" : "red",
+                              }}
+                              color="textPrimary"
+                            >
+                              {reservation.confirmed
+                                ? "[confirmed]"
+                                : "[waiting for confirmation]"}
+                            </Typography>
+                          )}
                           {reservation.startDateTime && (
                             <Typography color="textSecondary">
                               {`${new Date(

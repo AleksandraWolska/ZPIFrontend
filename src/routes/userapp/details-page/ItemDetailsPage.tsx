@@ -92,13 +92,14 @@ export default function ItemDetailsPage() {
     try {
       reserveItem.mutate(reservation, {
         onSuccess: () => {
-          setShowSuccessDialog(true); // Show success dialog upon successful reservation
+          setShowSuccessDialog(true);
         },
-      }); // calling the useReserveItem mutation
+        onError: () => {
+          setShowFailureDialog(true);
+        },
+      });
     } catch (error) {
       console.error("Error during reservation: ", error);
-      setShowFailureDialog(true);
-      // Handle error accordingly, e.g. show an error message to the user
     }
   };
 
