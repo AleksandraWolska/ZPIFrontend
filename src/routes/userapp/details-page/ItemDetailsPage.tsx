@@ -97,6 +97,7 @@ export default function ItemDetailsPage() {
       }); // calling the useReserveItem mutation
     } catch (error) {
       console.error("Error during reservation: ", error);
+      setShowFailureDialog(true);
       // Handle error accordingly, e.g. show an error message to the user
     }
   };
@@ -350,17 +351,19 @@ export default function ItemDetailsPage() {
         />
       )}
       <Box display="flex">
-        <Box
-          borderRadius="10%"
-          marginRight={3}
-          marginBottom={3}
-          maxWidth="25%"
-          overflow="hidden"
-          display="flex"
-          alignItems="center"
-        >
-          {item.attributes.image && <ItemImage url={item.attributes.image} />}
-        </Box>
+        {item.attributes.image && (
+          <Box
+            borderRadius="10%"
+            marginRight={3}
+            marginBottom={3}
+            maxWidth="25%"
+            overflow="hidden"
+            display="flex"
+            alignItems="center"
+          >
+            <ItemImage url={item.attributes.image} />
+          </Box>
+        )}
         <Box>
           <Typography variant="h3" marginBottom={1}>
             {item.attributes.title}
@@ -370,7 +373,7 @@ export default function ItemDetailsPage() {
               {item.attributes.subtitle}
             </Typography>
           )}
-          {storeConfig.detailsPage.showRating && item.mark && (
+          {storeConfig.detailsPage.showRating && item.mark !== undefined && (
             <Ratings mark={item.mark} ratingCount={item.ratingCount} />
           )}
           {item.attributes.description && (
