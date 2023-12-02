@@ -383,35 +383,39 @@ export default function ItemDetailsPage() {
           )}
         </Box>
       </Box>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-between",
-        }}
-      >
-        <Typography sx={{ mt: 2 }} variant="h5">
-          Details
-        </Typography>
-        <IconButton
-          onClick={() => setHideDetails(!hideDetails)}
-          aria-label="expand"
-          style={{
-            transform: hideDetails ? "rotate(90deg)" : "rotate(0deg)",
-            transition: "transform 150ms",
-          }}
-        >
-          <ExpandMore />
-        </IconButton>
-      </Box>
+      {item.customAttributeList && item.customAttributeList.length > 0 && (
+        <>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+            }}
+          >
+            <Typography sx={{ mt: 2 }} variant="h5">
+              Details
+            </Typography>
+            <IconButton
+              onClick={() => setHideDetails(!hideDetails)}
+              aria-label="expand"
+              style={{
+                transform: hideDetails ? "rotate(90deg)" : "rotate(0deg)",
+                transition: "transform 150ms",
+              }}
+            >
+              <ExpandMore />
+            </IconButton>
+          </Box>
 
-      <Divider sx={{ mb: 2 }} />
-      <Collapse in={!hideDetails} timeout="auto" unmountOnExit>
-        <AttributesList
-          attributesConfig={storeConfig.customAttributesSpec}
-          itemAttributes={item.customAttributeList}
-        />
-      </Collapse>
+          <Divider sx={{ mb: 2 }} />
+          <Collapse in={!hideDetails} timeout="auto" unmountOnExit>
+            <AttributesList
+              attributesConfig={storeConfig.customAttributesSpec}
+              itemAttributes={item.customAttributeList}
+            />
+          </Collapse>
+        </>
+      )}
       <Box
         sx={{
           display: "flex",
