@@ -98,7 +98,7 @@ function ItemList() {
         <Typography variant="overline" mb={2}>
           It seems there is no items defined in this store yet...
         </Typography>
-        <ClearNavLink to="new">
+        <ClearNavLink to="../add-item">
           <ListItem key="new">
             <ActionBox theme={theme}>
               <Box sx={{ margin: 1, marginRight: 3 }}>
