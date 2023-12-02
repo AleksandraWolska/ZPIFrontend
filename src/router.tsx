@@ -3,11 +3,8 @@ import { CircularProgress } from "@mui/material";
 import { queryClient } from "./query";
 import RequireLogin from "./auth/RequireLogin";
 import Secret from "./routes/secret/Secret";
-import UserAppMainPage from "./routes/userapp/main-page/UserAppMainPage";
 import { loader as userAppMainPageLoader } from "./routes/userapp/main-page/loader";
-import ItemDetailsPage from "./routes/userapp/details-page/ItemDetailsPage";
 import Home from "./routes/home/Home";
-import UserAppWrapper from "./routes/userapp/wrapper/UserAppWrapper";
 import { loader as userAppWrapperLoader } from "./routes/userapp/wrapper/loader";
 import { loader as detailsPageLoader } from "./routes/userapp/details-page/loader";
 import { loader as itemListLoader } from "./routes/admin/items/item-list/loader";
@@ -17,7 +14,6 @@ import { loader as reservationsLoader } from "./routes/admin/reservations/loader
 import { loader as userReservationsPageLoader } from "./routes/userapp/user-reservations/loader";
 import { loader as adminMainPageLoader } from "./routes/admin/admin-main-page/loader";
 import { loader as allStoresLoader } from "./routes/home/loader";
-import UserReservationsPage from "./routes/userapp/user-reservations/UserReservationsPage";
 import AuthErrorBoundary from "./auth/AuthErrorBoundary";
 import NotFoundPage from "./routes/home/NotFoundPage";
 
@@ -170,28 +166,55 @@ const router = createBrowserRouter([
   },
   {
     path: "userapp/:storeId",
-    element: <UserAppWrapper />,
+    lazy: async () => {
+      const UserAppWrapper = (
+        await import("./routes/userapp/wrapper/UserAppWrapper")
+      ).default;
+      return { Component: UserAppWrapper };
+    },
     loader: userAppWrapperLoader(queryClient),
     children: [
       {
-        index: true,
-        element: <UserAppMainPage />,
-        loader: userAppMainPageLoader(queryClient),
-      },
-      {
-        path: ":itemId",
-        element: <ItemDetailsPage />,
-        loader: detailsPageLoader(queryClient),
-      },
-      {
-        path: "reservations",
-        element: <RequireLogin />,
-        errorElement: <AuthErrorBoundary />,
+        element: <GlobalLoadingIndicator />,
         children: [
           {
-            path: "",
-            element: <UserReservationsPage />,
-            loader: userReservationsPageLoader(queryClient),
+            index: true,
+            lazy: async () => {
+              const UserAppMainPage = (
+                await import("./routes/userapp/main-page/UserAppMainPage")
+              ).default;
+              return { Component: UserAppMainPage };
+            },
+            loader: userAppMainPageLoader(queryClient),
+          },
+          {
+            path: ":itemId",
+            lazy: async () => {
+              const ItemDetailsPage = (
+                await import("./routes/userapp/details-page/ItemDetailsPage")
+              ).default;
+              return { Component: ItemDetailsPage };
+            },
+            loader: detailsPageLoader(queryClient),
+          },
+          {
+            path: "reservations",
+            element: <RequireLogin />,
+            errorElement: <AuthErrorBoundary />,
+            children: [
+              {
+                index: true,
+                lazy: async () => {
+                  const UserReservationsPage = (
+                    await import(
+                      "./routes/userapp/user-reservations/UserReservationsPage"
+                    )
+                  ).default;
+                  return { Component: UserReservationsPage };
+                },
+                loader: userReservationsPageLoader(queryClient),
+              },
+            ],
           },
         ],
       },
