@@ -140,6 +140,7 @@ export type SubItem = {
 
 export type Item = {
   id: string;
+  ratingCount?: number;
   attributes: {
     title: string;
     subtitle: string;

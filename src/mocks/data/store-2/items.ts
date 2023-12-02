@@ -3,6 +3,7 @@ import { Item } from "../../../types";
 export const items: Item[] = [
   {
     id: "1",
+    ratingCount: 3,
     attributes: {
       title: "Wizyta Dentysta Anna Majewska",
       subtitle: "w lokalizacji Wyszyńskiego 8",
@@ -83,6 +84,7 @@ export const items: Item[] = [
   },
   {
     id: "2",
+    ratingCount: 5,
     attributes: {
       title: "Wizyta Okulista Kamil Kruk",
       subtitle: "w lokalizacji Zdalnie",
@@ -163,6 +165,7 @@ export const items: Item[] = [
   },
   {
     id: "3",
+    ratingCount: 0,
     attributes: {
       title: "Wizyta Kardiolog Michał Michalski",
       subtitle: "w lokalizacji Nowowiejska 56",

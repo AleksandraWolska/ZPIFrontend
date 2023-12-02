@@ -227,7 +227,7 @@ function ItemList() {
                     icon={<DeleteIcon />}
                   />
 
-                  {item.subItems && (
+                  {item.subItems && item.subItems.length > 0 && (
                     <ActionBtnBasic
                       text="Details"
                       onClick={() => handleExpand(item.id)}

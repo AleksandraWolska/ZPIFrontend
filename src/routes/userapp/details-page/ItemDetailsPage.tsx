@@ -92,12 +92,14 @@ export default function ItemDetailsPage() {
     try {
       reserveItem.mutate(reservation, {
         onSuccess: () => {
-          setShowSuccessDialog(true); // Show success dialog upon successful reservation
+          setShowSuccessDialog(true);
         },
-      }); // calling the useReserveItem mutation
+        onError: () => {
+          setShowFailureDialog(true);
+        },
+      });
     } catch (error) {
       console.error("Error during reservation: ", error);
-      // Handle error accordingly, e.g. show an error message to the user
     }
   };
 
@@ -350,17 +352,19 @@ export default function ItemDetailsPage() {
         />
       )}
       <Box display="flex">
-        <Box
-          borderRadius="10%"
-          marginRight={3}
-          marginBottom={3}
-          maxWidth="25%"
-          overflow="hidden"
-          display="flex"
-          alignItems="center"
-        >
-          {item.attributes.image && <ItemImage url={item.attributes.image} />}
-        </Box>
+        {item.attributes.image && (
+          <Box
+            borderRadius="10%"
+            marginRight={3}
+            marginBottom={3}
+            maxWidth="25%"
+            overflow="hidden"
+            display="flex"
+            alignItems="center"
+          >
+            <ItemImage url={item.attributes.image} />
+          </Box>
+        )}
         <Box>
           <Typography variant="h3" marginBottom={1}>
             {item.attributes.title}
@@ -370,45 +374,50 @@ export default function ItemDetailsPage() {
               {item.attributes.subtitle}
             </Typography>
           )}
-          {storeConfig.detailsPage.showRating && item.mark && (
-            <Ratings mark={item.mark} />
+          {storeConfig.detailsPage.showRating && item.mark !== undefined && (
+            <Ratings mark={item.mark} ratingCount={item.ratingCount} />
           )}
-          {item.attributes.description && (
-            <Typography variant="body2">
-              {item.attributes.description}
-            </Typography>
-          )}
+          {storeConfig.detailsPage.showItemDescription &&
+            item.attributes.description && (
+              <Typography variant="body2">
+                {item.attributes.description}
+              </Typography>
+            )}
         </Box>
       </Box>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-between",
-        }}
-      >
-        <Typography sx={{ mt: 2 }} variant="h5">
-          Details
-        </Typography>
-        <IconButton
-          onClick={() => setHideDetails(!hideDetails)}
-          aria-label="expand"
-          style={{
-            transform: hideDetails ? "rotate(90deg)" : "rotate(0deg)",
-            transition: "transform 150ms",
-          }}
-        >
-          <ExpandMore />
-        </IconButton>
-      </Box>
+      {item.customAttributeList && item.customAttributeList.length > 0 && (
+        <>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+            }}
+          >
+            <Typography sx={{ mt: 2 }} variant="h5">
+              Details
+            </Typography>
+            <IconButton
+              onClick={() => setHideDetails(!hideDetails)}
+              aria-label="expand"
+              style={{
+                transform: hideDetails ? "rotate(90deg)" : "rotate(0deg)",
+                transition: "transform 150ms",
+              }}
+            >
+              <ExpandMore />
+            </IconButton>
+          </Box>
 
-      <Divider sx={{ mb: 2 }} />
-      <Collapse in={!hideDetails} timeout="auto" unmountOnExit>
-        <AttributesList
-          attributesConfig={storeConfig.customAttributesSpec}
-          itemAttributes={item.customAttributeList}
-        />
-      </Collapse>
+          <Divider sx={{ mb: 2 }} />
+          <Collapse in={!hideDetails} timeout="auto" unmountOnExit>
+            <AttributesList
+              attributesConfig={storeConfig.customAttributesSpec}
+              itemAttributes={item.customAttributeList}
+            />
+          </Collapse>
+        </>
+      )}
       <Box
         sx={{
           display: "flex",

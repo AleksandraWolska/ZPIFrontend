@@ -29,23 +29,25 @@ function ItemListElement({ item, config }: ItemListElementProps) {
       }}
     >
       {/* Image Box */}
-      <Box
-        sx={{
-          borderRadius: "10%",
-          marginRight: 2,
-          maxWidth: "20%",
-          overflow: "hidden",
-          display: "flex",
-          alignItems: "center",
-          "@media (max-width: 800px)": {
-            maxWidth: "100%",
-            marginRight: 0,
-            marginBottom: 2,
-          },
-        }}
-      >
-        {item.attributes.image && <ItemImage url={item.attributes.image} />}
-      </Box>
+      {config.mainPage.showItemImg && item.attributes.image && (
+        <Box
+          sx={{
+            borderRadius: "10%",
+            marginRight: 2,
+            maxWidth: "20%",
+            overflow: "hidden",
+            display: "flex",
+            alignItems: "center",
+            "@media (max-width: 800px)": {
+              maxWidth: "100%",
+              marginRight: 0,
+              marginBottom: 2,
+            },
+          }}
+        >
+          <ItemImage url={item.attributes.image} />
+        </Box>
+      )}
 
       {/* Text Information */}
       <Box
@@ -62,30 +64,35 @@ function ItemListElement({ item, config }: ItemListElementProps) {
       >
         <Box flexGrow={1} marginRight={2}>
           <Typography variant="h5">{item.attributes.title}</Typography>
-          <Typography>{item.attributes.subtitle}</Typography>
-
-          {config.mainPage && config.mainPage.showRating && item.mark && (
-            <Ratings mark={item.mark} />
+          {config.mainPage.showItemSubtitle && item.attributes.subtitle && (
+            <Typography>{item.attributes.subtitle}</Typography>
           )}
+          {config.mainPage &&
+            config.mainPage.showRating &&
+            item.mark !== undefined && (
+              <Ratings mark={item.mark} ratingCount={item.ratingCount} />
+            )}
         </Box>
 
         {/* Attributes List */}
-        <Box
-          sx={{
-            width: "30%",
-            "@media (max-width: 1100px)": {
-              width: "40%",
-            },
-            "@media (max-width: 800px)": {
-              width: "100%",
-            },
-          }}
-        >
-          <AttributesList
-            attributesConfig={config.customAttributesSpec}
-            itemAttributes={item.customAttributeList}
-          />
-        </Box>
+        {item.customAttributeList.length > 0 && (
+          <Box
+            sx={{
+              width: "30%",
+              "@media (max-width: 1100px)": {
+                width: "40%",
+              },
+              "@media (max-width: 800px)": {
+                width: "100%",
+              },
+            }}
+          >
+            <AttributesList
+              attributesConfig={config.customAttributesSpec}
+              itemAttributes={item.customAttributeList}
+            />
+          </Box>
+        )}
       </Box>
     </Box>
   );
