@@ -377,11 +377,12 @@ export default function ItemDetailsPage() {
           {storeConfig.detailsPage.showRating && item.mark !== undefined && (
             <Ratings mark={item.mark} ratingCount={item.ratingCount} />
           )}
-          {item.attributes.description && (
-            <Typography variant="body2">
-              {item.attributes.description}
-            </Typography>
-          )}
+          {storeConfig.detailsPage.showItemDescription &&
+            item.attributes.description && (
+              <Typography variant="body2">
+                {item.attributes.description}
+              </Typography>
+            )}
         </Box>
       </Box>
       {item.customAttributeList && item.customAttributeList.length > 0 && (
