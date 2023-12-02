@@ -62,30 +62,35 @@ function ItemListElement({ item, config }: ItemListElementProps) {
       >
         <Box flexGrow={1} marginRight={2}>
           <Typography variant="h5">{item.attributes.title}</Typography>
-          <Typography>{item.attributes.subtitle}</Typography>
-
-          {config.mainPage && config.mainPage.showRating && item.mark && (
-            <Ratings mark={item.mark} ratingCount={item.ratingCount} />
+          {item.attributes.subtitle && (
+            <Typography>{item.attributes.subtitle}</Typography>
           )}
+          {config.mainPage &&
+            config.mainPage.showRating &&
+            item.mark !== undefined && (
+              <Ratings mark={item.mark} ratingCount={item.ratingCount} />
+            )}
         </Box>
 
         {/* Attributes List */}
-        <Box
-          sx={{
-            width: "30%",
-            "@media (max-width: 1100px)": {
-              width: "40%",
-            },
-            "@media (max-width: 800px)": {
-              width: "100%",
-            },
-          }}
-        >
-          <AttributesList
-            attributesConfig={config.customAttributesSpec}
-            itemAttributes={item.customAttributeList}
-          />
-        </Box>
+        {item.customAttributeList.length > 0 && (
+          <Box
+            sx={{
+              width: "30%",
+              "@media (max-width: 1100px)": {
+                width: "40%",
+              },
+              "@media (max-width: 800px)": {
+                width: "100%",
+              },
+            }}
+          >
+            <AttributesList
+              attributesConfig={config.customAttributesSpec}
+              itemAttributes={item.customAttributeList}
+            />
+          </Box>
+        )}
       </Box>
     </Box>
   );
