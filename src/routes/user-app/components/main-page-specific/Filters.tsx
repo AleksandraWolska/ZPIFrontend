@@ -7,6 +7,7 @@ import {
   TextField,
   Button,
 } from "@mui/material";
+import { useTranslation } from "react-i18next";
 import { CustomAttributeSpec } from "../../../../types";
 import { FilterValue } from "../../types";
 
@@ -25,6 +26,8 @@ function Filters({
   activeFilters,
   customAttrubutesSpec,
 }: FiltersProps) {
+  const { t } = useTranslation();
+
   return (
     <Box
       padding={2}
@@ -131,7 +134,7 @@ function Filters({
           onClick={resetFilters}
           fullWidth
         >
-          Reset
+          {t("common.reset")}
         </Button>
       </Box>
     </Box>

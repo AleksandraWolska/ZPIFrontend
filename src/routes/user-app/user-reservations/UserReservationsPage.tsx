@@ -15,12 +15,15 @@ import {
 } from "@mui/material";
 import { ExpandMore, Delete } from "@mui/icons-material";
 import { Link, useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import useUserReservedItems from "./useUserReservedItems";
 import { UserReservation } from "../types";
 import { shouldShowEnd } from "../../../shared-components/utils";
 import useDeleteReservation from "./useDeleteReservation";
 
 function UserReservationsPage() {
+  const { t } = useTranslation();
+
   const { data: reservations } = useUserReservedItems();
   const deleteReservation = useDeleteReservation();
   const [expandedId, setExpandedId] = useState<string | null>(null);
@@ -66,7 +69,7 @@ function UserReservationsPage() {
     return (
       <Box display="flex" m={3} alignItems="center" flexDirection="column">
         <Typography variant="overline">
-          It looks like you dont have any bookings yet
+          {t("user.reservations.noReservations")}
         </Typography>
       </Box>
     );
@@ -88,7 +91,10 @@ function UserReservationsPage() {
         return (
           reservationsOfStatus.length > 0 && (
             <Box maxWidth="1000px" width="100%">
-              <Typography variant="overline">{type} reservations</Typography>
+              <Typography variant="overline">
+                {t(`user.reservations.${type}`)}{" "}
+                {t("user.reservations.reservations")}
+              </Typography>
               <List>
                 {reservationsOfStatus.map((reservation) => (
                   <Paper
@@ -181,7 +187,7 @@ function UserReservationsPage() {
                             style={{ textDecoration: "none" }}
                           >
                             <Button variant="outlined" color="primary">
-                              Item page
+                              {t("user.reservations.itemPage")}
                             </Button>
                           </Link>
                         </Box>
@@ -199,14 +205,14 @@ function UserReservationsPage() {
                           color="textPrimary"
                           gutterBottom
                         >
-                          Details:
+                          {t("user.reservations.details")}:
                         </Typography>
                         {reservation.status.startsWith("cancelled") && (
                           <Typography>
-                            Reason:{" "}
+                            {t("user.reservations.reason")}:{" "}
                             {reservation.status === "cancelled_by_user"
-                              ? "Cancelled by user"
-                              : "Cancelled by admin"}
+                              ? t("user.reservations.cancelledByUser")
+                              : t("user.reservations.cancelledByAdmin")}
                           </Typography>
                         )}
                         {reservation.subItems && (
@@ -247,7 +253,8 @@ function UserReservationsPage() {
                         )}
                         {reservation.message && (
                           <Typography>
-                            Message: {reservation.message}
+                            {t("user.reservations.message")}:{" "}
+                            {reservation.message}
                           </Typography>
                         )}
                       </Box>
@@ -269,7 +276,9 @@ function UserReservationsPage() {
           PaperProps={{ sx: { borderRadius: "10px" } }}
         >
           <DialogTitle sx={{ textAlign: "center", fontWeight: "medium" }}>
-            <Typography variant="h4">Delete reservation?</Typography>
+            <Typography variant="h4">
+              {t("user.reservations.deleteQuestion")}
+            </Typography>
           </DialogTitle>
           <DialogContent sx={{ textAlign: "center" }}>
             <Divider sx={{ marginTop: 2, marginBottom: 2 }} />
@@ -279,7 +288,7 @@ function UserReservationsPage() {
             {reservationToDelete.startDateTime && (
               <>
                 <Typography>
-                  {`Starts on:  ${new Date(
+                  {`${t("user.reservations.start")}:  ${new Date(
                     reservationToDelete.startDateTime,
                   ).toLocaleString()}`}
                 </Typography>
@@ -288,7 +297,7 @@ function UserReservationsPage() {
                   reservationToDelete.endDateTime,
                 ) && (
                   <Typography>
-                    {`Ends on ${new Date(
+                    {`${t("user.reservations.end")} ${new Date(
                       reservationToDelete.endDateTime!,
                     ).toLocaleString()}`}
                   </Typography>
@@ -298,7 +307,9 @@ function UserReservationsPage() {
 
             <Divider sx={{ marginTop: 2, marginBottom: 2 }} />
             <Typography>
-              {`Are you sure you want to delete reservation for ${reservationToDelete?.item.title}? This action is irreversible.`}
+              {t("user.reservations.deleteConfirm", {
+                title: reservationToDelete?.item.title,
+              })}
             </Typography>
           </DialogContent>
           <Box
@@ -315,7 +326,7 @@ function UserReservationsPage() {
               sx={{ flex: 1, mr: 0.5 }}
               onClick={handleDeleteCancel}
             >
-              CANCEL
+              {t("common.cancel")}
             </Button>
             <Button
               color="error"
@@ -323,7 +334,7 @@ function UserReservationsPage() {
               sx={{ flex: 1, ml: 0.5 }}
               onClick={handleDeleteConfirm}
             >
-              DELETE
+              {t("common.delete")}
             </Button>
           </Box>
         </Dialog>
@@ -331,4 +342,5 @@ function UserReservationsPage() {
     </Box>
   );
 }
+
 export default UserReservationsPage;

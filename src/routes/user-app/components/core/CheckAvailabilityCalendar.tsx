@@ -26,6 +26,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
+import { useTranslation } from "react-i18next";
 import { Availability } from "../../../../types";
 import useAvailabilityCheck from "../../details-page/useAvailabilityCheck";
 import {
@@ -90,6 +91,8 @@ export function CheckAvailabilityCalendar({
   availabilityChecked,
   setAvailabilityChecked,
 }: CheckAvailabilityCalendarProps) {
+  const { t } = useTranslation();
+
   const theme = useTheme();
   const { mutate, data: responseData, isError } = useAvailabilityCheck();
 
@@ -426,7 +429,7 @@ export function CheckAvailabilityCalendar({
           disabled={!events[0]?.start || !events[0]?.end}
           onClick={() => handleCheckAvailability()}
         >
-          Check Availability
+          {t("user.components.core.checkAvailability")}
         </Button>
       )}
     </Box>
@@ -448,7 +451,7 @@ export function CheckAvailabilityCalendar({
             });
           }}
         >
-          Reserve Item
+          {t("user.components.core.reserve")}
         </Button>
       )}
     </Box>
@@ -457,13 +460,15 @@ export function CheckAvailabilityCalendar({
   const buttonReset = (
     <Box marginTop={2}>
       <Button variant="outlined" color="primary" onClick={handleReset}>
-        RESET
+        {t("common.reset")}
       </Button>
     </Box>
   );
 
   if (!availabilityList.length)
-    return <Typography>No available time slots</Typography>;
+    return (
+      <Typography>{t("user.components.core.noTimeSlotsAvailable")}</Typography>
+    );
 
   return (
     <>
@@ -568,12 +573,14 @@ export function CheckAvailabilityCalendar({
           PaperProps={{ sx: { borderRadius: "10px" } }}
         >
           <DialogTitle sx={{ textAlign: "center", fontWeight: "medium" }}>
-            <Typography variant="h4">Available</Typography>
+            <Typography variant="h4">
+              {t("user.components.core.available")}
+            </Typography>
           </DialogTitle>
           <DialogContent sx={{ textAlign: "center" }}>
             <Box>
               <Typography variant="h6" sx={{ mb: 1 }}>
-                Item is available in chosen time ranges
+                {t("user.components.core.itemAvailable")}
               </Typography>
 
               <Divider sx={{ marginTop: 2, marginBottom: 2 }} />
@@ -619,7 +626,7 @@ export function CheckAvailabilityCalendar({
                   });
                 }}
               >
-                Reserve
+                {t("common.reserve")}
               </Button>
             </Box>
           </DialogActions>

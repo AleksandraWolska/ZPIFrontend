@@ -10,6 +10,7 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "react-oidc-context";
 import { ExpandMore } from "@mui/icons-material";
+import { useTranslation } from "react-i18next";
 import { NewReservation, StoreConfig, SubItem } from "../../../types";
 import AttributesList from "../components/detail-page-specific/AttributesList";
 import Ratings from "../components/shared/Ratings";
@@ -49,6 +50,8 @@ const initializeAvailabilityChecked = (core: StoreConfig["core"]): boolean => {
 };
 
 export default function ItemDetailsPage() {
+  const { t } = useTranslation();
+
   const storeConfig = useStoreConfig();
   const item = useItemDetails();
   const reserveItem = useReserveItem();
@@ -279,7 +282,7 @@ export default function ItemDetailsPage() {
           disabled={!reservationRequestReady}
           onClick={() => prepareFixedReservationRequest()}
         >
-          Reserve
+          {t("user.details.reserve")}
         </Button>
       </Box>
     </Box>
@@ -395,7 +398,7 @@ export default function ItemDetailsPage() {
             }}
           >
             <Typography sx={{ mt: 2 }} variant="h5">
-              Details
+              {t("user.details.details")}
             </Typography>
             <IconButton
               onClick={() => setHideDetails(!hideDetails)}
@@ -426,7 +429,7 @@ export default function ItemDetailsPage() {
         }}
       >
         <Typography sx={{ mt: 2 }} variant="h5">
-          Reservation
+          {t("user.details.reservation")}
         </Typography>
         <IconButton
           onClick={() => setHideReservation(!hideReservation)}
@@ -455,7 +458,7 @@ export default function ItemDetailsPage() {
             }}
           >
             <Typography sx={{ mt: 2 }} variant="h5">
-              Reviews
+              {t("user.details.reviews")}
             </Typography>
             <IconButton
               onClick={() => setHideComments(!hideComments)}

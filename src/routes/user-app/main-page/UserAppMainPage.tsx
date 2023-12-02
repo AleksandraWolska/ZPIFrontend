@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 
 import { FilterAlt, FilterAltOff, Close, SwapVert } from "@mui/icons-material";
+import { useTranslation } from "react-i18next";
 import { CustomAttributeSpec, CustomAttribute, Item } from "../../../types";
 import { FilterValue } from "../types";
 import useItems from "./useItems";
@@ -23,6 +24,8 @@ import ItemListElement from "../components/main-page-specific/ItemListElement";
 import useStoreConfig from "../wrapper/useStoreConfig";
 
 export default function UserAppMainPage() {
+  const { t } = useTranslation();
+
   const navigate = useNavigate();
 
   const storeConfig = useStoreConfig();
@@ -164,21 +167,27 @@ export default function UserAppMainPage() {
             </IconButton>
             <Box display="flex" alignItems="center">
               <FormControl size="small" style={{ marginRight: 8 }}>
-                <InputLabel id="sort-criteria-select-label">Sort By</InputLabel>
+                <InputLabel id="sort-criteria-select-label">
+                  {t("user.main.sortBy")}
+                </InputLabel>
                 <Select
                   labelId="sort-criteria-select-label"
                   id="sort-criteria-select"
                   value={sortCriteria}
-                  label="Sort By"
+                  label={t("user.main.sortBy")}
                   onChange={(e) => setSortCriteria(e.target.value)}
                 >
-                  <MenuItem value="title">Title</MenuItem>
-                  <MenuItem value="availableAmount">Available Amount</MenuItem>
+                  <MenuItem value="title">{t("user.main.title")}</MenuItem>
+                  <MenuItem value="availableAmount">
+                    {t("user.main.availableAmount")}
+                  </MenuItem>
                   {storeConfig.mainPage.showRating &&
                     !(
                       !storeConfig.core.flexibility &&
                       !storeConfig.core.periodicity
-                    ) && <MenuItem value="mark">Rating</MenuItem>}
+                    ) && (
+                      <MenuItem value="mark">{t("user.main.rating")}</MenuItem>
+                    )}
                 </Select>
               </FormControl>
               <IconButton
@@ -204,7 +213,7 @@ export default function UserAppMainPage() {
           </Box>
           {sortedItemInfos.length === 0 && (
             <Typography m={2} variant="overline">
-              There is no available items right now, sorry
+              {t("user.main.noItemsAvailable")}
             </Typography>
           )}
           <List>

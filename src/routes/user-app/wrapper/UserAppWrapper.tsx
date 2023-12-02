@@ -38,7 +38,10 @@ import {
   pink,
   lightGreen,
 } from "@mui/material/colors";
+import { useTranslation } from "react-i18next";
 import useStoreConfig from "./useStoreConfig";
+import SwitchLangMobile from "../../common/SwitchLangMobile";
+import SwitchLang from "../../common/SwitchLang";
 
 function UserAppWrapper() {
   const storeConfig = useStoreConfig();
@@ -132,6 +135,8 @@ function UserAppWrapper() {
 }
 
 function TopBarMenu() {
+  const { t } = useTranslation();
+
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const auth = useAuth();
   const location = useLocation();
@@ -163,9 +168,19 @@ function TopBarMenu() {
         <MenuItem>
           <MenuText onClick={() => navigate(`reservations`)}>
             <EventIcon />
-            <Typography ml={1}> your bookings</Typography>
+            <Typography ml={1}>
+              {" "}
+              {t("user.wrapper.yourReservations")}
+            </Typography>
           </MenuText>
         </MenuItem>
+
+        <MenuItem>
+          <MenuText>
+            <SwitchLang />
+          </MenuText>
+        </MenuItem>
+
         <MenuItem>
           {auth.isAuthenticated ? (
             <MenuText
@@ -177,7 +192,7 @@ function TopBarMenu() {
               }}
             >
               <LogoutIcon />
-              <Typography ml={1}> logout </Typography>
+              <Typography ml={1}>{t("auth.logout")}</Typography>
             </MenuText>
           ) : (
             <MenuText
@@ -234,7 +249,10 @@ function TopBarMenu() {
           <MenuItem onClick={() => navigate(`reservations`)}>
             <MobileMenuItemText>
               <EventIcon />
-              <Typography ml={1}> your bookings</Typography>
+              <Typography ml={1}>
+                {" "}
+                {t("user.wrapper.yourReservations")}
+              </Typography>
             </MobileMenuItemText>
           </MenuItem>
           <MenuItem>
@@ -247,7 +265,7 @@ function TopBarMenu() {
                 }}
               >
                 <LogoutIcon />
-                <Typography ml={1}> logout </Typography>
+                <Typography ml={1}>{t("auth.logout")}</Typography>
               </MobileMenuItemText>
             ) : (
               <MobileMenuItemText
@@ -262,6 +280,10 @@ function TopBarMenu() {
                 <Typography ml={1}> login </Typography>
               </MobileMenuItemText>
             )}
+          </MenuItem>
+
+          <MenuItem>
+            <SwitchLangMobile handleCloseNavMenu={handleCloseNavMenu} />
           </MenuItem>
         </Menu>
       </Box>

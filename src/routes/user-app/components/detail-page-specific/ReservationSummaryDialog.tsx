@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { useAuth } from "react-oidc-context";
+import { useTranslation } from "react-i18next";
 import { FixedSchedule, NewReservation } from "../../../../types";
 import useItemDetails from "../../details-page/useItemDetails";
 import useStoreConfig from "../../wrapper/useStoreConfig";
@@ -32,6 +33,8 @@ export function ReservationSummaryDialog({
   setReservation,
   makeReservation,
 }: Props) {
+  const { t } = useTranslation();
+
   const item = useItemDetails();
   const subItem = reservation.subItemIds && reservation.subItemIds.length > 0;
 
@@ -48,10 +51,12 @@ export function ReservationSummaryDialog({
   const flexibleSummary = (
     <>
       <Typography sx={{ mb: 1 }}>
-        Start: {new Date(reservation.startDateTime).toLocaleString()}
+        {t("user.components.details.start")}:{" "}
+        {new Date(reservation.startDateTime).toLocaleString()}
       </Typography>
       <Typography sx={{ mb: 1 }}>
-        End: {new Date(reservation.endDateTime!).toLocaleString()}
+        {t("user.components.details.end")}:{" "}
+        {new Date(reservation.endDateTime!).toLocaleString()}
       </Typography>
     </>
   );
@@ -78,7 +83,7 @@ export function ReservationSummaryDialog({
                         subItemElement?.schedule?.startDateTime,
                       ).toLocaleString()} ${
                         subItemElement?.schedule?.endDateTime
-                          ? `to ${new Date(
+                          ? `${t("user.components.details.to")} ${new Date(
                               subItemElement?.schedule?.endDateTime,
                             ).toLocaleString()}`
                           : ""
@@ -94,7 +99,7 @@ export function ReservationSummaryDialog({
     </Box>
   ) : (
     <Typography color="error" sx={{ mb: 1, textAlign: "center" }}>
-      Error: One or more items in the reservation do not match available items.
+      {t("user.components.details.reservationError")}
     </Typography>
   );
 
@@ -104,7 +109,7 @@ export function ReservationSummaryDialog({
       "startDateTime" in item.schedule && (
         <>
           <Typography>
-            Start:{" "}
+            {t("user.components.details.start")}:{" "}
             {new Date(
               (item.schedule as FixedSchedule).startDateTime,
             ).toLocaleString()}
@@ -114,7 +119,7 @@ export function ReservationSummaryDialog({
             (item.schedule as FixedSchedule).endDateTime,
           ) && (
             <Typography>
-              End:{" "}
+              {t("user.components.details.end")}:{" "}
               {new Date(
                 (item.schedule as FixedSchedule).endDateTime!,
               ).toLocaleString()}
@@ -126,7 +131,7 @@ export function ReservationSummaryDialog({
   const optionalMessage = (
     <Collapse in={showOptionalMessageInput}>
       <TextField
-        label="message"
+        label={t("user.components.details.message")}
         fullWidth
         margin="normal"
         onChange={(e) => {
@@ -147,13 +152,15 @@ export function ReservationSummaryDialog({
       PaperProps={{ sx: { borderRadius: "10px" } }}
     >
       <DialogTitle sx={{ textAlign: "center", fontWeight: "medium" }}>
-        <Typography variant="h4">Summary</Typography>
+        <Typography variant="h4">
+          {t("user.components.details.summary")}
+        </Typography>
       </DialogTitle>
       <DialogContent sx={{ textAlign: "center" }}>
         <Box mb={2}>
           <Typography variant="h6" sx={{ mb: 1 }}>
             {storeConfig.detailsPage.reservationSummaryPrompt ||
-              "Review your reservation and fill neccessary data"}
+              t("user.components.details.summaryPrompt")}
           </Typography>
           <Box>
             <Divider sx={{ marginTop: 2, marginBottom: 2 }} />
@@ -163,14 +170,16 @@ export function ReservationSummaryDialog({
             {storeConfig.core.flexibility ? flexibleSummary : fixedSummary}
             {!storeConfig.core.specificReservation && (
               <Typography sx={{ mb: 1 }}>
-                Amount: {reservation.amount}
+                {t("user.components.details.amount")}: {reservation.amount}
               </Typography>
             )}
             <Divider sx={{ marginTop: 2, marginBottom: 2 }} />
           </Box>
         </Box>
         <Box mb={2}>
-          <Typography variant="h6">Provide neccessary data:</Typography>
+          <Typography variant="h6">
+            {t("user.components.details.provideNecessaryData")}
+          </Typography>
           {auth.isAuthenticated ? (
             <TextField
               label="email"
@@ -215,8 +224,8 @@ export function ReservationSummaryDialog({
           <Box sx={{ mt: 2 }} onClick={() => setShowOptionalMessageInput(true)}>
             <Typography variant="overline" sx={{ cursor: "pointer" }}>
               {showOptionalMessageInput
-                ? "YOUR MESSAGE TO STORE OWNER"
-                : "+ Add message to store owner"}
+                ? t("user.components.details.yourMessage")
+                : t("user.components.details.addMessage")}
             </Typography>
           </Box>
           {optionalMessage}
@@ -230,7 +239,7 @@ export function ReservationSummaryDialog({
               cancelReservation();
             }}
           >
-            CANCEL
+            {t("common.cancel")}
           </Button>
           <Button
             color="primary"
@@ -240,7 +249,7 @@ export function ReservationSummaryDialog({
               makeReservation();
             }}
           >
-            RESERVE
+            {t("common.reserve")}
           </Button>
         </Box>
       </DialogContent>

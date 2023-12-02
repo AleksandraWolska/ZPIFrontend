@@ -7,13 +7,17 @@ import {
   Box,
   Divider,
 } from "@mui/material";
+import { useTranslation } from "react-i18next";
 import useItemDetails from "../../details-page/useItemDetails";
 import useStoreConfig from "../../wrapper/useStoreConfig";
 
 type Props = {
   handleReservationFailure: () => void;
 };
+
 export function ReservationFailureDialog({ handleReservationFailure }: Props) {
+  const { t } = useTranslation();
+
   const item = useItemDetails();
   const storeConfig = useStoreConfig();
 
@@ -25,13 +29,15 @@ export function ReservationFailureDialog({ handleReservationFailure }: Props) {
       PaperProps={{ sx: { borderRadius: "10px" } }}
     >
       <DialogTitle sx={{ textAlign: "center", fontWeight: "medium" }}>
-        <Typography variant="h4">Falure</Typography>
+        <Typography variant="h4">
+          {t("user.components.details.failure")}
+        </Typography>
       </DialogTitle>
       <DialogContent sx={{ textAlign: "center" }}>
         <Box mb={3}>
           <Typography variant="h6" sx={{ mb: 1 }}>
             {storeConfig.detailsPage.reservationFailurePrompt ||
-              "We're sorry, reservation did not succeed"}
+              t("user.components.details.reservationFailurePrompt")}
           </Typography>
           <Box>
             <Divider sx={{ marginTop: 2, marginBottom: 2 }} />
@@ -49,7 +55,7 @@ export function ReservationFailureDialog({ handleReservationFailure }: Props) {
             handleReservationFailure();
           }}
         >
-          OK
+          {t("common.ok")}
         </Button>
       </DialogContent>
     </Dialog>

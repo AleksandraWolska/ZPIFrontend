@@ -2,7 +2,13 @@
   "common": {
     "yes": "Tak",
     "no": "Nie",
-    "save": "Zapisz"
+    "save": "Zapisz",
+    "reset": "Zresetuj",
+    "reserve": "Zarezerwuj",
+    "cancel": "Anuluj",
+    "send": "Wyślij",
+    "ok": "OK",
+    "delete": "Usuń"
   },
   "auth": {
     "unauthorized": "Nie masz uprawnień do wykonania tej akcji.",
@@ -129,6 +135,82 @@
         "requiredDataPlaceholder": "Wprowadź predefiniowane wartości, wpisując je i naciskając enter",
         "confirmation": "Czy wymagane jest potwierdzenie rezerwacji przez administratora?"
       }
+    }
+  },
+  "user": {
+    "components": {
+      "core": {
+        "checkAvailability": "Sprawdź dostępność",
+        "reserve": "Zarezerwuj przedmiot",
+        "noTimeSlotsAvailable": "Brak dostępnych slotów czasowych",
+        "available": "Dostępny",
+        "itemAvailable": "Przedmiot jest dostępny w wybranych przedziałach czasowych"
+      },
+      "details": {
+        "ratingTitle": "Powiedz, jak Ci się podobało",
+        "commentLabel": "Twój komentarz",
+        "commentPlaceholder": "Wprowadź swój komentarz tutaj...",
+        "nickLabel": "Opcjonalny pseudonim",
+        "nickPlaceholder": "Wprowadź opcjonalny pseudonim...",
+        "addReview": "Dodaj recenzję",
+        "rate": "Ocena",
+        "logInToAddReview": "Zaloguj się, aby dodać recenzję",
+        "logInToRate": "Zaloguj się, aby ocenić",
+        "prev": "Poprzedni",
+        "today": "Dziś",
+        "next": "Następny",
+        "failure": "Błąd",
+        "reservationFailurePrompt": "Przykro nam, nie udało się zarezerwować",
+        "success": "Sukces",
+        "reservationSuccessPrompt": "Twoja rezerwacja została pomyślnie utworzona",
+        "start": "Początek",
+        "end": "Koniec",
+        "to": "do",
+        "reservationError": "Błąd: Jeden lub więcej przedmiotów w rezerwacji nie odpowiada dostępnym przedmiotom.",
+        "message": "Wiadomość",
+        "summary": "Podsumowanie",
+        "summaryPrompt": "Przejrzyj swoją rezerwację i uzupełnij niezbędne dane",
+        "amount": "Ilość",
+        "provideNecessaryData": "Podaj niezbędne dane",
+        "yourMessage": "Twoja wiadomość do administratora",
+        "addMessage": "+ Dodaj wiadomość do administratora",
+        "unavailable": "Niedostępne, przepraszamy",
+        "unavailableMessage": "Być może zainteresuje Cię jedno z poniższych?"
+      }
+    },
+    "details": {
+      "reserve": "Zarezerwuj",
+      "details": "Szczegóły",
+      "reservation": "Rezerwacja",
+      "reviews": "Recenzje"
+    },
+    "main": {
+      "title": "Tytuł",
+      "availableAmount": "Dostępna ilość",
+      "rating": "Ocena",
+      "noItemsAvailable": "Obecnie nie ma dostępnych przedmiotów, przepraszamy",
+      "sortBy": "Sortuj"
+    },
+    "reservations": {
+      "noReservations": "Wygląda na to, że jeszcze nie masz żadnych rezerwacji",
+      "active": "Aktywne",
+      "cancelled": "Anulowane",
+      "past": "Przeszłe",
+      "unknown": "Nieznane",
+      "reservations": "rezerwacje",
+      "itemPage": "Strona przedmiotu",
+      "details": "Szczegóły",
+      "reason": "Powód",
+      "message": "Wiadomość",
+      "deleteQuestion": "Usunąć rezerwację?",
+      "start": "Początek",
+      "end": "Koniec",
+      "deleteConfirm": "Czy na pewno chcesz usunąć rezerwację dla {{title}}? Ta czynność jest nieodwracalna.",
+      "cancelledByUser": "Anulowane przez użytkownika",
+      "cancelledByAdmin": "Anulowane przez administratora"
+    },
+    "wrapper": {
+      "yourReservations": "Twoje rezerwacje"
     }
   }
 }

@@ -16,6 +16,7 @@ import {
 } from "react";
 import { Box, Button, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
+import { useTranslation } from "react-i18next";
 import { Availability } from "../../../../types";
 import { FlexibleReservationData } from "../../types";
 import useSchedule from "../../details-page/useSchedule";
@@ -74,6 +75,8 @@ export function FreeRangesCalendar({
   availabilityChecked,
   setAvailabilityChecked,
 }: FreeRangesCalendarProps) {
+  const { t } = useTranslation();
+
   const theme = useTheme();
   const { mutate, data: responseData, isError } = useSchedule();
 
@@ -329,7 +332,7 @@ export function FreeRangesCalendar({
           disabled={!events[0] || !events[0]?.start || !events[0]?.end}
           onClick={() => handleCheckAvailability()}
         >
-          Check Availability
+          {t("user.components.core.checkAvailability")}
         </Button>
       )}
     </Box>
@@ -350,14 +353,16 @@ export function FreeRangesCalendar({
             })
           }
         >
-          Reserve Item
+          {t("user.components.core.reserve")}
         </Button>
       )}
     </Box>
   );
 
   if (!availabilityList.length)
-    return <Typography>No available time slots</Typography>;
+    return (
+      <Typography>{t("user.components.core.noTimeSlotsAvailable")}</Typography>
+    );
 
   return (
     <>

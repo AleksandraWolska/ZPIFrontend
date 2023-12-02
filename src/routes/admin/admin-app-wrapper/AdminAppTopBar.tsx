@@ -6,12 +6,10 @@ import {
   IconButton,
   Menu,
   MenuItem,
-  Select,
   Toolbar,
   Typography,
 } from "@mui/material";
 import LogoutIcon from "@mui/icons-material/Logout";
-import LanguageIcon from "@mui/icons-material/Language";
 import LoginIcon from "@mui/icons-material/Login";
 import PersonIcon from "@mui/icons-material/Person";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -20,6 +18,8 @@ import { styled } from "@mui/system";
 import { NavLink, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import useAdminStores from "../admin-main-page/useAdminStores";
+import SwitchLang from "../../common/SwitchLang";
+import SwitchLangMobile from "../../common/SwitchLangMobile";
 
 function AdminAppTopBar() {
   const params = useParams() as { storeId: string };
@@ -69,10 +69,7 @@ function AdminAppTopBar() {
 }
 
 function TopBarMenu() {
-  const { t, i18n } = useTranslation();
-  const changeLanguage = (lng: string) => {
-    i18n.changeLanguage(lng);
-  };
+  const { t } = useTranslation();
 
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const auth = useAuth();
@@ -109,21 +106,7 @@ function TopBarMenu() {
 
         <MenuItem>
           <MenuText>
-            <LanguageIcon />
-            <Select
-              value={i18n.language}
-              onChange={(e) => changeLanguage(e.target.value)}
-              sx={{
-                color: "#fff",
-                "& .MuiSelect-icon": {
-                  color: "#fff",
-                },
-                ".MuiOutlinedInput-notchedOutline": { border: 0 },
-              }}
-            >
-              <MenuItem value="en">EN</MenuItem>
-              <MenuItem value="pl">PL</MenuItem>
-            </Select>
+            <SwitchLang />
           </MenuText>
         </MenuItem>
 
@@ -224,37 +207,7 @@ function TopBarMenu() {
           </MenuItem>
 
           <MenuItem>
-            <Box
-              padding={0.5}
-              sx={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "space-between",
-              }}
-            >
-              <LanguageIcon />
-              <Typography
-                ml={1}
-                style={{ cursor: "pointer" }}
-                onClick={() => {
-                  i18n.changeLanguage("en");
-                  handleCloseNavMenu();
-                }}
-              >
-                EN
-              </Typography>
-              <Typography ml={1}>|</Typography>
-              <Typography
-                ml={1}
-                style={{ cursor: "pointer" }}
-                onClick={() => {
-                  i18n.changeLanguage("pl");
-                  handleCloseNavMenu();
-                }}
-              >
-                PL
-              </Typography>{" "}
-            </Box>
+            <SwitchLangMobile handleCloseNavMenu={handleCloseNavMenu} />
           </MenuItem>
         </Menu>
       </Box>
