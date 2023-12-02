@@ -3,7 +3,7 @@ name: Genervation on Azure
 on:
   push:
     branches:
-      - "required-inputs"
+      - "dev"
   workflow_dispatch:
 
 jobs:
