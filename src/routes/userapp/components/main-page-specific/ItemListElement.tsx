@@ -29,23 +29,25 @@ function ItemListElement({ item, config }: ItemListElementProps) {
       }}
     >
       {/* Image Box */}
-      <Box
-        sx={{
-          borderRadius: "10%",
-          marginRight: 2,
-          maxWidth: "20%",
-          overflow: "hidden",
-          display: "flex",
-          alignItems: "center",
-          "@media (max-width: 800px)": {
-            maxWidth: "100%",
-            marginRight: 0,
-            marginBottom: 2,
-          },
-        }}
-      >
-        {item.attributes.image && <ItemImage url={item.attributes.image} />}
-      </Box>
+      {config.mainPage.showItemImg && item.attributes.image && (
+        <Box
+          sx={{
+            borderRadius: "10%",
+            marginRight: 2,
+            maxWidth: "20%",
+            overflow: "hidden",
+            display: "flex",
+            alignItems: "center",
+            "@media (max-width: 800px)": {
+              maxWidth: "100%",
+              marginRight: 0,
+              marginBottom: 2,
+            },
+          }}
+        >
+          <ItemImage url={item.attributes.image} />
+        </Box>
+      )}
 
       {/* Text Information */}
       <Box
@@ -62,7 +64,7 @@ function ItemListElement({ item, config }: ItemListElementProps) {
       >
         <Box flexGrow={1} marginRight={2}>
           <Typography variant="h5">{item.attributes.title}</Typography>
-          {item.attributes.subtitle && (
+          {config.mainPage.showItemSubtitle && item.attributes.subtitle && (
             <Typography>{item.attributes.subtitle}</Typography>
           )}
           {config.mainPage &&
