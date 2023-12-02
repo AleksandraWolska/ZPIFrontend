@@ -29,14 +29,7 @@ function CommentsDisplay() {
                     {comment.nickname ? comment.nickname : "anonymous"}
                   </Typography>
                   <Typography variant="caption" color="textSecondary">
-                    {` — ${new Date(comment.datetime).toLocaleDateString(
-                      undefined,
-                      {
-                        day: "numeric",
-                        month: "short",
-                        year: "numeric",
-                      },
-                    )}`}
+                    {` — ${new Date(comment.datetime).toLocaleDateString()}`}
                   </Typography>
                 </Box>
               }
