@@ -371,7 +371,7 @@ export default function ItemDetailsPage() {
             </Typography>
           )}
           {storeConfig.detailsPage.showRating && item.mark && (
-            <Ratings mark={item.mark} />
+            <Ratings mark={item.mark} ratingCount={item.ratingCount} />
           )}
           {item.attributes.description && (
             <Typography variant="body2">

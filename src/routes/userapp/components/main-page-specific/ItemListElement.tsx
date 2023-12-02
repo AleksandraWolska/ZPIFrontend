@@ -65,7 +65,7 @@ function ItemListElement({ item, config }: ItemListElementProps) {
           <Typography>{item.attributes.subtitle}</Typography>
 
           {config.mainPage && config.mainPage.showRating && item.mark && (
-            <Ratings mark={item.mark} />
+            <Ratings mark={item.mark} ratingCount={item.ratingCount} />
           )}
         </Box>
 
