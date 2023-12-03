@@ -67,6 +67,7 @@ function CommentInput({
       {showComments && (
         <>
           <TextField
+            inputProps={{ maxLength: 1000 }}
             margin="dense"
             fullWidth
             label={t("user.components.details.commentLabel")}
@@ -81,6 +82,7 @@ function CommentInput({
             }
           />
           <TextField
+            inputProps={{ maxLength: 255 }}
             margin="dense"
             fullWidth
             label={t("user.components.details.nickLabel")}

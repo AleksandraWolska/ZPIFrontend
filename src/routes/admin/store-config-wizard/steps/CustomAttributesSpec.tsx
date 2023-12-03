@@ -125,6 +125,7 @@ function CustomAttributesSpec({
 
               <Stack direction="row" gap={1} marginBottom={1.25}>
                 <TextField
+                  inputProps={{ maxLength: 255 }}
                   value={attr.name}
                   sx={{ width: "60%" }}
                   label={t("admin.wizard.customAttributes.name")}

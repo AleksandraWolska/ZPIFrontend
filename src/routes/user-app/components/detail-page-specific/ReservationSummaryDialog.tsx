@@ -131,6 +131,7 @@ export function ReservationSummaryDialog({
   const optionalMessage = (
     <Collapse in={showOptionalMessageInput}>
       <TextField
+        inputProps={{ maxLength: 255 }}
         label={t("user.components.details.message")}
         fullWidth
         margin="normal"
@@ -182,6 +183,7 @@ export function ReservationSummaryDialog({
           </Typography>
           {auth.isAuthenticated ? (
             <TextField
+              inputProps={{ maxLength: 255 }}
               label="email"
               name="email"
               disabled
@@ -191,6 +193,7 @@ export function ReservationSummaryDialog({
             />
           ) : (
             <TextField
+              inputProps={{ maxLength: 255 }}
               label="email"
               name="email"
               fullWidth
@@ -205,6 +208,7 @@ export function ReservationSummaryDialog({
           )}
           {storeConfig.authConfig.requiredPersonalData.map((infoKey) => (
             <TextField
+              inputProps={{ maxLength: 255 }}
               key={infoKey}
               label={infoKey}
               name={infoKey}

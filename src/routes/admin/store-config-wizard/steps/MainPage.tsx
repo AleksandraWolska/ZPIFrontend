@@ -38,6 +38,7 @@ function MainPage({
 
       <Box width="100%" padding={2.5}>
         <TextField
+          inputProps={{ maxLength: 255 }}
           fullWidth
           label={t("admin.wizard.mainPage.welcomeTextLine1")}
           name="welcomeTextLine1"
@@ -48,6 +49,7 @@ function MainPage({
         />
 
         <TextField
+          inputProps={{ maxLength: 255 }}
           sx={{ marginTop: 1.25 }}
           fullWidth
           label={t("admin.wizard.mainPage.welcomeTextLine2")}
