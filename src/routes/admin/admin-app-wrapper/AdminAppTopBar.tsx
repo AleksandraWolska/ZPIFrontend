@@ -18,8 +18,8 @@ import { styled } from "@mui/system";
 import { NavLink, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import useAdminStores from "../admin-main-page/useAdminStores";
-import SwitchLang from "../../common/SwitchLang";
-import SwitchLangMobile from "../../common/SwitchLangMobile";
+import SwitchLangMobile from "../../../shared-components/SwitchLangMobile";
+import SwitchLang from "../../../shared-components/SwitchLang";
 
 function AdminAppTopBar() {
   const params = useParams() as { storeId: string };
