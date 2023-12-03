@@ -89,7 +89,7 @@ function UserAppWrapper() {
                 }}
               >
                 <Box sx={{ typography: { xs: "h5", md: "h4" } }}>
-                  <ToolbarNavLink to={`/userapp/${storeId}`}>
+                  <ToolbarNavLink to={`/${storeId}`}>
                     {owner.logoSrc && (
                       <Box
                         sx={{

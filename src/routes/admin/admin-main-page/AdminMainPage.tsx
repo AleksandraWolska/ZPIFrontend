@@ -12,7 +12,10 @@ import AddBusinessIcon from "@mui/icons-material/AddBusiness";
 import { useTranslation } from "react-i18next";
 import useAdminStores from "./useAdminStores";
 import { StoreSummary } from "../../../types";
-import { ActionBox, ClearNavLink } from "../../common/styledComponents";
+import {
+  ActionBox,
+  ClearNavLink,
+} from "../../../shared-components/styledComponents";
 
 function AdminMainPage() {
   const { t } = useTranslation();

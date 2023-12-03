@@ -13,7 +13,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import PersonIcon from "@mui/icons-material/Person";
 import HomeIcon from "@mui/icons-material/Home";
 import { useNavigate } from "react-router-dom";
-import AllStores from "./AllStores";
+import AllStores from "../routes/home/AllStores";
 
 function NotFoundPage() {
   const navigate = useNavigate();

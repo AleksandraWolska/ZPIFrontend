@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { STORE_CONFIG_STEPS, StoreConfigStep } from "../../types";
 import { useStoreConfig } from "../../StoreConfigProvider";
 import { calculateProgress } from "./utils";
@@ -11,7 +12,6 @@ import CoreDescriptionWrapper from "./components/CoreDescriptionWrapper";
 import ChoiceButtonsContainer from "./components/ChoiceButtonsContainer";
 import ChoiceButton from "./components/ChoiceButton";
 import CoreDescription from "./components/CoreDescription";
-import { useTranslation } from "react-i18next";
 
 function Uniqueness({
   setActiveStep,
