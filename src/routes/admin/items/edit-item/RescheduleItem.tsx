@@ -1,10 +1,19 @@
 import { useNavigate } from "react-router-dom";
 import { Box, Container } from "@mui/system";
-import { Button } from "@mui/material";
+import {
+  Button,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  Divider,
+  Typography,
+} from "@mui/material";
+import { useState } from "react";
 import useItemToBeEdited from "./useItemToBeEdited";
 import ItemFormProvider, { useItemForm } from "../item-form/ItemFormProvider";
 import Schedule from "../item-form/schedule/Schedule";
 import useEditItem from "./useEditItem";
+import { Reservation } from "../../../../types";
 
 function RescheduleItem() {
   const itemToBeEdited = useItemToBeEdited();
@@ -20,6 +29,10 @@ function ScheduleForm() {
   const { item } = useItemForm();
   const editItem = useEditItem();
   const navigate = useNavigate();
+
+  const [conflictingReservations, setConflictingReservations] = useState<
+    Reservation[]
+  >([]);
 
   return (
     <Container>
@@ -44,6 +57,15 @@ function ScheduleForm() {
                 onSuccess: () => {
                   navigate("../..", { relative: "path" });
                 },
+                onError: async (error) => {
+                  console.log("ON_ERROR");
+                  if (error instanceof Response) {
+                    const data = (await error.json()) as {
+                      reservations: Reservation[];
+                    };
+                    setConflictingReservations(data.reservations);
+                  }
+                },
               });
             }}
           >
@@ -51,7 +73,71 @@ function ScheduleForm() {
           </Button>
         </Box>
       </Box>
+
+      {conflictingReservations.length > 0 && (
+        <ConflictingReservationsDialog
+          reservations={conflictingReservations}
+          onClose={() => {
+            setConflictingReservations([]);
+          }}
+        />
+      )}
     </Container>
+  );
+}
+
+function ConflictingReservationsDialog({
+  reservations,
+  onClose,
+}: {
+  reservations: Reservation[];
+  onClose: () => void;
+}) {
+  return (
+    <Dialog open>
+      <DialogTitle sx={{ textAlign: "center", fontWeight: "medium" }}>
+        <Typography variant="h4">Conflicting reservations</Typography>
+      </DialogTitle>
+
+      <DialogContent>
+        <Typography variant="h6" sx={{ mb: 1 }}>
+          Cannot reschedule because of the following reservations:
+        </Typography>
+
+        <Divider sx={{ marginTop: 2, marginBottom: 2 }} />
+
+        {reservations.map((r) => {
+          return (
+            <Box display="flex">
+              <Typography fontWeight="lighter">{r.id}</Typography>
+              <Typography ml={1}>
+                {new Date(r.startDateTime).toLocaleString()}
+              </Typography>
+              {r.endDateTime && (
+                <>
+                  <Typography ml={1}>-</Typography>
+                  <Typography ml={1}>
+                    {new Date(r.endDateTime).toLocaleString()}
+                  </Typography>
+                </>
+              )}
+            </Box>
+          );
+        })}
+
+        <Button
+          fullWidth
+          color="primary"
+          variant="contained"
+          onClick={() => {
+            onClose();
+          }}
+          sx={{ mt: 2 }}
+        >
+          OK
+        </Button>
+      </DialogContent>
+    </Dialog>
   );
 }
 

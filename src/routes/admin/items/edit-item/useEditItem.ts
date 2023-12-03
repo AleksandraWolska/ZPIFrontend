@@ -4,10 +4,11 @@ import { BACKEND_URL, queryClient } from "../../../../query";
 import { Item } from "../../../../types";
 import { getAccessToken } from "../../../../auth/utils";
 
-const editItem = (item: Item, storeId: string) => {
+const editItem = async (item: Item, storeId: string) => {
+  console.log("aaa");
   const token = getAccessToken();
 
-  return fetch(`${BACKEND_URL}/stores/${storeId}/items/${item.id}`, {
+  const res = await fetch(`${BACKEND_URL}/stores/${storeId}/items/${item.id}`, {
     method: "PUT",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -16,6 +17,12 @@ const editItem = (item: Item, storeId: string) => {
     },
     body: JSON.stringify(item),
   });
+  console.log("res", res);
+  if (!res.ok) {
+    throw new Response(res.body, { status: res.status });
+  }
+
+  return res.json();
 };
 
 function useEditItem() {
