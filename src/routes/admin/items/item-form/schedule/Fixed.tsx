@@ -62,6 +62,7 @@ function Fixed() {
           <DateTimePicker
             label="End Time"
             value={dayjs(schedule.endDateTime)}
+            minDateTime={dayjs(schedule.startDateTime)}
             onChange={(newValue) => {
               if (newValue) {
                 setItem({

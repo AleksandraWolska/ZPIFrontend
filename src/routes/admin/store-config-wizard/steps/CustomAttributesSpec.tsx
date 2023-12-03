@@ -283,7 +283,7 @@ function CustomAttributesSpec({
                           "admin.wizard.customAttributes.predefinedValuesLabel",
                         )}
                         placeholder={t(
-                          "admin.wizard.customAttributes.predefinedValuePlaceholder",
+                          "admin.wizard.customAttributes.predefinedValuesPlaceholder",
                         )}
                         size="medium"
                       />
