@@ -40,8 +40,8 @@ import {
 } from "@mui/material/colors";
 import { useTranslation } from "react-i18next";
 import useStoreConfig from "./useStoreConfig";
-import SwitchLangMobile from "../../common/SwitchLangMobile";
-import SwitchLang from "../../common/SwitchLang";
+import SwitchLangMobile from "../../../shared-components/SwitchLangMobile";
+import SwitchLang from "../../../shared-components/SwitchLang";
 
 function UserAppWrapper() {
   const storeConfig = useStoreConfig();
