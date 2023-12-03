@@ -17,7 +17,7 @@ import { ExpandMore, Delete } from "@mui/icons-material";
 import { Link, useParams } from "react-router-dom";
 import useUserReservedItems from "./useUserReservedItems";
 import { UserReservation } from "../types";
-import { shouldShowEnd } from "../../common/utils";
+import { shouldShowEnd } from "../../../shared-components/utils";
 import useDeleteReservation from "./useDeleteReservation";
 
 function UserReservationsPage() {
@@ -177,7 +177,7 @@ function UserReservationsPage() {
                             <Delete />
                           </IconButton>
                           <Link
-                            to={`/userapp/${storeId}/${reservation.item.id}`}
+                            to={`/${storeId}/${reservation.item.id}`}
                             style={{ textDecoration: "none" }}
                           >
                             <Button variant="outlined" color="primary">

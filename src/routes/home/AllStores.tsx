@@ -10,7 +10,10 @@ import {
 } from "@mui/material";
 import StoreIcon from "@mui/icons-material/Store";
 import { StoreSummary } from "../../types";
-import { ActionBox, ClearNavLink } from "../common/styledComponents";
+import {
+  ActionBox,
+  ClearNavLink,
+} from "../../shared-components/styledComponents";
 import useAllStores from "./useAllStores";
 
 function AllStores() {
@@ -33,7 +36,7 @@ function AllStores() {
                 return (
                   <ClearNavLink
                     key={userApp.storeConfigId}
-                    to={`/userapp/${userApp.storeConfigId}`}
+                    to={`/${userApp.storeConfigId}`}
                   >
                     <ListItem>
                       <ActionBox theme={theme}>

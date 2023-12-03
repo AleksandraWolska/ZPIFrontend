@@ -1,44 +1,24 @@
-import { createBrowserRouter, Outlet, useNavigation } from "react-router-dom";
-import { CircularProgress } from "@mui/material";
+import { createBrowserRouter } from "react-router-dom";
 import { queryClient } from "./query";
 import RequireLogin from "./auth/RequireLogin";
-import Secret from "./routes/secret/Secret";
-import { loader as userAppMainPageLoader } from "./routes/userapp/main-page/loader";
+import { loader as userAppMainPageLoader } from "./routes/user-app/main-page/loader";
 import Home from "./routes/home/Home";
-import { loader as userAppWrapperLoader } from "./routes/userapp/wrapper/loader";
-import { loader as detailsPageLoader } from "./routes/userapp/details-page/loader";
+import { loader as userAppWrapperLoader } from "./routes/user-app/wrapper/loader";
+import { loader as detailsPageLoader } from "./routes/user-app/details-page/loader";
 import { loader as itemListLoader } from "./routes/admin/items/item-list/loader";
 import { loader as editItemLoader } from "./routes/admin/items/edit-item/loader";
 import { loader as storeLoader } from "./routes/admin/store/loader";
 import { loader as reservationsLoader } from "./routes/admin/reservations/loader";
-import { loader as userReservationsPageLoader } from "./routes/userapp/user-reservations/loader";
+import { loader as userReservationsPageLoader } from "./routes/user-app/user-reservations/loader";
 import { loader as adminMainPageLoader } from "./routes/admin/admin-main-page/loader";
 import { loader as allStoresLoader } from "./routes/home/loader";
 import AuthErrorBoundary from "./auth/AuthErrorBoundary";
-import NotFoundPage from "./routes/home/NotFoundPage";
+import NotFoundPage from "./shared-components/NotFoundPage";
+import GlobalLoadingIndicator from "./shared-components/GlobalLoadingIndicator";
 
 if (process.env.NODE_ENV === "development") {
   const { worker } = await import("./mocks/browser");
   await worker.start({ onUnhandledRequest: "bypass" });
-}
-
-function GlobalLoadingIndicator() {
-  const navigation = useNavigation();
-
-  return navigation.state === "loading" ? (
-    <CircularProgress
-      size={40}
-      sx={{
-        position: "absolute",
-        top: "50%",
-        left: "50%",
-        transform: "translate(-50%, -50%)",
-        color: "grey",
-      }}
-    />
-  ) : (
-    <Outlet />
-  );
 }
 
 const router = createBrowserRouter([
@@ -165,10 +145,10 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "userapp/:storeId",
+    path: ":storeId",
     lazy: async () => {
       const UserAppWrapper = (
-        await import("./routes/userapp/wrapper/UserAppWrapper")
+        await import("./routes/user-app/wrapper/UserAppWrapper")
       ).default;
       return { Component: UserAppWrapper };
     },
@@ -181,7 +161,7 @@ const router = createBrowserRouter([
             index: true,
             lazy: async () => {
               const UserAppMainPage = (
-                await import("./routes/userapp/main-page/UserAppMainPage")
+                await import("./routes/user-app/main-page/UserAppMainPage")
               ).default;
               return { Component: UserAppMainPage };
             },
@@ -191,7 +171,7 @@ const router = createBrowserRouter([
             path: ":itemId",
             lazy: async () => {
               const ItemDetailsPage = (
-                await import("./routes/userapp/details-page/ItemDetailsPage")
+                await import("./routes/user-app/details-page/ItemDetailsPage")
               ).default;
               return { Component: ItemDetailsPage };
             },
@@ -207,7 +187,7 @@ const router = createBrowserRouter([
                 lazy: async () => {
                   const UserReservationsPage = (
                     await import(
-                      "./routes/userapp/user-reservations/UserReservationsPage"
+                      "./routes/user-app/user-reservations/UserReservationsPage"
                     )
                   ).default;
                   return { Component: UserReservationsPage };
@@ -217,16 +197,6 @@ const router = createBrowserRouter([
             ],
           },
         ],
-      },
-    ],
-  },
-
-  {
-    element: <RequireLogin />,
-    children: [
-      {
-        path: "secret",
-        element: <Secret />,
       },
     ],
   },

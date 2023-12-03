@@ -4,7 +4,7 @@ import { v4 as uuid } from "uuid";
 import {
   CheckAvailabilityResponse,
   FetchScheduleResponse,
-} from "../routes/userapp/types";
+} from "../routes/user-app/types";
 import { Availability, Reservation } from "../types";
 import {
   fetchData,

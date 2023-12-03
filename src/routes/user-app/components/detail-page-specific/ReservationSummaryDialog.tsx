@@ -17,7 +17,7 @@ import { useAuth } from "react-oidc-context";
 import { FixedSchedule, NewReservation } from "../../../../types";
 import useItemDetails from "../../details-page/useItemDetails";
 import useStoreConfig from "../../wrapper/useStoreConfig";
-import { shouldShowEnd } from "../../../common/utils";
+import { shouldShowEnd } from "../../../../shared-components/utils";
 
 type Props = {
   reservation: NewReservation;

@@ -13,7 +13,10 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import { ActionBox, ClearNavLink } from "../../common/styledComponents";
+import {
+  ActionBox,
+  ClearNavLink,
+} from "../../../shared-components/styledComponents";
 
 function Store() {
   const params = useParams() as { storeId: string };
@@ -48,7 +51,7 @@ function Store() {
     },
     {
       label: "View user website",
-      value: `/userapp/${params.storeId}`,
+      value: `/${params.storeId}`,
       description: "View generated user application for the store",
       icon: <VisibilityIcon sx={{ fontSize: "5rem", color: "grey" }} />,
     },

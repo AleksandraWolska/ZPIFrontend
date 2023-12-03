@@ -37,8 +37,11 @@ import useUpdateItemActivity from "./useUpdateItemActivity";
 import { FixedSchedule, Item, Schedule } from "../../../../types";
 import useStoreConfig from "../../store/useStoreConfig";
 import ItemImage from "../../components/ItemImage";
-import { ActionBox, ClearNavLink } from "../../../common/styledComponents";
-import { shouldShowEnd } from "../../../common/utils";
+import {
+  ActionBox,
+  ClearNavLink,
+} from "../../../../shared-components/styledComponents";
+import { shouldShowEnd } from "../../../../shared-components/utils";
 
 function isFixedSchedule(schedule: Schedule): schedule is FixedSchedule {
   return (schedule as FixedSchedule).startDateTime !== undefined;
@@ -503,9 +506,7 @@ function ActionBtnBasic({
   icon,
 }: {
   text: string;
-  // eslint-disable-next-line react/require-default-props
   onClick?: () => void;
-  // eslint-disable-next-line react/require-default-props
   icon?: React.ReactNode;
 }) {
   return (

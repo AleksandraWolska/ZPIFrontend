@@ -1,6 +1,6 @@
 describe("main page", () => {
   beforeEach(() => {
-    cy.visit("/userapp/cypress-test-store-1");
+    cy.visit("/cypress-test-store-1");
   });
 
   it("filter items", () => {
@@ -50,7 +50,7 @@ describe("main page", () => {
 
 describe("details page", () => {
   beforeEach(() => {
-    cy.visit("/userapp/cypress-test-store-1/1");
+    cy.visit("/cypress-test-store-1/1");
   });
 
   it("reserve", () => {
@@ -75,7 +75,7 @@ describe("reserve", () => {
   beforeEach(() => {
     cy.login("cypress@test.com", "test", "admin");
 
-    cy.visit("/userapp/cypress-test-store-1");
+    cy.visit("/cypress-test-store-1");
   });
 
   it("reserve", () => {
@@ -107,7 +107,7 @@ describe("review", () => {
   beforeEach(() => {
     cy.login("cypress@test.com", "test", "admin");
 
-    cy.visit("/userapp/cypress-test-store-2");
+    cy.visit("/cypress-test-store-2");
   });
 
   it("review", () => {

@@ -1,4 +1,4 @@
-import { UserReservation } from "../../../routes/userapp/types";
+import { UserReservation } from "../../../routes/user-app/types";
 
 const userReservationsList: UserReservation[] = [
   {

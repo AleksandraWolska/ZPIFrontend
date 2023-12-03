@@ -17,7 +17,10 @@ import {
 import PersonIcon from "@mui/icons-material/Person";
 import KeyIcon from "@mui/icons-material/Key";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { ActionBox, ClearNavLink } from "../common/styledComponents";
+import {
+  ActionBox,
+  ClearNavLink,
+} from "../../shared-components/styledComponents";
 import AllStores from "./AllStores";
 
 function Home() {

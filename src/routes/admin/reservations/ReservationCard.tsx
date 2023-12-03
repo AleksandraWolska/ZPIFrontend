@@ -17,7 +17,7 @@ import useStoreConfig from "../store/useStoreConfig";
 import useItemById from "./useItemById";
 import theme from "../../../theme";
 import ItemImage from "../components/ItemImage";
-import { shouldShowEnd } from "../../common/utils";
+import { shouldShowEnd } from "../../../shared-components/utils";
 
 function ReservationCard({
   reservation,

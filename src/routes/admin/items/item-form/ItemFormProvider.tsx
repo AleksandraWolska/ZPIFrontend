@@ -58,6 +58,7 @@ function ItemFormProvider({
   );
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useItemForm(): ItemFormContextType {
   const ctx = useContext(ItemFormContext);
   if (!ctx) {
