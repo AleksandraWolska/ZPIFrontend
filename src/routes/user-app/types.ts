@@ -73,5 +73,5 @@ export type UserReservation = {
   startDateTime?: string;
   endDateTime?: string;
   amount?: number;
-  status: string;
+  status: "active" | "cancelled_by_user" | "cancelled_by_admin" | "past";
 };

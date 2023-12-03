@@ -22,6 +22,10 @@ function Reservations() {
   >(null);
   const confirmReservation = useConfirmReservation();
 
+  const [reservationToBeCanceled, setReservationToBeCanceled] = useState<
+    string | null
+  >(null);
+
   if (!reservations.length)
     return (
       <Box display="flex" m={3} alignItems="center" flexDirection="column">
