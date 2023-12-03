@@ -13,7 +13,7 @@ import { StoreSummary } from "../../types";
 import {
   ActionBox,
   ClearNavLink,
-} from "../../shared-components/customComponents";
+} from "../../shared-components/styledComponents";
 import useAllStores from "./useAllStores";
 
 function AllStores() {

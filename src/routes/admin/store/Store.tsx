@@ -16,7 +16,7 @@ import {
 import {
   ActionBox,
   ClearNavLink,
-} from "../../../shared-components/customComponents";
+} from "../../../shared-components/styledComponents";
 
 function Store() {
   const params = useParams() as { storeId: string };

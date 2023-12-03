@@ -18,7 +18,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {
   ActionBox,
   ClearNavLink,
-} from "../../shared-components/customComponents";
+} from "../../shared-components/styledComponents";
 import AllStores from "./AllStores";
 
 function Home() {
