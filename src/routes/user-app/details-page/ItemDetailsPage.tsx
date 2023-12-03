@@ -77,6 +77,7 @@ export default function ItemDetailsPage() {
     endDateTime: "",
     amount: 0,
     message: "",
+    status: "active",
   });
   const [reservationRequestReady, setReservationRequestReady] = useState(
     initializeReservationRequestReady(storeConfig.core, item.availableAmount),

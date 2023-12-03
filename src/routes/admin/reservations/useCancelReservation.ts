@@ -6,20 +6,20 @@ import { queryClient } from "../../../query";
 const cancelReservation = (storeId: string, reservationId: string) => {
   const token = getAccessToken();
 
-  return fetch(`/api/stores/${storeId}/reservations/${reservationId}/confirm`, {
-    method: "PUT",
+  return fetch(`/api/stores/${storeId}/reservations/${reservationId}`, {
+    method: "DELETE",
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
 };
 
-function useConfirmReservation() {
+function useCancelReservation() {
   const { storeId } = useParams() as { storeId: string };
 
   return useMutation({
     mutationFn: (reservationId: string) => {
-      return confirmReservation(storeId, reservationId);
+      return cancelReservation(storeId, reservationId);
     },
     onSuccess: () => {
       queryClient.invalidateQueries(["admin-reservations"]);
@@ -27,4 +27,4 @@ function useConfirmReservation() {
   });
 }
 
-export default useConfirmReservation;
+export default useCancelReservation;

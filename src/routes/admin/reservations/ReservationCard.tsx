@@ -23,9 +23,11 @@ import { shouldShowEnd } from "../../../shared-components/utils";
 function ReservationCard({
   reservation,
   setReservationToBeConfirmed,
+  setReservationToBeCanceled,
 }: {
   reservation: Reservation;
   setReservationToBeConfirmed: (id: string) => void;
+  setReservationToBeCanceled: (id: string) => void;
 }) {
   const item = useItemById(reservation.itemId);
 
@@ -95,7 +97,7 @@ function ReservationCard({
                   variant="contained"
                   onClick={(e) => {
                     e.stopPropagation();
-                    setReservationToBeConfirmed(reservation.id);
+                    setReservationToBeCanceled(reservation.id);
                   }}
                 >
                   Cancel

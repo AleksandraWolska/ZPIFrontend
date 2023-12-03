@@ -11,6 +11,7 @@ import useReservations from "./useReservations";
 import ReservationCard from "./ReservationCard";
 import ConfirmDialog from "../components/ConfirmDialog";
 import useConfirmReservation from "./useConfirmReservation";
+import useCancelReservation from "./useCancelReservation";
 
 function Reservations() {
   const reservations = useReservations();
@@ -25,6 +26,7 @@ function Reservations() {
   const [reservationToBeCanceled, setReservationToBeCanceled] = useState<
     string | null
   >(null);
+  const cancelReservation = useCancelReservation();
 
   if (!reservations.length)
     return (
@@ -70,6 +72,7 @@ function Reservations() {
                   key={reservation.id}
                   reservation={reservation}
                   setReservationToBeConfirmed={setReservationToBeConfirmed}
+                  setReservationToBeCanceled={setReservationToBeCanceled}
                 />
               );
             })}
@@ -87,6 +90,19 @@ function Reservations() {
         }}
         title="Confirm reservation"
         message="Are you sure you want to confirm this reservation? This action cannot be undone."
+      />
+
+      <ConfirmDialog
+        isOpen={!!reservationToBeCanceled}
+        onCancel={() => {
+          setReservationToBeCanceled(null);
+        }}
+        onConfirm={() => {
+          cancelReservation.mutate(reservationToBeCanceled!);
+          setReservationToBeCanceled(null);
+        }}
+        title="Cancel reservation"
+        message="Are you sure you want to cancel this reservation? This action cannot be undone."
       />
     </>
   );
