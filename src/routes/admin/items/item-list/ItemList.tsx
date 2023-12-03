@@ -40,7 +40,7 @@ import ItemImage from "../../components/ItemImage";
 import {
   ActionBox,
   ClearNavLink,
-} from "../../../../shared-components/styledComponents";
+} from "../../../../shared-components/customComponents";
 import { shouldShowEnd } from "../../../../shared-components/utils";
 
 function isFixedSchedule(schedule: Schedule): schedule is FixedSchedule {

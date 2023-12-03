@@ -50,6 +50,7 @@ function GeneralStoreInfo({
         <Grid container spacing={1}>
           <Grid item xs={12} sm={6}>
             <TextField
+              inputProps={{ maxLength: 255 }}
               label={t("admin.wizard.generalInfo.storeName")}
               name="name"
               value={owner.name}
@@ -63,6 +64,7 @@ function GeneralStoreInfo({
 
           <Grid item xs={12} sm={6}>
             <TextField
+              inputProps={{ maxLength: 255 }}
               label={t("admin.wizard.generalInfo.logoSrc")}
               name="logoSrc"
               value={owner.logoSrc}
@@ -74,6 +76,7 @@ function GeneralStoreInfo({
 
           <Grid item xs={12} sm={6}>
             <TextField
+              inputProps={{ maxLength: 255 }}
               label={t("admin.wizard.generalInfo.phone")}
               name="phone"
               value={owner.phone}
@@ -84,6 +87,7 @@ function GeneralStoreInfo({
 
           <Grid item xs={12} sm={6}>
             <TextField
+              inputProps={{ maxLength: 255 }}
               label={t("admin.wizard.generalInfo.email")}
               name="email"
               value={owner.email}

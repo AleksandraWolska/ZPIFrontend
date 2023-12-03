@@ -82,6 +82,7 @@ function renderCustomAttributeInput(
         </FormControl>
       ) : (
         <TextField
+          inputProps={{ maxLength: 255 }}
           label={attribute.name}
           value={attribute.value}
           onChange={(e) =>
@@ -98,6 +99,7 @@ function renderCustomAttributeInput(
     case "number":
       return (
         <TextField
+          inputProps={{ maxLength: 255 }}
           label={attribute.name}
           value={attribute.value.toString()}
           onChange={(e) =>

@@ -104,6 +104,7 @@ function DetailsPage({
 
       <Box sx={{ width: "100%", padding: 2.5 }}>
         <TextField
+          inputProps={{ maxLength: 255 }}
           sx={{ marginBottom: 1.25 }}
           fullWidth
           label={t("admin.wizard.detailsPage.summaryPrompt")}
@@ -115,6 +116,7 @@ function DetailsPage({
         />
 
         <TextField
+          inputProps={{ maxLength: 255 }}
           sx={{ marginBottom: 1.25 }}
           fullWidth
           label={t("admin.wizard.detailsPage.confirmationPrompt")}
@@ -129,6 +131,7 @@ function DetailsPage({
         />
 
         <TextField
+          inputProps={{ maxLength: 255 }}
           fullWidth
           label={t("admin.wizard.detailsPage.failurePrompt")}
           name="reservationFailurePrompt"

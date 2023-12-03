@@ -79,6 +79,7 @@ function Filters({
               return (
                 <Box key={attr.id} marginBottom={2}>
                   <TextField
+                    inputProps={{ maxLength: 255 }}
                     fullWidth
                     label={attr.name}
                     variant="outlined"
@@ -103,6 +104,7 @@ function Filters({
               return (
                 <Box key={attr.id} marginBottom={2}>
                   <TextField
+                    inputProps={{ maxLength: 255 }}
                     fullWidth
                     type="number"
                     label={attr.name}

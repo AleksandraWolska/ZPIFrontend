@@ -72,6 +72,7 @@ function SubItems() {
         return (
           <Stack key={subItem.id} direction="row" gap={1}>
             <TextField
+              inputProps={{ maxLength: 255 }}
               label="title"
               value={subItem.title}
               onChange={(e) => {
@@ -92,6 +93,7 @@ function SubItems() {
             />
 
             <TextField
+              inputProps={{ maxLength: 255 }}
               label="subtitle"
               value={subItem.subtitle}
               onChange={(e) => {
@@ -104,6 +106,7 @@ function SubItems() {
 
             {askForSubItemAmount(storeConfig.core) && (
               <TextField
+                inputProps={{ maxLength: 255 }}
                 label="amount"
                 value={subItem.amount?.toString()}
                 onChange={(e) => {
