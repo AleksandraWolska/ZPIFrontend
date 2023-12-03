@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "react-oidc-context";
 import { useLocation } from "react-router-dom";
-
 import {
   Typography,
   Grid,
@@ -13,7 +12,6 @@ import {
   ListItemText,
   useTheme,
 } from "@mui/material";
-// import { useTranslation } from "react-i18next";
 import PersonIcon from "@mui/icons-material/Person";
 import KeyIcon from "@mui/icons-material/Key";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -24,7 +22,6 @@ import {
 import AllStores from "./AllStores";
 
 function Home() {
-  // const { t } = useTranslation();
   const [openUsage, setOpenUsage] = useState(true);
   const [openAbout, setOpenAbout] = useState(true);
   const [openAuthors, setOpenAuthors] = useState(true);

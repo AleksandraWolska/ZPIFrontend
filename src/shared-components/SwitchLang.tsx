@@ -16,9 +16,9 @@ function SwitchLang() {
         value={i18n.language}
         onChange={(e) => changeLanguage(e.target.value)}
         sx={{
-          color: "#fff",
+          color: "inherit",
           "& .MuiSelect-icon": {
-            color: "#fff",
+            color: "inherit",
           },
           ".MuiOutlinedInput-notchedOutline": { border: 0 },
         }}
