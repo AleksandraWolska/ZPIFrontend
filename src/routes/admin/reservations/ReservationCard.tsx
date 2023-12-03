@@ -5,6 +5,7 @@ import {
   Box,
   Button,
   Card,
+  Chip,
   Divider,
   Stack,
   Typography,
@@ -30,8 +31,6 @@ function ReservationCard({
 
   const storeConfig = useStoreConfig();
 
-  const isPast = new Date(reservation.startDateTime) < new Date();
-
   return (
     <Card>
       <Accordion>
@@ -40,7 +39,12 @@ function ReservationCard({
             direction="row"
             alignItems="center"
             width="100%"
-            sx={{ color: isPast ? theme.palette.text.secondary : "auto" }}
+            sx={{
+              color:
+                reservation.status === "active"
+                  ? "auto"
+                  : theme.palette.text.secondary,
+            }}
           >
             <Typography
               fontWeight="lighter"
@@ -65,19 +69,62 @@ function ReservationCard({
               )}
             </Stack>
 
-            {storeConfig.authConfig.confirmationRequired &&
-              !reservation.confirmed && (
+            <Stack
+              direction="row"
+              spacing={2}
+              sx={{ marginLeft: "auto", marginRight: 2 }}
+            >
+              {reservation.status === "cancelled_by_admin" && (
+                <Chip
+                  label="Canceled (Admin)"
+                  color="error"
+                  variant="outlined"
+                />
+              )}
+
+              {reservation.status === "cancelled_by_user" && (
+                <Chip
+                  label="Canceled (User)"
+                  color="error"
+                  variant="outlined"
+                />
+              )}
+
+              {reservation.status === "active" && (
                 <Button
-                  sx={{ marginLeft: "auto", marginRight: 2 }}
                   variant="contained"
                   onClick={(e) => {
                     e.stopPropagation();
                     setReservationToBeConfirmed(reservation.id);
                   }}
                 >
-                  Confirm
+                  Cancel
                 </Button>
               )}
+
+              {storeConfig.authConfig.confirmationRequired &&
+                reservation.status === "active" && (
+                  <Box>
+                    {reservation.confirmed ? (
+                      <Chip
+                        label="Confirmed"
+                        color="primary"
+                        variant="outlined"
+                      />
+                    ) : (
+                      <Button
+                        variant="contained"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setReservationToBeConfirmed(reservation.id);
+                        }}
+                      >
+                        Confirm
+                      </Button>
+                    )}
+                  </Box>
+                )}
+            </Stack>
           </Stack>
         </AccordionSummary>
 
