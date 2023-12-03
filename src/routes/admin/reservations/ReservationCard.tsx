@@ -42,6 +42,13 @@ function ReservationCard({
             width="100%"
             sx={{ color: isPast ? theme.palette.text.secondary : "auto" }}
           >
+            <Typography
+              fontWeight="lighter"
+              sx={{ width: "10%", flexShrink: 0 }}
+            >
+              {reservation.id}
+            </Typography>
+
             <Typography variant="h5" sx={{ width: "33%", flexShrink: 0 }}>
               {item.attributes.title}
             </Typography>

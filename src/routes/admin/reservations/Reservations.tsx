@@ -48,6 +48,12 @@ function Reservations() {
 
         <Stack spacing={1} marginTop={2}>
           {reservations
+            .sort((a, b) => {
+              return (
+                new Date(a.startDateTime).getTime() -
+                new Date(b.startDateTime).getTime()
+              );
+            })
             .filter((res) => {
               if (futureOnly) {
                 return new Date(res.startDateTime) >= new Date();
