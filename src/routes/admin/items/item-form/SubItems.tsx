@@ -187,9 +187,13 @@ function SubItems() {
 
             <IconButton
               onClick={() => {
-                setLocalSubItems((prev) =>
-                  prev.filter((si) => si.id !== subItem.id),
+                console.log(subItem);
+                console.log(localSubItems);
+                const newValue = localSubItems.filter(
+                  (si) => si.id !== subItem.id,
                 );
+                setLocalSubItems(newValue);
+                saveSubItems(newValue);
               }}
               disabled={idx === lastIdx}
             >
