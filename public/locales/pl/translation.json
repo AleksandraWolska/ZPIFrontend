@@ -42,7 +42,7 @@
         "mainAppColor": "Kolor główny aplikacji"
       },
       "flexibility": {
-        "title": "Elastyczność ramy czasowej",
+        "title": "Elastyczność ram czasowych",
         "desc": "Wybierz, czy ramy czasowe rezerwacji przedmiotu powinny być wcześniej określone i stałe, czy użytkownik ma elastyczność wyboru zgodnie z własnymi preferencjami.",
         "flexibleDesc": "Wartość elastyczna oznacza, że przedmiot może być zarezerwowany na okres wybrany przez użytkownika w określonych ramach czasowych.",
         "fixedDesc": "Wartość stała oznacza, że przedmiot ma ustalone czasy rozpoczęcia i zakończenia ustalone przez administratora, a użytkownicy mogą zapisywać się tylko na cały okres.",
@@ -50,12 +50,12 @@
         "fixed": "Stała"
       },
       "granularity": {
-        "title": "Ograniczenie interwałów czasowych",
+        "title": "Ograniczenie na interwały czasowe",
         "desc": "To ustawienie decyduje o elastyczności długości czasu, na jaki można zarezerwować przedmiot. Przedmiot można rezerwować na interwały czasowe lub pozwolić użytkownikowi swobodnie wybierać zakresy czasu rezerwacji.",
-        "granularDesc": "Wybierz opcję granularną, jeśli chcesz, aby przedmiot był rezerwowany w wielokrotnościach określonych interwałów czasowych, na przykład godzina.",
-        "continuousDesc": "Wybierz opcję ciągłą, jeśli chcesz umożliwić rezerwacje na dowolny czas. Oferuje to większą elastyczność dla użytkownika.",
-        "granular": "Granularne",
-        "continuous": "Ciągłe"
+        "granularDesc": "Wybierz opcję pełne, jeśli chcesz, aby przedmiot był rezerwowany w wielokrotnościach określonych interwałów czasowych, na przykład godzina.",
+        "continuousDesc": "Wybierz opcję dowolny, jeśli chcesz umożliwić rezerwacje na wy. Oferuje to większą elastyczność dla użytkownika.",
+        "granular": "Pełne",
+        "continuous": "Dowolny"
       },
       "allowOverNight": {
         "title": "Dostęp nocny",
@@ -162,9 +162,9 @@
         "conflictingReservationsDesc": "Nie można zmienić harmonogramu z powodu następujących rezerwacji:"
       },
       "form": {
-        "continuousTitle": "Harmonogram ciągły",
+        "continuousTitle": "Harmonogram dowolny",
         "continuousDesc": "Określ zakresy czasowe, z których użytkownicy mogą swobodnie wybierać preferowany czas rezerwacji.",
-        "slotsTitle": "Harmonogramy slotów",
+        "slotsTitle": "Harmonogram z interwałem",
         "slotsDesc": "Określ przedziały czasowe, które użytkownicy mogą zarezerwować.",
         "fixedTitle": "Harmonogram stały",
         "fixedDesc": "Określ zakres czasowy dla przedmiotu.",
@@ -173,6 +173,7 @@
         "endTime": "Czas zakończenia",
         "customAttributes": "Niestandardowe atrybuty",
         "generalInfo": "Informacje ogólne",
+        "subItems": "Elementy",
         "title": "Tytuł",
         "subtitle": "Podtytuł",
         "desc": "Opis",
@@ -240,7 +241,7 @@
         "noTimeSlotsAvailable": "Brak dostępnych slotów czasowych",
         "available": "Dostępny",
         "itemAvailable": "Przedmiot jest dostępny w wybranych przedziałach czasowych",
-        "full": "[PEŁNE]",
+        "full": "[ZAJĘTE]",
         "past": "[PRZESZŁE]"
       },
       "details": {

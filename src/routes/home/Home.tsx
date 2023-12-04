@@ -49,8 +49,10 @@ function Home() {
     <Grid container spacing={10} padding={5}>
       {/* Left part */}
       <Grid item xs={12} md={6}>
-        <Typography variant="h2">ZPI Project</Typography>
-        <Typography variant="body1">
+        <Typography sx={{ mb: 1 }} variant="h1">
+          ZPI Project
+        </Typography>
+        <Typography sx={{ mb: 4 }} variant="h4">
           A generic booking management system with an extensive personalization
           capability.
         </Typography>
@@ -80,7 +82,12 @@ function Home() {
           <Divider sx={{ mb: 2 }} />
           <Collapse in={openUsage}>
             <Typography paragraph>
-              Description of how to use the project...
+              Access to the administration panel is possible by selecting the
+              admin application option, which redirects the user to the /admin
+              path. After logging in, the user sees a button to create a new
+              store, which launches the store wizard, guiding through thelocal
+              process of collecting data necessary to create a presonalized
+              application for end user.
             </Typography>
           </Collapse>
 
@@ -108,9 +115,14 @@ function Home() {
           <Divider sx={{ mb: 2 }} />
           <Collapse in={openAbout}>
             <Typography paragraph>
-              The project aims to develop a flexible and customizable
-              reservation system tailored to meet the diverse needs of end users
-              through extensive personalization and adaptability
+              The aim of the project was to design and implement a universal
+              reservation system that can be flexibly adapted to various
+              business requirements. The main task was to develop a method for
+              automating the process of collecting requirements and conducting
+              interviews with customers. This process was intended to provide a
+              comprehensive reservation management tool that helps companies
+              take a step towards digitizing their operations by providing a
+              personalized web application for their end users.
             </Typography>
           </Collapse>
 
