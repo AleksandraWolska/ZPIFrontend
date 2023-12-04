@@ -13,11 +13,14 @@ import StepContentWrapper from "./components/StepContentWrapper";
 import WizardStepTitle from "./components/WizardStepTitle";
 import WizardStepDescription from "./components/WizardStepDescription";
 import BackButton from "./components/BackButton";
+import { calculateProgress } from "./utils";
 
 function MainPage({
   setActiveStep,
+  setProgress,
 }: {
   setActiveStep: (step: StoreConfigStep) => void;
+  setProgress: (progress: number) => void;
 }) {
   const { t } = useTranslation();
 
@@ -27,7 +30,13 @@ function MainPage({
   return (
     <StepContentWrapper>
       <BackButton
-        onClick={() => setActiveStep(STORE_CONFIG_STEPS.CUSTOM_ATTRIBUTES_SPEC)}
+        onClick={() => {
+          const prevStep = STORE_CONFIG_STEPS.CUSTOM_ATTRIBUTES_SPEC;
+          setActiveStep(prevStep);
+          setProgress(
+            calculateProgress(STORE_CONFIG_STEPS.MAIN_PAGE, prevStep),
+          );
+        }}
       />
 
       <WizardStepTitle>{t("admin.wizard.mainPage.title")}</WizardStepTitle>
@@ -124,7 +133,13 @@ function MainPage({
       </FormGroup>
 
       <ChangePageButtons
-        onNext={() => setActiveStep(STORE_CONFIG_STEPS.DETAILS_PAGE)}
+        onNext={() => {
+          const nextStep = STORE_CONFIG_STEPS.DETAILS_PAGE;
+          setActiveStep(nextStep);
+          setProgress(
+            calculateProgress(STORE_CONFIG_STEPS.MAIN_PAGE, nextStep),
+          );
+        }}
       />
     </StepContentWrapper>
   );

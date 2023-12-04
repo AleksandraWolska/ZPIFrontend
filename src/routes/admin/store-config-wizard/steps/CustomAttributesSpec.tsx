@@ -26,6 +26,7 @@ import StepContentWrapper from "./components/StepContentWrapper";
 import WizardStepTitle from "./components/WizardStepTitle";
 import WizardStepDescription from "./components/WizardStepDescription";
 import BackButton from "./components/BackButton";
+import { calculateProgress } from "./utils";
 
 const defaultCustomAttributeSpec: Omit<CustomAttributeSpec, "id"> = {
   name: "",
@@ -48,8 +49,10 @@ function getInitialLocalAttributesSpec(
 
 function CustomAttributesSpec({
   setActiveStep,
+  setProgress,
 }: {
   setActiveStep: (step: StoreConfigStep) => void;
+  setProgress: (progress: number) => void;
 }) {
   const { t } = useTranslation();
 
@@ -101,8 +104,21 @@ function CustomAttributesSpec({
 
             withdrawToCoreStep(prevStep);
             setActiveStep(prevStep);
+            setProgress(
+              calculateProgress(
+                STORE_CONFIG_STEPS.CUSTOM_ATTRIBUTES_SPEC,
+                prevStep,
+              ),
+            );
           } else {
-            setActiveStep(STORE_CONFIG_STEPS.GENERAL_STORE_INFO);
+            const prevStep = STORE_CONFIG_STEPS.GENERAL_STORE_INFO;
+            setActiveStep(prevStep);
+            setProgress(
+              calculateProgress(
+                STORE_CONFIG_STEPS.CUSTOM_ATTRIBUTES_SPEC,
+                prevStep,
+              ),
+            );
           }
         }}
       />
@@ -300,7 +316,14 @@ function CustomAttributesSpec({
       <ChangePageButtons
         onNext={() => {
           saveCustomAttributesSpec();
-          setActiveStep(STORE_CONFIG_STEPS.MAIN_PAGE);
+          const nextStep = STORE_CONFIG_STEPS.MAIN_PAGE;
+          setActiveStep(nextStep);
+          setProgress(
+            calculateProgress(
+              STORE_CONFIG_STEPS.CUSTOM_ATTRIBUTES_SPEC,
+              nextStep,
+            ),
+          );
         }}
       />
     </StepContentWrapper>

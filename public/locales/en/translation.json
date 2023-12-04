@@ -38,7 +38,8 @@
         "storeName": "Store name",
         "logoSrc": "Logo source in PNG format",
         "phone": "Company phone",
-        "email": "Company email"
+        "email": "Company email",
+        "mainAppColor": "Main application color"
       },
       "flexibility": {
         "title": "Time Frame Flexibility",
@@ -135,6 +136,13 @@
         "requiredDataLabel": "What data is required when reserving?",
         "requiredDataPlaceholder": "Enter predefined values by typing them and pressing enter",
         "confirmation": "Is confirmation by an admin required for reservations?"
+      },
+      "summary": {
+        "title": "Summary",
+        "desc1": "We've gathered all the essential details.",
+        "desc2": "If you're ready to proceed, simply save your store settings and start enjoying your personalized applications!",
+        "errorTitle": "Some required data is missing",
+        "errorDesc": "Fill all the necessary fields to proceed."
       }
     },
     "items": {

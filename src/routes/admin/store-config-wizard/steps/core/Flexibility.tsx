@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { STORE_CONFIG_STEPS, StoreConfigStep } from "../../types";
 import { useStoreConfig } from "../../StoreConfigProvider";
-import { calculateProgress } from "./utils";
+import { calculateProgress } from "../utils";
 import StepContentWrapper from "../components/StepContentWrapper";
 import WizardStepTitle from "../components/WizardStepTitle";
 import BackButton from "../components/BackButton";
@@ -24,7 +24,7 @@ function Flexibility({
 
   const { appendCoreAttribute } = useStoreConfig();
 
-  const [showInfo, setShowInfo] = useState(false);
+  const [showInfo, setShowInfo] = useState(true);
 
   return (
     <StepContentWrapper>
@@ -32,6 +32,9 @@ function Flexibility({
         onClick={() => {
           const prevStep = STORE_CONFIG_STEPS.GENERAL_STORE_INFO;
           setActiveStep(prevStep);
+          setProgress(
+            calculateProgress(STORE_CONFIG_STEPS.FLEXIBILITY, prevStep),
+          );
         }}
       />
 

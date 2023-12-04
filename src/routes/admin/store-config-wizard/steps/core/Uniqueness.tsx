@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { STORE_CONFIG_STEPS, StoreConfigStep } from "../../types";
 import { useStoreConfig } from "../../StoreConfigProvider";
-import { calculateProgress } from "./utils";
+import { calculateProgress } from "../utils";
 import StepContentWrapper from "../components/StepContentWrapper";
 import WizardStepTitle from "../components/WizardStepTitle";
 import BackButton from "../components/BackButton";
@@ -23,7 +23,7 @@ function Uniqueness({
   const { t } = useTranslation();
 
   const { appendCoreAttribute, withdrawToCoreStep } = useStoreConfig();
-  const [showInfo, setShowInfo] = useState(false);
+  const [showInfo, setShowInfo] = useState(true);
   return (
     <StepContentWrapper>
       <BackButton
@@ -56,8 +56,11 @@ function Uniqueness({
           text={t("common.yes")}
           onClick={() => {
             appendCoreAttribute("uniqueness", true);
-            setActiveStep(STORE_CONFIG_STEPS.CUSTOM_ATTRIBUTES_SPEC);
-            setProgress(100);
+            const nextStep = STORE_CONFIG_STEPS.CUSTOM_ATTRIBUTES_SPEC;
+            setActiveStep(nextStep);
+            setProgress(
+              calculateProgress(STORE_CONFIG_STEPS.UNIQUENESS, nextStep),
+            );
           }}
         />
 
@@ -65,8 +68,11 @@ function Uniqueness({
           text={t("common.no")}
           onClick={() => {
             appendCoreAttribute("uniqueness", false);
-            setActiveStep(STORE_CONFIG_STEPS.CUSTOM_ATTRIBUTES_SPEC);
-            setProgress(100);
+            const nextStep = STORE_CONFIG_STEPS.CUSTOM_ATTRIBUTES_SPEC;
+            setActiveStep(nextStep);
+            setProgress(
+              calculateProgress(STORE_CONFIG_STEPS.UNIQUENESS, nextStep),
+            );
           }}
         />
       </ChoiceButtonsContainer>

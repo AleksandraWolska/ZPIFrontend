@@ -11,11 +11,14 @@ import useEditStoreConfig from "../../store-settings/useEditStoreConfig";
 import WizardStepTitle from "./components/WizardStepTitle";
 import BackButton from "./components/BackButton";
 import { STORE_CONFIG_STEPS, StoreConfigStep } from "../types";
+import { calculateProgress } from "./utils";
 
 function Summary({
   setActiveStep,
+  setProgress,
 }: {
   setActiveStep: (step: StoreConfigStep) => void;
+  setProgress: (progress: number) => void;
 }) {
   const { t } = useTranslation();
 
@@ -30,10 +33,14 @@ function Summary({
   return (
     <StepContentWrapper>
       <BackButton
-        onClick={() => setActiveStep(STORE_CONFIG_STEPS.DETAILS_PAGE)}
+        onClick={() => {
+          const nextStep = STORE_CONFIG_STEPS.DETAILS_PAGE;
+          setActiveStep(nextStep);
+          setProgress(calculateProgress(STORE_CONFIG_STEPS.SUMMARY, nextStep));
+        }}
       />
 
-      <WizardStepTitle>Summary</WizardStepTitle>
+      <WizardStepTitle>{t("admin.wizard.summary.title")}</WizardStepTitle>
 
       {isValid ? (
         <>
@@ -42,22 +49,19 @@ function Summary({
             <DownloadDoneIcon sx={{ fontSize: "5rem", color: "grey" }} />
           </Box>
           <Typography sx={{ textAlign: "center", margin: 1 }}>
-            {`We've gathered all the essential details.`}
+            {t("admin.wizard.summary.desc1")}
           </Typography>
           <Typography sx={{ textAlign: "center", margin: 2 }}>
-            {`If you're ready to proceed, simply save your store settings and start
-        enjoying your personalized applications!`}
+            {t("admin.wizard.summary.desc2")}
           </Typography>
         </>
       ) : (
         <Alert severity="error" sx={{ width: "95%", margin: 3 }}>
-          <AlertTitle>Some required data is missing</AlertTitle>
-          Fill all the necessary fields to proceed
+          <AlertTitle>{t("admin.wizard.summary.errorTitle")}</AlertTitle>
+          {t("admin.wizard.summary.errorDesc")}
         </Alert>
       )}
-      <Box textOverflow="wrap" sx={{ wordBreak: "break-all" }}>
-        {JSON.stringify(storeConfig)}
-      </Box>
+
       <Button
         size="large"
         disabled={!isValid}

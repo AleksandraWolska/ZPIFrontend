@@ -18,11 +18,14 @@ import WizardStepDescription from "../components/WizardStepDescription";
 import StepContentWrapper from "../components/StepContentWrapper";
 import useDebounce from "./useDebounce";
 import useCheckName from "./useCheckName";
+import { calculateProgress } from "../utils";
 
 function GeneralStoreInfo({
   setActiveStep,
+  setProgress,
 }: {
   setActiveStep: (step: StoreConfigStep) => void;
+  setProgress: (progress: number) => void;
 }) {
   const { t } = useTranslation();
 
@@ -98,9 +101,11 @@ function GeneralStoreInfo({
 
           <Grid item xs={12} sm={12}>
             <FormControl size="small" variant="outlined" fullWidth>
-              <InputLabel id="Main App Color">Main App Color</InputLabel>
+              <InputLabel id="Main App Color">
+                {t("admin.wizard.generalInfo.mainAppColor")}
+              </InputLabel>
               <Select
-                label="Main App Color"
+                label={t("admin.wizard.generalInfo.mainAppColor")}
                 value={owner.color}
                 onChange={(e) => setOwnerAttribute("color", e.target.value)}
                 fullWidth
@@ -118,17 +123,16 @@ function GeneralStoreInfo({
         </Grid>
       </Box>
 
-      <WizardStepDescription>
-        [TBD new informational step] - Next few steps will allow you to specify
-        mechanics of reservation [OK]
-      </WizardStepDescription>
-
       <ChangePageButtons
-        onNext={() =>
-          isNew
-            ? setActiveStep(STORE_CONFIG_STEPS.FLEXIBILITY)
-            : setActiveStep(STORE_CONFIG_STEPS.CUSTOM_ATTRIBUTES_SPEC)
-        }
+        onNext={() => {
+          const nextStep = isNew
+            ? STORE_CONFIG_STEPS.FLEXIBILITY
+            : STORE_CONFIG_STEPS.CUSTOM_ATTRIBUTES_SPEC;
+          setActiveStep(nextStep);
+          setProgress(
+            calculateProgress(STORE_CONFIG_STEPS.GENERAL_STORE_INFO, nextStep),
+          );
+        }}
       />
     </StepContentWrapper>
   );
