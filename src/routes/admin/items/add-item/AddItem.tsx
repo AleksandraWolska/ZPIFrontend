@@ -99,7 +99,7 @@ function initializeItem(config: ItemConfig): Item {
   };
 
   if (askForItemAmount(core)) {
-    item.amount = 0;
+    item.amount = 1;
   }
 
   if (askForSubItems(core)) {
