@@ -6,6 +6,7 @@ import {
   IconButton,
   Stack,
   TextField,
+  Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
 import { DateTimePicker } from "@mui/x-date-pickers";
@@ -15,6 +16,7 @@ import { useItemForm } from "./ItemFormProvider";
 import { askForSubItemAmount, askForSubItemSchedule } from "../utils";
 import { SubItem } from "../../../../types";
 import useStoreConfig from "../../store/useStoreConfig";
+import StepWrapper from "../../components/StepWrapper";
 
 function SubItems() {
   const { t } = useTranslation();
@@ -68,12 +70,20 @@ function SubItems() {
   };
 
   return (
-    <>
+    <StepWrapper>
+      <Typography variant="h4" sx={{ mt: 1, mb: 2 }}>
+        {t("admin.items.form.subItems")}
+      </Typography>
       {localSubItems.map((subItem, idx) => {
         const disabled = subItem.title === "";
 
         return (
-          <Stack key={subItem.id} direction="row" gap={1}>
+          <Stack
+            sx={{ m: 0.5, mb: 1, mt: 1, width: "100%" }}
+            key={subItem.id}
+            direction="row"
+            gap={1}
+          >
             <TextField
               inputProps={{ maxLength: 255 }}
               label={t("admin.items.form.title")}
@@ -202,7 +212,7 @@ function SubItems() {
           </Stack>
         );
       })}
-    </>
+    </StepWrapper>
   );
 }
 
