@@ -39,9 +39,13 @@ function Slots() {
           onChange={(e) => {
             setStep(parseInt(e.target.value, 10));
           }}
+          onBlur={() => {
+            if (step < 5) setStep(5);
+          }}
           type="number"
           inputProps={{
             step: 5,
+            min: 5,
           }}
         />
 

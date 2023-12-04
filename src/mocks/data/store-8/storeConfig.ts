@@ -12,7 +12,7 @@ export const storeConfig: StoreConfig = {
   },
   core: {
     flexibility: true,
-    granularity: false,
+    granularity: true,
     allowOverNight: true,
     simultaneous: false,
     uniqueness: true,
