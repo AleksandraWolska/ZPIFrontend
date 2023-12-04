@@ -11,7 +11,7 @@ import SubItems from "../item-form/SubItems";
 import { StoreConfig } from "../../../../types";
 import Stepper from "../item-form/Stepper";
 import Schedule from "../item-form/schedule/Schedule";
-import useEditItem from "./useEditItem";
+import useEditItem, { removeIdsFromSubItems } from "./useEditItem";
 import useStoreConfig from "../../store/useStoreConfig";
 
 function EditItem() {
@@ -56,7 +56,7 @@ function EditForm() {
             fullWidth
             disabled={!isValid}
             onClick={() => {
-              editItem.mutate(item, {
+              editItem.mutate(removeIdsFromSubItems(item), {
                 onSuccess: () => {
                   navigate("../..", { relative: "path" });
                 },
