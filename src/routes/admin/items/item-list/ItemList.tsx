@@ -415,14 +415,28 @@ function ItemDescription({ item }: { item: Item }) {
           <Typography color="textSecondary">
             {`${new Date(
               (item.schedule as FixedSchedule).startDateTime,
-            ).toLocaleString()}${
+            ).toLocaleString([], {
+              year: "numeric",
+              month: "numeric",
+              day: "numeric",
+              hour: "2-digit",
+              minute: "2-digit",
+              hour12: false,
+            })}${
               shouldShowEnd(
                 (item.schedule as FixedSchedule).startDateTime,
                 (item.schedule as FixedSchedule).endDateTime,
               )
                 ? ` - ${new Date(
                     (item.schedule as FixedSchedule).endDateTime!,
-                  ).toLocaleString()}`
+                  ).toLocaleString([], {
+                    year: "numeric",
+                    month: "numeric",
+                    day: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    hour12: false,
+                  })}`
                 : ""
             }`}
           </Typography>

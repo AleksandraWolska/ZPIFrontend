@@ -37,7 +37,7 @@ export function ReservationSuccessDialog({ handleReservationFinished }: Props) {
         <Box mb={3}>
           <Typography variant="h6" sx={{ mb: 1 }}>
             {storeConfig.detailsPage.reservationConfirmationPrompt ||
-              t("user.components.details.successPrompt")}
+              t("user.components.details.reservationSuccessPrompt")}
           </Typography>
           <Box>
             <Divider sx={{ marginTop: 2, marginBottom: 2 }} />

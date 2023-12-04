@@ -148,6 +148,7 @@
     "items": {
       "add": {
         "summary": "Summary",
+        "summaryDesc": "You provided all the necessary data. If you're ready to proceed, simply save your item!",
         "requiredDataMissingTitle": "Some required data is missing",
         "requiredDataMissingDesc": "Fill all the necessary fields to proceed",
         "addItemButton": "Add item"
@@ -238,7 +239,9 @@
         "reserve": "Reserve item",
         "noTimeSlotsAvailable": "No time slots available",
         "available": "Available",
-        "itemAvailable": "Item is available in chosen time ranges"
+        "itemAvailable": "Item is available in chosen time ranges",
+        "full": "[FULL]",
+        "past": "[PAST]"
       },
       "details": {
         "ratingTitle": "Tell us how did you like it",

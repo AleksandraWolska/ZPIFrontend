@@ -89,7 +89,7 @@ function TopBarMenu() {
       <Box
         sx={{
           display: { xs: "none", md: "flex" },
-          alignItems: "center",
+          alignItems: "stretch",
           flexDirection: "row",
         }}
       >
@@ -228,7 +228,6 @@ const MenuText = styled(Box)({
   textTransform: "uppercase",
   cursor: "pointer",
   display: "flex",
-  padding: "1rem",
   height: "100%",
   alignItems: "center",
   flexDirection: "row",

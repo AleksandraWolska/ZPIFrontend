@@ -155,15 +155,24 @@ function TopBarMenu() {
       <Box
         sx={{
           display: { xs: "none", md: "flex" },
-          alignItems: "center",
+          alignItems: "stretch",
           flexDirection: "row",
         }}
       >
         {auth.isAuthenticated && (
-          <MenuInfo>
-            <PersonIcon />
-            <Typography ml={1}> {auth.user?.profile.email} </Typography>
-          </MenuInfo>
+          <MenuItem
+            sx={{
+              "&:hover": {
+                backgroundColor: "transparent",
+                cursor: "auto",
+              },
+            }}
+          >
+            <MenuInfo>
+              <PersonIcon />
+              <Typography ml={1}> {auth.user?.profile.email} </Typography>
+            </MenuInfo>
+          </MenuItem>
         )}
         <MenuItem>
           <MenuText onClick={() => navigate(`reservations`)}>
@@ -304,7 +313,6 @@ const MenuText = styled(Typography)({
   textTransform: "uppercase",
   cursor: "pointer",
   display: "flex",
-  padding: "1rem",
   height: "100%",
   alignItems: "center",
   flexDirection: "row",
@@ -313,9 +321,7 @@ const MenuText = styled(Typography)({
 const MenuInfo = styled(Box)({
   marginLeft: "1rem",
   textTransform: "uppercase",
-
   display: "flex",
-  padding: "1rem",
   height: "100%",
   alignItems: "center",
   flexDirection: "row",

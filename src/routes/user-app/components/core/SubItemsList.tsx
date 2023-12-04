@@ -1,5 +1,6 @@
 import { List, ListItem, ListItemText } from "@mui/material";
 import { Box, useTheme } from "@mui/system";
+import { useTranslation } from "react-i18next";
 import { Item, SubItem } from "../../../../types";
 
 type SubItemsListProps = {
@@ -13,6 +14,8 @@ function SubItemsList({
   selectedSubItemsList,
   toggleItemSelection,
 }: SubItemsListProps) {
+  const { t } = useTranslation();
+
   const theme = useTheme();
   return (
     <Box>
@@ -58,7 +61,11 @@ function SubItemsList({
                   <Box flexGrow={1} marginRight={2}>
                     <ListItemText
                       primary={`${
-                        isPast ? "[PAST] " : !isAvailable ? "[FULL] " : ""
+                        isPast
+                          ? `${t("user.components.core.past")} `
+                          : !isAvailable
+                          ? `${t("user.components.core.full")} `
+                          : ""
                       }${subItem.title}`}
                       secondary={subItem.subtitle ? subItem.subtitle : ""}
                       style={{

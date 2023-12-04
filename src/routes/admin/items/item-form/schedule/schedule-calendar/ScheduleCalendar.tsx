@@ -13,6 +13,7 @@ import withDragAndDrop, {
 import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
 
 import "./calendar.css";
+import CustomCalendarToolbar from "../../../../../../shared-components/CustomCalendarToolbar";
 
 const DnDCalendar = withDragAndDrop(BigCalendar);
 
@@ -107,6 +108,9 @@ function ScheduleCalendar({
       view={Views.WEEK}
       views={[Views.WEEK]}
       onView={() => {}}
+      components={{
+        toolbar: CustomCalendarToolbar,
+      }}
       formats={formats}
       min={new Date(new Date(0).setHours(1))}
       max={new Date(new Date(0).setHours(23))}
