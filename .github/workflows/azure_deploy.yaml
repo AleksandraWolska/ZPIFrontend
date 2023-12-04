@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - "dev"
-      - "cancel-admin-res"
+      - "bug-investigate"
   workflow_dispatch:
 
 jobs:
