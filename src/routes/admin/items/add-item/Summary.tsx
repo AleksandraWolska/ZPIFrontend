@@ -23,7 +23,9 @@ function Summary() {
         {t("admin.items.add.summary")}
       </Typography>
 
-      {!isValid && (
+      {isValid ? (
+        <Typography>{t("admin.items.add.summaryDesc")}</Typography>
+      ) : (
         <Alert severity="error" sx={{ width: "95%", margin: 3 }}>
           <AlertTitle>
             {t("admin.items.add.requiredDataMissingTitle")}
@@ -32,7 +34,7 @@ function Summary() {
         </Alert>
       )}
 
-      <Box sx={{ p: 1, pb: 0 }}>
+      <Box sx={{ p: 1, pb: 0, width: "100%" }}>
         <Button
           sx={{ p: 2, mt: 2 }}
           fullWidth

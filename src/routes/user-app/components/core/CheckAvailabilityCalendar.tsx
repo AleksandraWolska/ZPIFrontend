@@ -34,7 +34,7 @@ import {
   FlexibleReservationData,
 } from "../../types";
 import "../../css/react-big-calendar.css";
-import CustomCalendarToolbar from "../detail-page-specific/CustomCalendarToolbar";
+import CustomCalendarToolbar from "../../../../shared-components/CustomCalendarToolbar";
 import { SuggestedDatesDialog } from "../detail-page-specific/SuggestedDatesDialog";
 import { NoAvailableDatesDialog } from "../detail-page-specific/NoAvailableDatesDialog copy";
 
@@ -610,7 +610,7 @@ export function CheckAvailabilityCalendar({
                 sx={{ flex: 1, m: 1 }}
                 onClick={() => setShowReserveDialog(false)}
               >
-                Cancel
+                {t("common.cancel")}
               </Button>
               <Button
                 variant="contained"

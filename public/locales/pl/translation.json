@@ -31,7 +31,7 @@
     "wizard": {
       "next": "Dalej",
       "prev": "Wstecz",
-      "save": "Utwórz",
+      "save": "Zapisz",
       "generalInfo": {
         "title": "Ogólne informacje",
         "desc": "Podaj informacje na temat swojej firmy, link do logo i wybierz kolorystykę systemu.",
@@ -148,6 +148,7 @@
     "items": {
       "add": {
         "summary": "Podsumowanie",
+        "summaryDesc": "Podano wszystkie niezbędne informacje. Jeśli jesteś gotowy/-a kontynuować, po prostu zapisz przedmiot.",
         "requiredDataMissingTitle": "Brakujące wymagane dane",
         "requiredDataMissingDesc": "Wypełnij wszystkie niezbędne pola, aby kontynuować",
         "addItemButton": "Dodaj przedmiot"
@@ -238,7 +239,9 @@
         "reserve": "Zarezerwuj przedmiot",
         "noTimeSlotsAvailable": "Brak dostępnych slotów czasowych",
         "available": "Dostępny",
-        "itemAvailable": "Przedmiot jest dostępny w wybranych przedziałach czasowych"
+        "itemAvailable": "Przedmiot jest dostępny w wybranych przedziałach czasowych",
+        "full": "[PEŁNE]",
+        "past": "[PRZESZŁE]"
       },
       "details": {
         "ratingTitle": "Powiedz, jak Ci się podobało",
