@@ -45,7 +45,10 @@ import {
 import { shouldShowEnd } from "../../../../shared-components/utils";
 
 function isFixedSchedule(schedule: Schedule): schedule is FixedSchedule {
-  return (schedule as FixedSchedule).startDateTime !== undefined;
+  return (
+    (schedule as FixedSchedule).startDateTime !== undefined &&
+    (schedule as FixedSchedule).startDateTime !== null
+  );
 }
 
 function ItemList() {
@@ -54,7 +57,7 @@ function ItemList() {
   const storeConfig = useStoreConfig();
 
   const items = useItems();
-  const [futureOnly, setFutureOnly] = useState(true);
+  const [futureOnly, setFutureOnly] = useState(false);
 
   const filteredItems = items
     .filter(
