@@ -25,7 +25,11 @@ function useAddComment() {
       return addComment(params.itemId, newComment);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(["items", params.itemId]);
+      queryClient.invalidateQueries([
+        "itemDetails",
+        params.storeId,
+        params.itemId,
+      ]);
     },
   });
 }
