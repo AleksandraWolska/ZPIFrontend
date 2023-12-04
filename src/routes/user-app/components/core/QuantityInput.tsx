@@ -64,7 +64,7 @@ export default function QuantityInput({
         value={value}
         disabled={disabled}
         onChange={(_event, val) => {
-          onUserCountChange(val === undefined ? 1 : val);
+          onUserCountChange(val === undefined || val < 1 ? 1 : val);
         }}
       />{" "}
     </Box>
