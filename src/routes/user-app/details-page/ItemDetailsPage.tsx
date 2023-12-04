@@ -131,7 +131,7 @@ export default function ItemDetailsPage() {
 
   const handleUserCountItemInputChange = (newValue: number) => {
     setReservationRequestReady(
-      item.availableAmount ? item.availableAmount >= newValue : true,
+      item.availableAmount !== undefined && item.availableAmount >= newValue,
     );
     setUserCount(newValue || 1);
     setAvailabilityChecked(false);
