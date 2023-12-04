@@ -13,46 +13,49 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
+import { useTranslation } from "react-i18next";
 import {
   ActionBox,
   ClearNavLink,
 } from "../../../shared-components/styledComponents";
 
 function Store() {
+  const { t } = useTranslation();
+
   const params = useParams() as { storeId: string };
   const theme = useTheme();
 
   const options = [
     {
-      label: "Reservations",
+      label: t("admin.store.reservationsTitle"),
       value: "reservations",
-      description: "View reservations made by users",
+      description: t("admin.store.reservationsDesc"),
       icon: <EventSeatIcon sx={{ fontSize: "5rem", color: "grey" }} />,
     },
     {
-      label: "Item list",
+      label: t("admin.store.itemListTitle"),
       value: "item-list",
-      description: "View items available in your store",
+      description: t("admin.store.itemListDesc"),
       icon: (
         <FormatListBulletedSharpIcon sx={{ fontSize: "5rem", color: "grey" }} />
       ),
     },
     {
-      label: "Add new item",
+      label: t("admin.store.addItemTitle"),
       value: "add-item",
-      description: "Add new item for reserving",
+      description: t("admin.store.addItemDesc"),
       icon: <AddIcon sx={{ fontSize: "5rem", color: "grey" }} />,
     },
     {
-      label: "Store settings",
+      label: t("admin.store.storeSettingsTitle"),
       value: "settings",
-      description: "Edit features of your store",
+      description: t("admin.store.storeSettingsDesc"),
       icon: <SettingsIcon sx={{ fontSize: "5rem", color: "grey" }} />,
     },
     {
-      label: "View user website",
+      label: t("admin.store.viewUserAppTitle"),
       value: `/${params.storeId}`,
-      description: "View generated user application for the store",
+      description: t("admin.store.viewUserAppDesc"),
       icon: <VisibilityIcon sx={{ fontSize: "5rem", color: "grey" }} />,
     },
   ];

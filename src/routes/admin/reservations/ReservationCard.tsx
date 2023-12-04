@@ -13,6 +13,7 @@ import {
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import dayjs from "dayjs";
 import { styled } from "@mui/system";
+import { useTranslation } from "react-i18next";
 import { Reservation } from "../../../types";
 import useStoreConfig from "../store/useStoreConfig";
 import useItemById from "./useItemById";
@@ -29,6 +30,8 @@ function ReservationCard({
   setReservationToBeConfirmed: (id: string) => void;
   setReservationToBeCanceled: (id: string) => void;
 }) {
+  const { t } = useTranslation();
+
   const item = useItemById(reservation.itemId);
 
   const storeConfig = useStoreConfig();
@@ -78,7 +81,7 @@ function ReservationCard({
             >
               {reservation.status === "cancelled_by_admin" && (
                 <Chip
-                  label="Canceled (Admin)"
+                  label={t("admin.reservations.canceledAdmin")}
                   color="error"
                   variant="outlined"
                 />
@@ -86,7 +89,7 @@ function ReservationCard({
 
               {reservation.status === "cancelled_by_user" && (
                 <Chip
-                  label="Canceled (User)"
+                  label={t("admin.reservations.canceledUser")}
                   color="error"
                   variant="outlined"
                 />
@@ -100,7 +103,7 @@ function ReservationCard({
                     setReservationToBeCanceled(reservation.id);
                   }}
                 >
-                  Cancel
+                  {t("common.cancel")}
                 </Button>
               )}
 
@@ -121,7 +124,7 @@ function ReservationCard({
                           setReservationToBeConfirmed(reservation.id);
                         }}
                       >
-                        Confirm
+                        {t("common.confirm")}
                       </Button>
                     )}
                   </Box>
@@ -137,7 +140,7 @@ function ReservationCard({
           }}
         >
           <DetailsBox>
-            <DetailsBoxTitle>Item</DetailsBoxTitle>
+            <DetailsBoxTitle>{t("admin.reservations.item")}</DetailsBoxTitle>
 
             <Stack direction="row" gap={2}>
               <Box
@@ -218,7 +221,7 @@ function ReservationCard({
             {reservation.message && (
               <Box marginTop={1}>
                 <Typography color={theme.palette.text.secondary} fontSize={14}>
-                  MESSAGE
+                  {t("admin.reservations.message")}
                 </Typography>
 
                 <Typography>{reservation.message}</Typography>

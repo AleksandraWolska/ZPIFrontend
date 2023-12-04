@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { Box, Container } from "@mui/system";
 import { Button } from "@mui/material";
+import { useTranslation } from "react-i18next";
 import ItemFormProvider, { useItemForm } from "../item-form/ItemFormProvider";
 import useItemToBeEdited from "./useItemToBeEdited";
 import GeneralInfo from "../item-form/GeneralInfo";
@@ -24,6 +25,8 @@ function EditItem() {
 }
 
 function EditForm() {
+  const { t } = useTranslation();
+
   const storeConfig = useStoreConfig();
   const { item } = useItemForm();
   const editItem = useEditItem();
@@ -60,7 +63,7 @@ function EditForm() {
               });
             }}
           >
-            Save edited item
+            {t("admin.items.edit.save")}
           </Button>
         </Box>
       </Box>

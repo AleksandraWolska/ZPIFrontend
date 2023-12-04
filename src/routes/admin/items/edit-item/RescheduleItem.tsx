@@ -9,6 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import useItemToBeEdited from "./useItemToBeEdited";
 import ItemFormProvider, { useItemForm } from "../item-form/ItemFormProvider";
 import Schedule from "../item-form/schedule/Schedule";
@@ -26,6 +27,8 @@ function RescheduleItem() {
 }
 
 function ScheduleForm() {
+  const { t } = useTranslation();
+
   const { item } = useItemForm();
   const editItem = useEditItem();
   const navigate = useNavigate();
@@ -58,7 +61,6 @@ function ScheduleForm() {
                   navigate("../..", { relative: "path" });
                 },
                 onError: async (error) => {
-                  console.log("ON_ERROR");
                   if (error instanceof Response) {
                     const data = (await error.json()) as {
                       reservations: Reservation[];
@@ -69,7 +71,7 @@ function ScheduleForm() {
               });
             }}
           >
-            Reschedule
+            {t("admin.items.reschedule.reschedule")}
           </Button>
         </Box>
       </Box>
@@ -93,15 +95,19 @@ function ConflictingReservationsDialog({
   reservations: Reservation[];
   onClose: () => void;
 }) {
+  const { t } = useTranslation();
+
   return (
     <Dialog open>
       <DialogTitle sx={{ textAlign: "center", fontWeight: "medium" }}>
-        <Typography variant="h4">Conflicting reservations</Typography>
+        <Typography variant="h4">
+          {t("admin.items.reschedule.conflictingReservationsTitle")}
+        </Typography>
       </DialogTitle>
 
       <DialogContent>
         <Typography variant="h6" sx={{ mb: 1 }}>
-          Cannot reschedule because of the following reservations:
+          {t("admin.items.reschedule.conflictingReservationsDesc")}
         </Typography>
 
         <Divider sx={{ marginTop: 2, marginBottom: 2 }} />
@@ -134,7 +140,7 @@ function ConflictingReservationsDialog({
           }}
           sx={{ mt: 2 }}
         >
-          OK
+          {t("common.ok")}
         </Button>
       </DialogContent>
     </Dialog>
