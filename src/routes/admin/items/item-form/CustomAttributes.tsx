@@ -10,19 +10,22 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { useTranslation } from "react-i18next";
 import { CustomAttribute, CustomAttributeSpec } from "../../../../types";
 import { useItemForm } from "./ItemFormProvider";
 import useStoreConfig from "../../store/useStoreConfig";
 import StepWrapper from "../../components/StepWrapper";
 
 function CustomAttributes() {
+  const { t } = useTranslation();
+
   const storeConfig = useStoreConfig();
   const { item, setItemCustomAttribute } = useItemForm();
 
   return (
     <StepWrapper>
       <Typography variant="h4" sx={{ mt: 1, mb: 2 }}>
-        Custom attributes
+        {t("admin.items.form.customAttributes")}
       </Typography>
 
       <Box width="90%" marginTop={1.25} marginBottom={1.25}>

@@ -7,6 +7,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import useReservations from "./useReservations";
 import ReservationCard from "./ReservationCard";
 import ConfirmDialog from "../components/ConfirmDialog";
@@ -14,6 +15,8 @@ import useConfirmReservation from "./useConfirmReservation";
 import useCancelReservation from "./useCancelReservation";
 
 function Reservations() {
+  const { t } = useTranslation();
+
   const reservations = useReservations();
 
   const [futureOnly, setFutureOnly] = useState(false);
@@ -32,7 +35,7 @@ function Reservations() {
     return (
       <Box display="flex" m={3} alignItems="center" flexDirection="column">
         <Typography variant="overline">
-          It looks like there is no bookings in this store yet
+          {t("admin.reservations.noReservations")}
         </Typography>
       </Box>
     );
@@ -49,7 +52,7 @@ function Reservations() {
               }}
             />
           }
-          label="Show future reservations only"
+          label={t("admin.reservations.futureOnly")}
         />
 
         <Stack spacing={1} marginTop={2}>
@@ -88,8 +91,8 @@ function Reservations() {
           confirmReservation.mutate(reservationToBeConfirmed!);
           setReservationToBeConfirmed(null);
         }}
-        title="Confirm reservation"
-        message="Are you sure you want to confirm this reservation? This action cannot be undone."
+        title={t("admin.reservations.confirmReservationTitle")}
+        message={t("admin.reservations.confirmReservationMessage")}
       />
 
       <ConfirmDialog
@@ -101,8 +104,8 @@ function Reservations() {
           cancelReservation.mutate(reservationToBeCanceled!);
           setReservationToBeCanceled(null);
         }}
-        title="Cancel reservation"
-        message="Are you sure you want to cancel this reservation? This action cannot be undone."
+        title={t("admin.reservations.cancelReservationTitle")}
+        message={t("admin.reservations.cancelReservationMessage")}
       />
     </>
   );

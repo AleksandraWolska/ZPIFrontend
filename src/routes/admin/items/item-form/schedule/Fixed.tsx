@@ -1,11 +1,14 @@
 import { Checkbox, FormControlLabel, Stack, Typography } from "@mui/material";
 import { DateTimePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
+import { useTranslation } from "react-i18next";
 import { FixedSchedule } from "../../../types";
 import { useItemForm } from "../ItemFormProvider";
 import StepWrapper from "../../../components/StepWrapper";
 
 function Fixed() {
+  const { t } = useTranslation();
+
   const { item, setItem } = useItemForm();
 
   const { schedule } = item as {
@@ -15,15 +18,15 @@ function Fixed() {
   return (
     <StepWrapper>
       <Typography variant="h4" sx={{ mt: 1, mb: 2 }}>
-        Fixed schedule
+        {t("admin.items.form.fixedTitle")}
       </Typography>
       <Typography sx={{ marginBottom: 2 }}>
-        Define time range for your item
+        {t("admin.items.form.fixedDesc")}
       </Typography>
 
       <Stack alignItems="flex-start" gap={1}>
         <DateTimePicker
-          label="Start Time"
+          label={t("admin.items.form.startTime")}
           value={dayjs(schedule.startDateTime)}
           onChange={(newValue) => {
             if (newValue) {
@@ -55,12 +58,12 @@ function Fixed() {
               }}
             />
           }
-          label="Add end time"
+          label={t("admin.items.form.addEndTime")}
         />
 
         {!!schedule.endDateTime && (
           <DateTimePicker
-            label="End Time"
+            label={t("admin.items.form.endTime")}
             value={dayjs(schedule.endDateTime)}
             minDateTime={dayjs(schedule.startDateTime)}
             onChange={(newValue) => {

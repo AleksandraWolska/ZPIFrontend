@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { Alert, AlertTitle, Box, Button, Typography } from "@mui/material";
+import { useTranslation } from "react-i18next";
 import useAddItem, { removeIdsFromItem } from "./useAddItem";
 import { useItemForm } from "../item-form/ItemFormProvider";
 import StepWrapper from "../../components/StepWrapper";
@@ -7,6 +8,8 @@ import useStoreConfig from "../../store/useStoreConfig";
 import { validateItem } from "../utils";
 
 function Summary() {
+  const { t } = useTranslation();
+
   const { item } = useItemForm();
   const storeConfig = useStoreConfig();
   const addItem = useAddItem();
@@ -17,13 +20,15 @@ function Summary() {
   return (
     <StepWrapper>
       <Typography variant="h4" sx={{ mt: 1, mb: 2 }}>
-        Summary
+        {t("admin.items.add.summary")}
       </Typography>
 
       {!isValid && (
         <Alert severity="error" sx={{ width: "95%", margin: 3 }}>
-          <AlertTitle>Some required data is missing</AlertTitle>
-          Fill all the necessary fields to proceed
+          <AlertTitle>
+            {t("admin.items.add.requiredDataMissingTitle")}
+          </AlertTitle>
+          {t("admin.items.add.requiredDataMissingDesc")}
         </Alert>
       )}
 
@@ -42,7 +47,7 @@ function Summary() {
             });
           }}
         >
-          ADD ITEM
+          {t("admin.items.add.addItemButton")}
         </Button>
       </Box>
     </StepWrapper>

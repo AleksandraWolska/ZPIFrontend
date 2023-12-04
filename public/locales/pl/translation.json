@@ -8,7 +8,8 @@
     "cancel": "Anuluj",
     "send": "Wyślij",
     "ok": "OK",
-    "delete": "Usuń"
+    "delete": "Usuń",
+    "confirm": "Potwierdź"
   },
   "auth": {
     "unauthorized": "Nie masz uprawnień do wykonania tej akcji.",
@@ -135,6 +136,91 @@
         "requiredDataPlaceholder": "Wprowadź predefiniowane wartości, wpisując je i naciskając enter",
         "confirmation": "Czy wymagane jest potwierdzenie rezerwacji przez administratora?"
       }
+    },
+    "items": {
+      "add": {
+        "summary": "Podsumowanie",
+        "requiredDataMissingTitle": "Brakujące wymagane dane",
+        "requiredDataMissingDesc": "Wypełnij wszystkie niezbędne pola, aby kontynuować",
+        "addItemButton": "Dodaj przedmiot"
+      },
+      "edit": {
+        "save": "Zapisz edytowany przedmiot"
+      },
+      "reschedule": {
+        "reschedule": "Zmień harmonogram",
+        "conflictingReservationsTitle": "Konfliktujące rezerwacje",
+        "conflictingReservationsDesc": "Nie można zmienić harmonogramu z powodu następujących rezerwacji:"
+      },
+      "form": {
+        "continuousTitle": "Harmonogram ciągły",
+        "continuousDesc": "Określ zakresy czasowe, z których użytkownicy mogą swobodnie wybierać preferowany czas rezerwacji.",
+        "slotsTitle": "Harmonogramy slotów",
+        "slotsDesc": "Określ przedziały czasowe, które użytkownicy mogą zarezerwować.",
+        "fixedTitle": "Harmonogram stały",
+        "fixedDesc": "Określ zakres czasowy dla przedmiotu.",
+        "startTime": "Czas rozpoczęcia",
+        "addEndTime": "Dodaj czas zakończenia",
+        "endTime": "Czas zakończenia",
+        "customAttributes": "Niestandardowe atrybuty",
+        "generalInfo": "Informacje ogólne",
+        "title": "Tytuł",
+        "subtitle": "Podtytuł",
+        "desc": "Opis",
+        "image": "Obraz",
+        "amount": "Ilość"
+      },
+      "list": {
+        "itemListTitle": "Lista przedmiotów",
+        "noItems": "Wydaje się, że w tym sklepie nie zdefiniowano jeszcze żadnych przedmiotów...",
+        "addItemTitle": "Dodaj przedmiot",
+        "addItemDesc": "Dodaj nowy przedmiot, który użytkownicy mogą zarezerwować",
+        "futureOnly": "Pokaż tylko przyszłe wydarzenia",
+        "reschedule": "Zmień harmonogram",
+        "edit": "Edytuj",
+        "activate": "Aktywuj",
+        "deactivate": "Dezaktywuj",
+        "delete": "Usuń",
+        "details": "Szczegóły",
+        "subItems": "Podprzedmioty",
+        "amount": "Ilość",
+        "taken": "Zajęte",
+        "available": "Dostępne",
+        "remainingAmount": "Pozostała ilość",
+        "activateItem": "Aktywuj przedmiot",
+        "deactivateItem": "Dezaktywuj przedmiot",
+        "activateItemDesc": "Czy na pewno chcesz aktywować ten przedmiot?",
+        "deactivateItemDesc": "Czy na pewno chcesz dezaktywować ten przedmiot?",
+        "deleteItem": "Usuń przedmiot",
+        "deleteItemDesc": "Czy na pewno chcesz usunąć ten przedmiot? Ta operacja nie może zostać cofnięta.",
+        "active": "Aktywny",
+        "inactive": "Nieaktywny",
+        "initialAmount": "Początkowa ilość"
+      }
+    },
+    "reservations": {
+      "noReservations": "Wygląda na to, że w tym sklepie nie ma jeszcze żadnych rezerwacji",
+      "futureOnly": "Pokaż tylko przyszłe rezerwacje",
+      "confirmReservationTitle": "Potwierdź rezerwację",
+      "confirmReservationMessage": "Czy na pewno chcesz potwierdzić tę rezerwację? Ta operacja nie może zostać cofnięta.",
+      "cancelReservationTitle": "Anuluj rezerwację",
+      "cancelReservationMessage": "Czy na pewno chcesz anulować tę rezerwację? Ta operacja nie może zostać cofnięta.",
+      "canceledAdmin": "Anulowano (Administrator)",
+      "canceledUser": "Anulowano (Użytkownik)",
+      "item": "Przedmiot",
+      "message": "Wiadomość"
+    },
+    "store": {
+      "reservationsTitle": "Rezerwacje",
+      "reservationsDesc": "Przeglądaj rezerwacje dokonane przez użytkowników",
+      "itemListTitle": "Lista przedmiotów",
+      "itemListDesc": "Przeglądaj dostępne przedmioty w swoim sklepie",
+      "addItemTitle": "Dodaj nowy przedmiot",
+      "addItemDesc": "Dodaj nowy przedmiot do rezerwacji",
+      "storeSettingsTitle": "Ustawienia sklepu",
+      "storeSettingsDesc": "Edytuj ustawienia swojego sklepu",
+      "viewUserAppTitle": "Przeglądaj stronę użytkownika",
+      "viewUserAppDesc": "Zobacz wygenerowaną aplikację użytkownika"
     }
   },
   "user": {

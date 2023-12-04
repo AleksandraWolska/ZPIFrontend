@@ -10,12 +10,15 @@ import {
 import dayjs from "dayjs";
 import { DateTimePicker } from "@mui/x-date-pickers";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { useTranslation } from "react-i18next";
 import { useItemForm } from "./ItemFormProvider";
 import { askForSubItemAmount, askForSubItemSchedule } from "../utils";
 import { SubItem } from "../../../../types";
 import useStoreConfig from "../../store/useStoreConfig";
 
 function SubItems() {
+  const { t } = useTranslation();
+
   const storeConfig = useStoreConfig();
   const { item, setSubItems } = useItemForm();
 
@@ -73,7 +76,7 @@ function SubItems() {
           <Stack key={subItem.id} direction="row" gap={1}>
             <TextField
               inputProps={{ maxLength: 255 }}
-              label="title"
+              label={t("admin.items.form.title")}
               value={subItem.title}
               onChange={(e) => {
                 updateLocalSubItem(subItem.id, {
@@ -94,7 +97,7 @@ function SubItems() {
 
             <TextField
               inputProps={{ maxLength: 255 }}
-              label="subtitle"
+              label={t("admin.items.form.subtitle")}
               value={subItem.subtitle}
               onChange={(e) => {
                 updateLocalSubItem(subItem.id, {
@@ -106,8 +109,8 @@ function SubItems() {
 
             {askForSubItemAmount(storeConfig.core) && (
               <TextField
-                inputProps={{ maxLength: 255 }}
-                label="amount"
+                inputProps={{ maxLength: 255, min: 1 }}
+                label={t("admin.items.form.amount")}
                 value={subItem.amount?.toString()}
                 onChange={(e) => {
                   updateLocalSubItem(subItem.id, {
@@ -122,7 +125,7 @@ function SubItems() {
             {askForSubItemSchedule(storeConfig.core) && (
               <>
                 <DateTimePicker
-                  label="startDateTime"
+                  label={t("admin.items.form.startTime")}
                   value={dayjs(subItem.schedule?.startDateTime)}
                   onChange={(date) => {
                     if (date)
@@ -156,12 +159,12 @@ function SubItems() {
                       }}
                     />
                   }
-                  label="End Time"
+                  label={t("admin.items.form.addEndTime")}
                 />
 
                 {!!subItem.schedule?.endDateTime && (
                   <DateTimePicker
-                    label="End Time"
+                    label={t("admin.items.form.endTime")}
                     value={dayjs(subItem.schedule.endDateTime)}
                     onChange={(date) => {
                       if (date)

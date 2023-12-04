@@ -8,7 +8,8 @@
     "cancel": "Cancel",
     "send": "Send",
     "ok": "OK",
-    "delete": "Delete"
+    "delete": "Delete",
+    "confirm": "Confirm"
   },
   "auth": {
     "unauthorized": "You're unauthorized to proceed with this action",
@@ -135,6 +136,91 @@
         "requiredDataPlaceholder": "Enter predefined values by typing them and pressing enter",
         "confirmation": "Is confirmation by an admin required for reservations?"
       }
+    },
+    "items": {
+      "add": {
+        "summary": "Summary",
+        "requiredDataMissingTitle": "Some required data is missing",
+        "requiredDataMissingDesc": "Fill all the necessary fields to proceed",
+        "addItemButton": "Add item"
+      },
+      "edit": {
+        "save": "Save edited item"
+      },
+      "reschedule": {
+        "reschedule": "Reschedule",
+        "conflictingReservationsTitle": "Conflicting reservations",
+        "conflictingReservationsDesc": "Cannot reschedule because of the following reservations:"
+      },
+      "form": {
+        "continuousTitle": "Continuous schedule",
+        "continuousDesc": "Define time ranges from which users can freely choose their preferred reservation time.",
+        "slotsTitle": "Slots schedule",
+        "slotsDesc": "Define time slots users can reserve.",
+        "fixedTitle": "Fixed schedule",
+        "fixedDesc": "Define time range for your item.",
+        "startTime": "Start time",
+        "addEndTime": "Add end time",
+        "endTime": "End time",
+        "customAttributes": "Custom attributes",
+        "generalInfo": "General informaton",
+        "title": "Title",
+        "subtitle": "Subtitle",
+        "desc": "Description",
+        "image": "Image",
+        "amount": "Amount"
+      },
+      "list": {
+        "itemListTitle": "Items list",
+        "noItems": "It seems there is no items defined in this store yet...",
+        "addItemTitle": "Add item",
+        "addItemDesc": "Add new item users can reserve",
+        "futureOnly": "Show future events only",
+        "reschedule": "Reschedule",
+        "edit": "Edit",
+        "activate": "Activate",
+        "deactivate": "Deactivate",
+        "delete": "Delete",
+        "details": "Details",
+        "subItems": "Subitems",
+        "amount": "Amount",
+        "taken": "Taken",
+        "available": "Available",
+        "remainingAmount": "Remaining amount",
+        "activateItem": "Activate item",
+        "deactivateItem": "Deactivate item",
+        "activateItemDesc": "Activate this item?",
+        "deactivateItemDesc": "Deactivate this item?",
+        "deleteItem": "Delete item",
+        "deleteItemDesc": "Are you sure you want to delete this item? This action cannot be undone.",
+        "active": "Active",
+        "inactive": "Inactive",
+        "initialAmount": "Initial amount"
+      }
+    },
+    "reservations": {
+      "noReservations": "It looks like there is no bookings in this store yet",
+      "futureOnly": "Show future reservations only",
+      "confirmReservationTitle": "Confirm reservation",
+      "confirmReservationMessage": "Are you sure you want to confirm this reservation? This action cannot be undone.",
+      "cancelReservationTitle": "Cancel reservation",
+      "cancelReservationMessage": "Are you sure you want to cancel this reservation? This action cannot be undone.",
+      "canceledAdmin": "Canceled (Admin)",
+      "canceledUser": "Canceled (User)",
+      "item": "Item",
+      "message": "Message"
+    },
+    "store": {
+      "reservationsTitle": "Reservations",
+      "reservationsDesc": "View reservations made by users",
+      "itemListTitle": "Items list",
+      "itemListDesc": "View items available in your store",
+      "addItemTitle": "Add new item",
+      "addItemDesc": "Add new item for reserving",
+      "storeSettingsTitle": "Store settings",
+      "storeSettingsDesc": "Edit your store settings",
+      "viewUserAppTitle": "View user website",
+      "viewUserAppDesc": "View generated user application for the store"
     }
   },
   "user": {
