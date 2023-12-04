@@ -24,7 +24,12 @@ function Stepper() {
   const renderStepContent = () => {
     switch (activeStep) {
       case STORE_CONFIG_STEPS.GENERAL_STORE_INFO:
-        return <GeneralStoreInfo setActiveStep={setActiveStep} />;
+        return (
+          <GeneralStoreInfo
+            setActiveStep={setActiveStep}
+            setProgress={setProgress}
+          />
+        );
       case STORE_CONFIG_STEPS.FLEXIBILITY:
         return (
           <Flexibility
@@ -72,19 +77,37 @@ function Stepper() {
           />
         );
       case STORE_CONFIG_STEPS.CUSTOM_ATTRIBUTES_SPEC:
-        return <CustomAttributesSpec setActiveStep={setActiveStep} />;
+        return (
+          <CustomAttributesSpec
+            setActiveStep={setActiveStep}
+            setProgress={setProgress}
+          />
+        );
       case STORE_CONFIG_STEPS.MAIN_PAGE:
-        return <MainPage setActiveStep={setActiveStep} />;
+        return (
+          <MainPage setActiveStep={setActiveStep} setProgress={setProgress} />
+        );
       case STORE_CONFIG_STEPS.DETAILS_PAGE:
-        return <DetailsPage setActiveStep={setActiveStep} />;
+        return (
+          <DetailsPage
+            setActiveStep={setActiveStep}
+            setProgress={setProgress}
+          />
+        );
       case STORE_CONFIG_STEPS.AUTH_CONFIG:
-        return <AuthConfig setActiveStep={setActiveStep} />;
+        return (
+          <AuthConfig setActiveStep={setActiveStep} setProgress={setProgress} />
+        );
       case STORE_CONFIG_STEPS.SUMMARY:
-        return <Summary setActiveStep={setActiveStep} />;
+        return (
+          <Summary setActiveStep={setActiveStep} setProgress={setProgress} />
+        );
       default:
         return <div>Something went wrong...</div>;
     }
   };
+
+  console.log("progress", progress);
 
   return (
     <Box

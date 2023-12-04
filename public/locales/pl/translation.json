@@ -38,7 +38,8 @@
         "storeName": "Nazwa systemu",
         "logoSrc": "Link do logo w formacie PNG",
         "phone": "Telefon",
-        "email": "Email"
+        "email": "Email",
+        "mainAppColor": "Kolor główny aplikacji"
       },
       "flexibility": {
         "title": "Elastyczność ramy czasowej",
@@ -135,6 +136,13 @@
         "requiredDataLabel": "Jakie dane są wymagane podczas rezerwacji?",
         "requiredDataPlaceholder": "Wprowadź predefiniowane wartości, wpisując je i naciskając enter",
         "confirmation": "Czy wymagane jest potwierdzenie rezerwacji przez administratora?"
+      },
+      "summary": {
+        "title": "Podsumowanie",
+        "desc1": "Zebraliśmy wszystkie istotne szczegóły.",
+        "desc2": "Jeśli jesteś gotowy/-a kontynuować, po prostu zapisz ustawienia sklepu i zacznij korzystać z dostosowanych aplikacji!",
+        "errorTitle": "Brakujące wymagane dane",
+        "errorDesc": "Wypełnij wszystkie niezbędne pola, aby kontynuować."
       }
     },
     "items": {

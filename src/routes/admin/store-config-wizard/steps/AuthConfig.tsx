@@ -16,11 +16,14 @@ import WizardStepTitle from "./components/WizardStepTitle";
 import WizardStepDescription from "./components/WizardStepDescription";
 import BackButton from "./components/BackButton";
 import ChangePageButtons from "../../components/ChangePageButtons";
+import { calculateProgress } from "./utils";
 
 function AuthConfig({
   setActiveStep,
+  setProgress,
 }: {
   setActiveStep: (step: StoreConfigStep) => void;
+  setProgress: (progress: number) => void;
 }) {
   const { t } = useTranslation();
 
@@ -30,7 +33,13 @@ function AuthConfig({
   return (
     <StepContentWrapper>
       <BackButton
-        onClick={() => setActiveStep(STORE_CONFIG_STEPS.DETAILS_PAGE)}
+        onClick={() => {
+          const prevStep = STORE_CONFIG_STEPS.DETAILS_PAGE;
+          setActiveStep(prevStep);
+          setProgress(
+            calculateProgress(STORE_CONFIG_STEPS.AUTH_CONFIG, prevStep),
+          );
+        }}
       />
 
       <WizardStepTitle>{t("admin.wizard.authConfig.title")}</WizardStepTitle>
@@ -92,7 +101,13 @@ function AuthConfig({
       </Stack>
 
       <ChangePageButtons
-        onNext={() => setActiveStep(STORE_CONFIG_STEPS.SUMMARY)}
+        onNext={() => {
+          const nextStep = STORE_CONFIG_STEPS.SUMMARY;
+          setActiveStep(nextStep);
+          setProgress(
+            calculateProgress(STORE_CONFIG_STEPS.AUTH_CONFIG, nextStep),
+          );
+        }}
       />
     </StepContentWrapper>
   );
