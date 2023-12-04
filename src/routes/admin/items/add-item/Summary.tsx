@@ -33,7 +33,6 @@ function Summary() {
       )}
 
       <Box sx={{ p: 1, pb: 0 }}>
-        <div>{JSON.stringify(item)}</div>
         <Button
           sx={{ p: 2, mt: 2 }}
           fullWidth

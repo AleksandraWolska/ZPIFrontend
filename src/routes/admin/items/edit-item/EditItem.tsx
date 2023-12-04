@@ -8,7 +8,7 @@ import GeneralInfo from "../item-form/GeneralInfo";
 import CustomAttributes from "../item-form/CustomAttributes";
 import { askForSubItems, askForSubItemSchedule, validateItem } from "../utils";
 import SubItems from "../item-form/SubItems";
-import { Core } from "../../../../types";
+import { StoreConfig } from "../../../../types";
 import Stepper from "../item-form/Stepper";
 import Schedule from "../item-form/schedule/Schedule";
 import useEditItem from "./useEditItem";
@@ -32,7 +32,7 @@ function EditForm() {
   const editItem = useEditItem();
   const navigate = useNavigate();
 
-  const steps = getSteps(storeConfig.core);
+  const steps = getSteps(storeConfig);
 
   const isValid = validateItem(item, storeConfig);
 
@@ -71,17 +71,19 @@ function EditForm() {
   );
 }
 
-const getSteps = (core: Core) => {
+const getSteps = (storeConfig: StoreConfig) => {
+  const { core, customAttributesSpec } = storeConfig;
   const steps = [];
 
   steps.push({
     label: "General Info",
     component: <GeneralInfo />,
   });
-  steps.push({
-    label: "Custom Attributes",
-    component: <CustomAttributes />,
-  });
+  if (customAttributesSpec.length > 0)
+    steps.push({
+      label: "Custom Attributes",
+      component: <CustomAttributes />,
+    });
   if (askForSubItems(core))
     steps.push({
       label: "Sub Items",

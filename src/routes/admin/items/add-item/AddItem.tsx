@@ -8,6 +8,7 @@ import {
   CustomAttribute,
   CustomAttributeSpec,
   Item,
+  StoreConfig,
 } from "../../../../types";
 import {
   askForItemAmount,
@@ -25,7 +26,7 @@ import useStoreConfig from "../../store/useStoreConfig";
 function AddItem() {
   const storeConfig = useStoreConfig();
 
-  const steps = getSteps(storeConfig.core);
+  const steps = getSteps(storeConfig);
 
   return (
     <ItemFormProvider
@@ -50,17 +51,19 @@ function AddItem() {
   );
 }
 
-const getSteps = (core: Core) => {
+const getSteps = (storeConfig: StoreConfig) => {
+  const { core, customAttributesSpec } = storeConfig;
   const steps = [];
 
   steps.push({
     label: "General Info",
     component: <GeneralInfo />,
   });
-  steps.push({
-    label: "Custom Attributes",
-    component: <CustomAttributes />,
-  });
+  if (customAttributesSpec.length > 0)
+    steps.push({
+      label: "Custom Attributes",
+      component: <CustomAttributes />,
+    });
   if (askForSubItems(core))
     steps.push({
       label: "Sub Items",

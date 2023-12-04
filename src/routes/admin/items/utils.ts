@@ -60,6 +60,10 @@ export function validateItem(item: Item, storeConfig: StoreConfig) {
     return false;
   }
 
+  if (askForSubItems(storeConfig.core)) {
+    return item.subItems && item.subItems.length > 0;
+  }
+
   return item.customAttributeList.every((attribute) => {
     const spec = storeConfig.customAttributesSpec.find(
       (c) => c.id === attribute.id,
