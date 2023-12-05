@@ -26,7 +26,7 @@ function useAddComment() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries([
-        "itemDetails",
+        "commentsList",
         params.storeId,
         params.itemId,
       ]);

@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - "dev"
-      - "ui-improvements-2"
+      - "com"
   workflow_dispatch:
 
 jobs:
