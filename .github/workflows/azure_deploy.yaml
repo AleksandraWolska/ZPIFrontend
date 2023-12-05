@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - "dev"
-      - "com"
+      - "delete-store"
   workflow_dispatch:
 
 jobs:

@@ -39,7 +39,7 @@ export function calculateProgress(
   if (to === STORE_CONFIG_STEPS.CUSTOM_ATTRIBUTES_SPEC) return 50;
   if (to === STORE_CONFIG_STEPS.MAIN_PAGE) return 65;
   if (to === STORE_CONFIG_STEPS.DETAILS_PAGE) return 75;
-  if (to === STORE_CONFIG_STEPS.AUTH_CONFIG) return 90;
+  if (to === STORE_CONFIG_STEPS.AUTH_CONFIG) return 100;
   if (to === STORE_CONFIG_STEPS.SUMMARY) return 100;
   return 0;
 }
