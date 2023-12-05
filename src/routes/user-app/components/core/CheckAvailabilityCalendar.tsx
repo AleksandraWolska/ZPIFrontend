@@ -528,11 +528,9 @@ export function CheckAvailabilityCalendar({
                 styles.backgroundColor = theme.palette.primary.main;
                 break;
               case "morning":
-                // styles.display = "none"; TODO
-                styles.backgroundColor = "red";
+                styles.display = "none";
                 break;
               case "overnight":
-                styles.backgroundColor = "blue";
                 break;
               default:
                 break;
