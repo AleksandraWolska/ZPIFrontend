@@ -1,5 +1,5 @@
 import { Alert, AlertTitle, Box, Button, Typography } from "@mui/material";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import DownloadDoneIcon from "@mui/icons-material/DownloadDone";
 import { useStoreConfig } from "../StoreConfigProvider";
@@ -7,7 +7,6 @@ import StepContentWrapper from "./components/StepContentWrapper";
 import useAddStoreConfig, {
   removeIdsFromStoreConfig,
 } from "../../new-store/useAddStoreConfig";
-import useEditStoreConfig from "../../store-settings/useEditStoreConfig";
 import WizardStepTitle from "./components/WizardStepTitle";
 import BackButton from "./components/BackButton";
 import { STORE_CONFIG_STEPS, StoreConfigStep } from "../types";
@@ -24,10 +23,7 @@ function Summary({
 
   const { storeConfig } = useStoreConfig();
   const addStoreConfig = useAddStoreConfig();
-  const editStoreConfig = useEditStoreConfig();
   const navigate = useNavigate();
-  const location = useLocation();
-
   const isValid = storeConfig.owner.name !== "";
 
   return (
@@ -66,19 +62,11 @@ function Summary({
         size="large"
         disabled={!isValid}
         onClick={() => {
-          if (location.pathname.includes("new")) {
-            addStoreConfig.mutate(removeIdsFromStoreConfig(storeConfig), {
-              onSuccess: () => {
-                navigate("/admin");
-              },
-            });
-          } else {
-            editStoreConfig.mutate(storeConfig, {
-              onSuccess: () => {
-                navigate("/admin");
-              },
-            });
-          }
+          addStoreConfig.mutate(removeIdsFromStoreConfig(storeConfig), {
+            onSuccess: () => {
+              navigate("/admin");
+            },
+          });
         }}
       >
         {t("admin.wizard.save")}

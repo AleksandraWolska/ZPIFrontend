@@ -230,7 +230,9 @@
       "storeSettingsTitle": "Store settings",
       "storeSettingsDesc": "Edit your store settings",
       "viewUserAppTitle": "View user website",
-      "viewUserAppDesc": "View generated user application for the store"
+      "viewUserAppDesc": "View generated user application for the store",
+      "editStore": "Edit store",
+      "deleteStore": "Delete store"
     }
   },
   "user": {
@@ -280,7 +282,8 @@
       "reserve": "Reserve",
       "details": "Details",
       "reservation": "Reservation",
-      "reviews": "Reviews"
+      "reviews": "Reviews",
+      "noReviews": "No reviews"
     },
     "main": {
       "title": "Title",

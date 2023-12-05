@@ -230,7 +230,9 @@
       "storeSettingsTitle": "Ustawienia sklepu",
       "storeSettingsDesc": "Edytuj ustawienia swojego sklepu",
       "viewUserAppTitle": "Przeglądaj stronę użytkownika",
-      "viewUserAppDesc": "Zobacz wygenerowaną aplikację użytkownika"
+      "viewUserAppDesc": "Zobacz wygenerowaną aplikację użytkownika",
+      "editStore": "Edytuj system",
+      "deleteStore": "Usuń system"
     }
   },
   "user": {
@@ -280,7 +282,8 @@
       "reserve": "Zarezerwuj",
       "details": "Szczegóły",
       "reservation": "Rezerwacja",
-      "reviews": "Recenzje"
+      "reviews": "Recenzje",
+      "noReviews": "Brak ocen"
     },
     "main": {
       "title": "Tytuł",

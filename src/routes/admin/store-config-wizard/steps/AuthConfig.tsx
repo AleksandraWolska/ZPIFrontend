@@ -9,6 +9,7 @@ import {
   TextField,
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router-dom";
 import { STORE_CONFIG_STEPS, StoreConfigStep } from "../types";
 import { useStoreConfig } from "../StoreConfigProvider";
 import StepContentWrapper from "./components/StepContentWrapper";
@@ -29,6 +30,8 @@ function AuthConfig({
 
   const { storeConfig, setAuthConfigAttribute } = useStoreConfig();
   const { authConfig } = storeConfig;
+
+  const location = useLocation();
 
   return (
     <StepContentWrapper>
@@ -100,15 +103,17 @@ function AuthConfig({
         </FormControl>
       </Stack>
 
-      <ChangePageButtons
-        onNext={() => {
-          const nextStep = STORE_CONFIG_STEPS.SUMMARY;
-          setActiveStep(nextStep);
-          setProgress(
-            calculateProgress(STORE_CONFIG_STEPS.AUTH_CONFIG, nextStep),
-          );
-        }}
-      />
+      {location.pathname.includes("new") && (
+        <ChangePageButtons
+          onNext={() => {
+            const nextStep = STORE_CONFIG_STEPS.SUMMARY;
+            setActiveStep(nextStep);
+            setProgress(
+              calculateProgress(STORE_CONFIG_STEPS.AUTH_CONFIG, nextStep),
+            );
+          }}
+        />
+      )}
     </StepContentWrapper>
   );
 }
