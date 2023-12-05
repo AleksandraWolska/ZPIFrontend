@@ -2,6 +2,8 @@ import { List, ListItem, ListItemText } from "@mui/material";
 import { Box, useTheme } from "@mui/system";
 import { useTranslation } from "react-i18next";
 import { Item, SubItem } from "../../../../types";
+import useStoreConfig from "../../wrapper/useStoreConfig";
+import { shouldShowEnd } from "../../../../shared-components/utils";
 
 type SubItemsListProps = {
   selectedItem: Item;
@@ -15,6 +17,8 @@ function SubItemsList({
   toggleItemSelection,
 }: SubItemsListProps) {
   const { t } = useTranslation();
+
+  const storeConfig = useStoreConfig();
 
   const theme = useTheme();
   return (
@@ -66,8 +70,32 @@ function SubItemsList({
                           : !isAvailable
                           ? `${t("user.components.core.full")} `
                           : ""
-                      }${subItem.title}`}
-                      secondary={subItem.subtitle ? subItem.subtitle : ""}
+                      }${subItem.title}${
+                        storeConfig.core.periodicity
+                          ? subItem.subtitle
+                            ? ` -- ${subItem.subtitle}`
+                            : ""
+                          : ""
+                      }
+`}
+                      secondary={`                      ${
+                        storeConfig.core.periodicity
+                          ? `${new Date(
+                              subItem.schedule!.startDateTime,
+                            ).toLocaleString()}${
+                              shouldShowEnd(
+                                subItem.schedule!.startDateTime,
+                                subItem.schedule?.endDateTime,
+                              )
+                                ? ` - ${new Date(
+                                    subItem.schedule!.endDateTime!,
+                                  ).toLocaleString()}`
+                                : ""
+                            }`
+                          : subItem.subtitle
+                          ? ` ${subItem.subtitle}`
+                          : ""
+                      }`}
                       style={{
                         color: "black",
                       }}
