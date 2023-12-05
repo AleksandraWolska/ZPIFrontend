@@ -60,7 +60,7 @@ describe("items", () => {
 
     cy.get("button:contains(Deactivate)").eq(-1).click();
 
-    cy.get(".MuiChip-label").first().should("include.text", "inactive");
+    cy.get(".MuiChip-label").first().should("include.text", "Inactive");
   });
 
   it("delete item", () => {
