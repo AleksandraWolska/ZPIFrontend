@@ -29,6 +29,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditCalendarIcon from "@mui/icons-material/EditCalendar";
 import AddIcon from "@mui/icons-material/Add";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import useItems from "./useItems";
 import theme from "../../../../theme";
 import ConfirmDialog from "../../components/ConfirmDialog";
@@ -37,16 +38,23 @@ import useUpdateItemActivity from "./useUpdateItemActivity";
 import { FixedSchedule, Item, Schedule } from "../../../../types";
 import useStoreConfig from "../../store/useStoreConfig";
 import ItemImage from "../../components/ItemImage";
-import AdminActionBox from "../../components/AdminActionBox";
-import { shouldShowEnd } from "../../../common/utils";
+import {
+  ActionBox,
+  ClearNavLink,
+} from "../../../../shared-components/styledComponents";
+import { shouldShowEnd } from "../../../../shared-components/utils";
 
 function isFixedSchedule(schedule: Schedule): schedule is FixedSchedule {
-  return (schedule as FixedSchedule).startDateTime !== undefined;
+  return (
+    (schedule as FixedSchedule).startDateTime !== undefined &&
+    (schedule as FixedSchedule).startDateTime !== null
+  );
 }
 
 function ItemList() {
+  const { t } = useTranslation();
+
   const storeConfig = useStoreConfig();
-  const navigate = useNavigate();
 
   const items = useItems();
   const [futureOnly, setFutureOnly] = useState(false);
@@ -95,33 +103,40 @@ function ItemList() {
   if (!items.length)
     return (
       <Box display="flex" m={3} alignItems="center" flexDirection="column">
-        <Typography variant="h4">Items list</Typography>
-        <Typography variant="overline" mb={2}>
-          It seems there is no items defined in this store yet...
+        <Typography variant="h4">
+          {t("admin.items.list.itemListTitle")}
         </Typography>
-
-        <ListItem key="new" onClick={() => navigate("../add-item")}>
-          <AdminActionBox theme={theme}>
-            <Box sx={{ margin: 1, marginRight: 3 }}>
-              <AddIcon sx={{ fontSize: "5rem", color: "grey" }} />
-            </Box>
-            <ListItemText
-              primary={<Typography variant="h4">Add item</Typography>}
-              secondary={
-                <Typography variant="body1" color="grey">
-                  Add new item users can reserve
-                </Typography>
-              }
-            />
-          </AdminActionBox>
-        </ListItem>
+        <Typography variant="overline" mb={2}>
+          {t("admin.items.list.noItems")}
+        </Typography>
+        <ClearNavLink to="../add-item">
+          <ListItem key="new">
+            <ActionBox theme={theme}>
+              <Box sx={{ margin: 1, marginRight: 3 }}>
+                <AddIcon sx={{ fontSize: "5rem", color: "grey" }} />
+              </Box>
+              <ListItemText
+                primary={
+                  <Typography variant="h4">
+                    {t("admin.items.list.addItemTitle")}
+                  </Typography>
+                }
+                secondary={
+                  <Typography variant="body1" color="grey">
+                    {t("admin.items.list.addItemDesc")}
+                  </Typography>
+                }
+              />
+            </ActionBox>
+          </ListItem>
+        </ClearNavLink>
       </Box>
     );
   return (
     <Container>
-      <Stack spacing={4}>
-        <Typography sx={{ m: 2 }} variant="h3">
-          Items list
+      <Stack sx={{ marginTop: 2 }} spacing={4}>
+        <Typography variant="h3">
+          {t("admin.items.list.itemListTitle")}
         </Typography>
         {!storeConfig.core.flexibility && !storeConfig.core.periodicity && (
           <FormControlLabel
@@ -134,7 +149,7 @@ function ItemList() {
                 }}
               />
             }
-            label="Show future events only"
+            label={t("admin.items.list.futureOnly")}
           />
         )}
         {filteredItems.map((item) => {
@@ -203,20 +218,24 @@ function ItemList() {
                 >
                   {storeConfig.core.flexibility && (
                     <LinkBtn
-                      text="Reschedule"
+                      text={t("admin.items.list.reschedule")}
                       to={`${item.id}/reschedule`}
                       icon={<EditCalendarIcon />}
                     />
                   )}
 
                   <LinkBtn
-                    text="Edit"
+                    text={t("admin.items.list.edit")}
                     to={`${item.id}/edit`}
                     icon={<EditIcon />}
                   />
 
                   <ActionBtnOutlined
-                    text={item.active ? "Deactivate" : "Activate"}
+                    text={
+                      item.active
+                        ? t("admin.items.list.deactivate")
+                        : t("admin.items.list.activate")
+                    }
                     onClick={() => setItemToHaveActivityUpdated(item.id)}
                     icon={
                       item.active ? <BlockIcon /> : <PowerSettingsNewIcon />
@@ -224,14 +243,14 @@ function ItemList() {
                   />
 
                   <ActionBtnOutlined
-                    text="Delete"
+                    text={t("admin.items.list.delete")}
                     onClick={() => setItemToBeDeleted(item.id)}
                     icon={<DeleteIcon />}
                   />
 
-                  {item.subItems && (
+                  {item.subItems && item.subItems.length > 0 && (
                     <ActionBtnBasic
-                      text="Details"
+                      text={t("admin.items.list.details")}
                       onClick={() => handleExpand(item.id)}
                       icon={<ExpandMore sx={{ fontSize: "1.5rem" }} />}
                     />
@@ -246,7 +265,7 @@ function ItemList() {
                 <Box style={{ padding: 15 }}>
                   <Divider sx={{ mb: 1 }} />
                   <Typography variant="body2" color="textPrimary" gutterBottom>
-                    Subitems:
+                    {t("admin.items.list.subItems")}:
                   </Typography>
                   {item.subItems && (
                     <List>
@@ -296,7 +315,7 @@ function ItemList() {
                                 </Typography>
                               ) : (
                                 <Typography ml={1} color="grey">
-                                  Amount: {si.amount}
+                                  {t("admin.items.list.amount")}: {si.amount}
                                 </Typography>
                               )}
                             </>
@@ -313,12 +332,13 @@ function ItemList() {
                                 storeConfig.core.simultaneous ? (
                                 <Typography ml={1} color="grey">
                                   {si.availableAmount === 0
-                                    ? "taken"
-                                    : "available"}
+                                    ? t("admin.items.list.taken")
+                                    : t("admin.items.list.available")}
                                 </Typography>
                               ) : (
                                 <Typography ml={1} color="grey">
-                                  Remaining Amount: {si.availableAmount}
+                                  {t("admin.items.list.remainingAmount")}:
+                                  {si.availableAmount}
                                 </Typography>
                               )}
                             </>
@@ -343,11 +363,21 @@ function ItemList() {
           });
           setItemToHaveActivityUpdated(null);
         }}
-        title={!currentActivity ? "Activate Item" : "Deactivate Item"}
-        message={
-          !currentActivity ? "Activate this item?" : "Deactivate this item?"
+        title={
+          !currentActivity
+            ? t("admin.items.list.activateItem")
+            : t("admin.items.list.deactivateItem")
         }
-        confirmText={!currentActivity ? "Activate" : "Deactivate"}
+        message={
+          !currentActivity
+            ? t("admin.items.list.activateItemDesc")
+            : t("admin.items.list.deactivateItemDesc")
+        }
+        confirmText={
+          !currentActivity
+            ? t("admin.items.list.activate")
+            : t("admin.items.list.deactivate")
+        }
       />
       <ConfirmDialog
         isOpen={!!itemToBeDeleted}
@@ -356,9 +386,9 @@ function ItemList() {
           deleteItem.mutate(itemToBeDeleted!);
           setItemToBeDeleted(null);
         }}
-        title="Delete Item"
-        message="Are you sure you want to delete this item? This action cannot be undone."
-        confirmText="Delete"
+        title={t("admin.items.list.deleteItem")}
+        message={t("admin.items.list.deleteItemDesc")}
+        confirmText={t("admin.items.list.delete")}
         dialogColor="error"
       />
     </Container>
@@ -366,15 +396,17 @@ function ItemList() {
 }
 
 function ItemDescription({ item }: { item: Item }) {
+  const { t } = useTranslation();
+
   const storeConfig = useStoreConfig();
   return (
     <>
       <Stack direction="row" spacing={1}>
         <Typography variant="h4">{item.attributes.title}</Typography>
         {item.active ? (
-          <Chip label="active" color="success" />
+          <Chip label={t("admin.items.list.active")} color="success" />
         ) : (
-          <Chip label="inactive" color="error" />
+          <Chip label={t("admin.items.list.inactive")} color="error" />
         )}
       </Stack>
       {!storeConfig.core.flexibility &&
@@ -383,14 +415,28 @@ function ItemDescription({ item }: { item: Item }) {
           <Typography color="textSecondary">
             {`${new Date(
               (item.schedule as FixedSchedule).startDateTime,
-            ).toLocaleString()}${
+            ).toLocaleString([], {
+              year: "numeric",
+              month: "numeric",
+              day: "numeric",
+              hour: "2-digit",
+              minute: "2-digit",
+              hour12: false,
+            })}${
               shouldShowEnd(
                 (item.schedule as FixedSchedule).startDateTime,
                 (item.schedule as FixedSchedule).endDateTime,
               )
                 ? ` - ${new Date(
                     (item.schedule as FixedSchedule).endDateTime!,
-                  ).toLocaleString()}`
+                  ).toLocaleString([], {
+                    year: "numeric",
+                    month: "numeric",
+                    day: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    hour12: false,
+                  })}`
                 : ""
             }`}
           </Typography>
@@ -405,7 +451,7 @@ function ItemDescription({ item }: { item: Item }) {
             <Divider orientation="vertical" sx={{ m: 2 }} flexItem />
 
             <Typography variant="h6" color={theme.palette.text.secondary}>
-              Initial Amount: {item.amount}
+              {t("admin.items.list.initialAmount")}: {item.amount}
             </Typography>
           </>
         )}
@@ -414,11 +460,13 @@ function ItemDescription({ item }: { item: Item }) {
             <Divider orientation="vertical" sx={{ m: 2 }} flexItem />
             {storeConfig.core.simultaneous ? (
               <Typography variant="h6" color={theme.palette.text.secondary}>
-                Remaining Amount: {item.availableAmount}
+                {t("admin.items.list.remainingAmount")}: {item.availableAmount}
               </Typography>
             ) : (
               <Typography variant="h6" color={theme.palette.text.secondary}>
-                {item.availableAmount === 0 ? "taken" : "available"}
+                {item.availableAmount === 0
+                  ? t("admin.items.list.taken")
+                  : t("admin.items.list.available")}
               </Typography>
             )}
           </>
@@ -505,9 +553,7 @@ function ActionBtnBasic({
   icon,
 }: {
   text: string;
-  // eslint-disable-next-line react/require-default-props
   onClick?: () => void;
-  // eslint-disable-next-line react/require-default-props
   icon?: React.ReactNode;
 }) {
   return (

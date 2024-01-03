@@ -1,4 +1,3 @@
-import "./App.css";
 import { RouterProvider } from "react-router-dom";
 import { QueryClientProvider } from "react-query";
 import { ThemeProvider } from "@mui/material";

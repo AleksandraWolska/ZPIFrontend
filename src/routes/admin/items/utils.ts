@@ -1,4 +1,4 @@
-import { Core } from "../../../types";
+import { Core, Item, StoreConfig } from "../../../types";
 
 export const askForItemAmount = (core: Core) => {
   const {
@@ -9,7 +9,12 @@ export const askForItemAmount = (core: Core) => {
     specificReservation: r,
   } = core;
 
-  return ((!f && s && !p && !r) || (f && !s && !u) || (f && s && !u)) === true;
+  return (
+    ((!f && s && !p && !r) ||
+      (f && !s && !u) ||
+      (f && s && !u) ||
+      (f && s && u)) === true
+  );
 };
 
 export const askForSubItemAmount = (core: Core) => {
@@ -31,7 +36,7 @@ export const askForSubItemSchedule = (core: Core) => {
     specificReservation: r,
   } = core;
 
-  return (!f && s && p && !r) === true;
+  return (!f && s && p && !r) === true || (!f && !s && p) === true;
 };
 
 export const askForSubItems = (core: Core) => {
@@ -49,3 +54,24 @@ export const askForSubItems = (core: Core) => {
       (!f && s && !u && p && !r)) === true
   );
 };
+
+export function validateItem(item: Item, storeConfig: StoreConfig) {
+  if (!item.attributes.title) {
+    return false;
+  }
+
+  if (askForSubItems(storeConfig.core)) {
+    return item.subItems && item.subItems.length > 0;
+  }
+
+  return item.customAttributeList.every((attribute) => {
+    const spec = storeConfig.customAttributesSpec.find(
+      (c) => c.id === attribute.id,
+    );
+
+    return !(
+      spec?.isRequired &&
+      ["", null, undefined].some((v) => v === attribute.value)
+    );
+  });
+}

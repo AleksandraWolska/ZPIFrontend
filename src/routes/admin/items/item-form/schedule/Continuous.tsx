@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Box, Stack, TextField, Typography } from "@mui/material";
+import { useTranslation } from "react-i18next";
 import { FlexibleSchedule } from "../../../types";
 import ScheduleCalendar, {
   BigCalendarEvent,
@@ -12,6 +13,8 @@ import {
 } from "./schedule-calendar/utils";
 
 function Continuous() {
+  const { t } = useTranslation();
+
   const { item, setItem } = useItemForm();
 
   const { schedule } = item as {
@@ -23,11 +26,10 @@ function Continuous() {
   return (
     <StepWrapper>
       <Typography variant="h4" sx={{ mt: 1, mb: 2 }}>
-        Continuous availability
+        {t("admin.items.form.continuousTitle")}
       </Typography>
       <Typography sx={{ marginBottom: 2 }}>
-        Define time ranges from which users can freely choose their preferred
-        reservation time.
+        {t("admin.items.form.continuousDesc")}
       </Typography>
 
       <Stack width="80%" gap={2} alignItems="flex-end">
@@ -37,9 +39,13 @@ function Continuous() {
           onChange={(e) => {
             setStep(parseInt(e.target.value, 10));
           }}
+          onBlur={() => {
+            if (step < 5) setStep(5);
+          }}
           type="number"
           inputProps={{
             step: 5,
+            min: 5,
           }}
         />
 

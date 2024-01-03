@@ -80,8 +80,6 @@ export type DetailsPage = {
 export type AuthConfig = {
   requiredPersonalData: string[];
   confirmationRequired: boolean;
-  isPrivate: boolean;
-  whiteList?: string[];
 };
 
 export type StoreConfig = {
@@ -142,6 +140,7 @@ export type SubItem = {
 
 export type Item = {
   id: string;
+  ratingCount?: number;
   attributes: {
     title: string;
     subtitle: string;
@@ -172,6 +171,7 @@ export type Reservation = {
   endDateTime?: string;
   amount: number;
   message: string;
+  status: "active" | "cancelled_by_user" | "cancelled_by_admin" | "past";
 };
 
 export type NewReservation = Omit<Reservation, "id">;

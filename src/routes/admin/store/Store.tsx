@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import FormatListBulletedSharpIcon from "@mui/icons-material/FormatListBulletedSharp";
 import AddIcon from "@mui/icons-material/Add";
 import EventSeatIcon from "@mui/icons-material/EventSeat";
@@ -13,44 +13,49 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import AdminActionBox from "../components/AdminActionBox";
+import { useTranslation } from "react-i18next";
+import {
+  ActionBox,
+  ClearNavLink,
+} from "../../../shared-components/styledComponents";
 
 function Store() {
-  const navigate = useNavigate();
+  const { t } = useTranslation();
+
   const params = useParams() as { storeId: string };
   const theme = useTheme();
 
   const options = [
     {
-      label: "Reservations",
+      label: t("admin.store.reservationsTitle"),
       value: "reservations",
-      description: "View reservations made by users",
+      description: t("admin.store.reservationsDesc"),
       icon: <EventSeatIcon sx={{ fontSize: "5rem", color: "grey" }} />,
     },
     {
-      label: "Item list",
+      label: t("admin.store.itemListTitle"),
       value: "item-list",
-      description: "View items available in your store",
+      description: t("admin.store.itemListDesc"),
       icon: (
         <FormatListBulletedSharpIcon sx={{ fontSize: "5rem", color: "grey" }} />
       ),
     },
     {
-      label: "Add new item",
+      label: t("admin.store.addItemTitle"),
       value: "add-item",
-      description: "Add new item for reserving",
+      description: t("admin.store.addItemDesc"),
       icon: <AddIcon sx={{ fontSize: "5rem", color: "grey" }} />,
     },
     {
-      label: "Store settings",
+      label: t("admin.store.storeSettingsTitle"),
       value: "settings",
-      description: "Edit features of your store",
+      description: t("admin.store.storeSettingsDesc"),
       icon: <SettingsIcon sx={{ fontSize: "5rem", color: "grey" }} />,
     },
     {
-      label: "View user website",
-      value: `/userapp/${params.storeId}`,
-      description: "View generated user application for the store",
+      label: t("admin.store.viewUserAppTitle"),
+      value: `/${params.storeId}`,
+      description: t("admin.store.viewUserAppDesc"),
       icon: <VisibilityIcon sx={{ fontSize: "5rem", color: "grey" }} />,
     },
   ];
@@ -59,19 +64,21 @@ function Store() {
     <Container maxWidth="lg">
       <List>
         {options.map((option) => (
-          <ListItem key={option.value} onClick={() => navigate(option.value)}>
-            <AdminActionBox theme={theme}>
-              <Box sx={{ margin: 1, marginRight: 3 }}>{option.icon}</Box>
-              <ListItemText
-                primary={<Typography variant="h4">{option.label}</Typography>}
-                secondary={
-                  <Typography variant="body1" color="grey">
-                    {option.description}
-                  </Typography>
-                }
-              />
-            </AdminActionBox>
-          </ListItem>
+          <ClearNavLink key={option.value} to={option.value}>
+            <ListItem>
+              <ActionBox theme={theme}>
+                <Box sx={{ margin: 1, marginRight: 3 }}>{option.icon}</Box>
+                <ListItemText
+                  primary={<Typography variant="h4">{option.label}</Typography>}
+                  secondary={
+                    <Typography variant="body1" color="grey">
+                      {option.description}
+                    </Typography>
+                  }
+                />
+              </ActionBox>
+            </ListItem>
+          </ClearNavLink>
         ))}
       </List>
     </Container>

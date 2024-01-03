@@ -1,7 +1,8 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { STORE_CONFIG_STEPS, StoreConfigStep } from "../../types";
 import { useStoreConfig } from "../../StoreConfigProvider";
-import { calculateProgress } from "./utils";
+import { calculateProgress } from "../utils";
 import StepContentWrapper from "../components/StepContentWrapper";
 import WizardStepTitle from "../components/WizardStepTitle";
 import BackButton from "../components/BackButton";
@@ -19,9 +20,11 @@ function Simultaneous({
   setActiveStep: (step: StoreConfigStep) => void;
   setProgress: (progress: number) => void;
 }) {
+  const { t } = useTranslation();
+
   const { storeConfig, appendCoreAttribute, withdrawToCoreStep } =
     useStoreConfig();
-  const [showInfo, setShowInfo] = useState(false);
+  const [showInfo, setShowInfo] = useState(true);
   return (
     <StepContentWrapper>
       <BackButton
@@ -40,31 +43,23 @@ function Simultaneous({
         }}
       />
 
-      <WizardStepTitle>Simultaneous Access</WizardStepTitle>
+      <WizardStepTitle>{t("admin.wizard.simultaneous.title")}</WizardStepTitle>
 
       <InfoButton onClick={() => setShowInfo(!showInfo)} />
 
       <CoreDescriptionWrapper>
-        <CoreDescription>
-          This field determines whether multiple users can be signed up for an
-          item at the same time. It is crucial for managing the accessibility of
-          your item.
-        </CoreDescription>
+        <CoreDescription>{t("admin.wizard.simultaneous.desc")}</CoreDescription>
 
         <CoreInfo
           show={showInfo}
-          left="Shared access should be chosen if you want multiple individuals
-                to access the item simultaneously. This is best suited for items
-                that can be shared, like a public spaces."
-          right="Exclusive access should be chosen if you want allow only one
-                user at the time to access the item, ensuring that the user has
-                the item all to themselves."
+          left={t("admin.wizard.simultaneous.sharedDesc")}
+          right={t("admin.wizard.simultaneous.exclusiveDesc")}
         />
       </CoreDescriptionWrapper>
 
       <ChoiceButtonsContainer>
         <ChoiceButton
-          text="Shared"
+          text={t("admin.wizard.simultaneous.shared")}
           onClick={() => {
             appendCoreAttribute("simultaneous", true);
             const nextStep =
@@ -79,7 +74,7 @@ function Simultaneous({
         />
 
         <ChoiceButton
-          text="Exclusive"
+          text={t("admin.wizard.simultaneous.exclusive")}
           onClick={() => {
             appendCoreAttribute("simultaneous", false);
             const nextStep =

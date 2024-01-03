@@ -5,6 +5,7 @@ import {
   FormGroup,
   TextField,
 } from "@mui/material";
+import { useTranslation } from "react-i18next";
 import { useStoreConfig } from "../StoreConfigProvider";
 import { STORE_CONFIG_STEPS, StoreConfigStep } from "../types";
 import ChangePageButtons from "../../components/ChangePageButtons";
@@ -12,31 +13,43 @@ import StepContentWrapper from "./components/StepContentWrapper";
 import WizardStepTitle from "./components/WizardStepTitle";
 import WizardStepDescription from "./components/WizardStepDescription";
 import BackButton from "./components/BackButton";
+import { calculateProgress } from "./utils";
 
 function MainPage({
   setActiveStep,
+  setProgress,
 }: {
   setActiveStep: (step: StoreConfigStep) => void;
+  setProgress: (progress: number) => void;
 }) {
+  const { t } = useTranslation();
+
   const { storeConfig, setMainPageAttribute } = useStoreConfig();
   const { mainPage } = storeConfig;
 
   return (
     <StepContentWrapper>
       <BackButton
-        onClick={() => setActiveStep(STORE_CONFIG_STEPS.CUSTOM_ATTRIBUTES_SPEC)}
+        onClick={() => {
+          const prevStep = STORE_CONFIG_STEPS.CUSTOM_ATTRIBUTES_SPEC;
+          setActiveStep(prevStep);
+          setProgress(
+            calculateProgress(STORE_CONFIG_STEPS.MAIN_PAGE, prevStep),
+          );
+        }}
       />
 
-      <WizardStepTitle>Main Page Features</WizardStepTitle>
+      <WizardStepTitle>{t("admin.wizard.mainPage.title")}</WizardStepTitle>
 
       <WizardStepDescription>
-        Enter welcome texts, and define visibility of features on the main page
+        {t("admin.wizard.mainPage.desc")}
       </WizardStepDescription>
 
       <Box width="100%" padding={2.5}>
         <TextField
+          inputProps={{ maxLength: 255 }}
           fullWidth
-          label="Welcome text - line 1"
+          label={t("admin.wizard.mainPage.welcomeTextLine1")}
           name="welcomeTextLine1"
           value={mainPage.welcomeTextLine1}
           onChange={(e) =>
@@ -45,9 +58,10 @@ function MainPage({
         />
 
         <TextField
+          inputProps={{ maxLength: 255 }}
           sx={{ marginTop: 1.25 }}
           fullWidth
-          label="Welcome text - line 2"
+          label={t("admin.wizard.mainPage.welcomeTextLine2")}
           name="welcomeTextLine2"
           value={mainPage.welcomeTextLine2}
           onChange={(e) =>
@@ -66,7 +80,7 @@ function MainPage({
               }}
             />
           }
-          label="Enable filters"
+          label={t("admin.wizard.mainPage.filters")}
         />
 
         <FormControlLabel
@@ -78,7 +92,7 @@ function MainPage({
               }}
             />
           }
-          label="Display title for item in items list"
+          label={t("admin.wizard.mainPage.showTitle")}
         />
 
         <FormControlLabel
@@ -90,7 +104,7 @@ function MainPage({
               }}
             />
           }
-          label="Display subtitle for item in items list"
+          label={t("admin.wizard.mainPage.subtitle")}
         />
 
         <FormControlLabel
@@ -102,7 +116,7 @@ function MainPage({
               }}
             />
           }
-          label="Display item images in items list"
+          label={t("admin.wizard.mainPage.image")}
         />
 
         <FormControlLabel
@@ -114,12 +128,18 @@ function MainPage({
               }}
             />
           }
-          label="Display ratings for each items - this option will allow users to rate your items"
+          label={t("admin.wizard.mainPage.rating")}
         />
       </FormGroup>
 
       <ChangePageButtons
-        onNext={() => setActiveStep(STORE_CONFIG_STEPS.DETAILS_PAGE)}
+        onNext={() => {
+          const nextStep = STORE_CONFIG_STEPS.DETAILS_PAGE;
+          setActiveStep(nextStep);
+          setProgress(
+            calculateProgress(STORE_CONFIG_STEPS.MAIN_PAGE, nextStep),
+          );
+        }}
       />
     </StepContentWrapper>
   );

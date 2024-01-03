@@ -16,7 +16,7 @@ function AdminAppWrapper() {
           backgroundColor: "#ffffff",
           minHeight,
           margin: "auto",
-          paddingTop: theme.spacing(1),
+          padding: theme.spacing(2),
         }}
       >
         <Outlet />

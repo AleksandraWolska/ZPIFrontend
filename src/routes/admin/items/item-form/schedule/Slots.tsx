@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Box, Stack, TextField, Typography } from "@mui/material";
+import { useTranslation } from "react-i18next";
 import ScheduleCalendar, {
   BigCalendarEvent,
 } from "./schedule-calendar/ScheduleCalendar";
@@ -12,6 +13,8 @@ import {
 } from "./schedule-calendar/utils";
 
 function Slots() {
+  const { t } = useTranslation();
+
   const { item, setItem } = useItemForm();
 
   const { schedule } = item as {
@@ -23,10 +26,10 @@ function Slots() {
   return (
     <StepWrapper>
       <Typography variant="h4" sx={{ mt: 1, mb: 2 }}>
-        Slots availability
+        {t("admin.items.form.slotsTitle")}
       </Typography>
       <Typography sx={{ marginBottom: 2 }}>
-        Define time slots users can reserve.
+        {t("admin.items.form.slotsDesc")}
       </Typography>
 
       <Stack width="80%" gap={2} alignItems="flex-end">
@@ -36,9 +39,13 @@ function Slots() {
           onChange={(e) => {
             setStep(parseInt(e.target.value, 10));
           }}
+          onBlur={() => {
+            if (step < 5) setStep(5);
+          }}
           type="number"
           inputProps={{
             step: 5,
+            min: 5,
           }}
         />
 

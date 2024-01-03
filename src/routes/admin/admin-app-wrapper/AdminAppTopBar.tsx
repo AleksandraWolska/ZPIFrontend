@@ -16,7 +16,10 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { useAuth } from "react-oidc-context";
 import { styled } from "@mui/system";
 import { NavLink, useLocation, useNavigate, useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import useAdminStores from "../admin-main-page/useAdminStores";
+import SwitchLangMobile from "../../../shared-components/SwitchLangMobile";
+import SwitchLang from "../../../shared-components/SwitchLang";
 
 function AdminAppTopBar() {
   const params = useParams() as { storeId: string };
@@ -66,6 +69,8 @@ function AdminAppTopBar() {
 }
 
 function TopBarMenu() {
+  const { t } = useTranslation();
+
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const auth = useAuth();
   const location = useLocation();
@@ -84,7 +89,7 @@ function TopBarMenu() {
       <Box
         sx={{
           display: { xs: "none", md: "flex" },
-          alignItems: "center",
+          alignItems: "stretch",
           flexDirection: "row",
         }}
       >
@@ -100,6 +105,12 @@ function TopBarMenu() {
         )}
 
         <MenuItem>
+          <MenuText>
+            <SwitchLang />
+          </MenuText>
+        </MenuItem>
+
+        <MenuItem>
           {auth.isAuthenticated ? (
             <MenuText
               onClick={() => {
@@ -110,7 +121,7 @@ function TopBarMenu() {
             >
               <LogoutIcon sx={{ color: "#fff" }} />
               <Typography ml={1} component="span">
-                logout
+                {t("auth.logout")}
               </Typography>
             </MenuText>
           ) : (
@@ -124,7 +135,7 @@ function TopBarMenu() {
             >
               <LoginIcon sx={{ color: "#fff" }} />
               <Typography ml={1} component="span">
-                login
+                {t("auth.login")}
               </Typography>
             </MenuText>
           )}
@@ -178,7 +189,7 @@ function TopBarMenu() {
                 }}
               >
                 <LogoutIcon />
-                <Typography ml={1}> logout </Typography>
+                <Typography ml={1}>{t("auth.logout")}</Typography>
               </MobileMenuItemText>
             ) : (
               <MobileMenuItemText
@@ -193,6 +204,10 @@ function TopBarMenu() {
                 <Typography ml={1}> login </Typography>
               </MobileMenuItemText>
             )}
+          </MenuItem>
+
+          <MenuItem>
+            <SwitchLangMobile handleCloseNavMenu={handleCloseNavMenu} />
           </MenuItem>
         </Menu>
       </Box>
@@ -213,7 +228,6 @@ const MenuText = styled(Box)({
   textTransform: "uppercase",
   cursor: "pointer",
   display: "flex",
-  padding: "1rem",
   height: "100%",
   alignItems: "center",
   flexDirection: "row",

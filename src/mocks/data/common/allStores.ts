@@ -52,4 +52,14 @@ export const allStores = [
     storeConfigId: "c10",
     name: "c10",
   },
+  {
+    mockId: "998",
+    storeConfigId: "cypress-test-store-1",
+    name: "Cypress Test Store 1",
+  },
+  {
+    mockId: "999",
+    storeConfigId: "cypress-test-store-2",
+    name: "Cypress Test Store 2",
+  },
 ];

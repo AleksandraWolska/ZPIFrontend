@@ -10,19 +10,22 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { useTranslation } from "react-i18next";
 import { CustomAttribute, CustomAttributeSpec } from "../../../../types";
 import { useItemForm } from "./ItemFormProvider";
 import useStoreConfig from "../../store/useStoreConfig";
 import StepWrapper from "../../components/StepWrapper";
 
 function CustomAttributes() {
+  const { t } = useTranslation();
+
   const storeConfig = useStoreConfig();
   const { item, setItemCustomAttribute } = useItemForm();
 
   return (
     <StepWrapper>
       <Typography variant="h4" sx={{ mt: 1, mb: 2 }}>
-        Custom attributes
+        {t("admin.items.form.customAttributes")}
       </Typography>
 
       <Box width="90%" marginTop={1.25} marginBottom={1.25}>
@@ -69,6 +72,7 @@ function renderCustomAttributeInput(
               });
             }}
             fullWidth
+            error={attributeSpec.isRequired && !attribute.value}
           >
             {attributeSpec.possibleValues.map((value) => {
               return (
@@ -81,6 +85,7 @@ function renderCustomAttributeInput(
         </FormControl>
       ) : (
         <TextField
+          inputProps={{ maxLength: 255 }}
           label={attribute.name}
           value={attribute.value}
           onChange={(e) =>
@@ -91,11 +96,13 @@ function renderCustomAttributeInput(
           }
           fullWidth
           required={attributeSpec.isRequired}
+          error={attributeSpec.isRequired && !attribute.value}
         />
       );
     case "number":
       return (
         <TextField
+          inputProps={{ maxLength: 255 }}
           label={attribute.name}
           value={attribute.value.toString()}
           onChange={(e) =>
@@ -106,7 +113,7 @@ function renderCustomAttributeInput(
           }
           fullWidth
           type="number"
-          required={attributeSpec.isRequired}
+          required={attributeSpec.isRequired && Number.isNaN(attribute.value)}
         />
       );
     case "boolean":

@@ -1,65 +1,75 @@
-import { Box, Button, Typography } from "@mui/material";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Alert, AlertTitle, Box, Button, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import DownloadDoneIcon from "@mui/icons-material/DownloadDone";
-// import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import { useStoreConfig } from "../StoreConfigProvider";
 import StepContentWrapper from "./components/StepContentWrapper";
 import useAddStoreConfig, {
   removeIdsFromStoreConfig,
 } from "../../new-store/useAddStoreConfig";
-import useEditStoreConfig from "../../store-settings/useEditStoreConfig";
 import WizardStepTitle from "./components/WizardStepTitle";
 import BackButton from "./components/BackButton";
+import { STORE_CONFIG_STEPS, StoreConfigStep } from "../types";
+import { calculateProgress } from "./utils";
 
-function Summary() {
+function Summary({
+  setActiveStep,
+  setProgress,
+}: {
+  setActiveStep: (step: StoreConfigStep) => void;
+  setProgress: (progress: number) => void;
+}) {
+  const { t } = useTranslation();
+
   const { storeConfig } = useStoreConfig();
   const addStoreConfig = useAddStoreConfig();
-  const editStoreConfig = useEditStoreConfig();
   const navigate = useNavigate();
-  const location = useLocation();
+  const isValid = storeConfig.owner.name !== "";
 
   return (
     <StepContentWrapper>
       <BackButton
-        onClick={() => console.log()}
-        //  TODOFRIM23 back to authentication onClick={() => setActiveStep(STORE_CONFIG_STEPS.DETAILS_PAGE)}
+        onClick={() => {
+          const nextStep = STORE_CONFIG_STEPS.DETAILS_PAGE;
+          setActiveStep(nextStep);
+          setProgress(calculateProgress(STORE_CONFIG_STEPS.SUMMARY, nextStep));
+        }}
       />
 
-      <WizardStepTitle>All done!</WizardStepTitle>
-      <Box sx={{ margin: 1 }}>
-        {/* <CheckCircleOutlineIcon sx={{ fontSize: "5rem", color: "grey" }} /> */}
-        <DownloadDoneIcon sx={{ fontSize: "5rem", color: "grey" }} />
-      </Box>
+      <WizardStepTitle>{t("admin.wizard.summary.title")}</WizardStepTitle>
 
-      <Typography sx={{ textAlign: "center", margin: 1 }}>
-        {`We've gathered all the essential details.`}
-      </Typography>
-      <Typography sx={{ textAlign: "center", margin: 2 }}>
-        {`If you're ready to proceed, simply save your store settings and start
-        enjoying your personalized applications!`}
-      </Typography>
-      <Box textOverflow="wrap" sx={{ wordBreak: "break-all" }}>
-        {JSON.stringify(storeConfig)}
-      </Box>
+      {isValid ? (
+        <>
+          <Box sx={{ margin: 1 }}>
+            {/* <CheckCircleOutlineIcon sx={{ fontSize: "5rem", color: "grey" }} /> */}
+            <DownloadDoneIcon sx={{ fontSize: "5rem", color: "grey" }} />
+          </Box>
+          <Typography sx={{ textAlign: "center", margin: 1 }}>
+            {t("admin.wizard.summary.desc1")}
+          </Typography>
+          <Typography sx={{ textAlign: "center", margin: 2 }}>
+            {t("admin.wizard.summary.desc2")}
+          </Typography>
+        </>
+      ) : (
+        <Alert severity="error" sx={{ width: "95%", margin: 3 }}>
+          <AlertTitle>{t("admin.wizard.summary.errorTitle")}</AlertTitle>
+          {t("admin.wizard.summary.errorDesc")}
+        </Alert>
+      )}
+
       <Button
         size="large"
+        disabled={!isValid}
         onClick={() => {
-          if (location.pathname.includes("new")) {
-            addStoreConfig.mutate(removeIdsFromStoreConfig(storeConfig), {
-              onSuccess: () => {
-                navigate("/admin");
-              },
-            });
-          } else {
-            editStoreConfig.mutate(storeConfig, {
-              onSuccess: () => {
-                navigate("/admin");
-              },
-            });
-          }
+          addStoreConfig.mutate(removeIdsFromStoreConfig(storeConfig), {
+            onSuccess: () => {
+              navigate("/admin");
+            },
+          });
         }}
       >
-        Save your store
+        {t("admin.wizard.save")}
       </Button>
     </StepContentWrapper>
   );

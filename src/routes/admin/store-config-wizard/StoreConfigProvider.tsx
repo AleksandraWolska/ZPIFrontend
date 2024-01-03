@@ -26,18 +26,18 @@ const defaultStoreConfig: StoreConfig = {
   mainPage: {
     welcomeTextLine1: "",
     welcomeTextLine2: "",
-    enableFiltering: false,
-    showItemTitle: false,
-    showItemSubtitle: false,
-    showItemImg: false,
-    showRating: false,
+    enableFiltering: true,
+    showItemTitle: true,
+    showItemSubtitle: true,
+    showItemImg: true,
+    showRating: true,
   },
   detailsPage: {
-    showRating: false,
-    showComments: false,
-    showItemDescription: false,
-    showSubItemTitle: false,
-    showSubItemSubtitle: false,
+    showRating: true,
+    showComments: true,
+    showItemDescription: true,
+    showSubItemTitle: true,
+    showSubItemSubtitle: true,
     reservationConfirmationPrompt: "",
     reservationFailurePrompt: "",
     reservationSummaryPrompt: "",
@@ -45,7 +45,6 @@ const defaultStoreConfig: StoreConfig = {
   authConfig: {
     requiredPersonalData: [],
     confirmationRequired: false,
-    isPrivate: false,
   },
 };
 

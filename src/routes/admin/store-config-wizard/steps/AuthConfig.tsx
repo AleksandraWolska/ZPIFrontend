@@ -1,6 +1,5 @@
 import {
   Autocomplete,
-  Collapse,
   FormControl,
   FormControlLabel,
   FormLabel,
@@ -9,6 +8,8 @@ import {
   Stack,
   TextField,
 } from "@mui/material";
+import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router-dom";
 import { STORE_CONFIG_STEPS, StoreConfigStep } from "../types";
 import { useStoreConfig } from "../StoreConfigProvider";
 import StepContentWrapper from "./components/StepContentWrapper";
@@ -16,86 +17,44 @@ import WizardStepTitle from "./components/WizardStepTitle";
 import WizardStepDescription from "./components/WizardStepDescription";
 import BackButton from "./components/BackButton";
 import ChangePageButtons from "../../components/ChangePageButtons";
+import { calculateProgress } from "./utils";
 
 function AuthConfig({
   setActiveStep,
+  setProgress,
 }: {
   setActiveStep: (step: StoreConfigStep) => void;
+  setProgress: (progress: number) => void;
 }) {
+  const { t } = useTranslation();
+
   const { storeConfig, setAuthConfigAttribute } = useStoreConfig();
   const { authConfig } = storeConfig;
+
+  const location = useLocation();
 
   return (
     <StepContentWrapper>
       <BackButton
-        onClick={() => setActiveStep(STORE_CONFIG_STEPS.DETAILS_PAGE)}
+        onClick={() => {
+          const prevStep = STORE_CONFIG_STEPS.DETAILS_PAGE;
+          setActiveStep(prevStep);
+          setProgress(
+            calculateProgress(STORE_CONFIG_STEPS.AUTH_CONFIG, prevStep),
+          );
+        }}
       />
 
-      <WizardStepTitle>User Authentication</WizardStepTitle>
+      <WizardStepTitle>{t("admin.wizard.authConfig.title")}</WizardStepTitle>
 
       <WizardStepDescription>
-        Choose what data is required from users when reserving items
+        {t("admin.wizard.authConfig.desc")}
       </WizardStepDescription>
 
       <Stack gap={3} margin={2.5}>
         <FormControl>
-          <FormLabel id="isPrivate">
-            Should your store be public or private (grant access only to a
-            specific group of users)?
-          </FormLabel>
-
-          <RadioGroup
-            sx={{ margin: "auto" }}
-            row
-            aria-labelledby="isPrivate"
-            value={authConfig.isPrivate ? "private" : "public"}
-            onChange={(e) => {
-              setAuthConfigAttribute({
-                isPrivate: e.target.value === "private",
-              });
-            }}
-          >
-            <FormControlLabel
-              value="public"
-              control={<Radio />}
-              label="Public"
-            />
-            <FormControlLabel
-              value="private"
-              control={<Radio />}
-              label="Private"
-            />
-          </RadioGroup>
-        </FormControl>
-
-        <Collapse in={authConfig.isPrivate}>
-          <FormControl fullWidth>
-            <FormLabel id="whoCanAccess">Who can access your store?</FormLabel>
-
-            <Autocomplete
-              aria-labelledby="whoCanAccess"
-              multiple
-              freeSolo
-              fullWidth
-              onChange={(_e, values) => {
-                setAuthConfigAttribute({ whiteList: values as string[] });
-              }}
-              options={[]}
-              value={authConfig.whiteList || []}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  placeholder="Add a value typing it and pressing enter"
-                  size="medium"
-                />
-              )}
-            />
-          </FormControl>
-        </Collapse>
-
-        <FormControl>
           <FormLabel id="whatDataRequired">
-            What data is required when reserving?
+            {t("admin.wizard.authConfig.requiredDataLabel")}
           </FormLabel>
 
           <Autocomplete
@@ -113,7 +72,9 @@ function AuthConfig({
             renderInput={(params) => (
               <TextField
                 {...params}
-                placeholder="Add a value typing it and pressing enter"
+                placeholder={t(
+                  "admin.wizard.authConfig.requiredDataPlaceholder",
+                )}
                 size="medium"
               />
             )}
@@ -122,7 +83,7 @@ function AuthConfig({
 
         <FormControl>
           <FormLabel id="confirmationRequired">
-            Is confirmation by an admin required for reservations?
+            {t("admin.wizard.authConfig.confirmation")}
           </FormLabel>
 
           <RadioGroup
@@ -142,9 +103,17 @@ function AuthConfig({
         </FormControl>
       </Stack>
 
-      <ChangePageButtons
-        onNext={() => setActiveStep(STORE_CONFIG_STEPS.SUMMARY)}
-      />
+      {location.pathname.includes("new") && (
+        <ChangePageButtons
+          onNext={() => {
+            const nextStep = STORE_CONFIG_STEPS.SUMMARY;
+            setActiveStep(nextStep);
+            setProgress(
+              calculateProgress(STORE_CONFIG_STEPS.AUTH_CONFIG, nextStep),
+            );
+          }}
+        />
+      )}
     </StepContentWrapper>
   );
 }

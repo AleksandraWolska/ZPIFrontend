@@ -5,6 +5,7 @@ import {
   FormGroup,
   TextField,
 } from "@mui/material";
+import { useTranslation } from "react-i18next";
 import { STORE_CONFIG_STEPS, StoreConfigStep } from "../types";
 import { useStoreConfig } from "../StoreConfigProvider";
 import ChangePageButtons from "../../components/ChangePageButtons";
@@ -12,25 +13,36 @@ import StepContentWrapper from "./components/StepContentWrapper";
 import WizardStepTitle from "./components/WizardStepTitle";
 import WizardStepDescription from "./components/WizardStepDescription";
 import BackButton from "./components/BackButton";
+import { calculateProgress } from "./utils";
 
 function DetailsPage({
   setActiveStep,
+  setProgress,
 }: {
   setActiveStep: (step: StoreConfigStep) => void;
+  setProgress: (progress: number) => void;
 }) {
+  const { t } = useTranslation();
+
   const { storeConfig, setDetailsPageAttribute } = useStoreConfig();
   const { detailsPage } = storeConfig;
 
   return (
     <StepContentWrapper>
-      <BackButton onClick={() => setActiveStep(STORE_CONFIG_STEPS.MAIN_PAGE)} />
+      <BackButton
+        onClick={() => {
+          const prevStep = STORE_CONFIG_STEPS.MAIN_PAGE;
+          setActiveStep(prevStep);
+          setProgress(
+            calculateProgress(STORE_CONFIG_STEPS.DETAILS_PAGE, prevStep),
+          );
+        }}
+      />
 
-      <WizardStepTitle>Details Page</WizardStepTitle>
+      <WizardStepTitle>{t("admin.wizard.detailsPage.title")}</WizardStepTitle>
 
       <WizardStepDescription>
-        Define visibility of features on item details page, decide if you want
-        to have ratings and comments in your store. Also, if you want to
-        override reservation prompts for your system, enter them below.
+        {t("admin.wizard.detailsPage.desc")}
       </WizardStepDescription>
 
       <FormGroup sx={{ marginTop: 3 }}>
@@ -43,7 +55,7 @@ function DetailsPage({
               }}
             />
           }
-          label="Display item's title"
+          label={t("admin.wizard.detailsPage.showTitle")}
         />
 
         <FormControlLabel
@@ -58,7 +70,7 @@ function DetailsPage({
               }}
             />
           }
-          label="Display item's subtitle"
+          label={t("admin.wizard.detailsPage.subtitle")}
         />
 
         <FormControlLabel
@@ -73,7 +85,7 @@ function DetailsPage({
               }}
             />
           }
-          label="Display description for items"
+          label={t("admin.wizard.detailsPage.showDesc")}
         />
 
         <FormControlLabel
@@ -85,7 +97,7 @@ function DetailsPage({
               }}
             />
           }
-          label="Display ratings - this option will allow users to rate your items"
+          label={t("admin.wizard.detailsPage.rating")}
         />
 
         <FormControlLabel
@@ -97,15 +109,16 @@ function DetailsPage({
               }}
             />
           }
-          label="Display comments/reviews - this option will allow users to add comments your items"
+          label={t("admin.wizard.detailsPage.comments")}
         />
       </FormGroup>
 
       <Box sx={{ width: "100%", padding: 2.5 }}>
         <TextField
+          inputProps={{ maxLength: 255 }}
           sx={{ marginBottom: 1.25 }}
           fullWidth
-          label="Custom reservation summary prompt"
+          label={t("admin.wizard.detailsPage.summaryPrompt")}
           name="reservationSummaryPrompt"
           value={detailsPage.reservationSummaryPrompt}
           onChange={(e) =>
@@ -114,9 +127,10 @@ function DetailsPage({
         />
 
         <TextField
+          inputProps={{ maxLength: 255 }}
           sx={{ marginBottom: 1.25 }}
           fullWidth
-          label="Custom reservation confirmation prompt"
+          label={t("admin.wizard.detailsPage.confirmationPrompt")}
           name="reservationConfirmationPrompt"
           value={detailsPage.reservationConfirmationPrompt}
           onChange={(e) =>
@@ -128,8 +142,9 @@ function DetailsPage({
         />
 
         <TextField
+          inputProps={{ maxLength: 255 }}
           fullWidth
-          label="Custom reservation failure prompt"
+          label={t("admin.wizard.detailsPage.failurePrompt")}
           name="reservationFailurePrompt"
           value={detailsPage.reservationFailurePrompt}
           onChange={(e) =>
@@ -139,7 +154,13 @@ function DetailsPage({
       </Box>
 
       <ChangePageButtons
-        onNext={() => setActiveStep(STORE_CONFIG_STEPS.AUTH_CONFIG)}
+        onNext={() => {
+          const nextStep = STORE_CONFIG_STEPS.AUTH_CONFIG;
+          setActiveStep(nextStep);
+          setProgress(
+            calculateProgress(STORE_CONFIG_STEPS.DETAILS_PAGE, nextStep),
+          );
+        }}
       />
     </StepContentWrapper>
   );

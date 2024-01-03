@@ -64,9 +64,14 @@ export const adminStores = {
   ],
   "cypress@test.com": [
     {
+      mockId: "998",
+      storeConfigId: "cypress-test-store-1",
+      name: "Cypress Test Store 1",
+    },
+    {
       mockId: "999",
-      storeConfigId: "cypress-test-store",
-      name: "Cypress Test Store",
+      storeConfigId: "cypress-test-store-2",
+      name: "Cypress Test Store 2",
     },
   ],
 };

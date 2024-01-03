@@ -37,12 +37,12 @@ describe("create new store", () => {
     predefineValues(["Jazz", "Rock", "Pop"]);
 
     newAttribute().type("Price");
-    setType("number");
+    setType("Number");
     checkVisibleOnMainPage();
     checkVisibleOnDetailsPage();
 
     newAttribute().type("Adults only");
-    setType("boolean");
+    setType("Boolean");
     checkFilterable();
     checkVisibleOnMainPage();
     checkVisibleOnDetailsPage();
@@ -81,9 +81,7 @@ describe("create new store", () => {
 
     goNext();
 
-    cy.get("button")
-      .contains(/submit/i)
-      .click();
+    save();
   });
 
   it("creates one person per unique object store", () => {
@@ -101,7 +99,7 @@ describe("create new store", () => {
     cy.get("button")
       .contains(/continuous/i)
       .click();
-    cy.get("button").contains(/true/i).click();
+    cy.get("button").contains(/yes/i).click();
     cy.get("button")
       .contains(/exclusive/i)
       .click();
@@ -116,12 +114,12 @@ describe("create new store", () => {
     predefineValues(["Mercedes", "Audi", "BMW"]);
 
     newAttribute().type("Year");
-    setType("number");
+    setType("Number");
     checkVisibleOnMainPage();
     checkVisibleOnDetailsPage();
 
     newAttribute().type("Electric");
-    setType("boolean");
+    setType("Boolean");
     checkRequired();
     checkFilterable();
     checkVisibleOnMainPage();
@@ -158,9 +156,7 @@ describe("create new store", () => {
 
     goNext();
 
-    cy.get("button")
-      .contains(/submit/i)
-      .click();
+    save();
   });
 });
 
@@ -172,7 +168,7 @@ describe("edit store", () => {
   it("set email and change custom attribute spec", () => {
     cy.visit("/admin");
 
-    cy.contains(/cypress test store/i).click();
+    cy.contains(/cypress test store 2/i).click();
 
     cy.contains(/store settings/i).click();
 
@@ -187,9 +183,7 @@ describe("edit store", () => {
     goNext();
     goNext();
 
-    cy.get("button")
-      .contains(/submit/i)
-      .click();
+    save();
   });
 });
 
@@ -218,7 +212,7 @@ function checkVisibleOnDetailsPage() {
 }
 
 function checkPredefinedValues() {
-  cy.get('.MuiFormControlLabel-label:contains("Predefine values")')
+  cy.get('.MuiFormControlLabel-label:contains("Predefined values")')
     .eq(-2)
     .click();
 }
@@ -231,7 +225,7 @@ function predefineValues(values: string[]) {
   });
 }
 
-function setType(type: "string" | "number" | "boolean") {
+function setType(type: "String" | "Number" | "Boolean") {
   cy.get(".MuiSelect-select").eq(-2).click();
   cy.get("li").contains(type).click();
 }
@@ -275,5 +269,11 @@ function checkDisplayItemSubtitleInDetailsPage() {
 function checkDisplayDescriptionForItemsInDetailsPage() {
   cy.get(".MuiFormControlLabel-label")
     .contains(/display description for items/i)
+    .click();
+}
+
+function save() {
+  cy.get("button")
+    .contains(/save your store/i)
     .click();
 }

@@ -1,7 +1,8 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { STORE_CONFIG_STEPS, StoreConfigStep } from "../../types";
 import { useStoreConfig } from "../../StoreConfigProvider";
-import { calculateProgress } from "./utils";
+import { calculateProgress } from "../utils";
 import StepContentWrapper from "../components/StepContentWrapper";
 import WizardStepTitle from "../components/WizardStepTitle";
 import BackButton from "../components/BackButton";
@@ -19,9 +20,11 @@ function Flexibility({
   setActiveStep: (step: StoreConfigStep) => void;
   setProgress: (progress: number) => void;
 }) {
+  const { t } = useTranslation();
+
   const { appendCoreAttribute } = useStoreConfig();
 
-  const [showInfo, setShowInfo] = useState(false);
+  const [showInfo, setShowInfo] = useState(true);
 
   return (
     <StepContentWrapper>
@@ -29,33 +32,29 @@ function Flexibility({
         onClick={() => {
           const prevStep = STORE_CONFIG_STEPS.GENERAL_STORE_INFO;
           setActiveStep(prevStep);
+          setProgress(
+            calculateProgress(STORE_CONFIG_STEPS.FLEXIBILITY, prevStep),
+          );
         }}
       />
 
-      <WizardStepTitle>Time Frame Flexibility</WizardStepTitle>
+      <WizardStepTitle>{t("admin.wizard.flexibility.title")}</WizardStepTitle>
 
       <InfoButton onClick={() => setShowInfo(!showInfo)} />
 
       <CoreDescriptionWrapper>
-        <CoreDescription>
-          Select whether an item reservation timeframe should be predetermined
-          and fixed, or if the user has the flexibility to choose according to
-          their preferences.
-        </CoreDescription>
+        <CoreDescription>{t("admin.wizard.flexibility.desc")}</CoreDescription>
 
         <CoreInfo
           show={showInfo}
-          left="Flexible value means that the item can be reserved for a period
-                chosen by user within specified time frames."
-          right="Fixed value indicates that the item has fixed start and end
-                times set by an admin, and users can only sign up for the entire
-                duration."
+          left={t("admin.wizard.flexibility.flexibleDesc")}
+          right={t("admin.wizard.flexibility.fixedDesc")}
         />
       </CoreDescriptionWrapper>
 
       <ChoiceButtonsContainer>
         <ChoiceButton
-          text="Flexible"
+          text={t("admin.wizard.flexibility.flexible")}
           onClick={() => {
             appendCoreAttribute("flexibility", true);
             const nextStep = STORE_CONFIG_STEPS.GRANULARITY;
@@ -67,7 +66,7 @@ function Flexibility({
         />
 
         <ChoiceButton
-          text="Fixed"
+          text={t("admin.wizard.flexibility.fixed")}
           onClick={() => {
             appendCoreAttribute("flexibility", false);
             const nextStep = STORE_CONFIG_STEPS.SIMULTANEOUS;

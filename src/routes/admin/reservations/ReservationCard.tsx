@@ -5,6 +5,7 @@ import {
   Box,
   Button,
   Card,
+  Chip,
   Divider,
   Stack,
   Typography,
@@ -12,25 +13,28 @@ import {
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import dayjs from "dayjs";
 import { styled } from "@mui/system";
+import { useTranslation } from "react-i18next";
 import { Reservation } from "../../../types";
 import useStoreConfig from "../store/useStoreConfig";
 import useItemById from "./useItemById";
 import theme from "../../../theme";
 import ItemImage from "../components/ItemImage";
-import { shouldShowEnd } from "../../common/utils";
+import { shouldShowEnd } from "../../../shared-components/utils";
 
 function ReservationCard({
   reservation,
   setReservationToBeConfirmed,
+  setReservationToBeCanceled,
 }: {
   reservation: Reservation;
   setReservationToBeConfirmed: (id: string) => void;
+  setReservationToBeCanceled: (id: string) => void;
 }) {
+  const { t } = useTranslation();
+
   const item = useItemById(reservation.itemId);
 
   const storeConfig = useStoreConfig();
-
-  const isPast = new Date(reservation.startDateTime) < new Date();
 
   return (
     <Card>
@@ -40,8 +44,20 @@ function ReservationCard({
             direction="row"
             alignItems="center"
             width="100%"
-            sx={{ color: isPast ? theme.palette.text.secondary : "auto" }}
+            sx={{
+              color:
+                reservation.status === "active"
+                  ? "auto"
+                  : theme.palette.text.secondary,
+            }}
           >
+            <Typography
+              fontWeight="lighter"
+              sx={{ width: "10%", flexShrink: 0 }}
+            >
+              {reservation.id}
+            </Typography>
+
             <Typography variant="h5" sx={{ width: "33%", flexShrink: 0 }}>
               {item.attributes.title}
             </Typography>
@@ -58,19 +74,62 @@ function ReservationCard({
               )}
             </Stack>
 
-            {storeConfig.authConfig.confirmationRequired &&
-              !reservation.confirmed && (
+            <Stack
+              direction="row"
+              spacing={2}
+              sx={{ marginLeft: "auto", marginRight: 2 }}
+            >
+              {reservation.status === "cancelled_by_admin" && (
+                <Chip
+                  label={t("admin.reservations.canceledAdmin")}
+                  color="error"
+                  variant="outlined"
+                />
+              )}
+
+              {reservation.status === "cancelled_by_user" && (
+                <Chip
+                  label={t("admin.reservations.canceledUser")}
+                  color="error"
+                  variant="outlined"
+                />
+              )}
+
+              {reservation.status === "active" && (
                 <Button
-                  sx={{ marginLeft: "auto", marginRight: 2 }}
                   variant="contained"
                   onClick={(e) => {
                     e.stopPropagation();
-                    setReservationToBeConfirmed(reservation.id);
+                    setReservationToBeCanceled(reservation.id);
                   }}
                 >
-                  Confirm
+                  {t("common.cancel")}
                 </Button>
               )}
+
+              {storeConfig.authConfig.confirmationRequired &&
+                reservation.status === "active" && (
+                  <Box>
+                    {reservation.confirmed ? (
+                      <Chip
+                        label="Confirmed"
+                        color="primary"
+                        variant="outlined"
+                      />
+                    ) : (
+                      <Button
+                        variant="contained"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setReservationToBeConfirmed(reservation.id);
+                        }}
+                      >
+                        {t("common.confirm")}
+                      </Button>
+                    )}
+                  </Box>
+                )}
+            </Stack>
           </Stack>
         </AccordionSummary>
 
@@ -81,7 +140,7 @@ function ReservationCard({
           }}
         >
           <DetailsBox>
-            <DetailsBoxTitle>Item</DetailsBoxTitle>
+            <DetailsBoxTitle>{t("admin.reservations.item")}</DetailsBoxTitle>
 
             <Stack direction="row" gap={2}>
               <Box
@@ -162,7 +221,7 @@ function ReservationCard({
             {reservation.message && (
               <Box marginTop={1}>
                 <Typography color={theme.palette.text.secondary} fontSize={14}>
-                  MESSAGE
+                  {t("admin.reservations.message")}
                 </Typography>
 
                 <Typography>{reservation.message}</Typography>

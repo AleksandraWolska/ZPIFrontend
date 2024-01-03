@@ -1,7 +1,8 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { STORE_CONFIG_STEPS, StoreConfigStep } from "../../types";
 import { useStoreConfig } from "../../StoreConfigProvider";
-import { calculateProgress } from "./utils";
+import { calculateProgress } from "../utils";
 import StepContentWrapper from "../components/StepContentWrapper";
 import WizardStepTitle from "../components/WizardStepTitle";
 import BackButton from "../components/BackButton";
@@ -19,8 +20,10 @@ function AllowOverNight({
   setActiveStep: (step: StoreConfigStep) => void;
   setProgress: (progress: number) => void;
 }) {
+  const { t } = useTranslation();
+
   const { appendCoreAttribute, withdrawToCoreStep } = useStoreConfig();
-  const [showInfo, setShowInfo] = useState(false);
+  const [showInfo, setShowInfo] = useState(true);
   return (
     <StepContentWrapper>
       <BackButton
@@ -34,29 +37,27 @@ function AllowOverNight({
         }}
       />
 
-      <WizardStepTitle>Overnight access</WizardStepTitle>
+      <WizardStepTitle>
+        {t("admin.wizard.allowOverNight.title")}
+      </WizardStepTitle>
 
       <InfoButton onClick={() => setShowInfo(!showInfo)} />
 
       <CoreDescriptionWrapper>
         <CoreDescription>
-          Select whether user could have access to an item outside of open
-          hours.
+          {t("admin.wizard.allowOverNight.desc")}
         </CoreDescription>
 
         <CoreInfo
           show={showInfo}
-          left="If yes, user can mantain access to an item outside of store open
-                hours. It is best suited for hotels, and multiday rental (eq.
-                cars)"
-          right="If no, user can only rent items for time frames within open
-                hours of rental place"
+          left={t("admin.wizard.allowOverNight.yesDesc")}
+          right={t("admin.wizard.allowOverNight.noDesc")}
         />
       </CoreDescriptionWrapper>
 
       <ChoiceButtonsContainer>
         <ChoiceButton
-          text="True"
+          text={t("common.yes")}
           onClick={() => {
             appendCoreAttribute("allowOverNight", true);
             const nextStep = STORE_CONFIG_STEPS.SIMULTANEOUS;
@@ -68,7 +69,7 @@ function AllowOverNight({
         />
 
         <ChoiceButton
-          text="false"
+          text={t("common.no")}
           onClick={() => {
             appendCoreAttribute("allowOverNight", false);
             const nextStep = STORE_CONFIG_STEPS.SIMULTANEOUS;

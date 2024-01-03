@@ -8,7 +8,7 @@ describe("new item", () => {
   it("add a new item", () => {
     cy.visit("/admin");
 
-    cy.contains(/cypress test store/i).click();
+    cy.contains(/cypress test store 2/i).click();
 
     cy.contains(/new item/i).click();
 
@@ -16,7 +16,7 @@ describe("new item", () => {
 
     goNext();
 
-    cy.get(".MuiSelect-select").click();
+    cy.get(".MuiSelect-select").eq(-1).click();
     cy.get("li").contains(/bmw/i).click();
 
     cy.get('input[type="number"]').type("2023");
@@ -40,9 +40,7 @@ describe("items", () => {
   beforeEach(() => {
     cy.login("cypress@test.com", "test", "admin");
 
-    cy.visit("/admin/cypress-test-store/item-list");
-    cy.contains(/cypress test store/i).click();
-    cy.contains(/item list/i).click();
+    cy.visit("/admin/cypress-test-store-2/item-list");
   });
 
   it("edit item", () => {
@@ -62,7 +60,7 @@ describe("items", () => {
 
     cy.get("button:contains(Deactivate)").eq(-1).click();
 
-    cy.get(".MuiChip-label").first().should("include.text", "inactive");
+    cy.get(".MuiChip-label").first().should("include.text", "Inactive");
   });
 
   it("delete item", () => {
@@ -70,6 +68,6 @@ describe("items", () => {
 
     cy.get("button:contains(Delete)").eq(-1).click();
 
-    cy.contains("Mercedes of your dreams").should("not.exist");
+    cy.contains("Audi you always wanted").should("not.exist");
   });
 });

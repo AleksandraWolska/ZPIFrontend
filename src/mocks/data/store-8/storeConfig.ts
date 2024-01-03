@@ -12,7 +12,7 @@ export const storeConfig: StoreConfig = {
   },
   core: {
     flexibility: true,
-    granularity: false,
+    granularity: true,
     allowOverNight: true,
     simultaneous: false,
     uniqueness: true,
@@ -110,6 +110,5 @@ export const storeConfig: StoreConfig = {
   authConfig: {
     requiredPersonalData: ["name", "phone", "age"],
     confirmationRequired: true,
-    isPrivate: false,
   },
 };

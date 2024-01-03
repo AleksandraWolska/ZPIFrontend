@@ -1,16 +1,17 @@
 import { useNavigate } from "react-router-dom";
 import { Box, Container } from "@mui/system";
 import { Button } from "@mui/material";
+import { useTranslation } from "react-i18next";
 import ItemFormProvider, { useItemForm } from "../item-form/ItemFormProvider";
 import useItemToBeEdited from "./useItemToBeEdited";
 import GeneralInfo from "../item-form/GeneralInfo";
 import CustomAttributes from "../item-form/CustomAttributes";
-import { askForSubItems, askForSubItemSchedule } from "../utils";
+import { askForSubItems, askForSubItemSchedule, validateItem } from "../utils";
 import SubItems from "../item-form/SubItems";
-import { Core } from "../../../../types";
+import { StoreConfig } from "../../../../types";
 import Stepper from "../item-form/Stepper";
 import Schedule from "../item-form/schedule/Schedule";
-import useEditItem from "./useEditItem";
+import useEditItem, { removeIdsFromSubItems } from "./useEditItem";
 import useStoreConfig from "../../store/useStoreConfig";
 
 function EditItem() {
@@ -24,12 +25,16 @@ function EditItem() {
 }
 
 function EditForm() {
+  const { t } = useTranslation();
+
   const storeConfig = useStoreConfig();
   const { item } = useItemForm();
   const editItem = useEditItem();
   const navigate = useNavigate();
 
-  const steps = getSteps(storeConfig.core);
+  const steps = getSteps(storeConfig);
+
+  const isValid = validateItem(item, storeConfig);
 
   return (
     <Container>
@@ -49,15 +54,16 @@ function EditForm() {
           <Button
             sx={{ padding: 2 }}
             fullWidth
+            disabled={!isValid}
             onClick={() => {
-              editItem.mutate(item, {
+              editItem.mutate(removeIdsFromSubItems(item), {
                 onSuccess: () => {
                   navigate("../..", { relative: "path" });
                 },
               });
             }}
           >
-            Save edited item
+            {t("admin.items.edit.save")}
           </Button>
         </Box>
       </Box>
@@ -65,17 +71,19 @@ function EditForm() {
   );
 }
 
-const getSteps = (core: Core) => {
+const getSteps = (storeConfig: StoreConfig) => {
+  const { core, customAttributesSpec } = storeConfig;
   const steps = [];
 
   steps.push({
     label: "General Info",
     component: <GeneralInfo />,
   });
-  steps.push({
-    label: "Custom Attributes",
-    component: <CustomAttributes />,
-  });
+  if (customAttributesSpec.length > 0)
+    steps.push({
+      label: "Custom Attributes",
+      component: <CustomAttributes />,
+    });
   if (askForSubItems(core))
     steps.push({
       label: "Sub Items",

@@ -1,10 +1,11 @@
 import { rest } from "msw";
 import dayjs from "dayjs";
 import { v4 as uuid } from "uuid";
+import { jwtDecode } from "jwt-decode";
 import {
   CheckAvailabilityResponse,
   FetchScheduleResponse,
-} from "../routes/userapp/types";
+} from "../routes/user-app/types";
 import { Availability, Reservation } from "../types";
 import {
   fetchData,
@@ -38,6 +39,37 @@ const getReservations = rest.get(
     const reservations = await importReservations(storeName.toString());
 
     return res(ctx.status(200), ctx.json(reservations || []));
+  },
+);
+
+const cancelReservation = rest.delete(
+  "/api/stores/:storeName/reservations/:reservationId",
+  async (req, res, ctx) => {
+    const token = getToken(req.headers);
+    if (incorrectToken(token)) {
+      return res(ctx.status(401), ctx.json({ message: "Unauthorized." }));
+    }
+
+    const { storeName, reservationId } = req.params;
+
+    const reservations = await importReservations(storeName.toString());
+
+    if (!reservations) {
+      return res(ctx.status(404), ctx.json({ message: "Store not found." }));
+    }
+
+    const decoded = jwtDecode(token) as { email: string };
+
+    const idx = reservations.findIndex((r) => r.id === reservationId);
+    reservations[idx].status =
+      reservations[idx].userEmail === decoded.email
+        ? "cancelled_by_user"
+        : "cancelled_by_admin";
+
+    return res(
+      ctx.status(201),
+      ctx.json({ message: "Reservation cancelled." }),
+    );
   },
 );
 
@@ -261,6 +293,7 @@ const fetchSchedule = rest.post(
 
 export const reservationHandlers = [
   getReservations,
+  cancelReservation,
   confirmReservation,
   checkAvailability,
   reserve,

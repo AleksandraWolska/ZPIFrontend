@@ -39,7 +39,7 @@
 Cypress.Commands.add("login", (email, password, type: "admin" | "user") => {
   const args = { email, password };
   cy.session(args, () => {
-    cy.visit(type === "admin" ? "/admin" : "/userapp/c1");
+    cy.visit(type === "admin" ? "/admin" : "/c1");
     cy.contains(/login/i).click();
 
     // eslint-disable-next-line @typescript-eslint/no-shadow

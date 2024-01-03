@@ -1,8 +1,317 @@
 {
-  "home": {
-    "title": "Hello World!"
+  "common": {
+    "yes": "Yes",
+    "no": "No",
+    "save": "Save",
+    "reset": "Reset",
+    "reserve": "Reserve",
+    "cancel": "Cancel",
+    "send": "Send",
+    "ok": "OK",
+    "delete": "Delete",
+    "confirm": "Confirm"
   },
-  "todos": {
-    "title": "Todos"
+  "auth": {
+    "unauthorized": "You're unauthorized to proceed with this action",
+    "pleaseLogIn": "Please log in to continue",
+    "login": "Login",
+    "logout": "Logout"
+  },
+  "admin": {
+    "headings": {
+      "yourStores": "Your stores",
+      "createNew": "Or create new?",
+      "noStores": "You have no stores yet, start with creating one",
+      "newStore": "New store"
+    },
+    "desc": {
+      "existingStore": "Manage your items, reservation in already existing store",
+      "newStore": "Create new store for your business"
+    },
+    "wizard": {
+      "next": "Next",
+      "prev": "Prev",
+      "save": "Save your store",
+      "generalInfo": {
+        "title": "General info",
+        "desc": "Enter information about your company, link to logo, and choose color theme",
+        "storeName": "Store name",
+        "logoSrc": "Logo source in PNG format",
+        "phone": "Company phone",
+        "email": "Company email",
+        "mainAppColor": "Main application color"
+      },
+      "flexibility": {
+        "title": "Time Frame Flexibility",
+        "desc": "Select whether an item reservation timeframe should be predetermined and fixed, or if the user has the flexibility to choose according to their preferences.",
+        "flexibleDesc": "Flexible value means that the item can be reserved for a period chosen by user within specified time frames.",
+        "fixedDesc": "Fixed value indicates that the item has fixed start and end times set by an admin, and users can only sign up for the entire duration.",
+        "flexible": "Flexible",
+        "fixed": "Fixed"
+      },
+      "granularity": {
+        "title": "Time Interval Restriction",
+        "desc": "This setting decides the flexibility in the length of time an item can be reserved. Item can be booked for granular time intervals or allow user to freely choose reservation time ranges",
+        "granularDesc": "Granular should be chosen if you want the item to be booked for multiplication of specific time intervals, like an hour.",
+        "continuousDesc": "Continuous should be chosen if you want to allow reservations for any length of time. This offers more flexibility for the user.",
+        "granular": "Granular",
+        "continuous": "Continuous"
+      },
+      "allowOverNight": {
+        "title": "Overnight access",
+        "desc": "Select whether user could have access to an item outside of open hours.",
+        "yesDesc": "If yes, user can mantain access to an item outside of store open hours. It is best suited for hotels, and multiday rental (eq. cars)",
+        "noDesc": "If no, user can only rent items for time frames within open hours of rental place"
+      },
+      "simultaneous": {
+        "title": "Simultaneous Access",
+        "desc": "This field determines whether multiple users can be signed up for an item at the same time. It is crucial for managing the accessibility of your item.",
+        "sharedDesc": "Shared access should be chosen if you want multiple individuals to access the item simultaneously. This is best suited for items that can be shared, like a public spaces.",
+        "exclusiveDesc": "Exclusive access should be chosen if you want allow only one user at the time to access the item, ensuring that the user has the item all to themselves.",
+        "shared": "Shared",
+        "exclusive": "Exclusive"
+      },
+      "uniqueness": {
+        "title": "Item Uniqueness",
+        "desc": "This option defines whether the item is a unique entity or if there are multiple indistinguishable items available for users.",
+        "yesDesc": "You have one specific item of a type. This is best suited for unique items or services.",
+        "noDesc": "There are multiple, identical items available. This is best suited for items like chairs in a rental place."
+      },
+      "specificReservation": {
+        "title": "Specific Reservation",
+        "desc": "This field defines whether users can book specific parts of an item, eq. seats for a movie.",
+        "yesDesc": "Select yes if you want users to reserve specific places or parts within an item. This is best suited for venues with specific seating.",
+        "noDesc": "Select no if you want the item or event to be treated as a whole, with no sub-item reservations possible."
+      },
+      "periodicity": {
+        "title": "Event Periodicity",
+        "desc": "This field determines the cyclical nature of events or bookings.",
+        "cyclicDesc": "Cyclical events are best suited for events that recur over time. User can view and book different instances of the same event.",
+        "noncyclicDesc": "Non cyclical events are best suited for one-time events or items. Each item is treated as a separate entity without any grouping.",
+        "cyclic": "Cyclic",
+        "noncyclic": "Noncyclic"
+      },
+      "customAttributes": {
+        "title": "Add attributes",
+        "desc": "Define attributes with which you want to define in your items. Choose if they are obligatory, if they should be enabled in filtering, choose the visibility on main and item detail pages and if ou want define possible values",
+        "name": "Attribute name",
+        "type": "Attribute type",
+        "string": "String",
+        "number": "Number",
+        "boolean": "Boolean",
+        "required": "Required",
+        "filterable": "Filterable",
+        "mainPage": "Visible on main page",
+        "detailsPage": "Visible on details page",
+        "predefinedValues": "Predefined values",
+        "predefinedValuesLabel": "Predefined values",
+        "predefinedValuesPlaceholder": "Enter predefined values by typing them and pressing enter"
+      },
+      "mainPage": {
+        "title": "Main Page Features",
+        "desc": "Enter welcome texts, and define visibility of features on the main page",
+        "welcomeTextLine1": "Welcome text - line 1",
+        "welcomeTextLine2": "Welcome text - line 2",
+        "filters": "Enable filters",
+        "showTitle": "Display title for item in items list",
+        "subtitle": "Display subtitle for item in items list",
+        "image": "Display item images in items list",
+        "rating": "Display ratings for each items - this option will allow users to rate your items"
+      },
+      "detailsPage": {
+        "title": "Details Page",
+        "desc": "Define visibility of features on item details page, decide if you want to have ratings and comments in your store. Also, if you want to override reservation prompts for your system, enter them below.",
+        "showTitle": "Display item's title",
+        "subtitle": "Display item's subtitle",
+        "showDesc": "Display description for items",
+        "rating": "Display ratings - this option will allow users to rate your items",
+        "comments": "Display comments/reviews - this option will allow users to add comments your items",
+        "summaryPrompt": "Custom reservation summary prompt",
+        "confirmationPrompt": "Custom reservation confirmation prompt",
+        "failurePrompt": "Custom reservation failure prompt"
+      },
+      "authConfig": {
+        "title": "User Authentication",
+        "desc": "Choose what data is required from users when reserving items",
+        "requiredDataLabel": "What data is required when reserving?",
+        "requiredDataPlaceholder": "Enter predefined values by typing them and pressing enter",
+        "confirmation": "Is confirmation by an admin required for reservations?"
+      },
+      "summary": {
+        "title": "Summary",
+        "desc1": "We've gathered all the essential details.",
+        "desc2": "If you're ready to proceed, simply save your store settings and start enjoying your personalized applications!",
+        "errorTitle": "Some required data is missing",
+        "errorDesc": "Fill all the necessary fields to proceed."
+      }
+    },
+    "items": {
+      "add": {
+        "summary": "Summary",
+        "summaryDesc": "You provided all the necessary data. If you're ready to proceed, simply save your item!",
+        "requiredDataMissingTitle": "Some required data is missing",
+        "requiredDataMissingDesc": "Fill all the necessary fields to proceed",
+        "addItemButton": "Add item"
+      },
+      "edit": {
+        "save": "Save edited item"
+      },
+      "reschedule": {
+        "reschedule": "Reschedule",
+        "conflictingReservationsTitle": "Conflicting reservations",
+        "conflictingReservationsDesc": "Cannot reschedule because of the following reservations:"
+      },
+      "form": {
+        "continuousTitle": "Continuous schedule",
+        "continuousDesc": "Define time ranges from which users can freely choose their preferred reservation time.",
+        "slotsTitle": "Slots schedule",
+        "slotsDesc": "Define time slots users can reserve.",
+        "fixedTitle": "Fixed schedule",
+        "fixedDesc": "Define time range for your item.",
+        "startTime": "Start time",
+        "addEndTime": "Add end time",
+        "endTime": "End time",
+        "customAttributes": "Custom attributes",
+        "generalInfo": "General informaton",
+        "subItems": "SubItems",
+        "title": "Title",
+        "subtitle": "Subtitle",
+        "desc": "Description",
+        "image": "Image",
+        "amount": "Amount"
+      },
+      "list": {
+        "itemListTitle": "Items list",
+        "noItems": "It seems there is no items defined in this store yet...",
+        "addItemTitle": "Add item",
+        "addItemDesc": "Add new item users can reserve",
+        "futureOnly": "Show future events only",
+        "reschedule": "Reschedule",
+        "edit": "Edit",
+        "activate": "Activate",
+        "deactivate": "Deactivate",
+        "delete": "Delete",
+        "details": "Details",
+        "subItems": "Subitems",
+        "amount": "Amount",
+        "taken": "Taken",
+        "available": "Available",
+        "remainingAmount": "Remaining amount",
+        "activateItem": "Activate item",
+        "deactivateItem": "Deactivate item",
+        "activateItemDesc": "Activate this item?",
+        "deactivateItemDesc": "Deactivate this item?",
+        "deleteItem": "Delete item",
+        "deleteItemDesc": "Are you sure you want to delete this item? This action cannot be undone.",
+        "active": "Active",
+        "inactive": "Inactive",
+        "initialAmount": "Initial amount"
+      }
+    },
+    "reservations": {
+      "noReservations": "It looks like there is no bookings in this store yet",
+      "futureOnly": "Show future reservations only",
+      "confirmReservationTitle": "Confirm reservation",
+      "confirmReservationMessage": "Are you sure you want to confirm this reservation? This action cannot be undone.",
+      "cancelReservationTitle": "Cancel reservation",
+      "cancelReservationMessage": "Are you sure you want to cancel this reservation? This action cannot be undone.",
+      "canceledAdmin": "Canceled (Admin)",
+      "canceledUser": "Canceled (User)",
+      "item": "Item",
+      "message": "Message"
+    },
+    "store": {
+      "reservationsTitle": "Reservations",
+      "reservationsDesc": "View reservations made by users",
+      "itemListTitle": "Items list",
+      "itemListDesc": "View items available in your store",
+      "addItemTitle": "Add new item",
+      "addItemDesc": "Add new item for reserving",
+      "storeSettingsTitle": "Store settings",
+      "storeSettingsDesc": "Edit your store settings",
+      "viewUserAppTitle": "View user website",
+      "viewUserAppDesc": "View generated user application for the store",
+      "editStore": "Edit store",
+      "deleteStore": "Delete store"
+    }
+  },
+  "user": {
+    "components": {
+      "core": {
+        "checkAvailability": "Check availability",
+        "reserve": "Reserve item",
+        "noTimeSlotsAvailable": "No time slots available",
+        "available": "Available",
+        "itemAvailable": "Item is available in chosen time ranges",
+        "full": "[FULL]",
+        "past": "[PAST]"
+      },
+      "details": {
+        "ratingTitle": "Tell us how did you like it",
+        "commentLabel": "Your comment",
+        "commentPlaceholder": "Enter your comment here...",
+        "nickLabel": "Optional nick",
+        "nickPlaceholder": "Enter optional nickname...",
+        "addReview": "Add review",
+        "rate": "Rate",
+        "logInToAddReview": "Log in to add review",
+        "logInToRate": "Log in to rate",
+        "prev": "Prev",
+        "today": "Today",
+        "next": "Next",
+        "failure": "Failure",
+        "reservationFailurePrompt": "We're sorry, reservation did not succeed",
+        "success": "Success",
+        "reservationSuccessPrompt": "Your reservation has been successfully created",
+        "start": "Start",
+        "end": "End",
+        "to": "to",
+        "reservationError": "Error: One or more items in the reservation do not match available items.",
+        "message": "Message",
+        "summary": "Summary",
+        "summaryPrompt": "Review your reservation and fill necessary data",
+        "amount": "Amount",
+        "provideNecessaryData": "Provide necessary data",
+        "yourMessage": "Your message to store owner",
+        "addMessage": "+ Add message to store owner",
+        "unavailable": "Unavailable, sorry",
+        "unavailableMessage": "Maybe one of below would interest you?"
+      }
+    },
+    "details": {
+      "reserve": "Reserve",
+      "details": "Details",
+      "reservation": "Reservation",
+      "reviews": "Reviews",
+      "noReviews": "No reviews"
+    },
+    "main": {
+      "title": "Title",
+      "availableAmount": "Available amount",
+      "rating": "Rating",
+      "noItemsAvailable": "There is no available items right now, sorry",
+      "sortBy": "Sort By"
+    },
+    "reservations": {
+      "noReservations": "It looks like you dont have any bookings yet",
+      "active": "Active",
+      "cancelled": "Cancelled",
+      "past": "Past",
+      "unknown": "Unknown",
+      "reservations": "reservations",
+      "itemPage": "Item page",
+      "details": "Details",
+      "reason": "Reason",
+      "message": "Message",
+      "deleteQuestion": "Delete reservation?",
+      "start": "Start",
+      "end": "End",
+      "deleteConfirm": "Are you sure you want to delete reservation for {{title}}? This action is irreversible.",
+      "cancelledByUser": "Cancelled by user",
+      "cancelledByAdmin": "Cancelled by admin"
+    },
+    "wrapper": {
+      "yourReservations": "Your bookings"
+    }
   }
 }
